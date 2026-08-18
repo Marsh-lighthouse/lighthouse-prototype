@@ -748,8 +748,8 @@ function EdScheduling({ onBack, initialCenter, demo }) {
         <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 18, padding: "40px 36px" }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ width: 62, height: 62, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}><I.check size={30} /></div>
-            <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 10px" }}>You're all set</h1>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details.</p>
+            <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 10px" }}>{doneSlot.justBooked === false ? "Your booking" : "You're all set"}</h1>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>{doneSlot.justBooked === false ? "This session is confirmed. You can add it to your calendar, reschedule, or cancel below." : "Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details."}</p>
           </div>
 
           <div style={{ border: "1px solid " + eLINE, borderRadius: 14, padding: "4px 20px 14px", marginBottom: 26 }}>
@@ -763,6 +763,17 @@ function EdScheduling({ onBack, initialCenter, demo }) {
             {slot.cancelBefore && row("Cancellation", "Free up to " + slot.cancelBefore + " before the session")}
           </div>
 
+          {/* what the session actually is — so this page works as the booking's detail view */}
+          {center.desc && (
+            <div style={{ marginBottom: 26 }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 8 }}>About this session</div>
+              <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: 0 }}>{center.desc}</p>
+              <button onClick={() => { setDoneSlot(null); setView(center.id); }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+                View all slots for this center <I.arrow size={14} />
+              </button>
+            </div>
+          )}
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {providers.map((c) => (
@@ -806,17 +817,25 @@ function EdScheduling({ onBack, initialCenter, demo }) {
               <EdSectionLabel>My bookings</EdSectionLabel>
               <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 14 }}>
                 {myBookings.map((b, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(20,133,61,.05)", border: "1px solid rgba(20,133,61,.22)", borderRadius: 14, padding: "14px 18px" }}>
+                  <div key={i} onClick={() => setDoneSlot({ ...b, justBooked: false })} title="View booking details"
+                    style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(20,133,61,.05)", border: "1px solid rgba(20,133,61,.22)", borderRadius: 14, padding: "14px 18px", cursor: "pointer", transition: "background .15s" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(20,133,61,.09)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(20,133,61,.05)"; }}>
                     <div style={{ width: 40, height: 40, borderRadius: 11, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.checkCircle size={19} /></div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{b.center.name}</div>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{b.slot.date} · {slotTime(b.slot.time)} · {b.center.location}</div>
                     </div>
-                    {b.slot.cancelBefore ? (
-                      <button onClick={() => setCancelSlot(b)} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer", flexShrink: 0 }}>Cancel</button>
-                    ) : (
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, flexShrink: 0 }}>Non-cancellable</span>
-                    )}
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
+                      <button onClick={() => { setBooked((x) => { const n = { ...x }; delete n[b.slot.id]; return n; }); setView(b.center.id); }}
+                        style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "none", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}><I.clock size={14} /> Reschedule</button>
+                      {b.slot.cancelBefore ? (
+                        <button onClick={() => setCancelSlot(b)} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}>Cancel</button>
+                      ) : (
+                        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT }}>Non-cancellable</span>
+                      )}
+                      <span style={{ color: eMUT, display: "flex" }}><I.chevR size={16} /></span>
+                    </div>
                   </div>
                 ))}
               </div>
