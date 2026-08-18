@@ -197,7 +197,7 @@ function EdUserMenuCollapsed({ onNav }) {
 }
 
 function EdUserMenuExpanded({ onNav }) {
-  const email = (LH.user.first + "." + LH.user.last + "@mercer.com").toLowerCase().replace(/\s+/g, "");
+  const email = (LH.user.first + "." + LH.user.last + "@marsh.com").toLowerCase().replace(/\s+/g, "");
   const _cb = (typeof window !== "undefined" && window.LHBrand && window.LHBrand.current() !== "marsh") ? window.LHBrand.current() : null;
   const logoutColor = (_cb === "dge" || _cb === "generali") ? "#fff" : "var(--danger)";
   return (
@@ -324,7 +324,7 @@ function EdProfile({ onBack, onNav }) {
   const u = LH.user;
   const initial = {
     first: u.first, last: u.last,
-    email: (u.first + "." + u.last + "@mercer.com").toLowerCase().replace(/\s+/g, ""),
+    email: (u.first + "." + u.last + "@marsh.com").toLowerCase().replace(/\s+/g, ""),
     age: "", gender: "", lang: "English", timezone: "(GMT+04:00) Gulf Standard Time — Dubai",
     targetJob: "", targetEntity: "", yearsExp: "",
     minEdu: "", prefEdu: "", avatar: null
@@ -896,7 +896,7 @@ function EdFooter() {
   ];
   return (
     <footer style={{ maxWidth: "var(--content-max)", margin: "40px var(--fol-mx) 0", padding: "22px 0 10px", borderTop: "1px solid var(--line)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT }}>© 2026 Mercer Lighthouse. {t("allRightsReserved")}.</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT }}>© 2026 Marsh Lighthouse. {t("allRightsReserved")}.</span>
       <nav style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
         {links.map((l) => (
           <a key={l.key} href="#" onClick={(e) => e.preventDefault()} style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, textDecoration: "none", transition: "color .15s" }}
@@ -1300,7 +1300,7 @@ function DashEditorial({ initialRoute } = {}) {
                   const cb = (typeof window !== "undefined" && window.LHBrand && window.LHBrand.current() !== "marsh") ? window.LHBrand.get() : null;
                   if (cb) return <img src={cb.icon} alt={cb.label} style={{ height: cb.label === "DGE" ? 30 : 26, width: "auto", maxWidth: 130, objectFit: "contain", display: "block" }} />;
                   return (
-                <svg width="25" height="25" viewBox="0 0 43.17 44.26" style={{ display: "block", fill: MID }} aria-label="Mercer Lighthouse">
+                <svg width="25" height="25" viewBox="0 0 43.17 44.26" style={{ display: "block", fill: MID }} aria-label="Marsh Lighthouse">
                   <polygon points="42.49 0 21.65 30.43 22.2 30.43 35.07 24.39 35.07 44.26 43.17 44.26 43.17 0 42.49 0" />
                   <polygon points="0 0 0 44.26 8.1 44.26 8.1 24.4 20.9 30.43 21.52 30.43 .68 0 0 0" />
                 </svg>

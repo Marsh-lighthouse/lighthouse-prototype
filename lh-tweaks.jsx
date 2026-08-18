@@ -317,7 +317,7 @@ function LighthouseTweaks() {
             </svg>
           </div>
           <h1 className="serif" style={{ fontSize: 30, color: "var(--primary, #000F47)", lineHeight: 1.12, margin: "0 0 12px" }}>No internet connection</h1>
-          <p style={{ fontFamily: "var(--sans, system-ui, sans-serif)", fontSize: 15, color: "var(--muted, #6D6B66)", lineHeight: 1.6, margin: "0 0 26px" }}>We can't reach Mercer Lighthouse right now. Check your connection and try again.</p>
+          <p style={{ fontFamily: "var(--sans, system-ui, sans-serif)", fontSize: 15, color: "var(--muted, #6D6B66)", lineHeight: 1.6, margin: "0 0 26px" }}>We can't reach Marsh Lighthouse right now. Check your connection and try again.</p>
           <button onClick={() => setOffline(false)} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primary, #000F47)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans, system-ui, sans-serif)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4" /><path d="M3 4v5h5" /></svg>
             Try again

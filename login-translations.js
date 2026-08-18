@@ -31,11 +31,11 @@ const LOGIN_TRANSLATIONS = {
     "magicNote": "✓ Check your inbox for a secure link\n✓ Link expires in 24 hours\n✓ No password needed",
 
     // Footer & misc
-    "© 2026 Mercer Lighthouse. All rights reserved.": "© 2026 Mercer Lighthouse. All rights reserved.",
+    "© 2026 Marsh Lighthouse. All rights reserved.": "© 2026 Marsh Lighthouse. All rights reserved.",
     "Privacy & Terms": "Privacy & Terms",
     "Privacy Statement": "Privacy Statement",
     "Connecting to": "Connecting to",
-    "Sign in with your account to access Mercer Lighthouse": "Sign in with your account to access Mercer Lighthouse",
+    "Sign in with your account to access Marsh Lighthouse": "Sign in with your account to access Marsh Lighthouse",
     "Verify it's you with a security method": "Verify it's you with a security method",
     "Select from the following options": "Select from the following options",
     "Choose how you'd like to confirm your identity": "Choose how you'd like to confirm your identity",
@@ -65,7 +65,7 @@ const LOGIN_TRANSLATIONS = {
 
     // Sign Up page
     "Create account": "Create account",
-    "Join Mercer Lighthouse": "Join Mercer Lighthouse",
+    "Join Marsh Lighthouse": "Join Marsh Lighthouse",
     "First name": "First name",
     "Last name": "Last name",
     "Registration code": "Registration code",
@@ -107,11 +107,11 @@ const LOGIN_TRANSLATIONS = {
     "magicNote": "✓ تحقق من صندوق الوارد الخاص بك للحصول على رابط آمن\n✓ ينتهي الرابط بعد 24 ساعة\n✓ لا تحتاج إلى كلمة مرور",
 
     // Footer & misc
-    "© 2026 Mercer Lighthouse. All rights reserved.": "© 2026 Mercer Lighthouse. جميع الحقوق محفوظة.",
+    "© 2026 Marsh Lighthouse. All rights reserved.": "© 2026 Marsh Lighthouse. جميع الحقوق محفوظة.",
     "Privacy & Terms": "الخصوصية والشروط",
     "Privacy Statement": "بيان الخصوصية",
     "Connecting to": "جارٍ الاتصال بـ",
-    "Sign in with your account to access Mercer Lighthouse": "سجل الدخول بحسابك للوصول إلى Mercer Lighthouse",
+    "Sign in with your account to access Marsh Lighthouse": "سجل الدخول بحسابك للوصول إلى Marsh Lighthouse",
     "Verify it's you with a security method": "تحقق من هويتك باستخدام طريقة أمان",
     "Select from the following options": "اختر من الخيارات التالية",
     "Choose how you'd like to confirm your identity": "اختر الطريقة التي ترغب بها في تأكيد هويتك",
@@ -139,7 +139,7 @@ const LOGIN_TRANSLATIONS = {
 
     // Sign Up page
     "Create account": "إنشاء حساب",
-    "Join Mercer Lighthouse": "انضم إلى Mercer Lighthouse",
+    "Join Marsh Lighthouse": "انضم إلى Marsh Lighthouse",
     "First name": "الاسم الأول",
     "Last name": "اسم العائلة",
     "Registration code": "رمز التسجيل",

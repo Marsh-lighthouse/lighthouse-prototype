@@ -140,7 +140,7 @@ function PlInfoTip({ text, label }) {
 // TODO: replace with the final UX wording once provided.
 const PL_ADD_TIPS = {
   own: "Write your own development action from scratch — you set the title, description and learning type.",
-  library: "Browse ready-made development actions from the Mercer library and add the ones that fit your goals.",
+  library: "Browse ready-made development actions from the Marsh library and add the ones that fit your goals.",
   ai: "Let the AI coach suggest development actions tailored to your assessment results and preferences.",
 };
 
@@ -545,7 +545,7 @@ function PlConfirmDelete({ label, onNo, onYes }) {
 // ── User information card (plan owner snapshot) — 3 switchable designs ──
 function PlUserInfo({ design }) {
   const u = LH.user;
-  const email = u.first.toLowerCase() + "." + u.last.toLowerCase() + "@mercer.com";
+  const email = u.first.toLowerCase() + "." + u.last.toLowerCase() + "@marsh.com";
   const fields = [
     ["Sub Function", "Human Resources"], ["Entity", "Star Trek Inc."],
     ["Job Level", "Management"], ["Action", "Yes"],
@@ -684,7 +684,7 @@ function PlReportTab() {
             <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#CEECFF", marginBottom: 14 }}>Confidential · For internal use only</div>
             <h1 className="serif" style={{ fontSize: 40, color: "#fff", lineHeight: 1.06, margin: 0, maxWidth: 440 }}>Leadership Program Report</h1>
           </div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.7)" }}>Mercer Lighthouse · All rights reserved</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.7)" }}>Marsh Lighthouse · All rights reserved</div>
         </div>
       ) : (
         <div key={i} className="ed-report-page" style={{ ...a4, background: "var(--card)", border: "1px solid " + eLINE, padding: "48px 52px" }}>

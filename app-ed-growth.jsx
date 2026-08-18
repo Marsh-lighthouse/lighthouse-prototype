@@ -141,7 +141,7 @@ function ReportCover({ report, pages }) {
   return (
     <div>
       <img src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%3F%3E%0A%3Csvg%20id%3D%22Layer_2%22%20data-name%3D%22Layer%202%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2043.17%2044.26%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Cg%20id%3D%22Layer_1-2%22%20data-name%3D%22Layer%201%22%3E%0A%20%20%20%20%3Cg%3E%0A%20%20%20%20%20%20%3Cpolygon%20class%3D%22cls-1%22%20fill%3D%22%23000F47%22%20points%3D%2242.49%200%2021.65%2030.43%2022.2%2030.43%2035.07%2024.39%2035.07%2044.26%2043.17%2044.26%2043.17%200%2042.49%200%22%3E%3C%2Fpolygon%3E%0A%20%20%20%20%20%20%3Cpolygon%20class%3D%22cls-1%22%20fill%3D%22%23000F47%22%20points%3D%220%200%200%2044.26%208.1%2044.26%208.1%2024.4%2020.9%2030.43%2021.52%2030.43%20.68%200%200%200%22%3E%3C%2Fpolygon%3E%0A%20%20%20%20%3C%2Fg%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E" alt="" style={{ width: 34, height: "auto", display: "block", marginBottom: 28 }} />
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>Mercer Lighthouse · Confidential</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>Marsh Lighthouse · Confidential</div>
       <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 14px" }}>{report.name}</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 28px" }}>{report.desc}</p>
       <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 18 }}>
@@ -299,7 +299,7 @@ function EdReportReader({ report, onClose }) {
                 <ReportPage report={report} page={page} />
               )}
               <div style={{ marginTop: "auto", paddingTop: 28, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Mercer Lighthouse · Confidential</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Marsh Lighthouse · Confidential</span>
                 <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{report.name} · Page {page + 1}</span>
               </div>
             </div>
@@ -350,6 +350,34 @@ function EdInsights({ onBack, initialPreview }) {
 // ════════════════════════════════════════════════
 //  SCHEDULING — book assessment-center sessions
 // ════════════════════════════════════════════════
+// Timezones offered when viewing slots (same idea as the Bookings flow). Slot times
+// in the data are authored in GST (UTC+4); picking another zone shifts them.
+const SCHED_TZS = [
+  { v: "(GMT+04:00) Asia/Dubai", short: "GST (UTC+4)", off: 4 },
+  { v: "(GMT+00:00) UTC", short: "UTC", off: 0 },
+  { v: "(GMT+01:00) Europe/London", short: "BST (UTC+1)", off: 1 },
+  { v: "(GMT+02:00) Europe/Berlin", short: "CEST (UTC+2)", off: 2 },
+  { v: "(GMT+05:30) Asia/Kolkata", short: "IST (UTC+5:30)", off: 5.5 },
+  { v: "(GMT-05:00) America/New York", short: "EST (UTC-5)", off: -5 },
+];
+const SCHED_BASE_OFF = 4;   // slot data is authored in GST
+// Shift one "9:00 AM" by a fractional-hour delta.
+function schedShiftOne(t, deltaHrs) {
+  const m = String(t).match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!m) return t;
+  let h = (+m[1]) % 12; if (/pm/i.test(m[3])) h += 12;
+  let total = h * 60 + (+m[2]) + Math.round(deltaHrs * 60);
+  total = ((total % 1440) + 1440) % 1440;
+  const hh = Math.floor(total / 60), mm = total % 60;
+  const ap = hh >= 12 ? "PM" : "AM";
+  return (hh % 12 || 12) + ":" + String(mm).padStart(2, "0") + " " + ap;
+}
+// Shift a "9:00 AM – 10:30 AM" range.
+function schedShiftRange(range, deltaHrs) {
+  if (!deltaHrs) return range;
+  return String(range).split("–").map((x) => schedShiftOne(x.trim(), deltaHrs)).join(" – ");
+}
+
 function EdScheduling({ onBack, initialCenter, demo }) {
   // demo: optional initial UI state for static screen boards — { calView, pop, confirm, cancel, booked }
   const demoCtx = () => { const p = LH.scheduling[0], c = p.centers[0]; return { slot: c.slots[0], center: c, program: p.program }; };
@@ -357,6 +385,17 @@ function EdScheduling({ onBack, initialCenter, demo }) {
   const [confirmSlot, setConfirmSlot] = React.useState(() => (demo && demo.confirm) ? demoCtx() : null); // {slot, center, program}
   const [cancelSlot, setCancelSlot] = React.useState(() => (demo && demo.cancel) ? demoCtx() : null);
   const [pop, setPop] = React.useState(() => (demo && demo.pop) ? { ...demoCtx(), booked: false, relLeft: 260, relRight: 500, relTop: 120 } : null);
+  // Language preference asked in the confirm dialog, then the "booked" step that
+  // offers Add-to-calendar — same pattern as the Bookings module.
+  const [langPref, setLangPref] = React.useState("no");   // "yes" | "no"
+  const [lang, setLang] = React.useState("English");
+  const [doneSlot, setDoneSlot] = React.useState(null);   // {slot, center, program, langPref, lang}
+  const [tz, setTz] = React.useState(SCHED_TZS[0].v);
+  const tzMeta = SCHED_TZS.find((z) => z.v === tz) || SCHED_TZS[0];
+  const tzDelta = tzMeta.off - SCHED_BASE_OFF;
+  const slotTime = (t) => schedShiftRange(t, tzDelta);   // time in the chosen zone
+  const [schedToast, setSchedToast] = React.useState(null);
+  const showSchedToast = (m) => { setSchedToast(m); setTimeout(() => setSchedToast(null), 2400); };
   const calWrapRef = React.useRef(null);
   const [view, setView] = React.useState(initialCenter || null);   // null = overview | centerId
   // when a slot is booked, start the matching center's timer (task center id = schedId minus "-sched")
@@ -368,7 +407,9 @@ function EdScheduling({ onBack, initialCenter, demo }) {
 
   // When viewing a single centre's detail, surface its "All assessment centers"
   // back in the dashboard's fixed top bar instead of inline in the page.
-  useTopBarBack(!!view, "All assessment centers", () => setView(null));
+  // Also covers the booking-confirmed page, which is driven by doneSlot rather than
+  // view — clearing only view would leave that page up with no way back.
+  useTopBarBack(!!view || !!doneSlot, "All assessment centers", () => { setDoneSlot(null); setView(null); });
 
   const allCenters = data.flatMap((p) => p.centers.map((c) => ({ ...c, program: p.program })));
   const selCenter = view ? allCenters.find((c) => c.id === view) : null;
@@ -409,9 +450,24 @@ function EdScheduling({ onBack, initialCenter, demo }) {
         </div>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 24px", paddingBottom: 24, borderBottom: "1px solid " + eLINE, maxWidth: 560 }}>{c.desc}</p>
 
-        <div style={{ display: "inline-flex", gap: 4, marginBottom: 20, background: "rgba(0,15,71,.05)", borderRadius: 10, padding: 3 }}>
-          <ToggleBtn on={!calView} onClick={() => setCalView(false)} icon="menu" label="List" />
-          <ToggleBtn on={calView} onClick={() => setCalView(true)} icon="cal" label="Calendar" />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
+          <div style={{ display: "inline-flex", gap: 4, background: "rgba(0,15,71,.05)", borderRadius: 10, padding: 3 }}>
+            <ToggleBtn on={!calView} onClick={() => setCalView(false)} icon="menu" label="List" />
+            <ToggleBtn on={calView} onClick={() => setCalView(true)} icon="cal" label="Calendar" />
+          </div>
+          {/* timezone — slot times convert as you switch (same as the Bookings flow) */}
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <span style={{ color: eMUT, display: "flex" }}><I.globe size={16} /></span>
+            <div style={{ position: "relative", display: "inline-block" }}>
+              <select value={tz} onChange={(e) => setTz(e.target.value)} title="Show times in this timezone"
+                style={{ appearance: "none", WebkitAppearance: "none", MozAppearance: "none", fontFamily: "var(--sans)", fontSize: 14, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "9px 38px 9px 12px", cursor: "pointer" }}>
+                {SCHED_TZS.map((z) => <option key={z.v} value={z.v}>{z.v}</option>)}
+              </select>
+              <span style={{ position: "absolute", right: 13, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: eMUT, display: "flex" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+              </span>
+            </div>
+          </div>
         </div>
         {calView ? renderCalendar(c.id) : (
         <React.Fragment>
@@ -429,9 +485,9 @@ function EdScheduling({ onBack, initialCenter, demo }) {
                   <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{slot.date.split(" ")[0]}</div>
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 4 }}>{slot.time}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 4 }}>{slotTime(slot.time)}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{slot.tz}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{tzMeta.short}</span>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
                     {slot.cancelBefore ? (
                       <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eBLUE, background: "color-mix(in srgb, var(--accent) 8%, transparent)", padding: "2px 8px", borderRadius: 5 }}>Cancel OK ({slot.cancelBefore})</span>
@@ -554,7 +610,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
                         style={{ position: "absolute", top: top + 2, left: 4, right: 4, height, background: tint + "14", borderLeft: "3px solid " + tint, borderRadius: 8, padding: "7px 9px", cursor: "pointer", overflow: "hidden", transition: "background .15s" }}
                         onMouseEnter={(ev) => ev.currentTarget.style.background = tint + "22"}
                         onMouseLeave={(ev) => ev.currentTarget.style.background = tint + "14"}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.2, marginBottom: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{e.slot.time}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.2, marginBottom: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{slotTime(e.slot.time)}</div>
                         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                             {isBooked ? (
                               <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSUCCESS, display: "inline-flex", alignItems: "center", gap: 3 }}><I.check size={11} /> Booked</span>
@@ -591,7 +647,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 13 }}>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.cal size={13} /> {slot.date} · {slot.day}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={13} /> {slot.time}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={13} /> {slotTime(slot.time)} · {tzMeta.short}</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.globe size={13} /> {center.location}</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: slot.remaining <= 2 ? eDANGER : eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.users size={13} /> {slot.remaining} of {slot.total} seats left</span>
                 </div>
@@ -618,19 +674,43 @@ function EdScheduling({ onBack, initialCenter, demo }) {
             <EdEyebrow color={eBLUE}>Confirm booking</EdEyebrow>
             <h2 className="serif" style={{ fontSize: 26, color: eMID, lineHeight: 1.1, margin: "0 0 16px" }}>{center.name}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
-              {[[I.cal, `${slot.date} · ${slot.day}`], [I.clock, `${slot.time} · ${slot.tz}`], [I.globe, center.location]].map(([Ic, txt], i) => (
+              {[[I.cal, `${slot.date} · ${slot.day}`], [I.clock, `${slotTime(slot.time)} · ${tzMeta.short}`], [I.globe, center.location]].map(([Ic, txt], i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ color: eBLUE, display: "flex" }}><Ic size={17} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{txt}</span></div>
               ))}
+            </div>
+            {/* language preference — same question as the Bookings flow */}
+            <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 18, marginBottom: 18 }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, marginBottom: 10 }}>Do you have a language preference?</div>
+              <div style={{ display: "flex", gap: 22, marginBottom: langPref === "yes" ? 12 : 0 }}>
+                {["yes", "no"].map((v) => (
+                  <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>
+                    <input type="radio" name="sched-lang" checked={langPref === v} onChange={() => setLangPref(v)} style={{ accentColor: eBLUE, width: 16, height: 16 }} />
+                    {v === "yes" ? "Yes" : "No"}
+                  </label>
+                ))}
+              </div>
+              {langPref === "yes" && (
+                <select value={lang} onChange={(e) => setLang(e.target.value)}
+                  style={{ width: "100%", boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 14, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "11px 13px", cursor: "pointer" }}>
+                  <option>English</option><option>Deutsch</option><option>Français</option><option>العربية</option>
+                </select>
+              )}
             </div>
             <div style={{ background: slot.cancelBefore ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "rgba(203,126,3,.07)", borderRadius: 10, padding: "10px 13px", marginBottom: 22 }}>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{slot.cancelBefore ? `Free cancellation up to ${slot.cancelBefore} before the session.` : "This session is non-refundable once booked."}</span>
             </div>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <EdBtn primary onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setConfirmSlot(null); }}>Confirm booking <I.check size={15} /></EdBtn>
+              <EdBtn primary onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setDoneSlot({ ...confirmSlot, langPref, lang }); setConfirmSlot(null); }}>Confirm booking <I.check size={15} /></EdBtn>
             </div>
           </div>
         </div>
       ); })()}
+
+      {schedToast && (
+        <div style={{ position: "fixed", left: "50%", bottom: 28, transform: "translateX(-50%)", zIndex: 90, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "11px 18px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", display: "inline-flex", alignItems: "center", gap: 8 }}>
+          <I.check size={16} /> {schedToast}
+        </div>
+      )}
 
       {cancelSlot && (() => { const { slot, center } = cancelSlot; return (
         <div onClick={() => setCancelSlot(null)} style={{ position: "fixed", inset: 0, zIndex: 80, background: "rgba(0,15,71,.4)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
@@ -638,10 +718,10 @@ function EdScheduling({ onBack, initialCenter, demo }) {
             <button onClick={() => setCancelSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: 8, border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
             <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(197,53,50,.10)", color: eDANGER, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><I.info size={22} /></div>
             <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.12, margin: "0 0 8px" }}>Cancel this booking?</h2>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 8px" }}>You're about to cancel <strong style={{ color: eMID }}>{center.name}</strong> on {slot.date} at {slot.time}.</p>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 8px" }}>You're about to cancel <strong style={{ color: eMID }}>{center.name}</strong> on {slot.date} at {slotTime(slot.time)}.</p>
             <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, margin: "0 0 22px" }}>{slot.cancelBefore ? `This is within the free cancellation window (${slot.cancelBefore} before).` : "This session is non-refundable — cancelling forfeits your seat."}</p>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setCancelSlot(null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel booking</button>
+              <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setCancelSlot(null); setDoneSlot(null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel booking</button>
             </div>
           </div>
         </div>
@@ -650,6 +730,63 @@ function EdScheduling({ onBack, initialCenter, demo }) {
   );
 
   // ── CENTER DETAIL ──
+  // ── BOOKING CONFIRMED PAGE ("You're all set") ──
+  // A full page rather than a dialog: it's the end of the task and carries its own
+  // actions (calendar, cancel, reschedule) — same pattern as the Bookings module.
+  const renderBooked = () => {
+    const { slot, center } = doneSlot;
+    const PIcon = (window.EdBookings && window.EdBookings.ProviderIcon) || null;
+    const providers = (window.EdBookings && window.EdBookings.CAL_PROVIDERS) || ["Google", "Outlook", "Office 365", "iCal", "Yahoo"];
+    const row = (label, value) => (
+      <div style={{ display: "flex", gap: 20, padding: "14px 0", borderTop: "1px solid " + eLINE }}>
+        <div style={{ width: 110, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{label}</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMID, fontWeight: 600 }}>{value}</div>
+      </div>
+    );
+    return (
+      <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
+        <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 18, padding: "40px 36px" }}>
+          <div style={{ textAlign: "center", marginBottom: 28 }}>
+            <div style={{ width: 62, height: 62, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}><I.check size={30} /></div>
+            <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 10px" }}>You're all set</h1>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details.</p>
+          </div>
+
+          <div style={{ border: "1px solid " + eLINE, borderRadius: 14, padding: "4px 20px 14px", marginBottom: 26 }}>
+            <div style={{ display: "flex", gap: 20, padding: "14px 0" }}>
+              <div style={{ width: 110, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Session</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMID, fontWeight: 700 }}>{center.name}</div>
+            </div>
+            {row("When", <React.Fragment>{slot.date} · {slot.day}<br /><span style={{ fontWeight: 700 }}>{slotTime(slot.time)}</span> <span style={{ fontWeight: 400, color: eMUT }}>({tzMeta.short})</span></React.Fragment>)}
+            {row("Location", center.location)}
+            {doneSlot.langPref === "yes" && row("Language", doneSlot.lang)}
+            {slot.cancelBefore && row("Cancellation", "Free up to " + slot.cancelBefore + " before the session")}
+          </div>
+
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            {providers.map((c) => (
+              <button key={c} onClick={() => showSchedToast("Added to " + c)}
+                style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 9, transition: "border-color .15s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = eMID; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; }}>
+                {PIcon ? <PIcon name={c} /> : <I.cal size={15} />} {c}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ borderTop: "1px solid " + eLINE, marginTop: 30, paddingTop: 22, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 14 }}>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Need to make changes?</div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={() => { setCancelSlot(doneSlot); }} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eDANGER, background: "var(--card)", border: "1px solid " + eDANGER, borderRadius: 10, padding: "11px 18px", cursor: "pointer" }}>Cancel booking</button>
+              <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setDoneSlot(null); setView(center.id); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eMID, borderRadius: 10, padding: "11px 18px", cursor: "pointer" }}><I.clock size={15} /> Reschedule</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (doneSlot) return <React.Fragment>{renderBooked()}{modals}</React.Fragment>;
   if (selCenter) return <React.Fragment>{renderCenterDetail()}{modals}</React.Fragment>;
 
   // ── OVERVIEW (list / calendar) ──
@@ -673,7 +810,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
                     <div style={{ width: 40, height: 40, borderRadius: 11, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.checkCircle size={19} /></div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{b.center.name}</div>
-                      <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{b.slot.date} · {b.slot.time} · {b.center.location}</div>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{b.slot.date} · {slotTime(b.slot.time)} · {b.center.location}</div>
                     </div>
                     {b.slot.cancelBefore ? (
                       <button onClick={() => setCancelSlot(b)} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer", flexShrink: 0 }}>Cancel</button>

@@ -1184,7 +1184,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
                       </div>
                     </div>
                   </div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.7)" }}>Mercer Lighthouse · All rights reserved</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.7)" }}>Marsh Lighthouse · All rights reserved</div>
                 </div>
               );
             }
@@ -1193,7 +1193,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
               <div key={i} className="ed-report-page" style={{ ...a4, background: "var(--card)", border: "1px solid " + eLINE, padding: "48px 52px" }}>
                 <div style={{ flex: 1, minHeight: 0 }}>{RP ? <RP report={rpt} page={i} /> : null}</div>
                 <div style={{ marginTop: 24, paddingTop: 18, borderTop: "1px solid " + eLINE, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Mercer Lighthouse · Confidential</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Marsh Lighthouse · Confidential</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{rpt.name} · Page {i + 1}</span>
                 </div>
               </div>
@@ -1492,7 +1492,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
   return (
     <Shell narrow center className="ed-idp-loading">
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "52px 28px", textAlign: "center", maxWidth: 520, width: "100%", margin: "0 auto", boxSizing: "border-box", background: "var(--card)", border: "1px solid " + eLINE, boxShadow: "0 8px 34px rgba(0,15,71,.08)", borderRadius: 18, overflow: "hidden" }}>
-        {/* Branded loader — the Mercer "M" mark inside a spinning ring, matching the platform sign-in loader */}
+        {/* Branded loader — the Marsh "M" mark inside a spinning ring, matching the platform sign-in loader */}
         <div style={{ position: "relative", width: 120, height: 120, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 30 }}>
           <svg viewBox="0 0 100 100" width="120" height="120" style={{ position: "absolute", inset: 0, animation: "ed-spin 1.15s linear infinite" }} aria-hidden="true">
             <circle cx="50" cy="50" r="46" fill="none" stroke="var(--action)" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="78 220" />

@@ -99,13 +99,13 @@ function EdPrivacyNotice({ onClose }) {
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,15,71,.45)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
       <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, width: "min(820px, 100%)", maxHeight: "88vh", display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 24px 70px rgba(0,15,71,.3)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 22px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE }}>MERCER LIGHTHOUSE · CONFIDENTIAL</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE }}>MARSH LIGHTHOUSE · CONFIDENTIAL</span>
           <button onClick={onClose} aria-label="Close" style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
         </div>
         <div style={{ overflowY: "auto", padding: "28px 32px" }}>
-          <h1 className="serif" style={{ fontSize: 30, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>Mercer Talent Enterprise Privacy Notice</h1>
+          <h1 className="serif" style={{ fontSize: 30, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>Marsh Talent Enterprise Privacy Notice</h1>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginBottom: 22 }}>Effective Date: 15 September 2024</div>
-          <P>This Privacy Notice describes how Mercer Talent Enterprise (“MTE”) collects, uses, shares, retains, transfers and otherwise processes information relating to identified or identifiable individuals (Personal Information), and the rights you may have regarding your Personal Information.</P>
+          <P>This Privacy Notice describes how Marsh Talent Enterprise (“MTE”) collects, uses, shares, retains, transfers and otherwise processes information relating to identified or identifiable individuals (Personal Information), and the rights you may have regarding your Personal Information.</P>
           <P>MTE is a provider of behavioural science assessment solutions and, in some instances, acts on behalf of and under the instructions of clients, financial institutions, merchants, and other partners who act as data controllers.</P>
           <H>What is our relationship to you</H>
           <P>You are being asked by a third party to complete an assessment on MTE’s platform. This third party is MTE’s client and may be your employer, potential employer, or another related party. MTE acts as a Processor for our clients, who determine the processing of your Personal Information.</P>
@@ -134,11 +134,11 @@ function EdConsent({ exercise, onAccept, onExit }) {
   const [showPrivacy, setShowPrivacy] = oaUseState(false);
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE, marginBottom: 12 }}>MERCER LIGHTHOUSE · CONFIDENTIAL</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE, marginBottom: 12 }}>MARSH LIGHTHOUSE · CONFIDENTIAL</div>
       <h1 className="serif" style={{ fontSize: 38, color: eMID, lineHeight: 1.08, margin: "0 0 8px", maxWidth: 640 }}>Consent to Process and Transfer Personal Information</h1>
       <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginBottom: 24 }}>Version 4.0 · Updated on May 29, 2025</div>
       <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "30px 32px" }}>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.65, margin: "0 0 16px" }}>In order to ensure your meaningful participation in this activity, some of your personal information will be collected and processed. The activity is being administered by Mercer Talent Enterprise on behalf of and at the instruction of our client, who determines the purpose for processing your personal information and how we may use it.</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.65, margin: "0 0 16px" }}>In order to ensure your meaningful participation in this activity, some of your personal information will be collected and processed. The activity is being administered by Marsh Talent Enterprise on behalf of and at the instruction of our client, who determines the purpose for processing your personal information and how we may use it.</p>
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.65, margin: "0 0 16px" }}>Please note that your information may be transferred across national borders as part of the Services provided to our clients. In such an instance, we act as the Data Importer and our client acts as the Data Exporter. Any international transfer of personal information will be conducted in accordance with applicable data protection laws.</p>
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.65, margin: "0 0 24px" }}>For more information about how we process your personal information, please <span onClick={() => setShowPrivacy(true)} style={{ color: eBLUE, fontWeight: 600, cursor: "pointer", textDecoration: "underline" }}>read our global privacy notice</span>.</p>
         <label htmlFor="ed-consent-box" style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer", background: eCREAM, border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 24 }}>

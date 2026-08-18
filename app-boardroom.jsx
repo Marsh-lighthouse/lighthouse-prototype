@@ -151,7 +151,7 @@ function BChangePassword({ onBack }) {
 // Profile page (My profile) — view + edit, mirrors Folio's profile content.
 function BProfile({ onBack }) {
   const u = LH.user;
-  const initial = { first: u.first, last: u.last, email: (u.first + "." + u.last + "@mercer.com").toLowerCase().replace(/\s+/g, ""), age: "", gender: "", lang: "English", targetJob: "", targetEntity: "", yearsExp: "", minEdu: "", prefEdu: "", avatar: null };
+  const initial = { first: u.first, last: u.last, email: (u.first + "." + u.last + "@marsh.com").toLowerCase().replace(/\s+/g, ""), age: "", gender: "", lang: "English", targetJob: "", targetEntity: "", yearsExp: "", minEdu: "", prefEdu: "", avatar: null };
   const [data, setData] = React.useState(initial);
   const [editing, setEditing] = React.useState(false);
   const [draft, setDraft] = React.useState(initial);
