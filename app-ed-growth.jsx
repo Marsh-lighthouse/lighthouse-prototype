@@ -846,14 +846,14 @@ function EdScheduling({ onBack, initialCenter, demo }) {
           {data.map((prog, pi) => (
             <div key={pi} style={{ marginBottom: 28 }}>
               <EdSectionLabel>{prog.program}</EdSectionLabel>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14, marginTop: 14 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14, marginTop: 14, alignItems: "stretch" }}>
                 {prog.centers.map((c) => {
                   const Ic = I[c.icon] || I.cal;
                   const bookedInCenter = c.slots.filter((s) => booked[s.id]).length;
                   const totalRemaining = c.slots.reduce((a, s) => a + s.remaining, 0);
                   const nextSlot = c.slots.find((s) => s.remaining > 0 && !booked[s.id]);
                   return (
-                    <div key={c.id} onClick={() => setView(c.id)} style={{ display: "flex", flexDirection: "column", background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 18px", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,15,71,.04)", transition: "box-shadow .15s, transform .15s" }}
+                    <div key={c.id} onClick={() => setView(c.id)} style={{ display: "flex", flexDirection: "column", height: "100%", boxSizing: "border-box", background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 18px", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,15,71,.04)", transition: "box-shadow .15s, transform .15s" }}
                       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,15,71,.10)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,15,71,.04)"; e.currentTarget.style.transform = "none"; }}>
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, marginBottom: 12 }}>
@@ -867,9 +867,10 @@ function EdScheduling({ onBack, initialCenter, demo }) {
                         </div>
                         {bookedInCenter > 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSUCCESS, background: "rgba(20,133,61,.10)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0 }}><I.check size={11} /> {bookedInCenter} booked</span>}
                       </div>
-                      <div className="ed-sched-foot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, paddingTop: 12, borderTop: "1px solid " + eLINE }}>
-                        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: totalRemaining <= 5 ? eWARN : eMUT }}>{c.slots.length} slots · {totalRemaining} open{!bookedInCenter && nextSlot ? ` · next ${nextSlot.date}` : ""}</span>
-                        <span className="ed-sched-view" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 5, color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>View slots <I.chevR size={15} /></span>
+                      {/* footer sits on the card's bottom edge, so every card in the row lines up */}
+                      <div className="ed-sched-foot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: "auto", paddingTop: 12, borderTop: "1px solid " + eLINE }}>
+                        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: totalRemaining <= 5 ? eWARN : eMUT, minWidth: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.slots.length} slots · {totalRemaining} open{!bookedInCenter && nextSlot ? ` · next ${nextSlot.date}` : ""}</span>
+                        <span className="ed-sched-view" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 5, color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, whiteSpace: "nowrap", flexShrink: 0 }}>View slots <I.chevR size={15} /></span>
                       </div>
                     </div>
                   );
