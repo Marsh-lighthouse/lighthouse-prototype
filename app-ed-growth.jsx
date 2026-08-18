@@ -448,7 +448,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.globe size={15} /> {c.location}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={15} /> {c.duration}</span>
         </div>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 24px", paddingBottom: 24, borderBottom: "1px solid " + eLINE, maxWidth: 560 }}>{c.desc}</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 24px", paddingBottom: 24, borderBottom: "1px solid " + eLINE }}>{c.desc}</p>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
           <div style={{ display: "inline-flex", gap: 4, background: "rgba(0,15,71,.05)", borderRadius: 10, padding: 3 }}>
@@ -806,7 +806,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <EdBack label="Back to dashboard" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Scheduling</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 22px", maxWidth: 560 }}>Browse available time slots and book your assessment center sessions.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 22px" }}>Browse available time slots and book your assessment center sessions.</p>
 
       {/* List / Calendar toggle removed from overview — calendar lives inside each center.
          renderCalendar() is retained for that per-center view and future use. */}
