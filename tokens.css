@@ -1,0 +1,120 @@
+/* ════════════════════════════════════════════════════════════════════
+   MERCER LIGHTHOUSE — DESIGN TOKENS (single import)
+   ────────────────────────────────────────────────────────────────────
+   One file with every token as a CSS custom property: colour primitives,
+   semantic colours, typography, spacing/layout, radius, and PHONE/DEVICE
+   frames (these last were hard-coded in device-preview.css before — they
+   are tokenised here).
+
+   • Human reference ............. DESIGN.md
+   • Machine-readable / tooling ... design-tokens.json
+   • App runtime foundation ...... brand.css  (fonts + the live theming knobs)
+
+   Import this for the design-system layer:
+       @import "tokens.css";
+   brand.css already sets the semantic --primary/--accent/etc. that the app
+   themes at runtime; the values here match it, so importing both is safe.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── COLOUR · primitives (Marsh Color Guidelines scale 1000→250) ── */
+  --color-midnight:   #000F47;
+  --color-sky:        #CEECFF;
+  --color-white:      #FFFFFF;
+
+  --color-blue-1000:  #000F47;
+  --color-blue-750:   #0B4BFF;   /* active blue — links, data viz */
+  --color-blue-500:   #82BAFF;
+  --color-blue-250:   #CEECFF;
+
+  --color-gold-1000:  #CB7E03;   /* readable gold text */
+  --color-gold-750:   #FFBF00;   /* CTA fill — ACTION only */
+  --color-gold-500:   #FFD98A;
+  --color-gold-250:   #FFF3DA;
+
+  --color-green-1000: #2F7500;
+  --color-green-750:  #6ABF30;
+  --color-green-500:  #B0DC92;
+  --color-green-250:  #DFECD7;
+
+  --color-purple-1000:#5E017F;
+  --color-purple-750: #8F20DE;   /* 360° program accent */
+  --color-purple-500: #DEB1FF;
+  --color-purple-250: #F5E8FF;
+
+  --color-neutral-1000:#3D3C37;  /* warm near-black text */
+  --color-neutral-750: #7B7974;  /* muted text */
+  --color-neutral-500: #B9B6B1;  /* borders */
+  --color-neutral-250: #F7F3EE;  /* warm cream canvas */
+
+  --color-success:    #14853D;
+  --color-danger:     #C53532;
+  --color-warning:    #FFBE00;
+
+  /* ── COLOUR · semantic (the Tweaks / brand-switcher knobs) ──
+     Change these to re-skin. ink/muted/line derive from --primary so a
+     brand change re-tints the whole platform. */
+  --primary:      var(--color-midnight);
+  --accent:       var(--color-blue-750);
+  --action:       var(--color-gold-750);
+  --action-text:  var(--color-midnight);
+  --canvas:       var(--color-neutral-250);
+  --ink:          color-mix(in srgb, var(--primary) 88%, #ffffff);
+  --muted:        color-mix(in srgb, var(--primary) 72%, #ffffff);
+  --line:         color-mix(in srgb, var(--primary) 18%, #ffffff);
+
+  /* ── TYPOGRAPHY ── */
+  --serif: "Marsh Serif", Georgia, "Times New Roman", serif;  /* display, weight 400 ONLY */
+  --sans:  "Noto Sans", system-ui, -apple-system, sans-serif; /* body / UI */
+  --heading-family: var(--serif);   /* swapped serif⇄sans by Tweaks */
+  --heading-weight: 400;
+  --weight-body: 400;
+  --weight-strong: 700;   /* sub-heads, labels */
+
+  --text-display: 40px;   /* hero / H1 (serif)        */
+  --text-h1:      28px;   /* section heading (serif)  */
+  --text-h2:      21px;   /* card title (serif)       */
+  --text-body:    15px;   /* body (sans)              */
+  --text-small:   13px;   /* secondary (sans)         */
+  --text-label:   11.5px; /* labels / eyebrows (sans, 700) */
+
+  /* ── SPACING / LAYOUT ── */
+  --space-page-x:        56px;   /* desktop wrapper padding */
+  --space-page-x-tablet: 30px;
+  --space-page-x-mobile: 18px;
+  --content-max:         848px;  /* content column cap */
+  --rail-w-expanded:     256px;
+  --rail-w-collapsed:    74px;
+  --fol-mx: 0;                    /* 0 = left-aligned · auto = centred (Tweaks → Layout) */
+
+  /* ── RADIUS ── (global slider: 0–20px, default 8) */
+  --radius-default: 8px;
+  --radius-min:     0px;
+  --radius-max:     20px;
+
+  /* ══ PHONE / DEVICE TOKENS ══
+     Used by the Tweaks "Device preview" frames. Reference these instead of
+     the magic numbers currently inlined in device-preview.css. */
+  --device-stage-bg:   #000F47;   /* dark stage behind the framed device */
+  --device-bezel-color:#060A18;
+
+  /* Mobile (phone) frame */
+  --device-mobile-w:      390px;
+  --device-mobile-h:      844px;
+  --device-mobile-bezel:  11px;
+  --device-mobile-radius: 44px;
+  --device-mobile-gutter: 18px;
+
+  /* Tablet (iPad) frame */
+  --device-tablet-w:      1024px;
+  --device-tablet-h:      1366px;
+  --device-tablet-bezel:  13px;
+  --device-tablet-radius: 28px;
+  --device-tablet-gutter: 30px;
+
+  /* ── BREAKPOINTS ──
+     CSS can't use custom properties inside @media queries, so these are
+     documented here for reference and mirrored in design-tokens.json:
+       --bp-landing-two-col : 980px   (landing grid 3 → 2 cols)
+       --bp-stack           : 920px   (1 col; login hides feature panel) */
+}

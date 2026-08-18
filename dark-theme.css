@@ -1,0 +1,143 @@
+/* ════════════════════════════════════════════════════════════════
+   Dark mode — real, per-brand design tokens (replaces the old
+   `filter: invert()` hack). Derived palette (no official brand dark
+   spec yet); every value is WCAG 2.1 AA verified by the contrast scan.
+
+   Split of responsibility:
+   • CSS-set tokens (surfaces / text / borders) live HERE, overridden on
+     html[data-theme="dark"].
+   • Inline-set tokens (--canvas, --primary, --accent, --action,
+     --action-text, --rail-*) are applied by lh-tweaks.jsx + client-brand.js,
+     which read data-theme — because inline styles beat any stylesheet.
+   ════════════════════════════════════════════════════════════════ */
+
+html[data-theme="dark"] {
+  --card:         #151E30;            /* elevated surface (cards, inputs)   */
+  --surface-deep: #1E2C46;            /* deep decorative panels (white text) */
+  --ink:          #E9EEF6;            /* primary text  — ~14:1 on --card     */
+  --muted:        #A4B2C6;            /* secondary text — ~7.5:1 on --card   */
+  --line:         rgba(255,255,255,.15); /* borders / rules                  */
+}
+
+/* Client-brand text neutralisation flips to LIGHT ink in dark mode
+   (mirrors the #262626 light-mode rule in client-brand.css). Higher
+   specificity than that rule, so it wins under [data-theme="dark"]. */
+html[data-theme="dark"][data-client-brand="dge"] [style^="color: var(--primary)"],
+html[data-theme="dark"][data-client-brand="dge"] [style*="; color: var(--primary)"],
+html[data-theme="dark"][data-client-brand="dge"] [style^="color: var(--accent)"],
+html[data-theme="dark"][data-client-brand="dge"] [style*="; color: var(--accent)"],
+html[data-theme="dark"][data-client-brand="generali"] [style^="color: var(--primary)"],
+html[data-theme="dark"][data-client-brand="generali"] [style*="; color: var(--primary)"],
+html[data-theme="dark"][data-client-brand="generali"] [style^="color: var(--accent)"],
+html[data-theme="dark"][data-client-brand="generali"] [style*="; color: var(--accent)"] {
+  color: #E9EEF6 !important;
+}
+html[data-theme="dark"][data-client-brand="dge"] .lg-title,
+html[data-theme="dark"][data-client-brand="dge"] .lg-label,
+html[data-theme="dark"][data-client-brand="generali"] .lg-title,
+html[data-theme="dark"][data-client-brand="generali"] .lg-label { color: #E9EEF6; }
+
+/* Safety net: any straggler inline PURE-WHITE background (ternaries the
+   token sweep couldn't rewrite) becomes the dark card surface. */
+html[data-theme="dark"] [style*="background: rgb(255, 255, 255)"],
+html[data-theme="dark"] [style*="background:#fff"],
+html[data-theme="dark"] [style*="background: #fff"] { background: var(--card) !important; }
+
+/* Native <select> dropdowns: keep the control AND its native option list dark,
+   so light option text stays legible (native option lists default to white). */
+html[data-theme="dark"] select { color-scheme: dark; }
+/* Selects whose white fill is baked into a `background` shorthand (with a chevron
+   data-URI) slip past the pure-white safety net — override just the colour layer,
+   keeping the chevron image. */
+html[data-theme="dark"] select { background-color: var(--card) !important; }
+html[data-theme="dark"] select option { background: #151E30; color: #E9EEF6; }
+/* Checkboxes / radios: render dark-native (unchecked box = dark, not bright white). */
+html[data-theme="dark"] input[type="checkbox"], html[data-theme="dark"] input[type="radio"] { color-scheme: dark; }
+
+/* Text inputs & textareas that don't set their own background default to native
+   white → light text becomes invisible in dark. Give them the dark card surface.
+   (Inline backgrounds still win, so already-styled fields are unaffected.) */
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="email"],
+html[data-theme="dark"] input[type="password"],
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] input[type="search"],
+html[data-theme="dark"] input[type="tel"],
+html[data-theme="dark"] input:not([type]) {
+  background: var(--card); color: var(--ink); color-scheme: dark;
+}
+html[data-theme="dark"] textarea::placeholder,
+html[data-theme="dark"] input::placeholder { color: var(--muted); opacity: 1; }
+
+/* Report reader "pages" are printed document artifacts — they stay WHITE (light-mode
+   tokens) even when the platform is in dark mode. Only the reader chrome goes dark.
+   Re-declare the light token values, scoped to the page, so all content renders light. */
+html[data-theme="dark"] .ed-report-page {
+  --card: #FFFFFF;
+  --primary: #000F47;
+  --accent: #0B4BFF;
+  --ink: color-mix(in srgb, #000F47 88%, #ffffff);
+  --muted: color-mix(in srgb, #000F47 72%, #ffffff);
+  --line: color-mix(in srgb, #000F47 18%, #ffffff);
+  --surface-deep: #000F47;
+  --sky-surface: #CEECFF;
+  --accent-2: #8F20DE;
+  --on-accent: #FFFFFF;
+  --success: #0E7A38; --danger: #C53532; --warning: #FFBE00;
+  --success-fill: #0E7A38; --danger-fill: #C0322F;
+  --status-neutral-bg: rgba(0,15,71,.06);
+  color-scheme: light;
+  background: #FFFFFF;
+}
+html[data-theme="dark"] .ed-report-page select,
+html[data-theme="dark"] .ed-report-page input[type="checkbox"],
+html[data-theme="dark"] .ed-report-page input[type="radio"] { color-scheme: light; }
+
+/* Brighter status colours for dark surfaces (dark greens/reds fail on dark). */
+html[data-theme="dark"] { --success: #46D07C; --danger: #FF7B7B; --warning: #FBBF24; }
+
+/* Sky panel surface → dark elevated blue (Peekaboo hero / active nav). */
+html[data-theme="dark"] { --sky-surface: #1C2A44; }
+
+/* Neutral "Not started" chip fill → a light translucent so the chip is visible
+   on the dark card instead of merging with it. */
+html[data-theme="dark"] { --status-neutral-bg: rgba(255,255,255,.12); }
+
+/* Form-control outlines & tracks: navy overlays vanish on dark → use light overlays.
+   (Light values live in brand.css; only the dark values change here.) */
+html[data-theme="dark"] { --control-line: rgba(255,255,255,.35); --track: rgba(255,255,255,.14); }
+
+/* Secondary accent (purple) → lighter so it stays AA on the dark canvas. */
+html[data-theme="dark"] { --accent-2: #C89BF2; }
+
+/* Content on an accent/success fill flips to dark ink (those fills lighten in dark). */
+html[data-theme="dark"] { --on-accent: #0B1220; }
+
+/* Page backdrop behind the shell. */
+html[data-theme="dark"] body { background: #0B1220; }
+
+/* Boardroom's Marsh wordmark is a dark-navy SVG <img> (no white variant);
+   whiten it on the dark rail. (Client-brand logos swap to their white files.) */
+html[data-theme="dark"] .bd-mercer-logo { filter: brightness(0) invert(1); }
+
+/* ── Demo / authoring chrome (bottom-bar chips: gallery back, brand switcher,
+   Tweaks gear, and the inline sample/layout/card-design selectors). These carry
+   hardcoded light backgrounds; give them a dark treatment so they don't glow
+   white in dark mode. Not part of the delivered product UI. ── */
+html[data-theme="dark"] .lh-back,
+html[data-theme="dark"] .lh-brand-chip,
+html[data-theme="dark"] .lh-tweak-fab {
+  background: rgba(21,30,48,.92) !important;
+  color: #C7D2E4 !important;
+  border-color: rgba(255,255,255,.16) !important;
+}
+html[data-theme="dark"] .lh-brand-menu { background: #151E30; border-color: rgba(255,255,255,.16); }
+html[data-theme="dark"] .lh-brand-title { color: #A4B2C6; }
+html[data-theme="dark"] .lh-brand-item { color: #C7D2E4; }
+html[data-theme="dark"] .lh-brand-item:hover { background: rgba(255,255,255,.06); }
+/* inline demo selector chips render with a translucent-white fill */
+html[data-theme="dark"] [style*="rgba(255, 255, 255, 0.72)"] {
+  background: rgba(21,30,48,.92) !important;
+  color: #C7D2E4 !important;
+}

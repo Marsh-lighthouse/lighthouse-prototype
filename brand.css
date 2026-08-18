@@ -1,0 +1,168 @@
+/* ════════════════════════════════════════════════
+   MARSH × LIGHTHOUSE — Brand foundation
+   Fonts: Marsh Serif (display) · Noto Sans (body/UI)
+   ════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Marsh Serif";
+  src: url("fonts/MarshSerif-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Marsh Serif";
+  src: url("fonts/MarshSerif-Italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Noto Sans";
+  src: url("fonts/NotoSans.ttf") format("truetype");
+  font-weight: 100 900; font-stretch: 75% 125%; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Noto Sans";
+  src: url("fonts/NotoSans-Italic.ttf") format("truetype");
+  font-weight: 100 900; font-stretch: 75% 125%; font-style: italic; font-display: swap;
+}
+
+:root {
+  /* Core */
+  --midnight: #000F47;
+  --sky:      #CEECFF;
+  --white:    #FFFFFF;
+  /* Blue scale */
+  --blue-750: #0B4BFF;
+  --blue-500: #82BAFF;
+  --blue-250: #CEECFF;
+  /* Gold — action */
+  --gold-1000:#CB7E03;
+  --gold-750: #FFBF00;
+  --gold-250: #FFF3DA;
+  /* Supporting */
+  --green-1000:#2F7500;
+  --green-750: #6ABF30;
+  --purple-1000:#5E017F;
+  --purple-750:#8F20DE;
+  --purple-500:#DEB1FF;
+  --purple-250:#F5E8FF;
+  /* Neutral — warm */
+  --ink:       #3D3C37;   /* primary text on light */
+  --muted:     #7B7974;   /* secondary text */
+  --line:      #B9B6B1;   /* borders */
+  --cream:     #F7F3EE;   /* page canvas */
+  /* Status */
+  --success: #0E7A38;   /* darkened from #14853D so 11px ✓ status text clears AA (~4.9:1 on cream) */
+  --danger:  #C53532;
+  --warning: #FFBE00;
+
+  --serif: "Marsh Serif", Georgia, "Times New Roman", serif;
+  --sans:  "Noto Sans", system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+/* Form controls adopt the brand accent for their checked/active state. */
+input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
+
+/* ── Type system (from Typography guidelines) ──
+   Marsh Serif: headlines, section heads, big numerals, quotes — weight 400 ONLY, never bold, generous size, sentence case.
+   Noto Sans: sub-heads (700), body (400), labels/captions. Sentence case across the board.
+   Text predominantly Midnight Blue / Sky Blue / White. Gold = action only. */
+.serif { font-family: var(--heading-family, var(--serif)); font-weight: var(--heading-weight, 400); font-style: normal; letter-spacing: -0.01em; }
+.sans  { font-family: var(--sans); }
+
+/* ── Themeable knobs (overridden live by the Tweaks panel on :root) ── */
+:root {
+  --accent: #0B4BFF;   /* global accent: links, active nav, rings, eyebrows */
+  --action: #FFBF00;   /* primary action / CTA buttons (light fill, midnight text) */
+  --action-text: #000F47; /* text on --action fills (client brands flip to white) */
+  --canvas: #F7F3EE;   /* page background tone */
+  --primary: #000F47;  /* primary brand color: rails, headings, solid fills */
+
+  /* ── Neutrals derived from --primary (no flat warm grays) ──
+     Secondary text, body, and borders are tints of the brand primary so the
+     whole platform reads as one blue family and re-tints per client brand. */
+  --ink:   color-mix(in srgb, var(--primary) 88%, #ffffff);   /* body text */
+  --muted: color-mix(in srgb, var(--primary) 72%, #ffffff);   /* secondary / captions — darkened for contrast (WCAG) */
+  --line:  color-mix(in srgb, var(--primary) 18%, #ffffff);   /* borders / rules */
+
+  /* Deep surface for dark decorative panels (video heroes, dashboard progress
+     panel, FAB) that carry WHITE text. Defaults to --primary, but a client whose
+     primary is LIGHT (DGE steel) overrides this to a true dark so white keeps AA.
+     Distinct from --primary so the rail/buttons still use the client primary. */
+  --surface-deep: var(--primary);
+
+  /* Card / raised surface. Light-mode = white; dark mode overrides to a dark
+     elevated surface (see dark-theme.css). Cards read this instead of #fff so
+     the whole platform re-themes for dark mode through one token. */
+  --card: #FFFFFF;
+
+  /* Solid status FILLS (badges/icon chips that carry WHITE content). Fixed in both
+     themes and dark enough that white stays ≥4.5:1 — distinct from --success/--danger,
+     which are TEXT colours that lighten in dark mode. */
+  --success-fill: #0E7A38;   /* white ≈ 5.4:1 */
+  --danger-fill:  #C0322F;   /* white ≈ 5.7:1 */
+
+  /* Sky-tinted panel surface (Peekaboo hero / active nav). Light = sky blue;
+     dark mode darkens it (see dark-theme.css). Sky used as TEXT stays #CEECFF. */
+  --sky-surface: #CEECFF;
+  --status-neutral-bg: rgba(0,15,71,.06);   /* neutral "Not started" chip fill — theme-aware (dark override in dark-theme.css) */
+  --control-line: rgba(0,15,71,.25);        /* form-control outlines: radio/checkbox bullets, dashed drop-zones */
+  --track: rgba(0,15,71,.08);               /* progress / slider tracks, disabled fills */
+
+  /* Secondary accent (Marsh Purple-750) — a distinct highlight hue for stats
+     etc. Lightens in dark mode (see dark-theme.css) so it stays AA on the dark
+     canvas. Passes AA as text/large in both themes. */
+  --accent-2: #8F20DE;
+
+  /* Content colour placed ON an --accent / --success fill (step circles, etc.).
+     White works on the dark light-mode accent; in dark mode those fills lighten,
+     so this flips to dark ink (see dark-theme.css) to keep the content legible. */
+  --on-accent: #FFFFFF;
+
+  /* ── Type scale (platform-wide guideline) ──
+     Headings use the serif family; body/labels use the sans family. */
+  --text-display: 40px;   /* hero / page H1 (serif) */
+  --text-h1:      28px;   /* section heading (serif) */
+  --text-h2:      21px;   /* small heading / card title (serif) */
+  --text-body:    15px;   /* body copy (sans) */
+  --text-small:   14px;   /* small / secondary (sans) */
+  --text-label:   14px; /* labels / eyebrows / captions (sans, 700) */
+
+  /* Unified content column width for all pages that have the rail + top bar.
+     Page wrappers add 56px horizontal padding; this caps the content column so
+     every routed page (dashboard, instructions, tasks, growth, etc.) lines up. */
+  --content-max: 848px;
+  /* Folio content horizontal margin: 0 = left-aligned, auto = centered. Toggled by Tweaks. */
+  --fol-mx: 0;
+
+  /* Side menu (rail) theme — overridden by the Tweaks "Side menu" control */
+  --rail-bg: var(--primary);
+  --rail-fg: rgba(255,255,255,.8);       /* nav labels — AA on midnight & Generali red */
+  --rail-icon: rgba(255,255,255,.75);    /* nav icons — AA */
+  --rail-active-bg: rgba(206,236,255,.16);
+  --rail-active-fg: #ffffff;
+  --rail-active-icon: #CEECFF;
+  --rail-group: rgba(206,236,255,.9);    /* group headers — set for red (lighter) so both pass */
+  --rail-border: rgba(255,255,255,.12);
+  --rail-logo-white: block;
+  --rail-logo-dark: none;
+}
+
+/* ── Keyboard focus indicator (WCAG 2.1 AA · 2.4.7 Focus Visible) ──
+   Shown only during keyboard navigation (:focus-visible), so pointer / touch
+   interaction stays visually unchanged. A 2px ring + offset gives a clearly
+   perceivable indicator on every interactive element (links, buttons, and the
+   now keyboard-operable side-rail items). The outline follows each element's
+   own border-radius in modern browsers. */
+:where(a, button, [role="button"], [tabindex], input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* Side rail: ring uses the rail's own legible foreground token, so it stays
+   visible whether the rail is dark (white fg) or a light client fill (dark fg). */
+.ed-rail :focus-visible,
+.lh-rail :focus-visible { outline: 2px solid var(--rail-active-fg); outline-offset: -3px; }
+
+/* Inter-screen "← All directions" preview-nav chip (design-gallery scaffolding,
+   sits outside the app root). Its default opacity: .5 pushed it below AA (~4.2:1);
+   raise it and pin the text to the neutral muted token so it reads at rest. */
+a.lh-back { opacity: .92 !important; color: var(--muted) !important; }

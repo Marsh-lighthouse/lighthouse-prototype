@@ -1,0 +1,358 @@
+/* ════════════════════════════════════════════════
+   Device preview — shared across ALL Lighthouse pages
+   (Folio, Boardroom, Focus, Console, Login/Sign Up/Forgot).
+   Driven by html[data-device="mobile" | "ipad"] which the
+   Tweaks → Device preview control sets. Desktop = no attribute.
+
+   Two layers:
+   1. FRAME — wrap #root in a phone / tablet bezel on a dark stage.
+   2. REFLOW — collapse the side rail, stack grids, scale type so
+      the content is genuinely usable at phone / tablet widths.
+   Chrome elements across the directions are tagged with the shared
+   classes .lh-rail / .lh-topbar / .lh-page so one rule set covers all.
+   ════════════════════════════════════════════════ */
+
+/* ── 1. FRAME ─────────────────────────────────── */
+html[data-device="mobile"] body,
+html[data-device="ipad"] body {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; box-sizing: border-box; padding: 22px; background: #000F47;
+}
+html[data-device="mobile"] #root {
+  width: 390px; height: 844px; max-height: calc(100vh - 44px); flex: none;
+  border-radius: 44px; overflow: clip; border: 11px solid #060a18;
+  box-shadow: 0 30px 90px rgba(0,0,0,.55); background: var(--canvas, #F7F3EE);
+  /* position:relative (NOT transform/contain) so the floating controls anchor here.
+     A transform OR contain on #root triggers a Chrome bug where a descendant with
+     CSS `zoom` (the accessibility text-size) fails to repaint on re-render and goes
+     blank. We avoid both by anchoring the controls with position:absolute instead
+     (see the .ed-topctl/.ed-aifab/.ed-aipanel rule below). */
+  position: relative;
+}
+html[data-device="ipad"] #root {
+  width: 1024px; height: 1366px; max-height: calc(100vh - 44px); flex: none;
+  border-radius: 28px; overflow: clip; border: 13px solid #060a18;
+  box-shadow: 0 30px 90px rgba(0,0,0,.55); background: var(--canvas, #F7F3EE);
+  position: relative;
+}
+/* Anchor the floating controls to the bezel WITHOUT a transform/contain on #root:
+   make them position:absolute (relative to #root) instead of fixed. #root does not
+   scroll (the inner <main> does), so they stay visually pinned to the frame. This
+   keeps the zoom-blank Chrome bug from ever triggering. */
+html[data-device="mobile"] #root .ed-topctl,
+html[data-device="mobile"] #root .ed-aifab,
+html[data-device="mobile"] #root .ed-aipanel,
+html[data-device="ipad"] #root .ed-topctl,
+html[data-device="ipad"] #root .ed-aifab,
+html[data-device="ipad"] #root .ed-aipanel { position: absolute !important; }
+/* Mobile: the accessibility + language controls float over the top bar — vertically center
+   them within that ~51px bar (they otherwise sit ~3px low, which reads as misaligned, most
+   visibly in dark mode where the bar inverts dark but the light control pills don't). */
+html[data-device="mobile"] #root .ed-topctl { top: 7px !important; }
+/* Open-assessment header timers sit inline on the right of the title (compact) on every device. */
+/* Kill scroll-anchoring on EVERY element in the device frame. When the dark-mode `filter` on
+   .ed-shell repaints (e.g. checking the consent box re-renders), scroll-anchoring otherwise
+   miscalculates and shifts content off-screen. overflow-anchor:none prevents the browser from
+   ever repositioning scroll on reflow. */
+html[data-device="mobile"] #root *,
+html[data-device="ipad"] #root * { overflow-anchor: none !important; }
+/* full-height inner shells use 100vh — re-anchor them to the frame, not the viewport */
+html[data-device="mobile"] #root [style*="height: 100vh"],
+html[data-device="ipad"] #root [style*="height: 100vh"] { height: 100% !important; }
+html[data-device="mobile"] #root [style*="100vh"][style*="overflow"],
+html[data-device="ipad"] #root [style*="100vh"][style*="overflow"] { max-height: 100% !important; }
+
+/* tablet content gutters ease in a touch */
+html[data-device="ipad"] { --fol-px: 30px; }
+/* The dark-mode / accessibility / language controls now live in the fixed .ed-topbar
+   (a real sticky element), so the old padding-top hack that cleared the floating
+   controls is no longer needed. On mobile the controls move into the .ed-mbar top
+   bar, so the desktop .ed-topbar is hidden there. */
+html[data-device="mobile"] .ed-topbar,
+html[data-device="mobile"] .bd-topbar { display: none !important; }
+
+/* ════════════════════════════════════════════════
+   2. MOBILE REFLOW  (phone frame, 390px)
+   ════════════════════════════════════════════════ */
+html[data-device="mobile"] { --fol-px: 18px; }
+
+/* — side rail / sidebar collapses away on phones (all directions) — */
+html[data-device="mobile"] .ed-rail,
+html[data-device="mobile"] .ed-rail-toggle,
+html[data-device="mobile"] .lh-rail,
+html[data-device="mobile"] .lh-rail-toggle { display: none !important; }
+
+/* — generic: every multi-column inline grid stacks to a single column — */
+html[data-device="mobile"] #root [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
+/* — dashboard hero (sky + midnight split) stacks on phones — */
+html[data-device="mobile"] .lh-hero { flex-direction: column !important; }
+html[data-device="mobile"] .lh-hero > div { flex: 1 1 auto !important; }
+/* — 3-up stat strips stay one row but fit the phone — */
+html[data-device="mobile"] .lh-statrow { gap: 8px !important; }
+html[data-device="mobile"] .lh-statrow > div { flex: 1 1 0 !important; min-width: 0 !important; box-sizing: border-box !important; padding-left: 12px !important; padding-right: 12px !important; }
+
+/* — page content padding tightens to phone gutters — */
+html[data-device="mobile"] .lh-page { padding-left: 18px !important; padding-right: 18px !important; }
+html[data-device="mobile"] .lh-topbar { padding-left: 16px !important; padding-right: 16px !important; }
+
+/* — headings scale down — */
+html[data-device="mobile"] #root h1 { font-size: 33px !important; line-height: 1.12 !important; }
+html[data-device="mobile"] #root h2 { font-size: 23px !important; }
+
+/* ── Folio-specific chrome (ed-* classes) ── */
+/* phone top bar (logo + hamburger) replaces the desktop utility bar */
+html[data-device="mobile"] .ed-mbar { display: flex !important; }
+html[data-device="mobile"] .ed-utilbar { display: none !important; }
+/* live countdown sits to the RIGHT of the Back link on phones too (same as desktop) */
+html[data-device="mobile"] .ed-mbar-cd { display: none !important; }
+html[data-device="mobile"] .ed-utilbar-cd { display: inline-block !important; }
+/* the slide-in nav drawer re-shows the rail */
+html[data-device="mobile"] .ed-rail-drawer .ed-rail { display: flex !important; }
+/* editorial stat strip stays a single row of 3 on phones */
+html[data-device="mobile"] .ed-stats { flex-wrap: nowrap !important; gap: 0 !important; }
+html[data-device="mobile"] .ed-stats > div { flex: 1 1 0 !important; min-width: 0 !important; box-sizing: border-box; padding-left: 12px !important; padding-right: 12px !important; }
+html[data-device="mobile"] .ed-stats > div:first-child { padding-left: 0 !important; }
+html[data-device="mobile"] .ed-stats .serif { font-size: 24px !important; }
+/* greeting stays the largest element on phones (above the stat numerals) */
+html[data-device="mobile"] .ed-hero-h1 { font-size: 30px !important; }
+/* rows with trailing buttons wrap their controls below */
+html[data-device="mobile"] .ed-m-wrap { flex-wrap: wrap !important; }
+/* IDP guided-questions: the AI Career Companion is a fixed right rail on desktop; inside the
+   device frames it returns to normal flow (static, full width, stacked under the questions),
+   and the question column drops the right margin it reserved for the rail. */
+html[data-device="mobile"] .ed-idp-notes,
+html[data-device="ipad"] .ed-idp-notes { width: 100% !important; position: static !important; height: auto !important; max-height: none !important; margin-top: 18px; border-left: none !important; }
+html[data-device="mobile"] .ed-idp-main,
+html[data-device="ipad"] .ed-idp-main { margin-right: 0 !important; max-width: none !important; }
+
+/* ── Development flow — vertical layout (desktop) ──────────────────────────────
+   The guided-questions page carries a fixed AI Career Companion rail on the right.
+   Reserve its width on the whole content column so the question card AND the shell
+   footer both stay clear of it and line up on the same edges. Fill the available
+   height so the card is vertically centred with the footer pinned at the bottom.
+   The plan-generation loader gets the same centring (it has no rail, so no
+   reserve). Uses :has(), which every current browser supports. */
+/* Reserve the rail width (!important beats .ed-content's inline padding shorthand). */
+.ed-content:has(.ed-idp-rail) { padding-right: calc(var(--fol-px, 56px) + 344px) !important; }
+/* The scroll wrapper only grows to content height, so make it (and .ed-content) fill
+   the viewport on flow pages — only then can the card centre and the footer pin to
+   the bottom. Scoped via :has() so no other page is affected. */
+main > div:has(.ed-idp-main),
+main > div:has(.ed-idp-loading) { display: flex; flex-direction: column; }
+main > div:has(.ed-idp-main) > .ed-content,
+main > div:has(.ed-idp-loading) > .ed-content { flex: 1 1 auto; }
+.ed-content:has(.ed-idp-main) > div:first-child,
+.ed-content:has(.ed-idp-loading) > div:first-child {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 24px 0;
+  box-sizing: border-box;
+}
+/* Manual/AI choice screen — fill the height so the footer pins to the bottom
+   (content stays top-aligned, no extra padding/centring). */
+main > div:has(.ed-dev-choose) { display: flex; flex-direction: column; }
+main > div:has(.ed-dev-choose) > .ed-content { flex: 1 1 auto; }
+.ed-content:has(.ed-dev-choose) > div:first-child { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+/* Tablet / phone: the rail drops inline, so neither reserve space nor centre. */
+html[data-device="ipad"] .ed-content:has(.ed-idp-rail),
+html[data-device="mobile"] .ed-content:has(.ed-idp-rail) { padding-right: var(--fol-px, 56px) !important; }
+html[data-device="ipad"] main > div:has(.ed-idp-main),
+html[data-device="mobile"] main > div:has(.ed-idp-main),
+html[data-device="ipad"] main > div:has(.ed-idp-loading),
+html[data-device="mobile"] main > div:has(.ed-idp-loading) { display: block; }
+html[data-device="ipad"] .ed-content:has(.ed-idp-main) > div:first-child,
+html[data-device="mobile"] .ed-content:has(.ed-idp-main) > div:first-child,
+html[data-device="ipad"] .ed-content:has(.ed-idp-loading) > div:first-child,
+html[data-device="mobile"] .ed-content:has(.ed-idp-loading) > div:first-child { display: block; padding: 0; }
+html[data-device="ipad"] main > div:has(.ed-dev-choose),
+html[data-device="mobile"] main > div:has(.ed-dev-choose) { display: block; }
+html[data-device="ipad"] .ed-content:has(.ed-dev-choose) > div:first-child,
+html[data-device="mobile"] .ed-content:has(.ed-dev-choose) > div:first-child { display: block; }
+
+/* ── Development PLAN on device preview ──
+   The comments panel (.ed-idp-notes) stacks on device, so drop the reserved side
+   padding; the plan-design switcher is a desktop-only preview tool; and the alternate
+   action-card layouts (Sample 2 side-panel, Sample 3 compact) stack their columns. */
+html[data-device="mobile"] .ed-plan-wrap,
+html[data-device="ipad"] .ed-plan-wrap { padding-right: 0 !important; }
+html[data-device="mobile"] .ed-plan-sample-chip,
+html[data-device="ipad"] .ed-plan-sample-chip { display: none !important; }
+html[data-device="mobile"] .pl-card-2,
+html[data-device="ipad"] .pl-card-2 { flex-direction: column !important; }
+html[data-device="mobile"] .pl-card-2 > div:last-child,
+html[data-device="ipad"] .pl-card-2 > div:last-child { width: 100% !important; border-left: none !important; border-top: 1px solid var(--line) !important; }
+html[data-device="mobile"] .pl-card-3,
+html[data-device="ipad"] .pl-card-3 { flex-direction: column !important; align-items: stretch !important; }
+html[data-device="mobile"] .pl-card-3 > div,
+html[data-device="ipad"] .pl-card-3 > div { width: auto !important; }
+
+/* ── Open assessment (shared by every direction) ── */
+html[data-device="mobile"] .oa-root { height: 100% !important; }
+html[data-device="mobile"] .oa-split { flex-direction: column !important; overflow-y: auto !important; }
+html[data-device="mobile"] .oa-split-q {
+  width: 100% !important; flex: 0 0 auto !important; overflow: visible !important;
+  border-right: none !important; border-bottom: 1px solid rgba(0,15,71,.10) !important;
+  padding: 22px 20px !important;
+}
+html[data-device="mobile"] .oa-split-q > div { max-width: none !important; margin: 0 !important; }
+html[data-device="mobile"] .oa-split-a { flex: 0 0 auto !important; overflow: visible !important; padding: 22px 20px 120px !important; }
+html[data-device="mobile"] .oa-split-a > div { max-width: none !important; margin: 0 !important; }
+
+/* Open-assessment header: keep the SAME inline layout as desktop on mobile (title + compact
+   timers + Exit on one row); only tighten side padding so it fits the phone. */
+html[data-device="mobile"] .oa-root > div:first-child { padding-left: 14px !important; padding-right: 14px !important; }
+html[data-device="mobile"] .oa-headrow { flex-wrap: wrap !important; gap: 8px !important; row-gap: 8px !important; }
+html[data-device="mobile"] .oa-headtitle { font-size: 16px !important; }
+/* Phone: pin Exit to the far right of the arrow's row (opposite end); title + timers wrap below. */
+html[data-device="mobile"] .oa-headrow .oa-back { order: 1 !important; }
+html[data-device="mobile"] .oa-headrow .oa-exit { order: 2 !important; margin-left: auto !important; }
+html[data-device="mobile"] .oa-headrow .oa-headtitle { order: 3 !important; flex-basis: 100% !important; margin-right: 0 !important; }
+html[data-device="mobile"] .oa-headrow .oa-timers { order: 4 !important; }
+
+/* Mobile: Insights banner wraps instead of forcing one long line */
+html[data-device="mobile"] .ed-insights-banner { white-space: normal !important; }
+/* Mobile: profile rows stack (label over value) so long values (email, language) don't overflow */
+html[data-device="mobile"] .ed-profile-row { flex-direction: column !important; gap: 3px !important; }
+html[data-device="mobile"] .ed-profile-row > div:first-child { width: auto !important; }
+/* Mobile/iPad: profile two-column grid stacks to one column */
+html[data-device="mobile"] .ed-profile-grid, html[data-device="ipad"] .ed-profile-grid { grid-template-columns: 1fr !important; }
+
+/* — mobile brand bar (directions): a slim logo strip where the rail used to be — */
+html[data-device="mobile"] .lh-mobilebar { display: flex !important; }
+
+/* ════════════════════════════════════════════════
+   3. iPad REFLOW  (tablet frame, 834px) — keep rail, tighten grids
+   ════════════════════════════════════════════════ */
+/* program / report two-up grids stay two-up; wide split grids relax */
+html[data-device="ipad"] .ed-c-hero { gap: 22px !important; }
+/* login: give the form panel more room on tablet & shrink the logo so it
+   doesn't collide with the language switcher */
+html[data-device="ipad"] .lg-form-panel { flex: 1 1 50% !important; min-width: 0 !important; padding-left: 40px !important; padding-right: 40px !important; }
+html[data-device="ipad"] .lg-feature { flex: 1 1 50% !important; }
+html[data-device="ipad"] .lg-logo { height: 24px !important; }
+
+/* iPad: program-card actions stack full-width (Continue program + System check) */
+html[data-device="ipad"] .ed-prog-actions { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+html[data-device="ipad"] .ed-prog-actions .ed-gold,
+html[data-device="ipad"] .ed-prog-actions .ed-syscheck { width: 100% !important; justify-content: center !important; }
+
+/* Mobile: program-card actions stack full-width too (Continue program + System check) */
+html[data-device="mobile"] .ed-prog-actions { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+html[data-device="mobile"] .ed-prog-actions .ed-gold,
+html[data-device="mobile"] .ed-prog-actions .ed-syscheck { width: 100% !important; justify-content: center !important; }
+
+/* Mobile: assessment-center card actions (View Detail + Reserve your spot) stack full-width */
+html[data-device="mobile"] .ed-center-actions { flex-direction: column !important; align-items: stretch !important; }
+html[data-device="mobile"] .ed-center-actions > button { width: 100% !important; justify-content: center !important; white-space: nowrap !important; font-size: 14px !important; }
+
+/* Mobile: give assessment-center card content more room — trim the outer card padding and the
+   inner tinted box padding so the content runs nearly edge-to-edge inside the white card. */
+html[data-device="mobile"] .ed-center-card { padding: 18px 13px !important; }
+html[data-device="mobile"] .ed-center-card > div[style*="border-radius: 14px"],
+html[data-device="mobile"] .ed-center-card > div[style*="borderRadius: 14"] { padding-left: 14px !important; padding-right: 14px !important; }
+
+/* Mobile: countdown pill stacks — due date on one line, timer below */
+html[data-device="mobile"] .ed-cd { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; }
+
+/* Mobile: minimal-hero stats — all three in one row (equal thirds, number over label), progress bar full-width below */
+html[data-device="mobile"] .ed-hstats { flex-wrap: wrap !important; row-gap: 16px; }
+html[data-device="mobile"] .ed-hstat { flex: 1 1 28% !important; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; border-right: none !important; padding-right: 0 !important; margin-right: 0 !important; }
+html[data-device="mobile"] .ed-hstat > span:last-child { margin-left: 0 !important; margin-top: 2px; }
+html[data-device="mobile"] .ed-hspacer { display: none !important; }
+html[data-device="mobile"] .ed-hprog { flex: 0 0 100% !important; width: 100% !important; margin-top: 4px; }
+
+/* Mobile: sequential exercise cells go vertical — number badge on the LEFT, card body fills the rest,
+   with a vertical connector line running down between the 1·2·3 step numbers (desktop's horizontal line, rotated) */
+html[data-device="mobile"] .ed-seqcell { flex-direction: row !important; align-items: stretch !important; gap: 12px; }
+html[data-device="mobile"] .ed-seqstep { flex-direction: column !important; align-items: center !important; margin-bottom: 0 !important; flex-shrink: 0; gap: 0 !important; }
+html[data-device="mobile"] .ed-seqline { display: block !important; width: 2px !important; height: auto !important; flex: 1 1 auto !important; min-height: 18px; margin: 6px 0 0 0 !important; }
+
+/* Mobile: AI assistant chat panel fits inside the phone frame (was a fixed 366px that overflowed) */
+html[data-device="mobile"] .ed-aipanel {
+  left: 14px !important; right: 14px !important; width: auto !important; max-width: none !important;
+  bottom: 78px !important; height: 70% !important; max-height: none !important;
+}
+
+/* iPad: scheduling center-card footer stacks — stats on top, View slots full-width below */
+html[data-device="ipad"] .ed-sched-foot { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+html[data-device="ipad"] .ed-sched-view { width: 100% !important; justify-content: center !important; border: 1px solid rgba(0,15,71,.16) !important; border-radius: 10px !important; padding: 9px 14px !important; }
+/* Mobile: same — scheduling center-card footer stacks (stats full width, View slots button full width below) */
+html[data-device="mobile"] .ed-sched-foot { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+html[data-device="mobile"] .ed-sched-view { width: 100% !important; justify-content: center !important; border: 1px solid rgba(0,15,71,.16) !important; border-radius: 10px !important; padding: 9px 14px !important; }
+
+/* Mobile: scheduling slot rows wrap — date + meta on top, the Book slot / Booked action full-width below */
+html[data-device="mobile"] .ed-slot-row { flex-wrap: wrap !important; }
+html[data-device="mobile"] .ed-slot-action { flex: 1 1 100% !important; }
+html[data-device="mobile"] .ed-slot-action > button,
+html[data-device="mobile"] .ed-slot-action > div { width: 100% !important; justify-content: center !important; }
+html[data-device="mobile"] .ed-slot-action button { flex: 1 1 auto !important; justify-content: center !important; }
+
+/* Mobile: weekly calendar grid keeps its 7 columns and scrolls horizontally (overrides the
+   generic single-column grid stacking, which would collapse the week into one column). */
+html[data-device="mobile"] .ed-cal-scroll { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+html[data-device="mobile"] #root .ed-cal-grid { grid-template-columns: 48px repeat(7, minmax(76px, 1fr)) !important; min-width: 580px; }
+
+/* Mobile & iPad: full-screen modal backdrops (position:fixed; inset:0) are contained INSIDE the
+   device frame — anchor them to #root (position:relative) instead of the viewport, so report
+   readers, booking confirm/cancel and other dialogs open within the selected device, not across
+   the whole desktop. */
+html[data-device="mobile"] #root [style*="position: fixed"][style*="inset"],
+html[data-device="ipad"] #root [style*="position: fixed"][style*="inset"] { position: absolute !important; }
+
+/* Mobile: center-align the Task-complete "Up next" card content */
+html[data-device="mobile"] .oa-upnext { text-align: center !important; }
+html[data-modal-open] .ed-topctl,
+html[data-modal-open] .ed-aifab { display: none !important; }
+
+/* Mobile report reader: fill the frame, wrap the header toolbar, drop the thumbnail rail */
+html[data-device="mobile"] .ed-reader { padding: 0 !important; }
+html[data-device="mobile"] .ed-reader > div { border-radius: 0 !important; }
+html[data-device="mobile"] .ed-reader-head { flex-wrap: wrap !important; gap: 8px !important; padding: 12px 14px !important; }
+html[data-device="mobile"] .ed-reader-pdf-lbl { display: none !important; }
+html[data-device="mobile"] .ed-reader-rail { display: none !important; }
+html[data-device="mobile"] .ed-reader-viewer { padding: 12px !important; }
+
+/* Mobile: calendar header stacks — week/date selector on top, the Booked/Available legend below it */
+html[data-device="mobile"] .ed-cal-header { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+html[data-device="mobile"] .ed-cal-header > div:first-child { justify-content: space-between !important; }
+html[data-device="mobile"] .ed-cal-header .ed-cal-legend { justify-content: center !important; }
+html[data-device="mobile"] .ed-cal-header h3 { min-width: 0 !important; flex: 1 !important; }
+/* Mobile/iPad: calendar event popover is positioned relative to #root (coords are offset to the
+   frame), so anchor it absolutely instead of fixed to keep it inside the device screen. */
+html[data-device="mobile"] #root .ed-cal-pop,
+html[data-device="ipad"] #root .ed-cal-pop { position: absolute !important; }
+
+/* iPad: drop the AI assistant FAB closer to the bottom edge of the frame */
+html[data-device="ipad"] .ed-aifab { bottom: 36px !important; }
+/* Mobile: drop the AI assistant FAB down near the phone's bottom edge */
+html[data-device="mobile"] .ed-aifab { bottom: 22px !important; right: 16px !important; }
+
+/* ── Login / auth pages — frame .lg-split as the screen (no #root here) ── */
+html[data-device="mobile"] .lg-split {
+  width: 390px; height: 844px; min-height: 0 !important; max-height: calc(100vh - 44px); flex: none;
+  border-radius: 44px; overflow: auto; border: 11px solid #060a18;
+  box-shadow: 0 30px 90px rgba(0,0,0,.55);
+}
+html[data-device="ipad"] .lg-split {
+  width: 1024px; height: 1366px; min-height: 0 !important; max-height: calc(100vh - 44px); flex: none;
+  border-radius: 28px; overflow: auto; border: 13px solid #060a18;
+  box-shadow: 0 30px 90px rgba(0,0,0,.55);
+}
+/* phone: drop the feature/visual panel, form goes full width */
+html[data-device="mobile"] .lg-feature { display: none !important; }
+html[data-device="mobile"] .lg-form-panel {
+  flex: 1 1 auto !important; min-width: 0 !important; width: 100% !important;
+  padding-left: 22px !important; padding-right: 22px !important;
+}
+html[data-device="mobile"] .lg-form-box,
+html[data-device="mobile"] .lg-card { max-width: 100% !important; }
+html[data-device="mobile"] .lg-title { font-size: 32px !important; }
+/* Mobile login: shrink the header logo (across all brands) so it doesn't crowd the
+   language switcher, and keep the switcher compact on the right. */
+html[data-device="mobile"] .lg-logo { height: 22px !important; }
+html[data-device="mobile"][data-client-brand="dge"] .lg-logo { height: 30px !important; }
+html[data-device="mobile"][data-client-brand="generali"] .lg-logo { height: 40px !important; }
+html[data-device="mobile"] .lg-lang-btn { padding: 6px 11px !important; font-size: 14px !important; flex-shrink: 0; }

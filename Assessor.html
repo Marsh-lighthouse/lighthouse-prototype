@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lighthouse — Assessor Workspace</title>
+<link rel="stylesheet" href="brand.css"/>
+<link rel="stylesheet" href="device-preview.css"/>
+<link rel="stylesheet" href="assessor-responsive.css"/>
+<style>
+  html,body,#root{margin:0;height:100%;background:var(--canvas)}
+  /* "All directions" chip — identical to Folio's, sits beside the Tweaks gear.
+     The Assessor workspace has its own floating FAB at right:24/bottom:24 (52px,
+     z-index 1200), so the chip + gear are shifted LEFT of it and lifted above it. */
+  .lh-back { position: fixed; right: 132px; bottom: 34px; z-index: 1201; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.72); color: #7B7974; text-decoration: none; font-family: var(--sans); font-size: 14px; font-weight: 500; letter-spacing: .01em; padding: 6px 11px; border-radius: 8px; border: 1px solid rgba(0,15,71,.12); box-shadow: 0 2px 8px rgba(0,15,71,.06); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: .5; transition: opacity .15s ease, color .15s ease, background .15s ease; }
+  .lh-back:hover { opacity: 1; color: #000F47; background: #fff; }
+  /* Override lh-tweaks.jsx's injected FAB position (right:14/bottom:14/z:61). */
+  .lh-tweak-fab { right: 88px !important; bottom: 32px !important; z-index: 1201 !important; }
+</style>
+<script>try{var __d=localStorage.getItem('lh-device');if(__d&&__d!=='Desktop')document.documentElement.setAttribute('data-device',__d.toLowerCase());}catch(e){}</script>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#000F47"/>
+    <path d="M28 72V36l22 19 22-19v36" fill="none" stroke="#CEECFF" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+</template>
+</head>
+<body>
+<div id="root"></div>
+<!-- The Assessor workspace opts OUT of dark mode: this flag hides the Theme
+     control + Dark-palette reference in Tweaks and pins the palette light. -->
+<script>window.__LH_HIDE_DARK = true;</script>
+<a class="lh-back" href="Lighthouse.html">&#8592; All directions</a>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<!-- Shared tweaks machinery (same as Folio). Border-radius control needs LHRadius. -->
+<script src="radius-tweak.js"></script>
+<script type="text/babel" data-presets="env,react" src="lighthouse-assessor-editorial.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="lh-tweaks.jsx"></script>
+<script type="text/babel" data-presets="env,react">
+  setTimeout(()=>{
+    const App = window.AssessorEditorial;
+    const Tweaks = window.LighthouseTweaks;
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<React.Fragment><App/>{Tweaks ? <Tweaks/> : null}</React.Fragment>);
+  }, 100);
+</script>
+<script src="lh-tour.js"></script>
+</body>
+</html>
