@@ -1668,9 +1668,18 @@ function EdDevChoice({ onBack, onPickAI }) {
   );
 }
 
-function EdDevelopmentNew({ onBack, initialMode, idpStep }) {
+function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode }) {
   const [mode, setMode] = idpUseState(initialMode || "choose"); // choose | landing | flow | plan
   const [watched, setWatched] = idpUseState(false);
+
+  // The rail can drive the mode (New Plan / My Plan). React only to an actual change
+  // of the prop, so internal transitions (generate → plan) aren't clobbered.
+  const prevInit = idpUseRef(initialMode);
+  idpUseEffect(() => {
+    if (initialMode && initialMode !== prevInit.current) { prevInit.current = initialMode; setMode(initialMode); }
+  }, [initialMode]);
+  // Report the mode back so the rail can highlight the right sub-item.
+  idpUseEffect(() => { if (onMode) onMode(mode); }, [mode]);
 
   // Reset scroll to the top whenever we switch between choose / landing / flow / plan.
   React.useLayoutEffect(() => { idpScrollTop(); }, [mode]);

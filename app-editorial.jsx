@@ -64,6 +64,22 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
       {!collapsed && getLabel()}
     </div>
   );};
+  // Second-level rail entry. Only rendered for items that declare `children`
+  // (Folio's nav has none, so its rail is unchanged).
+  const SubItem = ({ item, active }) => (
+    <div onClick={() => onNav(item.id)}
+      role="button" tabIndex={0} aria-current={active ? "page" : undefined}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onNav(item.id); } }}
+      style={{
+        display: "flex", alignItems: "center", gap: 10, padding: "8px 14px 8px 45px", borderRadius: 9,
+        background: active ? "var(--rail-active-bg)" : "transparent",
+        color: active ? "var(--rail-active-fg)" : "var(--rail-fg)", cursor: "pointer",
+        fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: active ? 600 : 400, position: "relative",
+      }}>
+      <span style={{ position: "absolute", left: 27, width: 5, height: 5, borderRadius: 5, background: active ? GOLD : "var(--rail-icon)", opacity: active ? 1 : .55 }} />
+      {item.label}
+    </div>
+  );
   const Logo = ({ icon }) => {
     const cb = (typeof window !== "undefined" && window.LHBrand && window.LHBrand.current() !== "marsh") ? window.LHBrand.get() : null;
     if (cb) {
@@ -91,13 +107,21 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
       </div>
       <nav style={{ flex: 1, padding: collapsed ? "4px 10px" : "4px 12px", display: "flex", flexDirection: "column", gap: 2 }}>
         {/* Bookings is hidden for now — the tab and its page are switched off. */}
-        {(items || LH.nav).filter((it) => it.id !== "leadership" && it.id !== "360" && it.id !== "bookings").map((it) => (
+        {(items || LH.nav).filter((it) => it.id !== "leadership" && it.id !== "360" && it.id !== "bookings").map((it) => {
+          const kids = it.children || [];
+          const inSection = kids.some((c) => c.id === activeId);
+          return (
           <React.Fragment key={it.id}>
             {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 14, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 600 }}>{it.group}</div>}
             {it.group && it.group !== "Growth" && collapsed && <div style={{ height: 1, background: "var(--rail-border)", margin: "12px 8px 8px" }} />}
-            <Item item={it} active={it.id === activeId} />
+            <Item item={it} active={it.id === activeId || inSection} />
+            {kids.length > 0 && !collapsed && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 2, margin: "2px 0 6px" }}>
+                {kids.map((c) => <SubItem key={c.id} item={c} active={c.id === activeId} />)}
+              </div>
+            )}
           </React.Fragment>
-        ))}
+        );})}
         {showAccount && <Item item={{ id: "profile", label: t("myProfile"), icon: "user" }} active={activeId === "profile"} />}
         {showAccount && <Item item={{ id: "changePassword", label: "Change password", icon: "lock" }} active={activeId === "changePassword"} />}
       </nav>
@@ -1083,6 +1107,14 @@ function DashEditorial({ initialRoute } = {}) {
   const openProgram = (id) => {
     if (id === "dash") { setRoute({ page: "dash", progId: null, center: null, target: null }); return; }
     if (id === "bookings") return;   // Bookings is switched off for now
+    // Development's two sub-destinations: build a new plan, or jump straight to
+    // the one plan this user has (shortcut — no need to re-answer the questions).
+    if (id === "newplan" || id === "development") {
+      setRoute({ page: "development", progId: null, center: null, target: null, idpMode: "choose" }); return;
+    }
+    if (id === "myplan") {
+      setRoute({ page: "development", progId: null, center: null, target: null, idpMode: "plan" }); return;
+    }
     if (id === "development" || id === "scheduling" || id === "insights" || id === "profile" || id === "settings" || id === "changePassword") {
       setRoute({ page: id, progId: null, center: null, target: null }); return;
     }
@@ -1102,6 +1134,12 @@ function DashEditorial({ initialRoute } = {}) {
     setRoute({ page: "precheck", progId: id, center: null, target });
   };
 
+  // Development carries two destinations in the rail (Folio only — LH.nav itself
+  // is shared with the other directions and stays untouched).
+  const railItems = React.useMemo(() => LH.nav.map((it) => it.id === "development"
+    ? { ...it, children: [{ id: "newplan", label: "New Plan" }, { id: "myplan", label: "My Plan" }] }
+    : it), []);
+
   const D = window.EdDetail || {};
   const G = window.EdGrowth || {};
   const A = window.EdAssess || {};
@@ -1118,7 +1156,8 @@ function DashEditorial({ initialRoute } = {}) {
   } else if (route.page === "changePassword") {
     content = <EdChangePassword onBack={() => setRoute({ page: "profile", progId: null, center: null, target: null })} />;
   } else if (route.page === "development") {
-    content = <G.EdDevelopment onBack={toDash} initialMode={route.idpMode} idpStep={route.idpStep} />;
+    content = <G.EdDevelopment onBack={toDash} initialMode={route.idpMode} idpStep={route.idpStep}
+      onMode={(m) => setRoute((r) => (r.page === "development" && r.idpMode !== m ? { ...r, idpMode: m } : r))} />;
   } else if (route.page === "scheduling") {
     content = <G.EdScheduling onBack={toDash} initialCenter={route.schedCenter} demo={route.schedDemo} />;
   } else if (route.page === "insights") {
@@ -1171,7 +1210,8 @@ function DashEditorial({ initialRoute } = {}) {
       onNext={() => nextAssess ? setRoute((r) => ({ ...r, page: "assessintro", target: nextAssess })) : toTasks()} />;
   }
 
-  const activeId = route.page === "changePassword" ? "changePassword" : (["development", "scheduling", "insights", "bookings", "profile", "settings"].includes(route.page) ? route.page : route.page === "dash" ? "dash" : route.progId);
+  const devSub = route.idpMode === "plan" ? "myplan" : "newplan";
+  const activeId = route.page === "development" ? devSub : route.page === "changePassword" ? "changePassword" : (["development", "scheduling", "insights", "bookings", "profile", "settings"].includes(route.page) ? route.page : route.page === "dash" ? "dash" : route.progId);
   const immersive = route.page === "openassess";
   const onDash = route.page === "dash" || (!prog && !["development", "scheduling", "insights", "profile", "settings", "changePassword"].includes(route.page));
   const headerBack = () => {
@@ -1283,7 +1323,7 @@ function DashEditorial({ initialRoute } = {}) {
   return (
     <React.Fragment>
     <div className="ed-shell" style={{ width: "100%", height: "100%", overflow: "clip", background: CREAM, display: "flex", fontFamily: "var(--sans)", position: "relative" }}>
-      {!immersive && <EdRail activeId={activeId} onNav={openProgram} collapsed={railCollapsed} onToggle={toggleRail} />}
+      {!immersive && <EdRail activeId={activeId} onNav={openProgram} collapsed={railCollapsed} onToggle={toggleRail} items={railItems} />}
       {!immersive && (
         <button onClick={toggleRail} title={railCollapsed ? "Expand menu" : "Collapse menu"} className="ed-rail-toggle"
           style={{ position: "absolute", top: 30, ...(document.documentElement.dir === "rtl" ? { right: (railCollapsed ? 74 : 256) - 14, transition: "right .2s ease" } : { left: (railCollapsed ? 74 : 256) - 14, transition: "left .2s ease" }), zIndex: 50, width: 28, height: 28, borderRadius: "50%", background: "var(--card)", border: "1px solid var(--line)", boxShadow: "0 2px 10px rgba(0,15,71,.16)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
@@ -1346,7 +1386,7 @@ function DashEditorial({ initialRoute } = {}) {
       {mobileNav && (
         <div onClick={() => setMobileNav(false)} className="ed-drawer-bg" style={{ position: "absolute", inset: 0, background: "rgba(0,15,71,.45)", zIndex: 90 }}>
           <div onClick={(e) => e.stopPropagation()} className="ed-rail-drawer" style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 256, zIndex: 91, boxShadow: "0 0 50px rgba(0,0,0,.35)" }}>
-            <EdRail activeId={activeId} onNav={(id) => { openProgram(id); setMobileNav(false); }} collapsed={false} onToggle={() => setMobileNav(false)} />
+            <EdRail activeId={activeId} onNav={(id) => { openProgram(id); setMobileNav(false); }} collapsed={false} onToggle={() => setMobileNav(false)} items={railItems} />
           </div>
         </div>
       )}

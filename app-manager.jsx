@@ -15,7 +15,7 @@ const { useState: mgUseState, useEffect: mgUseEffect, useRef: mgUseRef } = React
 const MGR_SUB_KEY = "lh-idp-submission";
 
 // ── direct reportees ──
-//  status: notstarted | pending | approved | rejected | completed
+//  status: notstarted | pending | approved | rejected  (draft reads as Not Started)
 const MGR_TEAM = [
   { id: "john", sub: "Product Management", entity: "Star Trek Inc.", level: "Management", grade: "1A", qual: "Masters in Business", dept: "Department A", joined: "2023-04-26", first: "John", last: "Doe", initials: "JD", role: "Product Management", email: "john.doe@marsh.com",
     linked: true, skills: 5,
@@ -32,27 +32,65 @@ const MGR_TEAM = [
   { id: "daniel", sub: "Client Services", entity: "Star Trek Inc.", level: "Management", grade: "1A", qual: "MBA", dept: "Department B", joined: "2019-02-01", first: "Daniel", last: "Okafor", initials: "DO", role: "Client Manager", email: "daniel.okafor@marsh.com",
     skills: 3, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
   { id: "sofia", sub: "Analytics", entity: "Star Trek Inc.", level: "Professional", grade: "3A", qual: "BSc Statistics", dept: "Analytics", joined: "2023-06-19", first: "Sofia", last: "Marchetti", initials: "SM", role: "Data Analyst", email: "sofia.marchetti@marsh.com",
-    skills: 3, status: "completed", plan: "360° Perspective Feedback" },
+    skills: 3, status: "approved", note: "Strong plan — the analytics actions are well scoped.", plan: "360° Perspective Feedback" },
   { id: "haruto", sub: "Operations", entity: "Star Trek Inc.", level: "Management", grade: "1B", qual: "BEng", dept: "Operations", joined: "2020-11-02", first: "Haruto", last: "Tanaka", initials: "HT", role: "Operations Lead", email: "haruto.tanaka@marsh.com",
     skills: 2, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
   { id: "lena", sub: "Risk Advisory", entity: "Star Trek Inc.", level: "Professional", grade: "2A", qual: "MSc Risk Management", dept: "Risk", joined: "2022-04-25", first: "Lena", last: "Fischer", initials: "LF", role: "Risk Specialist", email: "lena.fischer@marsh.com",
     skills: 2, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
 ];
 
-const MGR_STATUS = {
-  notstarted: { label: "Not Started", color: eMUT, bg: "rgba(0,15,71,.05)", border: "transparent" },
-  pending: { label: "Pending Approval", color: "#B4770A", bg: "rgba(255,191,0,.14)", border: "transparent" },
-  approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.10)", border: "transparent" },
-  completed: { label: "Completed", color: "#6B49C8", bg: "rgba(107,73,200,.10)", border: "transparent" },
-  rejected: { label: "Rejected", color: "var(--danger)", bg: "rgba(197,53,50,.10)", border: "transparent" },
+// The manager's own record — drives the "My Plan" page under Development.
+// Named to match the manager already speaking in the plan's comment threads, so the
+// employee and manager views show one consistent person.
+const MGR_ME = { id: "sarah", sub: "Product Management", entity: "Star Trek Inc.", level: "Management", grade: "1A",
+  qual: "MBA", dept: "Department A", joined: "2018-08-06", first: "Sarah", last: "Mitchell", initials: "SM",
+  role: "People Manager", email: "sarah.mitchell@marsh.com", skills: 4, status: "inprogress",
+  plan: "Leadership Potential Assessment 2026" };
+
+// The manager's four statuses. Colours come from the employee's palette
+// (window.EdPlan.STATUS) so a status looks identical on both sides.
+//   notstarted — nothing has reached the manager yet (incl. a plan still in Draft)
+//   pending    — submitted, waiting on this manager
+//   approved / rejected — the manager has ruled
+const MGR_NORM = (st) => (st === "draft" || st === "notstarted" ? "notstarted"
+  : st === "pending" || st === "approved" || st === "rejected" ? st : "notstarted");
+const MGR_TONE = (st) => {
+  const P = (window.EdPlan && window.EdPlan.STATUS) || {};
+  const s = P[MGR_NORM(st)];
+  return s ? { label: s.label, color: s.color, bg: s.bg, icon: s.icon }
+           : { label: "Not Started", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null };
 };
-// The chip shown on the detail page for each state.
-const MGR_DETAIL_STATUS = { pending: "In Review", approved: "Approved", rejected: "Rejected", completed: "Completed", notstarted: "Not Started" };
+const MGR_DETAIL_TONE = (status) => { const t = MGR_TONE(status); return { color: t.color, background: t.bg }; };
+
+// What the linked employee actually changed, diffed against the plan they started from.
+function mgrChanges() {
+  const P = window.EdPlan;
+  if (!P || !P.diff || !P.loadPlan) return [];
+  return P.diff(P.loadPlan(P.OWNER)) || [];
+}
 
 // Build a plan for a reportee from the shared seed, tagging what they changed.
 function mgrPlanFor(p) {
   const seed = (window.EdPlan && window.EdPlan.SEED) || [];
   const clone = (window.EdPlan && window.EdPlan.clone) || ((x) => JSON.parse(JSON.stringify(x)));
+  // The linked reportee's plan is the real thing the employee is editing — rows,
+  // dates, completion, ratings and all. Everyone else gets a plan built from the seed.
+  const live = p.linked && window.EdPlan && window.EdPlan.loadPlan && window.EdPlan.loadPlan(window.EdPlan.OWNER);
+  if (live) {
+    const out = clone(live);
+    const bySkill = {};
+    (p.changes || []).forEach((c) => { (bySkill[c.skill] = bySkill[c.skill] || []).push(c); });
+    out.forEach((cat) => (cat.skills || []).forEach((s) => {
+      const mine = bySkill[s.name] || [];
+      s.changes = mine;
+      s.edited = mine.length > 0;
+      (s.actions || []).forEach((a) => {
+        const hit = mine.find((c) => c.label === a.title);
+        if (hit) a.badge = hit.kind === "added" ? "New" : "Edited";
+      });
+    }));
+    return out;
+  }
   const data = clone(seed);
   let budget = p.skills || 3;
   const out = [];
@@ -72,7 +110,7 @@ function mgrPlanFor(p) {
     s.changes = mine;
     s.edited = mine.length > 0;
     s.actions.forEach((a) => {
-      a.completion = p.status === "completed" ? 100 : [100, 100, 0][i % 3];
+      a.completion = [100, 100, 0][i % 3];
       const hit = mine.find((c) => c.label === a.title);
       if (hit) a.badge = hit.kind === "added" ? "New" : "Edited";
       i += 1;
@@ -85,22 +123,31 @@ function mgrPlanFor(p) {
   return out;
 }
 
-// Skill-gap analysis — the same figures the employee sees on their side.
-const MGR_GAPS = {
-  overview: "From the Leadership Assessment, these competencies show the largest gap to target — they shape the focus of this plan.",
-  gaps: [
-    { skill: "Communicate with Impact", score: 2.4, target: 3.8, note: "Influence and stakeholder communication" },
-    { skill: "Champion Change and Innovation", score: 2.6, target: 3.6, note: "Driving and adopting change" },
-    { skill: "Collaborate and Build Relationships", score: 2.9, target: 3.6, note: "Cross-team collaboration" },
-  ],
-  strengths: ["Execute with Excellence \u2014 4.1 / 5 (above target)", "Act Professionally \u2014 3.9 / 5 (above target)"],
-};
+// How the decision note (rejection reason / approval note) is surfaced — three options to compare.
+const MGR_NOTE_DESIGNS = [
+  { id: 1, label: "Popover", desc: "Icon by the status chip, opens the note" },
+  { id: 2, label: "Note card", desc: "Quiet card above the plan" },
+  { id: 3, label: "Inline banner", desc: "Tinted strip across the top of the plan" },
+];
+// Relative time for a decision that happened in this session.
+function mgrWhen(ts) {
+  if (!ts) return "";
+  const m = Math.floor((Date.now() - ts) / 60000);
+  if (m < 1) return "Just now";
+  if (m < 60) return m + (m === 1 ? " minute ago" : " minutes ago");
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + (h === 1 ? " hour ago" : " hours ago");
+  return new Date(ts).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+}
 
 // ── small shared bits ──
 const MgrBadge = ({ status }) => {
-  const s = MGR_STATUS[status] || MGR_STATUS.notstarted;
+  const t = MGR_TONE(status);
+  const Ic = t.icon && I[t.icon];
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", background: s.bg, color: s.color, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{s.label}</span>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: t.bg, color: t.color, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
+      {Ic ? <Ic size={13} /> : null}{t.label}
+    </span>
   );
 };
 
@@ -177,17 +224,23 @@ function MgrList({ team, onOpen, onSummary }) {
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
-      <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 20px" }}>Direct Reportees</h1>
+      <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Direct Reportees</h1>
+      {/* running total, the same line the assessor flow puts under its list headings */}
+      <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginBottom: 14 }}>Total : <b style={{ color: eMID }}>{team.length}</b></div>
 
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", borderBottom: "1px solid " + eLINE }}>
           <div style={{ ...head, flex: 1, minWidth: 0 }}>Users</div>
           <div style={{ ...head, width: 160, flexShrink: 0 }}>Status</div>
-          <div style={{ ...head, width: 150, flexShrink: 0 }}>Actions</div>
+          <div style={{ ...head, width: 130, flexShrink: 0 }}>Actions</div>
         </div>
 
+        {/* the whole row opens the reportee — the chevron is the affordance, as in the assessor tables */}
         {team.map((p, i) => (
-          <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 22px", borderTop: i ? "1px solid " + eLINE : "none" }}>
+          <div key={p.id} className="mgr-row" role="button" tabIndex={0}
+            onClick={() => onOpen(p)}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(p); } }}
+            style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 22px", borderTop: i ? "1px solid " + eLINE : "none", cursor: "pointer" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
               <MgrAvatar p={p} />
               <div style={{ minWidth: 0 }}>
@@ -196,11 +249,12 @@ function MgrList({ team, onOpen, onSummary }) {
               </div>
             </div>
             <div style={{ width: 160, flexShrink: 0 }}><MgrBadge status={p.status} /></div>
-            <div style={{ width: 150, flexShrink: 0, display: "flex", alignItems: "center", gap: 16 }}>
-              <button onClick={() => onOpen(p)} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Details</button>
-              {p.status === "pending" && (p.changes || []).length > 0 && (
-                <button onClick={() => onSummary(p)} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Summary</button>
-              )}
+            <div style={{ width: 130, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+              {p.status === "pending" && (p.changes || []).length > 0 ? (
+                <button onClick={(e) => { e.stopPropagation(); onSummary(p); }} className="mgr-link"
+                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Summary</button>
+              ) : <span />}
+              <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevR size={17} /></span>
             </div>
           </div>
         ))}
@@ -215,28 +269,32 @@ function MgrList({ team, onOpen, onSummary }) {
 function MgrSummaryDrawer({ person, onClose, onDecide }) {
   const groups = {};
   (person.changes || []).forEach((c) => { const k = c.skill || "Development plan"; (groups[k] = groups[k] || []).push(c); });
+  const total = (person.changes || []).length;
   return (
     <React.Fragment>
       <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 85, background: "rgba(0,15,71,.28)" }} />
-      <aside style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(560px, 92vw)", zIndex: 86, background: "var(--card)", boxShadow: "-18px 0 50px rgba(0,15,71,.20)", display: "flex", flexDirection: "column" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "22px 26px", borderBottom: "1px solid " + eLINE }}>
-          <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMID, display: "flex", padding: 2 }}><I.plus size={20} style={{ transform: "rotate(45deg)" }} /></button>
-          <h2 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>Summary logs for {person.first} {person.last}</h2>
+      <aside style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(460px, 92vw)", zIndex: 86, background: "var(--card)", boxShadow: "-18px 0 50px rgba(0,15,71,.20)", display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "20px 24px", borderBottom: "1px solid " + eLINE }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <h2 style={{ fontFamily: "var(--sans)", fontSize: 16.5, fontWeight: 700, color: eMID, margin: 0 }}>Change summary</h2>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, marginTop: 2 }}>
+              {person.first} {person.last} · {total} {total === 1 ? "change" : "changes"}
+            </div>
+          </div>
+          <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, flexShrink: 0 }}><I.plus size={19} style={{ transform: "rotate(45deg)" }} /></button>
         </div>
 
-        <div style={{ flex: 1, overflowY: "auto", padding: "22px 26px" }}>
+        {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "18px 24px" }}>
           {Object.keys(groups).map((skill) => (
-            <div key={skill} style={{ marginBottom: 26 }}>
-              <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 8px" }}>{skill}</h3>
-              <div style={{ marginBottom: 12 }}><MgrTag kind="Edited" /></div>
-              <ul style={{ margin: 0, paddingLeft: 20 }}>
-                {groups[skill].map((c, i) => (
-                  <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 2 }}>
-                    {c.kind === "added" ? "Added" : "Modified"} Development Action:{" "}
-                    <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "2px 9px", borderRadius: 6, fontWeight: 500 }}>{c.label}</span>
-                  </li>
-                ))}
-              </ul>
+            <div key={skill} style={{ marginBottom: 20 }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 8 }}>{skill}</div>
+              {groups[skill].map((c, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "7px 0", borderTop: i ? "1px solid " + eLINE : "none" }}>
+                  <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? eBLUE : c.kind === "removed" ? "var(--danger)" : "#B4770A" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>{c.label}</span>
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -272,19 +330,79 @@ function MgrNotePop({ kind, onClose, onSubmit }) {
 // ════════════════════════════════════════════════
 //  3 · DIRECT REPORTEES DETAIL — the plan, with the decision
 // ════════════════════════════════════════════════
-function MgrDetail({ person, onBack, onDecide, showToast }) {
+function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const [tab, setTab] = mgUseState("plan");
   const [pop, setPop] = mgUseState(null);          // "approved" | "rejected"
   const [showReason, setShowReason] = mgUseState(false);
-  const data = React.useMemo(() => mgrPlanFor(person), [person.id, person.status]);
+  // How the decision note is presented — 3 (inline) by default, same as the employee view.
+  const [noteDesign, setNoteDesign] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-reject-note"), 10); return v >= 1 && v <= 3 ? v : 3; });
+  const [noteMenu, setNoteMenu] = mgUseState(false);
+  // ── comments: the same panel and the same threads the employee sees ──
+  const Comments = window.EdPlan && window.EdPlan.Comments;
+  const threadsFor = (window.EdPlan && window.EdPlan.threadsFor) || (() => ({}));
+  const [comments, setComments] = mgUseState(null);   // skill name, "" for the inbox, null = closed
+  const owner = self ? "self" : person.id;
+  const [threadTick, setThreadTick] = mgUseState(0);
+  mgUseEffect(() => {
+    const ev = (window.EdPlan && window.EdPlan.THREAD_EVENT) || "lh-threads-change";
+    const bump = () => setThreadTick((n) => n + 1);
+    window.addEventListener(ev, bump); window.addEventListener("storage", bump); window.addEventListener("focus", bump);
+    return () => { window.removeEventListener(ev, bump); window.removeEventListener("storage", bump); window.removeEventListener("focus", bump); };
+  }, []);
+  // A skill is unread for the manager when the employee had the last word.
+  const unreadSkills = React.useMemo(() => {
+    const store = threadsFor(owner) || {};
+    return Object.keys(store).filter((k) => {
+      const flat = (store[k] || []).flatMap((c) => [c, ...(c.replies || [])]);
+      const last = flat[flat.length - 1];
+      return last && last.who !== "mgr";
+    });
+  }, [owner, threadTick]);
+  const anyUnread = unreadSkills.length > 0;
+  // opening a skill's thread brings that section into view, as on the employee side
+  mgUseEffect(() => {
+    if (!comments) return;
+    const sel = "[data-skill=\"" + (typeof CSS !== "undefined" && CSS.escape ? CSS.escape(comments) : comments) + "\"]";
+    const el = document.querySelector(sel);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [comments]);
+  // while the panel covers the right edge, shift the floating chrome left
+  mgUseEffect(() => {
+    const el = document.documentElement;
+    if (comments != null) el.setAttribute("data-lh-comments", "1"); else el.removeAttribute("data-lh-comments");
+    return () => el.removeAttribute("data-lh-comments");
+  }, [comments]);
+  const pickNote = (n) => { setNoteDesign(n); try { localStorage.setItem("mgr-reject-note", String(n)); } catch (e) {} setNoteMenu(false); };
+  // The decision note — the reason on a rejection, the manager's note on an approval.
+  // No attribution: the message is the point, not who wrote it.
+  const isReject = !self && person.status === "rejected";
+  const isApprove = !self && person.status === "approved";
+  const note = ((isReject ? person.reason : isApprove ? person.note : "") || "").trim();
+  const hasNote = !!note;
+  const noteLabel = isReject ? "Rejected" : "Approved";
+  const noteTone = isReject ? "var(--danger)" : eSUCCESS;
+  const noteBg = isReject ? "rgba(197,53,50,.06)" : "rgba(20,133,61,.06)";
+  const noteBorder = isReject ? "color-mix(in srgb, var(--danger) 28%, transparent)" : "color-mix(in srgb, " + eSUCCESS + " 32%, transparent)";
+  const when = mgrWhen(person.decidedAt);
+  const [planTick, setPlanTick] = mgUseState(0);
+  mgUseEffect(() => {
+    const ev = (window.EdPlan && window.EdPlan.PLAN_EVENT) || "lh-plan-change";
+    const bump = () => setPlanTick((n) => n + 1);
+    window.addEventListener(ev, bump); window.addEventListener("storage", bump); window.addEventListener("focus", bump);
+    return () => { window.removeEventListener(ev, bump); window.removeEventListener("storage", bump); window.removeEventListener("focus", bump); };
+  }, []);
+  const data = React.useMemo(() => mgrPlanFor(person), [person.id, person.status, person.changes, planTick]);
   const LEARN = (window.EdPlan && window.EdPlan.LEARN) || {};
   const ACard = window.EdPlan && window.EdPlan.ActionCard;   // same card the employee sees
   const SAMPLES = (window.EdPlan && window.EdPlan.SAMPLES) || [];
+  const Report = window.EdPlan && window.EdPlan.ReportTab;   // same report preview as the employee side
+  const Note = window.EdPlan && window.EdPlan.DecisionNote;  // same inline decision note
   const META = (window.EdPlan && window.EdPlan.metaLabel) || {};
   // Same plan-design switcher as the employee side; design 6 is the default here.
   const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-plan-design"), 10); return v >= 1 && v <= 9 ? v : 6; });
   const [sampleMenu, setSampleMenu] = mgUseState(false);
-  const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return v >= 1 && v <= 3 ? v : 1; });
+  // 2 (Minimal — picture, name, email) is the default reportee card.
+  const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return v >= 1 && v <= 3 ? v : 2; });
   const [userCardMenu, setUserCardMenu] = mgUseState(false);
   const pickUserCard = (n) => { setUserCard(n); try { localStorage.setItem("mgr-usercard-design", String(n)); } catch (e) {} setUserCardMenu(false); };
   const pickSample = (n) => { setSample(n); try { localStorage.setItem("mgr-plan-design", String(n)); } catch (e) {} setSampleMenu(false); };
@@ -309,33 +427,60 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
     return cards;
   };
   const decided = person.status === "approved" || person.status === "rejected" || person.status === "completed";
-  const changesBySkill = (person.changes || []);
+  const canDecide = !self && person.status === "pending";   // only a submitted plan can be decided
 
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
 
   return (
-    <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
+    <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0, paddingRight: comments != null ? 344 : 0, transition: "padding .25s ease" }}>
       {/* title row */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 18 }}>
+        {self ? (
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>My Development Plan</h1>
+        ) : (
         <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer" }}>
           <I.arrowL size={20} style={{ color: eMID }} />
           <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID }}>Direct Reportees Detail</span>
         </button>
+        )}
         <div style={{ position: "relative", display: "inline-flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, color: person.status === "rejected" ? "var(--danger)" : eMUT, background: person.status === "rejected" ? "rgba(197,53,50,.10)" : "rgba(0,15,71,.05)", padding: "4px 11px", borderRadius: 6 }}>
-            {MGR_DETAIL_STATUS[person.status] || "In Review"}
-          </span>
-          {person.status === "rejected" && (
-            <button onClick={() => setShowReason((v) => !v)} title="Reason for rejection" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 0 }}><I.info size={17} /></button>
+          {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
+            {MGR_TONE(person.status).label}
+          </span>}
+          {/* 1 · the note lives behind a comment icon next to the chip */}
+          {hasNote && noteDesign === 1 && (
+            <button onClick={() => setShowReason((v) => !v)} title={noteLabel} style={{ background: "none", border: "none", cursor: "pointer", color: noteTone, display: "flex", padding: 0 }}>{isReject ? <I.alertCircle size={17} /> : <I.checkCircle size={17} />}</button>
           )}
-          {showReason && person.status === "rejected" && (
-            <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 260, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: "14px 16px" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID, marginBottom: 6 }}>Reason for Rejection</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{person.reason || "Rejected"}</div>
+          {hasNote && noteDesign === 1 && showReason && (
+            <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 288, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: "14px 16px", textAlign: "left" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
+                {when && <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{when}</span>}
+              </div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55 }}>{note}</div>
             </div>
           )}
         </div>
       </div>
+
+      {/* 2 · the note reads as a comment on the plan */}
+      {hasNote && noteDesign === 2 && (
+        <div style={{ display: "flex", gap: 12, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, padding: "14px 16px", marginBottom: 18, boxShadow: "0 1px 2px rgba(0,15,71,.04)" }}>
+          <span style={{ color: noteTone, display: "flex", flexShrink: 0, marginTop: 2 }}>{isReject ? <I.alertCircle size={18} /> : <I.checkCircle size={18} />}</span>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
+              {when && <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{when}</span>}
+            </div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.55 }}>{note}</div>
+          </div>
+        </div>
+      )}
+
+      {/* 3 · inline — the very component the employee sees on their own plan */}
+      {hasNote && noteDesign === 3 && (
+        Note ? <Note status={person.status} note={note} when={when} /> : null
+      )}
 
       {/* the reportee's details, in the same card the employee side uses */}
       <MgrPersonCard p={person} design={userCard} />
@@ -349,18 +494,23 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
           })}
         </div>
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, paddingBottom: 8 }}>
-          {!decided && (
+          {canDecide && (
             <React.Fragment>
               <button onClick={() => setPop(pop === "rejected" ? null : "rejected")}
                 style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
               <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
             </React.Fragment>
           )}
-          <button disabled={decided} title={decided ? "Plan is closed" : "Edit plan"}
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: decided ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: decided ? "not-allowed" : "pointer", opacity: decided ? .55 : 1 }}>
+          <button disabled={!self && decided} title={!self && decided ? "Plan is closed" : "Edit plan"}
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: (!self && decided) ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: (!self && decided) ? "not-allowed" : "pointer", opacity: (!self && decided) ? .55 : 1 }}>
             <I.edit size={15} /> Edit Plan
           </button>
-          <button title="Comments" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chat size={17} /></button>
+          <button onClick={() => { if (comments == null) setComments(""); else setComments(null); }}
+            title={anyUnread ? "New message from " + person.first : "Comments"}
+            style={{ position: "relative", width: 38, height: 38, borderRadius: 9, border: "1px solid " + (comments != null ? eMID : anyUnread ? "var(--danger)" : eLINE), background: comments != null ? eMID : "var(--card)", color: comments != null ? "#fff" : eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <I.chat size={17} />
+            {anyUnread && comments == null && <span style={{ position: "absolute", top: 6, right: 6, width: 9, height: 9, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--card)" }} />}
+          </button>
           {pop && <MgrNotePop kind={pop} onClose={() => setPop(null)} onSubmit={(text) => {
             onDecide(person.id, pop, text);
             setPop(null);
@@ -370,29 +520,9 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
       </div>
 
       {tab === "gap" ? (
-        /* Skill Gap Report — the same analysis the employee sees */
+        /* The report preview — literally the employee's own Program Report tab */
         <div style={{ marginTop: 24 }}>
-          <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px" }}>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0 }}>{MGR_GAPS.overview}</p>
-            <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: "18px 0 12px" }}>Priority gaps</h3>
-            {MGR_GAPS.gaps.map((g, i) => (
-              <div key={i} style={{ marginBottom: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, marginBottom: 5 }}>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{g.skill}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, whiteSpace: "nowrap" }}>{g.score.toFixed(1)} / {g.target.toFixed(1)} target</span>
-                </div>
-                <div style={{ position: "relative", height: 6, borderRadius: 3, background: "rgba(0,15,71,.08)" }}>
-                  <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: (g.score / 5 * 100) + "%", background: eWARN, borderRadius: 3 }} />
-                  <div style={{ position: "absolute", left: (g.target / 5 * 100) + "%", top: -2, bottom: -2, width: 2, background: eMID, borderRadius: 1 }} title="Target" />
-                </div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 4 }}>{g.note}</div>
-              </div>
-            ))}
-            <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: "18px 0 6px" }}>Strengths to leverage</h3>
-            <ul style={{ margin: 0, paddingLeft: 20 }}>
-              {MGR_GAPS.strengths.map((s, i) => <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.75 }}>{s}</li>)}
-            </ul>
-          </div>
+          {Report ? <Report /> : null}
         </div>
       ) : (
         <React.Fragment>
@@ -405,8 +535,12 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
 
               {cat.skills.map((skill, si) => {
                 const skillChanges = skill.changes || [];
+                const active = comments === skill.name;   // its thread is open → highlight the section
                 return (
-                <div key={si} style={{ marginBottom: 26 }}>
+                <div key={si} data-skill={skill.name} style={{ marginBottom: 26, borderRadius: 12, transition: "background .2s",
+                  background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent",
+                  outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2,
+                  padding: active ? "8px 12px" : 0, marginLeft: active ? -12 : 0, marginRight: active ? -12 : 0 }}>
                   {/* skill header — same shape as the employee plan */}
                   <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
                     <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
@@ -417,7 +551,11 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
                     </span>
                     {skill.edited && <MgrTag kind="Edited" />}
                     <div style={{ flex: 1 }} />
-                    <button title="Comments on this skill" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2 }}><I.chat size={17} /></button>
+                    <button onClick={() => setComments(skill.name)} title={"Comments on " + skill.name}
+                      style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: comments === skill.name ? eMID : eMUT, display: "flex", padding: 2 }}>
+                      <I.chat size={17} />
+                      {unreadSkills.indexOf(skill.name) >= 0 && comments !== skill.name && <span style={{ position: "absolute", top: 0, right: 0, width: 8, height: 8, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--canvas)" }} />}
+                    </button>
                   </div>
 
                   {/* the employee's plan cards, rendered with the very same component */}
@@ -434,7 +572,7 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
                       <ul style={{ margin: 0, paddingLeft: 18 }}>
                         {skillChanges.map((c, i) => (
                           <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
-                            {c.kind === "added" ? "Added" : "Modified"} Development Action:{" "}
+                            {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"} Development Action:{" "}
                             <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
                           </li>
                         ))}
@@ -468,6 +606,25 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
           </button>
         </div>, document.body)}
 
+      {/* rejection-note switcher — only meaningful once a plan has been sent back */}
+      {hasNote && ReactDOM.createPortal(
+        <div style={{ position: "fixed", right: 200, bottom: 98, zIndex: 60, fontFamily: "var(--sans)" }}>
+          {noteMenu && (
+            <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Decision note</div>
+              {MGR_NOTE_DESIGNS.map((o) => { const on = noteDesign === o.id; return (
+                <button key={o.id} onClick={() => pickNote(o.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
+                  <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
+                  <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
+                </button>); })}
+            </div>
+          )}
+          <button onClick={() => setNoteMenu((v) => !v)} title="Switch how the decision note is shown"
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            <I.fileText size={14} /> Decision note · {noteDesign}
+          </button>
+        </div>, document.body)}
+
       {ReactDOM.createPortal(
         <div style={{ position: "fixed", right: 200, bottom: 56, zIndex: 60, fontFamily: "var(--sans)" }}>
           {userCardMenu && (
@@ -485,6 +642,13 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
             <I.user size={14} /> Reportee card · {userCard}
           </button>
         </div>, document.body)}
+
+      {/* the employee's own comments panel, reading and writing the same threads */}
+      {comments != null && Comments && ReactDOM.createPortal(
+        <Comments chip={comments || null} role="mgr" owner={owner}
+          names={{ me: person.first + " " + person.last, mgr: MGR_ME.first + " " + MGR_ME.last }}
+          onClose={() => setComments(null)} onOpen={(name) => setComments(name || "")} />,
+        document.body)}
     </div>
   );
 }
@@ -497,8 +661,15 @@ function LHManager() {
   const [team, setTeam] = mgUseState(MGR_TEAM);
   const [summary, setSummary] = mgUseState(null);
   const [toast, setToast] = mgUseState(null);
-  const [collapsed, setCollapsed] = mgUseState(false);
-  const [devOpen, setDevOpen] = mgUseState(true);
+  // remembers the choice, same preference Folio stores
+  const [collapsed, setCollapsed] = mgUseState(() => { try { return localStorage.getItem("ed-rail-collapsed") === "1"; } catch (e) { return false; } });
+  const toggleRail = () => setCollapsed((v) => { const n = !v; try { localStorage.setItem("ed-rail-collapsed", n ? "1" : "0"); } catch (e) {} return n; });
+  // "My Plan" opens on the guided questions; once generated it shows the plan.
+  const [myPlanMode, setMyPlanMode] = mgUseState("flow");   // "flow" | "plan"
+  const Flow = window.EdIdp && window.EdIdp.EdIdpFlow;
+  // The idp flow asks for a top bar to host its back link and to collapse the rail.
+  const [topBack, setTopBack] = mgUseState(null);
+  const topCtx = React.useMemo(() => ({ setBack: setTopBack, collapseRail: (v) => setCollapsed(!!v) }), []);
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(null), 2800); };
   const Rail = window.EdShell && window.EdShell.EdRail;
   const Footer = window.EdShell && window.EdShell.EdFooter;
@@ -509,11 +680,22 @@ function LHManager() {
     try { sub = JSON.parse(localStorage.getItem(MGR_SUB_KEY) || "null"); } catch (e) {}
     setTeam((t) => t.map((p) => {
       if (!p.linked) return p;
+      // a decision already taken (this session or a previous one) wins
+      if (sub && (sub.status === "approved" || sub.status === "rejected")) {
+        return { ...p, status: sub.status, decidedAt: sub.at,
+          reason: sub.status === "rejected" ? (sub.note || "Rejected") : p.reason,
+          note: sub.status === "approved" ? (sub.note || "") : p.note };
+      }
+      // the owner reopened the plan for editing — back to Draft, verdict cleared
+      if (sub && sub.status === "draft") {
+        return { ...p, status: "draft", changes: mgrChanges(), reason: undefined, note: undefined, decidedAt: undefined };
+      }
+      // resubmitted — back in the queue, any old verdict cleared
+      if (sub && sub.status === "pending" && p.status !== "pending") {
+        return { ...p, status: "pending", changes: mgrChanges(), reason: undefined, note: undefined, decidedAt: undefined };
+      }
       if (sub && sub.status === "pending" && p.status === "notstarted") {
-        return { ...p, status: "pending", changes: [
-          { kind: "added", label: "Implement a Weekly Review Process" },
-          { kind: "modified", label: "Adopt Quality Assurance Techniques" },
-        ] };
+        return { ...p, status: "pending", changes: mgrChanges() };
       }
       return p;
     }));
@@ -525,47 +707,69 @@ function LHManager() {
     return () => window.removeEventListener("focus", onFocus);
   }, [syncSubmission]);
 
-  mgUseEffect(() => { window.scrollTo(0, 0); }, [route]);
+  mgUseEffect(() => { window.scrollTo(0, 0); if (route.page !== "myplan") setTopBack(null); }, [route]);
 
   const decide = (id, status, text) => {
-    setTeam((t) => t.map((p) => p.id === id ? { ...p, status, reason: status === "rejected" ? (text || "Rejected") : p.reason, note: status === "approved" ? text : p.note } : p));
-    if (route.person && route.person.id === id) setRoute((r) => ({ ...r, person: { ...r.person, status, reason: text || "Rejected" } }));
+    const at = Date.now();
+    // Hand the verdict back to the employee's own plan — the other half of the
+    // handshake that Submit Plan started.
+    const target = team.find((p) => p.id === id);
+    if (target && target.linked) {
+      try { localStorage.setItem(MGR_SUB_KEY, JSON.stringify({ status, note: text || "", at })); } catch (e) {}
+    }
+    setTeam((t) => t.map((p) => p.id === id ? { ...p, status, decidedAt: at, reason: status === "rejected" ? (text || "Rejected") : p.reason, note: status === "approved" ? text : p.note } : p));
+    if (route.person && route.person.id === id) setRoute((r) => ({ ...r, person: { ...r.person, status, decidedAt: at, reason: text || "Rejected" } }));
   };
 
   const person = route.person ? (team.find((t) => t.id === route.person.id) || route.person) : null;
 
-  const railItem = (label, icon, active, onClick, sub) => (
-    <button onClick={onClick} title={label}
-      style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: collapsed ? "center" : "flex-start", background: active ? "rgba(206,236,255,.16)" : "transparent", border: "none", borderRadius: 9, padding: collapsed ? "12px 0" : (sub ? "10px 13px 10px 30px" : "11px 13px"), cursor: "pointer", color: active ? "#fff" : "rgba(255,255,255,.75)", fontFamily: "var(--sans)", fontSize: sub ? 13.5 : 14, fontWeight: active ? 700 : 500, width: "100%", textAlign: "left" }}>
-      {icon && React.createElement(I[icon] || I.home, { size: 18 })}{!collapsed && label}
-    </button>
-  );
+  // Development carries two destinations: the manager's own plan, and the team list.
+  const activeId = route.page === "myplan" ? "myplan"
+    : (route.page === "list" || route.page === "detail") ? "reportees" : route.page;
+  const navTo = (id) => {
+    if (id === "myplan") setRoute({ page: "myplan", person: null });
+    else if (id === "development" || id === "reportees") setRoute({ page: "list", person: null });
+  };
 
   return (
+    <LHTopBarContext.Provider value={topCtx}>
     <div className="ed-shell" style={{ width: "100%", height: "100%", overflow: "clip", background: "var(--canvas)", display: "flex", fontFamily: "var(--sans)", position: "relative" }}>
       {/* Folio's own rail, with the manager's three destinations */}
       {Rail
-        ? <Rail activeId={route.page === "list" || route.page === "detail" ? "development" : route.page}
-            onNav={(id) => { if (id === "development") setRoute({ page: "list", person: null }); }}
-            collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} showAccount={false} showProgress={false}
-            user={{ first: "Priya", last: "Sharma", initials: "PS", role: "People Manager" }}
+        ? <Rail activeId={activeId} onNav={navTo}
+            collapsed={collapsed} onToggle={toggleRail} showAccount={false} showProgress={false}
+            user={{ first: MGR_ME.first, last: MGR_ME.last, initials: MGR_ME.initials, role: MGR_ME.role }}
             items={[
               { id: "home", label: "Home", icon: "home" },
-              { id: "development", label: "Development", icon: "book" },
+              { id: "development", label: "Development", icon: "book", children: [
+                { id: "myplan", label: "My Plan" },
+                { id: "reportees", label: "Direct Reportees" },
+              ] },
               { id: "profile", label: "Profile", icon: "user" },
             ]} />
         : null}
+
+      {/* the rail's own collapse/expand handle, same control Folio uses */}
+      <button onClick={toggleRail} title={collapsed ? "Expand menu" : "Collapse menu"} className="ed-rail-toggle"
+        style={{ position: "absolute", top: 30, left: (collapsed ? 74 : 256) - 14, transition: "left .2s ease", zIndex: 50, width: 28, height: 28, borderRadius: "50%", background: "var(--card)", border: "1px solid " + eLINE, boxShadow: "0 2px 10px rgba(0,15,71,.16)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+        {collapsed ? <I.chevR size={16} /> : <I.chevL size={16} />}
+      </button>
 
       <main style={{ flex: 1, minWidth: 0, height: "100%", overflowY: "auto", overflowAnchor: "none" }}>
         <div style={{ minHeight: "100%", display: "flex", flexDirection: "column" }}>
         <div className="ed-topbar" style={{ position: "sticky", top: 0, zIndex: 40, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, minHeight: 58, boxSizing: "border-box", padding: "10px var(--fol-px, 56px)", background: "var(--canvas)", borderBottom: "1px solid " + eLINE }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16, minWidth: 0 }}>
-            {route.page === "detail" && (
+            {route.page === "detail" ? (
               <button onClick={() => setRoute({ page: "list", person: null })} className="ed-topbar-back"
                 style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
                 <I.chevL size={17} /> Direct Reportees
               </button>
-            )}
+            ) : topBack ? (
+              <button onClick={topBack.onClick} className="ed-topbar-back"
+                style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+                <I.chevL size={17} /> {topBack.label}
+              </button>
+            ) : null}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
             <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", padding: "5px 12px", borderRadius: 999 }}>Manager view</span>
@@ -573,9 +777,15 @@ function LHManager() {
         </div>
         <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
           <div>
-            {route.page === "detail" && person
-              ? <MgrDetail person={person} onBack={() => setRoute({ page: "list", person: null })} onDecide={decide} showToast={showToast} />
-              : <MgrList team={team} onOpen={(p) => setRoute({ page: "detail", person: p })} onSummary={(p) => setSummary(p)} />}
+            {route.page === "myplan"
+              ? (myPlanMode === "flow" && Flow
+                  // straight into the guided questions — the report / chat-intro
+                  // screens that precede them on the employee side are skipped
+                  ? <Flow initialStep={2} onExit={() => setMyPlanMode("plan")} onDone={() => setMyPlanMode("plan")} />
+                  : <MgrDetail self person={MGR_ME} onBack={() => {}} onDecide={() => {}} showToast={showToast} />)
+              : route.page === "detail" && person
+                ? <MgrDetail person={person} onBack={() => setRoute({ page: "list", person: null })} onDecide={decide} showToast={showToast} />
+                : <MgrList team={team} onOpen={(p) => setRoute({ page: "detail", person: p })} onSummary={(p) => setSummary(p)} />}
           </div>
           {/* footer sits on the bottom edge even when the page is short */}
           <div style={{ marginTop: "auto" }}>{Footer ? <Footer /> : null}</div>
@@ -591,6 +801,7 @@ function LHManager() {
         </div>
       )}
     </div>
+    </LHTopBarContext.Provider>
   );
 }
 

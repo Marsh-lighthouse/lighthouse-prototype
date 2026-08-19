@@ -362,22 +362,150 @@ const PL_THREADS = {
 // unopened "new message". Their chat icons get a highlighted unread dot.
 const PL_NEW_MSG_SKILLS = Object.keys(PL_THREADS).filter((k) => { const flat = PL_THREADS[k].flatMap((c) => [c, ...(c.replies || [])]); const last = flat[flat.length - 1]; return last && last.who === "mgr"; });
 
+// ── shared comment store ──
+// Threads live in localStorage keyed by whose plan they belong to, so the employee's
+// plan and the manager's review of that same plan are one conversation, not two copies.
+const PL_THREAD_KEY = "lh-plan-threads";
+const PL_THREAD_EVENT = "lh-threads-change";
+function plThreadsFor(owner) {
+  try { const all = JSON.parse(localStorage.getItem(PL_THREAD_KEY) || "{}"); if (all && all[owner]) return all[owner]; } catch (e) {}
+  return plClone(PL_THREADS);
+}
+function plSaveThreads(owner, threads) {
+  let all = {};
+  try { all = JSON.parse(localStorage.getItem(PL_THREAD_KEY) || "{}") || {}; } catch (e) {}
+  all[owner] = threads;
+  try { localStorage.setItem(PL_THREAD_KEY, JSON.stringify(all)); } catch (e) {}
+  try { window.dispatchEvent(new CustomEvent(PL_THREAD_EVENT, { detail: owner })); } catch (e) {}
+}
+// Seed-format timestamp ("20 Aug · 14:22") so posted messages age honestly.
+function plNow() {
+  const d = new Date(), p = (n) => String(n).padStart(2, "0");
+  return d.getDate() + " " + d.toLocaleDateString(undefined, { month: "short" }) + " · " + p(d.getHours()) + ":" + p(d.getMinutes());
+}
+const plInitials = (name) => (name || "").split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
+
+// ── shared plan store ──
+// The plan itself lives in localStorage keyed by owner, so the manager reviewing
+// John's plan sees the very rows John edited — not a rebuild from the seed.
+const PL_OWNER = "john";                 // whose plan the Folio flow is editing
+const PL_PLAN_KEY = "lh-plan-data";
+const PL_PLAN_EVENT = "lh-plan-change";
+function plLoadPlan(owner) {
+  try { const all = JSON.parse(localStorage.getItem(PL_PLAN_KEY) || "{}"); if (all && all[owner]) return all[owner]; } catch (e) {}
+  return null;
+}
+function plSavePlan(owner, data) {
+  let all = {};
+  try { all = JSON.parse(localStorage.getItem(PL_PLAN_KEY) || "{}") || {}; } catch (e) {}
+  all[owner] = data;
+  try { localStorage.setItem(PL_PLAN_KEY, JSON.stringify(all)); } catch (e) {}
+  try { window.dispatchEvent(new CustomEvent(PL_PLAN_EVENT, { detail: owner })); } catch (e) {}
+}
+// What the owner changed, measured against the seed the plan started from.
+// Drives the manager's per-skill change summary — no hand-maintained list.
+function plDiff(plan) {
+  const baseAction = {}, baseSkill = {};
+  PL_SEED.forEach((c) => c.skills.forEach((s) => {
+    baseSkill[s.name] = s;
+    s.actions.forEach((a) => { baseAction[s.name + "|" + a.title] = a; });
+  }));
+  const seen = {}, out = [];
+  (plan || []).forEach((c) => (c.skills || []).forEach((s) => {
+    if (!baseSkill[s.name]) out.push({ kind: "added", skill: s.name, label: s.name + " (skill)" });
+    (s.actions || []).forEach((a) => {
+      const key = s.name + "|" + a.title;
+      seen[key] = true;
+      const base = baseAction[key];
+      if (!base) { out.push({ kind: "added", skill: s.name, label: a.title }); return; }
+      if ((a.start || "") !== (base.start || "") || (a.end || "") !== (base.end || "") ||
+          (a.completion || 0) !== (base.completion || 0)) {
+        out.push({ kind: "modified", skill: s.name, label: a.title });
+      }
+    });
+  }));
+  Object.keys(baseAction).forEach((key) => {
+    if (!seen[key]) { const i = key.indexOf("|"); out.push({ kind: "removed", skill: key.slice(0, i), label: key.slice(i + 1) }); }
+  });
+  return out;
+}
+
+// ── plan status, one palette for both sides ──
+// The employee's badge and the manager's chip read from this, so a status can never
+// mean one colour on one screen and another colour on the other.
+const PL_STATUS = {
+  notstarted: { label: "Not Started", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null },
+  draft: { label: "Draft", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null },
+  pending: { label: "Pending Approval", color: eWARN, bg: "color-mix(in srgb, var(--warn, #C77700) 12%, transparent)", icon: "clock" },
+  approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.10)", icon: "checkCircle" },
+  rejected: { label: "Rejected", color: "var(--danger)", bg: "rgba(197,53,50,.10)", icon: "alertCircle" },
+};
+// The badge itself — same pill wherever a plan status is shown.
+function PlStatusBadge({ status, size = 14 }) {
+  const s = PL_STATUS[status] || PL_STATUS.notstarted;
+  const Ic = s.icon && I[s.icon];
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: size,
+      fontWeight: 700, color: s.color, background: s.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
+      {Ic ? <Ic size={size} /> : null}{s.label}
+    </span>
+  );
+}
+
+// ── the manager's decision on a submitted plan ──
+// Written by the manager workspace, read here; one component so both sides match.
+const PL_SUB_KEY = "lh-idp-submission";
+function plSubmission() {
+  try { return JSON.parse(localStorage.getItem(PL_SUB_KEY) || "null"); } catch (e) { return null; }
+}
+function plWhen(ts) {
+  if (!ts) return "";
+  const m = Math.floor((Date.now() - ts) / 60000);
+  if (m < 1) return "Just now";
+  if (m < 60) return m + (m === 1 ? " minute ago" : " minutes ago");
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + (h === 1 ? " hour ago" : " hours ago");
+  return new Date(ts).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+}
+// Inline note: the reason on a rejection, the manager's note on an approval.
+// No attribution — the message is the point.
+function PlDecisionNote({ status, note, when }) {
+  const reject = status === "rejected";
+  if (!reject && status !== "approved") return null;
+  if (!String(note || "").trim()) return null;
+  const tone = reject ? "var(--danger)" : eSUCCESS;
+  return (
+    <div style={{ display: "flex", gap: 11, alignItems: "flex-start", marginBottom: 18,
+      background: reject ? "rgba(197,53,50,.06)" : "rgba(20,133,61,.06)",
+      border: "1px solid " + (reject ? "color-mix(in srgb, var(--danger) 28%, transparent)" : "color-mix(in srgb, " + eSUCCESS + " 32%, transparent)"),
+      borderRadius: 12, padding: "13px 16px" }}>
+      <span style={{ color: tone, display: "flex", flexShrink: 0, marginTop: 1 }}>{reject ? <I.alertCircle size={17} /> : <I.checkCircle size={17} />}</span>
+      <div style={{ minWidth: 0, fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.55 }}>
+        <b style={{ color: tone }}>{reject ? "Rejected" : "Approved"}</b>
+        {when && <span style={{ color: eMUT }}> · {when}</span>}
+        <div style={{ marginTop: 3 }}>{note}</div>
+      </div>
+    </div>
+  );
+}
+
 const plCLink = { display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, cursor: "pointer" };
 const PlReplyIcon = ({ size = 13 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M9 14 4 9l5-5" /><path d="M4 9h11a5 5 0 0 1 5 5v3" /></svg>;
 
 // One threaded comment — avatar · name · time · text · Reply — with nested replies.
 // No like/dislike; the only action is Reply.
-function PlCommentItem({ item, onReply }) {
+function PlCommentItem({ item, onReply, role = "me", names }) {
+  const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const [replying, setReplying] = plUseState(false);
   const [showReplies, setShowReplies] = plUseState(true);
   const [text, setText] = plUseState("");
-  const mine = item.who === "me";
-  const name = mine ? PL_ME : PL_MGR;
+  const mine = item.who === role;        // "mine" depends on which side is reading
+  const name = NAMES[item.who] || PL_ME;
   const replies = item.replies || [];
   const submit = () => { const t = text.trim(); if (!t) return; onReply(t); setText(""); setReplying(false); setShowReplies(true); };
   return (
     <div style={{ display: "flex", gap: 11, marginBottom: 16 }}>
-      <span style={{ width: 34, height: 34, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700 }}>{mine ? "JD" : "SM"}</span>
+      <span style={{ width: 34, height: 34, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700 }}>{plInitials(name)}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{name}</span>
@@ -396,7 +524,7 @@ function PlCommentItem({ item, onReply }) {
         )}
         {replies.length > 0 && showReplies && (
           <div style={{ marginTop: 14, paddingLeft: 13, borderLeft: "2px solid " + eLINE }}>
-            {replies.map((r, i) => <PlCommentItem key={i} item={r} onReply={onReply} />)}
+            {replies.map((r, i) => <PlCommentItem key={i} item={r} onReply={onReply} role={role} names={NAMES} />)}
           </div>
         )}
       </div>
@@ -406,20 +534,31 @@ function PlCommentItem({ item, onReply }) {
 
 // Right-side comments panel. Global (chip=null) = an inbox of skill conversations;
 // a skill (chip=name) = its threaded comments with replies.
-function PlComments({ chip, onClose, onOpen }) {
+function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names }) {
+  const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const inThread = !!chip;
   const [text, setText] = plUseState("");
-  // Thread copy so replies / new comments actually post (prototype-local).
-  const [thread, setThread] = plUseState(() => plClone(PL_THREADS[chip] || []));
-  plUseEffect(() => { setThread(plClone(PL_THREADS[chip] || [])); setText(""); }, [chip]);
-  const addComment = () => { const t = text.trim(); if (!t) return; setThread((th) => [...th, { who: "me", time: "Just now", text: t, replies: [] }]); setText(""); };
-  const addReply = (ci) => (t) => setThread((th) => th.map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: "me", time: "Just now", text: t }] } : c)));
+  // Backed by the shared store, so a message posted on one side shows up on the other.
+  const [store, setStore] = plUseState(() => plThreadsFor(owner));
+  plUseEffect(() => { setStore(plThreadsFor(owner)); setText(""); }, [owner, chip]);
+  plUseEffect(() => {
+    const sync = () => setStore(plThreadsFor(owner));
+    window.addEventListener(PL_THREAD_EVENT, sync);   // same tab
+    window.addEventListener("storage", sync);          // the other flow in another tab
+    window.addEventListener("focus", sync);
+    return () => { window.removeEventListener(PL_THREAD_EVENT, sync); window.removeEventListener("storage", sync); window.removeEventListener("focus", sync); };
+  }, [owner]);
+  const thread = store[chip] || [];
+  const write = (next) => { const all = { ...store, [chip]: next }; setStore(all); plSaveThreads(owner, all); };
+  const addComment = () => { const t = text.trim(); if (!t) return; write([...thread, { who: role, time: plNow(), text: t, replies: [] }]); setText(""); };
+  const addReply = (ci) => (t) => write(thread.map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
 
-  const rows = Object.keys(PL_THREADS).map((name) => {
-    const flat = PL_THREADS[name].flatMap((c) => [c, ...(c.replies || [])]);
+  const rows = Object.keys(store).map((name) => {
+    const flat = store[name].flatMap((c) => [c, ...(c.replies || [])]);
     const last = flat[flat.length - 1];
-    return { name, last, count: flat.length, unread: PL_NEW_MSG_SKILLS.includes(name) };
-  });
+    // unread = the last word was the other side's
+    return { name, last, count: flat.length, unread: !!last && last.who !== role };
+  }).filter((r) => !!r.last);
 
   return (
     <aside className="ed-idp-notes" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 40, background: eCARD, borderLeft: "1px solid " + eLINE, display: "flex", flexDirection: "column" }}>
@@ -433,7 +572,7 @@ function PlComments({ chip, onClose, onOpen }) {
       {inThread ? (
         <React.Fragment>
           <div style={{ flex: 1, overflowY: "auto", padding: "16px 16px 8px" }}>
-            {thread.length ? thread.map((c, ci) => <PlCommentItem key={ci} item={c} onReply={addReply(ci)} />) : <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textAlign: "center", padding: "26px 0" }}>No comments yet. Start the conversation below.</div>}
+            {thread.length ? thread.map((c, ci) => <PlCommentItem key={ci} item={c} onReply={addReply(ci)} role={role} names={NAMES} />) : <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textAlign: "center", padding: "26px 0" }}>No comments yet. Start the conversation below.</div>}
           </div>
           {/* new comment composer — full-width, borderless, send inline */}
           <div style={{ padding: "10px 16px 16px", borderTop: "1px solid " + eLINE, flexShrink: 0 }}>
@@ -448,17 +587,18 @@ function PlComments({ chip, onClose, onOpen }) {
         <div style={{ flex: 1, overflowY: "auto", padding: "12px 12px" }}>
           <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "2px 4px 10px" }}>{rows.length} skill conversations · tap one to open the thread</div>
           {rows.map((r, i) => {
-            const mine = r.last.who === "me";
+            const mine = r.last.who === role;
+            const lastName = NAMES[r.last.who] || PL_ME;
             return (
               <button key={i} onClick={() => onOpen(r.name)} style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 12, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: "var(--card)", cursor: "pointer", marginBottom: 8 }}
                 onMouseEnter={(e) => e.currentTarget.style.background = "rgba(0,15,71,.03)"} onMouseLeave={(e) => e.currentTarget.style.background = "var(--card)"}>
-                <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{mine ? "JD" : "SM"}</span>
+                <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{plInitials(lastName)}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
                     {r.unread && <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--danger)", flexShrink: 0 }} />}
                   </div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : PL_MGR.split(" ")[0]}:</b> {r.last.text}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</div>
                   <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT, marginTop: 4 }}>{r.last.time} · {r.count} {r.count === 1 ? "message" : "messages"}</div>
                 </div>
               </button>
@@ -709,7 +849,8 @@ function EdPlanPage({ onBack, onRestart }) {
   const reflectRef = plUseRef(null);
   const [triedSave, setTriedSave] = plUseState(false); // user pressed Save with dates missing
   const userCardRef = plUseRef(null);
-  const [data, setData] = plUseState(() => plClone(PL_SEED));
+  // The plan is shared state: it survives reloads and is what the manager reviews.
+  const [data, setData] = plUseState(() => plLoadPlan(PL_OWNER) || plClone(PL_SEED));
   const [locked, setLocked] = plUseState(false);      // a freshly generated plan opens in EDIT mode (Save Plan);
                                                       // after saving it becomes the read view (Edit / Submit Plan)
   const [toast, setToast] = plUseState(null);
@@ -722,7 +863,25 @@ function EdPlanPage({ onBack, onRestart }) {
   const [addSkills, setAddSkills] = plUseState(false);
   const [confirmDel, setConfirmDel] = plUseState(null); // { label, onYes }
   const [submitted, setSubmitted] = plUseState(false); // submitted → locked, awaiting manager approval
-  const editable = !locked && !submitted;
+  // The manager's verdict on this plan, written back by the Manager workspace.
+  const [decision, setDecision] = plUseState(() => plSubmission());
+  plUseEffect(() => {
+    const sync = () => setDecision(plSubmission());
+    window.addEventListener("focus", sync); window.addEventListener("storage", sync);
+    return () => { window.removeEventListener("focus", sync); window.removeEventListener("storage", sync); };
+  }, []);
+  // every edit lands in the shared store, so the manager's view is always current
+  plUseEffect(() => { plSavePlan(PL_OWNER, data); }, [data]);
+  const verdict = decision && (decision.status === "approved" || decision.status === "rejected") ? decision : null;
+  const awaiting = submitted && !verdict;
+  // Once the manager has ruled — either way — the plan is READ ONLY: the owner reads
+  // the note first. Editing is a deliberate act that sends the plan back to Draft.
+  const editable = !locked && !submitted && !verdict;
+  const reopen = () => {
+    setLocked(false); setSubmitted(false); setDecision({ status: "draft", at: Date.now() });
+    try { localStorage.setItem("lh-idp-submission", JSON.stringify({ status: "draft", at: Date.now() })); } catch (e) {}
+    showToast("Plan reopened — back to draft");
+  };
 
   // Close the plan-design sample menu on outside click / Escape.
   const sampleRef = plUseRef(null);
@@ -790,13 +949,14 @@ function EdPlanPage({ onBack, onRestart }) {
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 6 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
-          {submitted
-            ? <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eWARN, background: "color-mix(in srgb, var(--warn, #C77700) 12%, transparent)", padding: "4px 11px", borderRadius: 6 }}><I.clock size={14} /> Waiting for manager approval</span>
-            : <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.06)", padding: "4px 10px", borderRadius: 6 }}>Draft</span>}
+          <PlStatusBadge status={verdict ? verdict.status : awaiting ? "pending" : "draft"} />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <button title="Download" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
-          {submitted
+          {verdict
+            // decided → read view, with the one action that reopens it as a draft
+            ? <EdBtn onClick={reopen}><I.edit size={15} /> Edit Plan</EdBtn>
+            : submitted
             ? null
             : locked
             ? <React.Fragment>
@@ -804,8 +964,11 @@ function EdPlanPage({ onBack, onRestart }) {
                 <EdBtn primary onClick={() => {
                   setSubmitted(true);
                   // Hand the submission to the Manager workspace (Direct Reportees).
-                  try { localStorage.setItem("lh-idp-submission", JSON.stringify({ status: "pending", at: Date.now() })); } catch (e) {}
-                  showToast("Plan submitted — waiting for manager approval");
+                  // Resubmitting after a rejection clears the old verdict.
+                  const sub = { status: "pending", at: Date.now() };
+                  setDecision(sub);
+                  try { localStorage.setItem("lh-idp-submission", JSON.stringify(sub)); } catch (e) {}
+                  showToast("Plan submitted — pending approval");
                 }}>Submit Plan</EdBtn>
               </React.Fragment>
             : <EdBtn primary onClick={() => {
@@ -819,6 +982,9 @@ function EdPlanPage({ onBack, onRestart }) {
           </button>
         </div>
       </div>
+
+      {/* the manager's note, once they've approved or sent the plan back */}
+      {verdict && <div style={{ marginTop: 16 }}><PlDecisionNote status={verdict.status} note={verdict.note} when={plWhen(verdict.at)} /></div>}
 
       {/* User information — a snapshot of the plan owner, shown above the tabs */}
       {userCard !== 4 && <PlUserInfo design={userCard} />}
@@ -1404,3 +1570,22 @@ window.EdPlan.clone = plClone;
 window.EdPlan.ActionCard = PlActionCard;
 window.EdPlan.metaLabel = plMetaLabel;
 window.EdPlan.SAMPLES = PL_SAMPLES;
+window.EdPlan.ReportTab = PlReportTab;   // the manager shows the very same report preview
+// Comments: one conversation shared by the employee and their manager.
+window.EdPlan.Comments = PlComments;
+window.EdPlan.threadsFor = plThreadsFor;
+window.EdPlan.THREAD_EVENT = PL_THREAD_EVENT;
+window.EdPlan.MGR_NAME = PL_MGR;
+window.EdPlan.ME_NAME = PL_ME;
+// The decision note, shared so employee and manager render the identical thing.
+window.EdPlan.DecisionNote = PlDecisionNote;
+window.EdPlan.when = plWhen;
+// The plan itself, shared with the manager, plus the diff that drives their change summary.
+window.EdPlan.loadPlan = plLoadPlan;
+window.EdPlan.savePlan = plSavePlan;
+window.EdPlan.diff = plDiff;
+window.EdPlan.PLAN_EVENT = PL_PLAN_EVENT;
+window.EdPlan.OWNER = PL_OWNER;
+// One status palette / badge for the employee and the manager alike.
+window.EdPlan.STATUS = PL_STATUS;
+window.EdPlan.StatusBadge = PlStatusBadge;

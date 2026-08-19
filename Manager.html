@@ -24,6 +24,11 @@
   @keyframes idp-blink { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
   /* team rows: shed the skills/actions column before anything wraps */
   @media (max-width: 1180px) { .mgr-counts { display: none; } }
+  /* whole row opens the reportee — same affordance as the assessor tables */
+  .mgr-row { transition: background .15s ease; }
+  .mgr-row:hover { background: rgba(0,15,71,.035); }
+  .mgr-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .mgr-link:hover { text-decoration: underline; }
 </style>
 <link rel="stylesheet" href="device-preview.css" />
 <script>try{var __d=localStorage.getItem('lh-device');if(__d&&__d!=='Desktop')document.documentElement.setAttribute('data-device',__d.toLowerCase());}catch(e){}</script>
