@@ -23,9 +23,11 @@ const MGR_TEAM = [
   { id: "amelia", first: "Amelia", last: "Rahman", initials: "AR", role: "Senior Consultant", email: "amelia.rahman@marsh.com",
     skills: 4, status: "pending", plan: "Leadership Potential Assessment 2026",
     changes: [
-      { kind: "added", label: "Peer Collaboration Sessions" },
-      { kind: "modified", label: "Introductory Behavioral Coaching Workshop" },
-      { kind: "modified", label: "Behavioral Development Course" },
+      { kind: "added", skill: "Execute with Excellence", label: "Peer Collaboration Sessions" },
+      { kind: "modified", skill: "Execute with Excellence", label: "Adopt Quality Assurance Techniques" },
+      { kind: "modified", skill: "Communicate with Impact", label: "Prepared Communication" },
+      { kind: "added", skill: "Data & Analytics", label: "Build a Reporting Playbook" },
+      { kind: "modified", skill: "Data & Analytics", label: "Complete a Data Storytelling Course" },
     ] },
   { id: "daniel", first: "Daniel", last: "Okafor", initials: "DO", role: "Client Manager", email: "daniel.okafor@marsh.com",
     skills: 3, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
@@ -59,19 +61,26 @@ function mgrPlanFor(p) {
     cat.skills.forEach((s) => { if (budget > 0) { keep.push(s); budget -= 1; } });
     if (keep.length) out.push({ ...cat, skills: keep });
   });
-  const changed = {};
-  (p.changes || []).forEach((c) => { changed[c.label] = c.kind; });
+  // Group the employee's edits by the skill they belong to, so every skill that
+  // changed carries its own "Edited" tag, badges and change summary.
+  const bySkill = {};
+  (p.changes || []).forEach((c) => { (bySkill[c.skill] = bySkill[c.skill] || []).push(c); });
   let i = 0;
-  out.forEach((c) => c.skills.forEach((s) => {
+  out.forEach((cat) => cat.skills.forEach((s) => {
     s.rating = 0;
-    s.edited = false;
+    const mine = bySkill[s.name] || [];
+    s.changes = mine;
+    s.edited = mine.length > 0;
     s.actions.forEach((a) => {
       a.completion = p.status === "completed" ? 100 : [100, 100, 0][i % 3];
-      // the first skill carries the employee's edits, matching the change summary
-      if (i === 0) { a.badge = "Edited"; s.edited = true; }
-      else if (i === 2 && (p.changes || []).length) { a.badge = "New"; s.edited = true; }
+      const hit = mine.find((c) => c.label === a.title);
+      if (hit) a.badge = hit.kind === "added" ? "New" : "Edited";
       i += 1;
     });
+    // an "added" action the seed doesn't have yet — show it as a new card
+    mine.filter((c) => c.kind === "added" && !s.actions.some((a) => a.title === c.label))
+      .forEach((c, k) => s.actions.push({ id: s.name + "-new-" + k, mix: 20, src: "Custom", title: c.label,
+        desc: "Added by " + p.first + " while editing this plan.", completion: 0, badge: "New" }));
   }));
   return out;
 }
@@ -151,7 +160,7 @@ function MgrList({ team, onOpen, onSummary }) {
 // ════════════════════════════════════════════════
 function MgrSummaryDrawer({ person, onClose, onDecide }) {
   const groups = {};
-  (person.changes || []).forEach((c) => { const k = person.skillName || "QA IDP template 1 behavior"; (groups[k] = groups[k] || []).push(c); });
+  (person.changes || []).forEach((c) => { const k = c.skill || "Development plan"; (groups[k] = groups[k] || []).push(c); });
   return (
     <React.Fragment>
       <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 85, background: "rgba(0,15,71,.28)" }} />
@@ -344,7 +353,7 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
               </div>
 
               {cat.skills.map((skill, si) => {
-                const skillChanges = (person.changes || []).filter((c) => (c.skill || (person.changes || [])[0] && si === 0));
+                const skillChanges = skill.changes || [];
                 return (
                 <div key={si} style={{ marginBottom: 26 }}>
                   {/* skill header — same shape as the employee plan */}
@@ -368,11 +377,11 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
                   )))}
 
                   {/* what changed on this skill — sits under the skill, not above it */}
-                  {si === 0 && changesBySkill.length > 0 && (
+                  {skillChanges.length > 0 && (
                     <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
                       <ul style={{ margin: 0, paddingLeft: 18 }}>
-                        {changesBySkill.map((c, i) => (
+                        {skillChanges.map((c, i) => (
                           <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
                             {c.kind === "added" ? "Added" : "Modified"} Development Action:{" "}
                             <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 5 }}>{c.label}</span>
