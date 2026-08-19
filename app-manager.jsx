@@ -17,10 +17,10 @@ const MGR_SUB_KEY = "lh-idp-submission";
 // ── direct reportees ──
 //  status: notstarted | pending | approved | rejected | completed
 const MGR_TEAM = [
-  { id: "john", first: "John", last: "Doe", initials: "JD", role: "Product Management", email: "john.doe@marsh.com",
+  { id: "john", sub: "Product Management", entity: "Star Trek Inc.", level: "Management", grade: "1A", qual: "Masters in Business", dept: "Department A", joined: "2023-04-26", first: "John", last: "Doe", initials: "JD", role: "Product Management", email: "john.doe@marsh.com",
     linked: true, skills: 5,
     status: "notstarted", plan: "Leadership Potential Assessment 2026" },
-  { id: "amelia", first: "Amelia", last: "Rahman", initials: "AR", role: "Senior Consultant", email: "amelia.rahman@marsh.com",
+  { id: "amelia", sub: "Human Resources", entity: "Star Trek Inc.", level: "Professional", grade: "2B", qual: "MSc Organisational Psychology", dept: "Human Resources", joined: "2021-09-13", first: "Amelia", last: "Rahman", initials: "AR", role: "Senior Consultant", email: "amelia.rahman@marsh.com",
     skills: 4, status: "pending", plan: "Leadership Potential Assessment 2026",
     changes: [
       { kind: "added", skill: "Execute with Excellence", label: "Peer Collaboration Sessions" },
@@ -29,13 +29,13 @@ const MGR_TEAM = [
       { kind: "added", skill: "Data & Analytics", label: "Build a Reporting Playbook" },
       { kind: "modified", skill: "Data & Analytics", label: "Complete a Data Storytelling Course" },
     ] },
-  { id: "daniel", first: "Daniel", last: "Okafor", initials: "DO", role: "Client Manager", email: "daniel.okafor@marsh.com",
+  { id: "daniel", sub: "Client Services", entity: "Star Trek Inc.", level: "Management", grade: "1A", qual: "MBA", dept: "Department B", joined: "2019-02-01", first: "Daniel", last: "Okafor", initials: "DO", role: "Client Manager", email: "daniel.okafor@marsh.com",
     skills: 3, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
-  { id: "sofia", first: "Sofia", last: "Marchetti", initials: "SM", role: "Data Analyst", email: "sofia.marchetti@marsh.com",
+  { id: "sofia", sub: "Analytics", entity: "Star Trek Inc.", level: "Professional", grade: "3A", qual: "BSc Statistics", dept: "Analytics", joined: "2023-06-19", first: "Sofia", last: "Marchetti", initials: "SM", role: "Data Analyst", email: "sofia.marchetti@marsh.com",
     skills: 3, status: "completed", plan: "360° Perspective Feedback" },
-  { id: "haruto", first: "Haruto", last: "Tanaka", initials: "HT", role: "Operations Lead", email: "haruto.tanaka@marsh.com",
+  { id: "haruto", sub: "Operations", entity: "Star Trek Inc.", level: "Management", grade: "1B", qual: "BEng", dept: "Operations", joined: "2020-11-02", first: "Haruto", last: "Tanaka", initials: "HT", role: "Operations Lead", email: "haruto.tanaka@marsh.com",
     skills: 2, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
-  { id: "lena", first: "Lena", last: "Fischer", initials: "LF", role: "Risk Specialist", email: "lena.fischer@marsh.com",
+  { id: "lena", sub: "Risk Advisory", entity: "Star Trek Inc.", level: "Professional", grade: "2A", qual: "MSc Risk Management", dept: "Risk", joined: "2022-04-25", first: "Lena", last: "Fischer", initials: "LF", role: "Risk Specialist", email: "lena.fischer@marsh.com",
     skills: 2, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
 ];
 
@@ -115,6 +115,63 @@ const MgrAvatar = ({ p, size = 42 }) => (
     <I.user size={Math.round(size * 0.5)} />
   </div>
 );
+
+
+// ── reportee card — the same three layouts as the employee's user card ──
+function MgrPersonCard({ p, design }) {
+  const fields = [
+    ["Sub Function", p.sub], ["Entity", p.entity], ["Job Level", p.level],
+    ["Grade", p.grade], ["Qualification", p.qual], ["Department", p.dept],
+    ["Date of Joining Entity", p.joined], ["Program", p.plan],
+  ].filter(([, v]) => !!v);
+  const lbl = { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 500, color: eMUT, marginBottom: 1 };
+  const val = { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 600, color: eMID };
+  const identity = (
+    <div style={{ lineHeight: 1.35 }}>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 600, color: "var(--accent)" }}>{p.role}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{p.email}</div>
+    </div>
+  );
+
+  if (design === 2) {   // Pills
+    return (
+      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 20px", marginBottom: 22, boxShadow: "0 1px 2px rgba(0,15,71,.04)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 14 }}><MgrAvatar p={p} size={46} />{identity}</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {fields.map(([k, v]) => (
+            <div key={k} style={{ background: "color-mix(in srgb, var(--primary) 4%, transparent)", border: "1px solid " + eLINE, borderRadius: 10, padding: "6px 12px" }}>
+              <div style={lbl}>{k}</div><div style={val}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (design === 3) {   // Hero panel
+    return (
+      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, marginBottom: 22, overflow: "hidden", display: "flex", flexWrap: "wrap", boxShadow: "0 1px 2px rgba(0,15,71,.04)" }}>
+        <div style={{ flex: "0 0 auto", minWidth: 210, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 10, padding: "18px 22px", background: "color-mix(in srgb, var(--primary) 5%, transparent)", borderRight: "1px solid " + eLINE }}>
+          <MgrAvatar p={p} size={52} />{identity}
+        </div>
+        <div style={{ flex: 1, minWidth: 260, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "12px 24px", alignContent: "center", padding: "18px 22px" }}>
+          {fields.map(([k, v]) => <div key={k}><div style={lbl}>{k}</div><div style={val}>{v}</div></div>)}
+        </div>
+      </div>
+    );
+  }
+  // Divided (default)
+  return (
+    <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 20px", marginBottom: 22, display: "flex", gap: 20, flexWrap: "wrap", alignItems: "stretch", boxShadow: "0 1px 2px rgba(0,15,71,.04)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 13, flex: "0 0 auto", paddingRight: 20, borderRight: "1px solid " + eLINE, minWidth: 200 }}>
+        <MgrAvatar p={p} size={46} />{identity}
+      </div>
+      <div style={{ flex: 1, minWidth: 260, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "10px 22px", alignContent: "center" }}>
+        {fields.map(([k, v]) => <div key={k}><div style={lbl}>{k}</div><div style={val}>{v}</div></div>)}
+      </div>
+    </div>
+  );
+}
 
 // ════════════════════════════════════════════════
 //  1 · DIRECT REPORTEES — the list
@@ -230,6 +287,9 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
   // Same plan-design switcher as the employee side; design 6 is the default here.
   const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-plan-design"), 10); return v >= 1 && v <= 9 ? v : 6; });
   const [sampleMenu, setSampleMenu] = mgUseState(false);
+  const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return v >= 1 && v <= 3 ? v : 1; });
+  const [userCardMenu, setUserCardMenu] = mgUseState(false);
+  const pickUserCard = (n) => { setUserCard(n); try { localStorage.setItem("mgr-usercard-design", String(n)); } catch (e) {} setUserCardMenu(false); };
   const pickSample = (n) => { setSample(n); try { localStorage.setItem("mgr-plan-design", String(n)); } catch (e) {} setSampleMenu(false); };
   // Wrap a skill's cards the way the employee plan does for grouped designs.
   const wrapCards = (cards) => {
@@ -280,14 +340,8 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
         </div>
       </div>
 
-      {/* person */}
-      <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 20 }}>
-        <MgrAvatar p={person} size={40} />
-        <div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{person.first} {person.last}</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{person.email}</div>
-        </div>
-      </div>
+      {/* the reportee's details, in the same card the employee side uses */}
+      <MgrPersonCard p={person} design={userCard} />
 
       {/* tabs + actions */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginBottom: 4 }}>
@@ -414,6 +468,24 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
           <button onClick={() => setSampleMenu((v) => !v)} title="Switch the plan card design"
             style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
             <I.layers size={14} /> Plan design · {sample}
+          </button>
+        </div>, document.body)}
+
+      {ReactDOM.createPortal(
+        <div style={{ position: "fixed", right: 200, bottom: 56, zIndex: 60, fontFamily: "var(--sans)" }}>
+          {userCardMenu && (
+            <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
+              {[[1, "Divided", "Identity beside a metadata grid"], [2, "Pills", "Details as soft tinted chips"], [3, "Hero panel", "Tinted identity column"]].map(([id, label, desc]) => { const on = userCard === id; return (
+                <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
+                  <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
+                  <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
+                </button>); })}
+            </div>
+          )}
+          <button onClick={() => setUserCardMenu((v) => !v)} title="Switch the reportee card design"
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            <I.user size={14} /> Reportee card · {userCard}
           </button>
         </div>, document.body)}
     </div>
