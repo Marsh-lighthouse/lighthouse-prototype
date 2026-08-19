@@ -40,12 +40,13 @@ const MGR_TEAM = [
     status: "none", submitted: null, actions: 0, skills: 0 },
 ];
 
+// Status chips read the way the live product does: an outlined pill per state.
 const MGR_STATUS = {
-  submitted: { label: "Waiting for your approval", color: "var(--action-text)", bg: "rgba(255,191,0,.18)", dot: "#CB7E03" },
-  approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.10)", dot: eSUCCESS },
-  changes: { label: "Changes requested", color: "var(--danger)", bg: "rgba(197,53,50,.10)", dot: "var(--danger)" },
-  draft: { label: "Draft with employee", color: eMUT, bg: "rgba(0,15,71,.06)", dot: eMUT },
-  none: { label: "No plan yet", color: eMUT, bg: "rgba(0,15,71,.06)", dot: eMUT },
+  submitted: { label: "Pending", color: "#B4770A", bg: "rgba(255,191,0,.10)", border: "rgba(203,126,3,.45)" },
+  approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.08)", border: "rgba(20,133,61,.40)" },
+  changes: { label: "Changes requested", color: "var(--danger)", bg: "rgba(197,53,50,.07)", border: "rgba(197,53,50,.38)" },
+  draft: { label: "Draft", color: eMUT, bg: "rgba(0,15,71,.04)", border: eLINE },
+  none: { label: "Not started", color: eMUT, bg: "rgba(0,15,71,.04)", border: eLINE },
 };
 
 // Each person's plan: the shared seed, trimmed so team members differ a little.
@@ -78,8 +79,8 @@ function mgrPlanFor(p) {
 const MgrBadge = ({ status }) => {
   const s = MGR_STATUS[status] || MGR_STATUS.none;
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: s.bg, color: s.color, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, padding: "5px 11px", borderRadius: 999, whiteSpace: "nowrap" }}>
-      <span style={{ width: 7, height: 7, borderRadius: 999, background: s.dot }} /> {s.label}
+    <span style={{ display: "inline-flex", alignItems: "center", background: s.bg, color: s.color, border: "1px solid " + s.border, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, padding: "3px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
+      {s.label}
     </span>
   );
 };
@@ -118,77 +119,66 @@ function MgrPersonCard({ p }) {
 }
 
 // ════════════════════════════════════════════════
-//  1 · TEAM LIST — every report and where their plan stands
+//  1 · MY DIRECT REPORTS — the manager's list, with bulk approve
 // ════════════════════════════════════════════════
-function MgrTeamList({ team, onOpen, onCreate }) {
-  const [filter, setFilter] = mgUseState("all");
-  const counts = {
-    all: team.length,
-    submitted: team.filter((t) => t.status === "submitted").length,
-    approved: team.filter((t) => t.status === "approved").length,
-    other: team.filter((t) => ["changes", "draft", "none"].indexOf(t.status) !== -1).length,
+function MgrTeamList({ team, onOpen, onCreate, onBulkApprove, showToast }) {
+  const [sel, setSel] = mgUseState({});
+  const approvable = team.filter((p) => p.status === "submitted");
+  const selIds = Object.keys(sel).filter((k) => sel[k]);
+  const allOn = approvable.length > 0 && approvable.every((p) => sel[p.id]);
+  const toggleAll = () => {
+    if (allOn) { setSel({}); return; }
+    const n = {}; approvable.forEach((p) => { n[p.id] = true; }); setSel(n);
   };
-  const rows = team.filter((t) => filter === "all" ? true
-    : filter === "submitted" ? t.status === "submitted"
-    : filter === "approved" ? t.status === "approved"
-    : ["changes", "draft", "none"].indexOf(t.status) !== -1);
-
-  const stat = (n, label, tone) => (
-    <div style={{ flex: 1, minWidth: 150, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, padding: "16px 18px" }}>
-      <div className="serif" style={{ fontSize: 30, color: tone || eMID, lineHeight: 1 }}>{n}</div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 4 }}>{label}</div>
-    </div>
+  const cell = { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 600, color: eMUT };
+  const box = (on, onChange, disabled) => (
+    <input type="checkbox" checked={!!on} disabled={disabled} onChange={onChange} onClick={(e) => e.stopPropagation()}
+      style={{ width: 16, height: 16, accentColor: "var(--accent)", cursor: disabled ? "not-allowed" : "pointer", opacity: disabled ? .35 : 1, flexShrink: 0 }} />
   );
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Team development plans</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 24px" }}>Review the plans your team has submitted, track progress, and start a plan on someone's behalf.</p>
-
-      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 28 }}>
-        {stat(counts.submitted, "Waiting for your approval", "#CB7E03")}
-        {stat(counts.approved, "Approved", eSUCCESS)}
-        {stat(counts.all, "Team members")}
-      </div>
-
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap", marginBottom: 16 }}>
-        <div style={{ display: "inline-flex", gap: 4, background: "rgba(0,15,71,.05)", borderRadius: 10, padding: 3 }}>
-          {[["all", "All"], ["submitted", "To review"], ["approved", "Approved"], ["other", "In progress"]].map(([k, l]) => {
-            const on = filter === k;
-            return <button key={k} onClick={() => setFilter(k)} style={{ padding: "7px 15px", borderRadius: 8, border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, background: on ? "#fff" : "transparent", color: on ? eMID : eMUT, boxShadow: on ? "0 1px 4px rgba(0,15,71,.1)" : "none" }}>{l}</button>;
-          })}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>My Direct Reports</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <EdBtn onClick={onCreate}><I.plus size={15} /> Create a plan</EdBtn>
+          <EdBtn primary disabled={!selIds.length} onClick={() => { onBulkApprove(selIds); showToast(selIds.length + (selIds.length === 1 ? " plan approved" : " plans approved")); setSel({}); }}>Approve</EdBtn>
         </div>
-        <EdBtn primary onClick={onCreate}><I.plus size={15} /> Create a plan</EdBtn>
       </div>
 
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden" }}>
-        {rows.map((p, i) => (
-          <div key={p.id} onClick={() => onOpen(p)} title={"Open " + p.first + "'s plan"}
-            style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i ? "1px solid " + eLINE : "none", cursor: "pointer", transition: "background .15s", flexWrap: "nowrap" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.02)"; }}
+        {/* column header */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid " + eLINE }}>
+          {box(allOn, toggleAll, !approvable.length)}
+          <div style={{ ...cell, flex: 1, minWidth: 0 }}>Users</div>
+          <div style={{ ...cell, width: 150, flexShrink: 0 }}>Status</div>
+          <div style={{ ...cell, width: 74, flexShrink: 0, textAlign: "right" }}>Action</div>
+        </div>
+
+        {team.map((p, i) => (
+          <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 20px", borderTop: i ? "1px solid " + eLINE : "none", transition: "background .15s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.015)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}>
-            <MgrAvatar p={p} />
-            <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {p.role} · {p.submitted ? "submitted " + p.submitted : "not submitted"}
+            {box(sel[p.id], () => setSel((s) => ({ ...s, [p.id]: !s[p.id] })), p.status !== "submitted")}
+            <div style={{ display: "flex", alignItems: "center", gap: 13, flex: 1, minWidth: 0 }}>
+              <MgrAvatar p={p} size={40} />
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</div>
               </div>
             </div>
-            {/* the counts drop out first when the row gets tight */}
-            <div className="mgr-counts" style={{ flex: "0 0 auto", fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap" }}>
-              {p.status === "none" ? "—" : p.skills + " skills · " + p.actions + " actions"}
+            <div style={{ width: 150, flexShrink: 0 }}><MgrBadge status={p.status} /></div>
+            <div style={{ width: 74, flexShrink: 0, textAlign: "right" }}>
+              <button onClick={() => onOpen(p)}
+                style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Details</button>
             </div>
-            <div style={{ flex: "0 0 auto" }}><MgrBadge status={p.status} /></div>
-            <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevR size={17} /></span>
           </div>
         ))}
-        {!rows.length && (
-          <div style={{ padding: "32px 18px", textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>No plans in this view.</div>
-        )}
       </div>
     </div>
   );
 }
+
 
 // ════════════════════════════════════════════════
 //  2 · PLAN REVIEW — the employee's plan, read-only, with a decision
@@ -375,17 +365,25 @@ function LHManager() {
   const [collapsed, setCollapsed] = mgUseState(false);
   const [pageBack, setPageBack] = mgUseState(null);
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(null), 2800); };
+  const bulkApprove = (ids) => setTeam((t) => t.map((p) => ids.indexOf(p.id) !== -1 ? { ...p, status: "approved" } : p));
   const decide = (id, status) => setTeam((t) => t.map((p) => p.id === id ? { ...p, status, submitted: p.submitted || "Mar 8, 2026" } : p));
 
   mgUseEffect(() => { window.scrollTo(0, 0); const c = document.querySelector(".ed-content"); if (c) c.scrollTop = 0; }, [route]);
 
+  // Mirrors the employee rail — Development just gains "My Direct Reports".
   const NAV = [
-    { id: "team", label: "Team plans", icon: "users" },
-    { id: "create", label: "Create a plan", icon: "plus" },
+    { id: "home", label: "Dashboard", icon: "home", muted: true },
+    { id: "dev", label: "Development", icon: "book", group: true, children: [
+      { id: "myplan", label: "My Plan", muted: true },
+      { id: "team", label: "My Direct Reports" },
+    ] },
+    { id: "scheduling", label: "Scheduling", icon: "cal", muted: true },
+    { id: "insights", label: "Insights", icon: "chart", muted: true },
+    { id: "profile", label: "My profile", icon: "user", muted: true },
   ];
 
-  const topBack = route.page === "review" ? { label: "All team plans", onClick: () => setRoute({ page: "team", person: null }) }
-    : route.page === "create" ? { label: "All team plans", onClick: () => setRoute({ page: "team", person: null }) }
+  const topBack = route.page === "review" ? { label: "My Direct Reports", onClick: () => setRoute({ page: "team", person: null }) }
+    : route.page === "create" ? { label: "My Direct Reports", onClick: () => setRoute({ page: "team", person: null }) }
     : pageBack;
 
   let content;
@@ -395,7 +393,7 @@ function LHManager() {
   } else if (route.page === "create") {
     content = <MgrCreate team={team} onBack={() => setRoute({ page: "team", person: null })} onLaunch={(p) => { showToast("Starting a plan for " + p.first + " " + p.last); setRoute({ page: "team", person: null }); }} />;
   } else {
-    content = <MgrTeamList team={team} onOpen={(p) => setRoute({ page: "review", person: p })} onCreate={() => setRoute({ page: "create", person: null })} />;
+    content = <MgrTeamList team={team} onOpen={(p) => setRoute({ page: "review", person: p })} onCreate={() => setRoute({ page: "create", person: null })} onBulkApprove={bulkApprove} showToast={showToast} />;
   }
 
   return (
@@ -406,13 +404,31 @@ function LHManager() {
         <div style={{ padding: collapsed ? "22px 0 18px" : "22px 22px 18px", display: "flex", justifyContent: collapsed ? "center" : "flex-start" }}>
           <span className="serif" style={{ color: "#fff", fontSize: collapsed ? 22 : 19, letterSpacing: ".01em" }}>{collapsed ? "M" : "Marsh Lighthouse"}</span>
         </div>
-        <div style={{ padding: collapsed ? "0 10px" : "0 14px", display: "flex", flexDirection: "column", gap: 4, flex: 1 }}>
+        <div style={{ padding: collapsed ? "0 10px" : "0 14px", display: "flex", flexDirection: "column", gap: 4, flex: 1, overflowY: "auto" }}>
           {NAV.map((n) => {
-            const on = route.page === n.id || (n.id === "team" && route.page === "review");
             const Ic = I[n.icon] || I.users;
+            if (n.group) {
+              return (
+                <React.Fragment key={n.id}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: collapsed ? "center" : "flex-start", padding: collapsed ? "12px 0" : "11px 13px", color: "rgba(255,255,255,.9)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+                    <Ic size={18} />{!collapsed && n.label}
+                  </div>
+                  {!collapsed && n.children.map((c) => {
+                    const on = route.page === c.id || (c.id === "team" && route.page === "review");
+                    return (
+                      <button key={c.id} onClick={() => { if (!c.muted) setRoute({ page: c.id, person: null }); }} title={c.muted ? c.label + " (employee view)" : c.label}
+                        style={{ display: "flex", alignItems: "center", gap: 10, textAlign: "left", background: on ? "rgba(206,236,255,.16)" : "transparent", border: "none", borderLeft: "2px solid " + (on ? "var(--sky-surface, #CEECFF)" : "transparent"), borderRadius: on ? 8 : 0, padding: "9px 13px 9px 30px", cursor: c.muted ? "default" : "pointer", color: on ? "#fff" : "rgba(255,255,255," + (c.muted ? ".42" : ".72") + ")", fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: on ? 700 : 500 }}>
+                        {c.label}
+                      </button>
+                    );
+                  })}
+                </React.Fragment>
+              );
+            }
+            const on = route.page === n.id;
             return (
-              <button key={n.id} onClick={() => setRoute({ page: n.id, person: null })} title={n.label}
-                style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: collapsed ? "center" : "flex-start", background: on ? "rgba(206,236,255,.14)" : "transparent", border: "none", borderRadius: 10, padding: collapsed ? "12px 0" : "11px 13px", cursor: "pointer", color: on ? "#fff" : "rgba(255,255,255,.72)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500 }}>
+              <button key={n.id} onClick={() => { if (!n.muted) setRoute({ page: n.id, person: null }); }} title={n.muted ? n.label + " (employee view)" : n.label}
+                style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: collapsed ? "center" : "flex-start", background: on ? "rgba(206,236,255,.14)" : "transparent", border: "none", borderRadius: 10, padding: collapsed ? "12px 0" : "11px 13px", cursor: n.muted ? "default" : "pointer", color: on ? "#fff" : "rgba(255,255,255," + (n.muted ? ".42" : ".72") + ")", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500 }}>
                 <Ic size={18} />{!collapsed && n.label}
               </button>
             );
