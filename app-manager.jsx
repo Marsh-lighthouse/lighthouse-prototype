@@ -134,16 +134,13 @@ function MgrPersonCard({ p, design }) {
     </div>
   );
 
-  if (design === 2) {   // Pills
+  if (design === 2) {   // Minimal — just who it is: picture, name, email
     return (
-      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 20px", marginBottom: 22, boxShadow: "0 1px 2px rgba(0,15,71,.04)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 14 }}><MgrAvatar p={p} size={46} />{identity}</div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-          {fields.map(([k, v]) => (
-            <div key={k} style={{ background: "color-mix(in srgb, var(--primary) 4%, transparent)", border: "1px solid " + eLINE, borderRadius: 10, padding: "6px 12px" }}>
-              <div style={lbl}>{k}</div><div style={val}>{v}</div>
-            </div>
-          ))}
+      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 20px", marginBottom: 22, boxShadow: "0 1px 2px rgba(0,15,71,.04)", display: "flex", alignItems: "center", gap: 13 }}>
+        <MgrAvatar p={p} size={46} />
+        <div style={{ lineHeight: 1.35 }}>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{p.email}</div>
         </div>
       </div>
     );
@@ -476,7 +473,7 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
           {userCardMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
-              {[[1, "Divided", "Identity beside a metadata grid"], [2, "Pills", "Details as soft tinted chips"], [3, "Hero panel", "Tinted identity column"]].map(([id, label, desc]) => { const on = userCard === id; return (
+              {[[1, "Divided", "Identity beside a metadata grid"], [2, "Minimal", "Just picture, name and email"], [3, "Hero panel", "Tinted identity column"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
                   <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
