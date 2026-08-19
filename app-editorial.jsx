@@ -19,7 +19,7 @@ function Ring({ pct, size = 48, stroke = 4, color = BLUE, track = "rgba(255,255,
   );
 }
 
-function EdRail({ activeId, onNav, collapsed, onToggle }) {
+function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = true, showProgress = true, user }) {
   const W = collapsed ? 74 : 256;
   const [theme, setThemeState] = React.useState(() => { try { return localStorage.getItem("lh-theme") === "dark" ? "dark" : "light"; } catch (e) { return "light"; } });
   React.useEffect(() => {
@@ -91,30 +91,30 @@ function EdRail({ activeId, onNav, collapsed, onToggle }) {
       </div>
       <nav style={{ flex: 1, padding: collapsed ? "4px 10px" : "4px 12px", display: "flex", flexDirection: "column", gap: 2 }}>
         {/* Bookings is hidden for now — the tab and its page are switched off. */}
-        {LH.nav.filter((it) => it.id !== "leadership" && it.id !== "360" && it.id !== "bookings").map((it) => (
+        {(items || LH.nav).filter((it) => it.id !== "leadership" && it.id !== "360" && it.id !== "bookings").map((it) => (
           <React.Fragment key={it.id}>
             {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 14, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 600 }}>{it.group}</div>}
             {it.group && it.group !== "Growth" && collapsed && <div style={{ height: 1, background: "var(--rail-border)", margin: "12px 8px 8px" }} />}
             <Item item={it} active={it.id === activeId} />
           </React.Fragment>
         ))}
-        <Item item={{ id: "profile", label: t("myProfile"), icon: "user" }} active={activeId === "profile"} />
-        <Item item={{ id: "changePassword", label: "Change password", icon: "lock" }} active={activeId === "changePassword"} />
+        {showAccount && <Item item={{ id: "profile", label: t("myProfile"), icon: "user" }} active={activeId === "profile"} />}
+        {showAccount && <Item item={{ id: "changePassword", label: "Change password", icon: "lock" }} active={activeId === "changePassword"} />}
       </nav>
       <div style={{ padding: collapsed ? "10px 8px 16px" : "10px 12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
         {collapsed ? (
           <React.Fragment>
-            <button onClick={() => onNav("profile")} title={t("profileCompletion") + " — " + LH.profile.pct + "%"} style={{ width: "100%", border: "none", background: "transparent", padding: 0, cursor: "pointer", display: "flex", justifyContent: "center", marginBottom: 4 }}>
+            {showProgress && <button onClick={() => onNav("profile")} title={t("profileCompletion") + " — " + LH.profile.pct + "%"} style={{ width: "100%", border: "none", background: "transparent", padding: 0, cursor: "pointer", display: "flex", justifyContent: "center", marginBottom: 4 }}>
               <div style={{ position: "relative", width: 40, height: 40, flexShrink: 0 }}>
                 <Ring pct={LH.profile.pct} size={40} stroke={3} color="var(--rail-active-icon)" />
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "var(--rail-fg)" }}>{LH.profile.pct}%</div>
               </div>
-            </button>
-            <EdUserMenuCollapsed onNav={onNav} />
+            </button>}
+            <EdUserMenuCollapsed onNav={onNav} user={user} />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <div style={{ borderTop: "1px solid var(--rail-border)", paddingTop: 12, marginBottom: 8 }}>
+            {showProgress && <div style={{ borderTop: "1px solid var(--rail-border)", paddingTop: 12, marginBottom: 8 }}>
               <div style={{ fontSize: 14, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 600, padding: "0 2px 12px" }}>{t("profileCompletion")}</div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "16px 12px", background: "var(--rail-active-bg)", borderRadius: 10 }}>
                 <div style={{ position: "relative", width: 60, height: 60, flexShrink: 0 }}>
@@ -131,8 +131,8 @@ function EdRail({ activeId, onNav, collapsed, onToggle }) {
                   {t("completeProfile")}
                 </button>
               </div>
-            </div>
-            <EdUserMenuExpanded onNav={onNav} />
+            </div>}
+            <EdUserMenuExpanded onNav={onNav} user={user} />
           </React.Fragment>
         )}
       </div>
@@ -140,7 +140,8 @@ function EdRail({ activeId, onNav, collapsed, onToggle }) {
   );
 }
 
-function EdUserMenuCollapsed({ onNav }) {
+function EdUserMenuCollapsed({ onNav, user }) {
+  const U = user || LH.user;
   const [open, setOpen] = React.useState(false);
   const [pos, setPos] = React.useState(null);
   const btnRef = React.useRef(null);
@@ -170,17 +171,17 @@ function EdUserMenuCollapsed({ onNav }) {
   };
   return (
     <div style={{ position: "relative" }}>
-      <button ref={btnRef} onClick={toggle} title={`${LH.user.first} ${LH.user.last}`} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "1px solid var(--rail-border)", borderRadius: 10, padding: "8px", cursor: "pointer", color: "var(--rail-icon)" }}>
-        <span style={{ width: 28, height: 28, borderRadius: 8, background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{LH.user.initials}</span>
+      <button ref={btnRef} onClick={toggle} title={`${U.first} ${U.last}`} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "1px solid var(--rail-border)", borderRadius: 10, padding: "8px", cursor: "pointer", color: "var(--rail-icon)" }}>
+        <span style={{ width: 28, height: 28, borderRadius: 8, background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
       </button>
       {open && pos && (
         <React.Fragment>
           <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 1000 }} />
           <div style={{ position: "fixed", bottom: pos.bottom, left: pos.left, right: pos.right, width: 224, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 14px 40px rgba(0,15,71,.18)", zIndex: 1001, overflow: "hidden", fontFamily: "var(--sans)" }}>
             <div style={{ padding: "13px 15px", borderBottom: "1px solid var(--line)", display: "flex", alignItems: "center", gap: 11 }}>
-              <span style={{ width: 38, height: 38, borderRadius: 10, background: MID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{LH.user.initials}</span>
+              <span style={{ width: 38, height: 38, borderRadius: 10, background: MID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{LH.user.first} {LH.user.last}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
               </div>
             </div>
             {items.map((m, i) => { const Ic = I[m.ic]; const danger = m.l === "Log out"; return (
@@ -197,17 +198,18 @@ function EdUserMenuCollapsed({ onNav }) {
   );
 }
 
-function EdUserMenuExpanded({ onNav }) {
-  const email = (LH.user.first + "." + LH.user.last + "@marsh.com").toLowerCase().replace(/\s+/g, "");
+function EdUserMenuExpanded({ onNav, user }) {
+  const U = user || LH.user;
+  const email = (U.first + "." + U.last + "@marsh.com").toLowerCase().replace(/\s+/g, "");
   const _cb = (typeof window !== "undefined" && window.LHBrand && window.LHBrand.current() !== "marsh") ? window.LHBrand.current() : null;
   const logoutColor = (_cb === "dge" || _cb === "generali") ? "#fff" : "var(--danger)";
   return (
     <div style={{ marginTop: 4 }}>
       {/* User identity — no inline logout icon anymore */}
       <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "8px 4px 12px 8px" }}>
-        <span style={{ width: 34, height: 34, borderRadius: 9, background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{LH.user.initials}</span>
+        <span style={{ width: 34, height: 34, borderRadius: 9, background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--rail-active-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{LH.user.first} {LH.user.last}</div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--rail-active-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{U.first} {U.last}</div>
           <div style={{ fontSize: 14, color: "var(--rail-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }}>{email}</div>
         </div>
       </div>
@@ -231,8 +233,8 @@ function EdUserMenu({ onNav }) {
   ];
   return (
     <div style={{ position: "relative" }}>
-      <button onClick={() => setOpen((v) => !v)} title={`${LH.user.first} ${LH.user.last}`} style={{ display: "flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 10, padding: "4px 9px 4px 4px", cursor: "pointer" }}>
-        <span style={{ width: 32, height: 32, borderRadius: 8, background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{LH.user.initials}</span>
+      <button onClick={() => setOpen((v) => !v)} title={`${U.first} ${U.last}`} style={{ display: "flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 10, padding: "4px 9px 4px 4px", cursor: "pointer" }}>
+        <span style={{ width: 32, height: 32, borderRadius: 8, background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
         <I.chevD size={15} style={{ color: MUT, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
       </button>
       {open && (
@@ -240,10 +242,10 @@ function EdUserMenu({ onNav }) {
           <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
           <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 224, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 14px 40px rgba(0,15,71,.18)", zIndex: 41, overflow: "hidden", fontFamily: "var(--sans)" }}>
             <div style={{ padding: "13px 15px", borderBottom: "1px solid var(--line)", display: "flex", alignItems: "center", gap: 11 }}>
-              <span style={{ width: 38, height: 38, borderRadius: 10, background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{LH.user.initials}</span>
+              <span style={{ width: 38, height: 38, borderRadius: 10, background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{LH.user.first} {LH.user.last}</div>
-                <div style={{ fontSize: 14, color: MUT }}>{LH.user.role}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
+                <div style={{ fontSize: 14, color: MUT }}>{U.role}</div>
               </div>
             </div>
             {items.map((m, i) => { const Ic = I[m.ic]; const danger = m.l === "Log out"; return (
@@ -1436,3 +1438,5 @@ function DashEditorial({ initialRoute } = {}) {
 }
 
 window.DashEditorial = DashEditorial;
+// The Manager workspace reuses the very same rail.
+window.EdShell = { EdRail };

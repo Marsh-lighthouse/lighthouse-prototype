@@ -341,7 +341,7 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
       <MgrPersonCard p={person} design={userCard} />
 
       {/* tabs + actions */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginBottom: 4 }}>
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginBottom: 4 }}>
         <div style={{ display: "flex", gap: 2 }}>
           {[["plan", "Plan"], ["gap", "Skill Gap Report"]].map(([k, l]) => {
             const on = tab === k;
@@ -500,6 +500,7 @@ function LHManager() {
   const [collapsed, setCollapsed] = mgUseState(false);
   const [devOpen, setDevOpen] = mgUseState(true);
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(null), 2800); };
+  const Rail = window.EdShell && window.EdShell.EdRail;
 
   // John Doe's row mirrors whatever the employee flow submitted.
   const syncSubmission = React.useCallback(() => {
@@ -541,41 +542,32 @@ function LHManager() {
 
   return (
     <div className="ed-shell" style={{ display: "flex", minHeight: "100vh", background: "var(--canvas)" }}>
-      <aside style={{ width: collapsed ? 76 : 244, flexShrink: 0, background: "var(--surface-deep)", display: "flex", flexDirection: "column", transition: "width .2s", position: "sticky", top: 0, height: "100vh", alignSelf: "flex-start" }}>
-        <div style={{ padding: collapsed ? "22px 0 20px" : "22px 20px 20px", display: "flex", justifyContent: collapsed ? "center" : "flex-start" }}>
-          <span className="serif" style={{ color: "#fff", fontSize: collapsed ? 22 : 19 }}>{collapsed ? "M" : "Marsh Lighthouse"}</span>
-        </div>
-        <nav style={{ padding: collapsed ? "0 10px" : "0 12px", display: "flex", flexDirection: "column", gap: 3, flex: 1, overflowY: "auto" }}>
-          {railItem("Home", "home", false, () => {})}
-          <button onClick={() => setDevOpen((v) => !v)} style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: collapsed ? "center" : "flex-start", background: "transparent", border: "none", borderRadius: 9, padding: collapsed ? "12px 0" : "11px 13px", cursor: "pointer", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, width: "100%" }}>
-            <I.book size={18} />{!collapsed && <React.Fragment>Development<span style={{ marginLeft: "auto", display: "flex" }}><I.chevD size={15} style={{ transform: devOpen ? "rotate(180deg)" : "none" }} /></span></React.Fragment>}
-          </button>
-          {!collapsed && devOpen && (
-            <React.Fragment>
-              {railItem("My Plan", null, false, () => {}, true)}
-              {railItem("Direct Reportees", null, route.page === "list" || route.page === "detail", () => setRoute({ page: "list", person: null }), true)}
-            </React.Fragment>
-          )}
-          {railItem("Profile", "user", false, () => {})}
-        </nav>
-        <div style={{ padding: collapsed ? "14px 10px 18px" : "14px 16px 18px", display: "flex", alignItems: "center", gap: 11, justifyContent: collapsed ? "center" : "flex-start" }}>
-          <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(255,255,255,.14)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.user size={17} /></div>
-          {!collapsed && (
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Priya Sharma</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "var(--action)", cursor: "pointer" }}>Log out</div>
-            </div>
-          )}
-        </div>
-        <button onClick={() => setCollapsed((v) => !v)} title={collapsed ? "Expand menu" : "Collapse menu"}
-          style={{ position: "absolute", top: 26, right: -13, width: 26, height: 26, borderRadius: "50%", background: "#fff", border: "1px solid " + eLINE, color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,15,71,.15)" }}>
-          <I.chevR size={14} style={{ transform: collapsed ? "none" : "rotate(180deg)" }} />
-        </button>
-      </aside>
+      {/* Folio's own rail, with the manager's three destinations */}
+      {Rail
+        ? <Rail activeId={route.page === "list" || route.page === "detail" ? "development" : route.page}
+            onNav={(id) => { if (id === "development") setRoute({ page: "list", person: null }); }}
+            collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} showAccount={false} showProgress={false}
+            user={{ first: "Priya", last: "Sharma", initials: "PS", role: "People Manager" }}
+            items={[
+              { id: "home", label: "Home", icon: "home" },
+              { id: "development", label: "Development", icon: "book" },
+              { id: "profile", label: "Profile", icon: "user" },
+            ]} />
+        : null}
 
       <main style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-        <div className="ed-topbar" style={{ position: "sticky", top: 0, zIndex: 40, display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 16, minHeight: 58, boxSizing: "border-box", padding: "10px var(--fol-px, 56px)", background: "var(--canvas)", borderBottom: "1px solid " + eLINE }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", padding: "5px 12px", borderRadius: 999 }}>Manager view</span>
+        <div className="ed-topbar" style={{ position: "sticky", top: 0, zIndex: 40, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, minHeight: 58, boxSizing: "border-box", padding: "10px var(--fol-px, 56px)", background: "var(--canvas)", borderBottom: "1px solid " + eLINE }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, minWidth: 0 }}>
+            {route.page === "detail" && (
+              <button onClick={() => setRoute({ page: "list", person: null })} className="ed-topbar-back"
+                style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+                <I.chevL size={17} /> Direct Reportees
+              </button>
+            )}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", padding: "5px 12px", borderRadius: 999 }}>Manager view</span>
+          </div>
         </div>
         <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: 1 }}>
           {route.page === "detail" && person
