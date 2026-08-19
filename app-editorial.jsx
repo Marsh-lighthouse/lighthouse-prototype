@@ -90,7 +90,8 @@ function EdRail({ activeId, onNav, collapsed, onToggle }) {
         <Logo icon={collapsed} />
       </div>
       <nav style={{ flex: 1, padding: collapsed ? "4px 10px" : "4px 12px", display: "flex", flexDirection: "column", gap: 2 }}>
-        {LH.nav.filter((it) => it.id !== "leadership" && it.id !== "360").map((it) => (
+        {/* Bookings is hidden for now — the tab and its page are switched off. */}
+        {LH.nav.filter((it) => it.id !== "leadership" && it.id !== "360" && it.id !== "bookings").map((it) => (
           <React.Fragment key={it.id}>
             {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 14, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 600 }}>{it.group}</div>}
             {it.group && it.group !== "Growth" && collapsed && <div style={{ height: 1, background: "var(--rail-border)", margin: "12px 8px 8px" }} />}
@@ -1079,7 +1080,8 @@ function DashEditorial({ initialRoute } = {}) {
 
   const openProgram = (id) => {
     if (id === "dash") { setRoute({ page: "dash", progId: null, center: null, target: null }); return; }
-    if (id === "development" || id === "scheduling" || id === "insights" || id === "bookings" || id === "profile" || id === "settings" || id === "changePassword") {
+    if (id === "bookings") return;   // Bookings is switched off for now
+    if (id === "development" || id === "scheduling" || id === "insights" || id === "profile" || id === "settings" || id === "changePassword") {
       setRoute({ page: id, progId: null, center: null, target: null }); return;
     }
     const isProg = LH.programs.some((p) => p.id === id);
@@ -1120,7 +1122,7 @@ function DashEditorial({ initialRoute } = {}) {
   } else if (route.page === "insights") {
     content = <G.EdInsights onBack={toDash} initialPreview={route.insightPreview} />;
   } else if (route.page === "bookings") {
-    content = Bk ? <Bk /> : null;
+    content = null;   // Bookings hidden — nothing renders if something still points here
   } else if (route.page === "dash" || !prog) {
     content = <EdDashboardContent onOpen={openProgram} onSystemCheck={openSystemCheck} sample={dashSample} />;
   } else if (route.page === "instructions") {

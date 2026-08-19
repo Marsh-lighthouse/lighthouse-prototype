@@ -69,7 +69,8 @@ function BRail({ activeId, onNav, collapsed, onToggle, theme }) {
         )}
       </div>
       <nav style={{ flex: 1, padding: "4px 12px", display: "flex", flexDirection: "column", gap: 2 }}>
-        {LH.nav.filter((it) => it.id !== "leadership" && it.id !== "360").map((it) => (
+        {/* Bookings hidden for now */}
+        {LH.nav.filter((it) => it.id !== "leadership" && it.id !== "360" && it.id !== "bookings").map((it) => (
           <Item key={it.id} item={it} active={it.id === activeId} />
         ))}
         <Item item={{ id: "profile", label: "My profile", icon: "user" }} active={activeId === "profile"} />
@@ -518,7 +519,8 @@ function DashBoardroom() {
 
   const openProgram = (id) => {
     if (id === "dash") { setRoute({ page: "dash", progId: null, center: null, target: null }); return; }
-    if (id === "development" || id === "scheduling" || id === "insights" || id === "bookings" || id === "profile" || id === "changePassword") {
+    if (id === "bookings") return;   // Bookings is switched off for now
+    if (id === "development" || id === "scheduling" || id === "insights" || id === "profile" || id === "changePassword") {
       setRoute({ page: id, progId: null, center: null, target: null }); return;
     }
     const isProg = LH.programs.some((p) => p.id === id);
@@ -548,7 +550,7 @@ function DashBoardroom() {
   } else if (route.page === "insights") {
     content = <G.EdInsights onBack={toDash} />;
   } else if (route.page === "bookings") {
-    content = Bk ? <Bk /> : null;
+    content = null;   // Bookings hidden
   } else if (route.page === "profile") {
     content = <BProfile onBack={toDash} />;
   } else if (route.page === "changePassword") {
