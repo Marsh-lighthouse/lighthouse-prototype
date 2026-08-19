@@ -164,19 +164,21 @@ function MgrTeamList({ team, onOpen, onCreate }) {
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden" }}>
         {rows.map((p, i) => (
           <div key={p.id} onClick={() => onOpen(p)} title={"Open " + p.first + "'s plan"}
-            style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i ? "1px solid " + eLINE : "none", cursor: "pointer", transition: "background .15s", flexWrap: "wrap" }}
+            style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i ? "1px solid " + eLINE : "none", cursor: "pointer", transition: "background .15s", flexWrap: "nowrap" }}
             onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.02)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}>
             <MgrAvatar p={p} />
-            <div style={{ flex: "1 1 220px", minWidth: 0 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{p.role} · {p.dept}</div>
+            <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {p.role} · {p.submitted ? "submitted " + p.submitted : "not submitted"}
+              </div>
             </div>
-            <div style={{ flex: "0 0 auto", fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, minWidth: 130 }}>
+            {/* the counts drop out first when the row gets tight */}
+            <div className="mgr-counts" style={{ flex: "0 0 auto", fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap" }}>
               {p.status === "none" ? "—" : p.skills + " skills · " + p.actions + " actions"}
             </div>
-            <div style={{ flex: "0 0 auto", minWidth: 190 }}><MgrBadge status={p.status} /></div>
-            <div style={{ flex: "0 0 auto", fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, minWidth: 108 }}>{p.submitted || "Not submitted"}</div>
+            <div style={{ flex: "0 0 auto" }}><MgrBadge status={p.status} /></div>
             <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevR size={17} /></span>
           </div>
         ))}
@@ -399,7 +401,8 @@ function LHManager() {
   return (
     <div className="ed-shell" style={{ display: "flex", minHeight: "100vh", background: "var(--canvas)" }}>
       {/* rail */}
-      <aside style={{ width: collapsed ? 76 : 256, flexShrink: 0, background: "var(--surface-deep)", display: "flex", flexDirection: "column", transition: "width .2s", position: "relative" }}>
+      {/* sticky full-height rail — stays put while the page scrolls, as in the employee shell */}
+      <aside style={{ width: collapsed ? 76 : 256, flexShrink: 0, background: "var(--surface-deep)", display: "flex", flexDirection: "column", transition: "width .2s", position: "sticky", top: 0, height: "100vh", alignSelf: "flex-start" }}>
         <div style={{ padding: collapsed ? "22px 0 18px" : "22px 22px 18px", display: "flex", justifyContent: collapsed ? "center" : "flex-start" }}>
           <span className="serif" style={{ color: "#fff", fontSize: collapsed ? 22 : 19, letterSpacing: ".01em" }}>{collapsed ? "M" : "Marsh Lighthouse"}</span>
         </div>
