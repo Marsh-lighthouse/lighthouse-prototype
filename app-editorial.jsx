@@ -115,7 +115,8 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
             {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 14, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 600 }}>{it.group}</div>}
             {it.group && it.group !== "Growth" && collapsed && <div style={{ height: 1, background: "var(--rail-border)", margin: "12px 8px 8px" }} />}
             <Item item={it} active={it.id === activeId || inSection} />
-            {kids.length > 0 && !collapsed && (
+            {/* sub-items belong to their section — they appear only while you're in it */}
+            {kids.length > 0 && !collapsed && (inSection || it.id === activeId) && (
               <div style={{ display: "flex", flexDirection: "column", gap: 2, margin: "2px 0 6px" }}>
                 {kids.map((c) => <SubItem key={c.id} item={c} active={c.id === activeId} />)}
               </div>
