@@ -719,7 +719,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
               )}
             </div>
             <div style={{ background: slot.cancelBefore ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "rgba(203,126,3,.07)", borderRadius: 10, padding: "10px 13px", marginBottom: 22 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{slot.cancelBefore ? `Free cancellation up to ${slot.cancelBefore} before the session.` : "This session is non-refundable once booked."}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{slot.cancelBefore ? `Cancellation up to ${slot.cancelBefore} before the session.` : "This session is non-refundable once booked."}</span>
             </div>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
               <EdBtn primary onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setDoneSlot({ ...confirmSlot, langPref, lang }); setConfirmSlot(null); }}>Confirm booking <I.check size={15} /></EdBtn>
@@ -741,7 +741,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
             <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(197,53,50,.10)", color: eDANGER, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><I.info size={22} /></div>
             <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.12, margin: "0 0 8px" }}>Cancel this booking?</h2>
             <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 8px" }}>You're about to cancel <strong style={{ color: eMID }}>{center.name}</strong> on {slot.date} at {slotTime(slot.time)}.</p>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, margin: "0 0 22px" }}>{slot.cancelBefore ? `This is within the free cancellation window (${slot.cancelBefore} before).` : "This session is non-refundable — cancelling forfeits your seat."}</p>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, margin: "0 0 22px" }}>{slot.cancelBefore ? `This is within the cancellation window (${slot.cancelBefore} before).` : "This session is non-refundable — cancelling forfeits your seat."}</p>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
               <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setCancelSlot(null); setDoneSlot(null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel booking</button>
             </div>
@@ -782,7 +782,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
             {row("When", <React.Fragment>{slot.date} · {slot.day}<br /><span style={{ fontWeight: 700 }}>{slotTime(slot.time)}</span> <span style={{ fontWeight: 400, color: eMUT }}>({tzMeta.short})</span></React.Fragment>)}
             {row("Location", center.location)}
             {doneSlot.langPref === "yes" && row("Language", doneSlot.lang)}
-            {slot.cancelBefore && row("Cancellation", "Free up to " + slot.cancelBefore + " before the session")}
+            {slot.cancelBefore && row("Cancellation", "Up to " + slot.cancelBefore + " before the session")}
           </div>
 
           {/* what the session actually is — so this page works as the booking's detail view */}
