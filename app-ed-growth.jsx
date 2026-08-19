@@ -631,7 +631,7 @@ function EdScheduling({ onBack, initialCenter, demo }) {
 
         {pop && (() => {
           const { slot, center } = pop;
-          const W = 240;
+          const W = 268;   // room for the language question alongside the slot details
           const wrapW = calWrapRef.current ? calWrapRef.current.offsetWidth : 800;
           let left = pop.relRight + 8;
           if (left + W > wrapW) left = pop.relLeft - W - 8; // flip to the left of the block
@@ -654,7 +654,29 @@ function EdScheduling({ onBack, initialCenter, demo }) {
                 {pop.booked ? (
                   <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setPop(null); }} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel booking</button>
                 ) : (
-                  <button onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setPop(null); }} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: eBLUE, color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Book this slot <I.check size={14} /></button>
+                  <React.Fragment>
+                    {/* same language question as the list flow */}
+                    <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 12, marginBottom: 13 }}>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, marginBottom: 8 }}>Do you have a language preference?</div>
+                      <div style={{ display: "flex", gap: 18, marginBottom: langPref === "yes" ? 10 : 0 }}>
+                        {["yes", "no"].map((v) => (
+                          <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 6, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13.5, color: eINK }}>
+                            <input type="radio" name="sched-pop-lang" checked={langPref === v} onChange={() => setLangPref(v)} style={{ accentColor: eBLUE, width: 15, height: 15 }} />
+                            {v === "yes" ? "Yes" : "No"}
+                          </label>
+                        ))}
+                      </div>
+                      {langPref === "yes" && (
+                        <select value={lang} onChange={(e) => setLang(e.target.value)}
+                          style={{ width: "100%", boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 9, padding: "9px 11px", cursor: "pointer" }}>
+                          <option>English</option><option>Deutsch</option><option>Français</option><option>العربية</option>
+                        </select>
+                      )}
+                    </div>
+                    {/* booking from the calendar lands on the same confirmation page */}
+                    <button onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setDoneSlot({ slot, center, program: pop.program, langPref, lang, justBooked: true }); setPop(null); }}
+                      style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: eBLUE, color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Book this slot <I.check size={14} /></button>
+                  </React.Fragment>
                 )}
               </div>
             </React.Fragment>
