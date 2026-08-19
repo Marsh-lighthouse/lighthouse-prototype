@@ -76,6 +76,17 @@ function mgrPlanFor(p) {
   return out;
 }
 
+// Skill-gap analysis — the same figures the employee sees on their side.
+const MGR_GAPS = {
+  overview: "From the Leadership Assessment, these competencies show the largest gap to target — they shape the focus of this plan.",
+  gaps: [
+    { skill: "Communicate with Impact", score: 2.4, target: 3.8, note: "Influence and stakeholder communication" },
+    { skill: "Champion Change and Innovation", score: 2.6, target: 3.6, note: "Driving and adopting change" },
+    { skill: "Collaborate and Build Relationships", score: 2.9, target: 3.6, note: "Cross-team collaboration" },
+  ],
+  strengths: ["Execute with Excellence \u2014 4.1 / 5 (above target)", "Act Professionally \u2014 3.9 / 5 (above target)"],
+};
+
 // ── small shared bits ──
 const MgrBadge = ({ status }) => {
   const s = MGR_STATUS[status] || MGR_STATUS.notstarted;
@@ -204,6 +215,33 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
   const [showReason, setShowReason] = mgUseState(false);
   const data = React.useMemo(() => mgrPlanFor(person), [person.id, person.status]);
   const LEARN = (window.EdPlan && window.EdPlan.LEARN) || {};
+  const ACard = window.EdPlan && window.EdPlan.ActionCard;   // same card the employee sees
+  const SAMPLES = (window.EdPlan && window.EdPlan.SAMPLES) || [];
+  const META = (window.EdPlan && window.EdPlan.metaLabel) || {};
+  // Same plan-design switcher as the employee side; design 6 is the default here.
+  const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-plan-design"), 10); return v >= 1 && v <= 9 ? v : 6; });
+  const [sampleMenu, setSampleMenu] = mgUseState(false);
+  const pickSample = (n) => { setSample(n); try { localStorage.setItem("mgr-plan-design", String(n)); } catch (e) {} setSampleMenu(false); };
+  // Wrap a skill's cards the way the employee plan does for grouped designs.
+  const wrapCards = (cards) => {
+    if (sample === 4 || sample === 6) {
+      return (
+        <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, padding: sample === 6 ? "6px 16px" : "0 16px 2px", boxShadow: "0 1px 3px rgba(0,15,71,.05)", marginBottom: 6 }}>
+          {sample === 4 && (
+            <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "13px 2px 9px", borderBottom: "1px solid " + eLINE }}>
+              <span style={{ width: 8, flexShrink: 0 }} />
+              <div style={{ ...META, margin: 0, flex: "1 1 260px", minWidth: 0 }}>Development action</div>
+              <div style={{ ...META, margin: 0, width: 168, flexShrink: 0 }}>Start – End date</div>
+              <div style={{ ...META, margin: 0, width: 148, flexShrink: 0 }}>Completion</div>
+            </div>
+          )}
+          {cards}
+        </div>
+      );
+    }
+    if (sample === 9) return <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 12, alignItems: "stretch", marginBottom: 6 }}>{cards}</div>;
+    return cards;
+  };
   const decided = person.status === "approved" || person.status === "rejected" || person.status === "completed";
   const changesBySkill = (person.changes || []);
 
@@ -272,32 +310,49 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
       </div>
 
       {tab === "gap" ? (
-        <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, padding: "40px 24px", textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 22 }}>
-          The skill gap report for {person.first} opens here.
+        /* Skill Gap Report — the same analysis the employee sees */
+        <div style={{ marginTop: 24 }}>
+          <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px" }}>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0 }}>{MGR_GAPS.overview}</p>
+            <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: "18px 0 12px" }}>Priority gaps</h3>
+            {MGR_GAPS.gaps.map((g, i) => (
+              <div key={i} style={{ marginBottom: 14 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, marginBottom: 5 }}>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{g.skill}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, whiteSpace: "nowrap" }}>{g.score.toFixed(1)} / {g.target.toFixed(1)} target</span>
+                </div>
+                <div style={{ position: "relative", height: 6, borderRadius: 3, background: "rgba(0,15,71,.08)" }}>
+                  <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: (g.score / 5 * 100) + "%", background: eWARN, borderRadius: 3 }} />
+                  <div style={{ position: "absolute", left: (g.target / 5 * 100) + "%", top: -2, bottom: -2, width: 2, background: eMID, borderRadius: 1 }} title="Target" />
+                </div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 4 }}>{g.note}</div>
+              </div>
+            ))}
+            <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: "18px 0 6px" }}>Strengths to leverage</h3>
+            <ul style={{ margin: 0, paddingLeft: 20 }}>
+              {MGR_GAPS.strengths.map((s, i) => <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.75 }}>{s}</li>)}
+            </ul>
+          </div>
         </div>
       ) : (
         <React.Fragment>
-          {/* column header */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 2px 12px", borderBottom: "1px solid " + eLINE }}>
-            <div style={{ ...head, flex: 1, minWidth: 0 }}>Skills/Development Actions</div>
-            <div style={{ ...head, width: 190, flexShrink: 0 }}>Start Date - End Date</div>
-            <div style={{ ...head, width: 210, flexShrink: 0 }}>Completion</div>
-          </div>
-
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 15, marginBottom: 18 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 26, background: "rgba(0,15,71,.08)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon] || I.bulb, { size: 24 })}</div>
-                <h2 style={{ fontFamily: "var(--sans)", fontSize: 24, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
+              <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
+                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon] || I.bulb, { size: 22 })}</div>
+                <h2 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
               </div>
 
-              {cat.skills.map((skill, si) => (
+              {cat.skills.map((skill, si) => {
+                const skillChanges = (person.changes || []).filter((c) => (c.skill || (person.changes || [])[0] && si === 0));
+                return (
                 <div key={si} style={{ marginBottom: 26 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 14 }}>
-                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
+                  {/* skill header — same shape as the employee plan */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
+                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
                     <span style={{ display: "inline-flex", gap: 3 }}>
                       {[1, 2, 3, 4, 5].map((n) => (
-                        <svg key={n} width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ color: n <= (skill.rating || 0) ? "var(--action)" : "rgba(0,15,71,.16)" }}><path d="M12 2l2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.9 5.9 20.3l1.5-6.7L2.3 9l6.8-.7z" /></svg>
+                        <svg key={n} width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style={{ color: n <= (skill.rating || 0) ? "var(--action)" : "rgba(0,15,71,.18)" }}><path d="M12 2l2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.9 5.9 20.3l1.5-6.7L2.3 9l6.8-.7z" /></svg>
                       ))}
                     </span>
                     {skill.edited && <MgrTag kind="Edited" />}
@@ -305,9 +360,16 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
                     <button title="Comments on this skill" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2 }}><I.chat size={17} /></button>
                   </div>
 
-                  {/* what the employee changed on this skill */}
+                  {/* the employee's plan cards, rendered with the very same component */}
+                  {wrapCards(skill.actions.map((a, ai) => (
+                    ACard
+                      ? <ACard key={a.id} action={a} editable={false} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1} onDate={() => {}} onComplete={() => {}} onDelete={() => {}} />
+                      : <div key={a.id} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, padding: "10px 0" }}>{a.title}</div>
+                  )))}
+
+                  {/* what changed on this skill — sits under the skill, not above it */}
                   {si === 0 && changesBySkill.length > 0 && (
-                    <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "12px 15px", marginBottom: 14 }}>
+                    <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
                       <ul style={{ margin: 0, paddingLeft: 18 }}>
                         {changesBySkill.map((c, i) => (
@@ -319,47 +381,32 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
                       </ul>
                     </div>
                   )}
-
-                  {skill.actions.map((a) => {
-                    const m = LEARN[a.mix] || { label: "", color: eMID };
-                    const pct = a.completion || 0;
-                    return (
-                      <div key={a.id} style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "16px 0", borderBottom: "1px solid " + eLINE, flexWrap: "wrap" }}>
-                        <div style={{ flex: 1, minWidth: 240, borderLeft: "3px solid " + m.color, paddingLeft: 16 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                            <span style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID }}>{a.title}</span>
-                            {a.badge && <MgrTag kind={a.badge} />}
-                          </div>
-                          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: "5px 0 10px", maxWidth: 620 }}>{a.desc}</div>
-                          <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
-                            <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
-                              <span style={{ width: 24, height: 24, borderRadius: 6, background: m.color, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[m.icon] || I.book, { size: 13 })}</span>
-                              <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{a.mix}%</span>
-                              <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{m.label}</span>
-                            </span>
-                            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
-                              {a.src === "AI Coach" ? <I.spark size={14} /> : <I.layers size={14} />}{a.src}
-                            </span>
-                          </div>
-                        </div>
-                        <div style={{ width: 190, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 14, color: eMUT, paddingTop: 2 }}>{a.start && a.end ? a.start + " – " + a.end : "-"}</div>
-                        <div style={{ width: 210, flexShrink: 0, display: "flex", alignItems: "center", gap: 10, paddingTop: 2 }}>
-                          <div style={{ flex: 1, height: 7, borderRadius: 4, background: "rgba(0,15,71,.08)", overflow: "hidden" }}>
-                            <div style={{ width: pct + "%", height: "100%", background: pct >= 100 ? eSUCCESS : "var(--action)", borderRadius: 4 }} />
-                          </div>
-                          {pct >= 100
-                            ? <span style={{ color: eSUCCESS, display: "flex" }}><I.checkCircle size={17} /></span>
-                            : <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{pct}%</span>}
-                        </div>
-                      </div>
-                    );
-                  })}
                 </div>
-              ))}
+                );
+              })}
             </div>
           ))}
         </React.Fragment>
       )}
+
+      {/* plan-design switcher — the same nine samples as the employee side */}
+      {tab === "plan" && SAMPLES.length > 0 && ReactDOM.createPortal(
+        <div style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
+          {sampleMenu && (
+            <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, maxHeight: 420, overflowY: "auto", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
+              {SAMPLES.map((sm) => { const on = sample === sm.id; return (
+                <button key={sm.id} onClick={() => pickSample(sm.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
+                  <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
+                  <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{sm.label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{sm.desc}</span></span>
+                </button>); })}
+            </div>
+          )}
+          <button onClick={() => setSampleMenu((v) => !v)} title="Switch the plan card design"
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            <I.layers size={14} /> Plan design · {sample}
+          </button>
+        </div>, document.body)}
     </div>
   );
 }

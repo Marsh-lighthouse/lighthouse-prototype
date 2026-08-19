@@ -1400,3 +1400,7 @@ window.EdPlan = { EdPlanPage, PlDateRange, plFmt };
 window.EdPlan.SEED = PL_SEED;
 window.EdPlan.LEARN = PL_LEARN;
 window.EdPlan.clone = plClone;
+// The manager renders plans with the very same card, so the two sides can't drift.
+window.EdPlan.ActionCard = PlActionCard;
+window.EdPlan.metaLabel = plMetaLabel;
+window.EdPlan.SAMPLES = PL_SAMPLES;
