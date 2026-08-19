@@ -1293,7 +1293,7 @@ function DashEditorial({ initialRoute } = {}) {
       <main ref={mainRef} style={{ flex: 1, minWidth: 0, height: "100%", overflowY: "auto", overflowAnchor: "none" }}>
         {/* min-height (not height) so this wrapper grows with tall content — otherwise it
             caps at one viewport and the sticky .ed-topbar unsticks after the first screen. */}
-        <div ref={zoomRef} style={{ minHeight: "100%" }}>
+        <div ref={zoomRef} style={{ minHeight: "100%", display: "flex", flexDirection: "column" }}>
         {immersive ? content : (
           <React.Fragment>
             {/* mobile top bar — hamburger + logo (left), search + bell (right); phone only via CSS */}
@@ -1333,7 +1333,7 @@ function DashEditorial({ initialRoute } = {}) {
               </div>
             </div>
 
-            <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", minHeight: "100%", display: "flex", flexDirection: "column" }}>
+            <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
               <div>
               <LHTopBarContext.Provider value={topBarCtx}>{content}</LHTopBarContext.Provider>
               </div>
@@ -1439,4 +1439,4 @@ function DashEditorial({ initialRoute } = {}) {
 
 window.DashEditorial = DashEditorial;
 // The Manager workspace reuses the very same rail.
-window.EdShell = { EdRail };
+window.EdShell = { EdRail, EdFooter };

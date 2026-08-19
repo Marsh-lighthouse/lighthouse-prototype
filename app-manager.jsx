@@ -501,6 +501,7 @@ function LHManager() {
   const [devOpen, setDevOpen] = mgUseState(true);
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(null), 2800); };
   const Rail = window.EdShell && window.EdShell.EdRail;
+  const Footer = window.EdShell && window.EdShell.EdFooter;
 
   // John Doe's row mirrors whatever the employee flow submitted.
   const syncSubmission = React.useCallback(() => {
@@ -570,10 +571,14 @@ function LHManager() {
             <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", padding: "5px 12px", borderRadius: 999 }}>Manager view</span>
           </div>
         </div>
-        <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: 1 }}>
-          {route.page === "detail" && person
-            ? <MgrDetail person={person} onBack={() => setRoute({ page: "list", person: null })} onDecide={decide} showToast={showToast} />
-            : <MgrList team={team} onOpen={(p) => setRoute({ page: "detail", person: p })} onSummary={(p) => setSummary(p)} />}
+        <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
+          <div>
+            {route.page === "detail" && person
+              ? <MgrDetail person={person} onBack={() => setRoute({ page: "list", person: null })} onDecide={decide} showToast={showToast} />
+              : <MgrList team={team} onOpen={(p) => setRoute({ page: "detail", person: p })} onSummary={(p) => setSummary(p)} />}
+          </div>
+          {/* footer sits on the bottom edge even when the page is short */}
+          <div style={{ marginTop: "auto" }}>{Footer ? <Footer /> : null}</div>
         </div>
         </div>
       </main>
