@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Lighthouse — Manager</title>
+<script>try{localStorage.removeItem('lh-theme');}catch(e){}</script>
+<link rel="stylesheet" href="brand.css" />
+<link rel="stylesheet" href="client-brand.css" />
+<link rel="stylesheet" href="dark-theme.css" />
+<script src="client-brand.js"></script>
+<script src="radius-tweak.js"></script>
+<script src="language-switcher.js"></script>
+<style>
+  html, body { margin: 0; background: var(--canvas); }
+  #root { min-height: 100vh; }
+  .lh-back { position: fixed; right: 58px; bottom: 14px; z-index: 60; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.72); color: #7B7974; text-decoration: none; font-family: var(--sans); font-size: 14px; font-weight: 500; letter-spacing: .01em; padding: 6px 11px; border-radius: 8px; border: 1px solid rgba(0,15,71,.12); box-shadow: 0 2px 8px rgba(0,15,71,.06); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: .5; transition: opacity .15s ease, color .15s ease, background .15s ease; }
+  .lh-back:hover { opacity: 1; color: #000F47; background: #fff; }
+  .lh-brand-switch { right: 300px; }
+  :root { --fol-mx: auto; }
+  .ed-pageback { display: none !important; }
+  @keyframes ed-spin { to { transform: rotate(360deg); } }
+  .ed-spin { animation: ed-spin .7s linear infinite; }
+  @keyframes idp-blink { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+</style>
+<link rel="stylesheet" href="device-preview.css" />
+<script>try{var __d=localStorage.getItem('lh-device');if(__d&&__d!=='Desktop')document.documentElement.setAttribute('data-device',__d.toLowerCase());}catch(e){}</script>
+</head>
+<body>
+<div id="root"></div>
+<a class="lh-back" href="Lighthouse.html">&#8592; All directions</a>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="app-shared.jsx"></script>
+<script type="text/babel" src="app-ed-detail.jsx"></script>
+<script type="text/babel" src="app-ed-plan.jsx"></script>
+<script type="text/babel" src="app-manager.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="lh-tweaks.jsx"></script>
+<script type="text/babel" data-presets="react">
+  function Page() {
+    return (<React.Fragment><LHManager /><LighthouseTweaks /></React.Fragment>);
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<Page />);
+</script>
+</body>
+</html>

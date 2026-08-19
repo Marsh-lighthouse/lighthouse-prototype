@@ -1390,3 +1390,8 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
 }
 
 window.EdPlan = { EdPlanPage, PlDateRange, plFmt };
+// Read-only shares for the Manager workspace (app-manager.jsx). Additive only —
+// the employee-facing plan behaviour is unchanged.
+window.EdPlan.SEED = PL_SEED;
+window.EdPlan.LEARN = PL_LEARN;
+window.EdPlan.clone = plClone;
