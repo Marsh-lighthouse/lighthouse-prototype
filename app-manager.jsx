@@ -107,7 +107,7 @@ const MgrBadge = ({ status }) => {
 const MgrTag = ({ kind }) => {
   const map = { Edited: { c: "#B4770A", b: "rgba(255,191,0,.16)" }, New: { c: eBLUE, b: "color-mix(in srgb, var(--accent) 12%, transparent)" } };
   const m = map[kind] || map.Edited;
-  return <span style={{ background: m.b, color: m.c, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 5, whiteSpace: "nowrap" }}>{kind}</span>;
+  return <span style={{ background: m.b, color: m.c, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>{kind}</span>;
 };
 
 const MgrAvatar = ({ p, size = 42 }) => (
@@ -233,7 +233,7 @@ function MgrSummaryDrawer({ person, onClose, onDecide }) {
                 {groups[skill].map((c, i) => (
                   <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 2 }}>
                     {c.kind === "added" ? "Added" : "Modified"} Development Action:{" "}
-                    <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "2px 9px", borderRadius: 5, fontWeight: 500 }}>{c.label}</span>
+                    <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "2px 9px", borderRadius: 6, fontWeight: 500 }}>{c.label}</span>
                   </li>
                 ))}
               </ul>
@@ -242,7 +242,7 @@ function MgrSummaryDrawer({ person, onClose, onDecide }) {
         </div>
 
         <div style={{ borderTop: "1px solid " + eLINE, padding: "18px 26px", display: "flex", gap: 10, justifyContent: "flex-end" }}>
-          <button onClick={() => onDecide("rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 9, padding: "10px 20px", cursor: "pointer" }}>Reject</button>
+          <button onClick={() => onDecide("rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 20px", cursor: "pointer" }}>Reject</button>
           <EdBtn primary onClick={() => onDecide("approved")}>Approve</EdBtn>
         </div>
       </aside>
@@ -261,7 +261,7 @@ function MgrNotePop({ kind, onClose, onSubmit }) {
         <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 0 }}><I.plus size={17} style={{ transform: "rotate(45deg)" }} /></button>
       </div>
       <textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={isReject ? "Add Reason…" : "Add Note…"}
-        style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", borderRadius: 9, border: "1px solid " + eLINE, fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.5, marginBottom: 14 }} />
+        style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", borderRadius: 10, border: "1px solid " + eLINE, fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.5, marginBottom: 14 }} />
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <EdBtn primary disabled={isReject && !text.trim()} onClick={() => onSubmit(text.trim())}>Submit <I.arrow size={14} /></EdBtn>
       </div>
@@ -352,12 +352,12 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
           {!decided && (
             <React.Fragment>
               <button onClick={() => setPop(pop === "rejected" ? null : "rejected")}
-                style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 9, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
+                style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
               <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
             </React.Fragment>
           )}
           <button disabled={decided} title={decided ? "Plan is closed" : "Edit plan"}
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: decided ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 9, padding: "9px 16px", cursor: decided ? "not-allowed" : "pointer", opacity: decided ? .55 : 1 }}>
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: decided ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: decided ? "not-allowed" : "pointer", opacity: decided ? .55 : 1 }}>
             <I.edit size={15} /> Edit Plan
           </button>
           <button title="Comments" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chat size={17} /></button>
@@ -435,7 +435,7 @@ function MgrDetail({ person, onBack, onDecide, showToast }) {
                         {skillChanges.map((c, i) => (
                           <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
                             {c.kind === "added" ? "Added" : "Modified"} Development Action:{" "}
-                            <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 5 }}>{c.label}</span>
+                            <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
                           </li>
                         ))}
                       </ul>
@@ -541,7 +541,7 @@ function LHManager() {
   );
 
   return (
-    <div className="ed-shell" style={{ display: "flex", minHeight: "100vh", background: "var(--canvas)" }}>
+    <div className="ed-shell" style={{ width: "100%", height: "100%", overflow: "clip", background: "var(--canvas)", display: "flex", fontFamily: "var(--sans)", position: "relative" }}>
       {/* Folio's own rail, with the manager's three destinations */}
       {Rail
         ? <Rail activeId={route.page === "list" || route.page === "detail" ? "development" : route.page}
@@ -555,7 +555,8 @@ function LHManager() {
             ]} />
         : null}
 
-      <main style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+      <main style={{ flex: 1, minWidth: 0, height: "100%", overflowY: "auto", overflowAnchor: "none" }}>
+        <div style={{ minHeight: "100%", display: "flex", flexDirection: "column" }}>
         <div className="ed-topbar" style={{ position: "sticky", top: 0, zIndex: 40, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, minHeight: 58, boxSizing: "border-box", padding: "10px var(--fol-px, 56px)", background: "var(--canvas)", borderBottom: "1px solid " + eLINE }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16, minWidth: 0 }}>
             {route.page === "detail" && (
@@ -573,6 +574,7 @@ function LHManager() {
           {route.page === "detail" && person
             ? <MgrDetail person={person} onBack={() => setRoute({ page: "list", person: null })} onDecide={decide} showToast={showToast} />
             : <MgrList team={team} onOpen={(p) => setRoute({ page: "detail", person: p })} onSummary={(p) => setSummary(p)} />}
+        </div>
         </div>
       </main>
 
