@@ -801,7 +801,12 @@ function EdPlanPage({ onBack, onRestart }) {
             : locked
             ? <React.Fragment>
                 <EdBtn onClick={() => setLocked(false)}><I.edit size={15} /> Edit Plan</EdBtn>
-                <EdBtn primary onClick={() => { setSubmitted(true); showToast("Plan submitted — waiting for manager approval"); }}>Submit Plan</EdBtn>
+                <EdBtn primary onClick={() => {
+                  setSubmitted(true);
+                  // Hand the submission to the Manager workspace (Direct Reportees).
+                  try { localStorage.setItem("lh-idp-submission", JSON.stringify({ status: "pending", at: Date.now() })); } catch (e) {}
+                  showToast("Plan submitted — waiting for manager approval");
+                }}>Submit Plan</EdBtn>
               </React.Fragment>
             : <EdBtn primary onClick={() => {
                 // Sample 8 demonstrates the blocked save; the other designs save as usual.
