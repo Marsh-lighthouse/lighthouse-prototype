@@ -526,7 +526,8 @@ function PlDecisionNote({ status, note, when }) {
 // A skill the owner has chosen but not yet filled in. Manual plans start here.
 function PlNoActions({ editable }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 20, padding: "10px 4px 18px" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 20, padding: "18px 22px", marginBottom: 6,
+      background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
       <svg width="86" height="74" viewBox="0 0 120 104" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
         <rect x="26" y="14" width="60" height="58" rx="6" fill="rgba(0,15,71,.07)" />
         <rect x="38" y="29" width="36" height="5" rx="2.5" fill="rgba(0,15,71,.15)" />
