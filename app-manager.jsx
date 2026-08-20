@@ -46,9 +46,10 @@ const MGR_ME = { id: "sarah", sub: "Product Management", entity: "Star Trek Inc.
 // (window.EdPlan.STATUS) so a status looks identical on both sides.
 //   notstarted — nothing has reached the manager yet (incl. a plan still in Draft)
 //   pending    — submitted, waiting on this manager
+//   review     — the manager opened it for review; now they must decide
 //   approved / rejected — the manager has ruled
 const MGR_NORM = (st) => (st === "draft" || st === "notstarted" ? "notstarted"
-  : st === "pending" || st === "approved" || st === "rejected" ? st : "notstarted");
+  : st === "pending" || st === "review" || st === "approved" || st === "rejected" ? st : "notstarted");
 const MGR_TONE = (st) => {
   const P = (window.EdPlan && window.EdPlan.STATUS) || {};
   const s = P[MGR_NORM(st)];
@@ -516,7 +517,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
     return cards;
   };
   const decided = person.status === "approved" || person.status === "rejected" || person.status === "completed";
-  const canDecide = !self && person.status === "pending";   // only a submitted plan can be decided
+  const canReview = !self && person.status === "pending";   // queued → open it for review
+  const canDecide = !self && person.status === "review";    // in review → approve or reject
   // Only the linked reportee has a real plan behind them — the rest are samples.
   const canEdit = !self && !!person.linked;
   const [editing, setEditing] = mgUseState(false);
@@ -612,6 +614,12 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
               style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: "pointer" }}>
               <I.download size={16} /> Download Program Report
             </button>
+          )}
+          {tab === "plan" && canReview && (
+            <EdBtn primary small onClick={() => {
+              onDecide(person.id, "review", "");
+              showToast("Plan moved to review");
+            }}><I.eye size={15} /> Review Plan</EdBtn>
           )}
           {tab === "plan" && canDecide && (
             <React.Fragment>
@@ -821,6 +829,10 @@ function LHManager() {
       // the owner reopened the plan for editing — back to Draft, verdict cleared
       if (sub && sub.status === "draft") {
         return { ...p, status: "draft", changes: mgrChanges(), reason: undefined, note: undefined, decidedAt: undefined };
+      }
+      // the manager has this open for review
+      if (sub && sub.status === "review") {
+        return { ...p, status: "review", changes: mgrChanges() };
       }
       // resubmitted — back in the queue, any old verdict cleared
       if (sub && sub.status === "pending" && p.status !== "pending") {

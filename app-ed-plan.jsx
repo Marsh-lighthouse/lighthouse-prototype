@@ -444,6 +444,8 @@ const PL_STATUS = {
   notstarted: { label: "Not Started", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null },
   draft: { label: "Draft", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null },
   pending: { label: "Pending Approval", color: eWARN, bg: "color-mix(in srgb, var(--warn, #C77700) 12%, transparent)", icon: "clock" },
+  // The manager has opened the plan for review — no longer just queued.
+  review: { label: "In Review", color: eBLUE, bg: "color-mix(in srgb, var(--accent) 10%, transparent)", icon: "eye" },
   approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.10)", icon: "checkCircle" },
   rejected: { label: "Rejected", color: "var(--danger)", bg: "rgba(197,53,50,.10)", icon: "alertCircle" },
   // The owner's own marker once they've finished the work — not a manager decision.
@@ -977,10 +979,12 @@ function EdPlanPage({ onBack, onRestart }) {
   // every edit lands in the shared store, so the manager's view is always current
   plUseEffect(() => { plSavePlan(PL_OWNER, data); }, [data]);
   const verdict = decision && (decision.status === "approved" || decision.status === "rejected") ? decision : null;
-  const awaiting = submitted && !verdict;
+  const storeStatus = decision && decision.status;
+  // Waiting on the manager — either queued (pending) or actively being reviewed.
+  const awaiting = (submitted || storeStatus === "pending" || storeStatus === "review") && !verdict;
   // Once the manager has ruled — either way — the plan is READ ONLY: the owner reads
   // the note first. Editing is a deliberate act that sends the plan back to Draft.
-  const editable = !locked && !submitted && !verdict;
+  const editable = !locked && !awaiting && !verdict;
   const reopen = () => {
     setLocked(false); setSubmitted(false); setDecision({ status: "draft", at: Date.now() });
     try { localStorage.setItem("lh-idp-submission", JSON.stringify({ status: "draft", at: Date.now() })); } catch (e) {}
@@ -1065,7 +1069,7 @@ function EdPlanPage({ onBack, onRestart }) {
         <div style={{ flex: "1 1 auto", minWidth: 0 }}>
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
           <div style={{ marginTop: 9 }}>
-            <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : awaiting ? "pending" : "draft"} />
+            <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : storeStatus === "review" ? "review" : awaiting ? "pending" : "draft"} />
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
@@ -1077,7 +1081,7 @@ function EdPlanPage({ onBack, onRestart }) {
                 {verdict.status === "approved" && !completed &&
                   <EdBtn primary onClick={markComplete}><I.checkCircle size={15} /> Mark as Complete</EdBtn>}
               </React.Fragment>
-            : submitted
+            : awaiting
             ? null
             : locked
             ? <React.Fragment>
