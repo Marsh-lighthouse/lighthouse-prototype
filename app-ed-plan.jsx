@@ -1066,11 +1066,13 @@ function EdPlanPage({ onBack, onRestart }) {
       {/* Title left, actions hard right. The status sits under the heading so a long
           name can never push the buttons onto a second line. */}
       <div className="ed-plan-head" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 6 }}>
-        <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
-          <div style={{ marginTop: 9 }}>
+        {/* The status rides beside the title while there's room for it, and drops
+            onto its own line when the actions on the right leave none. */}
+        <div style={{ flex: "1 1 auto", minWidth: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "9px 12px" }}>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3, minWidth: 0 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
+          <span style={{ flexShrink: 0, display: "inline-flex" }}>
             <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : storeStatus === "review" ? "review" : awaiting ? "pending" : "draft"} />
-          </div>
+          </span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           <button title="Download" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>

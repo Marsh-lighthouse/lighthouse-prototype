@@ -548,7 +548,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
       {/* title row — status sits under the heading, as on the employee's plan, so a
           long title can never shove anything onto a second line */}
       <div className="ed-plan-head" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 18 }}>
-        <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+        <div style={{ flex: "1 1 auto", minWidth: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "9px 12px" }}>
         {self ? (
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>My Development Plan</h1>
         ) : (
@@ -557,7 +557,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, lineHeight: 1.3 }}>Direct Reportees Detail</span>
         </button>
         )}
-        <div style={{ position: "relative", display: "flex", width: "fit-content", alignItems: "center", gap: 8, marginTop: 9 }}>
+        <div style={{ position: "relative", display: "flex", flexShrink: 0, alignItems: "center", gap: 8 }}>
           {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
             {MGR_TONE(person.status).label}
           </span>}
