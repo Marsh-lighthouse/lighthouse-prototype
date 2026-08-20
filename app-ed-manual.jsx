@@ -38,8 +38,75 @@ const MN_CATS = [
     suggest: ["Data & Analytics", "Product & Platform Fluency"] },
 ];
 
-// ── the step rail across the top ──
-function MnStepper({ step }) {
+// ── the step indicator, in four flavours (switchable while we decide) ──
+const MN_STEPPER_DESIGNS = [
+  { id: 1, label: "Numbered rail", desc: "Circles joined by a line — the classic wizard" },
+  { id: 2, label: "Segmented bar", desc: "Step count and name over a progress bar" },
+  { id: 3, label: "Pills", desc: "Each step a chip; ticks mark what's done" },
+  { id: 4, label: "Underlined tabs", desc: "Labels with a progress underline" },
+];
+
+function MnStepper({ step, design }) {
+  const d = design || 1;
+
+  // 2 · segmented progress bar
+  if (d === 2) {
+    return (
+      <div style={{ marginBottom: 30 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: eMUT }}>Step {step + 1} of {MN_STEPS.length}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID }}>{MN_STEPS[step]}</span>
+        </div>
+        <div style={{ display: "flex", gap: 6 }}>
+          {MN_STEPS.map((l, i) => (
+            <span key={l} title={l} style={{ flex: 1, height: 5, borderRadius: 3, transition: "background .3s",
+              background: i < step ? eSUCCESS : i === step ? eMID : "rgba(0,15,71,.10)" }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // 3 · pills
+  if (d === 3) {
+    return (
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 30 }}>
+        {MN_STEPS.map((l, i) => {
+          const done = i < step, on = i === step;
+          return (
+            <span key={l} style={{ display: "inline-flex", alignItems: "center", gap: 7, borderRadius: 999, padding: "7px 14px",
+              fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: on ? 700 : 600, whiteSpace: "nowrap",
+              background: on ? eMID : done ? "rgba(20,133,61,.10)" : "var(--card)",
+              color: on ? "#fff" : done ? eSUCCESS : eMUT,
+              border: "1px solid " + (on ? eMID : done ? "transparent" : eLINE) }}>
+              {done ? <I.check size={14} /> : <span style={{ fontSize: 12, opacity: on ? 1 : .7 }}>{i + 1}</span>}{l}
+            </span>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // 4 · underlined tabs
+  if (d === 4) {
+    return (
+      <div style={{ display: "flex", gap: 4, marginBottom: 30, flexWrap: "wrap", borderBottom: "1px solid " + eLINE }}>
+        {MN_STEPS.map((l, i) => {
+          const done = i < step, on = i === step;
+          return (
+            <span key={l} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "9px 14px", marginBottom: -1,
+              fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, whiteSpace: "nowrap",
+              color: on ? eMID : done ? eSUCCESS : eMUT,
+              borderBottom: "3px solid " + (on ? eMID : done ? eSUCCESS : "transparent") }}>
+              {done && <I.check size={14} />}{l}
+            </span>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // 1 · numbered rail (default)
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 30, flexWrap: "wrap" }}>
       {MN_STEPS.map((label, i) => {
@@ -239,8 +306,17 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
         ))}
       </div>
 
-      <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "34px" : "-34px",
-        background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px", boxShadow: "0 6px 24px rgba(0,15,71,.07)" }}>
+      {/* A deck: the questions still to come sit behind the live card, and the top
+          card is dealt forward each time you move. */}
+      <div style={{ position: "relative", paddingBottom: 10 + 11 * Math.min(2, QS.length - i - 1) }}>
+        {Array.from({ length: Math.min(2, QS.length - i - 1) }).map((_, g) => (
+          <div key={"ghost" + g} aria-hidden="true" className="mn-ghost"
+            style={{ position: "absolute", left: 10 * (g + 1), right: 10 * (g + 1), top: 11 * (g + 1), height: "100%",
+              background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16,
+              boxShadow: "0 4px 18px rgba(0,15,71,.05)", opacity: 1 - g * 0.35, zIndex: 0 }} />
+        ))}
+      <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "18px" : "-18px", position: "relative", zIndex: 1,
+        background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px", boxShadow: "0 10px 30px rgba(0,15,71,.10)" }}>
         <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, background: "rgba(0,15,71,.05)", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
           Question {i + 1} of {QS.length}
         </div>
@@ -281,6 +357,7 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
           </EdBtn>
         </div>
       </div>
+      </div>
 
       {/* Outside the card: one hop back to the previous step, from any question. */}
       <div style={{ marginTop: 18 }}>
@@ -302,6 +379,17 @@ function MnManualFlow({ onExit, onDone }) {
   const [sel, setSel] = mnUseState(() => MN_CATS.map(() => []));
   const [ratings, setRatings] = mnUseState({});
   const [answers, setAnswers] = mnUseState(() => (window.EdPlan && window.EdPlan.loadReflect ? window.EdPlan.loadReflect(window.EdPlan.OWNER) : {}));
+  // Step-indicator design, switchable from the floating chip while we settle on one.
+  const [stepDesign, setStepDesign] = mnUseState(() => { const v = parseInt(localStorage.getItem("mn-stepper-design"), 10); return v >= 1 && v <= 4 ? v : 1; });
+  const [stepMenu, setStepMenu] = mnUseState(false);
+  const stepRef = mnUseRef(null);
+  mnUseEffect(() => {
+    if (!stepMenu) return;
+    const onDoc = (e) => { if (stepRef.current && !stepRef.current.contains(e.target)) setStepMenu(false); };
+    const onKey = (e) => { if (e.key === "Escape") setStepMenu(false); };
+    document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [stepMenu]);
 
   React.useLayoutEffect(() => { try { window.scrollTo(0, 0); } catch (e) {} }, [step]);
 
@@ -328,11 +416,31 @@ function MnManualFlow({ onExit, onDone }) {
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
-      <MnStepper step={step} />
+      <MnStepper step={step} design={stepDesign} />
       {step === 0 && <MnGettingStarted onNext={() => setStep(1)} />}
       {step === 1 && <MnAddSkills sel={sel} setSel={setSel} onBack={() => setStep(0)} onNext={() => setStep(2)} />}
       {step === 2 && <MnRateSkills rows={rows} ratings={ratings} setRatings={setRatings} onBack={() => setStep(1)} onNext={() => setStep(3)} />}
       {step === 3 && <MnReflect answers={answers} setAnswers={setAnswers} onBack={() => setStep(2)} onFinish={finish} />}
+
+      {/* design switcher, beside the other floating chrome */}
+      {ReactDOM.createPortal(
+        <div ref={stepRef} className="ed-plan-sample-chip" style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
+          {stepMenu && (
+            <div style={{ position: "absolute", bottom: 44, right: 0, width: 276, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Step design</div>
+              {MN_STEPPER_DESIGNS.map((o) => { const on = stepDesign === o.id; return (
+                <button key={o.id} onClick={() => { setStepDesign(o.id); try { localStorage.setItem("mn-stepper-design", String(o.id)); } catch (e) {} setStepMenu(false); }}
+                  style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
+                  <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
+                  <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
+                </button>); })}
+            </div>
+          )}
+          <button onClick={() => setStepMenu((v) => !v)} title="Switch the step-indicator design"
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            <I.layers size={14} /> Step design · {stepDesign}
+          </button>
+        </div>, document.body)}
     </div>
   );
 }
