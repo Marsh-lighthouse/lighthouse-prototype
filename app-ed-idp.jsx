@@ -1709,8 +1709,9 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode }) {
   // entry screens (EdIdpFlow handles the questions/generation screens itself).
   idpUseEffect(() => {
     if (!devTopCtx || !devTopCtx.collapseRail) return;
-    if (mode === "plan" || mode === "manual") devTopCtx.collapseRail(true);
-    else if (mode === "choose" || mode === "landing") devTopCtx.collapseRail(false);
+    if (mode === "plan") devTopCtx.collapseRail(true);
+    // the manual flow keeps the rail as-is, so its pages are the same width as the rest
+    else if (mode === "choose" || mode === "landing" || mode === "manual") devTopCtx.collapseRail(false);
   }, [mode, devTopCtx]);
   // Restore the rail to its pre-Development state when leaving the Development tab.
   idpUseEffect(() => {
