@@ -531,12 +531,12 @@ function PlNoActions({ editable }) {
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
       padding: "26px 22px", marginBottom: 6, borderRadius: 12, background: "var(--card)",
       border: "1.5px dashed color-mix(in srgb, var(--primary) 24%, transparent)" }}>
-      <span style={{ width: 38, height: 38, borderRadius: 10, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
-        background: "color-mix(in srgb, var(--primary) 6%, transparent)", color: eMUT }}>
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <span style={{ width: 46, height: 46, borderRadius: 12, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+        background: "color-mix(in srgb, var(--primary) 6%, transparent)", color: eMID }}>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path className="pl-empty-layer" style={{ animationDelay: "0s" }} d="M12 3 3 8l9 5 9-5-9-5z" />
-          <path className="pl-empty-layer" style={{ animationDelay: ".16s" }} d="M3 13l9 5 9-5" />
-          <path className="pl-empty-layer" style={{ animationDelay: ".32s" }} d="M3 18l9 5 9-5" />
+          <path className="pl-empty-layer" style={{ animationDelay: ".18s" }} d="M3 13l9 5 9-5" />
+          <path className="pl-empty-layer" style={{ animationDelay: ".36s" }} d="M3 18l9 5 9-5" />
         </svg>
       </span>
       <div>
