@@ -137,22 +137,24 @@ function mgrWhen(ts) {
 
 // Nothing to review yet — the reportee hasn't put any skills in their plan.
 const MgrNoPlan = ({ name }) => (
-  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 26, flexWrap: "wrap", padding: "64px 20px 80px" }}>
-    <svg width="120" height="104" viewBox="0 0 120 104" fill="none" aria-hidden="true">
-      <ellipse cx="58" cy="94" rx="44" ry="6" fill="rgba(0,15,71,.05)" />
-      <rect x="22" y="18" width="60" height="60" rx="6" fill="rgba(0,15,71,.07)" />
-      <rect x="34" y="32" width="36" height="5" rx="2.5" fill="rgba(0,15,71,.16)" />
-      <rect x="34" y="44" width="28" height="5" rx="2.5" fill="rgba(0,15,71,.12)" />
-      <rect x="34" y="56" width="32" height="5" rx="2.5" fill="rgba(0,15,71,.12)" />
-      <path d="M14 62h22a6 6 0 0 0 12 0h22v20a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6z" fill="rgba(0,15,71,.12)" />
-      <circle cx="94" cy="24" r="16" fill="rgba(0,15,71,.09)" />
-      <path d="M86 44l4-8 6 3z" fill="rgba(0,15,71,.09)" />
-      <circle cx="88" cy="24" r="2" fill="rgba(0,15,71,.28)" />
-      <circle cx="94" cy="24" r="2" fill="rgba(0,15,71,.28)" />
-      <circle cx="100" cy="24" r="2" fill="rgba(0,15,71,.28)" />
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 22, padding: "78px 20px 96px", textAlign: "center" }}>
+    <svg width="132" height="116" viewBox="0 0 132 116" fill="none" aria-hidden="true">
+      <ellipse className="mgr-empty-shadow" cx="60" cy="106" rx="40" ry="6" fill="rgba(0,15,71,.10)" />
+      <g className="mgr-empty-art">
+        <rect x="30" y="16" width="60" height="62" rx="6" fill="rgba(0,15,71,.07)" />
+        <rect x="42" y="31" width="36" height="5" rx="2.5" fill="rgba(0,15,71,.16)" />
+        <rect x="42" y="43" width="28" height="5" rx="2.5" fill="rgba(0,15,71,.12)" />
+        <rect x="42" y="55" width="32" height="5" rx="2.5" fill="rgba(0,15,71,.12)" />
+        <path d="M22 62h22a6 6 0 0 0 12 0h22v20a6 6 0 0 1-6 6H28a6 6 0 0 1-6-6z" fill="rgba(0,15,71,.13)" />
+        <circle cx="102" cy="22" r="16" fill="rgba(0,15,71,.09)" />
+        <path d="M94 42l4-8 6 3z" fill="rgba(0,15,71,.09)" />
+        <circle className="mgr-empty-dot" style={{ animationDelay: "0s" }} cx="96" cy="22" r="2" fill="rgba(0,15,71,.42)" />
+        <circle className="mgr-empty-dot" style={{ animationDelay: ".18s" }} cx="102" cy="22" r="2" fill="rgba(0,15,71,.42)" />
+        <circle className="mgr-empty-dot" style={{ animationDelay: ".36s" }} cx="108" cy="22" r="2" fill="rgba(0,15,71,.42)" />
+      </g>
     </svg>
-    <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>
-      {name ? name + " has not added Skills yet." : "Reportee has not added Skills yet."}
+    <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 500, color: eMUT, lineHeight: 1.5, maxWidth: 340 }}>
+      {name ? name + " has not added any skills yet." : "This reportee has not added any skills yet."}
     </div>
   </div>
 );

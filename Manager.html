@@ -29,6 +29,16 @@
   .mgr-row:hover { background: rgba(0,15,71,.035); }
   .mgr-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .mgr-link:hover { text-decoration: underline; }
+  /* empty state: the sheet drifts, its shadow breathes, the dots think */
+  @keyframes mgr-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes mgr-shadow { 0%,100% { transform: scaleX(1); opacity: .5; } 50% { transform: scaleX(.86); opacity: .3; } }
+  @keyframes mgr-dot { 0%,60%,100% { opacity: .25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
+  .mgr-empty-art { animation: mgr-float 3.4s ease-in-out infinite; transform-origin: center; }
+  .mgr-empty-shadow { animation: mgr-shadow 3.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  .mgr-empty-dot { animation: mgr-dot 1.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  @media (prefers-reduced-motion: reduce) {
+    .mgr-empty-art, .mgr-empty-shadow, .mgr-empty-dot { animation: none; }
+  }
 </style>
 <link rel="stylesheet" href="device-preview.css" />
 <script>try{var __d=localStorage.getItem('lh-device');if(__d&&__d!=='Desktop')document.documentElement.setAttribute('data-device',__d.toLowerCase());}catch(e){}</script>
