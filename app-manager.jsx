@@ -487,6 +487,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const SAMPLES = (window.EdPlan && window.EdPlan.SAMPLES) || [];
   const Report = window.EdPlan && window.EdPlan.ReportTab;   // same report preview as the employee side
   const Note = window.EdPlan && window.EdPlan.DecisionNote;  // same inline decision note
+  const NoActions = window.EdPlan && window.EdPlan.NoActions;
   const META = (window.EdPlan && window.EdPlan.metaLabel) || {};
   // Same plan-design switcher as the employee side; design 6 is the default here.
   const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-plan-design"), 10); return v >= 1 && v <= 9 ? v : 6; });
@@ -694,7 +695,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                   </div>
 
                   {/* the employee's plan cards, rendered with the very same component */}
-                  {wrapCards(skill.actions.map((a, ai) => (
+                  {skill.actions.length === 0 && NoActions && <NoActions editable={editable} />}
+                  {skill.actions.length > 0 && wrapCards(skill.actions.map((a, ai) => (
                     ACard
                       ? <ACard key={a.id} action={a} editable={editable} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1}
                           onDate={(v) => mutate((n) => { Object.assign(n[ci].skills[si].actions[ai], v); })}

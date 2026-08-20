@@ -466,11 +466,11 @@ function PlStatusBadge({ status, size = 14 }) {
 // ── reflective questions, shared with the manager ──
 // The owner answers them; the manager reads them and may edit the wording.
 const PL_REFLECT_QS = [
-  { q: "What strengths do you want to continue to focus on?", req: true },
-  { q: "What behavioural competencies/skills do you want to develop?", req: true },
-  { q: "What critical experiences do you need to gain?", req: true },
-  { q: "What are your allowable weaknesses?", req: false },
-  { q: "What do the next 5 to 10 years look like?", req: false },
+  { q: "What strengths do you want to continue to focus on?", req: true, min: 3, max: 60 },
+  { q: "What behavioural competencies/skills do you want to develop?", req: true, min: 3, max: 60 },
+  { q: "What critical experiences do you need to gain?", req: true, min: 3, max: 60 },
+  { q: "What are your allowable weaknesses?", req: false, min: 2, max: 40 },
+  { q: "What do the next 5 to 10 years look like?", req: false, min: 3, max: 80 },
 ];
 const PL_REFLECT_KEY = "lh-reflections";
 const PL_REFLECT_EVENT = "lh-reflect-change";
@@ -518,6 +518,30 @@ function PlDecisionNote({ status, note, when }) {
         <b style={{ color: tone }}>{reject ? "Rejected" : "Approved"}</b>
         {when && <span style={{ color: eMUT }}> · {when}</span>}
         <div style={{ marginTop: 3 }}>{note}</div>
+      </div>
+    </div>
+  );
+}
+
+// A skill the owner has chosen but not yet filled in. Manual plans start here.
+function PlNoActions({ editable }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 20, padding: "10px 4px 18px" }}>
+      <svg width="86" height="74" viewBox="0 0 120 104" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+        <rect x="26" y="14" width="60" height="58" rx="6" fill="rgba(0,15,71,.07)" />
+        <rect x="38" y="29" width="36" height="5" rx="2.5" fill="rgba(0,15,71,.15)" />
+        <rect x="38" y="41" width="28" height="5" rx="2.5" fill="rgba(0,15,71,.11)" />
+        <rect x="38" y="53" width="32" height="5" rx="2.5" fill="rgba(0,15,71,.11)" />
+        <path d="M14 58h22a6 6 0 0 0 12 0h22v20a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6z" fill="rgba(0,15,71,.12)" />
+        <circle cx="96" cy="20" r="14" fill="rgba(0,15,71,.08)" />
+        <path d="M88 38l4-7 6 3z" fill="rgba(0,15,71,.08)" />
+        <circle cx="90" cy="20" r="1.8" fill="rgba(0,15,71,.30)" /><circle cx="96" cy="20" r="1.8" fill="rgba(0,15,71,.30)" /><circle cx="102" cy="20" r="1.8" fill="rgba(0,15,71,.30)" />
+      </svg>
+      <div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 3 }}>You have no Development Actions</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
+          {editable ? "Add Development Actions from the options below." : "Edit Plan to add Development Actions."}
+        </div>
       </div>
     </div>
   );
@@ -873,9 +897,17 @@ function PlReflectTab({ forceError, showToast }) {
   const [saved, setSavedState] = plUseState(() => PL_REFLECT_QS.some((q, i) => ((plLoadReflect(PL_OWNER) || {})[i] || "").trim()));
   const [editing, setEditing] = plUseState(null);
   const [draft, setDraft] = plUseState("");
-  plUseEffect(() => { plSaveReflect(PL_OWNER, ans); }, [ans]);
+  // Persist on change — but skip the write if nothing actually differs, and ignore
+  // our own change event, or the two would ping-pong forever.
   plUseEffect(() => {
-    const sync = () => setAns(plLoadReflect(PL_OWNER));
+    const cur = plLoadReflect(PL_OWNER);
+    if (JSON.stringify(cur) !== JSON.stringify(ans)) plSaveReflect(PL_OWNER, ans);
+  }, [ans]);
+  plUseEffect(() => {
+    const sync = () => setAns((prev) => {
+      const next = plLoadReflect(PL_OWNER);
+      return JSON.stringify(next) === JSON.stringify(prev) ? prev : next;
+    });
     window.addEventListener(PL_REFLECT_EVENT, sync); window.addEventListener("storage", sync); window.addEventListener("focus", sync);
     return () => { window.removeEventListener(PL_REFLECT_EVENT, sync); window.removeEventListener("storage", sync); window.removeEventListener("focus", sync); };
   }, []);
@@ -946,7 +978,29 @@ function PlReflectTab({ forceError, showToast }) {
             <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>{it.q}{it.req && <span style={{ color: "var(--danger)", marginLeft: 3 }}>*</span>}</h3>
             {!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px" }}>Optional</span>}
           </div>
-          <textarea value={ans[i] || ""} onChange={(e) => { const v = e.target.value; setAns((a) => ({ ...a, [i]: v })); setSavedState(false); }} placeholder="Write your reflection here…" rows={4} style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + (err ? "var(--danger)" : eLINE), background: err ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
+          {(() => {
+            const v = ans[i] || "";
+            const words = v.trim() ? v.trim().split(/\s+/).length : 0;
+            const over = it.max > 0 && words > it.max;
+            return (
+              <React.Fragment>
+                <div style={{ border: "1.5px solid " + (err || over ? "var(--danger)" : eLINE), borderRadius: 10, overflow: "hidden", background: err ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)" }}>
+                  <textarea value={v} onChange={(e) => { const nv = e.target.value; setAns((a) => ({ ...a, [i]: nv })); setSavedState(false); }} placeholder="Write your reflection here…" rows={4}
+                    style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", border: "none", background: "transparent", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6, display: "block" }} />
+                  {/* word / character budget, the same counters the manual flow shows */}
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: 18, padding: "7px 14px", borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)" }}>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: over ? "var(--danger)" : eMUT }}>Words : {words}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Characters : {v.length}</span>
+                  </div>
+                </div>
+                {(it.min || it.max) > 0 && !err && (
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: over ? "var(--danger)" : eMUT, marginTop: 6 }}>
+                    {over ? "That's over the " + it.max + " word limit." : "Must be between " + it.min + " and " + it.max + " words"}
+                  </div>
+                )}
+              </React.Fragment>
+            );
+          })()}
           {err && <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 13 }}><I.alertCircle size={13} /> This question is required.</div>}
         </div>
         );
@@ -993,7 +1047,7 @@ function PlReportTab() {
 }
 
 // ════════════════════════════════════════════════
-function EdPlanPage({ onBack, onRestart }) {
+function EdPlanPage({ onBack, onRestart, startLocked }) {
   const [tab, setTab] = plUseState("plan");
   const [sample, setSample] = plUseState(1);          // which action-card design (see PL_SAMPLES)
   const [sampleMenu, setSampleMenu] = plUseState(false);
@@ -1008,7 +1062,9 @@ function EdPlanPage({ onBack, onRestart }) {
   const userCardRef = plUseRef(null);
   // The plan is shared state: it survives reloads and is what the manager reviews.
   const [data, setData] = plUseState(() => plLoadPlan(PL_OWNER) || plClone(PL_SEED));
-  const [locked, setLocked] = plUseState(false);      // a freshly generated plan opens in EDIT mode (Save Plan);
+  // A generated plan opens in EDIT mode (Save Plan). A manually built one opens in
+  // the read view, so the owner sees the empty skills and chooses to edit.
+  const [locked, setLocked] = plUseState(!!startLocked);
                                                       // after saving it becomes the read view (Edit / Submit Plan)
   const [toast, setToast] = plUseState(null);
   const [comments, setComments] = plUseState(null);   // skill name whose comments are open, or "" for global
@@ -1226,7 +1282,8 @@ function EdPlanPage({ onBack, onRestart }) {
                   </div>
 
                   {/* action cards (design chosen via the plan-design sample switcher) */}
-                  {(() => {
+                  {skill.actions.length === 0 && <PlNoActions editable={editable} />}
+                  {skill.actions.length > 0 && (() => {
                     const cards = skill.actions.map((a, ai) => (
                       <PlActionCard key={a.id} action={a} editable={editable} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1}
                         dateErr={showDateErr && dateErrIds.indexOf(a.id) !== -1}
@@ -1771,6 +1828,7 @@ window.EdPlan.OWNER = PL_OWNER;
 // One status palette / badge for the employee and the manager alike.
 window.EdPlan.STATUS = PL_STATUS;
 window.EdPlan.StatusBadge = PlStatusBadge;
+window.EdPlan.NoActions = PlNoActions;   // per-skill empty state, shared with the manager
 // Reflective questions — shared, so the manager reads and can edit the same answers.
 window.EdPlan.REFLECT_QS = PL_REFLECT_QS;
 window.EdPlan.loadReflect = plLoadReflect;

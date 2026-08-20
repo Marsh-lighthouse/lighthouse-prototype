@@ -1640,7 +1640,7 @@ function EdPlanView({ onBack, onRestart }) {
 // ════════════════════════════════════════════════
 // Entry choice — how to build the plan. AI opens the guided flow; Manual is a
 // placeholder for now (prompts to come). Styled after the "development assistant" ref.
-function EdDevChoice({ onBack, onPickAI }) {
+function EdDevChoice({ onBack, onPickAI, onPickManual }) {
   const card = { flex: "1 1 330px", minWidth: 280, boxSizing: "border-box", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "32px 28px 28px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
   return (
     <div className="ed-dev-choose" style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
@@ -1654,7 +1654,7 @@ function EdDevChoice({ onBack, onPickAI }) {
           <div style={{ width: 54, height: 54, borderRadius: 14, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.edit size={24} /></div>
           <div className="serif" style={{ fontSize: 21, color: eMID }}>Manual Development Plan</div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, margin: 0, flex: 1 }}>Build the plan yourself — choose the skills and development actions you want to work on, step by step.</p>
-          <button disabled title="Coming soon" style={{ marginTop: 4, display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(0,15,71,.05)", color: eMUT, border: "1px solid " + eLINE, borderRadius: 10, padding: "11px 20px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "not-allowed" }}>Coming soon</button>
+          <button onClick={onPickManual} title="Build your plan step by step" style={{ marginTop: 4, display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "11px 20px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Start manually <I.arrow size={15} /></button>
         </div>
         {/* AI — opens the guided flow */}
         <div style={card}>
@@ -1669,8 +1669,9 @@ function EdDevChoice({ onBack, onPickAI }) {
 }
 
 function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode }) {
-  const [mode, setMode] = idpUseState(initialMode || "choose"); // choose | landing | flow | plan
+  const [mode, setMode] = idpUseState(initialMode || "choose"); // choose | landing | flow | manual | plan
   const [watched, setWatched] = idpUseState(false);
+  const [fromManual, setFromManual] = idpUseState(false);   // a hand-built plan opens read-only
 
   // The rail can drive the mode (New Plan / My Plan). React only to an actual change
   // of the prop, so internal transitions (generate → plan) aren't clobbered.
@@ -1708,7 +1709,7 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode }) {
   // entry screens (EdIdpFlow handles the questions/generation screens itself).
   idpUseEffect(() => {
     if (!devTopCtx || !devTopCtx.collapseRail) return;
-    if (mode === "plan") devTopCtx.collapseRail(true);
+    if (mode === "plan" || mode === "manual") devTopCtx.collapseRail(true);
     else if (mode === "choose" || mode === "landing") devTopCtx.collapseRail(false);
   }, [mode, devTopCtx]);
   // Restore the rail to its pre-Development state when leaving the Development tab.
@@ -1717,9 +1718,11 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode }) {
     return () => { if (devTopCtx && devTopCtx.collapseRail) devTopCtx.collapseRail(prev); };
   }, []);
 
-  if (mode === "choose") return <EdDevChoice onBack={onBack} onPickAI={() => setMode("landing")} />;
+  if (mode === "choose") return <EdDevChoice onBack={onBack} onPickAI={() => setMode("landing")} onPickManual={() => setMode("manual")} />;
+  if (mode === "manual") { const M = window.EdManual && window.EdManual.ManualFlow;
+    return M ? <M onExit={() => setMode("choose")} onDone={() => { setFromManual(true); setMode("plan"); }} /> : null; }
   if (mode === "flow") return <EdIdpFlow initialStep={idpStep} onExit={() => setMode("landing")} onDone={() => setMode("plan")} />;
-  if (mode === "plan") { const P = window.EdPlan && window.EdPlan.EdPlanPage; return P ? <P onBack={onBack} onRestart={() => setMode("flow")} /> : <EdPlanView onBack={onBack} onRestart={() => setMode("flow")} />; }
+  if (mode === "plan") { const P = window.EdPlan && window.EdPlan.EdPlanPage; return P ? <P onBack={onBack} onRestart={() => setMode("flow")} startLocked={fromManual} /> : <EdPlanView onBack={onBack} onRestart={() => setMode("flow")} />; }
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
