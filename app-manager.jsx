@@ -136,7 +136,7 @@ function mgrWhen(ts) {
 }
 
 // Nothing to review yet — the reportee hasn't put any skills in their plan.
-const MgrNoPlan = ({ name }) => (
+const MgrNoPlan = ({ name, what }) => (
   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 22, padding: "78px 20px 96px", textAlign: "center" }}>
     <svg width="132" height="116" viewBox="0 0 132 116" fill="none" aria-hidden="true">
       <ellipse className="mgr-empty-shadow" cx="60" cy="106" rx="40" ry="6" fill="rgba(0,15,71,.10)" />
@@ -154,10 +154,80 @@ const MgrNoPlan = ({ name }) => (
       </g>
     </svg>
     <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 500, color: eMUT, lineHeight: 1.5, maxWidth: 340 }}>
-      {name ? name + " has not added any skills yet." : "This reportee has not added any skills yet."}
+      {(name || "This reportee") + " has not " + (what || "added any skills") + " yet."}
     </div>
   </div>
 );
+
+// ════════════════════════════════════════════════
+//  REFLECTIVE QUESTIONS — read view of the owner's answers.
+//  The manager can amend the wording; edits go back to the same shared store the
+//  employee's own tab reads, so both sides always show one set of answers.
+// ════════════════════════════════════════════════
+function MgrReflect({ person, showToast }) {
+  const P = window.EdPlan || {};
+  const QS = P.REFLECT_QS || [];
+  const owner = person.linked ? P.OWNER : person.id;
+  const [ans, setAns] = mgUseState(() => (P.loadReflect ? P.loadReflect(owner) : {}));
+  const [editing, setEditing] = mgUseState(null);   // question index being edited
+  const [draft, setDraft] = mgUseState("");
+  mgUseEffect(() => {
+    const sync = () => { if (P.loadReflect) setAns(P.loadReflect(owner)); };
+    const ev = P.REFLECT_EVENT || "lh-reflect-change";
+    window.addEventListener(ev, sync); window.addEventListener("storage", sync); window.addEventListener("focus", sync);
+    return () => { window.removeEventListener(ev, sync); window.removeEventListener("storage", sync); window.removeEventListener("focus", sync); };
+  }, [owner]);
+
+  const answered = QS.some((it, i) => (ans[i] || "").trim());
+  if (!answered) return <MgrNoPlan name={person.first + " " + person.last} what="answered the reflective questions" />;
+
+  const save = (i) => {
+    const next = { ...ans, [i]: draft };
+    setAns(next);
+    if (P.saveReflect) P.saveReflect(owner, next);
+    setEditing(null);
+    if (showToast) showToast("Reflection updated");
+  };
+
+  return (
+    <div style={{ maxWidth: 820, marginTop: 24 }}>
+      {QS.map((it, i) => {
+        const text = (ans[i] || "").trim();
+        const on = editing === i;
+        return (
+          <div key={i} style={{ marginBottom: 22, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
+              <h3 style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.45 }}>
+                {it.q}{!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px", marginLeft: 8 }}>Optional</span>}
+              </h3>
+              {!on && (
+                <button onClick={() => { setEditing(i); setDraft(ans[i] || ""); }} title="Edit this answer"
+                  style={{ flexShrink: 0, background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2 }}>
+                  <I.edit size={16} />
+                </button>
+              )}
+            </div>
+            {on ? (
+              <React.Fragment>
+                <textarea autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} rows={4}
+                  style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + eLINE, background: "var(--card)", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
+                  <button onClick={() => setEditing(null)}
+                    style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "8px 16px", cursor: "pointer" }}>Cancel</button>
+                  <EdBtn primary small onClick={() => save(i)}>Save</EdBtn>
+                </div>
+              </React.Fragment>
+            ) : (
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: text ? eINK : eMUT, lineHeight: 1.65, whiteSpace: "pre-wrap" }}>
+                {text || "Not answered."}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 // ── small shared bits ──
 const MgrBadge = ({ status }) => {
@@ -511,7 +581,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
       {/* tabs + actions */}
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginBottom: 4 }}>
         <div style={{ display: "flex", gap: 2 }}>
-          {[["plan", "Plan"], ["gap", "Program Report"]].map(([k, l]) => {
+          {[["plan", "Plan"], ["gap", "Program Report"], ["reflect", "Reflective Questions"]].map(([k, l]) => {
             const on = tab === k;
             return <button key={k} onClick={() => setTab(k)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 14px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1 }}>{l}</button>;
           })}
@@ -549,7 +619,9 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         </div>
       </div>
 
-      {tab === "gap" ? (
+      {tab === "reflect" ? (
+        <MgrReflect person={person} showToast={showToast} />
+      ) : tab === "gap" ? (
         /* The Program Report preview — literally the employee's own tab */
         <div style={{ marginTop: 24 }}>
           {Report ? <Report /> : null}

@@ -452,6 +452,29 @@ function PlStatusBadge({ status, size = 14 }) {
   );
 }
 
+// ── reflective questions, shared with the manager ──
+// The owner answers them; the manager reads them and may edit the wording.
+const PL_REFLECT_QS = [
+  { q: "What strengths do you want to continue to focus on?", req: true },
+  { q: "What behavioural competencies/skills do you want to develop?", req: true },
+  { q: "What critical experiences do you need to gain?", req: true },
+  { q: "What are your allowable weaknesses?", req: false },
+  { q: "What do the next 5 to 10 years look like?", req: false },
+];
+const PL_REFLECT_KEY = "lh-reflections";
+const PL_REFLECT_EVENT = "lh-reflect-change";
+function plLoadReflect(owner) {
+  try { const all = JSON.parse(localStorage.getItem(PL_REFLECT_KEY) || "{}"); if (all && all[owner]) return all[owner]; } catch (e) {}
+  return {};
+}
+function plSaveReflect(owner, ans) {
+  let all = {};
+  try { all = JSON.parse(localStorage.getItem(PL_REFLECT_KEY) || "{}") || {}; } catch (e) {}
+  all[owner] = ans;
+  try { localStorage.setItem(PL_REFLECT_KEY, JSON.stringify(all)); } catch (e) {}
+  try { window.dispatchEvent(new CustomEvent(PL_REFLECT_EVENT, { detail: owner })); } catch (e) {}
+}
+
 // ── the manager's decision on a submitted plan ──
 // Written by the manager workspace, read here; one component so both sides match.
 const PL_SUB_KEY = "lh-idp-submission";
@@ -760,14 +783,15 @@ function PlUserInfo({ design }) {
 // ── Reflective Questions tab — empty answer boxes (filled in the AI platform) + Save ──
 // `forceError` (demo toggle) shows the "mandatory fields missing" error state up-front.
 function PlReflectTab({ forceError }) {
-  const QS = [
-    { q: "What strengths do you want to continue to focus on?", req: true },
-    { q: "What behavioural competencies/skills do you want to develop?", req: true },
-    { q: "What critical experiences do you need to gain?", req: true },
-    { q: "What are your allowable weaknesses?", req: false },
-    { q: "What do the next 5 to 10 years look like?", req: false },
-  ];
-  const [ans, setAns] = plUseState({});
+  const QS = PL_REFLECT_QS;
+  // Shared with the manager, who reads these and can edit them.
+  const [ans, setAns] = plUseState(() => plLoadReflect(PL_OWNER));
+  plUseEffect(() => { plSaveReflect(PL_OWNER, ans); }, [ans]);
+  plUseEffect(() => {
+    const sync = () => setAns(plLoadReflect(PL_OWNER));
+    window.addEventListener(PL_REFLECT_EVENT, sync); window.addEventListener("storage", sync); window.addEventListener("focus", sync);
+    return () => { window.removeEventListener(PL_REFLECT_EVENT, sync); window.removeEventListener("storage", sync); window.removeEventListener("focus", sync); };
+  }, []);
   const [saved, setSaved] = plUseState(false);
   const [tried, setTried] = plUseState(false);
   const showErr = forceError || tried; // reveal errors after a failed save (or via the demo toggle)
@@ -1589,3 +1613,8 @@ window.EdPlan.OWNER = PL_OWNER;
 // One status palette / badge for the employee and the manager alike.
 window.EdPlan.STATUS = PL_STATUS;
 window.EdPlan.StatusBadge = PlStatusBadge;
+// Reflective questions — shared, so the manager reads and can edit the same answers.
+window.EdPlan.REFLECT_QS = PL_REFLECT_QS;
+window.EdPlan.loadReflect = plLoadReflect;
+window.EdPlan.saveReflect = plSaveReflect;
+window.EdPlan.REFLECT_EVENT = PL_REFLECT_EVENT;
