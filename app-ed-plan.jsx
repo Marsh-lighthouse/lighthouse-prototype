@@ -526,7 +526,7 @@ const PlReplyIcon = ({ size = 13 }) => <svg width={size} height={size} viewBox="
 
 // One threaded comment — avatar · name · time · text · Reply — with nested replies.
 // No like/dislike; the only action is Reply.
-function PlCommentItem({ item, onReply, role = "me", names }) {
+function PlCommentItem({ item, onReply, role = "me", names, onResolve }) {
   const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const [replying, setReplying] = plUseState(false);
   const [showReplies, setShowReplies] = plUseState(true);
@@ -546,6 +546,13 @@ function PlCommentItem({ item, onReply, role = "me", names }) {
         <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, marginTop: 3 }}>{item.text}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 8 }}>
           <button onClick={() => setReplying((v) => !v)} style={plCLink}><PlReplyIcon /> Reply</button>
+          {/* Resolving a comment resolves the whole exchange beneath it. */}
+          {onResolve && (
+            <button onClick={() => onResolve(!item.resolved)} style={{ ...plCLink, color: item.resolved ? eSUCCESS : eMUT }}
+              title={item.resolved ? "Reopen this comment" : "Mark as resolved"}>
+              <I.check size={14} /> {item.resolved ? "Reopen" : "Resolve"}
+            </button>
+          )}
           {replies.length > 0 && <button onClick={() => setShowReplies((v) => !v)} style={{ ...plCLink, color: eMUT }}>{showReplies ? "Hide" : "Show"} {replies.length} {replies.length === 1 ? "reply" : "replies"}</button>}
         </div>
         {replying && (
@@ -590,6 +597,13 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
   // From the inbox, a new message starts the plan-level conversation and opens it.
   const addOverall = () => { const t = text.trim(); if (!t) return; postTo(PL_OVERALL, t); setText(""); onOpen(PL_OVERALL); };
   const addReply = (ci) => (t) => write(thread.map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
+  // Resolved comments drop out of the list; the filter brings them back.
+  const [showResolved, setShowResolved] = plUseState(false);
+  plUseEffect(() => { setShowResolved(false); }, [chip]);
+  const setResolved = (ci) => (val) => write(thread.map((c, i) => (i === ci ? { ...c, resolved: val } : c)));
+  const openCount = thread.filter((c) => !c.resolved).length;
+  const doneCount = thread.length - openCount;
+  const visible = thread.map((c, i) => ({ c, i })).filter((x) => !!x.c.resolved === showResolved);
 
   const threadNames = [PL_OVERALL].concat(Object.keys(store).filter((k) => k !== PL_OVERALL));
   const rows = threadNames.map((name) => {
@@ -610,8 +624,27 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
 
       {inThread ? (
         <React.Fragment>
+          {thread.length > 0 && (
+            <div style={{ display: "flex", gap: 6, padding: "12px 16px 0", flexShrink: 0 }}>
+              {[[false, "Open", openCount], [true, "Resolved", doneCount]].map(([val, label, n]) => {
+                const on = showResolved === val;
+                return (
+                  <button key={label} onClick={() => setShowResolved(val)}
+                    style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, padding: "5px 12px", borderRadius: 999, cursor: "pointer",
+                      border: "1px solid " + (on ? eMID : eLINE), background: on ? eMID : "var(--card)", color: on ? "#fff" : eMUT }}>
+                    {label} {n}
+                  </button>
+                );
+              })}
+            </div>
+          )}
           <div style={{ flex: 1, overflowY: "auto", padding: "16px 16px 8px" }}>
-            {thread.length ? thread.map((c, ci) => <PlCommentItem key={ci} item={c} onReply={addReply(ci)} role={role} names={NAMES} />) : <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textAlign: "center", padding: "26px 0" }}>No comments yet. Start the conversation below.</div>}
+            {visible.length
+              ? visible.map(({ c, i }) => <PlCommentItem key={i} item={c} onReply={addReply(i)} onResolve={setResolved(i)} role={role} names={NAMES} />)
+              : <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textAlign: "center", padding: "26px 0" }}>
+                  {thread.length === 0 ? "No comments yet. Start the conversation below."
+                    : showResolved ? "Nothing resolved yet." : "All comments here are resolved."}
+                </div>}
           </div>
         </React.Fragment>
       ) : (
