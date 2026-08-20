@@ -517,6 +517,22 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   };
   const decided = person.status === "approved" || person.status === "rejected" || person.status === "completed";
   const canDecide = !self && person.status === "pending";   // only a submitted plan can be decided
+  // Only the linked reportee has a real plan behind them — the rest are samples.
+  const canEdit = !self && !!person.linked;
+  const [editing, setEditing] = mgUseState(false);
+  const editable = editing && canEdit;
+  // Strip the manager-only annotations before writing back, so John's plan keeps
+  // its own shape and the diff stays meaningful.
+  const mgrStrip = (d) => (d || []).map((cat) => ({ ...cat, skills: (cat.skills || []).map((sk) => {
+    const s2 = { ...sk }; delete s2.changes; delete s2.edited;
+    s2.actions = (sk.actions || []).map((a) => { const a2 = { ...a }; delete a2.badge; return a2; });
+    return s2;
+  }) }));
+  const mutate = (fn) => {
+    const next = JSON.parse(JSON.stringify(data));
+    fn(next);
+    if (window.EdPlan && window.EdPlan.savePlan) window.EdPlan.savePlan(window.EdPlan.OWNER, mgrStrip(next));
+  };
   // Nothing to show on the Plan tab: either there are no skills, or this reportee
   // hasn't started (the unlinked ones never do — only John Doe is wired to the flow).
   const showEmpty = !self && ((person.status === "notstarted" && !person.linked)
@@ -601,10 +617,18 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
               <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
             </React.Fragment>
           )}
-          {tab === "plan" && <button disabled={(!self && decided) || showEmpty} title={showEmpty ? "No plan yet" : (!self && decided) ? "Plan is closed" : "Edit plan"}
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: ((!self && decided) || showEmpty) ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: ((!self && decided) || showEmpty) ? "not-allowed" : "pointer", opacity: ((!self && decided) || showEmpty) ? .55 : 1 }}>
-            <I.edit size={15} /> Edit Plan
-          </button>}
+          {tab === "plan" && (editable
+            ? <EdBtn primary small onClick={() => { setEditing(false); showToast("Changes saved to " + person.first + "'s plan"); }}>Done editing</EdBtn>
+            : (() => {
+                const off = !canEdit || showEmpty;
+                return (
+                  <button onClick={() => { if (!off) setEditing(true); }} disabled={off}
+                    title={showEmpty ? "No plan yet" : !canEdit ? "Sample plan — read only" : "Edit this plan"}
+                    style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: off ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: off ? "not-allowed" : "pointer", opacity: off ? .55 : 1 }}>
+                    <I.edit size={15} /> Edit Plan
+                  </button>
+                );
+              })())}
           {tab === "plan" && <button onClick={() => { if (comments == null) setComments(""); else setComments(null); }}
             title={anyUnread ? "New message from " + person.first : "Comments"}
             style={{ position: "relative", width: 38, height: 38, borderRadius: 9, border: "1px solid " + (comments != null ? eMID : anyUnread ? "var(--danger)" : eLINE), background: comments != null ? eMID : "var(--card)", color: comments != null ? "#fff" : eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -665,7 +689,10 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                   {/* the employee's plan cards, rendered with the very same component */}
                   {wrapCards(skill.actions.map((a, ai) => (
                     ACard
-                      ? <ACard key={a.id} action={a} editable={false} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1} onDate={() => {}} onComplete={() => {}} onDelete={() => {}} />
+                      ? <ACard key={a.id} action={a} editable={editable} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1}
+                          onDate={(v) => mutate((n) => { Object.assign(n[ci].skills[si].actions[ai], v); })}
+                          onComplete={(v) => mutate((n) => { n[ci].skills[si].actions[ai].completion = v; })}
+                          onDelete={() => mutate((n) => { n[ci].skills[si].actions.splice(ai, 1); })} />
                       : <div key={a.id} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, padding: "10px 0" }}>{a.title}</div>
                   )))}
 
