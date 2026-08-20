@@ -336,7 +336,14 @@ function PlAiModal({ skillName, onAdd, onClose }) {
 const PL_MGR = "Sarah Mitchell";
 const PL_ME = "John Doe";
 // Each skill holds top-level comments; each comment can have a thread of replies.
+// The plan-level conversation — not tied to any one skill. Always listed first.
+const PL_OVERALL = "Overall plan";
 const PL_THREADS = {
+  [PL_OVERALL]: [
+    { who: "mgr", time: "11 Aug · 09:02", text: "I've read through the whole plan — the shape is right. Let's keep this thread for anything that spans more than one skill.", replies: [
+      { who: "me", time: "11 Aug · 09:20", text: "Sounds good. I'll flag here if the timelines start slipping." },
+    ] },
+  ],
   "Execute with Excellence": [
     { who: "mgr", time: "11 Aug · 14:22", text: "Good start on this skill. For “Adopt Quality Assurance Techniques”, could you add a concrete target date so we can track it in our 1:1s?", replies: [
       { who: "me", time: "11 Aug · 16:41", text: "Done — the start date is in, and I’m aiming to finish the e-learning by end of September." },
@@ -439,6 +446,8 @@ const PL_STATUS = {
   pending: { label: "Pending Approval", color: eWARN, bg: "color-mix(in srgb, var(--warn, #C77700) 12%, transparent)", icon: "clock" },
   approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.10)", icon: "checkCircle" },
   rejected: { label: "Rejected", color: "var(--danger)", bg: "rgba(197,53,50,.10)", icon: "alertCircle" },
+  // The owner's own marker once they've finished the work — not a manager decision.
+  completed: { label: "Completed", color: "#6B49C8", bg: "rgba(107,73,200,.10)", icon: "checkCircle" },
 };
 // The badge itself — same pill wherever a plan status is shown.
 function PlStatusBadge({ status, size = 14 }) {
@@ -576,12 +585,13 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
   const addComment = () => { const t = text.trim(); if (!t) return; write([...thread, { who: role, time: plNow(), text: t, replies: [] }]); setText(""); };
   const addReply = (ci) => (t) => write(thread.map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
 
-  const rows = Object.keys(store).map((name) => {
-    const flat = store[name].flatMap((c) => [c, ...(c.replies || [])]);
+  const threadNames = [PL_OVERALL].concat(Object.keys(store).filter((k) => k !== PL_OVERALL));
+  const rows = threadNames.map((name) => {
+    const flat = (store[name] || []).flatMap((c) => [c, ...(c.replies || [])]);
     const last = flat[flat.length - 1];
     // unread = the last word was the other side's
-    return { name, last, count: flat.length, unread: !!last && last.who !== role };
-  }).filter((r) => !!r.last);
+    return { name, last, count: flat.length, unread: !!last && last.who !== role, overall: name === PL_OVERALL };
+  }).filter((r) => r.overall || !!r.last);   // the plan-level thread is always offered
 
   return (
     <aside className="ed-idp-notes" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 40, background: eCARD, borderLeft: "1px solid " + eLINE, display: "flex", flexDirection: "column" }}>
@@ -608,21 +618,21 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
       ) : (
         // inbox of conversations
         <div style={{ flex: 1, overflowY: "auto", padding: "12px 12px" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "2px 4px 10px" }}>{rows.length} skill conversations · tap one to open the thread</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "2px 4px 10px" }}>{rows.length} {rows.length === 1 ? "conversation" : "conversations"} · tap one to open the thread</div>
           {rows.map((r, i) => {
-            const mine = r.last.who === role;
-            const lastName = NAMES[r.last.who] || PL_ME;
+            const mine = r.last ? r.last.who === role : false;
+            const lastName = r.last ? (NAMES[r.last.who] || PL_ME) : "";
             return (
               <button key={i} onClick={() => onOpen(r.name)} style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 12, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: "var(--card)", cursor: "pointer", marginBottom: 8 }}
                 onMouseEnter={(e) => e.currentTarget.style.background = "rgba(0,15,71,.03)"} onMouseLeave={(e) => e.currentTarget.style.background = "var(--card)"}>
-                <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{plInitials(lastName)}</span>
+                <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{r.last ? plInitials(lastName) : <I.chat size={16} />}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
                     {r.unread && <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--danger)", flexShrink: 0 }} />}
                   </div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT, marginTop: 4 }}>{r.last.time} · {r.count} {r.count === 1 ? "message" : "messages"}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT, marginTop: 4 }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</div>
                 </div>
               </button>
             );
@@ -906,6 +916,15 @@ function EdPlanPage({ onBack, onRestart }) {
     try { localStorage.setItem("lh-idp-submission", JSON.stringify({ status: "draft", at: Date.now() })); } catch (e) {}
     showToast("Plan reopened — back to draft");
   };
+  // Once the manager has approved it, finishing the work is the owner's own call.
+  // Kept as a flag beside the approval, so the manager still reads "Approved".
+  const completed = !!(verdict && verdict.status === "approved" && decision && decision.completed);
+  const markComplete = () => {
+    const next = { ...(decision || {}), completed: true, completedAt: Date.now() };
+    setDecision(next);
+    try { localStorage.setItem("lh-idp-submission", JSON.stringify(next)); } catch (e) {}
+    showToast("Plan marked as complete");
+  };
 
   // Close the plan-design sample menu on outside click / Escape.
   const sampleRef = plUseRef(null);
@@ -973,13 +992,17 @@ function EdPlanPage({ onBack, onRestart }) {
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 6 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
-          <PlStatusBadge status={verdict ? verdict.status : awaiting ? "pending" : "draft"} />
+          <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : awaiting ? "pending" : "draft"} />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <button title="Download" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
           {verdict
-            // decided → read view, with the one action that reopens it as a draft
-            ? <EdBtn onClick={reopen}><I.edit size={15} /> Edit Plan</EdBtn>
+            // decided → read view: reopen as a draft, or (once approved) mark it done
+            ? <React.Fragment>
+                <EdBtn onClick={reopen}><I.edit size={15} /> Edit Plan</EdBtn>
+                {verdict.status === "approved" && !completed &&
+                  <EdBtn primary onClick={markComplete}><I.checkCircle size={15} /> Mark as Complete</EdBtn>}
+              </React.Fragment>
             : submitted
             ? null
             : locked
@@ -1618,3 +1641,4 @@ window.EdPlan.REFLECT_QS = PL_REFLECT_QS;
 window.EdPlan.loadReflect = plLoadReflect;
 window.EdPlan.saveReflect = plSaveReflect;
 window.EdPlan.REFLECT_EVENT = PL_REFLECT_EVENT;
+window.EdPlan.OVERALL = PL_OVERALL;   // the plan-level conversation thread
