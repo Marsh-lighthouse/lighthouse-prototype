@@ -135,6 +135,28 @@ function mgrWhen(ts) {
   return new Date(ts).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }
 
+// Nothing to review yet — the reportee hasn't put any skills in their plan.
+const MgrNoPlan = ({ name }) => (
+  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 26, flexWrap: "wrap", padding: "64px 20px 80px" }}>
+    <svg width="120" height="104" viewBox="0 0 120 104" fill="none" aria-hidden="true">
+      <ellipse cx="58" cy="94" rx="44" ry="6" fill="rgba(0,15,71,.05)" />
+      <rect x="22" y="18" width="60" height="60" rx="6" fill="rgba(0,15,71,.07)" />
+      <rect x="34" y="32" width="36" height="5" rx="2.5" fill="rgba(0,15,71,.16)" />
+      <rect x="34" y="44" width="28" height="5" rx="2.5" fill="rgba(0,15,71,.12)" />
+      <rect x="34" y="56" width="32" height="5" rx="2.5" fill="rgba(0,15,71,.12)" />
+      <path d="M14 62h22a6 6 0 0 0 12 0h22v20a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6z" fill="rgba(0,15,71,.12)" />
+      <circle cx="94" cy="24" r="16" fill="rgba(0,15,71,.09)" />
+      <path d="M86 44l4-8 6 3z" fill="rgba(0,15,71,.09)" />
+      <circle cx="88" cy="24" r="2" fill="rgba(0,15,71,.28)" />
+      <circle cx="94" cy="24" r="2" fill="rgba(0,15,71,.28)" />
+      <circle cx="100" cy="24" r="2" fill="rgba(0,15,71,.28)" />
+    </svg>
+    <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>
+      {name ? name + " has not added Skills yet." : "Reportee has not added Skills yet."}
+    </div>
+  </div>
+);
+
 // ── small shared bits ──
 const MgrBadge = ({ status }) => {
   const t = MGR_TONE(status);
@@ -423,6 +445,10 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   };
   const decided = person.status === "approved" || person.status === "rejected" || person.status === "completed";
   const canDecide = !self && person.status === "pending";   // only a submitted plan can be decided
+  // Nothing to show on the Plan tab: either there are no skills, or this reportee
+  // hasn't started (the unlinked ones never do — only John Doe is wired to the flow).
+  const showEmpty = !self && ((person.status === "notstarted" && !person.linked)
+    || !data.some((c) => (c.skills || []).length));
 
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
 
@@ -483,29 +509,36 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
       {/* tabs + actions */}
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginBottom: 4 }}>
         <div style={{ display: "flex", gap: 2 }}>
-          {[["plan", "Plan"], ["gap", "Skill Gap Report"]].map(([k, l]) => {
+          {[["plan", "Plan"], ["gap", "Program Report"]].map(([k, l]) => {
             const on = tab === k;
             return <button key={k} onClick={() => setTab(k)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 14px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1 }}>{l}</button>;
           })}
         </div>
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, paddingBottom: 8 }}>
-          {canDecide && (
+          {/* the report tab carries one action of its own */}
+          {tab === "gap" && (
+            <button onClick={() => showToast("Program Report downloaded")}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: "pointer" }}>
+              <I.download size={16} /> Download Program Report
+            </button>
+          )}
+          {tab === "plan" && canDecide && (
             <React.Fragment>
               <button onClick={() => setPop(pop === "rejected" ? null : "rejected")}
                 style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
               <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
             </React.Fragment>
           )}
-          <button disabled={!self && decided} title={!self && decided ? "Plan is closed" : "Edit plan"}
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: (!self && decided) ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: (!self && decided) ? "not-allowed" : "pointer", opacity: (!self && decided) ? .55 : 1 }}>
+          {tab === "plan" && <button disabled={(!self && decided) || showEmpty} title={showEmpty ? "No plan yet" : (!self && decided) ? "Plan is closed" : "Edit plan"}
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: ((!self && decided) || showEmpty) ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: ((!self && decided) || showEmpty) ? "not-allowed" : "pointer", opacity: ((!self && decided) || showEmpty) ? .55 : 1 }}>
             <I.edit size={15} /> Edit Plan
-          </button>
-          <button onClick={() => { if (comments == null) setComments(""); else setComments(null); }}
+          </button>}
+          {tab === "plan" && <button onClick={() => { if (comments == null) setComments(""); else setComments(null); }}
             title={anyUnread ? "New message from " + person.first : "Comments"}
             style={{ position: "relative", width: 38, height: 38, borderRadius: 9, border: "1px solid " + (comments != null ? eMID : anyUnread ? "var(--danger)" : eLINE), background: comments != null ? eMID : "var(--card)", color: comments != null ? "#fff" : eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <I.chat size={17} />
             {anyUnread && comments == null && <span style={{ position: "absolute", top: 6, right: 6, width: 9, height: 9, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--card)" }} />}
-          </button>
+          </button>}
           {pop && <MgrNotePop kind={pop} onClose={() => setPop(null)} onSubmit={(text) => {
             onDecide(person.id, pop, text);
             setPop(null);
@@ -515,10 +548,12 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
       </div>
 
       {tab === "gap" ? (
-        /* The report preview — literally the employee's own Program Report tab */
+        /* The Program Report preview — literally the employee's own tab */
         <div style={{ marginTop: 24 }}>
           {Report ? <Report /> : null}
         </div>
+      ) : showEmpty ? (
+        <MgrNoPlan name={person.first + " " + person.last} />
       ) : (
         <React.Fragment>
           {data.map((cat, ci) => (
