@@ -160,9 +160,9 @@ const MgrNoPlan = ({ name, what }) => (
 );
 
 // ════════════════════════════════════════════════
-//  REFLECTIVE QUESTIONS — read view of the owner's answers.
-//  The manager can amend the wording; edits go back to the same shared store the
-//  employee's own tab reads, so both sides always show one set of answers.
+//  REFLECTIVE QUESTIONS — NOT surfaced in the manager.
+//  Reflections are the owner's private space, so the manager has no tab for them.
+//  Kept here (unused) because the read/edit view is ready if that ever changes.
 // ════════════════════════════════════════════════
 function MgrReflect({ person, showToast }) {
   const P = window.EdPlan || {};
@@ -600,7 +600,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
       {/* tabs + actions */}
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginBottom: 4 }}>
         <div style={{ display: "flex", gap: 2 }}>
-          {[["plan", "Plan"], ["gap", "Program Report"], ["reflect", "Reflective Questions"]].map(([k, l]) => {
+          {[["plan", "Plan"], ["gap", "Program Report"]].map(([k, l]) => {
             const on = tab === k;
             return <button key={k} onClick={() => setTab(k)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 14px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1 }}>{l}</button>;
           })}
@@ -646,9 +646,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         </div>
       </div>
 
-      {tab === "reflect" ? (
-        <MgrReflect person={person} showToast={showToast} />
-      ) : tab === "gap" ? (
+      {tab === "gap" ? (
         /* The Program Report preview — literally the employee's own tab */
         <div style={{ marginTop: 24 }}>
           {Report ? <Report /> : null}
@@ -723,7 +721,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
 
       {/* plan-design switcher — the same nine samples as the employee side */}
       {tab === "plan" && SAMPLES.length > 0 && ReactDOM.createPortal(
-        <div style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
+        <div className="ed-plan-sample-chip" style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
           {sampleMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, maxHeight: 420, overflowY: "auto", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
@@ -742,7 +740,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
 
       {/* rejection-note switcher — only meaningful once a plan has been sent back */}
       {hasNote && ReactDOM.createPortal(
-        <div style={{ position: "fixed", right: 200, bottom: 98, zIndex: 60, fontFamily: "var(--sans)" }}>
+        <div className="mgr-note-chip" style={{ position: "fixed", right: 200, bottom: 98, zIndex: 60, fontFamily: "var(--sans)" }}>
           {noteMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Decision note</div>
@@ -760,7 +758,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         </div>, document.body)}
 
       {ReactDOM.createPortal(
-        <div style={{ position: "fixed", right: 200, bottom: 56, zIndex: 60, fontFamily: "var(--sans)" }}>
+        <div className="ed-plan-usercard-chip" style={{ position: "fixed", right: 200, bottom: 56, zIndex: 60, fontFamily: "var(--sans)" }}>
           {userCardMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
