@@ -522,7 +522,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   // Only the linked reportee has a real plan behind them — the rest are samples.
   const canEdit = !self && !!person.linked;
   const [editing, setEditing] = mgUseState(false);
-  const editable = editing && canEdit;
+  const editable = editing && canEdit && !decided;
+  mgUseEffect(() => { if (decided) setEditing(false); }, [decided]);
   // Strip the manager-only annotations before writing back, so John's plan keeps
   // its own shape and the diff stays meaningful.
   const mgrStrip = (d) => (d || []).map((cat) => ({ ...cat, skills: (cat.skills || []).map((sk) => {
@@ -628,18 +629,14 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
               <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
             </React.Fragment>
           )}
-          {tab === "plan" && (editable
+          {/* The manager may only edit while the plan is with them. Once it is
+              approved or rejected it belongs to the owner again — no Edit here. */}
+          {tab === "plan" && canEdit && !showEmpty && !decided && (editable
             ? <EdBtn primary small onClick={() => { setEditing(false); showToast("Changes saved to " + person.first + "'s plan"); }}>Done editing</EdBtn>
-            : (() => {
-                const off = !canEdit || showEmpty;
-                return (
-                  <button onClick={() => { if (!off) setEditing(true); }} disabled={off}
-                    title={showEmpty ? "No plan yet" : !canEdit ? "Sample plan — read only" : "Edit this plan"}
-                    style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: off ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: off ? "not-allowed" : "pointer", opacity: off ? .55 : 1 }}>
-                    <I.edit size={15} /> Edit Plan
-                  </button>
-                );
-              })())}
+            : <button onClick={() => setEditing(true)} title="Edit this plan"
+                style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: "pointer" }}>
+                <I.edit size={15} /> Edit Plan
+              </button>)}
           {tab === "plan" && <button onClick={() => { if (comments == null) setComments(""); else setComments(null); }}
             title={anyUnread ? "New message from " + person.first : "Comments"}
             style={{ position: "relative", width: 38, height: 38, borderRadius: 9, border: "1px solid " + (comments != null ? eMID : anyUnread ? "var(--danger)" : eLINE), background: comments != null ? eMID : "var(--card)", color: comments != null ? "#fff" : eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
