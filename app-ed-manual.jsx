@@ -308,12 +308,16 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
 
       {/* A deck: the questions still to come sit behind the live card, and the top
           card is dealt forward each time you move. */}
-      <div style={{ position: "relative", paddingBottom: 10 + 11 * Math.min(2, QS.length - i - 1) }}>
+      <div style={{ position: "relative", paddingBottom: 11 * Math.min(2, QS.length - i - 1) }}>
+        {/* Each card behind is the live card's exact size, stepped down by a fixed
+            amount and narrowed on the X axis only — so the stack is symmetrical
+            whatever the card's height. */}
         {Array.from({ length: Math.min(2, QS.length - i - 1) }).map((_, g) => (
           <div key={"ghost" + g} aria-hidden="true" className="mn-ghost"
-            style={{ position: "absolute", left: 10 * (g + 1), right: 10 * (g + 1), top: 11 * (g + 1), height: "100%",
+            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 11 * Math.min(2, QS.length - i - 1),
+              "--mn-y": 11 * (g + 1) + "px", "--mn-sx": 1 - (g + 1) * 0.035,
               background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16,
-              boxShadow: "0 4px 18px rgba(0,15,71,.05)", opacity: 1 - g * 0.35, zIndex: 0 }} />
+              boxShadow: "0 4px 18px rgba(0,15,71,.05)", opacity: 1 - g * 0.3, zIndex: 0 }} />
         ))}
       <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "18px" : "-18px", position: "relative", zIndex: 1,
         background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px", boxShadow: "0 10px 30px rgba(0,15,71,.10)" }}>
