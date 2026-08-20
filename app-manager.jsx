@@ -520,7 +520,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const canReview = !self && person.status === "pending";   // queued → open it for review
   const canDecide = !self && person.status === "review";    // in review → approve or reject
   // Only the linked reportee has a real plan behind them — the rest are samples.
-  const canEdit = !self && !!person.linked;
+  const canEdit = !self && !!person.linked && person.status === "review";   // edit only while reviewing
   const [editing, setEditing] = mgUseState(false);
   const editable = editing && canEdit && !decided;
   mgUseEffect(() => { if (decided) setEditing(false); }, [decided]);
@@ -619,8 +619,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           {tab === "plan" && canReview && (
             <EdBtn primary small onClick={() => {
               onDecide(person.id, "review", "");
-              showToast("Plan moved to review");
-            }}><I.eye size={15} /> Review Plan</EdBtn>
+              showToast("Review started");
+            }}><I.eye size={15} /> Start Review</EdBtn>
           )}
           {tab === "plan" && canDecide && (
             <React.Fragment>
@@ -631,10 +631,11 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           )}
           {/* The manager may only edit while the plan is with them. Once it is
               approved or rejected it belongs to the owner again — no Edit here. */}
-          {tab === "plan" && canEdit && !showEmpty && !decided && (editable
+          {tab === "plan" && !showEmpty && !decided && (editable
             ? <EdBtn primary small onClick={() => { setEditing(false); showToast("Changes saved to " + person.first + "'s plan"); }}>Done editing</EdBtn>
-            : <button onClick={() => setEditing(true)} title="Edit this plan"
-                style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: "pointer" }}>
+            : <button onClick={() => { if (canEdit) setEditing(true); }} disabled={!canEdit}
+                title={canEdit ? "Edit this plan" : "Start the review first"}
+                style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: canEdit ? eMID : eMUT, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: canEdit ? "pointer" : "not-allowed", opacity: canEdit ? 1 : .55 }}>
                 <I.edit size={15} /> Edit Plan
               </button>)}
           {tab === "plan" && <button onClick={() => { if (comments == null) setComments(""); else setComments(null); }}
