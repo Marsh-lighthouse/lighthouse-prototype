@@ -542,17 +542,19 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0, paddingRight: comments != null ? 344 : 0, transition: "padding .25s ease" }}>
-      {/* title row */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 18 }}>
+      {/* title row — status sits under the heading, as on the employee's plan, so a
+          long title can never shove anything onto a second line */}
+      <div className="ed-plan-head" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 18 }}>
+        <div style={{ flex: "1 1 auto", minWidth: 0 }}>
         {self ? (
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>My Development Plan</h1>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>My Development Plan</h1>
         ) : (
-        <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer" }}>
-          <I.arrowL size={20} style={{ color: eMID }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID }}>Direct Reportees Detail</span>
+        <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer", textAlign: "left" }}>
+          <I.arrowL size={20} style={{ color: eMID, flexShrink: 0 }} />
+          <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, lineHeight: 1.3 }}>Direct Reportees Detail</span>
         </button>
         )}
-        <div style={{ position: "relative", display: "inline-flex", alignItems: "center", gap: 8 }}>
+        <div style={{ position: "relative", display: "flex", width: "fit-content", alignItems: "center", gap: 8, marginTop: 9 }}>
           {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
             {MGR_TONE(person.status).label}
           </span>}
@@ -569,6 +571,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55 }}>{note}</div>
             </div>
           )}
+        </div>
         </div>
       </div>
 

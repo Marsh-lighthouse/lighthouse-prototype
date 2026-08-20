@@ -166,3 +166,9 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
    sits outside the app root). Its default opacity: .5 pushed it below AA (~4.2:1);
    raise it and pin the text to the neutral muted token so it reads at rest. */
 a.lh-back { opacity: .92 !important; color: var(--muted) !important; }
+
+/* Development-plan header: the title may wrap to as many lines as it needs, but the
+   action buttons hold the right edge on one line. Only a genuinely narrow screen
+   lets them drop below. */
+.ed-plan-head { flex-wrap: nowrap; }
+@media (max-width: 700px) { .ed-plan-head { flex-wrap: wrap; } }

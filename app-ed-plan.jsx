@@ -582,7 +582,13 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
   }, [owner]);
   const thread = store[chip] || [];
   const write = (next) => { const all = { ...store, [chip]: next }; setStore(all); plSaveThreads(owner, all); };
-  const addComment = () => { const t = text.trim(); if (!t) return; write([...thread, { who: role, time: plNow(), text: t, replies: [] }]); setText(""); };
+  const postTo = (name, t) => {
+    const all = { ...store, [name]: [...(store[name] || []), { who: role, time: plNow(), text: t, replies: [] }] };
+    setStore(all); plSaveThreads(owner, all);
+  };
+  const addComment = () => { const t = text.trim(); if (!t) return; postTo(chip, t); setText(""); };
+  // From the inbox, a new message starts the plan-level conversation and opens it.
+  const addOverall = () => { const t = text.trim(); if (!t) return; postTo(PL_OVERALL, t); setText(""); onOpen(PL_OVERALL); };
   const addReply = (ci) => (t) => write(thread.map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
 
   const threadNames = [PL_OVERALL].concat(Object.keys(store).filter((k) => k !== PL_OVERALL));
@@ -606,13 +612,6 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
         <React.Fragment>
           <div style={{ flex: 1, overflowY: "auto", padding: "16px 16px 8px" }}>
             {thread.length ? thread.map((c, ci) => <PlCommentItem key={ci} item={c} onReply={addReply(ci)} role={role} names={NAMES} />) : <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textAlign: "center", padding: "26px 0" }}>No comments yet. Start the conversation below.</div>}
-          </div>
-          {/* new comment composer — full-width, borderless, send inline */}
-          <div style={{ padding: "10px 16px 16px", borderTop: "1px solid " + eLINE, flexShrink: 0 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") addComment(); }} placeholder="Write a comment…" style={{ flex: 1, border: "none", outline: "none", fontFamily: "var(--sans)", fontSize: 14, color: eINK, background: "transparent", minWidth: 0, padding: "8px 0" }} />
-              <button onClick={addComment} aria-label="Send" disabled={!text.trim()} style={{ width: 34, height: 34, borderRadius: 999, background: text.trim() ? eMID : "rgba(0,15,71,.08)", border: "none", color: text.trim() ? "#fff" : eMUT, cursor: text.trim() ? "pointer" : "default", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={16} /></button>
-            </div>
           </div>
         </React.Fragment>
       ) : (
@@ -639,6 +638,19 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
           })}
         </div>
       )}
+
+      {/* One composer, always available. In a thread it posts there; from the
+          inbox it starts the plan-level conversation and opens it. */}
+      <div style={{ padding: "10px 16px 16px", borderTop: "1px solid " + eLINE, flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input value={text} onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") (inThread ? addComment : addOverall)(); }}
+            placeholder={inThread ? "Write a comment…" : "Write a message about the plan…"}
+            style={{ flex: 1, border: "none", outline: "none", fontFamily: "var(--sans)", fontSize: 14, color: eINK, background: "transparent", minWidth: 0, padding: "8px 0" }} />
+          <button onClick={() => (inThread ? addComment : addOverall)()} aria-label="Send" disabled={!text.trim()}
+            style={{ width: 34, height: 34, borderRadius: 999, background: text.trim() ? eMID : "rgba(0,15,71,.08)", border: "none", color: text.trim() ? "#fff" : eMUT, cursor: text.trim() ? "pointer" : "default", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={16} /></button>
+        </div>
+      </div>
     </aside>
   );
 }
@@ -989,12 +1001,16 @@ function EdPlanPage({ onBack, onRestart }) {
     <div className="ed-plan-wrap" style={{ paddingRight: comments != null ? 344 : 0, transition: "padding .25s ease" }}>
     <div style={{ maxWidth: "var(--content-max)", margin: "28px var(--fol-mx) 72px" }}>
       {/* header */}
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 6 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
-          <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : awaiting ? "pending" : "draft"} />
+      {/* Title left, actions hard right. The status sits under the heading so a long
+          name can never push the buttons onto a second line. */}
+      <div className="ed-plan-head" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 6 }}>
+        <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
+          <div style={{ marginTop: 9 }}>
+            <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : awaiting ? "pending" : "draft"} />
+          </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           <button title="Download" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
           {verdict
             // decided → read view: reopen as a draft, or (once approved) mark it done
