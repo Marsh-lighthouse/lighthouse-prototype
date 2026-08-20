@@ -864,21 +864,72 @@ function PlUserInfo({ design }) {
 
 // ── Reflective Questions tab — empty answer boxes (filled in the AI platform) + Save ──
 // `forceError` (demo toggle) shows the "mandatory fields missing" error state up-front.
-function PlReflectTab({ forceError }) {
+function PlReflectTab({ forceError, showToast }) {
   const QS = PL_REFLECT_QS;
   // Shared with the manager, who reads these and can edit them.
   const [ans, setAns] = plUseState(() => plLoadReflect(PL_OWNER));
+  // Answered already? Then this is a read view with per-question editing —
+  // the same pattern the manager side uses.
+  const [saved, setSavedState] = plUseState(() => PL_REFLECT_QS.some((q, i) => ((plLoadReflect(PL_OWNER) || {})[i] || "").trim()));
+  const [editing, setEditing] = plUseState(null);
+  const [draft, setDraft] = plUseState("");
   plUseEffect(() => { plSaveReflect(PL_OWNER, ans); }, [ans]);
   plUseEffect(() => {
     const sync = () => setAns(plLoadReflect(PL_OWNER));
     window.addEventListener(PL_REFLECT_EVENT, sync); window.addEventListener("storage", sync); window.addEventListener("focus", sync);
     return () => { window.removeEventListener(PL_REFLECT_EVENT, sync); window.removeEventListener("storage", sync); window.removeEventListener("focus", sync); };
   }, []);
-  const [saved, setSaved] = plUseState(false);
   const [tried, setTried] = plUseState(false);
   const showErr = forceError || tried; // reveal errors after a failed save (or via the demo toggle)
   const missing = (i) => QS[i].req && !(ans[i] && ans[i].trim());
   const allReq = QS.every((it, i) => !it.req || (ans[i] && ans[i].trim()));
+  const saveOne = (i) => {
+    setAns((a) => ({ ...a, [i]: draft }));
+    setEditing(null);
+    if (showToast) showToast("Reflection updated");
+  };
+
+  if (saved) {
+    return (
+      <div style={{ maxWidth: 820 }}>
+        {QS.map((it, i) => {
+          const text = (ans[i] || "").trim();
+          const on = editing === i;
+          return (
+            <div key={i} style={{ marginBottom: 22, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
+                <h3 style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.45 }}>
+                  {it.q}{!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px", marginLeft: 8 }}>Optional</span>}
+                </h3>
+                {!on && (
+                  <button onClick={() => { setEditing(i); setDraft(ans[i] || ""); }} title="Edit this answer"
+                    style={{ flexShrink: 0, background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2 }}>
+                    <I.edit size={16} />
+                  </button>
+                )}
+              </div>
+              {on ? (
+                <React.Fragment>
+                  <textarea autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} rows={4}
+                    style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + eLINE, background: "var(--card)", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
+                    <button onClick={() => setEditing(null)}
+                      style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "8px 16px", cursor: "pointer" }}>Cancel</button>
+                    <EdBtn primary small onClick={() => saveOne(i)}>Save</EdBtn>
+                  </div>
+                </React.Fragment>
+              ) : (
+                <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: text ? eINK : eMUT, lineHeight: 1.65, whiteSpace: "pre-wrap" }}>
+                  {text || "Not answered."}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div style={{ maxWidth: 820 }}>
       {showErr && !allReq && (
@@ -895,7 +946,7 @@ function PlReflectTab({ forceError }) {
             <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>{it.q}{it.req && <span style={{ color: "var(--danger)", marginLeft: 3 }}>*</span>}</h3>
             {!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px" }}>Optional</span>}
           </div>
-          <textarea value={ans[i] || ""} onChange={(e) => { const v = e.target.value; setAns((a) => ({ ...a, [i]: v })); setSaved(false); }} placeholder="Write your reflection here…" rows={4} style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + (err ? "var(--danger)" : eLINE), background: err ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
+          <textarea value={ans[i] || ""} onChange={(e) => { const v = e.target.value; setAns((a) => ({ ...a, [i]: v })); setSavedState(false); }} placeholder="Write your reflection here…" rows={4} style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + (err ? "var(--danger)" : eLINE), background: err ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
           {err && <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 13 }}><I.alertCircle size={13} /> This question is required.</div>}
         </div>
         );
@@ -904,7 +955,7 @@ function PlReflectTab({ forceError }) {
         <div style={{ display: "flex", alignItems: "center", gap: 6, color: eMUT, fontFamily: "var(--sans)", fontSize: 14 }}>
           <span style={{ color: "var(--danger)", fontWeight: 700 }}>*</span> Required — answer all starred questions before saving.
         </div>
-        <EdBtn primary onClick={() => { if (allReq) setSaved(true); else setTried(true); }}>Save Reflections</EdBtn>
+        <EdBtn primary onClick={() => { if (allReq) setSavedState(true); else setTried(true); }}>Save Reflections</EdBtn>
       </div>
       {saved && allReq && (
         <div style={{ display: "flex", alignItems: "center", gap: 9, marginTop: 16, background: "color-mix(in srgb, var(--success) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--success) 26%, transparent)", borderRadius: 10, padding: "11px 14px" }}>
@@ -1136,7 +1187,7 @@ function EdPlanPage({ onBack, onRestart }) {
         </div>}
       </div>
 
-      {tab === "report" ? <PlReportTab /> : tab === "reflect" ? <PlReflectTab forceError={reflectErr} /> : (
+      {tab === "report" ? <PlReportTab /> : tab === "reflect" ? <PlReflectTab forceError={reflectErr} showToast={showToast} /> : (
         <React.Fragment>
           {/* Save blocked — required start / end dates are missing on one or more actions. */}
           {showDateErr && (
