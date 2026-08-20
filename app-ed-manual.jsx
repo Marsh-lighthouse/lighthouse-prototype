@@ -12,6 +12,21 @@
 
 const { useState: mnUseState, useEffect: mnUseEffect, useRef: mnUseRef } = React;
 
+// Step navigation lives at the foot of the page: read the step, then move on.
+function MnFooterNav({ onBack, onNext, nextLabel, nextDisabled }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap",
+      borderTop: "1px solid " + eLINE, marginTop: 32, paddingTop: 20 }}>
+      <button onClick={onBack}
+        style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID,
+          background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
+        <I.arrowL size={15} /> Back
+      </button>
+      <EdBtn primary disabled={nextDisabled} onClick={() => { if (!nextDisabled) onNext(); }}>{nextLabel} <I.arrow size={15} /></EdBtn>
+    </div>
+  );
+}
+
 const MN_STEPS = ["Getting Started", "Add Skills", "Rate Skills", "Reflective Questions"];
 
 const MN_CATS = [
@@ -33,8 +48,8 @@ function MnStepper({ step }) {
           <React.Fragment key={label}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
               <span style={{ width: 26, height: 26, borderRadius: 13, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
-                background: on ? eMID : done ? "transparent" : "rgba(0,15,71,.06)",
-                color: on ? "#fff" : done ? eSUCCESS : eMUT,
+                background: done ? eSUCCESS : on ? eMID : "rgba(0,15,71,.06)",
+                color: done || on ? "#fff" : eMUT,
                 border: done ? "none" : "1px solid " + (on ? eMID : eLINE),
                 fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>
                 {done ? <I.check size={16} /> : i + 1}
@@ -117,13 +132,7 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
   const total = sel.reduce((n, a) => n + a.length, 0);
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
-        <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer" }}>
-          <I.arrowL size={20} style={{ color: eMID }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID }}>Add Skills</span>
-        </button>
-        <EdBtn primary small disabled={total === 0} onClick={() => total && onNext()}>Continue to Rate skills <I.arrow size={15} /></EdBtn>
-      </div>
+      <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 20px" }}>Add Skills</h1>
 
       {MN_CATS.map((c, ci) => (
         <div key={ci} style={{ borderTop: ci ? "1px solid " + eLINE : "none", paddingTop: ci ? 26 : 0, marginTop: ci ? 26 : 0 }}>
@@ -146,6 +155,7 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
           )}
         </div>
       ))}
+      <MnFooterNav onBack={onBack} onNext={onNext} nextLabel="Continue to Rate skills" nextDisabled={total === 0} />
     </div>
   );
 }
@@ -155,13 +165,7 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
-        <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer" }}>
-          <I.arrowL size={20} style={{ color: eMID }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID }}>Rate Skills</span>
-        </button>
-        <EdBtn primary small onClick={onNext}>Next <I.arrow size={15} /></EdBtn>
-      </div>
+      <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 20px" }}>Rate Skills</h1>
 
       <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 22 }}>
         <div style={{ width: 46, height: 46, borderRadius: 23, background: "color-mix(in srgb, var(--accent) 8%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={22} /></div>
@@ -192,6 +196,7 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
           </div>
         ))}
       </div>
+      <MnFooterNav onBack={onBack} onNext={onNext} nextLabel="Continue to Reflective questions" />
     </div>
   );
 }
@@ -220,10 +225,7 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
-        <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer" }}>
-          <I.arrowL size={20} style={{ color: eMID }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID }}>Reflective Questions</span>
-        </button>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>Reflective Questions</h1>
         <button onClick={onFinish} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer" }}>
           Answer Later <I.arrow size={15} />
         </button>
@@ -266,8 +268,10 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
         )}
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 20 }}>
-          <button onClick={() => i > 0 && go(i - 1)} disabled={i === 0}
-            style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: i === 0 ? eMUT : eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: i === 0 ? "not-allowed" : "pointer", opacity: i === 0 ? .55 : 1 }}>Back</button>
+          <button onClick={() => (i > 0 ? go(i - 1) : onBack())}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
+            <I.arrowL size={15} /> Back
+          </button>
           <EdBtn primary small onClick={next}>
             {i === QS.length - 1 ? "Submit" : "Next"} <I.arrow size={15} />
           </EdBtn>
