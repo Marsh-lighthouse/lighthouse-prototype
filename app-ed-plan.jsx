@@ -1090,17 +1090,17 @@ function EdPlanPage({ onBack, onRestart }) {
           const on = tab === k;
           return <button key={k} onClick={() => setTab(k)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{l}</button>;
         })}
-        {/* Add Skills sits opposite the tabs — Plan tab only, and only while editable. */}
-        {tab === "plan" && editable && (
-          <button onClick={() => setAddSkills(true)} style={{ marginLeft: "auto", marginBottom: 6, display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1px solid " + eLINE, borderRadius: 9, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "border-color .15s, background .15s" }}
+        </div>
+        {/* plan actions belong to the Plan tab, as in the manager */}
+        {tab === "plan" && <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, paddingBottom: 8 }}>
+        {/* Add Skills leads the plan actions, left of Download. */}
+          {editable && (
+            <button onClick={() => setAddSkills(true)} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1px solid " + eLINE, borderRadius: 9, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "border-color .15s, background .15s" }}
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = eMID; e.currentTarget.style.background = "rgba(0,15,71,.03)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = eLINE; e.currentTarget.style.background = "var(--card)"; }}>
             <I.plus size={15} /> Add Skills
           </button>
-        )}
-        </div>
-        {/* plan actions belong to the Plan tab, as in the manager */}
-        {tab === "plan" && <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, paddingBottom: 8 }}>
+          )}
           <button title="Download" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
           {verdict
             // decided → read view: reopen as a draft, or (once approved) mark it done
