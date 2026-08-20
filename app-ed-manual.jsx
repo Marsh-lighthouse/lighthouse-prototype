@@ -268,14 +268,27 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
         )}
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 20 }}>
-          <button onClick={() => (i > 0 ? go(i - 1) : onBack())}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
-            <I.arrowL size={15} /> Back
-          </button>
+          {i > 0
+            ? <button onClick={() => go(i - 1)}
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
+                <I.arrowL size={15} /> Previous question
+              </button>
+            : <span />}
           <EdBtn primary small onClick={next}>
-            {i === QS.length - 1 ? "Submit" : "Next"} <I.arrow size={15} />
+            {i === QS.length - 1
+              ? <React.Fragment><I.spark size={15} /> Create Development Plan</React.Fragment>
+              : <React.Fragment>Next <I.arrow size={15} /></React.Fragment>}
           </EdBtn>
         </div>
+      </div>
+
+      {/* Outside the card: one hop back to the previous step, from any question. */}
+      <div style={{ marginTop: 18 }}>
+        <button onClick={onBack}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID,
+            background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
+          <I.arrowL size={15} /> Back to Rate skills
+        </button>
       </div>
     </div>
   );
