@@ -625,7 +625,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
   const addOverall = () => { const t = text.trim(); if (!t) return; postTo(PL_OVERALL, t); setText(""); onOpen(PL_OVERALL); };
   const addReply = (ci) => (t) => write(thread.map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
   // Resolved comments drop out of the list; the filter brings them back.
-  const [showResolved, setShowResolved] = plUseState(false);
+  const [filter, setFilter] = plUseState("open");   // open | resolved | all
   const [filterMenu, setFilterMenu] = plUseState(false);
   const filterRef = plUseRef(null);
   // The filter is sticky across navigation: browsing resolved comments in the inbox
@@ -639,7 +639,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [filterMenu]);
   const setResolved = (ci) => (val) => write(thread.map((c, i) => (i === ci ? { ...c, resolved: val } : c)));
-  const visible = thread.map((c, i) => ({ c, i })).filter((x) => !!x.c.resolved === showResolved);
+  const visible = thread.map((c, i) => ({ c, i })).filter((x) => filter === "all" || !!x.c.resolved === (filter === "resolved"));
   const hasOpen = (name) => (store[name] || []).some((c) => !c.resolved);
   const hasDone = (name) => (store[name] || []).some((c) => !!c.resolved);
 
@@ -653,9 +653,10 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
   // In the inbox the same filter picks conversations rather than single comments.
   const inboxOpen = rowsAll.filter((r) => hasOpen(r.name) || (r.overall && !r.last));
   const inboxDone = rowsAll.filter((r) => hasDone(r.name));
-  const rows = inThread ? rowsAll : (showResolved ? inboxDone : inboxOpen);
+  const rows = inThread ? rowsAll : (filter === "all" ? rowsAll : filter === "resolved" ? inboxDone : inboxOpen);
   const openCount = inThread ? thread.filter((c) => !c.resolved).length : inboxOpen.length;
   const doneCount = inThread ? thread.length - thread.filter((c) => !c.resolved).length : inboxDone.length;
+  const allCount = inThread ? thread.length : rowsAll.length;
 
   return (
     <aside className="ed-idp-notes" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 40, background: eCARD, borderLeft: "1px solid " + eLINE, display: "flex", flexDirection: "column" }}>
@@ -664,17 +665,17 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
         {inThread && <button onClick={() => onOpen("")} title="All conversations" style={{ background: "none", border: "none", cursor: "pointer", color: eMID, display: "flex", flexShrink: 0, padding: 2 }}><I.arrowL size={18} /></button>}
         <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inThread ? chip : "Comments"}</div>
         <div ref={filterRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-          <button onClick={() => setFilterMenu((v) => !v)} title={showResolved ? "Showing resolved" : "Filter comments"}
-            style={{ background: "none", border: "none", cursor: "pointer", color: showResolved ? eBLUE : eMUT, display: "flex", padding: 2 }}>
+          <button onClick={() => setFilterMenu((v) => !v)} title={filter === "open" ? "Filter comments" : "Showing " + filter}
+            style={{ background: "none", border: "none", cursor: "pointer", color: filter === "open" ? eMUT : eBLUE, display: "flex", padding: 2 }}>
             <I.filter size={17} />
           </button>
           <button onClick={onClose} aria-label="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
           {filterMenu && (
             <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 190, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 14px 40px rgba(0,15,71,.20)", padding: 6 }}>
-              {[[false, "Open", openCount], [true, "Resolved", doneCount]].map(([val, label, n]) => {
-                const on = showResolved === val;
+              {[["all", "All", allCount], ["open", "Open", openCount], ["resolved", "Resolved", doneCount]].map(([val, label, n]) => {
+                const on = filter === val;
                 return (
-                  <button key={label} onClick={() => { setShowResolved(val); setFilterMenu(false); }}
+                  <button key={label} onClick={() => { setFilter(val); setFilterMenu(false); }}
                     style={{ width: "100%", display: "flex", alignItems: "center", gap: 9, padding: "8px 9px", borderRadius: 8, border: "none", cursor: "pointer", textAlign: "left",
                       background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent" }}>
                     <span style={{ width: 15, flexShrink: 0, color: eBLUE, display: "flex" }}>{on ? <I.check size={14} /> : null}</span>
@@ -695,14 +696,14 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
               ? visible.map(({ c, i }) => <PlCommentItem key={i} item={c} onReply={addReply(i)} onResolve={setResolved(i)} role={role} names={NAMES} />)
               : <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textAlign: "center", padding: "26px 0" }}>
                   {thread.length === 0 ? "No comments yet. Start the conversation below."
-                    : showResolved ? "Nothing resolved yet." : "All comments here are resolved."}
+                    : filter === "resolved" ? "Nothing resolved yet." : "All comments here are resolved."}
                 </div>}
           </div>
         </React.Fragment>
       ) : (
         // inbox of conversations
         <div style={{ flex: 1, overflowY: "auto", padding: "12px 12px" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "2px 4px 10px" }}>{rows.length} {showResolved ? "with resolved comments" : (rows.length === 1 ? "conversation" : "conversations")} · tap one to open the thread</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "2px 4px 10px" }}>{rows.length} {filter === "resolved" ? "with resolved comments" : (rows.length === 1 ? "conversation" : "conversations")} · tap one to open the thread</div>
           {rows.map((r, i) => {
             const mine = r.last ? r.last.who === role : false;
             const lastName = r.last ? (NAMES[r.last.who] || PL_ME) : "";
@@ -1050,7 +1051,9 @@ function PlReportTab() {
 // ════════════════════════════════════════════════
 function EdPlanPage({ onBack, onRestart, startLocked }) {
   const [tab, setTab] = plUseState("plan");
-  const [sample, setSample] = plUseState(1);          // which action-card design (see PL_SAMPLES)
+  // Which action-card design (see PL_SAMPLES). 6 by default, and the choice sticks —
+  // the manager side already remembers its own the same way.
+  const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 9 ? v : 6; });
   const [sampleMenu, setSampleMenu] = plUseState(false);
   // User-info presentation. 4 (default) hides the info card entirely and puts the
   // owner's name in the page title instead; 1–3 are the card layouts.
@@ -1371,7 +1374,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
               {PL_SAMPLES.map((s) => { const on = sample === s.id; return (
-                <button key={s.id} onClick={() => { setSample(s.id); setSampleMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
+                <button key={s.id} onClick={() => { setSample(s.id); try { localStorage.setItem("pl-plan-design", String(s.id)); } catch (e) {} setSampleMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
                   <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{s.label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{s.desc}</span></span>
                 </button>); })}
