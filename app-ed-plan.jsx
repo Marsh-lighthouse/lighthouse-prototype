@@ -524,19 +524,22 @@ function PlDecisionNote({ status, note, when }) {
 }
 
 // A skill the owner has chosen but not yet filled in. Deliberately NOT a solid card:
-// a dashed slot reads as an empty space waiting to be filled, so it can't be mistaken
-// for a real development action sitting beside it.
+// a dashed slot on white reads as a space waiting to be filled, so it can't be mistaken
+// for a real development action. The layers drift in sequence — the skill being built up.
 function PlNoActions({ editable }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, textAlign: "center",
-      padding: "26px 22px", marginBottom: 6, borderRadius: 12,
-      border: "1.5px dashed color-mix(in srgb, var(--primary) 22%, transparent)",
-      background: "color-mix(in srgb, var(--primary) 2%, transparent)" }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
+      padding: "26px 22px", marginBottom: 6, borderRadius: 12, background: "var(--card)",
+      border: "1.5px dashed color-mix(in srgb, var(--primary) 24%, transparent)" }}>
       <span style={{ width: 38, height: 38, borderRadius: 10, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
         background: "color-mix(in srgb, var(--primary) 6%, transparent)", color: eMUT }}>
-        <I.layers size={18} />
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path className="pl-empty-layer" style={{ animationDelay: "0s" }} d="M12 3 3 8l9 5 9-5-9-5z" />
+          <path className="pl-empty-layer" style={{ animationDelay: ".16s" }} d="M3 13l9 5 9-5" />
+          <path className="pl-empty-layer" style={{ animationDelay: ".32s" }} d="M3 18l9 5 9-5" />
+        </svg>
       </span>
-      <div style={{ textAlign: "left" }}>
+      <div>
         <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID }}>No development actions yet</div>
         <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, marginTop: 2 }}>
           {editable ? "Add one from the options below to start building this skill." : "Edit the plan to add development actions for this skill."}
