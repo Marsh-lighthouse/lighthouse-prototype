@@ -108,7 +108,7 @@ function MnStepper({ step, design }) {
 
   // 1 · numbered rail (default)
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 30, flexWrap: "wrap" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 30, flexWrap: "nowrap", overflowX: "auto", paddingBottom: 2 }}>
       {MN_STEPS.map((label, i) => {
         const done = i < step, on = i === step;
         return (
@@ -123,7 +123,7 @@ function MnStepper({ step, design }) {
               </span>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
             </div>
-            {i < MN_STEPS.length - 1 && <span style={{ flex: "1 1 30px", minWidth: 24, height: 1, background: i < step ? eSUCCESS : eLINE, margin: "0 14px" }} />}
+            {i < MN_STEPS.length - 1 && <span style={{ flex: "1 1 14px", minWidth: 12, height: 1, background: i < step ? eSUCCESS : eLINE, margin: "0 9px" }} />}
           </React.Fragment>
         );
       })}
@@ -306,20 +306,21 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
         ))}
       </div>
 
-      {/* A deck: the questions still to come sit behind the live card, and the top
-          card is dealt forward each time you move. */}
-      <div style={{ position: "relative", paddingBottom: 11 * Math.min(2, QS.length - i - 1) }}>
-        {/* Each card behind is the live card's exact size, stepped down by a fixed
-            amount and narrowed on the X axis only — so the stack is symmetrical
-            whatever the card's height. */}
-        {Array.from({ length: Math.min(2, QS.length - i - 1) }).map((_, g) => (
+      {/* A deck: up to three cards still to come sit behind the live one. Each is the
+          same box, stepped down by a fixed 15px and narrowed on X only, so every
+          visible edge is an equal, symmetrical sliver — a real stack, not a blur. */}
+      {(() => { const n = Math.min(3, QS.length - i - 1); return (
+      <div style={{ position: "relative", paddingBottom: 15 * n }}>
+        {Array.from({ length: n }).map((_, g) => (
           <div key={"ghost" + g} aria-hidden="true" className="mn-ghost"
-            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 11 * Math.min(2, QS.length - i - 1),
-              "--mn-y": 11 * (g + 1) + "px", "--mn-sx": 1 - (g + 1) * 0.035,
-              background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16,
-              boxShadow: "0 4px 18px rgba(0,15,71,.05)", opacity: 1 - g * 0.3, zIndex: 0 }} />
+            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 15 * n,
+              "--mn-y": 15 * (g + 1) + "px", "--mn-sx": 1 - (g + 1) * 0.045,
+              // each sheet a shade deeper, so the edges separate cleanly
+              background: g === 0 ? "var(--card)" : "color-mix(in srgb, var(--primary) " + (2 + g * 2) + "%, var(--card))",
+              border: "1px solid " + eLINE, borderRadius: 16,
+              boxShadow: "0 2px 5px rgba(0,15,71,.05)", zIndex: 9 - g }} />
         ))}
-      <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "18px" : "-18px", position: "relative", zIndex: 1,
+      <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "18px" : "-18px", position: "relative", zIndex: 10,
         background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px", boxShadow: "0 10px 30px rgba(0,15,71,.10)" }}>
         <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, background: "rgba(0,15,71,.05)", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
           Question {i + 1} of {QS.length}
@@ -361,7 +362,7 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
           </EdBtn>
         </div>
       </div>
-      </div>
+      </div> ); })()}
 
       {/* Outside the card: one hop back to the previous step, from any question. */}
       <div style={{ marginTop: 18 }}>
@@ -384,7 +385,7 @@ function MnManualFlow({ onExit, onDone }) {
   const [ratings, setRatings] = mnUseState({});
   const [answers, setAnswers] = mnUseState(() => (window.EdPlan && window.EdPlan.loadReflect ? window.EdPlan.loadReflect(window.EdPlan.OWNER) : {}));
   // Step-indicator design, switchable from the floating chip while we settle on one.
-  const [stepDesign, setStepDesign] = mnUseState(() => { const v = parseInt(localStorage.getItem("mn-stepper-design"), 10); return v >= 1 && v <= 4 ? v : 1; });
+  const [stepDesign, setStepDesign] = mnUseState(() => { const v = parseInt(localStorage.getItem("mn-stepper-design"), 10); return v >= 1 && v <= 4 ? v : 1; });   // 1 = numbered rail, the default
   const [stepMenu, setStepMenu] = mnUseState(false);
   const stepRef = mnUseRef(null);
   mnUseEffect(() => {
