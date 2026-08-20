@@ -20,15 +20,10 @@ const MGR_TEAM = [
   { id: "john", sub: "Product Management", entity: "Star Trek Inc.", level: "Management", grade: "1A", qual: "Masters in Business", dept: "Department A", joined: "2023-04-26", first: "John", last: "Doe", initials: "JD", role: "Product Management", email: "john.doe@marsh.com",
     linked: true, skills: 5,
     status: "notstarted", plan: "Leadership Potential Assessment 2026" },
+  // Only John Doe is wired to the employee flow — everyone else sits at Not Started
+  // so nothing on this screen pretends to be live when it isn't.
   { id: "amelia", sub: "Human Resources", entity: "Star Trek Inc.", level: "Professional", grade: "2B", qual: "MSc Organisational Psychology", dept: "Human Resources", joined: "2021-09-13", first: "Amelia", last: "Rahman", initials: "AR", role: "Senior Consultant", email: "amelia.rahman@marsh.com",
-    skills: 4, status: "pending", plan: "Leadership Potential Assessment 2026",
-    changes: [
-      { kind: "added", skill: "Execute with Excellence", label: "Peer Collaboration Sessions" },
-      { kind: "modified", skill: "Execute with Excellence", label: "Adopt Quality Assurance Techniques" },
-      { kind: "modified", skill: "Communicate with Impact", label: "Prepared Communication" },
-      { kind: "added", skill: "Data & Analytics", label: "Build a Reporting Playbook" },
-      { kind: "modified", skill: "Data & Analytics", label: "Complete a Data Storytelling Course" },
-    ] },
+    skills: 4, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
   { id: "daniel", sub: "Client Services", entity: "Star Trek Inc.", level: "Management", grade: "1A", qual: "MBA", dept: "Department B", joined: "2019-02-01", first: "Daniel", last: "Okafor", initials: "DO", role: "Client Manager", email: "daniel.okafor@marsh.com",
     skills: 3, status: "notstarted", plan: "Leadership Potential Assessment 2026" },
   { id: "sofia", sub: "Analytics", entity: "Star Trek Inc.", level: "Professional", grade: "3A", qual: "BSc Statistics", dept: "Analytics", joined: "2023-06-19", first: "Sofia", last: "Marchetti", initials: "SM", role: "Data Analyst", email: "sofia.marchetti@marsh.com",
