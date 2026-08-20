@@ -1074,7 +1074,33 @@ function EdPlanPage({ onBack, onRestart }) {
             <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : storeStatus === "review" ? "review" : awaiting ? "pending" : "draft"} />
           </span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+      </div>
+
+      {/* the manager's note, once they've approved or sent the plan back */}
+      {verdict && <div style={{ marginTop: 16 }}><PlDecisionNote status={verdict.status} note={verdict.note} when={plWhen(verdict.at)} /></div>}
+
+      {/* User information — a snapshot of the plan owner, shown above the tabs */}
+      {userCard !== 4 && <PlUserInfo design={userCard} />}
+
+      {/* tabs — same structure/colours as the program task-detail tabs (Intro / Tasks / Reports) */}
+      {/* Tabs left, plan actions right — mirrors the manager's detail layout. */}
+      <div className="ed-tabs" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginTop: 22, marginBottom: 30 }}>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 2, minWidth: 0, flexWrap: "wrap" }}>
+        {[["plan", "Plan"], ["report", "Program Report"], ["reflect", "Reflective Questions"]].map(([k, l]) => {
+          const on = tab === k;
+          return <button key={k} onClick={() => setTab(k)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{l}</button>;
+        })}
+        {/* Add Skills sits opposite the tabs — Plan tab only, and only while editable. */}
+        {tab === "plan" && editable && (
+          <button onClick={() => setAddSkills(true)} style={{ marginLeft: "auto", marginBottom: 6, display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1px solid " + eLINE, borderRadius: 9, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "border-color .15s, background .15s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = eMID; e.currentTarget.style.background = "rgba(0,15,71,.03)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = eLINE; e.currentTarget.style.background = "var(--card)"; }}>
+            <I.plus size={15} /> Add Skills
+          </button>
+        )}
+        </div>
+        {/* plan actions belong to the Plan tab, as in the manager */}
+        {tab === "plan" && <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, paddingBottom: 8 }}>
           <button title="Download" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
           {verdict
             // decided → read view: reopen as a draft, or (once approved) mark it done
@@ -1107,29 +1133,7 @@ function EdPlanPage({ onBack, onRestart }) {
             <I.chat size={17} />
             {anyUnread && comments == null && <span style={{ position: "absolute", top: 6, right: 6, width: 9, height: 9, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--card)" }} />}
           </button>
-        </div>
-      </div>
-
-      {/* the manager's note, once they've approved or sent the plan back */}
-      {verdict && <div style={{ marginTop: 16 }}><PlDecisionNote status={verdict.status} note={verdict.note} when={plWhen(verdict.at)} /></div>}
-
-      {/* User information — a snapshot of the plan owner, shown above the tabs */}
-      {userCard !== 4 && <PlUserInfo design={userCard} />}
-
-      {/* tabs — same structure/colours as the program task-detail tabs (Intro / Tasks / Reports) */}
-      <div className="ed-tabs" style={{ display: "flex", alignItems: "center", gap: 2, borderBottom: "1px solid " + eLINE, marginTop: 22, marginBottom: 30 }}>
-        {[["plan", "Plan"], ["report", "Program Report"], ["reflect", "Reflective Questions"]].map(([k, l]) => {
-          const on = tab === k;
-          return <button key={k} onClick={() => setTab(k)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{l}</button>;
-        })}
-        {/* Add Skills sits opposite the tabs — Plan tab only, and only while editable. */}
-        {tab === "plan" && editable && (
-          <button onClick={() => setAddSkills(true)} style={{ marginLeft: "auto", marginBottom: 6, display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1px solid " + eLINE, borderRadius: 9, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "border-color .15s, background .15s" }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = eMID; e.currentTarget.style.background = "rgba(0,15,71,.03)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = eLINE; e.currentTarget.style.background = "var(--card)"; }}>
-            <I.plus size={15} /> Add Skills
-          </button>
-        )}
+        </div>}
       </div>
 
       {tab === "report" ? <PlReportTab /> : tab === "reflect" ? <PlReflectTab forceError={reflectErr} /> : (
