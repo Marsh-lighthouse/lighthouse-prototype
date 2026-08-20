@@ -523,25 +523,23 @@ function PlDecisionNote({ status, note, when }) {
   );
 }
 
-// A skill the owner has chosen but not yet filled in. Manual plans start here.
+// A skill the owner has chosen but not yet filled in. Deliberately NOT a solid card:
+// a dashed slot reads as an empty space waiting to be filled, so it can't be mistaken
+// for a real development action sitting beside it.
 function PlNoActions({ editable }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 20, padding: "18px 22px", marginBottom: 6,
-      background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
-      <svg width="86" height="74" viewBox="0 0 120 104" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-        <rect x="26" y="14" width="60" height="58" rx="6" fill="rgba(0,15,71,.07)" />
-        <rect x="38" y="29" width="36" height="5" rx="2.5" fill="rgba(0,15,71,.15)" />
-        <rect x="38" y="41" width="28" height="5" rx="2.5" fill="rgba(0,15,71,.11)" />
-        <rect x="38" y="53" width="32" height="5" rx="2.5" fill="rgba(0,15,71,.11)" />
-        <path d="M14 58h22a6 6 0 0 0 12 0h22v20a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6z" fill="rgba(0,15,71,.12)" />
-        <circle cx="96" cy="20" r="14" fill="rgba(0,15,71,.08)" />
-        <path d="M88 38l4-7 6 3z" fill="rgba(0,15,71,.08)" />
-        <circle cx="90" cy="20" r="1.8" fill="rgba(0,15,71,.30)" /><circle cx="96" cy="20" r="1.8" fill="rgba(0,15,71,.30)" /><circle cx="102" cy="20" r="1.8" fill="rgba(0,15,71,.30)" />
-      </svg>
-      <div>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 3 }}>You have no Development Actions</div>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
-          {editable ? "Add Development Actions from the options below." : "Edit Plan to add Development Actions."}
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, textAlign: "center",
+      padding: "26px 22px", marginBottom: 6, borderRadius: 12,
+      border: "1.5px dashed color-mix(in srgb, var(--primary) 22%, transparent)",
+      background: "color-mix(in srgb, var(--primary) 2%, transparent)" }}>
+      <span style={{ width: 38, height: 38, borderRadius: 10, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+        background: "color-mix(in srgb, var(--primary) 6%, transparent)", color: eMUT }}>
+        <I.layers size={18} />
+      </span>
+      <div style={{ textAlign: "left" }}>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID }}>No development actions yet</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, marginTop: 2 }}>
+          {editable ? "Add one from the options below to start building this skill." : "Edit the plan to add development actions for this skill."}
         </div>
       </div>
     </div>
