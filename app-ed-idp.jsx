@@ -188,10 +188,29 @@ function IdpAIBtn({ label, onClick, loading }) {
 //           clearing its tag puts it back. Used by both Add Skills screens.
 //   default: the original "N selected" dropdown with tick marks, kept for the coach
 //           wizard's own questions so designs 1 and 2 are untouched.
+// The nearest ancestor that clips its overflow — inside the Add Skills modal that's the
+// scrolling body, so the list has to fit within it rather than the whole viewport.
+function idpClipBounds(el) {
+  let n = el && el.parentElement;
+  while (n && n !== document.body && n !== document.documentElement) {
+    const cs = window.getComputedStyle(n);
+    if (/(auto|scroll|hidden)/.test(cs.overflowY) || /(auto|scroll|hidden)/.test(cs.overflow)) {
+      const r = n.getBoundingClientRect();
+      return { top: r.top, bottom: r.bottom };
+    }
+    n = n.parentElement;
+  }
+  return { top: 0, bottom: window.innerHeight };
+}
+
 function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
   const [open, setOpen] = idpUseState(false);
   const [query, setQuery] = idpUseState("");
+  // Which way the list opens, and how tall it may be. Measured, not assumed — the last
+  // category in the modal has almost no room below it.
+  const [place, setPlace] = idpUseState({ up: false, maxH: 220 });
   const wrapRef = idpUseRef(null);
+  const fieldRef = idpUseRef(null);
   const inputRef = idpUseRef(null);
   const remove = (v) => onChange(selected.filter((s) => s !== v));
   const add = (v) => {
@@ -212,10 +231,31 @@ function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [open]);
+  // Place the list in whichever direction has room, and never taller than that room.
+  idpUseEffect(() => {
+    if (!open) return;
+    const measure = () => {
+      const el = fieldRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const clip = idpClipBounds(el);
+      const GAP = 14;
+      const below = clip.bottom - r.bottom - GAP;
+      const above = r.top - clip.top - GAP;
+      // Prefer opening down; flip only when down is genuinely cramped and up is better.
+      const up = below < 150 && above > below;
+      const room = up ? above : below;
+      setPlace({ up: up, maxH: Math.max(120, Math.min(220, room)) });
+    };
+    measure();
+    window.addEventListener("resize", measure, true);
+    window.addEventListener("scroll", measure, true);
+    return () => { window.removeEventListener("resize", measure, true); window.removeEventListener("scroll", measure, true); };
+  }, [open, matches.length]);
   const rowStyle = { padding: "10px 12px", borderRadius: 8, fontSize: 14, fontFamily: "var(--sans)" };
   return (
     <div ref={wrapRef}>
-      <div style={{ position: "relative" }}>
+      <div ref={fieldRef} style={{ position: "relative" }}>
         {search ? (
         <div onClick={() => { setOpen(true); if (inputRef.current) inputRef.current.focus(); }}
           style={{ border: "1.5px solid " + (open ? eBLUE : eLINE), borderRadius: 10, padding: "12px 14px", minHeight: 46, boxSizing: "border-box", cursor: "text", display: "flex", alignItems: "center", gap: 9, background: "var(--card)" }}>
@@ -242,7 +282,7 @@ function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
         </div>
         )}
         {open && (
-          <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, zIndex: 50, maxHeight: 220, overflowY: "auto", boxShadow: "0 12px 34px rgba(0,15,71,.16)", padding: 6 }}>
+          <div style={{ position: "absolute", top: place.up ? "auto" : "calc(100% + 6px)", bottom: place.up ? "calc(100% + 6px)" : "auto", left: 0, right: 0, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, zIndex: 50, maxHeight: place.maxH, overflowY: "auto", boxShadow: place.up ? "0 -12px 34px rgba(0,15,71,.16)" : "0 12px 34px rgba(0,15,71,.16)", padding: 6 }}>
             {search ? (
               <React.Fragment>
                 {matches.map((opt) => (
