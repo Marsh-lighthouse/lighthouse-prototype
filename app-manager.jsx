@@ -449,6 +449,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
     });
   }, [owner, threadTick]);
   const anyUnread = unreadSkills.length > 0;
+  // same rule as the employee plan: only push the page when the column still fits
+  const pushRoom = (window.EdPlan && window.EdPlan.usePushRoom) ? window.EdPlan.usePushRoom(comments) : false;
   // opening a skill's thread brings that section into view, as on the employee side
   mgUseEffect(() => {
     if (!comments) return;
@@ -545,7 +547,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
 
   return (
-    <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0, paddingRight: comments != null ? 344 : 0, transition: "padding .25s ease" }}>
+    <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0, paddingRight: comments != null && pushRoom ? 344 : 0, transition: "padding .25s ease" }}>
       {/* title row — status sits under the heading, as on the employee's plan, so a
           long title can never shove anything onto a second line */}
       <div className="ed-plan-head" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 18 }}>

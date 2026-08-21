@@ -868,14 +868,14 @@ function EdScheduling({ onBack, initialCenter, demo }) {
           {data.map((prog, pi) => (
             <div key={pi} style={{ marginBottom: 28 }}>
               <EdSectionLabel>{prog.program}</EdSectionLabel>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14, marginTop: 14, alignItems: "stretch" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginTop: 14, alignItems: "stretch" }}>
                 {prog.centers.map((c) => {
                   const Ic = I[c.icon] || I.cal;
                   const bookedInCenter = c.slots.filter((s) => booked[s.id]).length;
                   const totalRemaining = c.slots.reduce((a, s) => a + s.remaining, 0);
                   const nextSlot = c.slots.find((s) => s.remaining > 0 && !booked[s.id]);
                   return (
-                    <div key={c.id} onClick={() => setView(c.id)} style={{ display: "flex", flexDirection: "column", height: "100%", boxSizing: "border-box", background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 18px", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,15,71,.04)", transition: "box-shadow .15s, transform .15s" }}
+                    <div key={c.id} onClick={() => setView(c.id)} style={{ display: "flex", flexDirection: "column", height: "100%", minWidth: 0, boxSizing: "border-box", background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 18px", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,15,71,.04)", transition: "box-shadow .15s, transform .15s" }}
                       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,15,71,.10)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,15,71,.04)"; e.currentTarget.style.transform = "none"; }}>
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, marginBottom: 12 }}>

@@ -549,6 +549,32 @@ function PlNoActions({ editable }) {
   );
 }
 
+// The comments panel only pushes the page aside when the content column can keep
+// its full width beside it. Otherwise it floats over the content, so tabs, headers
+// and tables never get squeezed into wrapping.
+const PL_PANEL_W = 344;
+function plHasPushRoom() {
+  try {
+    const rail = document.querySelector(".ed-rail");
+    const railW = rail ? rail.getBoundingClientRect().width : 0;
+    const cs = getComputedStyle(document.documentElement);
+    const px = parseInt(cs.getPropertyValue("--fol-px"), 10) || 56;
+    const max = parseInt(cs.getPropertyValue("--content-max"), 10) || 848;
+    return window.innerWidth - railW - PL_PANEL_W - px * 2 >= max;
+  } catch (e) { return false; }
+}
+function plUsePushRoom(dep) {
+  const [room, setRoom] = plUseState(plHasPushRoom);
+  plUseEffect(() => {
+    const on = () => setRoom(plHasPushRoom());
+    on();
+    const t = setTimeout(on, 260);            // after the rail's width transition
+    window.addEventListener("resize", on);
+    return () => { clearTimeout(t); window.removeEventListener("resize", on); };
+  }, [dep]);
+  return room;
+}
+
 const plCLink = { display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, cursor: "pointer" };
 const PlReplyIcon = ({ size = 13 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M9 14 4 9l5-5" /><path d="M4 9h11a5 5 0 0 1 5 5v3" /></svg>;
 
@@ -1170,9 +1196,10 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   // "Save Plan" only becomes active once every development action has a start and
   // end date — the fields you fill in while editing the freshly generated plan.
   const canSave = data.every((c) => c.skills.every((s) => s.actions.every((a) => a.start && a.end)));
+  const pushRoom = plUsePushRoom(comments);
 
   return (
-    <div className="ed-plan-wrap" style={{ paddingRight: comments != null ? 344 : 0, transition: "padding .25s ease" }}>
+    <div className="ed-plan-wrap" style={{ paddingRight: comments != null && pushRoom ? PL_PANEL_W : 0, transition: "padding .25s ease" }}>
     <div style={{ maxWidth: "var(--content-max)", margin: "28px var(--fol-mx) 72px" }}>
       {/* header */}
       {/* Title left, actions hard right. The status sits under the heading so a long
@@ -1867,6 +1894,7 @@ window.EdPlan.OWNER = PL_OWNER;
 // One status palette / badge for the employee and the manager alike.
 window.EdPlan.STATUS = PL_STATUS;
 window.EdPlan.StatusBadge = PlStatusBadge;
+window.EdPlan.usePushRoom = plUsePushRoom;   // shared panel-vs-overlay rule
 window.EdPlan.NoActions = PlNoActions;   // per-skill empty state, shared with the manager
 // Reflective questions — shared, so the manager reads and can edit the same answers.
 window.EdPlan.REFLECT_QS = PL_REFLECT_QS;
