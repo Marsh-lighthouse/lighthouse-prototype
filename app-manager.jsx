@@ -342,7 +342,9 @@ function MgrList({ team, onOpen, onSummary }) {
             </div>
             <div style={{ width: 160, flexShrink: 0 }}><MgrBadge status={p.status} /></div>
             <div style={{ width: 130, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-              {p.status === "pending" && (p.changes || []).length > 0 ? (
+              {/* The link is tied to there being changes, not to a status: what the
+                  reportee altered is worth reading while reviewing and after deciding. */}
+              {(p.changes || []).length > 0 ? (
                 <button onClick={(e) => { e.stopPropagation(); onSummary(p); }} className="mgr-link"
                   style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Summary</button>
               ) : <span />}
@@ -378,22 +380,49 @@ function MgrSummaryDrawer({ person, onClose, onDecide }) {
 
         {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
         <div style={{ flex: 1, overflowY: "auto", padding: "18px 24px" }}>
+          {total === 0 && (
+            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, padding: "8px 0" }}>
+              {person.first} hasn't changed anything since the plan was created.
+            </div>
+          )}
           {Object.keys(groups).map((skill) => (
             <div key={skill} style={{ marginBottom: 20 }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 8 }}>{skill}</div>
               {groups[skill].map((c, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "7px 0", borderTop: i ? "1px solid " + eLINE : "none" }}>
                   <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? eBLUE : c.kind === "removed" ? "var(--danger)" : "#B4770A" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>{c.label}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>
+                    {c.label}
+                    {c.scope === "skill" && <span style={{ color: eMUT, fontSize: 13 }}> · whole skill</span>}
+                  </span>
                 </div>
               ))}
             </div>
           ))}
         </div>
 
-        <div style={{ borderTop: "1px solid " + eLINE, padding: "18px 26px", display: "flex", gap: 10, justifyContent: "flex-end" }}>
-          <button onClick={() => onDecide("rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 20px", cursor: "pointer" }}>Reject</button>
-          <EdBtn primary onClick={() => onDecide("approved")}>Approve</EdBtn>
+        {/* Same gate as the plan screen: a decision only becomes available once the
+            review has actually been started, and never again after it's been taken. */}
+        <div style={{ borderTop: "1px solid " + eLINE, padding: "18px 26px", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end" }}>
+          {person.status === "pending" && (
+            <EdBtn primary onClick={() => onDecide("review")}><I.eye size={15} /> Start Review</EdBtn>
+          )}
+          {person.status === "review" && (
+            <React.Fragment>
+              <button onClick={() => onDecide("rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 20px", cursor: "pointer" }}>Reject</button>
+              <EdBtn primary onClick={() => onDecide("approved")}>Approve</EdBtn>
+            </React.Fragment>
+          )}
+          {(person.status === "approved" || person.status === "rejected") && (
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
+              Already {person.status === "approved" ? "approved" : "rejected"} — open the plan to review the decision.
+            </div>
+          )}
+          {person.status !== "pending" && person.status !== "review" && person.status !== "approved" && person.status !== "rejected" && (
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
+              {person.first} hasn't submitted this plan for approval yet.
+            </div>
+          )}
         </div>
       </aside>
     </React.Fragment>
@@ -717,7 +746,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                       <ul style={{ margin: 0, paddingLeft: 18 }}>
                         {skillChanges.map((c, i) => (
                           <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
-                            {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"} Development Action:{" "}
+                            {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
+                            {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
                             <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
                           </li>
                         ))}
@@ -824,42 +854,42 @@ function LHManager() {
   const syncSubmission = React.useCallback(() => {
     let sub = null;
     try { sub = JSON.parse(localStorage.getItem(MGR_SUB_KEY) || "null"); } catch (e) {}
+    // The summary is measured, never remembered: recompute it on every sync so it
+    // tracks whatever the owner's plan says right now — including "nothing changed".
+    const changes = mgrChanges();
     setTeam((t) => t.map((p) => {
       if (!p.linked) return p;
+      const next = { ...p, changes };
+      // nothing submitted yet — the row keeps its opening status
+      if (!sub) return next;
       // a decision already taken (this session or a previous one) wins
-      if (sub && (sub.status === "approved" || sub.status === "rejected")) {
-        return { ...p, status: sub.status, decidedAt: sub.at,
+      if (sub.status === "approved" || sub.status === "rejected") {
+        return { ...next, status: sub.status, decidedAt: sub.at,
           reason: sub.status === "rejected" ? (sub.note || "Rejected") : p.reason,
           note: sub.status === "approved" ? (sub.note || "") : p.note };
       }
       // the owner reopened the plan for editing — back to Draft, verdict cleared
-      if (sub && sub.status === "draft") {
-        return { ...p, status: "draft", changes: mgrChanges(), reason: undefined, note: undefined, decidedAt: undefined };
-      }
+      if (sub.status === "draft") return { ...next, status: "draft", reason: undefined, note: undefined, decidedAt: undefined };
       // the manager has this open for review
-      if (sub && sub.status === "review") {
-        return { ...p, status: "review", changes: mgrChanges() };
-      }
-      // resubmitted — back in the queue, any old verdict cleared
-      if (sub && sub.status === "pending" && p.status !== "pending") {
-        return { ...p, status: "pending", changes: mgrChanges(), reason: undefined, note: undefined, decidedAt: undefined };
-      }
-      if (sub && sub.status === "pending" && p.status === "notstarted") {
-        return { ...p, status: "pending", changes: mgrChanges() };
-      }
-      // Nothing in the store yet: keep the seeded Pending Approval, but fill in the
-      // change summary from the plan so the review screen isn't blank.
-      if (!sub && p.status === "pending" && !p.changes) {
-        return { ...p, status: "pending", changes: mgrChanges() };
-      }
-      return p;
+      if (sub.status === "review") return { ...next, status: "review" };
+      // submitted or resubmitted — back in the queue, any old verdict cleared
+      if (sub.status === "pending") return { ...next, status: "pending", reason: undefined, note: undefined, decidedAt: undefined };
+      return next;
     }));
   }, []);
   mgUseEffect(() => {
     syncSubmission();
-    const onFocus = () => syncSubmission();
-    window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
+    // Status changes arrive on focus/storage; plan edits arrive on the plan event —
+    // both have to re-measure the summary, or the manager reads a stale one.
+    const ev = (window.EdPlan && window.EdPlan.PLAN_EVENT) || "lh-plan-change";
+    window.addEventListener("focus", syncSubmission);
+    window.addEventListener("storage", syncSubmission);
+    window.addEventListener(ev, syncSubmission);
+    return () => {
+      window.removeEventListener("focus", syncSubmission);
+      window.removeEventListener("storage", syncSubmission);
+      window.removeEventListener(ev, syncSubmission);
+    };
   }, [syncSubmission]);
 
   mgUseEffect(() => { window.scrollTo(0, 0); if (route.page !== "myplan") setTopBack(null); }, [route]);
@@ -948,7 +978,14 @@ function LHManager() {
         </div>
       </main>
 
-      {summary && <MgrSummaryDrawer person={summary} onClose={() => setSummary(null)} onDecide={(status) => { decide(summary.id, status, status === "rejected" ? "Rejected" : ""); setSummary(null); showToast(status === "approved" ? "Plan approved" : "Plan rejected"); }} />}
+      {summary && <MgrSummaryDrawer person={team.find((t) => t.id === summary.id) || summary} onClose={() => setSummary(null)} onDecide={(status) => {
+        // Starting the review isn't a verdict — keep the drawer open so the manager
+        // can read the changes and then decide, exactly as on the plan screen.
+        if (status === "review") { decide(summary.id, "review", ""); showToast("Review started"); return; }
+        decide(summary.id, status, status === "rejected" ? "Rejected" : "");
+        setSummary(null);
+        showToast(status === "approved" ? "Plan approved" : "Plan rejected");
+      }} />}
 
       {toast && (
         <div style={{ position: "fixed", left: "50%", bottom: 28, transform: "translateX(-50%)", zIndex: 90, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "11px 18px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", display: "inline-flex", alignItems: "center", gap: 8 }}>

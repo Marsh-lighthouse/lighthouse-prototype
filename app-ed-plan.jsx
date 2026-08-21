@@ -412,27 +412,40 @@ function plSavePlan(owner, data) {
 // What the owner changed, measured against the seed the plan started from.
 // Drives the manager's per-skill change summary — no hand-maintained list.
 function plDiff(plan) {
+  // No stored plan means the owner hasn't touched anything yet — that's "no changes",
+  // not "everything removed". Without this the first visit reports the whole seed
+  // as deleted and the manager opens on a change summary that never happened.
+  if (!plan) return [];
   const baseAction = {}, baseSkill = {};
   PL_SEED.forEach((c) => c.skills.forEach((s) => {
     baseSkill[s.name] = s;
     s.actions.forEach((a) => { baseAction[s.name + "|" + a.title] = a; });
   }));
-  const seen = {}, out = [];
+  const seen = {}, out = [], liveSkill = {};
   (plan || []).forEach((c) => (c.skills || []).forEach((s) => {
-    if (!baseSkill[s.name]) out.push({ kind: "added", skill: s.name, label: s.name + " (skill)" });
+    liveSkill[s.name] = true;
+    // A skill the owner added is a change in its own right — it reads as one even
+    // when they haven't put a single development action under it yet.
+    if (!baseSkill[s.name]) out.push({ kind: "added", scope: "skill", skill: s.name, label: s.name });
     (s.actions || []).forEach((a) => {
       const key = s.name + "|" + a.title;
       seen[key] = true;
       const base = baseAction[key];
-      if (!base) { out.push({ kind: "added", skill: s.name, label: a.title }); return; }
+      if (!base) { out.push({ kind: "added", scope: "action", skill: s.name, label: a.title }); return; }
       if ((a.start || "") !== (base.start || "") || (a.end || "") !== (base.end || "") ||
           (a.completion || 0) !== (base.completion || 0)) {
-        out.push({ kind: "modified", skill: s.name, label: a.title });
+        out.push({ kind: "modified", scope: "action", skill: s.name, label: a.title });
       }
     });
   }));
+  // A dropped skill is reported once, as a skill — listing each of its actions as
+  // removed on top of that would bury the one fact the manager needs.
+  Object.keys(baseSkill).forEach((name) => {
+    if (!liveSkill[name]) out.push({ kind: "removed", scope: "skill", skill: name, label: name });
+  });
   Object.keys(baseAction).forEach((key) => {
-    if (!seen[key]) { const i = key.indexOf("|"); out.push({ kind: "removed", skill: key.slice(0, i), label: key.slice(i + 1) }); }
+    const i = key.indexOf("|"), name = key.slice(0, i);
+    if (!seen[key] && liveSkill[name]) out.push({ kind: "removed", scope: "action", skill: name, label: key.slice(i + 1) });
   });
   return out;
 }
