@@ -1506,8 +1506,9 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
           </svg>
         </div>
         <div style={{ fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: eMID, lineHeight: 1.35, maxWidth: 400, minHeight: 82, display: "flex", alignItems: "center", marginBottom: 12 }}>{cur.text}</div>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase", color: eMUT, marginBottom: 24 }}>{progress}% complete</div>
-        <div style={{ width: 260, height: 4, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden" }}>
+        {/* No percentage readout: the number is invented, and watching it stall short
+            of 100 reads as a fault. The spinning mark and the bar carry the progress. */}
+        <div style={{ width: 260, height: 4, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", marginTop: 12 }}>
           <div style={{ width: `${progress}%`, height: "100%", background: "var(--action)", borderRadius: 3, transition: "width .5s ease" }} />
         </div>
         <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, lineHeight: 1.5, maxWidth: 320, marginTop: 22 }}>{loadingSecondary}</div>
