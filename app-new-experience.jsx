@@ -334,10 +334,19 @@
       React.createElement("h2", { style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "A new way to assess."),
       React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 460 } },
         "A clearer dashboard, faster scoring, and moderation that shows every assessor side by side."),
-      React.createElement("div", { style: { display: "flex", gap: 7, flexWrap: "wrap", margin: "16px 0 0" } },
-        ["One dashboard", "Faster scoring", "Side-by-side moderation"].map(function (t, i) {
-          return React.createElement("span", { key: i, style: { fontFamily: SANS, fontSize: 12.5, fontWeight: 600, color: dark ? "rgba(255,255,255,.9)" : TX, background: dark ? "rgba(255,255,255,.12)" : "rgba(0,15,71,.05)", borderRadius: 999, padding: "5px 11px" } }, t);
-        }))
+      React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, margin: "14px 0 0" } },
+        ["Everything assigned to you on one dashboard", "Score and moderate without losing your place", "Same data, same sign-off — nothing is lost"].map(function (t, i) {
+          return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 14, lineHeight: 1.45, color: dark ? "rgba(255,255,255,.88)" : TX } },
+            React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", style: { flexShrink: 0, marginTop: 3 } },
+              React.createElement("path", { d: "M20 6L9 17l-5-5" })), t);
+        })),
+      // The one thing that must land: this is where everyone is going.
+      React.createElement("div", { style: { display: "flex", gap: 10, alignItems: "center", margin: "16px 0 0", padding: "11px 14px", borderRadius: 10, borderLeft: "4px solid " + GOLD, background: dark ? "rgba(255,191,0,.16)" : "rgba(255,191,0,.16)" } },
+        React.createElement("svg", { width: "17", height: "17", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : "#8A6400", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", style: { flexShrink: 0 } },
+          React.createElement("circle", { cx: "12", cy: "12", r: "9" }), React.createElement("path", { d: "M12 8v5l3 2" })),
+        React.createElement("div", { style: { fontFamily: SANS, fontSize: 13.5, lineHeight: 1.45, color: dark ? "#fff" : "#5E4400" } },
+          React.createElement("b", { style: { fontWeight: 800 } }, "Everyone moves across soon."),
+          " You can switch back any time until then."))
     );
   }
   function Actions(p) {
@@ -349,8 +358,7 @@
         style: { padding: "13px 24px", borderRadius: 10, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
         "Try new experience",
         React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", style: { flexShrink: 0 } },
-          React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" }))),
-      React.createElement("span", { style: { fontFamily: SANS, fontSize: 12.5, color: dark ? "rgba(255,255,255,.7)" : TM, whiteSpace: "nowrap" } }, "Switch back any time.")
+          React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))
     );
   }
 
@@ -395,8 +403,9 @@
       // 1 · Split — words left, screens right
       body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({ width: "min(1080px, 100%)", overflow: "auto", display: "flex" }, shell) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
-          React.createElement("div", { className: "ne-left", style: { flex: "0 0 42%", minWidth: 0, padding: "40px 34px 32px", display: "flex", flexDirection: "column" } },
-            React.createElement(Copy), React.createElement("div", { style: { flex: 1, minHeight: 16 } }), React.createElement(Actions, { later: later, tryIt: tryIt })),
+          // no filler gap: the copy sits as one block, centred against the animation
+          React.createElement("div", { className: "ne-left", style: { flex: "0 0 42%", minWidth: 0, padding: "32px 34px", display: "flex", flexDirection: "column", justifyContent: "center" } },
+            React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt })),
           React.createElement(Showcase, { motion: motion, style: { flex: 1, background: STAGE_BG, padding: "26px 26px 20px", minHeight: 440 } })));
 
     } else if (design === 2) {
@@ -404,8 +413,8 @@
       body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({ width: "min(1080px, 100%)", overflow: "auto", display: "flex" }, shell) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           React.createElement(Showcase, { motion: motion, style: { flex: 1, background: STAGE_BG, padding: "26px 26px 20px", minHeight: 440 } }),
-          React.createElement("div", { className: "ne-left", style: { flex: "0 0 42%", minWidth: 0, padding: "40px 34px 32px", display: "flex", flexDirection: "column" } },
-            React.createElement(Copy), React.createElement("div", { style: { flex: 1, minHeight: 16 } }), React.createElement(Actions, { later: later, tryIt: tryIt }))));
+          React.createElement("div", { className: "ne-left", style: { flex: "0 0 42%", minWidth: 0, padding: "32px 34px", display: "flex", flexDirection: "column", justifyContent: "center" } },
+            React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt }))));
 
     } else if (design === 3) {
       // 3 · Stacked — screens on top, words beneath
