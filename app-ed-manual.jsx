@@ -238,7 +238,10 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
       {/* The guidance stays on the page, not in the card — the white box belongs to
           the thing you actually act on, so the ratings keep the attention. */}
       <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 22 }}>
-        <div style={{ width: 46, height: 46, borderRadius: 23, background: "color-mix(in srgb, var(--accent) 8%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={22} /></div>
+        {/* a star, not the AI sparkle — this step is about self-rating */}
+        <div style={{ width: 46, height: 46, borderRadius: 23, background: "color-mix(in srgb, var(--action) 18%, transparent)", color: "var(--action)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.9 5.9 20.3l1.5-6.7L2.3 9l6.8-.7z" /></svg>
+        </div>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.6, margin: 0 }}>
           Now that you have selected your developmental priorities, please rate yourself on each of the following.
           Remember to rate yourself based on your current level and not on your past or desired level.
