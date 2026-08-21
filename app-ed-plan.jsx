@@ -743,18 +743,18 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
 }
 
 // ── Add Skills — full-page modal ──
-function PlAddSkills({ onClose, onSave }) {
+function PlAddSkills({ current, onClose, onSave }) {
   const cats = [
     { name: "Behavioral", icon: "bulb",
       options: ["Execute with Excellence", "Communicate with Impact", "Collaborate and Build Relationships", "Act Professionally", "Champion Change and Innovation", "Diversity and Inclusion", "Lead with Purpose", "Coach and Develop Others"],
-      selected: ["Execute with Excellence", "Communicate with Impact", "Collaborate and Build Relationships"],
       suggest: ["Act Professionally", "Champion Change and Innovation", "Diversity and Inclusion"] },
     { name: "Technical", icon: "monitor",
       options: ["Data & Analytics", "Product & Platform Fluency", "Process Automation", "Systems Thinking", "Technical Documentation"],
-      selected: [],
       suggest: ["Data & Analytics", "Product & Platform Fluency"] },
   ];
-  const [sel, setSel] = plUseState(() => cats.map((c) => c.selected.slice()));
+  const cur = current || [[], []];
+  cats.forEach((c, ci) => { (cur[ci] || []).forEach((n) => { if (c.options.indexOf(n) < 0) c.options = c.options.concat(n); }); });
+  const [sel, setSel] = plUseState(() => cats.map((c, ci) => (cur[ci] || []).slice()));
   const setCat = (ci, v) => setSel((x) => x.map((arr, i) => (i === ci ? v : arr)));
   const addSug = (ci, s) => setSel((x) => x.map((arr, i) => (i === ci && !arr.includes(s) ? [...arr, s] : arr)));
   plUseEffect(() => { const onKey = (e) => { if (e.key === "Escape") onClose(); }; document.addEventListener("keydown", onKey); return () => document.removeEventListener("keydown", onKey); }, []);
@@ -791,7 +791,7 @@ function PlAddSkills({ onClose, onSave }) {
             <span style={{ display: "flex", flexShrink: 0, color: eWARN }}><I.alertCircle size={17} /></span>
             This is a final action — it adds the selected skills to your development plan.
           </div>
-          <EdBtn primary onClick={onSave}>Save Skills</EdBtn>
+          <EdBtn primary onClick={() => onSave(sel)}>Save Skills</EdBtn>
         </div>
       </div>
     </div>, document.body);
@@ -1359,7 +1359,41 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {modal && modal.kind === "ai" && <PlAiModal skillName={modalSkill.name} onClose={() => setModal(null)} onAdd={addActions} />}
 
       {/* Add Skills — full-page modal (replaces the old separate page) */}
-      {addSkills && <PlAddSkills onClose={() => setAddSkills(false)} onSave={() => { setAddSkills(false); showToast("Skills added to your plan"); }} />}
+      {addSkills && <PlAddSkills
+        current={["Behavioral", "Technical"].map((name) => {
+          const cat = data.find((c) => c.cat === name);
+          return cat ? cat.skills.map((sk) => sk.name) : [];
+        })}
+        onClose={() => setAddSkills(false)}
+        onSave={(sel) => {
+          // Add everything newly ticked. A skill that was un-ticked is only dropped
+          // when it has no development actions — never silently discard real work.
+          let added = 0, removed = 0, kept = 0;
+          mutate((n) => {
+            ["Behavioral", "Technical"].forEach((name, ci) => {
+              const want = sel[ci] || [];
+              let cat = n.find((c) => c.cat === name);
+              if (!cat && want.length) { cat = { cat: name, icon: name === "Technical" ? "monitor" : "bulb", skills: [] }; n.push(cat); }
+              if (!cat) return;
+              cat.skills = cat.skills.filter((sk) => {
+                if (want.indexOf(sk.name) >= 0) return true;
+                if ((sk.actions || []).length) { kept += 1; return true; }
+                removed += 1; return false;
+              });
+              want.forEach((nm) => {
+                if (!cat.skills.some((sk) => sk.name === nm)) { cat.skills.push({ name: nm, rating: 0, isPublic: true, actions: [] }); added += 1; }
+              });
+            });
+            // drop a category that has ended up empty
+            for (let k = n.length - 1; k >= 0; k--) if (!n[k].skills.length) n.splice(k, 1);
+          });
+          setAddSkills(false);
+          const bits = [];
+          if (added) bits.push(added + (added === 1 ? " skill added" : " skills added"));
+          if (removed) bits.push(removed + " removed");
+          if (kept) bits.push(kept + " kept (has actions)");
+          showToast(bits.length ? bits.join(" · ") : "No changes to your skills");
+        }} />}
 
       {/* Delete confirmation */}
       {confirmDel && <PlConfirmDelete label={confirmDel.label} onNo={() => setConfirmDel(null)} onYes={() => { confirmDel.onYes(); setConfirmDel(null); }} />}
