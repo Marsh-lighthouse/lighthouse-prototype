@@ -1819,6 +1819,10 @@ function AssessorEditorial() {
     });
     const expandAll = () => setExpandedComps(new Set(competencies.map(cc=>cc.id)));
     const collapseAll = () => setExpandedComps(new Set());
+    // One control instead of two: the label names the action available right now, so
+    // the toolbar keeps the room for filters rather than spending it on a dead option.
+    const allExpanded = competencies.length > 0 && expandedComps.size >= competencies.length;
+    const toggleAll = () => (allExpanded ? collapseAll() : expandAll());
 
     // Competency-level rollup across its indicators
     const compStats = (cc) => {
@@ -2027,9 +2031,16 @@ function AssessorEditorial() {
                     </div>
                   )}
                 </div>
-                <button onClick={expandAll} className="btn btn-ghost" style={{fontSize:14,color:tm,padding:"4px 8px"}}>Expand all</button>
-                <span style={{color:bd}}>·</span>
-                <button onClick={collapseAll} className="btn btn-ghost" style={{fontSize:14,color:tm,padding:"4px 8px"}}>Collapse all</button>
+                <button onClick={toggleAll} className="btn btn-ghost"
+                  title={allExpanded ? "Collapse every competency" : "Expand every competency"}
+                  style={{fontSize:14,color:tm,padding:"4px 8px",display:"inline-flex",alignItems:"center",gap:6,whiteSpace:"nowrap"}}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>
+                    {allExpanded
+                      ? <React.Fragment><path d="M7 20l5-5 5 5" /><path d="M7 4l5 5 5-5" /></React.Fragment>
+                      : <React.Fragment><path d="M7 15l5 5 5-5" /><path d="M7 9l5-5 5 5" /></React.Fragment>}
+                  </svg>
+                  {allExpanded ? "Collapse all" : "Expand all"}
+                </button>
               </div>
 
               {/* THE MATRIX */}

@@ -202,6 +202,9 @@
     // wait until the dashboard is actually on screen
     var tries = 0;
     var iv = setInterval(function () {
+      // A modal can hold the tour back (the "new experience" invitation does), so a
+      // first-time assessor gets one thing at a time. Waiting doesn't burn retries.
+      if (window.__LH_TOUR_HOLD) return;
       tries++;
       if (document.querySelector('[data-tour="profile"]')) {
         clearInterval(iv);
