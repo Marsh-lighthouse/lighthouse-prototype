@@ -640,6 +640,15 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve }) {
 
 // Right-side comments panel. Global (chip=null) = an inbox of skill conversations;
 // a skill (chip=name) = its threaded comments with replies.
+// The skills a plan actually contains. A thread can outlive the skill it belongs to —
+// a manual plan starts from scratch, and skills can be removed — so the comments panel
+// needs to know what's really on the page before offering to jump to it.
+function plSkillNames(plan) {
+  const out = [];
+  (plan || []).forEach((c) => (c.skills || []).forEach((s) => { if (s && s.name) out.push(s.name); }));
+  return out;
+}
+
 // Jump the page to a skill without opening its thread. Works on both plan renderers —
 // the employee's and the manager's — since both tag their skill blocks with data-skill.
 function plGoToSkill(name) {
@@ -654,7 +663,7 @@ function plGoToSkill(name) {
   setTimeout(function () { el.style.boxShadow = prev || "none"; }, 1100);
 }
 
-function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names }) {
+function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names, skills }) {
   const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const inThread = !!chip;
   const [text, setText] = plUseState("");
@@ -696,6 +705,10 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
   const visible = thread.map((c, i) => ({ c, i })).filter((x) => filter === "all" || !!x.c.resolved === (filter === "resolved"));
   const hasOpen = (name) => (store[name] || []).some((c) => !c.resolved);
   const hasDone = (name) => (store[name] || []).some((c) => !!c.resolved);
+
+  // Without the prop (an older caller) assume every skill is present, so the link
+  // behaves exactly as it did rather than silently disappearing.
+  const inPlan = (name) => !skills || skills.indexOf(name) >= 0;
 
   const threadNames = [PL_OVERALL].concat(Object.keys(store).filter((k) => k !== PL_OVERALL));
   const rowsAll = threadNames.map((name) => {
@@ -782,13 +795,17 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
                   <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 4 }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</span>
-                    {/* Skill threads can jump to the skill itself without opening the thread. */}
-                    {!r.overall && (
+                    {/* Skill threads can jump to the skill itself without opening the thread.
+                        A thread whose skill isn't in this plan says so rather than offering
+                        a link that would go nowhere. */}
+                    {!r.overall && (inPlan(r.name) ? (
                       <button onClick={(e) => { e.stopPropagation(); plGoToSkill(r.name); }}
                         style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600 }}>
                         Go to skill <I.chevR size={13} />
                       </button>
-                    )}
+                    ) : (
+                      <span style={{ marginLeft: "auto", fontFamily: "var(--sans)", fontSize: 12, color: eMUT, fontStyle: "italic" }}>Not in this plan</span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -1471,7 +1488,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {confirmDel && <PlConfirmDelete label={confirmDel.label} onNo={() => setConfirmDel(null)} onYes={() => { confirmDel.onYes(); setConfirmDel(null); }} />}
 
       {/* comments */}
-      {comments != null && <PlComments chip={comments || null} onClose={() => setComments(null)} onOpen={(name) => openComments(name || "")} />}
+      {comments != null && <PlComments chip={comments || null} skills={plSkillNames(data)} onClose={() => setComments(null)} onOpen={(name) => openComments(name || "")} />}
 
       {/* Plan-design sample switcher — floats near the Marsh / All-directions chrome,
           only on the Plan tab. The chosen design carries into the saved (read) view. */}

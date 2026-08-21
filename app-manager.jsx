@@ -821,6 +821,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
       {/* the employee's own comments panel, reading and writing the same threads */}
       {comments != null && Comments && ReactDOM.createPortal(
         <Comments chip={comments || null} role="mgr" owner={owner}
+          skills={data.reduce((a, c) => a.concat((c.skills || []).map((s) => s.name)), [])}
           names={{ me: person.first + " " + person.last, mgr: MGR_ME.first + " " + MGR_ME.last }}
           onClose={() => setComments(null)} onOpen={(name) => setComments(name || "")} />,
         document.body)}
