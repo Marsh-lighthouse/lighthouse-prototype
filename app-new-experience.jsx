@@ -296,7 +296,7 @@
       return function () { clearTimeout(t); };
     }, [idx, hover]);
     var s = SCREENS[idx];
-    var frameH = 348;
+    var frameH = 424;
     return React.createElement("div", {
       className: "ne-stage",
       onMouseEnter: function () { setHover(true); }, onMouseLeave: function () { setHover(false); },
@@ -414,7 +414,7 @@
           React.createElement("path", { d: "M6 6l12 12" }), React.createElement("path", { d: "M18 6L6 18" })));
     };
     var pane = { flex: "0 0 42%", minWidth: 0, padding: "34px 34px", display: "flex", flexDirection: "column", justifyContent: "center" };
-    var stage = { flex: 1, background: STAGE_BG, padding: "28px 28px 22px", minHeight: 500 };
+    var stage = { flex: 1, background: STAGE_BG, padding: "28px 28px 22px", minHeight: 612 };
     var body;
 
     if (design === 1) {
@@ -443,7 +443,7 @@
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           React.createElement("div", { className: "ne-left", style: pane },
             React.createElement(Copy, { onDark: true }), React.createElement(Actions, { later: later, tryIt: tryIt, onDark: true })),
-          React.createElement(Showcase, { motion: motion, onDark: true, style: { flex: 1, background: "#071A55", padding: "28px 28px 22px", minHeight: 500 } })),
+          React.createElement(Showcase, { motion: motion, onDark: true, style: { flex: 1, background: "#071A55", padding: "28px 28px 22px", minHeight: 612 } })),
         closeBtn(true));
     }
 
