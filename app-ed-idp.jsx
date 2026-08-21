@@ -182,29 +182,86 @@ function IdpAIBtn({ label, onClick, loading }) {
   );
 }
 
-function IdpMultiSelect({ options, selected, onChange, placeholder }) {
+// Skill picker, in two modes.
+//   search: the field is a search box, never a count. A skill is either a tag below or
+//           an option in the list, never both — picking one drops it from the list, and
+//           clearing its tag puts it back. Used by both Add Skills screens.
+//   default: the original "N selected" dropdown with tick marks, kept for the coach
+//           wizard's own questions so designs 1 and 2 are untouched.
+function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
   const [open, setOpen] = idpUseState(false);
+  const [query, setQuery] = idpUseState("");
   const wrapRef = idpUseRef(null);
-  const toggle = (v) => selected.includes(v) ? onChange(selected.filter((s) => s !== v)) : onChange([...selected, v]);
+  const inputRef = idpUseRef(null);
+  const remove = (v) => onChange(selected.filter((s) => s !== v));
+  const add = (v) => {
+    if (selected.indexOf(v) >= 0) return;
+    onChange([...selected, v]);
+    setQuery("");                                     // ready for the next search
+    if (inputRef.current) inputRef.current.focus();
+  };
+  // What's left to offer, then what the search narrows it to.
+  const available = options.filter((o) => selected.indexOf(o) < 0);
+  const needle = query.trim().toLowerCase();
+  const matches = needle ? available.filter((o) => o.toLowerCase().indexOf(needle) >= 0) : available;
   // Close on outside click / Escape (picking tags keeps it open).
   idpUseEffect(() => {
     if (!open) return;
-    const onDoc = (e) => { if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false); };
-    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    const onDoc = (e) => { if (wrapRef.current && !wrapRef.current.contains(e.target)) { setOpen(false); setQuery(""); } };
+    const onKey = (e) => { if (e.key === "Escape") { setOpen(false); setQuery(""); } };
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [open]);
+  const rowStyle = { padding: "10px 12px", borderRadius: 8, fontSize: 14, fontFamily: "var(--sans)" };
   return (
     <div ref={wrapRef}>
       <div style={{ position: "relative" }}>
+        {search ? (
+        <div onClick={() => { setOpen(true); if (inputRef.current) inputRef.current.focus(); }}
+          style={{ border: "1.5px solid " + (open ? eBLUE : eLINE), borderRadius: 10, padding: "12px 14px", minHeight: 46, boxSizing: "border-box", cursor: "text", display: "flex", alignItems: "center", gap: 9, background: "var(--card)" }}>
+          <span style={{ color: open ? eBLUE : eMUT, display: "flex", flexShrink: 0 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
+          </span>
+          <input ref={inputRef} value={query} onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+            onFocus={() => setOpen(true)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") { e.preventDefault(); if (matches.length) add(matches[0]); }
+              else if (e.key === "Backspace" && !query && selected.length) remove(selected[selected.length - 1]);
+            }}
+            placeholder={placeholder || "Search skills…"}
+            style={{ flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 14, color: eMID, padding: 0 }} />
+          <button onClick={(e) => { e.stopPropagation(); setOpen(!open); }} aria-label={open ? "Hide skills" : "Show skills"}
+            style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: eMUT, display: "flex", flexShrink: 0 }}>
+            <I.chevD size={15} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
+          </button>
+        </div>
+        ) : (
         <div onClick={() => setOpen(!open)} style={{ border: "1.5px solid " + (open ? eBLUE : eLINE), borderRadius: 10, padding: "12px 14px", minHeight: 46, boxSizing: "border-box", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, background: "var(--card)" }}>
-          <span style={{ flex: 1, minWidth: 0, color: selected.length ? eMID : eMUT, fontSize: 14, fontWeight: selected.length ? 600 : 400, fontFamily: "var(--sans)" }}>{selected.length ? (selected.length + (selected.length === 1 ? " selected" : " selected")) : placeholder}</span>
+          <span style={{ flex: 1, minWidth: 0, color: selected.length ? eMID : eMUT, fontSize: 14, fontWeight: selected.length ? 600 : 400, fontFamily: "var(--sans)" }}>{selected.length ? selected.length + " selected" : placeholder}</span>
           <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevD size={15} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></span>
         </div>
+        )}
         {open && (
           <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, zIndex: 50, maxHeight: 220, overflowY: "auto", boxShadow: "0 12px 34px rgba(0,15,71,.16)", padding: 6 }}>
-            {options.map((opt) => { const sel = selected.includes(opt); return (
-              <div key={opt} onClick={() => toggle(opt)} style={{ padding: "10px 12px", borderRadius: 8, cursor: "pointer", background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", color: sel ? eMID : eINK, fontWeight: sel ? 600 : 500, fontSize: 14, fontFamily: "var(--sans)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            {search ? (
+              <React.Fragment>
+                {matches.map((opt) => (
+                  <div key={opt} onClick={() => add(opt)}
+                    onMouseDown={(e) => e.preventDefault()}
+                    style={{ ...rowStyle, cursor: "pointer", color: eINK, fontWeight: 500, display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 6%, transparent)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}>
+                    {opt}<span style={{ color: eBLUE, display: "flex" }}><I.plus size={15} /></span>
+                  </div>
+                ))}
+                {matches.length === 0 && (
+                  <div style={{ ...rowStyle, color: eMUT }}>
+                    {available.length === 0 ? "Every skill here is already added." : "No skills match “" + query.trim() + "”."}
+                  </div>
+                )}
+              </React.Fragment>
+            ) : options.map((opt) => { const sel = selected.indexOf(opt) >= 0; return (
+              <div key={opt} onClick={() => sel ? remove(opt) : add(opt)} style={{ ...rowStyle, cursor: "pointer", background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", color: sel ? eMID : eINK, fontWeight: sel ? 600 : 500, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 {opt}{sel && <span style={{ color: eBLUE, display: "flex" }}><I.check size={15} /></span>}
               </div>
             ); })}
@@ -217,7 +274,7 @@ function IdpMultiSelect({ options, selected, onChange, placeholder }) {
           {selected.map((s) => (
             <span key={s} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", borderRadius: 8, padding: "5px 8px 5px 12px", fontSize: 14, fontWeight: 600, fontFamily: "var(--sans)" }}>
               {s}
-              <button onClick={() => toggle(s)} aria-label={"Remove " + s} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 18, height: 18, borderRadius: 6, border: "none", background: "none", color: eBLUE, cursor: "pointer", flexShrink: 0, padding: 0 }}><I.plus size={13} style={{ transform: "rotate(45deg)" }} /></button>
+              <button onClick={() => remove(s)} aria-label={"Remove " + s} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 18, height: 18, borderRadius: 6, border: "none", background: "none", color: eBLUE, cursor: "pointer", flexShrink: 0, padding: 0 }}><I.plus size={13} style={{ transform: "rotate(45deg)" }} /></button>
             </span>
           ))}
         </div>

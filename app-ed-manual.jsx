@@ -212,8 +212,8 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
             </div>
           </div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, margin: "16px 0 10px" }}>Select your skills</div>
-          <IdpMultiSelect options={c.options} selected={sel[ci]} onChange={(v) => setCat(ci, v)} placeholder="Select skills" />
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, margin: "16px 0 10px" }}>Search your skills</div>
+          <IdpMultiSelect search options={c.options} selected={sel[ci]} onChange={(v) => setCat(ci, v)} placeholder="Search skills…" />
           {c.suggest.filter((s) => !sel[ci].includes(s)).length > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Suggestions</span>
