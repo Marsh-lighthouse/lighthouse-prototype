@@ -30,9 +30,10 @@
   var DESIGN_KEY = "ne-popup-design";
   var MOTION_KEY = "ne-popup-motion";
 
-  var seen = null;
-  try { seen = localStorage.getItem(SEEN_KEY); } catch (e) {}
-  if (!seen) { window.__LH_TOUR_HOLD = true; }
+  // The invitation opens on every visit to the assessor workspace, not just the first —
+  // this is a prototype people are shown repeatedly, and a once-only popup is invisible
+  // to everyone who arrives after it's been dismissed.
+  window.__LH_TOUR_HOLD = true;
 
   function styles() {
     if (document.getElementById("ne-style")) return;
@@ -46,12 +47,14 @@
       "@keyframes ne-pulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.8;transform:scale(1.1)}}",
       "@keyframes ne-cursor{0%{opacity:0;transform:translate(10px,10px) scale(.9)}18%{opacity:1;transform:none}72%{opacity:1;transform:none}100%{opacity:0;transform:none}}",
       "@keyframes ne-ring{0%{opacity:0;transform:scale(.6)}30%{opacity:.9}100%{opacity:0;transform:scale(1.9)}}",
-      // motion 1 · slide
-      "@keyframes ne-slide{from{opacity:0;transform:translateX(30px) scale(.975)}to{opacity:1;transform:none}}",
-      // motion 2 · settle (soft cross-fade + lift)
-      "@keyframes ne-settle{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}",
-      // motion 3 · deck (screens deal forward like cards)
-      "@keyframes ne-deal{from{opacity:0;transform:translateY(22px) rotate(-1.4deg) scale(.94)}60%{opacity:1}to{opacity:1;transform:none}}",
+      // The three motions differ in direction and pace, not just duration, so they're
+      // told apart at a glance: sideways travel · a still zoom-out · cards dealt up.
+      // motion 1 · Slide — brisk horizontal travel, rows stagger in behind an accent sweep
+      "@keyframes ne-slide{from{opacity:0;transform:translateX(64px)}to{opacity:1;transform:none}}",
+      // motion 2 · Fade — no travel at all: a slow settle out of a slight zoom
+      "@keyframes ne-settle{from{opacity:0;transform:scale(1.045)}to{opacity:1;transform:none}}",
+      // motion 3 · Deck — dealt up from below with a tilt, off the stack behind it
+      "@keyframes ne-deal{from{opacity:0;transform:translateY(46px) rotate(-2.2deg) scale(.9)}55%{opacity:1}to{opacity:1;transform:none}}",
       ".ne-dialog{animation:ne-in .34s cubic-bezier(.22,.95,.3,1) both}",
       ".ne-mask{animation:ne-fade .22s ease both}",
       ".ne-row{animation:ne-row .44s cubic-bezier(.22,.95,.3,1) both}",
@@ -59,9 +62,12 @@
       ".ne-pulse{animation:ne-pulse 2.2s ease-in-out infinite}",
       ".ne-cursor{animation:ne-cursor 2.8s ease-out 1s both}",
       ".ne-ring{animation:ne-ring 1.5s ease-out 1.15s both}",
-      ".ne-m1{animation:ne-slide .5s cubic-bezier(.22,.95,.3,1) both}",
-      ".ne-m2{animation:ne-settle .55s cubic-bezier(.22,.95,.3,1) both}",
-      ".ne-m3{animation:ne-deal .58s cubic-bezier(.22,.95,.3,1) both}",
+      ".ne-m1{animation:ne-slide .44s cubic-bezier(.22,.95,.3,1) both}",
+      ".ne-m2{animation:ne-settle .78s cubic-bezier(.3,.9,.3,1) both}",
+      ".ne-m3{animation:ne-deal .62s cubic-bezier(.24,1.02,.32,1) both}",
+      // Fade means fade: its rows dissolve rather than travelling, so the whole screen
+      // reads as one still image resolving instead of parts arriving.
+      ".ne-m2 .ne-row{animation-name:ne-fade;animation-duration:.6s}",
       ".ne-cta{transition:transform .15s ease, box-shadow .15s ease}",
       ".ne-cta:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,15,71,.32)}",
       ".ne-ghost:hover{background:rgba(0,15,71,.05)}",
@@ -290,7 +296,7 @@
       return function () { clearTimeout(t); };
     }, [idx, hover]);
     var s = SCREENS[idx];
-    var frameH = p.tall ? 300 : 288;
+    var frameH = 348;
     return React.createElement("div", {
       className: "ne-stage",
       onMouseEnter: function () { setHover(true); }, onMouseLeave: function () { setHover(false); },
@@ -345,7 +351,7 @@
         React.createElement("svg", { width: "17", height: "17", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : "#8A6400", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", style: { flexShrink: 0 } },
           React.createElement("circle", { cx: "12", cy: "12", r: "9" }), React.createElement("path", { d: "M12 8v5l3 2" })),
         React.createElement("div", { style: { fontFamily: SANS, fontSize: 13.5, lineHeight: 1.45, color: dark ? "#fff" : "#5E4400" } },
-          React.createElement("b", { style: { fontWeight: 800 } }, "Everyone moves across soon."),
+          React.createElement("b", { style: { fontWeight: 800 } }, "Everyone moves across to the new experience soon."),
           " You can switch back any time until then."))
     );
   }
@@ -362,10 +368,11 @@
     );
   }
 
-  var STAGE_BG = "linear-gradient(160deg, rgba(11,75,255,.08), rgba(0,15,71,.05))";
+  // Flat, no gradients anywhere — including the dark layout.
+  var STAGE_BG = "#EEF2FB";
 
   function Dialog() {
-    var op = React.useState(function () { var v = null; try { v = localStorage.getItem(SEEN_KEY); } catch (e) {} return !v; });
+    var op = React.useState(true);          // always offered on load — see note above
     var open = op[0], setOpen = op[1];
     var dg = React.useState(function () { var v = 1; try { v = parseInt(localStorage.getItem(DESIGN_KEY), 10) || 1; } catch (e) {} return v > 0 && v < 5 ? v : 1; });
     var design = dg[0], setDesign = dg[1];
@@ -397,62 +404,65 @@
     if (!open) return null;
 
     var shell = { background: "#fff", borderRadius: 18, boxShadow: "0 40px 90px rgba(6,12,40,.34)", overflow: "hidden", maxHeight: "94vh" };
+    // The close sits on the dialog's own top-right corner, not out in the viewport.
+    var closeBtn = function (dark) {
+      return React.createElement("button", { onClick: later, "aria-label": "Close", className: "ne-x",
+        style: { position: "absolute", top: 14, right: 14, width: 32, height: 32, borderRadius: 999, zIndex: 6,
+          border: "1px solid " + (dark ? "rgba(255,255,255,.28)" : BD), background: dark ? "rgba(255,255,255,.12)" : "#fff",
+          color: dark ? "#fff" : TM, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" } },
+        React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.1", strokeLinecap: "round" },
+          React.createElement("path", { d: "M6 6l12 12" }), React.createElement("path", { d: "M18 6L6 18" })));
+    };
+    var pane = { flex: "0 0 42%", minWidth: 0, padding: "34px 34px", display: "flex", flexDirection: "column", justifyContent: "center" };
+    var stage = { flex: 1, background: STAGE_BG, padding: "28px 28px 22px", minHeight: 500 };
     var body;
 
     if (design === 1) {
       // 1 · Split — words left, screens right
-      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({ width: "min(1080px, 100%)", overflow: "auto", display: "flex" }, shell) },
+      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", display: "flex", position: "relative" }) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           // no filler gap: the copy sits as one block, centred against the animation
-          React.createElement("div", { className: "ne-left", style: { flex: "0 0 42%", minWidth: 0, padding: "32px 34px", display: "flex", flexDirection: "column", justifyContent: "center" } },
+          React.createElement("div", { className: "ne-left", style: pane },
             React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt })),
-          React.createElement(Showcase, { motion: motion, style: { flex: 1, background: STAGE_BG, padding: "26px 26px 20px", minHeight: 440 } })));
+          React.createElement(Showcase, { motion: motion, style: stage })),
+        closeBtn(false));
 
     } else if (design === 2) {
       // 2 · Reversed — screens left, words right
-      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({ width: "min(1080px, 100%)", overflow: "auto", display: "flex" }, shell) },
+      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", display: "flex", position: "relative" }) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
-          React.createElement(Showcase, { motion: motion, style: { flex: 1, background: STAGE_BG, padding: "26px 26px 20px", minHeight: 440 } }),
-          React.createElement("div", { className: "ne-left", style: { flex: "0 0 42%", minWidth: 0, padding: "32px 34px", display: "flex", flexDirection: "column", justifyContent: "center" } },
-            React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt }))));
-
-    } else if (design === 3) {
-      // 3 · Stacked — screens on top, words beneath
-      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({ width: "min(880px, 100%)", overflow: "auto", display: "flex", flexDirection: "column" }, shell) },
-        React.createElement(Showcase, { motion: motion, style: { background: STAGE_BG, padding: "24px 30px 18px", borderBottom: "1px solid " + BD } }),
-        React.createElement("div", { style: { padding: "26px 34px 30px", display: "flex", flexDirection: "column" } },
-          React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt })));
+          React.createElement(Showcase, { motion: motion, style: stage }),
+          React.createElement("div", { className: "ne-left", style: pane },
+            React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt }))),
+        closeBtn(false));
 
     } else {
-      // 4 · Overlay — full-bleed screens on navy, words floating over them
+      // 3 · Dark — flat navy panel, words beside the screens. No gradient.
       // shell first, then the overrides — the other way round its white background wins
-      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", background: NAVY, display: "flex", flexDirection: "column", position: "relative" }) },
-        React.createElement("div", { style: { position: "absolute", inset: 0, background: "radial-gradient(120% 90% at 78% 12%, rgba(11,75,255,.5), transparent 62%)", pointerEvents: "none" } }),
-        React.createElement("div", { style: { position: "relative", display: "flex", alignItems: "stretch", flexWrap: "wrap" } },
-          React.createElement("div", { style: { flex: "1 1 380px", minWidth: 0, padding: "40px 34px 34px", display: "flex", flexDirection: "column", justifyContent: "center" } },
-            React.createElement(Copy, { onDark: true, big: true }), React.createElement(Actions, { later: later, tryIt: tryIt, onDark: true })),
-          React.createElement(Showcase, { motion: motion, onDark: true, style: { flex: "1 1 460px", padding: "30px 30px 22px", minHeight: 430 } })));
+      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", background: NAVY, display: "flex", position: "relative" }) },
+        React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
+          React.createElement("div", { className: "ne-left", style: pane },
+            React.createElement(Copy, { onDark: true }), React.createElement(Actions, { later: later, tryIt: tryIt, onDark: true })),
+          React.createElement(Showcase, { motion: motion, onDark: true, style: { flex: 1, background: "#071A55", padding: "28px 28px 22px", minHeight: 500 } })),
+        closeBtn(true));
     }
 
     return ReactDOM.createPortal(
       React.createElement(React.Fragment, null,
         React.createElement("div", { className: "ne-mask", style: { position: "fixed", inset: 0, zIndex: 10000, background: "rgba(6,12,40,.55)", backdropFilter: "blur(2px)", WebkitBackdropFilter: "blur(2px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 } },
-          body,
-          React.createElement("button", { onClick: later, "aria-label": "Close",
-            style: { position: "fixed", top: "max(20px, 3vh)", right: "max(20px, 3vw)", width: 38, height: 38, borderRadius: 999, border: "1px solid rgba(255,255,255,.28)", background: "rgba(255,255,255,.12)", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 10001 } },
-            React.createElement("svg", { width: "17", height: "17", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.1", strokeLinecap: "round" },
-              React.createElement("path", { d: "M6 6l12 12" }), React.createElement("path", { d: "M18 6L6 18" })))),
+          body),
         // sample switcher — same idea as the plan/coach design chips elsewhere
         React.createElement("div", { className: "ne-chip", style: { position: "fixed", left: 20, bottom: 20, zIndex: 10002, display: "flex", gap: 8, flexWrap: "wrap", fontFamily: SANS } },
-          [["Layout", [1, 2, 3, 4], design, function (v) { setDesign(v); try { localStorage.setItem(DESIGN_KEY, String(v)); } catch (e) {} }],
-           ["Motion", [1, 2, 3], motion, function (v) { setMotion(v); try { localStorage.setItem(MOTION_KEY, String(v)); } catch (e) {} }]
+          [["Layout", [1, 2, 3], design, function (v) { setDesign(v); try { localStorage.setItem(DESIGN_KEY, String(v)); } catch (e) {} }, ["Words left", "Words right", "Dark"]],
+           ["Motion", [1, 2, 3], motion, function (v) { setMotion(v); try { localStorage.setItem(MOTION_KEY, String(v)); } catch (e) {} }, ["Slide", "Fade", "Deck"]]
           ].map(function (grp) {
             return React.createElement("div", { key: grp[0], style: { display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,.94)", border: "1px solid " + BD, borderRadius: 10, boxShadow: "0 6px 20px rgba(0,15,71,.18)", padding: "6px 9px" } },
               React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: TM } }, grp[0]),
-              grp[1].map(function (v) {
+              // named, not numbered — a bare "2" says nothing about what you're comparing
+              grp[1].map(function (v, i) {
                 var on = grp[2] === v;
-                return React.createElement("button", { key: v, onClick: function () { grp[3](v); },
-                  style: { width: 24, height: 24, borderRadius: 7, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, background: on ? NAVY : "rgba(0,15,71,.06)", color: on ? "#fff" : TM } }, v);
+                return React.createElement("button", { key: v, onClick: function () { grp[3](v); }, title: grp[4][i],
+                  style: { padding: "4px 10px", borderRadius: 7, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, background: on ? NAVY : "rgba(0,15,71,.06)", color: on ? "#fff" : TM, whiteSpace: "nowrap" } }, grp[4][i]);
               }));
           }))
       ),
