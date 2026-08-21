@@ -3,10 +3,39 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!-- Build freshness guard. GitHub Pages serves HTML with max-age=600, so a visitor can
+     hold a stale page shell that still points at the previous build's scripts. This
+     compares the stamp baked into this page against the one that is deployed and
+     refreshes once if they differ. Fails silent: any error leaves the page as it is. -->
+<meta name="lh-build" content="1787311274" />
+<script>
+(function () {
+  try {
+    var el = document.querySelector('meta[name="lh-build"]');
+    var mine = el && el.content;
+    if (!mine || mine === "dev") return;              // local dev - nothing is stamped
+    var KEY = "lh-build-refresh";
+    fetch("version.txt?t=" + Date.now(), { cache: "no-store" }).then(function (r) {
+      return r.ok ? r.text() : null;
+    }).then(function (body) {
+      if (!body) return;
+      var live = body.trim();
+      if (!live) return;
+      if (live === mine) { try { sessionStorage.removeItem(KEY); } catch (e) {} return; }
+      // Refresh at most once per deployed build, so a lagging CDN edge can never loop us.
+      try {
+        if (sessionStorage.getItem(KEY) === live) return;
+        sessionStorage.setItem(KEY, live);
+      } catch (e) { return; }
+      fetch(location.href, { cache: "reload" }).catch(function () {}).then(function () { location.reload(); });
+    }).catch(function () {});
+  } catch (e) {}
+})();
+</script>
 <title>Lighthouse — Assessor Workspace</title>
-<link rel="stylesheet" href="brand.css?v=1787310934"/>
-<link rel="stylesheet" href="device-preview.css?v=1787310934"/>
-<link rel="stylesheet" href="assessor-responsive.css?v=1787310934"/>
+<link rel="stylesheet" href="brand.css?v=1787311274"/>
+<link rel="stylesheet" href="device-preview.css?v=1787311274"/>
+<link rel="stylesheet" href="assessor-responsive.css?v=1787311274"/>
 <style>
   html,body,#root{margin:0;height:100%;background:var(--canvas)}
   /* "All directions" chip — identical to Folio's, sits beside the Tweaks gear.
@@ -35,10 +64,10 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <!-- Shared tweaks machinery (same as Folio). Border-radius control needs LHRadius. -->
-<script src="radius-tweak.js?v=1787310934"></script>
-<script type="text/babel" data-presets="env,react" src="lighthouse-assessor-editorial.jsx?v=1787310934"></script>
-<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx?v=1787310934"></script>
-<script type="text/babel" data-presets="env,react" src="lh-tweaks.jsx?v=1787310934"></script>
+<script src="radius-tweak.js?v=1787311274"></script>
+<script type="text/babel" data-presets="env,react" src="lighthouse-assessor-editorial.jsx?v=1787311274"></script>
+<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx?v=1787311274"></script>
+<script type="text/babel" data-presets="env,react" src="lh-tweaks.jsx?v=1787311274"></script>
 <script type="text/babel" data-presets="env,react">
   setTimeout(()=>{
     const App = window.AssessorEditorial;
@@ -47,6 +76,6 @@
     root.render(<React.Fragment><App/>{Tweaks ? <Tweaks/> : null}</React.Fragment>);
   }, 100);
 </script>
-<script src="lh-tour.js?v=1787310934"></script>
+<script src="lh-tour.js?v=1787311274"></script>
 </body>
 </html>

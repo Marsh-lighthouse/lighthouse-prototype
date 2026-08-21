@@ -3,8 +3,37 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<!-- Build freshness guard. GitHub Pages serves HTML with max-age=600, so a visitor can
+     hold a stale page shell that still points at the previous build's scripts. This
+     compares the stamp baked into this page against the one that is deployed and
+     refreshes once if they differ. Fails silent: any error leaves the page as it is. -->
+<meta name="lh-build" content="1787311274" />
+<script>
+(function () {
+  try {
+    var el = document.querySelector('meta[name="lh-build"]');
+    var mine = el && el.content;
+    if (!mine || mine === "dev") return;              // local dev - nothing is stamped
+    var KEY = "lh-build-refresh";
+    fetch("version.txt?t=" + Date.now(), { cache: "no-store" }).then(function (r) {
+      return r.ok ? r.text() : null;
+    }).then(function (body) {
+      if (!body) return;
+      var live = body.trim();
+      if (!live) return;
+      if (live === mine) { try { sessionStorage.removeItem(KEY); } catch (e) {} return; }
+      // Refresh at most once per deployed build, so a lagging CDN edge can never loop us.
+      try {
+        if (sessionStorage.getItem(KEY) === live) return;
+        sessionStorage.setItem(KEY, live);
+      } catch (e) { return; }
+      fetch(location.href, { cache: "reload" }).catch(function () {}).then(function () { location.reload(); });
+    }).catch(function () {});
+  } catch (e) {}
+})();
+</script>
 <title>Lighthouse — Dashboard directions</title>
-<link rel="stylesheet" href="brand.css?v=1787310934" />
+<link rel="stylesheet" href="brand.css?v=1787311274" />
 <style>
   html, body { margin: 0; background: #F7F3EE; color: #000F47; font-family: var(--sans); }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 48px 72px; }
