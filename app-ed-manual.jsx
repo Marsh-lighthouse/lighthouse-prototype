@@ -14,9 +14,10 @@ const { useState: mnUseState, useEffect: mnUseEffect, useRef: mnUseRef } = React
 
 // Step navigation lives at the foot of the page: read the step, then move on.
 function MnFooterNav({ onBack, onNext, nextLabel, nextDisabled }) {
+  // No divider above the actions: the card edge already separates them, and
+  // Getting Started / Reflective Questions don't carry one either.
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap",
-      borderTop: "1px solid " + eLINE, marginTop: 32, paddingTop: 20 }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
       <button onClick={onBack}
         style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID,
           background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
