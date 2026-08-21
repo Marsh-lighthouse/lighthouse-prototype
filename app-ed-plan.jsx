@@ -640,6 +640,20 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve }) {
 
 // Right-side comments panel. Global (chip=null) = an inbox of skill conversations;
 // a skill (chip=name) = its threaded comments with replies.
+// Jump the page to a skill without opening its thread. Works on both plan renderers —
+// the employee's and the manager's — since both tag their skill blocks with data-skill.
+function plGoToSkill(name) {
+  const sel = "[data-skill=\"" + (typeof CSS !== "undefined" && CSS.escape ? CSS.escape(name) : name) + "\"]";
+  const el = document.querySelector(sel);
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "center" });
+  // A brief flash, so it's obvious which block was landed on.
+  const prev = el.style.boxShadow;
+  el.style.transition = "box-shadow .25s ease";
+  el.style.boxShadow = "0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent)";
+  setTimeout(function () { el.style.boxShadow = prev || "none"; }, 1100);
+}
+
 function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names }) {
   const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const inThread = !!chip;
@@ -747,19 +761,37 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names 
           {rows.map((r, i) => {
             const mine = r.last ? r.last.who === role : false;
             const lastName = r.last ? (NAMES[r.last.who] || PL_ME) : "";
+            // The plan-level thread isn't one of the skills — it gets its own tag and a
+            // tinted card so it reads as the odd one out rather than the first of a list.
+            const tag = r.overall
+              ? { label: "Whole plan", fg: "var(--action)", bg: "color-mix(in srgb, var(--action) 14%, transparent)" }
+              : { label: "Skill", fg: eMUT, bg: "rgba(0,15,71,.06)" };
             return (
-              <button key={i} onClick={() => onOpen(r.name)} style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 12, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: "var(--card)", cursor: "pointer", marginBottom: 8 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "rgba(0,15,71,.03)"} onMouseLeave={(e) => e.currentTarget.style.background = "var(--card)"}>
+              <div key={i} role="button" tabIndex={0} onClick={() => onOpen(r.name)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(r.name); } }}
+                style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 12, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: r.overall ? "color-mix(in srgb, var(--action) 6%, var(--card))" : "var(--card)", cursor: "pointer", marginBottom: 8, boxSizing: "border-box" }}
+                onMouseEnter={(e) => e.currentTarget.style.background = r.overall ? "color-mix(in srgb, var(--action) 11%, var(--card))" : "rgba(0,15,71,.03)"}
+                onMouseLeave={(e) => e.currentTarget.style.background = r.overall ? "color-mix(in srgb, var(--action) 6%, var(--card))" : "var(--card)"}>
                 <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{r.last ? plInitials(lastName) : <I.chat size={16} />}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
                     {r.unread && <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--danger)", flexShrink: 0 }} />}
                   </div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT, marginTop: 4 }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</div>
+                  <span style={{ display: "inline-block", marginTop: 5, padding: "2px 8px", borderRadius: 999, background: tag.bg, color: tag.fg, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".02em" }}>{tag.label}</span>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 4 }}>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</span>
+                    {/* Skill threads can jump to the skill itself without opening the thread. */}
+                    {!r.overall && (
+                      <button onClick={(e) => { e.stopPropagation(); plGoToSkill(r.name); }}
+                        style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600 }}>
+                        Go to skill <I.chevR size={13} />
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </button>
+              </div>
             );
           })}
         </div>
