@@ -19,7 +19,9 @@ const MGR_SUB_KEY = "lh-idp-submission";
 const MGR_TEAM = [
   { id: "john", sub: "Product Management", entity: "Star Trek Inc.", level: "Management", grade: "1A", qual: "Masters in Business", dept: "Department A", joined: "2023-04-26", first: "John", last: "Doe", initials: "JD", role: "Product Management", email: "john.doe@marsh.com",
     linked: true, skills: 5,
-    status: "notstarted", plan: "Leadership Potential Assessment 2026" },
+    // Opens at Pending Approval so the review flow is there on a cold visit; the
+    // moment the employee flow writes anything, the store takes over (syncSubmission).
+    status: "pending", plan: "Leadership Potential Assessment 2026" },
   // Only John Doe is wired to the employee flow — everyone else sits at Not Started
   // so nothing on this screen pretends to be live when it isn't.
   { id: "amelia", sub: "Human Resources", entity: "Star Trek Inc.", level: "Professional", grade: "2B", qual: "MSc Organisational Psychology", dept: "Human Resources", joined: "2021-09-13", first: "Amelia", last: "Rahman", initials: "AR", role: "Senior Consultant", email: "amelia.rahman@marsh.com",
@@ -843,6 +845,11 @@ function LHManager() {
         return { ...p, status: "pending", changes: mgrChanges(), reason: undefined, note: undefined, decidedAt: undefined };
       }
       if (sub && sub.status === "pending" && p.status === "notstarted") {
+        return { ...p, status: "pending", changes: mgrChanges() };
+      }
+      // Nothing in the store yet: keep the seeded Pending Approval, but fill in the
+      // change summary from the plan so the review screen isn't blank.
+      if (!sub && p.status === "pending" && !p.changes) {
         return { ...p, status: "pending", changes: mgrChanges() };
       }
       return p;
