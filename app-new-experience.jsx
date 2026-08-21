@@ -73,6 +73,13 @@
       ".ne-ghost:hover{background:rgba(0,15,71,.05)}",
       ".ne-dot{transition:width .25s ease, background .25s ease}",
       ".ne-chip button{transition:background .15s ease,color .15s ease}",
+      // Visible keyboard focus on everything interactive. The buttons carry no border,
+      // so without this the focus ring would be the browser's default on a borderless
+      // element — easy to lose against the panel.
+      ".ne-mask :focus-visible, .ne-chip :focus-visible{outline:3px solid #0B4BFF;outline-offset:2px;border-radius:8px}",
+      ".ne-dark :focus-visible{outline-color:#FFBF00}",
+      // Dots stay 7px tall visually but keep a 24px pointer/touch target (WCAG 2.5.8).
+      ".ne-dotwrap{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:none;border:none;padding:0;cursor:pointer}",
       "@media (prefers-reduced-motion: reduce){.ne-dialog,.ne-row,.ne-sweep,.ne-pulse,.ne-cursor,.ne-ring,.ne-m1,.ne-m2,.ne-m3{animation:none!important}}",
       "@media (max-width: 980px){.ne-split{flex-direction:column!important}.ne-left{flex:1 1 auto!important}.ne-stage{min-height:320px!important}}"
     ].join("\n");
@@ -103,7 +110,7 @@
   function Cursor(p) {
     return React.createElement("div", { style: { position: "absolute", left: p.x, top: p.y, pointerEvents: "none", zIndex: 4 } },
       React.createElement("div", { className: "ne-ring", style: { position: "absolute", left: -13, top: -13, width: 28, height: 28, borderRadius: 999, border: "2px solid " + TEAL } }),
-      React.createElement("svg", { className: "ne-cursor", width: "17", height: "17", viewBox: "0 0 24 24", fill: "#fff", stroke: NAVY, strokeWidth: "1.4", strokeLinejoin: "round", style: { filter: "drop-shadow(0 2px 4px rgba(0,15,71,.3))" } },
+      React.createElement("svg", { className: "ne-cursor", width: "17", height: "17", viewBox: "0 0 24 24", fill: "#fff", stroke: NAVY, strokeWidth: "1.4", strokeLinejoin: "round", "aria-hidden": "true", style: { filter: "drop-shadow(0 2px 4px rgba(0,15,71,.3))" } },
         React.createElement("path", { d: "M5 3l14 8-6.5 1.8L9.5 19z" })));
   }
   function card(children, style) {
@@ -290,19 +297,29 @@
     var motion = p.motion || 1;
     var st = React.useState(0), idx = st[0], setIdx = st[1];
     var hv = React.useState(false), hover = hv[0], setHover = hv[1];
+    // Explicit pause, not just hover: auto-moving content needs a real stop control that
+    // a keyboard or screen-reader user can reach (WCAG 2.2.2 Pause, Stop, Hide).
+    var pz = React.useState(false), paused = pz[0], setPaused = pz[1];
+    var reduce = false;
+    try { reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    var holding = paused || hover || reduce;
     React.useEffect(function () {
-      if (hover) return;
+      if (holding) return;
       var t = setTimeout(function () { setIdx(function (n) { return (n + 1) % SCREENS.length; }); }, 4200);
       return function () { clearTimeout(t); };
-    }, [idx, hover]);
+    }, [idx, holding]);
     var s = SCREENS[idx];
     var frameH = 424;
     return React.createElement("div", {
       className: "ne-stage",
       onMouseEnter: function () { setHover(true); }, onMouseLeave: function () { setHover(false); },
+      onFocus: function () { setHover(true); }, onBlur: function () { setHover(false); },
+      role: "group", "aria-roledescription": "carousel", "aria-label": "A preview of the new assessor screens",
       style: Object.assign({ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", minWidth: 0 }, p.style)
     },
-      React.createElement("div", { style: { position: "relative" } },
+      // The miniatures are illustration: their sample names and scores would read as
+      // gibberish to a screen reader, so the caption below carries the meaning instead.
+      React.createElement("div", { "aria-hidden": "true", style: { position: "relative" } },
         // motion 3 stacks a hint of the next screens behind the live one
         motion === 3 ? [1, 2].map(function (g) {
           return React.createElement("div", { key: g, style: { position: "absolute", left: 10 * g, right: 10 * g, top: -6 * g, height: 26, borderRadius: 12, background: "#fff", border: "1px solid " + BD, opacity: 0.55 - g * 0.18, zIndex: 0 } });
@@ -320,13 +337,27 @@
                 return React.createElement("div", { key: i, style: { height: 6, borderRadius: 3, marginBottom: 9, background: i === idx ? GOLD : "rgba(255,255,255,.22)", width: i === idx ? "100%" : "68%", transition: "background .3s ease, width .3s ease" } });
               })),
             React.createElement("div", { key: s.key, className: "ne-m" + motion, style: { flex: 1, minWidth: 0, overflow: "hidden" } }, React.createElement(s.render))))),
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginTop: 14 } },
-        React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 13, color: p.onDark ? "rgba(255,255,255,.86)" : TX } },
-          React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY } }, s.label), " — ", s.note),
-        React.createElement("div", { style: { display: "flex", gap: 5, flexShrink: 0 } },
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginTop: 14 } },
+        // The caption is the accessible text for whatever the frame is showing, and it
+        // announces politely when it changes so it isn't silent to a screen reader.
+        React.createElement("div", { "aria-live": "polite", style: { flex: 1, minWidth: 0 } },
+          React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 13, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
+            React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY } }, s.label), " — ", s.note)),
+        React.createElement("button", {
+          onClick: function () { setPaused(!paused); },
+          "aria-label": paused ? "Play the screen preview" : "Pause the screen preview",
+          style: { width: 26, height: 26, borderRadius: 999, flexShrink: 0, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+            border: "1px solid " + (p.onDark ? "rgba(255,255,255,.34)" : BD), background: p.onDark ? "rgba(255,255,255,.10)" : "#fff", color: p.onDark ? "#fff" : TM }
+        },
+          paused
+            ? React.createElement("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true" }, React.createElement("path", { d: "M7 4l13 8-13 8z" }))
+            : React.createElement("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true" }, React.createElement("path", { d: "M7 4h4v16H7zM13 4h4v16h-4z" }))),
+        React.createElement("div", { style: { display: "flex", gap: 1, flexShrink: 0 } },
           SCREENS.map(function (x, i) {
-            return React.createElement("button", { key: x.key, className: "ne-dot", onClick: function () { setIdx(i); }, "aria-label": "Show " + x.label,
-              style: { width: i === idx ? 20 : 7, height: 7, borderRadius: 999, border: "none", padding: 0, cursor: "pointer", background: i === idx ? (p.onDark ? GOLD : TEAL) : (p.onDark ? "rgba(255,255,255,.3)" : "rgba(0,15,71,.18)") } });
+            return React.createElement("button", { key: x.key, className: "ne-dotwrap", onClick: function () { setIdx(i); },
+              "aria-label": x.label, "aria-current": i === idx ? "true" : null },
+              React.createElement("span", { className: "ne-dot", "aria-hidden": "true",
+                style: { display: "block", width: i === idx ? 20 : 7, height: 7, borderRadius: 999, background: i === idx ? (p.onDark ? GOLD : TEAL) : (p.onDark ? "rgba(255,255,255,.42)" : "rgba(0,15,71,.28)") } }));
           })))
     );
   }
@@ -337,18 +368,18 @@
     return React.createElement(React.Fragment, null,
       p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 999, background: dark ? "rgba(255,255,255,.14)" : "rgba(11,75,255,.10)", color: dark ? "#fff" : TEAL, fontFamily: SANS, fontSize: 11.5, fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase" } },
         React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : TEAL, display: "inline-block" } }), "New experience"),
-      React.createElement("h2", { style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "A new way to assess."),
+      React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "A new way to assess."),
       React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 460 } },
         "A clearer dashboard, faster scoring, and moderation that shows every assessor side by side."),
       React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, margin: "14px 0 0" } },
         ["Everything assigned to you on one dashboard", "Score and moderate without losing your place", "Same data, same sign-off — nothing is lost"].map(function (t, i) {
           return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 14, lineHeight: 1.45, color: dark ? "rgba(255,255,255,.88)" : TX } },
-            React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", style: { flexShrink: 0, marginTop: 3 } },
+            React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0, marginTop: 3 } },
               React.createElement("path", { d: "M20 6L9 17l-5-5" })), t);
         })),
       // The one thing that must land: this is where everyone is going.
       React.createElement("div", { style: { display: "flex", gap: 10, alignItems: "center", margin: "16px 0 0", padding: "11px 14px", borderRadius: 10, borderLeft: "4px solid " + GOLD, background: dark ? "rgba(255,191,0,.16)" : "rgba(255,191,0,.16)" } },
-        React.createElement("svg", { width: "17", height: "17", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : "#8A6400", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", style: { flexShrink: 0 } },
+        React.createElement("svg", { width: "17", height: "17", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : "#8A6400", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
           React.createElement("circle", { cx: "12", cy: "12", r: "9" }), React.createElement("path", { d: "M12 8v5l3 2" })),
         React.createElement("div", { style: { fontFamily: SANS, fontSize: 13.5, lineHeight: 1.45, color: dark ? "#fff" : "#5E4400" } },
           React.createElement("b", { style: { fontWeight: 800 } }, "Everyone moves across to the new experience soon."),
@@ -363,7 +394,7 @@
       React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
         style: { padding: "13px 24px", borderRadius: 10, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
         "Try new experience",
-        React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", style: { flexShrink: 0 } },
+        React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
           React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))
     );
   }
@@ -394,11 +425,47 @@
     };
     var later = function () { close("later"); }, tryIt = function () { close("try"); };
 
+    // ── focus management ──────────────────────────────────────────────────
+    // A modal has to take focus, keep it while open, and give it back on close;
+    // and the page behind it has to be hidden from assistive tech meanwhile.
+    var boxRef = React.useRef(null);
+    var returnRef = React.useRef(null);
     React.useEffect(function () {
       if (!open) return;
-      var onKey = function (e) { if (e.key === "Escape") later(); };
+      returnRef.current = document.activeElement;
+      var root = document.getElementById("root");
+      if (root) root.setAttribute("aria-hidden", "true");
+      var focusables = function () {
+        if (!boxRef.current) return [];
+        return Array.prototype.slice.call(boxRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )).filter(function (el) { return el.offsetParent !== null || el === document.activeElement; });
+      };
+      var t = setTimeout(function () {
+        var f = focusables();
+        if (f.length) f[0].focus();
+        else if (boxRef.current) { boxRef.current.setAttribute("tabindex", "-1"); boxRef.current.focus(); }
+      }, 60);
+      var onKey = function (e) {
+        if (e.key === "Escape") { e.preventDefault(); later(); return; }
+        if (e.key !== "Tab") return;
+        var f = focusables();
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        // wrap at both ends so Tab can never reach the page behind the dialog
+        if (e.shiftKey && (document.activeElement === first || !boxRef.current.contains(document.activeElement))) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
+        }
+      };
       document.addEventListener("keydown", onKey);
-      return function () { document.removeEventListener("keydown", onKey); };
+      return function () {
+        clearTimeout(t);
+        document.removeEventListener("keydown", onKey);
+        if (root) root.removeAttribute("aria-hidden");
+        if (returnRef.current && returnRef.current.focus) returnRef.current.focus();
+      };
     }, [open]);
 
     if (!open) return null;
@@ -410,7 +477,7 @@
         style: { position: "absolute", top: 14, right: 14, width: 32, height: 32, borderRadius: 999, zIndex: 6,
           border: "1px solid " + (dark ? "rgba(255,255,255,.28)" : BD), background: dark ? "rgba(255,255,255,.12)" : "#fff",
           color: dark ? "#fff" : TM, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" } },
-        React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.1", strokeLinecap: "round" },
+        React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.1", strokeLinecap: "round", "aria-hidden": "true" },
           React.createElement("path", { d: "M6 6l12 12" }), React.createElement("path", { d: "M18 6L6 18" })));
     };
     var pane = { flex: "0 0 42%", minWidth: 0, padding: "34px 34px", display: "flex", flexDirection: "column", justifyContent: "center" };
@@ -419,7 +486,7 @@
 
     if (design === 1) {
       // 1 · Split — words left, screens right
-      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", display: "flex", position: "relative" }) },
+      body = React.createElement("div", { ref: boxRef, className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-labelledby": "ne-title", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", display: "flex", position: "relative" }) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           // no filler gap: the copy sits as one block, centred against the animation
           React.createElement("div", { className: "ne-left", style: pane },
@@ -429,7 +496,7 @@
 
     } else if (design === 2) {
       // 2 · Reversed — screens left, words right
-      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", display: "flex", position: "relative" }) },
+      body = React.createElement("div", { ref: boxRef, className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-labelledby": "ne-title", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", display: "flex", position: "relative" }) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           React.createElement(Showcase, { motion: motion, style: stage }),
           React.createElement("div", { className: "ne-left", style: pane },
@@ -439,7 +506,7 @@
     } else {
       // 3 · Dark — flat navy panel, words beside the screens. No gradient.
       // shell first, then the overrides — the other way round its white background wins
-      body = React.createElement("div", { className: "ne-dialog", role: "dialog", "aria-modal": "true", "aria-label": "New assessor experience", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", background: NAVY, display: "flex", position: "relative" }) },
+      body = React.createElement("div", { ref: boxRef, className: "ne-dialog ne-dark", role: "dialog", "aria-modal": "true", "aria-labelledby": "ne-title", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", background: NAVY, display: "flex", position: "relative" }) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           React.createElement("div", { className: "ne-left", style: pane },
             React.createElement(Copy, { onDark: true }), React.createElement(Actions, { later: later, tryIt: tryIt, onDark: true })),
