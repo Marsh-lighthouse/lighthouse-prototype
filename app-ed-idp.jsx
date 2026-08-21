@@ -890,23 +890,25 @@ function IdpWizard({ initial, onBack, onFinish }) {
                 ))}
               </div>
             )}
-            {g3Attach ? g3DropZone() : (
+            {/* The summary is the end of the conversation — there's nothing left to
+                say to the guide, so the composer goes rather than sitting there greyed out. */}
+            {!g3Done && (g3Attach ? g3DropZone() : (
             <div style={{ position: "relative", border: "1px solid " + eLINE, borderRadius: 12, background: "var(--card)", padding: "12px 96px 12px 14px" }}>
               <textarea value={g3Input} onChange={(e) => setG3Input(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); g3Send(); } }}
-                placeholder={g3Done ? "Your plan is on its way…" : "Type your message here..."} rows={2} disabled={g3Done}
+                placeholder="Type your message here..." rows={2}
                 style={{ width: "100%", boxSizing: "border-box", border: "none", outline: "none", resize: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }} />
               <div style={{ position: "absolute", right: 12, bottom: 12, display: "flex", alignItems: "center", gap: 10 }}>
                 <button title="Voice input" style={{ background: "none", border: "none", cursor: "pointer", color: eBLUE, display: "flex", padding: 2 }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0" /><path d="M12 18v3" /></svg>
                 </button>
-                <button onClick={() => g3Send()} title="Send" disabled={g3Done || !g3Input.trim()}
-                  style={{ width: 38, height: 38, borderRadius: "50%", border: "none", background: (g3Done || !g3Input.trim()) ? "color-mix(in srgb, var(--accent) 35%, transparent)" : eBLUE, color: "#fff", cursor: (g3Done || !g3Input.trim()) ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <button onClick={() => g3Send()} title="Send" disabled={!g3Input.trim()}
+                  style={{ width: 38, height: 38, borderRadius: "50%", border: "none", background: !g3Input.trim() ? "color-mix(in srgb, var(--accent) 35%, transparent)" : eBLUE, color: "#fff", cursor: !g3Input.trim() ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5" /><path d="M5 12l7-7 7 7" /></svg>
                 </button>
               </div>
             </div>
-            )}
+            ))}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0 14px", color: eMUT, fontFamily: "var(--sans)", fontSize: 13 }}>
               <I.info size={14} /> Lighthouse Development Guide can make mistakes. Please be careful while using the responses.
             </div>
