@@ -202,7 +202,8 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
       <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 20px" }}>Add Skills</h1>
 
       {MN_CATS.map((c, ci) => (
-        <div key={ci} style={{ borderTop: ci ? "1px solid " + eLINE : "none", paddingTop: ci ? 26 : 0, marginTop: ci ? 26 : 0 }}>
+        <div key={ci} style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16,
+          padding: "20px 22px 24px", marginBottom: 16, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
             <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
             <div>
@@ -234,15 +235,14 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
     <div>
       <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 20px" }}>Rate Skills</h1>
 
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 22 }}>
-        <div style={{ width: 46, height: 46, borderRadius: 23, background: "color-mix(in srgb, var(--accent) 8%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={22} /></div>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.6, margin: 0 }}>
-          Now that you have selected your developmental priorities, please rate yourself on each of the following.
-          Remember to rate yourself based on your current level and not on your past or desired level.
-        </p>
-      </div>
-
-      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden" }}>
+      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "20px 22px", borderBottom: "1px solid " + eLINE }}>
+          <div style={{ width: 46, height: 46, borderRadius: 23, background: "color-mix(in srgb, var(--accent) 8%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={22} /></div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.6, margin: 0 }}>
+            Now that you have selected your developmental priorities, please rate yourself on each of the following.
+            Remember to rate yourself based on your current level and not on your past or desired level.
+          </p>
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid " + eLINE }}>
           <div style={{ ...head, flex: 1, minWidth: 0 }}>Skill</div>
           <div style={{ ...head, width: 170, flexShrink: 0 }}>Skill Type</div>
