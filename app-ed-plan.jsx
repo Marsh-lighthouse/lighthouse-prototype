@@ -525,7 +525,7 @@ function PlDecisionNote({ status, note, when }) {
 
 // A skill the owner has chosen but not yet filled in. Deliberately NOT a solid card:
 // a dashed slot on white reads as a space waiting to be filled, so it can't be mistaken
-// for a real development action. The layers drift in sequence — the skill being built up.
+// for a real development action.
 function PlNoActions({ editable }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
@@ -534,9 +534,9 @@ function PlNoActions({ editable }) {
       <span style={{ width: 46, height: 46, borderRadius: 12, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
         background: "color-mix(in srgb, var(--primary) 6%, transparent)", color: eMID }}>
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path className="pl-empty-layer" style={{ animationDelay: "0s" }} d="M12 3 3 8l9 5 9-5-9-5z" />
-          <path className="pl-empty-layer" style={{ animationDelay: ".18s" }} d="M3 13l9 5 9-5" />
-          <path className="pl-empty-layer" style={{ animationDelay: ".36s" }} d="M3 18l9 5 9-5" />
+          <path d="M12 3 3 8l9 5 9-5-9-5z" />
+          <path d="M3 13l9 5 9-5" />
+          <path d="M3 18l9 5 9-5" />
         </svg>
       </span>
       <div>
