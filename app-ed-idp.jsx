@@ -248,10 +248,10 @@ function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
                 {matches.map((opt) => (
                   <div key={opt} onClick={() => add(opt)}
                     onMouseDown={(e) => e.preventDefault()}
-                    style={{ ...rowStyle, cursor: "pointer", color: eINK, fontWeight: 500, display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                    style={{ ...rowStyle, cursor: "pointer", color: eINK, fontWeight: 500 }}
                     onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 6%, transparent)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}>
-                    {opt}<span style={{ color: eBLUE, display: "flex" }}><I.plus size={15} /></span>
+                    {opt}
                   </div>
                 ))}
                 {matches.length === 0 && (
