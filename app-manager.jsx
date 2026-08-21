@@ -547,7 +547,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
 
   return (
-    <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0, paddingRight: comments != null && pushRoom ? 344 : 0, transition: "padding .25s ease" }}>
+    <div className="ed-plan-wrap" style={{ paddingRight: comments != null && pushRoom ? 344 : 0, transition: "padding .25s ease" }}>
+    <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
       {/* title row — status sits under the heading, as on the employee's plan, so a
           long title can never shove anything onto a second line */}
       <div className="ed-plan-head" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 18 }}>
@@ -791,6 +792,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           names={{ me: person.first + " " + person.last, mgr: MGR_ME.first + " " + MGR_ME.last }}
           onClose={() => setComments(null)} onOpen={(name) => setComments(name || "")} />,
         document.body)}
+    </div>
     </div>
   );
 }
