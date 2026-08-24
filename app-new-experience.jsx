@@ -57,17 +57,17 @@
       "@keyframes ne-deal{from{opacity:0;transform:translateY(46px) rotate(-2.2deg) scale(.9)}55%{opacity:1}to{opacity:1;transform:none}}",
       ".ne-dialog{animation:ne-in .34s cubic-bezier(.22,.95,.3,1) both}",
       ".ne-mask{animation:ne-fade .22s ease both}",
-      ".ne-row{animation:ne-row .3s cubic-bezier(.22,.95,.3,1) both}",
-      ".ne-sweep{animation:ne-sweep 1.0s ease-in-out .1s both}",
+      ".ne-row{animation:ne-row .26s cubic-bezier(.22,.95,.3,1) both}",
+      ".ne-sweep{animation:ne-sweep .85s ease-in-out .1s both}",
       ".ne-pulse{animation:ne-pulse 2.2s ease-in-out infinite}",
       ".ne-cursor{animation:ne-cursor 2.1s ease-out .7s both}",
       ".ne-ring{animation:ne-ring 1.15s ease-out .82s both}",
-      ".ne-m1{animation:ne-slide .32s cubic-bezier(.22,.95,.3,1) both}",
-      ".ne-m2{animation:ne-settle .46s cubic-bezier(.3,.9,.3,1) both}",
-      ".ne-m3{animation:ne-deal .42s cubic-bezier(.24,1.02,.32,1) both}",
+      ".ne-m1{animation:ne-slide .28s cubic-bezier(.22,.95,.3,1) both}",
+      ".ne-m2{animation:ne-settle .4s cubic-bezier(.3,.9,.3,1) both}",
+      ".ne-m3{animation:ne-deal .36s cubic-bezier(.24,1.02,.32,1) both}",
       // Fade means fade: its rows dissolve rather than travelling, so the whole screen
       // reads as one still image resolving instead of parts arriving.
-      ".ne-m2 .ne-row{animation-name:ne-fade;animation-duration:.42s}",
+      ".ne-m2 .ne-row{animation-name:ne-fade;animation-duration:.36s}",
       ".ne-cta{transition:transform .15s ease, box-shadow .15s ease}",
       ".ne-cta:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,15,71,.32)}",
       ".ne-ghost:hover{background:rgba(0,15,71,.05)}",
@@ -94,7 +94,7 @@
 
   // ── shared bits ─────────────────────────────────────────────────────────
   function Row(p) {
-    return React.createElement("div", { className: "ne-row", style: Object.assign({ animationDelay: (p.i || 0) * 0.055 + 0.09 + "s" }, p.style) }, p.children);
+    return React.createElement("div", { className: "ne-row", style: Object.assign({ animationDelay: (p.i || 0) * 0.045 + 0.07 + "s" }, p.style) }, p.children);
   }
   function pill(text, tone) {
     var map = { blue: { bg: "rgba(11,75,255,.10)", fg: TEAL }, green: { bg: "rgba(20,133,61,.11)", fg: GREEN },
@@ -141,11 +141,11 @@
         React.createElement("span", { style: { fontFamily: SANS, fontSize: 9, fontWeight: 700, color: "#fff", borderRadius: 6, padding: "5px 10px", background: NAVY } }, "Moderate scores")),
       React.createElement(Row, { i: 2 }, tabs(["Assessments", "Timeline", "Documents"], 0)),
       card(
-        [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 10px", borderBottom: "1px solid " + BD, animationDelay: ".22s" } },
+        [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 10px", borderBottom: "1px solid " + BD, animationDelay: ".16s" } },
           React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM } }, "Assessment"),
           React.createElement("span", { style: { width: 74, textAlign: "center", fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM } }, "Status"))].concat(
         rows.map(function (r, i) {
-          return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "8px 10px", borderBottom: i === rows.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.3 + i * 0.07 + "s" } },
+          return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "8px 10px", borderBottom: i === rows.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.22 + i * 0.055 + "s" } },
             React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 9.5, fontWeight: 600, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r[0]),
             React.createElement("span", { style: { width: 74, display: "flex", justifyContent: "center" } }, pill(r[1], r[2])));
         }))
@@ -220,10 +220,10 @@
             })),
           rows.map(function (r, i) {
             if (r.group) {
-              return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", borderTop: "1px solid " + BD, background: "rgba(0,15,71,.035)", animationDelay: 0.2 + i * 0.05 + "s" } },
+              return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", borderTop: "1px solid " + BD, background: "rgba(0,15,71,.035)", animationDelay: 0.16 + i * 0.045 + "s" } },
                 React.createElement("div", { style: { flex: 1, padding: "5px 8px", fontFamily: SANS, fontSize: 9, fontWeight: 700, color: NAVY } }, "⌄  " + r.group));
             }
-            return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", borderTop: "1px solid " + BD, animationDelay: 0.2 + i * 0.05 + "s" } },
+            return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", borderTop: "1px solid " + BD, animationDelay: 0.16 + i * 0.045 + "s" } },
               React.createElement("div", { style: { flex: col[0], padding: "5px 8px", display: "flex", gap: 5, alignItems: "center", minWidth: 0 } },
                 React.createElement("span", { style: { fontFamily: SANS, fontSize: 8, fontWeight: 700, color: TEAL, flexShrink: 0 } }, r.code),
                 React.createElement("span", { style: { fontFamily: SANS, fontSize: 9, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r.name)),
@@ -259,12 +259,12 @@
         })),
       React.createElement(Row, { i: 2, style: { marginBottom: 7 } }, tabs(["Subjects", "Resources", "Activities", "Recordings"], 0)),
       card(
-        [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 9px", borderBottom: "1px solid " + BD, animationDelay: ".22s" } },
+        [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 9px", borderBottom: "1px solid " + BD, animationDelay: ".16s" } },
           ["Participants", "Prework", "Activity", "Attendance"].map(function (h, i) {
             return React.createElement("span", { key: i, style: { flex: i === 0 ? 2 : 1, fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM, textAlign: i === 0 ? "left" : "center" } }, h);
           }))].concat(
         subs.map(function (s, i) {
-          return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "7px 9px", borderBottom: i === subs.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.27 + i * 0.06 + "s" } },
+          return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "7px 9px", borderBottom: i === subs.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.2 + i * 0.05 + "s" } },
             React.createElement("span", { style: { flex: 2, display: "flex", alignItems: "center", gap: 6, minWidth: 0 } }, avatar(s[0], s[6], 17),
               React.createElement("span", { style: { fontFamily: SANS, fontSize: 9.5, fontWeight: 600, color: TX } }, s[1])),
             React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 9, color: TX } }, s[2]),
@@ -296,7 +296,7 @@
     var holding = hover || reduce;
     React.useEffect(function () {
       if (holding) return;
-      var t = setTimeout(function () { setIdx(function (n) { return (n + 1) % SCREENS.length; }); }, 2500);
+      var t = setTimeout(function () { setIdx(function (n) { return (n + 1) % SCREENS.length; }); }, 2000);
       return function () { clearTimeout(t); };
     }, [idx, holding]);
     var s = SCREENS[idx];
