@@ -364,26 +364,24 @@
           return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 14, lineHeight: 1.45, color: dark ? "rgba(255,255,255,.88)" : TX } },
             React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0, marginTop: 3 } },
               React.createElement("path", { d: "M20 6L9 17l-5-5" })), t);
-        })),
-      // The one thing that must land: this is where everyone is going.
-      React.createElement("div", { style: { display: "flex", gap: 10, alignItems: "center", margin: "16px 0 0", padding: "11px 14px", borderRadius: 10, borderLeft: "4px solid " + GOLD, background: dark ? "rgba(255,191,0,.16)" : "rgba(255,191,0,.16)" } },
-        React.createElement("svg", { width: "17", height: "17", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : "#8A6400", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
-          React.createElement("circle", { cx: "12", cy: "12", r: "9" }), React.createElement("path", { d: "M12 8v5l3 2" })),
-        React.createElement("div", { style: { fontFamily: SANS, fontSize: 13.5, lineHeight: 1.45, color: dark ? "#fff" : "#5E4400" } },
-          React.createElement("b", { style: { fontWeight: 800 } }, "Soon this will be the default for everyone."),
-          " You can switch back to the current view anytime until then."))
+        }))
     );
   }
   function Actions(p) {
     var dark = p.onDark;
-    return React.createElement("div", { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center", marginTop: p.mt === undefined ? 20 : p.mt } },
-      React.createElement("button", { className: "ne-ghost", onClick: p.later,
-        style: { padding: "13px 20px", borderRadius: 10, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
-      React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
-        style: { padding: "13px 24px", borderRadius: 10, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
-        "Try new experience",
-        React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
-          React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))
+    // Buttons, then a quiet one-line note underneath — a supporting message, not a
+    // boxed alert. This is where the "you can switch back" reassurance lives now.
+    return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginTop: p.mt === undefined ? 22 : p.mt } },
+      React.createElement("div", { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" } },
+        React.createElement("button", { className: "ne-ghost", onClick: p.later,
+          style: { padding: "13px 20px", borderRadius: 10, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
+        React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
+          style: { padding: "13px 24px", borderRadius: 10, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
+          "Try new experience",
+          React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
+            React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))),
+      React.createElement("div", { style: { fontFamily: SANS, fontSize: 12.5, lineHeight: 1.5, color: dark ? "rgba(255,255,255,.62)" : TM, maxWidth: 440 } },
+        "The new experience becomes the default for everyone soon. You can switch back to the current view anytime.")
     );
   }
 
