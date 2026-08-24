@@ -388,7 +388,7 @@
   }
   function Actions(p) {
     var dark = p.onDark;
-    return React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", marginTop: p.mt === undefined ? 20 : p.mt } },
+    return React.createElement("div", { style: { display: "flex", gap: 30, flexWrap: "wrap", alignItems: "center", marginTop: p.mt === undefined ? 20 : p.mt } },
       React.createElement("button", { className: "ne-ghost", onClick: p.later,
         style: { padding: "13px 20px", borderRadius: 10, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
       React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
