@@ -80,7 +80,13 @@
       ".ne-dark :focus-visible{outline-color:#FFBF00}",
       // Dots stay 7px tall visually but keep a 24px pointer/touch target (WCAG 2.5.8).
       ".ne-dotwrap{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:none;border:none;padding:0;cursor:pointer}",
-      "@media (prefers-reduced-motion: reduce){.ne-dialog,.ne-row,.ne-sweep,.ne-pulse,.ne-cursor,.ne-ring,.ne-m1,.ne-m2,.ne-m3{animation:none!important}}",
+      // Under reduced-motion we drop travel and looping decoration, but the screens
+      // still cross-fade so the preview never looks frozen or broken — just calmer.
+      "@media (prefers-reduced-motion: reduce){",
+      "  .ne-dialog,.ne-row,.ne-sweep,.ne-pulse,.ne-cursor,.ne-ring{animation:none!important}",
+      "  .ne-m1,.ne-m2,.ne-m3{animation:ne-fade .45s ease both!important}",
+      "  .ne-m2 .ne-row{animation:none!important}",
+      "}",
       "@media (max-width: 980px){.ne-split{flex-direction:column!important}.ne-left{flex:1 1 auto!important}.ne-stage{min-height:320px!important}}"
     ].join("\n");
     document.head.appendChild(s);
@@ -117,49 +123,34 @@
     return React.createElement("div", { style: Object.assign({ background: "#fff", border: "1px solid " + BD, borderRadius: 8, overflow: "hidden" }, style) }, children);
   }
 
-  // 01 · Assessor Dashboard — stat row, then Evaluations beside Active campaigns
-  function ScreenDashboard() {
-    var tiles = [["6", "Candidates"], ["4", "Evaluations to do"], ["1", "Awaiting moderation"], ["1", "Completed"]];
-    var evals = [["LW", "Lukas Weber", "In progress", "blue", TEAL], ["DU", "Demo User", "In progress", "blue", "#7A4BD0"],
-      ["SB", "Sofia Bianchi", "Not started", "amber", "#B4770A"], ["AM", "Alessandro Moretti", "Completed", "green", GREEN]];
-    var camps = [["Generali DGE 2026", "6", "2/6"], ["Allianz — Global T…", "3", "2/3"], ["Munich Re — Lea…", "3", "0/3"]];
-    return React.createElement("div", { style: { padding: "12px 14px", position: "relative" } },
-      React.createElement(Row, { i: 0, style: { fontFamily: SERIF, fontSize: 16, color: NAVY, marginBottom: 9 } }, "Good morning, Elena."),
-      React.createElement(Row, { i: 1, style: { display: "flex", gap: 6, marginBottom: 10 } },
-        tiles.map(function (t, i) {
-          return React.createElement("div", { key: i, style: { flex: 1, minWidth: 0, background: "#fff", border: "1px solid " + BD, borderRadius: 8, padding: "7px 8px" } },
-            React.createElement("div", { style: { fontFamily: SERIF, fontSize: 18, lineHeight: 1, color: i === 1 ? TEAL : NAVY } }, t[0]),
-            React.createElement("div", { style: { fontFamily: SANS, fontSize: 8, color: TM, marginTop: 3, lineHeight: 1.25 } }, t[1]));
-        })),
-      React.createElement(Row, { i: 2, style: { display: "flex", gap: 8 } },
-        card([
-          React.createElement("div", { key: "h", style: { display: "flex", alignItems: "center", padding: "6px 9px", borderBottom: "1px solid " + BD } },
-            React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 9.5, fontWeight: 700, color: NAVY } }, "Evaluations"),
-            React.createElement("span", { style: { fontFamily: SANS, fontSize: 8.5, fontWeight: 600, color: TEAL } }, "View all ›")),
-          evals.map(function (r, i) {
-            return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", gap: 7, padding: "6px 9px", borderBottom: i === evals.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.21 + i * 0.05 + "s", background: i === 0 ? "rgba(11,75,255,.04)" : "transparent" } },
-              avatar(r[0], r[4], 17),
-              React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 9.5, fontWeight: 600, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r[1]),
-              pill(r[2], r[3]));
-          })
-        ], { flex: 1.15, minWidth: 0 }),
-        card([
-          React.createElement("div", { key: "h", style: { display: "flex", alignItems: "center", padding: "6px 9px", borderBottom: "1px solid " + BD } },
-            React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 9.5, fontWeight: 700, color: NAVY } }, "Active campaigns"),
-            React.createElement("span", { style: { fontFamily: SANS, fontSize: 8.5, fontWeight: 600, color: TEAL } }, "View all ›")),
-          React.createElement("div", { key: "sub", style: { display: "flex", padding: "5px 9px", borderBottom: "1px solid " + BD } },
-            React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 8, color: TM } }, "Campaign"),
-            React.createElement("span", { style: { width: 26, textAlign: "center", fontFamily: SANS, fontSize: 8, color: TM } }, "Cand."),
-            React.createElement("span", { style: { width: 34, textAlign: "center", fontFamily: SANS, fontSize: 8, color: TM } }, "Eval")),
-          camps.map(function (c, i) {
-            return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "7px 9px", borderBottom: i === camps.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.23 + i * 0.055 + "s" } },
-              React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 9, fontWeight: 600, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c[0]),
-              React.createElement("span", { style: { width: 26, textAlign: "center", fontFamily: SANS, fontSize: 9, color: TX } }, c[1]),
-              React.createElement("span", { style: { width: 34, textAlign: "center", fontFamily: SANS, fontSize: 9, fontWeight: 700, color: NAVY } }, c[2]));
-          })
-        ], { flex: 1, minWidth: 0 })
+  // 01 · Candidate detail — the candidate with their assessments and the two actions
+  function ScreenCandidate() {
+    var rows = [
+      ["Leadership Assessment 2026", "Completed", "green"],
+      ["360° Perspective Feedback", "In progress", "blue"],
+      ["Cognitive Ability", "Not started", "amber"]
+    ];
+    return React.createElement("div", { style: { padding: "13px 14px", position: "relative" } },
+      React.createElement(Row, { i: 0, style: { fontFamily: SANS, fontSize: 8, color: TM, marginBottom: 7 } }, "Dashboard  ›  Candidates  ›  Lukas Weber"),
+      React.createElement(Row, { i: 1, style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 10 } },
+        avatar("LW", TEAL, 26),
+        React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+          React.createElement("div", { style: { fontFamily: SERIF, fontSize: 15, color: NAVY, lineHeight: 1.1 } }, "Lukas Weber"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 8, color: TM, marginTop: 2 } }, "l.weber@tte.email · Generali DGE 2026")),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 9, fontWeight: 600, color: NAVY, border: "1px solid " + BD, borderRadius: 6, padding: "5px 10px", background: "#fff" } }, "Evaluate"),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 9, fontWeight: 700, color: "#fff", borderRadius: 6, padding: "5px 10px", background: NAVY } }, "Moderate scores")),
+      React.createElement(Row, { i: 2 }, tabs(["Assessments", "Timeline", "Documents"], 0)),
+      card(
+        [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 10px", borderBottom: "1px solid " + BD, animationDelay: ".22s" } },
+          React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM } }, "Assessment"),
+          React.createElement("span", { style: { width: 74, textAlign: "center", fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM } }, "Status"))].concat(
+        rows.map(function (r, i) {
+          return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "8px 10px", borderBottom: i === rows.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.3 + i * 0.07 + "s" } },
+            React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 9.5, fontWeight: 600, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r[0]),
+            React.createElement("span", { style: { width: 74, display: "flex", justifyContent: "center" } }, pill(r[1], r[2])));
+        }))
       ),
-      React.createElement(Cursor, { x: 92, y: 150 })
+      React.createElement(Cursor, { x: 292, y: 40 })
     );
   }
 
@@ -286,7 +277,7 @@
   }
 
   var SCREENS = [
-    { key: "dash", label: "Assessor Dashboard", note: "Everything assigned to you, in one place.", render: ScreenDashboard },
+    { key: "cand", label: "Candidate", note: "Every assessment for a candidate, in one view.", render: ScreenCandidate },
     { key: "eval", label: "Evaluate", note: "Brief and scoring side by side.", render: ScreenEvaluate },
     { key: "mod", label: "Moderate", note: "Every assessor's score, one final call.", render: ScreenModerate },
     { key: "ac", label: "Assessment Centre", note: "Run the session, track every subject.", render: ScreenCentre }
@@ -300,9 +291,10 @@
     // Explicit pause, not just hover: auto-moving content needs a real stop control that
     // a keyboard or screen-reader user can reach (WCAG 2.2.2 Pause, Stop, Hide).
     var pz = React.useState(false), paused = pz[0], setPaused = pz[1];
-    var reduce = false;
-    try { reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
-    var holding = paused || hover || reduce;
+    // The carousel keeps advancing even under reduced-motion (it fades rather than
+    // travels, and the pause control satisfies WCAG 2.2.2), so it never sits still and
+    // reads as broken — which is what the "animation not working" report was.
+    var holding = paused || hover;
     React.useEffect(function () {
       if (holding) return;
       var t = setTimeout(function () { setIdx(function (n) { return (n + 1) % SCREENS.length; }); }, 3100);
@@ -382,8 +374,8 @@
         React.createElement("svg", { width: "17", height: "17", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : "#8A6400", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
           React.createElement("circle", { cx: "12", cy: "12", r: "9" }), React.createElement("path", { d: "M12 8v5l3 2" })),
         React.createElement("div", { style: { fontFamily: SANS, fontSize: 13.5, lineHeight: 1.45, color: dark ? "#fff" : "#5E4400" } },
-          React.createElement("b", { style: { fontWeight: 800 } }, "Everyone moves across to the new experience soon."),
-          " You can switch back any time until then."))
+          React.createElement("b", { style: { fontWeight: 800 } }, "Soon this will be the default for everyone."),
+          " You can switch back to the current view anytime until then."))
     );
   }
   function Actions(p) {
@@ -471,17 +463,15 @@
     if (!open) return null;
 
     var shell = { background: "#fff", borderRadius: 18, boxShadow: "0 40px 90px rgba(6,12,40,.34)", overflow: "hidden", maxHeight: "94vh" };
-    // The close sits on the dialog's own top-right corner, not out in the viewport.
-    var closeBtn = function (dark) {
-      return React.createElement("button", { onClick: later, "aria-label": "Close", className: "ne-x",
-        style: { position: "absolute", top: 14, right: 14, width: 32, height: 32, borderRadius: 999, zIndex: 6,
-          border: "1px solid " + (dark ? "rgba(255,255,255,.28)" : BD), background: dark ? "rgba(255,255,255,.12)" : "#fff",
-          color: dark ? "#fff" : TM, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" } },
-        React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.1", strokeLinecap: "round", "aria-hidden": "true" },
-          React.createElement("path", { d: "M6 6l12 12" }), React.createElement("path", { d: "M18 6L6 18" })));
-    };
+    // No visible close cross (per feedback): "Maybe later" is the dismiss, and Escape
+    // still closes for keyboard users.
     var pane = { flex: "0 0 42%", minWidth: 0, padding: "34px 34px", display: "flex", flexDirection: "column", justifyContent: "center" };
     var stage = { flex: 1, background: STAGE_BG, padding: "28px 28px 22px", minHeight: 612 };
+    // Dark layout, two clearly separate zones so the panel doesn't read as one flat
+    // navy block: a deep copy side and a distinctly lighter, faded stage, with a divider
+    // and a light hairline round the whole dialog so it lifts off the dark backdrop.
+    var darkShell = { border: "1px solid rgba(255,255,255,.14)" };
+    var darkStage = { flex: 1, background: "#22315F", borderLeft: "1px solid rgba(255,255,255,.12)", padding: "28px 28px 22px", minHeight: 612 };
     var body;
 
     if (design === 1) {
@@ -491,8 +481,7 @@
           // no filler gap: the copy sits as one block, centred against the animation
           React.createElement("div", { className: "ne-left", style: pane },
             React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt })),
-          React.createElement(Showcase, { motion: motion, style: stage })),
-        closeBtn(false));
+          React.createElement(Showcase, { motion: motion, style: stage })));
 
     } else if (design === 2) {
       // 2 · Reversed — screens left, words right
@@ -500,18 +489,16 @@
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           React.createElement(Showcase, { motion: motion, style: stage }),
           React.createElement("div", { className: "ne-left", style: pane },
-            React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt }))),
-        closeBtn(false));
+            React.createElement(Copy), React.createElement(Actions, { later: later, tryIt: tryIt }))));
 
     } else {
-      // 3 · Dark — flat navy panel, words beside the screens. No gradient.
+      // 3 · Dark — deep copy side + lighter faded stage, divided. No gradient.
       // shell first, then the overrides — the other way round its white background wins
-      body = React.createElement("div", { ref: boxRef, className: "ne-dialog ne-dark", role: "dialog", "aria-modal": "true", "aria-labelledby": "ne-title", style: Object.assign({}, shell, { width: "min(1080px, 100%)", overflow: "auto", background: NAVY, display: "flex", position: "relative" }) },
+      body = React.createElement("div", { ref: boxRef, className: "ne-dialog ne-dark", role: "dialog", "aria-modal": "true", "aria-labelledby": "ne-title", style: Object.assign({}, shell, darkShell, { width: "min(1080px, 100%)", overflow: "auto", background: "#050E33", display: "flex", position: "relative" }) },
         React.createElement("div", { className: "ne-split", style: { display: "flex", alignItems: "stretch", width: "100%" } },
           React.createElement("div", { className: "ne-left", style: pane },
             React.createElement(Copy, { onDark: true }), React.createElement(Actions, { later: later, tryIt: tryIt, onDark: true })),
-          React.createElement(Showcase, { motion: motion, onDark: true, style: { flex: 1, background: "#071A55", padding: "28px 28px 22px", minHeight: 612 } })),
-        closeBtn(true));
+          React.createElement(Showcase, { motion: motion, onDark: true, style: darkStage })));
     }
 
     return ReactDOM.createPortal(
