@@ -300,7 +300,7 @@
       return function () { clearTimeout(t); };
     }, [idx, holding]);
     var s = SCREENS[idx];
-    var frameH = 366;
+    var frameH = 470;
     return React.createElement("div", {
       className: "ne-stage", tabIndex: 0,   // focusable so keyboard users can pause it too
       onMouseEnter: function () { setHover(true); }, onMouseLeave: function () { setHover(false); },
@@ -342,14 +342,21 @@
     return React.createElement(React.Fragment, null,
       p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 999, background: dark ? "rgba(255,255,255,.14)" : "rgba(11,75,255,.10)", color: dark ? "#fff" : TEAL, fontFamily: SANS, fontSize: 11.5, fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase" } },
         React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : TEAL, display: "inline-block" } }), "New experience"),
-      React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "A new way to assess."),
-      React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 460 } },
-        "One connected flow — from reviewing a candidate to evaluating, moderating, and running the assessment centre."),
-      React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, margin: "14px 0 0" } },
-        ["See all of a candidate's assessments in one view", "Evaluate and moderate without losing your place", "Same scores and sign-off — nothing is lost"].map(function (t, i) {
-          return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 14, lineHeight: 1.45, color: dark ? "rgba(255,255,255,.88)" : TX } },
+      React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "One flow, from first review to final sign-off."),
+      React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 470 } },
+        "Candidate, evaluation, moderation and the assessment centre now work as one connected view — not five screens you hold together yourself."),
+      React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, margin: "16px 0 0" } },
+        // Each bullet is a bold lead, an em dash, then muted detail.
+        [["One candidate, one view", "every assessor form for that candidate, together."],
+         ["The brief beside your scoring", "competency guidance stays on screen while you rate."],
+         ["Moderation in minutes", "every assessor's score side by side, one final call."]
+        ].map(function (t, i) {
+          return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 14, lineHeight: 1.45 } },
             React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0, marginTop: 3 } },
-              React.createElement("path", { d: "M20 6L9 17l-5-5" })), t);
+              React.createElement("path", { d: "M20 6L9 17l-5-5" })),
+            React.createElement("span", null,
+              React.createElement("b", { style: { fontWeight: 700, color: dark ? "#fff" : NAVY } }, t[0]),
+              React.createElement("span", { style: { color: dark ? "rgba(255,255,255,.66)" : TM } }, " — " + t[1])));
         }))
     );
   }
