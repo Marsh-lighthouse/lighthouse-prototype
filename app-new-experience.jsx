@@ -277,10 +277,10 @@
   }
 
   var SCREENS = [
-    { key: "cand", label: "Candidate", note: "Every assessment for a candidate, in one view.", render: ScreenCandidate },
-    { key: "eval", label: "Evaluate", note: "Brief and scoring side by side.", render: ScreenEvaluate },
+    { key: "cand", label: "Candidate", note: "One candidate, all their assessments together.", render: ScreenCandidate },
+    { key: "eval", label: "Evaluate", note: "The brief and your scoring, side by side.", render: ScreenEvaluate },
     { key: "mod", label: "Moderate", note: "Every assessor's score, one final call.", render: ScreenModerate },
-    { key: "ac", label: "Assessment Centre", note: "Run the session, track every subject.", render: ScreenCentre }
+    { key: "ac", label: "Assessment Centre", note: "Run the session and track every subject.", render: ScreenCentre }
   ];
 
   // ── the showcase ────────────────────────────────────────────────────────
@@ -344,9 +344,9 @@
         React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : TEAL, display: "inline-block" } }), "New experience"),
       React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "A new way to assess."),
       React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 460 } },
-        "A clearer dashboard, faster scoring, and moderation that shows every assessor side by side."),
+        "One connected flow — from reviewing a candidate to evaluating, moderating, and running the assessment centre."),
       React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, margin: "14px 0 0" } },
-        ["Everything assigned to you on one dashboard", "Score and moderate without losing your place", "Same data, same sign-off — nothing is lost"].map(function (t, i) {
+        ["See all of a candidate's assessments in one view", "Evaluate and moderate without losing your place", "Same scores and sign-off — nothing is lost"].map(function (t, i) {
           return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 14, lineHeight: 1.45, color: dark ? "rgba(255,255,255,.88)" : TX } },
             React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0, marginTop: 3 } },
               React.createElement("path", { d: "M20 6L9 17l-5-5" })), t);
