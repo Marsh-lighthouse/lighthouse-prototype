@@ -57,14 +57,14 @@
       "@keyframes ne-deal{from{opacity:0;transform:translateY(46px) rotate(-2.2deg) scale(.9)}55%{opacity:1}to{opacity:1;transform:none}}",
       ".ne-dialog{animation:ne-in .34s cubic-bezier(.22,.95,.3,1) both}",
       ".ne-mask{animation:ne-fade .22s ease both}",
-      ".ne-row{animation:ne-row .34s cubic-bezier(.22,.95,.3,1) both}",
-      ".ne-sweep{animation:ne-sweep 1.15s ease-in-out .1s both}",
+      ".ne-row{animation:ne-row .3s cubic-bezier(.22,.95,.3,1) both}",
+      ".ne-sweep{animation:ne-sweep 1.0s ease-in-out .1s both}",
       ".ne-pulse{animation:ne-pulse 2.2s ease-in-out infinite}",
       ".ne-cursor{animation:ne-cursor 2.1s ease-out .7s both}",
       ".ne-ring{animation:ne-ring 1.15s ease-out .82s both}",
-      ".ne-m1{animation:ne-slide .36s cubic-bezier(.22,.95,.3,1) both}",
-      ".ne-m2{animation:ne-settle .54s cubic-bezier(.3,.9,.3,1) both}",
-      ".ne-m3{animation:ne-deal .48s cubic-bezier(.24,1.02,.32,1) both}",
+      ".ne-m1{animation:ne-slide .32s cubic-bezier(.22,.95,.3,1) both}",
+      ".ne-m2{animation:ne-settle .46s cubic-bezier(.3,.9,.3,1) both}",
+      ".ne-m3{animation:ne-deal .42s cubic-bezier(.24,1.02,.32,1) both}",
       // Fade means fade: its rows dissolve rather than travelling, so the whole screen
       // reads as one still image resolving instead of parts arriving.
       ".ne-m2 .ne-row{animation-name:ne-fade;animation-duration:.42s}",
@@ -84,7 +84,7 @@
       // still cross-fade so the preview never looks frozen or broken — just calmer.
       "@media (prefers-reduced-motion: reduce){",
       "  .ne-dialog,.ne-row,.ne-sweep,.ne-pulse,.ne-cursor,.ne-ring{animation:none!important}",
-      "  .ne-m1,.ne-m2,.ne-m3{animation:ne-fade .45s ease both!important}",
+      "  .ne-m1,.ne-m2,.ne-m3{animation:ne-fade .4s ease both!important}",
       "  .ne-m2 .ne-row{animation:none!important}",
       "}",
       "@media (max-width: 980px){.ne-split{flex-direction:column!important}.ne-left{flex:1 1 auto!important}.ne-stage{min-height:320px!important}}"
@@ -297,7 +297,7 @@
     var holding = paused || hover;
     React.useEffect(function () {
       if (holding) return;
-      var t = setTimeout(function () { setIdx(function (n) { return (n + 1) % SCREENS.length; }); }, 3100);
+      var t = setTimeout(function () { setIdx(function (n) { return (n + 1) % SCREENS.length; }); }, 2500);
       return function () { clearTimeout(t); };
     }, [idx, holding]);
     var s = SCREENS[idx];
@@ -329,12 +329,14 @@
                 return React.createElement("div", { key: i, style: { height: 6, borderRadius: 3, marginBottom: 9, background: i === idx ? GOLD : "rgba(255,255,255,.22)", width: i === idx ? "100%" : "68%", transition: "background .3s ease, width .3s ease" } });
               })),
             React.createElement("div", { key: s.key, className: "ne-m" + motion, style: { flex: 1, minWidth: 0, overflow: "hidden" } }, React.createElement(s.render))))),
+      // No dot slider — the screen just animates, and its name is the indicator.
       React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginTop: 14 } },
         // The caption is the accessible text for whatever the frame is showing, and it
         // announces politely when it changes so it isn't silent to a screen reader.
         React.createElement("div", { "aria-live": "polite", style: { flex: 1, minWidth: 0 } },
           React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 13, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
-            React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY } }, s.label), " — ", s.note)),
+            React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY, fontSize: 14 } }, s.label), " — ", s.note)),
+        // Pause stays: auto-moving content needs a stop control (WCAG 2.2.2).
         React.createElement("button", {
           onClick: function () { setPaused(!paused); },
           "aria-label": paused ? "Play the screen preview" : "Pause the screen preview",
@@ -343,14 +345,8 @@
         },
           paused
             ? React.createElement("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true" }, React.createElement("path", { d: "M7 4l13 8-13 8z" }))
-            : React.createElement("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true" }, React.createElement("path", { d: "M7 4h4v16H7zM13 4h4v16h-4z" }))),
-        React.createElement("div", { style: { display: "flex", gap: 1, flexShrink: 0 } },
-          SCREENS.map(function (x, i) {
-            return React.createElement("button", { key: x.key, className: "ne-dotwrap", onClick: function () { setIdx(i); },
-              "aria-label": x.label, "aria-current": i === idx ? "true" : null },
-              React.createElement("span", { className: "ne-dot", "aria-hidden": "true",
-                style: { display: "block", width: i === idx ? 20 : 7, height: 7, borderRadius: 999, background: i === idx ? (p.onDark ? GOLD : TEAL) : (p.onDark ? "rgba(255,255,255,.42)" : "rgba(0,15,71,.28)") } }));
-          })))
+            : React.createElement("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true" }, React.createElement("path", { d: "M7 4h4v16H7zM13 4h4v16h-4z" })))
+      )
     );
   }
 
