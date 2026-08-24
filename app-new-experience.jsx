@@ -300,7 +300,7 @@
       return function () { clearTimeout(t); };
     }, [idx, holding]);
     var s = SCREENS[idx];
-    var frameH = 424;
+    var frameH = 366;
     return React.createElement("div", {
       className: "ne-stage", tabIndex: 0,   // focusable so keyboard users can pause it too
       onMouseEnter: function () { setHover(true); }, onMouseLeave: function () { setHover(false); },
@@ -357,7 +357,7 @@
     var dark = p.onDark;
     // Buttons, then a quiet one-line note underneath — a supporting message, not a
     // boxed alert. This is where the "you can switch back" reassurance lives now.
-    return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginTop: p.mt === undefined ? 22 : p.mt } },
+    return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginTop: p.mt === undefined ? 32 : p.mt } },
       React.createElement("div", { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" } },
         React.createElement("button", { className: "ne-ghost", onClick: p.later,
           style: { padding: "13px 20px", borderRadius: 10, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
@@ -446,12 +446,12 @@
     // No visible close cross (per feedback): "Maybe later" is the dismiss, and Escape
     // still closes for keyboard users.
     var pane = { flex: "0 0 42%", minWidth: 0, padding: "34px 34px", display: "flex", flexDirection: "column", justifyContent: "center" };
-    var stage = { flex: 1, background: STAGE_BG, padding: "28px 28px 22px", minHeight: 612 };
+    var stage = { flex: 1, background: STAGE_BG, padding: "26px 28px 20px", minHeight: 520 };
     // Dark layout, two clearly separate zones so the panel doesn't read as one flat
     // navy block: a deep copy side and a distinctly lighter, faded stage, with a divider
     // and a light hairline round the whole dialog so it lifts off the dark backdrop.
     var darkShell = { border: "1px solid rgba(255,255,255,.14)" };
-    var darkStage = { flex: 1, background: "#22315F", borderLeft: "1px solid rgba(255,255,255,.12)", padding: "28px 28px 22px", minHeight: 612 };
+    var darkStage = { flex: 1, background: "#22315F", borderLeft: "1px solid rgba(255,255,255,.12)", padding: "26px 28px 20px", minHeight: 520 };
     var body;
 
     if (design === 1) {
