@@ -288,13 +288,12 @@
     var motion = p.motion || 1;
     var st = React.useState(0), idx = st[0], setIdx = st[1];
     var hv = React.useState(false), hover = hv[0], setHover = hv[1];
-    // Explicit pause, not just hover: auto-moving content needs a real stop control that
-    // a keyboard or screen-reader user can reach (WCAG 2.2.2 Pause, Stop, Hide).
-    var pz = React.useState(false), paused = pz[0], setPaused = pz[1];
-    // The carousel keeps advancing even under reduced-motion (it fades rather than
-    // travels, and the pause control satisfies WCAG 2.2.2), so it never sits still and
-    // reads as broken — which is what the "animation not working" report was.
-    var holding = paused || hover;
+    // No visible pause button (per feedback). Auto-moving content still needs a way to
+    // stop (WCAG 2.2.2), so two invisible ones remain: hovering or keyboard-focusing the
+    // preview pauses it, and the OS "reduce motion" setting stops the rotation entirely.
+    var reduce = false;
+    try { reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    var holding = hover || reduce;
     React.useEffect(function () {
       if (holding) return;
       var t = setTimeout(function () { setIdx(function (n) { return (n + 1) % SCREENS.length; }); }, 2500);
@@ -303,10 +302,10 @@
     var s = SCREENS[idx];
     var frameH = 424;
     return React.createElement("div", {
-      className: "ne-stage",
+      className: "ne-stage", tabIndex: 0,   // focusable so keyboard users can pause it too
       onMouseEnter: function () { setHover(true); }, onMouseLeave: function () { setHover(false); },
       onFocus: function () { setHover(true); }, onBlur: function () { setHover(false); },
-      role: "group", "aria-roledescription": "carousel", "aria-label": "A preview of the new assessor screens",
+      role: "group", "aria-roledescription": "carousel", "aria-label": "A preview of the new assessor screens. Hover or focus to pause.",
       style: Object.assign({ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", minWidth: 0 }, p.style)
     },
       // The miniatures are illustration: their sample names and scores would read as
@@ -329,24 +328,11 @@
                 return React.createElement("div", { key: i, style: { height: 6, borderRadius: 3, marginBottom: 9, background: i === idx ? GOLD : "rgba(255,255,255,.22)", width: i === idx ? "100%" : "68%", transition: "background .3s ease, width .3s ease" } });
               })),
             React.createElement("div", { key: s.key, className: "ne-m" + motion, style: { flex: 1, minWidth: 0, overflow: "hidden" } }, React.createElement(s.render))))),
-      // No dot slider — the screen just animates, and its name is the indicator.
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginTop: 14 } },
-        // The caption is the accessible text for whatever the frame is showing, and it
-        // announces politely when it changes so it isn't silent to a screen reader.
-        React.createElement("div", { "aria-live": "polite", style: { flex: 1, minWidth: 0 } },
-          React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 13, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
-            React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY, fontSize: 14 } }, s.label), " — ", s.note)),
-        // Pause stays: auto-moving content needs a stop control (WCAG 2.2.2).
-        React.createElement("button", {
-          onClick: function () { setPaused(!paused); },
-          "aria-label": paused ? "Play the screen preview" : "Pause the screen preview",
-          style: { width: 26, height: 26, borderRadius: 999, flexShrink: 0, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-            border: "1px solid " + (p.onDark ? "rgba(255,255,255,.34)" : BD), background: p.onDark ? "rgba(255,255,255,.10)" : "#fff", color: p.onDark ? "#fff" : TM }
-        },
-          paused
-            ? React.createElement("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true" }, React.createElement("path", { d: "M7 4l13 8-13 8z" }))
-            : React.createElement("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true" }, React.createElement("path", { d: "M7 4h4v16H7zM13 4h4v16h-4z" })))
-      )
+      // No dot slider, no play/pause button — the screen just animates, and its name is
+      // the indicator. The caption announces politely so it isn't silent to a screen reader.
+      React.createElement("div", { "aria-live": "polite", style: { marginTop: 14 } },
+        React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 13, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
+          React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY, fontSize: 14 } }, s.label), " — ", s.note))
     );
   }
 
