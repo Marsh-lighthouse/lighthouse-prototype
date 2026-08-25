@@ -323,15 +323,17 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
       </div>
       ) : (
       <div className="oa-matrix">
-        <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.cols.length}, 48px)`, gap: 0, marginBottom: 8, padding: "0 15px" }}>
+        {/* Scale columns are wide enough for the longest label ("Sometimes") with a gap,
+            so headers never touch; the circles centre within the same columns. */}
+        <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.cols.length}, 88px)`, columnGap: 10, marginBottom: 8, padding: "0 15px" }}>
           <div />
-          {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT }}>{col}</div>)}
+          {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, whiteSpace: "nowrap" }}>{col}</div>)}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {q.rows.map((row, ri) => {
             const answered = a[ri] !== undefined;
             return (
-              <div key={ri} style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.cols.length}, 48px)`, gap: 0, alignItems: "center", padding: "12px 15px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
+              <div key={ri} style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.cols.length}, 88px)`, columnGap: 10, alignItems: "center", padding: "12px 15px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.35, paddingRight: 8 }}>{row}</div>
                 {q.cols.map((col, ci) =>
                   <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
@@ -383,7 +385,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
             const gridCols = `1fr repeat(${cols.length}, 88px)`;
             return (
               <div>
-                <div style={{ display: "grid", gridTemplateColumns: gridCols, gap: 0, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
+                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
                   <div />
                   {cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.25, padding: "0 6px" }}>{col}</div>)}
                 </div>
@@ -391,7 +393,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                   {q.rows.map((row, ri) => {
                     const cur = Array.isArray(v[ri]) ? v[ri] : [];
                     return (
-                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, gap: 0, alignItems: "center", padding: "14px 4px", borderBottom: "1px solid " + eLINE }}>
+                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, alignItems: "center", padding: "14px 4px", borderBottom: "1px solid " + eLINE }}>
                         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.35, paddingRight: 10 }}>{row}</div>
                         {cols.map((col, ci) => {
                           const on = cur.includes(ci);
@@ -448,7 +450,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
             const gridCols = `1.2fr repeat(${q.cols.length}, 76px) 96px 76px`;
             return (
               <div>
-                <div style={{ display: "grid", gridTemplateColumns: gridCols, gap: 0, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
+                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
                   <div />
                   {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.25, padding: "0 4px" }}>{col}</div>)}
                   <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>Not Applicable</div>
@@ -459,7 +461,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                     const r = v[ri] || {};
                     const na = !!r.na;
                     return (
-                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, gap: 0, alignItems: "center", padding: "12px 4px", borderBottom: "1px solid " + eLINE }}>
+                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, alignItems: "center", padding: "12px 4px", borderBottom: "1px solid " + eLINE }}>
                         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.35, paddingRight: 10 }}>{row}</div>
                         {q.cols.map((col, ci) => (
                           <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
