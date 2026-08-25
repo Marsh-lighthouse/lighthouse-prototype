@@ -1103,6 +1103,15 @@ function DashEditorial({ initialRoute } = {}) {
     return () => cancelAnimationFrame(id);
   }, [route.page, route.progId, route.center, route.target]);
 
+  // iPad only: collapse the left rail when arriving at the program detail (tasks) page so the
+  // task list gets the full width. State-only (no localStorage write) so it doesn't change the
+  // saved desktop preference; keyed on the route so a manual expand while on the page isn't undone.
+  React.useEffect(() => {
+    if (route.page === "tasks" && document.documentElement.getAttribute("data-device") === "ipad") {
+      setRailCollapsed(true);
+    }
+  }, [route.page, route.progId]);
+
   const prog = route.progId ? LH.programs.find((p) => p.id === route.progId) : null;
 
   const openProgram = (id) => {
