@@ -505,12 +505,9 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
               <div />
               <div>
                 {q.labels &&
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
                     {q.labels.map((l, li) => <div key={li} style={{ flex: 1, textAlign: li === 0 ? "left" : li === q.labels.length - 1 ? "right" : "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{l}</div>)}
                   </div>}
-                <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
-                  {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((n) => <span key={n}>{n}</span>)}
-                </div>
               </div>
               <div />
             </div>
