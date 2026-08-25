@@ -200,6 +200,10 @@ html[data-device="mobile"] .oa-split-q {
 html[data-device="mobile"] .oa-split-q > div { max-width: none !important; margin: 0 !important; }
 html[data-device="mobile"] .oa-split-a { flex: 0 0 auto !important; overflow: visible !important; padding: 22px 20px 120px !important; }
 html[data-device="mobile"] .oa-split-a > div { max-width: none !important; margin: 0 !important; }
+/* iPad split (question | answer): the assessment shell was stopping ~90px short of the
+   frame, leaving canvas below the left question panel. Let it grow to fill so the left
+   bar runs full height. Scoped to the split view only. */
+html[data-device="ipad"] .oa-root:has(.oa-split) { flex: 1 1 auto !important; min-height: 0 !important; }
 
 /* Open-assessment header: keep the SAME inline layout as desktop on mobile (title + compact
    timers + Exit on one row); only tighten side padding so it fits the phone. */
