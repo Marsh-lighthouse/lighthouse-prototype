@@ -1208,7 +1208,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
 
   // ── COMPLETE ──
   if (step === "complete") return (
-    <div style={{ width: "100%", minHeight: "100vh", background: eCREAM, display: "flex", alignItems: "center", justifyContent: "center", padding: 40 }}>
+    <div style={{ width: "100%", flex: "1 1 auto", minHeight: "100vh", background: eCREAM, display: "flex", alignItems: "center", justifyContent: "center", padding: 40 }}>
       <div style={{ textAlign: "center", maxWidth: 480, background: eCARD, border: "1px solid " + eLINE, borderRadius: 20, padding: "52px 44px", boxShadow: "0 12px 40px rgba(0,15,71,.08)" }}>
         <div style={{ width: 72, height: 72, borderRadius: 36, background: "var(--success-fill)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", boxShadow: "0 8px 28px rgba(20,133,61,.3)", color: "#fff" }}><I.check size={34} /></div>
         <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.08, margin: "0 0 10px" }}>Task complete</h1>
