@@ -207,6 +207,14 @@ html[data-device="mobile"] .oa-split-a > div { max-width: none !important; margi
    frame, leaving canvas below the left question panel. Let it grow to fill so the left
    bar runs full height. Scoped to the split view only. */
 html[data-device="ipad"] .oa-root:has(.oa-split) { flex: 1 1 auto !important; min-height: 0 !important; }
+/* Constrain the assessment shell to the frame height. The outer zoom/scroll wrapper
+   (main > div) otherwise grows to the question's content height, so .oa-root's height:100%
+   can't resolve and the inner question area (flex:1, overflow-y:auto) can't scroll — forcing
+   the OUTER <main> to scroll instead. That left each Next landing on the previous page's
+   bottom scroll position. Pinning the wrapper to 100% puts the scroll back on the inner area
+   (as on desktop) so it resets to the top on every question. iPad + phone, all oa layouts. */
+html[data-device="ipad"] main > div:has(.oa-root),
+html[data-device="mobile"] main > div:has(.oa-root) { height: 100% !important; }
 
 /* Open-assessment header: keep the SAME inline layout as desktop on mobile (title + compact
    timers + Exit on one row); only tighten side padding so it fits the phone. */
