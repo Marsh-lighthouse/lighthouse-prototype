@@ -56,9 +56,12 @@ html[data-device="mobile"] #root .ed-topctl { top: 7px !important; }
    ever repositioning scroll on reflow. */
 html[data-device="mobile"] #root *,
 html[data-device="ipad"] #root * { overflow-anchor: none !important; }
-/* full-height inner shells use 100vh — re-anchor them to the frame, not the viewport */
+/* full-height inner shells use 100vh — re-anchor them to the frame, not the viewport.
+   Also cap min-height: elements using `min-height: 100vh` (e.g. the Task-complete screen)
+   match this substring too; without the min-height override they stay taller than the
+   frame, dropping the centred card below the fold with a vertical scroll. */
 html[data-device="mobile"] #root [style*="height: 100vh"],
-html[data-device="ipad"] #root [style*="height: 100vh"] { height: 100% !important; }
+html[data-device="ipad"] #root [style*="height: 100vh"] { height: 100% !important; min-height: 100% !important; }
 html[data-device="mobile"] #root [style*="100vh"][style*="overflow"],
 html[data-device="ipad"] #root [style*="100vh"][style*="overflow"] { max-height: 100% !important; }
 

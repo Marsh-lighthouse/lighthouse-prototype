@@ -7,7 +7,7 @@
      hold a stale page shell that still points at the previous build's scripts. This
      compares the stamp baked into this page against the one that is deployed and
      refreshes once if they differ. Fails silent: any error leaves the page as it is. -->
-<meta name="lh-build" content="1787664090" />
+<meta name="lh-build" content="1787664428" />
 <script>
 (function () {
   try {
@@ -33,9 +33,9 @@
 })();
 </script>
 <title>Lighthouse — Assessor Workspace</title>
-<link rel="stylesheet" href="brand.css?v=1787664090"/>
-<link rel="stylesheet" href="device-preview.css?v=1787664090"/>
-<link rel="stylesheet" href="assessor-responsive.css?v=1787664090"/>
+<link rel="stylesheet" href="brand.css?v=1787664428"/>
+<link rel="stylesheet" href="device-preview.css?v=1787664428"/>
+<link rel="stylesheet" href="assessor-responsive.css?v=1787664428"/>
 <style>
   html,body,#root{margin:0;height:100%;background:var(--canvas)}
   /* "All directions" chip — identical to Folio's, sits beside the Tweaks gear.
@@ -64,12 +64,12 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <!-- Shared tweaks machinery (same as Folio). Border-radius control needs LHRadius. -->
-<script src="radius-tweak.js?v=1787664090"></script>
-<script type="text/babel" data-presets="env,react" src="lighthouse-assessor-editorial.jsx?v=1787664090"></script>
+<script src="radius-tweak.js?v=1787664428"></script>
+<script type="text/babel" data-presets="env,react" src="lighthouse-assessor-editorial.jsx?v=1787664428"></script>
 <!-- The "new experience" invitation. Loads before the tour so it can hold it back. -->
-<script type="text/babel" data-presets="env,react" src="app-new-experience.jsx?v=1787664090"></script>
-<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx?v=1787664090"></script>
-<script type="text/babel" data-presets="env,react" src="lh-tweaks.jsx?v=1787664090"></script>
+<script type="text/babel" data-presets="env,react" src="app-new-experience.jsx?v=1787664428"></script>
+<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx?v=1787664428"></script>
+<script type="text/babel" data-presets="env,react" src="lh-tweaks.jsx?v=1787664428"></script>
 <script type="text/babel" data-presets="env,react">
   setTimeout(()=>{
     const App = window.AssessorEditorial;
@@ -79,6 +79,6 @@
     root.render(<React.Fragment><App/>{NewExp ? <NewExp/> : null}{Tweaks ? <Tweaks/> : null}</React.Fragment>);
   }, 100);
 </script>
-<script src="lh-tour.js?v=1787664090"></script>
+<script src="lh-tour.js?v=1787664428"></script>
 </body>
 </html>
