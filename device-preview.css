@@ -232,6 +232,10 @@ html[data-device="mobile"] .oa-cd > span:nth-child(3) { grid-column: 2 !importan
 html[data-device="mobile"] .oa-mopts { flex-direction: column !important; flex-wrap: nowrap !important; gap: 8px !important; }
 html[data-device="mobile"] .oa-mopt { width: 100% !important; flex: 0 0 auto !important; flex-direction: row !important; justify-content: flex-start !important; gap: 10px !important; padding: 12px 14px !important; }
 html[data-device="mobile"] .oa-mopt > span:last-child { font-size: 14px !important; }
+/* iPad: the answer panel is narrower than desktop, so the matrix scale wraps 3 + 1.
+   Lay it out two per row (2×2) so every row is even. */
+html[data-device="ipad"] .oa-mopts { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+html[data-device="ipad"] .oa-mopt { min-width: 0 !important; }
 
 /* Mobile: Insights banner wraps instead of forcing one long line */
 html[data-device="mobile"] .ed-insights-banner { white-space: normal !important; }
