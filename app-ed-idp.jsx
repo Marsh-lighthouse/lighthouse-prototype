@@ -1572,7 +1572,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
         <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
           <div style={{ flex: 1 }} />
           <EdBtn onClick={() => { setAnswers({}); setStep(2); }}>Reset chat</EdBtn>
-          <EdBtn primary onClick={generate}><I.rocket size={16} /> Generate my plan</EdBtn>
+          <EdBtn primary onClick={generate}>Generate my plan <I.arrow size={16} /></EdBtn>
         </div>
       </Shell>
     );

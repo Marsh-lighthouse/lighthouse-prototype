@@ -442,7 +442,7 @@ function MgrNotePop({ kind, onClose, onSubmit }) {
       <textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={isReject ? "Add Reason…" : "Add Note…"}
         style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", borderRadius: 10, border: "1px solid " + eLINE, fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.5, marginBottom: 14 }} />
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <EdBtn primary disabled={isReject && !text.trim()} onClick={() => onSubmit(text.trim())}>Submit <I.arrow size={14} /></EdBtn>
+        <EdBtn primary disabled={isReject && !text.trim()} onClick={() => onSubmit(text.trim())}>Submit</EdBtn>
       </div>
     </div>
   );

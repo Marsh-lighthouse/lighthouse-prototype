@@ -232,7 +232,7 @@ function PlCreateOwnModal({ skillName, onAdd, onClose }) {
         <textarea value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Enter Development Action Description" rows={7} style={{ ...inp, resize: "vertical", lineHeight: 1.6 }} />
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end", padding: "14px 24px 20px" }}>
-        <EdBtn primary disabled={!title.trim()} onClick={() => onAdd({ mix, title: title.trim(), desc: desc.trim(), src: "Custom" })}>Add <I.arrow size={15} /></EdBtn>
+        <EdBtn primary disabled={!title.trim()} onClick={() => onAdd({ mix, title: title.trim(), desc: desc.trim(), src: "Custom" })}>Add</EdBtn>
       </div>
     </PlModal>
   );
@@ -272,7 +272,7 @@ function PlLibraryModal({ skillName, onAdd, onClose }) {
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 14, padding: "14px 24px 20px" }}>
         <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{count} selected</span>
-        <EdBtn primary disabled={!count} onClick={() => onAdd(PL_LIBRARY.filter((a) => sel[a.title]).map((a) => ({ ...a, src: "Development Library" })))}>Add <I.arrow size={15} /></EdBtn>
+        <EdBtn primary disabled={!count} onClick={() => onAdd(PL_LIBRARY.filter((a) => sel[a.title]).map((a) => ({ ...a, src: "Development Library" })))}>Add</EdBtn>
       </div>
     </PlModal>
   );
@@ -320,7 +320,7 @@ function PlAiModal({ skillName, onAdd, onClose }) {
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end", padding: "14px 24px 20px" }}>
-            <EdBtn primary disabled={!count} onClick={() => onAdd(items.filter((_, i) => sel[i]).map((a) => ({ ...a, src: "AI Coach" })))}>Add <I.arrow size={15} /></EdBtn>
+            <EdBtn primary disabled={!count} onClick={() => onAdd(items.filter((_, i) => sel[i]).map((a) => ({ ...a, src: "AI Coach" })))}>Add</EdBtn>
           </div>
         </React.Fragment>
       )}

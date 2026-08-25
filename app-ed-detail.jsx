@@ -240,7 +240,7 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
           <label htmlFor="instructions-read" style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, cursor: "pointer", margin: 0 }}>{t("iHaveReadInstructions")}</label>
         </div>
         <EdBtn primary full disabled={!instructionsRead} onClick={onContinue}>
-          {t("continue")}
+          {t("continue")} <I.arrow size={16} />
         </EdBtn>
       </React.Fragment> :
 
