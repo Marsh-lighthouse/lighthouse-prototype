@@ -191,6 +191,15 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
   const [recording, setRecording] = oaUseState(false);
   const [recTime, setRecTime] = oaUseState(0);
   const [factorOpen, setFactorOpen] = oaUseState(false);
+  // Close the factor dropdown on an outside click (or Escape) — picking options keeps it open.
+  const factorRef = oaUseRef(null);
+  oaUseEffect(() => {
+    if (!factorOpen) return;
+    const onDoc = (e) => { if (factorRef.current && !factorRef.current.contains(e.target)) setFactorOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setFactorOpen(false); };
+    document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [factorOpen]);
   // compact = mobile/iPad device-preview → use the stacked-card layouts; desktop keeps the original grids
   const [compact, setCompact] = oaUseState(() => ["mobile", "ipad"].includes(document.documentElement.getAttribute("data-device")));
   oaUseEffect(() => {
@@ -382,10 +391,10 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
             })}
           </div>
           ) : (() => {
-            const gridCols = `1fr repeat(${cols.length}, 88px)`;
+            const gridCols = `1fr repeat(${cols.length}, 116px)`;
             return (
               <div>
-                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
+                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
                   <div />
                   {cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.25, padding: "0 6px" }}>{col}</div>)}
                 </div>
@@ -393,7 +402,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                   {q.rows.map((row, ri) => {
                     const cur = Array.isArray(v[ri]) ? v[ri] : [];
                     return (
-                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, alignItems: "center", padding: "14px 4px", borderBottom: "1px solid " + eLINE }}>
+                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, alignItems: "center", padding: "14px 4px", borderBottom: "1px solid " + eLINE }}>
                         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.35, paddingRight: 10 }}>{row}</div>
                         {cols.map((col, ci) => {
                           const on = cur.includes(ci);
@@ -450,7 +459,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
             const gridCols = `1.2fr repeat(${q.cols.length}, 76px) 96px 76px`;
             return (
               <div>
-                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
+                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
                   <div />
                   {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.25, padding: "0 4px" }}>{col}</div>)}
                   <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>Not Applicable</div>
@@ -461,7 +470,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                     const r = v[ri] || {};
                     const na = !!r.na;
                     return (
-                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 8, alignItems: "center", padding: "12px 4px", borderBottom: "1px solid " + eLINE }}>
+                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, alignItems: "center", padding: "12px 4px", borderBottom: "1px solid " + eLINE }}>
                         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.35, paddingRight: 10 }}>{row}</div>
                         {q.cols.map((col, ci) => (
                           <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
@@ -730,7 +739,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
         const add = (o) => onChange([...sel, o]);
         const remaining = q.options.filter((o) => !sel.includes(o));
         return (
-          <div style={{ position: "relative" }}>
+          <div ref={factorRef} style={{ position: "relative" }}>
             <div onClick={() => setFactorOpen((v) => !v)} style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "10px 40px 10px 12px", border: "1px solid " + (factorOpen ? eBLUE : eLINE), borderRadius: 12, background: eCARD, minHeight: 46, cursor: "pointer", position: "relative" }}>
               {sel.length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Select factors…</span>}
               {sel.map((o) => <span key={o} onClick={(e) => { e.stopPropagation(); remove(o); }} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eMID, border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", borderRadius: 7, padding: "4px 9px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>{o} <span style={{ cursor: "pointer", color: eMUT, fontSize: 15, lineHeight: 1 }}>×</span></span>)}
@@ -740,9 +749,9 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
             <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, zIndex: 20, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 32px rgba(0,15,71,.14)", padding: 6, maxHeight: 240, overflowY: "auto" }}>
               {remaining.length === 0 && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, padding: "10px 12px" }}>All factors selected.</div>}
               {remaining.map((o) =>
-                <button key={o} onClick={() => add(o)} style={{ display: "flex", alignItems: "center", gap: 9, width: "100%", textAlign: "left", padding: "10px 11px", borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, color: eINK }}
+                <button key={o} onClick={() => add(o)} style={{ display: "flex", alignItems: "center", width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, color: eINK }}
                   onMouseEnter={(e) => e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 5%, transparent)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
-                  <span style={{ color: eBLUE, display: "flex" }}><I.plus size={14} /></span>{o}
+                  {o}
                 </button>
               )}
             </div>
