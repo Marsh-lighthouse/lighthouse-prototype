@@ -1136,10 +1136,25 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
   const pagedScrollRef = oaUseRef(null);
   const splitQRef = oaUseRef(null);
   const splitARef = oaUseRef(null);
-  oaUseEffect(() => { if (pagedScrollRef.current) pagedScrollRef.current.scrollTop = 0; }, [page]);
+  // Reset to the top of the next question. The inner ref is the scroll container on desktop,
+  // but inside the device frame (oa-root is height:100vh, re-anchored to 100%) the OUTER <main>
+  // is what actually scrolls — so walk up from the ref and zero every scrollable ancestor, on
+  // the next frame so it wins against layout settling / scroll-anchoring.
+  const resetScrollTop = (el) => {
+    const run = () => {
+      let n = el;
+      while (n && n !== document.body && n !== document.documentElement) {
+        if (n.scrollTop) n.scrollTop = 0;
+        n = n.parentElement;
+      }
+    };
+    run();
+    requestAnimationFrame(run);
+  };
+  oaUseEffect(() => { resetScrollTop(pagedScrollRef.current); }, [page]);
   oaUseEffect(() => {
-    if (splitQRef.current) splitQRef.current.scrollTop = 0;
-    if (splitARef.current) splitARef.current.scrollTop = 0;
+    resetScrollTop(splitQRef.current);
+    resetScrollTop(splitARef.current);
   }, [qIdx]);
   const chooseLayout = (v) => { setLayout(v); setLayoutMenu(false); setErrors({}); try { localStorage.setItem("ed-assess-layout", v); } catch (e) {} };
 
