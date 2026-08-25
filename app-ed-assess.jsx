@@ -317,11 +317,11 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
           return (
             <div key={ri} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{row}</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div className="oa-mopts" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {q.cols.map((col, ci) => {
                   const sel = a[ri] === ci;
                   return (
-                    <button key={ci} onClick={() => onChange({ ...a, [ri]: ci })} style={{ flex: "1 1 auto", minWidth: 72, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "9px 12px", borderRadius: 9, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer", transition: "all .15s" }}>
+                    <button key={ci} className="oa-mopt" onClick={() => onChange({ ...a, [ri]: ci })} style={{ flex: "1 1 auto", minWidth: 72, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "9px 12px", borderRadius: 9, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer", transition: "all .15s" }}>
                       <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: sel ? eBLUE : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--card)" }} />}</span>
                       <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: sel ? 600 : 500, color: sel ? eMID : eINK }}>{col}</span>
                     </button>);
