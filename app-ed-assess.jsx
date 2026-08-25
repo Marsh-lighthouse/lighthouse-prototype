@@ -441,14 +441,14 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                     <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.4 }}>{row}</span>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: na ? eMUT : eMID }}>Total: {na ? "—" : rowTotal(ri)}</span>
                   </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "flex-end" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "stretch" }}>
                     {q.cols.map((col, ci) => (
-                      <label key={ci} style={{ flex: "1 1 110px", minWidth: 96, display: "flex", flexDirection: "column", gap: 5 }}>
+                      <label key={ci} style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", gap: 5 }}>
                         <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT }}>{col}</span>
                         <input type="number" inputMode="numeric" disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: "100%", boxSizing: "border-box", height: 40, textAlign: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 14, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }} />
                       </label>
                     ))}
-                    <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ flex: "1 1 100%", minWidth: 96, height: 40, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "0 12px", borderRadius: 8, border: "1.5px solid " + (na ? eMID : eLINE), background: na ? "var(--track)" : "#fff", cursor: "pointer", whiteSpace: "nowrap" }}>
+                    <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ flex: "0 0 auto", height: 40, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "0 12px", borderRadius: 8, border: "1.5px solid " + (na ? eMID : eLINE), background: na ? "var(--track)" : "#fff", cursor: "pointer", whiteSpace: "nowrap" }}>
                       <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: 5, border: "2px solid " + (na ? eMID : "var(--control-line)"), background: na ? eMID : "transparent", color: "var(--on-accent)", display: "flex", alignItems: "center", justifyContent: "center" }}>{na && <I.check size={11} />}</span>
                       <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, whiteSpace: "nowrap" }}>Not Applicable</span>
                     </button>
