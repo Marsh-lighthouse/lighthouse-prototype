@@ -200,6 +200,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [factorOpen]);
+  // Selected item for the touch (tap-to-place) variant of the pick-&-group question.
+  const [pickSel, setPickSel] = oaUseState(null);
   // compact = mobile/iPad device-preview → use the stacked-card layouts; desktop keeps the original grids
   const [compact, setCompact] = oaUseState(() => ["mobile", "ipad"].includes(document.documentElement.getAttribute("data-device")));
   oaUseEffect(() => {
@@ -961,7 +963,31 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
           onChange(nv);
         };
         const onDrop = (e, gi) => { e.preventDefault(); const it = e.dataTransfer.getData("text/plain"); if (it) moveTo(it, gi); };
-        return (
+        return compact ? (
+          // Phone: HTML5 drag doesn't fire on touch, so this is tap-to-place — tap an item,
+          // then tap a group; tap a placed item to send it back to the pool.
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: pickSel ? eBLUE : eMUT, marginBottom: 8 }}>
+                {pool.length === 0 ? "All items placed" : pickSel ? "Now tap a group to place “" + pickSel + "”" : "Tap an item, then tap a group"}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {pool.map((it) => { const on = pickSel === it; return (
+                  <button key={it} onClick={() => setPickSel(on ? null : it)} style={{ padding: "10px 13px", borderRadius: 9, border: (on ? "2px solid " + eBLUE : "1px dashed " + eLINE), background: on ? "color-mix(in srgb, var(--accent) 8%, transparent)" : eCARD, fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 600 : 500, color: on ? eMID : eINK, cursor: "pointer" }}>{it}</button>); })}
+              </div>
+            </div>
+            {q.groups.map((g, gi) => { const armed = pickSel != null; return (
+              <div key={gi} onClick={() => { if (pickSel) { moveTo(pickSel, gi); setPickSel(null); } }} style={{ border: "1px solid " + (armed ? eBLUE : eLINE), borderRadius: 12, overflow: "hidden", cursor: armed ? "pointer" : "default", transition: "border-color .15s" }}>
+                <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, borderBottom: "1px solid " + eLINE, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span>{g}</span>{armed && <span style={{ fontSize: 12, fontWeight: 600, color: eBLUE }}>Tap to place</span>}
+                </div>
+                <div style={{ minHeight: 48, padding: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {(v[gi] || []).map((it) => <button key={it} onClick={(e) => { e.stopPropagation(); moveTo(it, null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 8px 7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 14, color: eMID, cursor: "pointer" }}>{it} <span style={{ color: eMUT, fontSize: 15, lineHeight: 1 }}>&times;</span></button>)}
+                  {(v[gi] || []).length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, alignSelf: "center" }}>{armed ? "Tap to place here" : "No items yet"}</span>}
+                </div>
+              </div>); })}
+          </div>
+        ) : (
           <div style={{ display: "grid", gridTemplateColumns: "170px 1fr", gap: 16 }}>
             <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, null)}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 8 }}>Items</div>
