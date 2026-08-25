@@ -872,7 +872,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
           </div>
           ) : (
           <div>
-            <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.scale.length}, 38px) 16px repeat(3, 30px)`, alignItems: "center", marginBottom: 6, paddingLeft: 4, columnGap: 0 }}>
+            <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.scale.length}, 38px) 30px repeat(3, 40px)`, alignItems: "center", marginBottom: 6, paddingLeft: 4, columnGap: 8 }}>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT }}>Categories</span>
               {q.scale.map((e, i) => <span key={i} style={{ textAlign: "center", fontSize: 19 }}>{e}</span>)}
               <span></span>
@@ -882,7 +882,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
               const row = v[ci] || {};
               const why = row.why || [];
               return (
-                <div key={ci} style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.scale.length}, 38px) 16px repeat(3, 30px)`, alignItems: "center", padding: "10px 4px", borderTop: "1px solid " + eLINE }}>
+                <div key={ci} style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.scale.length}, 38px) 30px repeat(3, 40px)`, alignItems: "center", padding: "10px 4px", borderTop: "1px solid " + eLINE, columnGap: 8 }}>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{cat}</span>
                   {q.scale.map((e, si) => {
                     const sel = row.s === si;
