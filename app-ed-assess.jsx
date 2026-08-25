@@ -802,7 +802,32 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
       {/* SIDE BY SIDE */}
       {q.type === "sidebyside" && (() => {
         const v = value || {};
-        return (
+        return compact ? (
+          // Phone: the wide context table becomes one card per statement — each context
+          // ("In my current role" …) with its options as buttons, so nothing scrolls off.
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {q.statements.map((s, si) => (
+              <div key={si} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + eLINE }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{s}</div>
+                {q.groups.map((g, gi) => (
+                  <div key={gi} style={{ marginBottom: gi < q.groups.length - 1 ? 12 : 0 }}>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, color: eMUT, marginBottom: 6 }}>{g.label}</div>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      {g.cols.map((c, ci) => {
+                        const sel = v[si] && v[si][gi] === ci;
+                        return (
+                          <button key={ci} onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ flex: "1 1 0", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "9px 10px", borderRadius: 9, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer" }}>
+                            <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: sel ? eBLUE : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--card)" }} />}</span>
+                            <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: sel ? 600 : 500, color: sel ? eMID : eINK }}>{c}</span>
+                          </button>);
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 480 }}>
               <thead>
