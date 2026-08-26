@@ -867,6 +867,9 @@ function LHManager() {
   mgUseEffect(() => { if (window.LHRoute) return LHRoute.onPop(() => { setRoute(mgrPathToRoute(LHRoute.get())); setMyPlanMode(mgrMyPlanMode(LHRoute.get())); }); }, []);
   const [team, setTeam] = mgUseState(MGR_TEAM);
   const [summary, setSummary] = mgUseState(null);
+  // The score-summary drawer is an addressable overlay (?drawer=summary); Back closes it.
+  mgUseEffect(() => { if (window.LHRoute) window.LHRoute.setQuery("drawer", summary ? "summary" : null); }, [summary]);
+  mgUseEffect(() => { if (window.LHRoute) return window.LHRoute.onPop(() => { if (window.LHRoute.getQuery("drawer") == null) setSummary(null); }); }, []);
   const [toast, setToast] = mgUseState(null);
   // remembers the choice, same preference Folio stores
   const [collapsed, setCollapsed] = mgUseState(() => { try { return localStorage.getItem("ed-rail-collapsed") === "1"; } catch (e) { return false; } });

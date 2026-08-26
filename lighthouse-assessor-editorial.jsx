@@ -230,6 +230,18 @@ function AssessorEditorial() {
   const [noteDraft, setNoteDraft] = useState("");
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [editingNoteText, setEditingNoteText] = useState("");
+
+  // Overlays are addressable: the report / status dialogs (?dialog=…) and the notes panel
+  // (?notes=1). Back closes whatever's open; forward reopens it.
+  useEffect(() => { if (window.LHRoute) window.LHRoute.setQuery("dialog", openReport ? "report" : statusModal ? "status" : null); }, [openReport, statusModal]);
+  useEffect(() => { if (window.LHRoute) window.LHRoute.setQuery("notes", notesOpen ? "1" : null); }, [notesOpen]);
+  useEffect(() => {
+    if (!window.LHRoute) return;
+    return window.LHRoute.onPop(() => {
+      if (window.LHRoute.getQuery("dialog") == null) { setOpenReport(null); setStatusModal(false); }
+      setNotesOpen(window.LHRoute.getQuery("notes") === "1");
+    });
+  }, []);
   const [todos, setTodos] = useState([]);            // {id, text, done}
   const [newTodo, setNewTodo] = useState("");
   const notesLoaded = useRef(false);
