@@ -1621,7 +1621,7 @@ function AssessorEditorial() {
                       <p style={{fontSize:14,color:tm,marginBottom:26}}>Your responses have now been recorded.</p>
                       <div style={{display:"flex",gap:12}}>
                         <button onClick={()=>setViewScores(prev=>new Set(prev).add(rf.id))} className="btn btn-primary">View Assessment</button>
-                        <button onClick={()=>setRoute("candidate")} className="btn btn-secondary">Go Back to Campaign</button>
+                        <button onClick={()=>setRoute("candidate")} className="btn btn-secondary">Back</button>
                       </div>
                     </div>
                   )}
@@ -1649,7 +1649,7 @@ function AssessorEditorial() {
                       </div>
                       <div style={{display:"flex",justifyContent:"flex-end",gap:12,marginTop:20}}>
                         <button onClick={()=>showToast("Opening assessment…")} className="btn btn-primary">View Assessment</button>
-                        <button onClick={()=>setRoute("candidate")} className="btn btn-secondary">Go Back to Campaign</button>
+                        <button onClick={()=>setRoute("candidate")} className="btn btn-secondary">Back</button>
                       </div>
                     </div>
                   )}
@@ -2459,7 +2459,7 @@ function AssessorEditorial() {
               body={modResult.type==="success"
                 ? (modResult.tab==="matrix" ? "The moderated final scores have been recorded. The candidate report is being generated and will appear under Reports shortly." : "Your narrative summary has been saved and attached to the candidate report.")
                 : (modResult.tab==="matrix" ? "You haven't moderated any indicator yet. Set at least one final score, or mark it N/A, before submitting the moderation." : "The report needs at least one narrative. Complete the Candidate, Target, Behavioural or Overall summary before submitting.")}
-              primaryLabel={modResult.type==="success" ? "Back to dashboard" : "Go back and fix"}
+              primaryLabel={modResult.type==="success" ? "Back" : "Go back and fix"}
               onPrimary={modResult.type==="success" ? ()=>{setModResult(null);setRoute(entryPath==="campaign"?"campaign":"candidate");} : ()=>setModResult(null)}
               secondaryLabel={null}
               onSecondary={()=>setModResult(null)}

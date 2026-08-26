@@ -127,7 +127,7 @@ function EdBookings() {
   const [sampleMenu, setSampleMenu] = bkUseState(false); // sample-picker dropdown open?
 
   // When inside a booking flow, surface the back in the shell top bar (platform pattern).
-  useTopBarBack(!!flow, "Back to bookings", () => setFlow(null));
+  useTopBarBack(!!flow, "Back", () => setFlow(null));
 
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(""), 2400); };
   // Same content column + alignment as every other side-menu page (respects Tweaks Left/Center).

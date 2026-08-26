@@ -376,7 +376,7 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
         <button onClick={onBack}
           style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID,
             background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
-          <I.arrowL size={15} /> Back to Rate skills
+          <I.arrowL size={15} /> Back
         </button>
       </div>
     </div>

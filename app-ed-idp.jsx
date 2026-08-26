@@ -1127,7 +1127,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
   const idpTopCtx = React.useContext(LHTopBarContext);
   idpUseEffect(() => {
     if (!idpTopCtx) return;
-    if (phase === "report") { idpTopCtx.setBack({ label: "Back to Development", onClick: () => onExit() }); return () => idpTopCtx.setBack(null); }
+    if (phase === "report") { idpTopCtx.setBack({ label: "Back", onClick: () => onExit() }); return () => idpTopCtx.setBack(null); }
     if (phase === "chatintro") { idpTopCtx.setBack({ label: "Program Report", onClick: () => setPhase("report") }); return () => idpTopCtx.setBack(null); }
     // Flow: the guided-questions step (2) registers its own top-bar back via IdpWizard;
     // the Analysis summary step (3) goes back to the Chat instructions screen.
@@ -1637,7 +1637,7 @@ function EdPlanView({ onBack, onRestart }) {
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <EdBack label="Back to dashboard" onClick={onBack} />
+      <EdBack label="Back" onClick={onBack} />
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
         <div>
           <EdEyebrow color={eBLUE}>Development plan</EdEyebrow>
@@ -1745,7 +1745,7 @@ function EdDevChoice({ onBack, onPickAI, onPickManual }) {
   const card = { flex: "1 1 330px", minWidth: 280, boxSizing: "border-box", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "32px 28px 28px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
   return (
     <div className="ed-dev-choose" style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <EdBack label="Back to dashboard" onClick={onBack} />
+      <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Development</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 44px", maxWidth: 560 }}>Build a personalized growth plan based on your assessment insights.</p>
       <h2 className="serif" style={{ fontSize: 26, color: eMID, lineHeight: 1.15, margin: "8px 0 22px" }}>Choose how you'd like to build your plan.</h2>
@@ -1828,7 +1828,7 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <EdBack label="Back to dashboard" onClick={onBack} />
+      <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Development</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 32px", maxWidth: 560 }}>Build a personalized growth plan based on your assessment insights.</p>
 

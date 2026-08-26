@@ -1247,10 +1247,10 @@ function DashEditorial({ initialRoute } = {}) {
     else if (route.page === "consent") setRoute((r) => ({ ...r, page: "assessintro" }));
     else toDash();
   };
-  const headerBackLabel = route.page === "assessintro" ? "Back to program"
-    : route.page === "consent" ? "Back to overview"
-    : route.page === "center" ? "Back to tasks"
-    : ["development", "scheduling", "insights", "bookings", "profile", "settings", "changePassword", "tasks", "instructions"].includes(route.page) ? "Back to dashboard"
+  const headerBackLabel = route.page === "assessintro" ? "Back"
+    : route.page === "consent" ? "Back"
+    : route.page === "center" ? "Back"
+    : ["development", "scheduling", "insights", "bookings", "profile", "settings", "changePassword", "tasks", "instructions"].includes(route.page) ? "Back"
     : "Back";
   const isMainPage = ["development", "scheduling", "insights", "profile", "settings", "changePassword"].includes(route.page);
   const isC360Flow = route.page === "tasks" && prog && prog.id === "360" && C360;

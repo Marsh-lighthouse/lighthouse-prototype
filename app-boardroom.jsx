@@ -614,9 +614,9 @@ function DashBoardroom() {
     else if (route.page === "assessintro") toTasks();
     else toDash();
   };
-  const headerBackLabel = route.page === "assessintro" ? "Back to program"
-    : route.page === "center" ? "Back to tasks"
-    : ["development", "scheduling", "insights", "bookings", "profile", "changePassword", "tasks", "instructions"].includes(route.page) ? "Back to dashboard"
+  const headerBackLabel = route.page === "assessintro" ? "Back"
+    : route.page === "center" ? "Back"
+    : ["development", "scheduling", "insights", "bookings", "profile", "changePassword", "tasks", "instructions"].includes(route.page) ? "Back"
     : "Back";
   const [pageBack, setPageBack] = React.useState(null);
   const topBarCtx = React.useMemo(() => ({ setBack: setPageBack }), []);

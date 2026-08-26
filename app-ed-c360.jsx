@@ -100,10 +100,10 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
 
   const scale = [{ n: 1, l: "Emerging" }, { n: 2, l: "Developing" }, { n: 3, l: "Capable" }, { n: 4, l: "Strong" }, { n: 5, l: "Exemplary" }];
 
-  // On any 360 sub-step the "Back to campaign" up-navigation lives in the shell
+  // On any 360 sub-step the "Back" up-navigation lives in the shell
   // top bar (like Scheduling's "All assessment centers"), not as an in-content
-  // back link. At the campaign home the shell shows its own "Back to dashboard".
-  useTopBarBack(c360Step !== "home", "Back to campaign", () => setC360Step("home"));
+  // back link. At the campaign home the shell shows its own "Back".
+  useTopBarBack(c360Step !== "home", "Back", () => setC360Step("home"));
 
   // eyebrow chip
   const Eyebrow = ({ color, bg, dot, children }) => (

@@ -980,7 +980,7 @@ function LHManager() {
             {route.page === "detail" ? (
               <button onClick={() => setRoute({ page: "list", person: null })} className="ed-topbar-back"
                 style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
-                <I.chevL size={17} /> Direct Reportees
+                <I.chevL size={17} /> Back
               </button>
             ) : topBack ? (
               <button onClick={topBack.onClick} className="ed-topbar-back"
