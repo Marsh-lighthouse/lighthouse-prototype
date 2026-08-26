@@ -1003,8 +1003,8 @@ function LHFooter({ full }) {
     { label: "Manage Cookies", key: "manageCookies" }
   ];
   return (
-    <footer style={{ maxWidth: full ? "none" : "var(--content-max)", margin: full ? "0" : "40px var(--fol-mx) 0", padding: full ? "22px 32px 10px" : "22px 0 10px", borderTop: "1px solid var(--line)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>© 2026 Marsh Lighthouse. {t("allRightsReserved")}.</span>
+    <footer style={{ maxWidth: full ? "none" : "var(--content-max)", margin: full ? "0" : "40px var(--fol-mx) 0", padding: full ? "22px 32px 10px" : "22px 0 10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>© 2026 Marsh. {t("allRightsReserved")}.</span>
       <nav style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
         {links.map((l) => (
           <a key={l.key} href="#" onClick={(e) => e.preventDefault()} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textDecoration: "none", transition: "color .15s" }}
@@ -1029,13 +1029,13 @@ function LHSparkle({ size = 24 }) {
 function LHAssistant() {
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState("");
-  const [msgs, setMsgs] = React.useState([{ from: "bot", text: "Hi John — I'm your Lighthouse assistant. Ask me about your programs, deadlines, or how a task works." }]);
+  const [msgs, setMsgs] = React.useState([{ from: "bot", text: "Hi John — I'm your AI Assistant. Ask me about your programs, deadlines, or how a task works." }]);
   const bodyRef = React.useRef(null);
   React.useEffect(() => { if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight; }, [msgs, open]);
   const send = () => {
     const tx = input.trim();
     if (!tx) return;
-    setMsgs((m) => [...m, { from: "me", text: tx }, { from: "bot", text: "Thanks for asking. This is a demo assistant — in the live product I'd answer instantly, or connect you with the Lighthouse support team." }]);
+    setMsgs((m) => [...m, { from: "me", text: tx }, { from: "bot", text: "Thanks for asking. This is a demo assistant — in the live product I'd answer instantly, or connect you with the support team." }]);
     setInput("");
   };
   const quick = ["When is my next deadline?", "What's a proctored task?", "How do I book a session?"];
@@ -1046,7 +1046,7 @@ function LHAssistant() {
           <div style={{ background: "var(--surface-deep)", color: "#fff", padding: "15px 17px", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
             <div style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(206,236,255,.16)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><LHSparkle size={20} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 700 }}>Lighthouse assistant</div>
+              <div style={{ fontSize: 14, fontWeight: 700 }}>AI Assistant</div>
               <div style={{ fontSize: 14, color: "rgba(255,255,255,.82)", display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 7, height: 7, borderRadius: 4, background: "var(--success)" }} /> Online</div>
             </div>
             <button onClick={() => setOpen(false)} title="Close" style={{ background: "none", border: "none", color: "rgba(255,255,255,.82)", cursor: "pointer", display: "flex" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
@@ -1069,7 +1069,7 @@ function LHAssistant() {
           </div>
         </div>
       )}
-      <button onClick={() => setOpen((v) => !v)} title="Lighthouse assistant" style={{ position: "fixed", right: 24, bottom: 60, width: 54, height: 54, borderRadius: "50%", background: "var(--surface-deep)", color: "#fff", border: "none", boxShadow: "0 10px 30px rgba(0,15,71,.32)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 72, transition: "transform .15s" }}
+      <button onClick={() => setOpen((v) => !v)} title="AI Assistant" style={{ position: "fixed", right: 24, bottom: 60, width: 54, height: 54, borderRadius: "50%", background: "var(--surface-deep)", color: "#fff", border: "none", boxShadow: "0 10px 30px rgba(0,15,71,.32)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 72, transition: "transform .15s" }}
         onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.06)"; }}
         onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; }}>
         {open ? <I.plus size={24} style={{ transform: "rotate(45deg)" }} /> : <LHSparkle size={24} />}

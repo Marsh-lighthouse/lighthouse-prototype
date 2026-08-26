@@ -99,7 +99,7 @@ function EdPrivacyNotice({ onClose }) {
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,15,71,.45)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
       <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, width: "min(820px, 100%)", maxHeight: "88vh", display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 24px 70px rgba(0,15,71,.3)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 22px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE }}>MARSH LIGHTHOUSE · CONFIDENTIAL</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE }}>MARSH · CONFIDENTIAL</span>
           <button onClick={onClose} aria-label="Close" style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
         </div>
         <div style={{ overflowY: "auto", padding: "28px 32px" }}>
@@ -134,7 +134,7 @@ function EdConsent({ exercise, onAccept, onExit }) {
   const [showPrivacy, setShowPrivacy] = oaUseState(false);
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE, marginBottom: 12 }}>MARSH LIGHTHOUSE · CONFIDENTIAL</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE, marginBottom: 12 }}>MARSH · CONFIDENTIAL</div>
       <h1 className="serif" style={{ fontSize: 38, color: eMID, lineHeight: 1.08, margin: "0 0 8px", maxWidth: 640 }}>Consent to Process and Transfer Personal Information</h1>
       <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginBottom: 24 }}>Version 4.0 · Updated on May 29, 2025</div>
       <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "30px 32px" }}>

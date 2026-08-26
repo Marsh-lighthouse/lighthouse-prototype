@@ -141,7 +141,7 @@ function ReportCover({ report, pages }) {
   return (
     <div>
       <img src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%3F%3E%0A%3Csvg%20id%3D%22Layer_2%22%20data-name%3D%22Layer%202%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2043.17%2044.26%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Cg%20id%3D%22Layer_1-2%22%20data-name%3D%22Layer%201%22%3E%0A%20%20%20%20%3Cg%3E%0A%20%20%20%20%20%20%3Cpolygon%20class%3D%22cls-1%22%20fill%3D%22%23000F47%22%20points%3D%2242.49%200%2021.65%2030.43%2022.2%2030.43%2035.07%2024.39%2035.07%2044.26%2043.17%2044.26%2043.17%200%2042.49%200%22%3E%3C%2Fpolygon%3E%0A%20%20%20%20%20%20%3Cpolygon%20class%3D%22cls-1%22%20fill%3D%22%23000F47%22%20points%3D%220%200%200%2044.26%208.1%2044.26%208.1%2024.4%2020.9%2030.43%2021.52%2030.43%20.68%200%200%200%22%3E%3C%2Fpolygon%3E%0A%20%20%20%20%3C%2Fg%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E" alt="" style={{ width: 34, height: "auto", display: "block", marginBottom: 28 }} />
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>Marsh Lighthouse · Confidential</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>Marsh · Confidential</div>
       <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 14px" }}>{report.name}</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 28px" }}>{report.desc}</p>
       <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 18 }}>
@@ -299,7 +299,7 @@ function EdReportReader({ report, onClose }) {
                 <ReportPage report={report} page={page} />
               )}
               <div style={{ marginTop: "auto", paddingTop: 28, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Marsh Lighthouse · Confidential</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Marsh · Confidential</span>
                 <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{report.name} · Page {page + 1}</span>
               </div>
             </div>

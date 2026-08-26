@@ -611,7 +611,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
               <div style={{ width: 52, height: 52, borderRadius: 15, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center" }}><I.spark size={24} /></div>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID }}>Lighthouse AI Coach</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID }}>AI Coach</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>A quick guided conversation — {total} questions to shape your plan.</div>
             </div>
             {resetBtn}
@@ -661,7 +661,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
         {/* Companion · "Your profile, taking shape" */}
         <aside className="ed-idp-notes ed-idp-rail" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 30, background: eCARD, borderLeft: error ? "3px solid " + eDANGER : "1px solid " + eLINE, display: "flex", flexDirection: "column", overflow: "hidden", transition: "border-color .2s" }}>
           <div style={{ padding: "18px 18px 16px", borderBottom: "1px solid " + (error ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: error ? "color-mix(in srgb, var(--danger) 6%, transparent)" : "transparent", transition: "background .2s" }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: error ? eDANGER : eMID }}>Lighthouse AI Coach Companion</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: error ? eDANGER : eMID }}>AI Coach Companion</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: error ? eDANGER : eMUT, marginBottom: 15 }}>Your profile, taking shape as you answer</div>
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ position: "relative", width: 64, height: 64, flexShrink: 0 }}>
@@ -1007,7 +1007,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
             </div>
             ))}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0 14px", color: eMUT, fontFamily: "var(--sans)", fontSize: 13 }}>
-              <I.info size={14} /> Lighthouse Development Guide can make mistakes. Please be careful while using the responses.
+              <I.info size={14} /> Development Guide can make mistakes. Please be careful while using the responses.
             </div>
           </div>
         </div>
@@ -1026,7 +1026,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
         <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 16 }}>
           <div style={{ width: 40, height: 40, borderRadius: 11, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={20} /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>Lighthouse AI Coach</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>AI Coach</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Question {qi + 1} of {total}</div>
           </div>
           <button onClick={resetChat} title="Start over from question 1"
@@ -1067,13 +1067,13 @@ function IdpWizard({ initial, onBack, onFinish }) {
         </div>
       </div>
 
-      {/* Lighthouse AI Coach Companion — fixed right rail attached to the screen edge (outside the
+      {/* AI Coach Companion — fixed right rail attached to the screen edge (outside the
           main content). It records insights from your answers; there's no chat input. */}
       <aside className="ed-idp-notes ed-idp-rail" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 30, background: eCARD, borderLeft: error ? "3px solid " + eDANGER : "1px solid " + eLINE, display: "flex", flexDirection: "column", overflow: "hidden", transition: "border-color .2s" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "16px 18px", borderBottom: "1px solid " + (error ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: error ? "color-mix(in srgb, var(--danger) 7%, transparent)" : "transparent", transition: "background .2s" }}>
           <div style={{ width: 36, height: 36, borderRadius: 10, background: error ? eDANGER : "var(--surface-deep)", color: error ? "#fff" : eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{error ? <I.alertCircle size={19} /> : <I.spark size={19} />}</div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: error ? eDANGER : eMID }}>Lighthouse AI Coach Companion</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: error ? eDANGER : eMID }}>AI Coach Companion</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: error ? eDANGER : eMUT }}>{error ? "Your answer needs attention" : `${qi} of ${total} captured`}</div>
           </div>
         </div>
@@ -1283,7 +1283,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
                       </div>
                     </div>
                   </div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.7)" }}>Marsh Lighthouse · All rights reserved</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.7)" }}>Marsh · All rights reserved</div>
                 </div>
               );
             }
@@ -1292,7 +1292,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
               <div key={i} className="ed-report-page" style={{ ...a4, background: "var(--card)", border: "1px solid " + eLINE, padding: "48px 52px" }}>
                 <div style={{ flex: 1, minHeight: 0 }}>{RP ? <RP report={rpt} page={i} /> : null}</div>
                 <div style={{ marginTop: 24, paddingTop: 18, borderTop: "1px solid " + eLINE, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Marsh Lighthouse · Confidential</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Marsh · Confidential</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{rpt.name} · Page {i + 1}</span>
                 </div>
               </div>
@@ -1336,7 +1336,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
             <circle cx="250" cy="176" r="4" fill="rgba(206,236,255,.5)" />
             <circle cx="52" cy="120" r="3" fill="rgba(206,236,255,.45)" />
           </svg>
-          <div style={{ marginTop: 20, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#fff" }}>Lighthouse AI Coach</div>
+          <div style={{ marginTop: 20, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#fff" }}>AI Coach</div>
           <div style={{ marginTop: 3, fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.85)" }}>Your AI-assisted development coach</div>
         </div>
         <div style={{ flex: "1 1 340px", minWidth: 280 }}>
@@ -1370,7 +1370,7 @@ function EdIdpFlow({ onExit, onDone, initialStep }) {
         <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 14 }}>
           <div style={{ width: 38, height: 38, borderRadius: 19, background: "color-mix(in srgb, var(--accent) 10%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center" }}><I.bulb size={19} /></div>
           <div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>Lighthouse AI Coach</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>AI Coach</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Question {Math.min(q + 1, Q.length)} of {Q.length}{isFileStep ? " · File upload" : ""}</div>
           </div>
         </div>
