@@ -1118,7 +1118,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
   );
 }
 
-function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initialStep, initialLayout, initialQIdx }) {
+function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initialStep, initialLayout, initialQIdx, onPos }) {
   const Q = LH.openAssessQuestions;
   const [step, setStep] = oaUseState(initialStep || "question"); // question | complete
   const taskMin = parseInt((exercise && exercise.time) || "20", 10) || 20;
@@ -1156,6 +1156,9 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
     resetScrollTop(splitQRef.current);
     resetScrollTop(splitARef.current);
   }, [qIdx]);
+  // Report the current position (which question / the success screen / layout) so the parent
+  // can give each its own URL — lets the team deep-link straight to any step.
+  oaUseEffect(() => { if (onPos) onPos({ step, qIdx, page, layout }); }, [step, qIdx, page, layout]);
   const chooseLayout = (v) => { setLayout(v); setLayoutMenu(false); setErrors({}); try { localStorage.setItem("ed-assess-layout", v); } catch (e) {} };
 
   const total = Q.length;

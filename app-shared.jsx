@@ -442,7 +442,14 @@ function edRouteToPath(r) {
     case "precheck": return base + "/system-check" + exId;
     case "assessintro": return base + "/assessment" + exId;
     case "consent": return base + "/assessment" + exId + "/consent";
-    case "openassess": return base + "/assessment" + exId + "/questions";
+    case "openassess": {
+      const ap = base + "/assessment" + exId;
+      if (r.oaStep === "complete") return ap + "/complete";
+      const qp = ap + "/questions";
+      if (r.oaLayout === "split" && r.oaQIdx != null) return qp + "/" + (r.oaQIdx + 1);
+      if (r.oaLayout && r.oaLayout !== "split" && r.oaPage != null) return qp + "/page-" + (r.oaPage + 1);
+      return qp;
+    }
     default: return "dashboard";
   }
 }
@@ -467,8 +474,16 @@ function edPathToRoute(path) {
     if (sub === "assessment") {
       const ex = edFindEx(prog, segs[3]);
       if (!ex) return tasks;
-      const page = segs[4] === "consent" ? "consent" : segs[4] === "questions" ? "openassess" : "assessintro";
-      return { page, progId, center: null, target: ex };
+      const leaf = segs[4];
+      if (leaf === "consent") return { page: "consent", progId, center: null, target: ex };
+      if (leaf === "complete") return { page: "openassess", progId, center: null, target: ex, oaStep: "complete" };
+      if (leaf === "questions") {
+        const q = segs[5], r = { page: "openassess", progId, center: null, target: ex, oaStep: "question" };
+        if (q && /^\d+$/.test(q)) { r.oaLayout = "split"; r.oaQIdx = Math.max(0, parseInt(q, 10) - 1); }
+        else if (q && /^page-\d+$/.test(q)) { r.oaLayout = "paged"; r.oaPage = Math.max(0, parseInt(q.slice(5), 10) - 1); }
+        return r;
+      }
+      return { page: "assessintro", progId, center: null, target: ex };
     }
     return tasks;
   }

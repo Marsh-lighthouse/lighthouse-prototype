@@ -1031,7 +1031,9 @@ function DashEditorial({ initialRoute } = {}) {
     if (!edSynced.current) { edSynced.current = true; LHRoute.replace(path); }
     else LHRoute.push(path);
   }, [route]);
-  React.useEffect(() => { if (window.LHRoute) return LHRoute.onPop(() => setRoute(edPathToRoute(LHRoute.get()))); }, []);
+  // Back/forward + deep-link: parse the URL and bump oaNav so the assessment (which keeps its
+  // own answer state) remounts at the target question/step instead of ignoring the change.
+  React.useEffect(() => { if (window.LHRoute) return LHRoute.onPop(() => setRoute((r) => { const nr = edPathToRoute(LHRoute.get()); nr.oaNav = (r.oaNav || 0) + 1; return nr; })); }, []);
   // Publish the active page to the DOM so page-scoped chrome (e.g. the "no internet"
   // preview switch in lh-tweaks) can show itself only on the pages it belongs to.
   React.useEffect(() => { document.documentElement.setAttribute("data-lh-page", route.page || ""); }, [route.page]);
@@ -1224,8 +1226,9 @@ function DashEditorial({ initialRoute } = {}) {
     const assessPool = (prog && prog.detail) ? [...prog.detail.sequential, ...prog.detail.open].filter((e) => !e.proctored) : [];
     const assessIdx = route.target ? assessPool.findIndex((e) => e.id === route.target.id) : -1;
     const nextAssess = assessIdx >= 0 ? assessPool[assessIdx + 1] : null;
-    content = <A.EdOpenAssess exercise={route.target} onExit={toTasks}
+    content = <A.EdOpenAssess key={"oa-" + (route.oaNav || 0)} exercise={route.target} onExit={toTasks}
       initialStep={route.oaStep} initialLayout={route.oaLayout} initialQIdx={route.oaQIdx}
+      onPos={(pos) => setRoute((r) => (r.page === "openassess" && r.oaStep === pos.step && r.oaQIdx === pos.qIdx && r.oaPage === pos.page && r.oaLayout === pos.layout ? r : { ...r, oaStep: pos.step, oaQIdx: pos.qIdx, oaPage: pos.page, oaLayout: pos.layout }))}
       onBack={() => setRoute((r) => ({ ...r, page: "consent" }))}
       hasNext={!!nextAssess} nextEx={nextAssess}
       onNext={() => nextAssess ? setRoute((r) => ({ ...r, page: "assessintro", target: nextAssess })) : toTasks()} />;

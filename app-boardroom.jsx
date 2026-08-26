@@ -490,7 +490,7 @@ function DashBoardroom() {
     if (!brSynced.current) { brSynced.current = true; LHRoute.replace(path); }
     else LHRoute.push(path);
   }, [route]);
-  React.useEffect(() => { if (window.LHRoute && window.edPathToRoute) return LHRoute.onPop(() => setRoute(edPathToRoute(LHRoute.get()))); }, []);
+  React.useEffect(() => { if (window.LHRoute && window.edPathToRoute) return LHRoute.onPop(() => setRoute((r) => { const nr = edPathToRoute(LHRoute.get()); nr.oaNav = (r.oaNav || 0) + 1; return nr; })); }, []);
   const [consent, setConsent] = React.useState({});
   const [watched, setWatched] = React.useState({});
   const [heroStyle, setHeroStyle] = React.useState(() => { try { return localStorage.getItem("br-hero-style") || "light"; } catch (e) { return "light"; } });
@@ -595,7 +595,9 @@ function DashBoardroom() {
     const _pool = (prog && prog.detail) ? [...prog.detail.sequential, ...prog.detail.open].filter((e) => !e.proctored) : [];
     const _idx = route.target ? _pool.findIndex((e) => e.id === route.target.id) : -1;
     const _next = _idx >= 0 ? _pool[_idx + 1] : null;
-    content = <A.EdOpenAssess exercise={route.target} onExit={toTasks}
+    content = <A.EdOpenAssess key={"oa-" + (route.oaNav || 0)} exercise={route.target} onExit={toTasks}
+      initialStep={route.oaStep} initialLayout={route.oaLayout} initialQIdx={route.oaQIdx}
+      onPos={(pos) => setRoute((r) => (r.page === "openassess" && r.oaStep === pos.step && r.oaQIdx === pos.qIdx && r.oaPage === pos.page && r.oaLayout === pos.layout ? r : { ...r, oaStep: pos.step, oaQIdx: pos.qIdx, oaPage: pos.page, oaLayout: pos.layout }))}
       onBack={() => setRoute((r) => ({ ...r, page: "assessintro" }))}
       hasNext={!!_next} nextEx={_next}
       onNext={() => _next ? setRoute((r) => ({ ...r, page: "assessintro", target: _next })) : toTasks()} />;
