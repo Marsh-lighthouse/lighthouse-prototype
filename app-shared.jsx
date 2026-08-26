@@ -429,7 +429,14 @@ function edRouteToPath(r) {
   const exId = r.target && r.target.id ? "/" + r.target.id : "";
   switch (p) {
     case "dash": return "dashboard";
-    case "development": return r.idpMode === "plan" ? "development/plan" : "development";
+    case "development": {
+      const m = r.idpMode;
+      if (m === "plan") return "development/plan";
+      if (m === "landing") return "development/new";
+      if (m === "manual") return "development/manual";
+      if (m === "flow") return "development/questions" + (r.idpStep != null ? "/" + r.idpStep : "");
+      return "development";
+    }
     case "scheduling": return r.schedCenter ? "scheduling/" + r.schedCenter : "scheduling";
     case "insights": return "insights";
     case "bookings": return "bookings";
@@ -462,7 +469,13 @@ function edPathToRoute(path) {
   if (simple[s0]) return { page: simple[s0], progId: null, center: null, target: null };
   if (s0 === "scheduling") return { page: "scheduling", progId: null, center: null, target: null, schedCenter: segs[1] || null };
   if (s0 === "change-password") return { page: "changePassword", progId: null, center: null, target: null };
-  if (s0 === "development") return { page: "development", progId: null, center: null, target: null, idpMode: segs[1] === "plan" ? "plan" : "choose" };
+  if (s0 === "development") {
+    const map = { plan: "plan", new: "landing", manual: "manual", questions: "flow" };
+    const m = map[segs[1]] || "choose";
+    const r = { page: "development", progId: null, center: null, target: null, idpMode: m };
+    if (m === "flow" && segs[2] != null && /^\d+$/.test(segs[2])) r.idpStep = parseInt(segs[2], 10);
+    return r;
+  }
   if (s0 === "program") {
     const progId = segs[1];
     const prog = (window.LH && LH.programs || []).find((p) => p.id === progId);

@@ -1179,8 +1179,9 @@ function DashEditorial({ initialRoute } = {}) {
   } else if (route.page === "changePassword") {
     content = <EdChangePassword onBack={() => setRoute({ page: "profile", progId: null, center: null, target: null })} />;
   } else if (route.page === "development") {
-    content = <G.EdDevelopment onBack={toDash} initialMode={route.idpMode} idpStep={route.idpStep}
-      onMode={(m) => setRoute((r) => (r.page === "development" && r.idpMode !== m ? { ...r, idpMode: m } : r))} />;
+    content = <G.EdDevelopment key={"dev-" + (route.oaNav || 0)} onBack={toDash} initialMode={route.idpMode} idpStep={route.idpStep}
+      onMode={(m) => setRoute((r) => (r.page === "development" && r.idpMode !== m ? { ...r, idpMode: m, idpStep: m === "flow" ? r.idpStep : undefined } : r))}
+      onStep={(s) => setRoute((r) => (r.page === "development" && r.idpMode === "flow" && r.idpStep !== s ? { ...r, idpStep: s } : r))} />;
   } else if (route.page === "scheduling") {
     content = <G.EdScheduling key={"sched-" + (route.oaNav || 0)} onBack={toDash} initialCenter={route.schedCenter} demo={route.schedDemo}
       onView={(v) => setRoute((r) => (r.page === "scheduling" && r.schedCenter === (v || null) ? r : { ...r, schedCenter: v || null }))} />;

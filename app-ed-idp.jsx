@@ -1104,8 +1104,9 @@ function IdpWizard({ initial, onBack, onFinish }) {
 // ════════════════════════════════════════════════
 //  THE FLOW
 // ════════════════════════════════════════════════
-function EdIdpFlow({ onExit, onDone, initialStep }) {
+function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
   const [step, setStep] = idpUseState(initialStep || 0); // 0 intro · 1 skillgap · 2 chat · 3 summary · 4 loading
+  idpUseEffect(() => { if (onStep) onStep(step); }, [step]);
   // A full Program Report page precedes the Intro. "report" shows it; "flow" runs
   // the numbered steps above. A deep-link (initialStep set) skips straight to the flow.
   const [phase, setPhase] = idpUseState(initialStep ? "flow" : "report");
@@ -1768,7 +1769,7 @@ function EdDevChoice({ onBack, onPickAI, onPickManual }) {
   );
 }
 
-function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode }) {
+function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
   const [mode, setMode] = idpUseState(initialMode || "choose"); // choose | landing | flow | manual | plan
   const [watched, setWatched] = idpUseState(false);
   const [fromManual, setFromManual] = idpUseState(false);   // a hand-built plan opens read-only
@@ -1822,7 +1823,7 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode }) {
   if (mode === "choose") return <EdDevChoice onBack={onBack} onPickAI={() => setMode("landing")} onPickManual={() => setMode("manual")} />;
   if (mode === "manual") { const M = window.EdManual && window.EdManual.ManualFlow;
     return M ? <M onExit={() => setMode("choose")} onDone={() => { setFromManual(true); setMode("plan"); }} /> : null; }
-  if (mode === "flow") return <EdIdpFlow initialStep={idpStep} onExit={() => setMode("landing")} onDone={() => setMode("plan")} />;
+  if (mode === "flow") return <EdIdpFlow initialStep={idpStep} onStep={onStep} onExit={() => setMode("landing")} onDone={() => setMode("plan")} />;
   if (mode === "plan") { const P = window.EdPlan && window.EdPlan.EdPlanPage; return P ? <P onBack={onBack} onRestart={() => setMode("flow")} startLocked={fromManual} /> : <EdPlanView onBack={onBack} onRestart={() => setMode("flow")} />; }
 
   return (
