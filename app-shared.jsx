@@ -430,7 +430,7 @@ function edRouteToPath(r) {
   switch (p) {
     case "dash": return "dashboard";
     case "development": return r.idpMode === "plan" ? "development/plan" : "development";
-    case "scheduling": return "scheduling";
+    case "scheduling": return r.schedCenter ? "scheduling/" + r.schedCenter : "scheduling";
     case "insights": return "insights";
     case "bookings": return "bookings";
     case "profile": return "profile";
@@ -458,8 +458,9 @@ function edPathToRoute(path) {
   const def = { page: "dash", progId: null, center: null, target: null };
   if (!segs.length) return def;
   const s0 = segs[0];
-  const simple = { dashboard: "dash", scheduling: "scheduling", insights: "insights", bookings: "bookings", profile: "profile", settings: "settings" };
+  const simple = { dashboard: "dash", insights: "insights", bookings: "bookings", profile: "profile", settings: "settings" };
   if (simple[s0]) return { page: simple[s0], progId: null, center: null, target: null };
+  if (s0 === "scheduling") return { page: "scheduling", progId: null, center: null, target: null, schedCenter: segs[1] || null };
   if (s0 === "change-password") return { page: "changePassword", progId: null, center: null, target: null };
   if (s0 === "development") return { page: "development", progId: null, center: null, target: null, idpMode: segs[1] === "plan" ? "plan" : "choose" };
   if (s0 === "program") {

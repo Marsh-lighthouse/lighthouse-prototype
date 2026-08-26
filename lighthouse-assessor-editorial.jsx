@@ -146,7 +146,7 @@ function AssessorEditorial() {
       const leaf = segs[2];
       if (leaf === "evaluate") r.route = "evaluate";
       else if (leaf === "moderate") r.route = "moderate";
-      else { r.route = "candidate"; if (leaf === "timeline" || leaf === "documents") r.candidateTab = leaf; }
+      else { r.route = "candidate"; if (leaf === "recordings") r.candidateTab = leaf; }
       return r;
     }
     if (s0 === "assessment-centre") {
@@ -190,7 +190,7 @@ function AssessorEditorial() {
       case "candidate": {
         if (!subjectId) return "dashboard";
         const b = "candidate/" + subjectId;
-        return (candidateTab === "timeline" || candidateTab === "documents") ? b + "/" + candidateTab : b;
+        return candidateTab === "recordings" ? b + "/recordings" : b;
       }
       case "evaluate": return subjectId ? "candidate/" + subjectId + "/evaluate" : "dashboard";
       case "moderate": return subjectId ? "candidate/" + subjectId + "/moderate" : "dashboard";

@@ -378,7 +378,7 @@ function schedShiftRange(range, deltaHrs) {
   return String(range).split("–").map((x) => schedShiftOne(x.trim(), deltaHrs)).join(" – ");
 }
 
-function EdScheduling({ onBack, initialCenter, demo }) {
+function EdScheduling({ onBack, initialCenter, demo, onView }) {
   // demo: optional initial UI state for static screen boards — { calView, pop, confirm, cancel, booked }
   const demoCtx = () => { const p = LH.scheduling[0], c = p.centers[0]; return { slot: c.slots[0], center: c, program: p.program }; };
   const [booked, setBooked] = React.useState(() => (demo && (demo.booked || demo.cancel)) ? { [LH.scheduling[0].centers[0].slots[0].id]: true } : {});
@@ -398,6 +398,8 @@ function EdScheduling({ onBack, initialCenter, demo }) {
   const showSchedToast = (m) => { setSchedToast(m); setTimeout(() => setSchedToast(null), 2400); };
   const calWrapRef = React.useRef(null);
   const [view, setView] = React.useState(initialCenter || null);   // null = overview | centerId
+  // Report which centre is open so the parent can give it its own URL (#/scheduling/<id>).
+  React.useEffect(() => { if (onView) onView(view); }, [view]);
   // when a slot is booked, start the matching center's timer (task center id = schedId minus "-sched")
   const markCenterReserved = (center) => { try { if (center && center.id) localStorage.setItem("lh-center-resv-" + center.id.replace("-sched", ""), String(Date.now())); } catch (e) {} };
   const [calView, setCalView] = React.useState(!!(demo && (demo.calView || demo.pop))); // false = list, true = calendar

@@ -1182,7 +1182,8 @@ function DashEditorial({ initialRoute } = {}) {
     content = <G.EdDevelopment onBack={toDash} initialMode={route.idpMode} idpStep={route.idpStep}
       onMode={(m) => setRoute((r) => (r.page === "development" && r.idpMode !== m ? { ...r, idpMode: m } : r))} />;
   } else if (route.page === "scheduling") {
-    content = <G.EdScheduling onBack={toDash} initialCenter={route.schedCenter} demo={route.schedDemo} />;
+    content = <G.EdScheduling key={"sched-" + (route.oaNav || 0)} onBack={toDash} initialCenter={route.schedCenter} demo={route.schedDemo}
+      onView={(v) => setRoute((r) => (r.page === "scheduling" && r.schedCenter === (v || null) ? r : { ...r, schedCenter: v || null }))} />;
   } else if (route.page === "insights") {
     content = <G.EdInsights onBack={toDash} initialPreview={route.insightPreview} />;
   } else if (route.page === "bookings") {
