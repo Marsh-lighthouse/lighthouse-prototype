@@ -179,6 +179,7 @@
     if (!tour) return;
     build();
     state.name = name;
+    if (window.LHRoute) window.LHRoute.setQuery("tour", name);   // each tour is its own URL
     var run = function () {
       state.steps = tour.steps;
       state.i = 0;
@@ -193,9 +194,12 @@
     state.active = false;
     if (el.root) el.root.style.display = "none";
     if (state.name) { try { localStorage.setItem("lh-tour-done-" + state.name, "1"); } catch (e) {} }
+    if (window.LHRoute) window.LHRoute.setQuery("tour", null);
   }
 
   function maybeAutoStart() {
+    // If the URL already names a tour or the open menu, let it drive instead of auto-starting.
+    if (window.LHRoute && (window.LHRoute.getQuery("tour") || window.LHRoute.getQuery("tours"))) return;
     var done;
     try { done = localStorage.getItem("lh-tour-done-dashboard"); } catch (e) {}
     if (done) return;
@@ -236,15 +240,28 @@
     document.body.appendChild(wrap);
     wrap.style.display = "none";
     var menu = wrap.querySelector("#lh-tour-menu");
+    // The "Guided tours" menu is an addressable overlay (?tours=open); each tour is ?tour=<name>.
+    function syncMenuUrl() { if (window.LHRoute) window.LHRoute.setQuery("tours", menu.style.display !== "none" ? "open" : null); }
     wrap.querySelector("#lh-tour-fab").addEventListener("click", function () {
       menu.style.display = menu.style.display === "none" ? "block" : "none";
+      syncMenuUrl();
     });
     wrap.querySelectorAll("[data-tour-go]").forEach(function (b) {
       b.addEventListener("mouseenter", function () { b.style.background = "rgba(0,15,71,.05)"; });
       b.addEventListener("mouseleave", function () { b.style.background = "none"; });
-      b.addEventListener("click", function () { menu.style.display = "none"; start(b.getAttribute("data-tour-go")); });
+      b.addEventListener("click", function () { menu.style.display = "none"; syncMenuUrl(); start(b.getAttribute("data-tour-go")); });
     });
-    document.addEventListener("click", function (e) { if (!wrap.contains(e.target)) menu.style.display = "none"; });
+    document.addEventListener("click", function (e) { if (!wrap.contains(e.target) && menu.style.display !== "none") { menu.style.display = "none"; syncMenuUrl(); } });
+    // Deep-link + Back/Forward: open the menu / start the tour named in the URL.
+    function applyTourUrl() {
+      if (!window.LHRoute) return;
+      menu.style.display = window.LHRoute.getQuery("tours") === "open" ? "block" : "none";
+      var t = window.LHRoute.getQuery("tour");
+      if (t && TOURS[t]) { if (!state.active || state.name !== t) start(t); }
+      else if (state.active) finish();
+    }
+    if (window.LHRoute) window.LHRoute.onPop(applyTourUrl);
+    setTimeout(applyTourUrl, 400);
     // Only show the launcher once the dashboard app is on screen (not on auth screens)
     setInterval(function () {
       var appRoot = document.getElementById("app-root");
