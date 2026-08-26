@@ -391,6 +391,21 @@
 
     React.useEffect(function () { if (open) styles(); }, [open]);
 
+    // ── URL ── the popup is its own addressable overlay: ?popup=new-experience.
+    // First render replaces (no phantom entry); open/close after that pushes so the
+    // browser Back button toggles the popup. Back/forward + deep-link stay in sync.
+    var urlSynced = React.useRef(false);
+    React.useEffect(function () {
+      if (!window.LHRoute) return;
+      var v = open ? "new-experience" : null;
+      if (!urlSynced.current) { urlSynced.current = true; window.LHRoute.replaceQuery("popup", v); }
+      else window.LHRoute.setQuery("popup", v);
+    }, [open]);
+    React.useEffect(function () {
+      if (!window.LHRoute) return;
+      return window.LHRoute.onPop(function () { setOpen(window.LHRoute.getQuery("popup") === "new-experience"); });
+    }, []);
+
     var close = function (choice) {
       try { localStorage.setItem(SEEN_KEY, choice); } catch (e) {}
       setOpen(false);

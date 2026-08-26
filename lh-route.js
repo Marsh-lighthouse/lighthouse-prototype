@@ -19,12 +19,31 @@
  */
 (function () {
   function norm(p) { return String(p == null ? "" : p).replace(/^[#/]+|\/+$/g, ""); }
+  function raw() { return String(location.hash || "").replace(/^#\/?/, ""); }
+  // The page path (everything before the query string). Overlays/modals live in the query
+  // (e.g. ?popup=new-experience) so they never disturb the route path a page parses.
   function get() {
-    try { return decodeURIComponent(String(location.hash || "").replace(/^#\/?/, "")); }
-    catch (e) { return String(location.hash || "").replace(/^#\/?/, ""); }
+    var s = raw().split("?")[0];
+    try { return decodeURIComponent(s); } catch (e) { return s; }
+  }
+  function getQuery(key) {
+    try { return new URLSearchParams(raw().split("?").slice(1).join("?")).get(key); }
+    catch (e) { return null; }
+  }
+  function setQuery(key, val, replace) {
+    var parts = raw().split("?"), params;
+    try { params = new URLSearchParams(parts.slice(1).join("?")); } catch (e) { params = new URLSearchParams(); }
+    if (val == null || val === "") params.delete(key); else params.set(key, val);
+    var qs = params.toString();
+    var h = "#/" + parts[0] + (qs ? "?" + qs : "");
+    if (location.hash === h) return;
+    try { history[replace ? "replaceState" : "pushState"](null, "", h); }
+    catch (e) { location.hash = h; }
   }
   function write(path, replace) {
-    var h = "#/" + norm(path);
+    // keep the current query (overlay state) when only the path changes
+    var qs = raw().split("?").slice(1).join("?");
+    var h = "#/" + norm(path) + (qs ? "?" + qs : "");
     if (location.hash === h) return;
     try { history[replace ? "replaceState" : "pushState"](null, "", h); }
     catch (e) { location.hash = h; }
@@ -40,6 +59,9 @@
   window.LHRoute = {
     norm: norm,
     get: get,
+    getQuery: getQuery,
+    setQuery: function (k, v) { setQuery(k, v, false); },
+    replaceQuery: function (k, v) { setQuery(k, v, true); },
     push: function (p) { write(p, false); },
     replace: function (p) { write(p, true); },
     onPop: onPop
