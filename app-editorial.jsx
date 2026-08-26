@@ -1019,66 +1019,6 @@ function AiAssistant() {
   );
 }
 
-// ── URL routing ──  Give every in-app page its own hash URL (deep-linkable,
-// back/forward-capable). Serialize the route object to a readable path and parse
-// it back, resolving program / exercise / center object refs by their id.
-function edFindEx(prog, exId) {
-  if (!prog || !prog.detail || !exId) return null;
-  const d = prog.detail;
-  return [].concat(d.centers || [], d.sequential || [], d.open || []).find((e) => e.id === exId) || null;
-}
-function edRouteToPath(r) {
-  if (!r) return "dashboard";
-  const p = r.page, base = r.progId ? "program/" + r.progId : "dashboard";
-  const exId = r.target && r.target.id ? "/" + r.target.id : "";
-  switch (p) {
-    case "dash": return "dashboard";
-    case "development": return r.idpMode === "plan" ? "development/plan" : "development";
-    case "scheduling": return "scheduling";
-    case "insights": return "insights";
-    case "bookings": return "bookings";
-    case "profile": return "profile";
-    case "changePassword": return "change-password";
-    case "settings": return "settings";
-    case "tasks": return base;
-    case "instructions": return base + "/instructions";
-    case "center": return base + "/center" + (r.center && r.center.id ? "/" + r.center.id : "");
-    case "precheck": return base + "/system-check" + exId;
-    case "assessintro": return base + "/assessment" + exId;
-    case "consent": return base + "/assessment" + exId + "/consent";
-    case "openassess": return base + "/assessment" + exId + "/questions";
-    default: return "dashboard";
-  }
-}
-function edPathToRoute(path) {
-  const segs = window.LHRoute ? LHRoute.norm(path).split("/").filter(Boolean) : [];
-  const def = { page: "dash", progId: null, center: null, target: null };
-  if (!segs.length) return def;
-  const s0 = segs[0];
-  const simple = { dashboard: "dash", scheduling: "scheduling", insights: "insights", bookings: "bookings", profile: "profile", settings: "settings" };
-  if (simple[s0]) return { page: simple[s0], progId: null, center: null, target: null };
-  if (s0 === "change-password") return { page: "changePassword", progId: null, center: null, target: null };
-  if (s0 === "development") return { page: "development", progId: null, center: null, target: null, idpMode: segs[1] === "plan" ? "plan" : "choose" };
-  if (s0 === "program") {
-    const progId = segs[1];
-    const prog = (window.LH && LH.programs || []).find((p) => p.id === progId);
-    if (!prog) return def;
-    const sub = segs[2], tasks = { page: "tasks", progId, center: null, target: null };
-    if (!sub) return tasks;
-    if (sub === "instructions") return { page: "instructions", progId, center: null, target: null };
-    if (sub === "center") { const c = edFindEx(prog, segs[3]); return c ? { page: "center", progId, center: c, target: null } : tasks; }
-    if (sub === "system-check") { const t = edFindEx(prog, segs[3]); return t ? { page: "precheck", progId, center: null, target: t } : tasks; }
-    if (sub === "assessment") {
-      const ex = edFindEx(prog, segs[3]);
-      if (!ex) return tasks;
-      const page = segs[4] === "consent" ? "consent" : segs[4] === "questions" ? "openassess" : "assessintro";
-      return { page, progId, center: null, target: ex };
-    }
-    return tasks;
-  }
-  return def;
-}
-
 function DashEditorial({ initialRoute } = {}) {
   const [route, setRoute] = React.useState(() => initialRoute || (window.LHRoute ? edPathToRoute(LHRoute.get()) : { page: "dash", progId: null, center: null, target: null }));
   // Sync the route to the URL hash so each page is its own shareable, back/forward URL.

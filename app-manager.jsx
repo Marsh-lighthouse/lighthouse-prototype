@@ -833,8 +833,31 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
 // ════════════════════════════════════════════════
 //  SHELL
 // ════════════════════════════════════════════════
+// ── URL routing ── each manager page gets its own hash URL (deep-linkable, back/forward).
+function mgrRouteToPath(r) {
+  if (!r) return "reportees";
+  if (r.page === "myplan") return "my-plan";
+  if (r.page === "detail" && r.person) return "reportee/" + r.person.id;
+  return "reportees";
+}
+function mgrPathToRoute(path) {
+  const segs = window.LHRoute ? LHRoute.norm(path).split("/").filter(Boolean) : [];
+  const s0 = segs[0];
+  if (s0 === "my-plan" || s0 === "myplan") return { page: "myplan", person: null };
+  if (s0 === "reportee") { const p = (typeof MGR_TEAM !== "undefined" ? MGR_TEAM : []).find((t) => t.id === segs[1]); return p ? { page: "detail", person: p } : { page: "list", person: null }; }
+  return { page: "list", person: null };
+}
+
 function LHManager() {
-  const [route, setRoute] = mgUseState({ page: "list", person: null });
+  const [route, setRoute] = mgUseState(() => (window.LHRoute ? mgrPathToRoute(LHRoute.get()) : { page: "list", person: null }));
+  const mgrSynced = React.useRef(false);
+  mgUseEffect(() => {
+    if (!window.LHRoute) return;
+    const path = mgrRouteToPath(route);
+    if (!mgrSynced.current) { mgrSynced.current = true; LHRoute.replace(path); }
+    else LHRoute.push(path);
+  }, [route]);
+  mgUseEffect(() => { if (window.LHRoute) return LHRoute.onPop(() => setRoute(mgrPathToRoute(LHRoute.get()))); }, []);
   const [team, setTeam] = mgUseState(MGR_TEAM);
   const [summary, setSummary] = mgUseState(null);
   const [toast, setToast] = mgUseState(null);

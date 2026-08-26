@@ -480,7 +480,17 @@ function DashBoardroom() {
   const [, setLHBrandTick] = React.useState(0);
   React.useEffect(() => { const f = () => setLHBrandTick((n) => n + 1); window.addEventListener("lh-brand-change", f); return () => window.removeEventListener("lh-brand-change", f); }, []);
 
-  const [route, setRoute] = React.useState({ page: "dash", progId: null, center: null, target: null });
+  const [route, setRoute] = React.useState(() => (window.LHRoute && window.edPathToRoute ? edPathToRoute(LHRoute.get()) : { page: "dash", progId: null, center: null, target: null }));
+  // Reflect each page in the URL hash (shareable, back/forward-capable). First render replaces,
+  // later navigations push; pushState never re-fires our listener, so no loop.
+  const brSynced = React.useRef(false);
+  React.useEffect(() => {
+    if (!window.LHRoute || !window.edRouteToPath) return;
+    const path = edRouteToPath(route);
+    if (!brSynced.current) { brSynced.current = true; LHRoute.replace(path); }
+    else LHRoute.push(path);
+  }, [route]);
+  React.useEffect(() => { if (window.LHRoute && window.edPathToRoute) return LHRoute.onPop(() => setRoute(edPathToRoute(LHRoute.get()))); }, []);
   const [consent, setConsent] = React.useState({});
   const [watched, setWatched] = React.useState({});
   const [heroStyle, setHeroStyle] = React.useState(() => { try { return localStorage.getItem("br-hero-style") || "light"; } catch (e) { return "light"; } });
