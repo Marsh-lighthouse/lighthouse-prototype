@@ -179,7 +179,7 @@ function AssessorEditorial() {
   const [acDetailTab, setAcDetailTab] = useState(asInit.acDetailTab); // subjects | resources | activities | recordings
   const [acDetailQ, setAcDetailQ] = useState("");
   const [acStatus, setAcStatus] = useState("Open");  // Open | Closed
-  const [statusModal, setStatusModal] = useState(false);
+  const [statusModal, setStatusModal] = useState(() => !!(window.LHRoute && LHRoute.getQuery("dialog") === "status"));
 
   // Sync route + ids to the URL hash so each page is its own shareable, back/forward URL.
   const asSynced = useRef(false);
@@ -224,7 +224,7 @@ function AssessorEditorial() {
   }, []);
 
   // ═══════ EVALUATE NOTES / TO-DO (floating pencil widget) ═══════
-  const [notesOpen, setNotesOpen] = useState(false);
+  const [notesOpen, setNotesOpen] = useState(() => !!(window.LHRoute && LHRoute.getQuery("notes") === "1"));
   const [notesTab, setNotesTab] = useState("notes"); // notes | todo
   const [notes, setNotes] = useState([]);            // {id, text, ts}
   const [noteDraft, setNoteDraft] = useState("");
