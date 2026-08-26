@@ -79,10 +79,12 @@
   function src(fill, vb) {
     return "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '"><path fill="' + fill + '" d="' + P + '"/></svg>');
   }
+  // On the dark primary-blue rail the logo is the brand light blue (#CEECFF "Sky"), not
+  // pure white — per the brand guidelines. Navy (#000F47) is used on light rails.
   window.LHLogo = {
-    wordmarkWhite: src("#FFFFFF", "0 0 208 45"),
+    wordmarkWhite: src("#CEECFF", "0 0 208 45"),
     wordmarkDark:  src("#000F47", "0 0 208 45"),
-    iconWhite:     src("#FFFFFF", "0 0 44 45"),
+    iconWhite:     src("#CEECFF", "0 0 44 45"),
     iconDark:      src("#000F47", "0 0 44 45")
   };
 })();

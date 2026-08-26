@@ -1810,7 +1810,7 @@ function AssessorEditorial() {
   const [compIdx, setCompIdx] = useState(3); // Transformation Enabler default
   const [finalScores, setFinalScores] = useState({}); // indId -> number
   const [finalNA, setFinalNA] = useState({}); // indId -> bool
-  const [drawer, setDrawer] = useState([]); // open drawer stack (up to 2)
+  const [drawer, setDrawer] = useState(() => { const d = window.LHRoute && LHRoute.getQuery("drawer"); return (d && ["profile", "scoring", "reports", "evals", "recs"].includes(d)) ? [d] : []; }); // open drawer stack (up to 2)
   const [panelH, setPanelH] = useState(typeof window!=="undefined"?Math.round(window.innerHeight*0.5):420);
   const panelRef = useRef(null);
   const [modSplit, setModSplit] = useState(70); // main-content % when the side drawer is open (70/30)
@@ -1844,7 +1844,22 @@ function AssessorEditorial() {
   const [scoreError, setScoreError] = useState(false); // inline error on Scoring submit
   const [scorePanelOpen, setScorePanelOpen] = useState(true); // Lead Assessor Form: left scoring summary panel
   // NEW — matrix moderation state
-  const [modTab, setModTab] = useState("matrix"); // matrix | narratives
+  const [modTab, setModTab] = useState(() => (window.LHRoute && LHRoute.getQuery("tab") === "lead-form") ? "narratives" : "matrix"); // matrix | narratives
+  // ── URL ── On the Moderate page reflect the tab (Scoring vs Lead Assessor Form) and the
+  // open right-rail drawer (profile/scoring/reports/evals/recs) so each is its own address.
+  useEffect(() => {
+    if (!window.LHRoute) return;
+    if (route !== "moderate") { window.LHRoute.setQueries({ tab: null, drawer: null }); return; }
+    window.LHRoute.setQueries({ tab: modTab === "narratives" ? "lead-form" : null, drawer: drawer[0] || null });
+  }, [route, modTab, drawer]);
+  useEffect(() => {
+    if (!window.LHRoute) return;
+    return window.LHRoute.onPop(() => {
+      setModTab(window.LHRoute.getQuery("tab") === "lead-form" ? "narratives" : "matrix");
+      const d = window.LHRoute.getQuery("drawer");
+      setDrawer((d && ["profile", "scoring", "reports", "evals", "recs"].includes(d)) ? [d] : []);
+    });
+  }, []);
   const [expandedComps, setExpandedComps] = useState(() => new Set(["ST","IDM","IE","TE","CA","RD","TN","EC"])); // all expanded by default
   const [activeCell, setActiveCell] = useState(null); // { indId, formIdx } | null
   const [compOverride, setCompOverride] = useState({}); // compId -> number (manual competency-level final)
