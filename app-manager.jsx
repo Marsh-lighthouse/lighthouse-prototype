@@ -834,9 +834,9 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
 //  SHELL
 // ════════════════════════════════════════════════
 // ── URL routing ── each manager page gets its own hash URL (deep-linkable, back/forward).
-function mgrRouteToPath(r) {
+function mgrRouteToPath(r, myPlanMode) {
   if (!r) return "reportees";
-  if (r.page === "myplan") return "my-plan";
+  if (r.page === "myplan") return myPlanMode === "flow" ? "my-plan/questions" : "my-plan";
   if (r.page === "detail" && r.person) return "reportee/" + r.person.id;
   return "reportees";
 }
@@ -847,17 +847,24 @@ function mgrPathToRoute(path) {
   if (s0 === "reportee") { const p = (typeof MGR_TEAM !== "undefined" ? MGR_TEAM : []).find((t) => t.id === segs[1]); return p ? { page: "detail", person: p } : { page: "list", person: null }; }
   return { page: "list", person: null };
 }
+// My Plan has two screens: the guided questions (flow) and the finished plan.
+function mgrMyPlanMode(path) {
+  const segs = window.LHRoute ? LHRoute.norm(path).split("/").filter(Boolean) : [];
+  if (segs[0] === "my-plan" || segs[0] === "myplan") return segs[1] === "questions" ? "flow" : "plan";
+  return "flow";
+}
 
 function LHManager() {
   const [route, setRoute] = mgUseState(() => (window.LHRoute ? mgrPathToRoute(LHRoute.get()) : { page: "list", person: null }));
+  const [myPlanMode, setMyPlanMode] = mgUseState(() => (window.LHRoute ? mgrMyPlanMode(LHRoute.get()) : "flow"));   // "flow" | "plan"
   const mgrSynced = React.useRef(false);
   mgUseEffect(() => {
     if (!window.LHRoute) return;
-    const path = mgrRouteToPath(route);
+    const path = mgrRouteToPath(route, myPlanMode);
     if (!mgrSynced.current) { mgrSynced.current = true; LHRoute.replace(path); }
     else LHRoute.push(path);
-  }, [route]);
-  mgUseEffect(() => { if (window.LHRoute) return LHRoute.onPop(() => setRoute(mgrPathToRoute(LHRoute.get()))); }, []);
+  }, [route, myPlanMode]);
+  mgUseEffect(() => { if (window.LHRoute) return LHRoute.onPop(() => { setRoute(mgrPathToRoute(LHRoute.get())); setMyPlanMode(mgrMyPlanMode(LHRoute.get())); }); }, []);
   const [team, setTeam] = mgUseState(MGR_TEAM);
   const [summary, setSummary] = mgUseState(null);
   const [toast, setToast] = mgUseState(null);
@@ -865,7 +872,6 @@ function LHManager() {
   const [collapsed, setCollapsed] = mgUseState(() => { try { return localStorage.getItem("ed-rail-collapsed") === "1"; } catch (e) { return false; } });
   const toggleRail = () => setCollapsed((v) => { const n = !v; try { localStorage.setItem("ed-rail-collapsed", n ? "1" : "0"); } catch (e) {} return n; });
   // "My Plan" opens on the guided questions; once generated it shows the plan.
-  const [myPlanMode, setMyPlanMode] = mgUseState("flow");   // "flow" | "plan"
   const Flow = window.EdIdp && window.EdIdp.EdIdpFlow;
   // The idp flow asks for a top bar to host its back link and to collapse the rail.
   const [topBack, setTopBack] = mgUseState(null);

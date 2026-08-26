@@ -400,6 +400,17 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
   const [view, setView] = React.useState(initialCenter || null);   // null = overview | centerId
   // Report which centre is open so the parent can give it its own URL (#/scheduling/<id>).
   React.useEffect(() => { if (onView) onView(view); }, [view]);
+  // Booking dialogs are addressable overlays (?dialog=confirm|cancel|booked); Back closes them.
+  React.useEffect(() => {
+    if (!window.LHRoute) return;
+    window.LHRoute.setQuery("dialog", confirmSlot ? "confirm" : cancelSlot ? "cancel" : doneSlot ? "booked" : null);
+  }, [confirmSlot, cancelSlot, doneSlot]);
+  React.useEffect(() => {
+    if (!window.LHRoute) return;
+    return window.LHRoute.onPop(() => {
+      if (window.LHRoute.getQuery("dialog") == null) { setConfirmSlot(null); setCancelSlot(null); setDoneSlot(null); }
+    });
+  }, []);
   // when a slot is booked, start the matching center's timer (task center id = schedId minus "-sched")
   const markCenterReserved = (center) => { try { if (center && center.id) localStorage.setItem("lh-center-resv-" + center.id.replace("-sched", ""), String(Date.now())); } catch (e) {} };
   const [calView, setCalView] = React.useState(!!(demo && (demo.calView || demo.pop))); // false = list, true = calendar
