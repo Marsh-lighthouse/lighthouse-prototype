@@ -1313,8 +1313,8 @@ function AssessorEditorial() {
   const [evalResponses, setEvalResponses] = useState({}); // {formId-indId: {score, evidence, agreed}}
   const [evalAgreements, setEvalAgreements] = useState({}); // {formId-key: bool}
   const [submittedForms, setSubmittedForms] = useState(() => new Set()); // form ids submitted
-  const [evalLeftTab, setEvalLeftTab] = useState("overview");   // "overview" | participant form index (read-only)
-  const [evalRightTab, setEvalRightTab] = useState(0); // form index
+  const [evalLeftTab, setEvalLeftTab] = useState(() => { const b = window.LHRoute && LHRoute.getQuery("brief"); return b == null ? "overview" : (/^\d+$/.test(b) ? parseInt(b, 10) : b); });   // "overview" | participant form index (read-only)
+  const [evalRightTab, setEvalRightTab] = useState(() => { const f = window.LHRoute && LHRoute.getQuery("form"); return (f && /^\d+$/.test(f)) ? Math.max(0, parseInt(f, 10) - 1) : 0; }); // form index
   const [viewScores, setViewScores] = useState(() => new Set()); // form ids showing scores table
 
   const evalForms = [
@@ -1350,6 +1350,32 @@ function AssessorEditorial() {
       ]
     },
   ];
+
+  // ── URL ── On the Evaluate page each tab + the scores view is its own address:
+  // ?form=<n> (right column form), ?brief=<n> (left column brief), ?view=scores
+  // (the "View Assessment" scores table). Cleared automatically when you leave Evaluate.
+  useEffect(() => {
+    if (!window.LHRoute) return;
+    if (route !== "evaluate") { window.LHRoute.setQueries({ form: null, brief: null, view: null }); return; }
+    const fid = evalForms[evalRightTab] && evalForms[evalRightTab].id;
+    window.LHRoute.setQueries({
+      form: evalRightTab ? evalRightTab + 1 : null,
+      brief: evalLeftTab === "overview" ? null : evalLeftTab,
+      view: (fid && viewScores.has(fid)) ? "scores" : null
+    });
+  }, [route, evalRightTab, evalLeftTab, viewScores]);
+  useEffect(() => {
+    if (!window.LHRoute) return;
+    return window.LHRoute.onPop(() => {
+      const f = window.LHRoute.getQuery("form");
+      const fIdx = (f && /^\d+$/.test(f)) ? Math.max(0, parseInt(f, 10) - 1) : 0;
+      setEvalRightTab(fIdx);
+      const b = window.LHRoute.getQuery("brief");
+      setEvalLeftTab(b == null ? "overview" : (/^\d+$/.test(b) ? parseInt(b, 10) : b));
+      const fid = evalForms[fIdx] && evalForms[fIdx].id;
+      setViewScores(window.LHRoute.getQuery("view") === "scores" && fid ? new Set([fid]) : new Set());
+    });
+  }, []);
 
   // Horizontal tab strip with edge fades + chevron affordances when tabs overflow.
   const TabScroller = ({children, fade, gap=24}) => {

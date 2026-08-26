@@ -30,16 +30,17 @@
     try { return new URLSearchParams(raw().split("?").slice(1).join("?")).get(key); }
     catch (e) { return null; }
   }
-  function setQuery(key, val, replace) {
+  function setQueries(obj, replace) {
     var parts = raw().split("?"), params;
     try { params = new URLSearchParams(parts.slice(1).join("?")); } catch (e) { params = new URLSearchParams(); }
-    if (val == null || val === "") params.delete(key); else params.set(key, val);
+    Object.keys(obj).forEach(function (k) { var v = obj[k]; if (v == null || v === "") params.delete(k); else params.set(k, String(v)); });
     var qs = params.toString();
     var h = "#/" + parts[0] + (qs ? "?" + qs : "");
     if (location.hash === h) return;
     try { history[replace ? "replaceState" : "pushState"](null, "", h); }
     catch (e) { location.hash = h; }
   }
+  function setQuery(key, val, replace) { var o = {}; o[key] = val; setQueries(o, replace); }
   function write(path, replace) {
     // keep the current query (overlay state) when only the path changes
     var qs = raw().split("?").slice(1).join("?");
@@ -62,6 +63,7 @@
     getQuery: getQuery,
     setQuery: function (k, v) { setQuery(k, v, false); },
     replaceQuery: function (k, v) { setQuery(k, v, true); },
+    setQueries: function (o) { setQueries(o, false); },
     push: function (p) { write(p, false); },
     replace: function (p) { write(p, true); },
     onPop: onPop
