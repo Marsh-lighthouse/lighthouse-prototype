@@ -134,10 +134,23 @@ function AssessorEditorial() {
   useEffect(() => { const h=()=>setVw(window.innerWidth); window.addEventListener("resize",h); return ()=>window.removeEventListener("resize",h); }, []);
   const isNarrow = vw < 900;
 
+  // ═══════ URL ROUTING ═══════ each page gets its own hash URL (deep-linkable, back/forward)
+  const asParse = (path) => {
+    const segs = (window.LHRoute ? LHRoute.norm(path) : "").split("/").filter(Boolean);
+    const s0 = segs[0], r = { route: "home", subjectId: null, campaignId: null, acCampaignId: null };
+    if (!s0 || s0 === "home") return r;
+    if (s0 === "dashboard") { r.route = "dashboard"; return r; }
+    if (s0 === "campaign") { r.route = "campaign"; r.campaignId = segs[1] || null; return r; }
+    if (s0 === "candidate") { r.subjectId = segs[1] || null; r.route = segs[2] === "evaluate" ? "evaluate" : segs[2] === "moderate" ? "moderate" : "candidate"; return r; }
+    if (s0 === "assessment-centre") { if (segs[1]) { r.acCampaignId = segs[1]; r.route = "acCampaign"; } else r.route = "ac"; return r; }
+    return r;
+  };
+  const asInit = useMemo(() => (window.LHRoute ? asParse(LHRoute.get()) : { route: "home", subjectId: null, campaignId: null, acCampaignId: null }), []);
+
   // ═══════ STATE ═══════
-  const [route, setRoute] = useState("home"); // home | dashboard | campaign | candidate | evaluate | moderate
-  const [subjectId, setSubjectId] = useState(null);
-  const [campaignId, setCampaignId] = useState(null);
+  const [route, setRoute] = useState(asInit.route); // home | dashboard | campaign | candidate | evaluate | moderate
+  const [subjectId, setSubjectId] = useState(asInit.subjectId);
+  const [campaignId, setCampaignId] = useState(asInit.campaignId);
   const [dashTab, setDashTab] = useState("participant"); // participant | campaign
   const [entryPath, setEntryPath] = useState("participant"); // participant | campaign — affects breadcrumb
   const [candidateTab, setCandidateTab] = useState("assessments");
@@ -151,11 +164,42 @@ function AssessorEditorial() {
   const [client, setClient] = useState("QA FINAL 2024 GAME ON");
   const [acTab, setAcTab] = useState("campaigns");   // campaigns | participants
   const [acSub, setAcSub] = useState("current");     // current | upcoming | past
-  const [acCampaignId, setAcCampaignId] = useState(null);
+  const [acCampaignId, setAcCampaignId] = useState(asInit.acCampaignId);
   const [acDetailTab, setAcDetailTab] = useState("subjects"); // subjects | resources | activities | recordings
   const [acDetailQ, setAcDetailQ] = useState("");
   const [acStatus, setAcStatus] = useState("Open");  // Open | Closed
   const [statusModal, setStatusModal] = useState(false);
+
+  // Sync route + ids to the URL hash so each page is its own shareable, back/forward URL.
+  const asSynced = useRef(false);
+  const asRouteToPath = () => {
+    switch (route) {
+      case "dashboard": return "dashboard";
+      case "campaign": return campaignId ? "campaign/" + campaignId : "dashboard";
+      case "candidate": return subjectId ? "candidate/" + subjectId : "dashboard";
+      case "evaluate": return subjectId ? "candidate/" + subjectId + "/evaluate" : "dashboard";
+      case "moderate": return subjectId ? "candidate/" + subjectId + "/moderate" : "dashboard";
+      case "ac": return "assessment-centre";
+      case "acCampaign": return acCampaignId ? "assessment-centre/" + acCampaignId : "assessment-centre";
+      default: return "home";
+    }
+  };
+  useEffect(() => {
+    if (!window.LHRoute) return;
+    const path = asRouteToPath();
+    if (!asSynced.current) { asSynced.current = true; LHRoute.replace(path); }
+    else LHRoute.push(path);
+  }, [route, subjectId, campaignId, acCampaignId]);
+  useEffect(() => {
+    if (!window.LHRoute) return;
+    return LHRoute.onPop(() => {
+      const p = asParse(LHRoute.get());
+      if (p.subjectId) { setSubjectId(p.subjectId); setCandidateTab("assessments"); }
+      if (p.campaignId) setCampaignId(p.campaignId);
+      if (p.acCampaignId) setAcCampaignId(p.acCampaignId);
+      setRoute(p.route);
+    });
+  }, []);
 
   // ═══════ EVALUATE NOTES / TO-DO (floating pencil widget) ═══════
   const [notesOpen, setNotesOpen] = useState(false);
