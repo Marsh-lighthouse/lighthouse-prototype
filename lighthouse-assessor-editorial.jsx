@@ -10,8 +10,8 @@ function AssessorEditorial() {
   // ═══════ TOKENS (Folio · Accessor Flow 2026) ═══════
   const navy = "#000F47";               // midnight — primary brand
   const teal = "#0B4BFF";               // accent blue — links, active, rings, progress
-  const gold = "#0B4BFF";               // action — primary CTA fill (blue, white text). Was gold #FFBF00.
-  const goldDark = "#0A3FD6";           // CTA hover (darker blue)
+  const gold = "#0B4BFF";               // accent blue — rail active, toggles, badges, section accents (was gold #FFBF00). CTA fill is `navy` (Blue-1000) below.
+  const goldDark = "#0A3FD6";           // (accent-hover, retained for accent uses)
   const tealBg = `${teal}14`;
   const navyBg = `${navy}0D`;
   const bg = "#F7F3EE";                  // cream canvas
@@ -74,8 +74,8 @@ function AssessorEditorial() {
     .dot{width:6px;height:6px;border-radius:3px;flex-shrink:0}
     .row-bb{border-bottom:1px solid ${bd}}
     .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:14px;font-weight:600;border-radius:${br}px;cursor:pointer;transition:all .15s}
-    .btn-primary{background:${gold};color:#fff;font-weight:700}
-    .btn-primary:hover{background:${goldDark}}
+    .btn-primary{background:${navy};color:#fff;font-weight:700}
+    .btn-primary:hover{background:#1A2A6E}
     .btn-secondary{background:${card};color:${tx};border:1px solid ${bd}}
     .btn-secondary:hover{border-color:${bdStrong}}
     .btn-ghost{background:transparent;color:${tx}}
@@ -563,7 +563,7 @@ function AssessorEditorial() {
             const disabled = false;
             return (
               <button key={it.k} data-tour={"nav-"+it.k} onClick={()=>{ setRoute(it.k); }} title={collapsed?it.l:undefined} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:collapsed?"center":"flex-start",gap:12,padding:collapsed?"11px 0":"10px 14px",borderRadius:9,background:active?railActiveBg:"transparent",color:active?railActiveFg:railFg,fontSize:14,fontWeight:active?600:400,marginBottom:2,textAlign:"left",position:"relative",transition:"all .15s"}}>
-                {active && <div style={{position:"absolute",left:0,top:9,bottom:9,width:3,borderRadius:3,background:gold}}/>}
+                {active && <div style={{position:"absolute",left:0,top:9,bottom:9,width:3,borderRadius:3,background:"#CEECFF"}}/>}
                 <span style={{color:active?railActiveIcon:railIcon,display:"flex"}}><it.I s={18}/></span>
                 {!collapsed && <span style={{flex:1}}>{it.l}</span>}
                 {!collapsed && it.count !== null && !it.soon && <span style={{fontSize:14,color:railFg,fontWeight:600}}>{it.count}</span>}
@@ -2109,7 +2109,7 @@ function AssessorEditorial() {
                   <div style={{fontSize:14,opacity:.6,marginBottom:10,lineHeight:1.35}}>How the matrix looks with N assessors</div>
                   <div style={{display:"flex",flexDirection:"column",gap:6}}>
                     {[1,2,3,4].map(n => (
-                      <button key={n} onClick={()=>setNumAssessors(n)} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 10px",borderRadius:6,fontSize:14,fontWeight:n===numAssessors?700:500,textAlign:"left",cursor:"pointer",color:n===numAssessors?navy:"#fff",background:n===numAssessors?gold:"rgba(255,255,255,.08)",border:`1px solid ${n===numAssessors?gold:"rgba(255,255,255,.14)"}`,transition:"all .12s"}}>
+                      <button key={n} onClick={()=>setNumAssessors(n)} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 10px",borderRadius:6,fontSize:14,fontWeight:n===numAssessors?700:500,textAlign:"left",cursor:"pointer",color:"#fff",background:n===numAssessors?gold:"rgba(255,255,255,.08)",border:`1px solid ${n===numAssessors?gold:"rgba(255,255,255,.14)"}`,transition:"all .12s"}}>
                         <span style={{width:14,display:"inline-flex"}}>{n===numAssessors ? <I.Check s={13}/> : null}</span>
                         {`${n} assessor${n>1?"s":""}`}
                       </button>
@@ -2117,7 +2117,7 @@ function AssessorEditorial() {
                   </div>
                   <div style={{height:1,background:"rgba(255,255,255,.14)",margin:"12px 0 10px"}}/>
                   <div style={{fontSize:14,fontWeight:700,letterSpacing:0,opacity:.85,marginBottom:8}}>Number style</div>
-                  <button onClick={()=>setPlainNumbers(v=>!v)} style={{display:"flex",alignItems:"flex-start",gap:8,padding:"8px 10px",borderRadius:6,fontSize:14,fontWeight:plainNumbers?700:500,textAlign:"left",cursor:"pointer",color:plainNumbers?navy:"#fff",background:plainNumbers?gold:"rgba(255,255,255,.08)",border:`1px solid ${plainNumbers?gold:"rgba(255,255,255,.14)"}`,transition:"all .12s",lineHeight:1.3}}>
+                  <button onClick={()=>setPlainNumbers(v=>!v)} style={{display:"flex",alignItems:"flex-start",gap:8,padding:"8px 10px",borderRadius:6,fontSize:14,fontWeight:plainNumbers?700:500,textAlign:"left",cursor:"pointer",color:"#fff",background:plainNumbers?gold:"rgba(255,255,255,.08)",border:`1px solid ${plainNumbers?gold:"rgba(255,255,255,.14)"}`,transition:"all .12s",lineHeight:1.3}}>
                     <span style={{width:14,display:"inline-flex",flexShrink:0,marginTop:1}}>{plainNumbers ? <I.Check s={13}/> : null}</span>
                     Numbers without background
                   </button>

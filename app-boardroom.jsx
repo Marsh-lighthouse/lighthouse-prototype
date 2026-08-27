@@ -47,7 +47,7 @@ function BRail({ activeId, onNav, collapsed, onToggle, theme }) {
         color: active ? bMID : bMID, cursor: "pointer",
         fontFamily: "var(--sans)", fontSize: 14, fontWeight: active ? 600 : 400, position: "relative",
       }}>
-        {active && !collapsed && <div style={{ position: "absolute", left: 0, top: 9, bottom: 9, width: 3, borderRadius: 3, background: bGOLD }} />}
+        {active && !collapsed && <div style={{ position: "absolute", left: 0, top: 9, bottom: 9, width: 3, borderRadius: 3, background: bSKY }} />}
         <span style={{ color: active ? bMID : bMID, display: "flex" }}><Ic size={19} /></span>
         {!collapsed && item.label}
       </div>
