@@ -542,7 +542,7 @@ function AssessorEditorial() {
   );
 
   const Sidebar = () => {
-    const railBg = navy, railBorder = "rgba(255,255,255,.08)", railFg = "rgba(255,255,255,.62)", railIcon = "rgba(255,255,255,.5)", railActiveBg = "rgba(206,236,255,.14)", railActiveFg = "#ffffff", railActiveIcon = "#CEECFF", railGroup = "rgba(206,236,255,.5)";
+    const railBg = navy, railBorder = "rgba(255,255,255,.12)", railFg = "rgba(255,255,255,.8)", railIcon = "rgba(255,255,255,.75)", railActiveBg = "rgba(206,236,255,.16)", railActiveFg = "#ffffff", railActiveIcon = "#CEECFF", railGroup = "rgba(206,236,255,.9)";
     const items = [
       { k:"home", l:"Assessor Dashboard", I:I.Dash, count:null },
       { k:"dashboard", l:"Assessor Evaluation", I:I.Flag, count:null },
@@ -581,7 +581,7 @@ function AssessorEditorial() {
           ) : (
           <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:newExp?gold:"rgba(255,255,255,.04)",border:`1px solid ${newExp?gold:"rgba(255,255,255,.14)"}`,borderRadius:10,cursor:"pointer",textAlign:"left",transition:"all .18s ease"}}>
             <span style={{width:34,height:20,borderRadius:10,background:newExp?navy:"rgba(255,255,255,.22)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:14,height:14,borderRadius:7,background:"#fff",position:"absolute",top:3,left:newExp?17:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
-            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:newExp?navy:"#fff",lineHeight:1.3}}>New experience</span>
+            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:"#fff",lineHeight:1.3}}>New experience</span>
           </button>
           )}
         </div>
