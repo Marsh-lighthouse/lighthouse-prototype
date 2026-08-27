@@ -709,7 +709,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     // — Dashboard sample 2: greeting left · stats + profile completion fixed on the right —
     //   programs immediately below. Same type scale as sample 1; no font-size reductions.
     return (
-      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 64px" }}>
+      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         {/* Hero row — greeting left, stats + profile right */}
         <div className="ed-c-hero" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 32, flexWrap: "wrap", paddingBottom: 24, borderBottom: "1px solid var(--line)", marginBottom: 28 }}>
           <div style={{ flex: "1 1 320px", minWidth: 280 }}>
@@ -743,7 +743,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
   if (sample === "3") {
     // — Dashboard sample 3: original layout with profile card in center —
     return (
-      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 64px" }}>
+      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         {/* Hero */}
         <div style={{ marginBottom: 26 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
@@ -798,7 +798,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     //   task/report counts (pending · completed · reports ready · notes started)
     //   instead of the per-exercise step list. —
     return (
-      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 64px" }}>
+      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         <div style={{ marginBottom: 26 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
@@ -830,7 +830,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     //   window is closing" alert bar sits ABOVE the action buttons instead of as a
     //   top ribbon — so every card's header lines up uniformly. —
     return (
-      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 64px" }}>
+      <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         <div style={{ marginBottom: 26 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
@@ -859,7 +859,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
 
   // — Dashboard sample 1: profile on sidebar, clean center —
   return (
-    <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 64px" }}>
+    <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
       {/* Hero */}
       <div style={{ marginBottom: 26 }}>
         <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
