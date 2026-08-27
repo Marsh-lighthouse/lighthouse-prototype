@@ -33,7 +33,7 @@ function DarkPaletteRef() {
   }, []);
   // Per-brand dark values (must match client-brand.js varsDark / lh-tweaks dark branch).
   const PER = {
-    marsh:    { accent: "#7BA6FF", action: "#FFBF00", actionText: "#0B1220" },
+    marsh:    { accent: "#7BA6FF", action: "#0B4BFF", actionText: "#FFFFFF" },
     dge:      { accent: "#9DBBD8", action: "#81A0BD", actionText: "#0B1220" },
     generali: { accent: "#FF8A85", action: "#D23A34", actionText: "#FFFFFF" },
   };
@@ -66,7 +66,7 @@ function LighthouseTweaks() {
   // workspace): no Theme control, no Dark-palette reference, and the palette is
   // pinned LIGHT even if lh-theme was set to "dark" elsewhere in the platform.
   const HIDE_DARK = typeof window !== "undefined" && !!window.__LH_HIDE_DARK;
-  const DEFAULTS = { accent: "#0B4BFF", action: "#FFBF00", canvas: "#F7F3EE", heading: "Serif", primary: "#000F47", sidebar: "Midnight", align: (typeof document !== "undefined" && getComputedStyle(document.documentElement).getPropertyValue("--fol-mx").trim() === "auto") ? "Center" : "Left", theme: (typeof localStorage !== "undefined" && localStorage.getItem("lh-theme") === "dark") ? "Dark" : "Light", device: (typeof localStorage !== "undefined" && localStorage.getItem("lh-device")) || "Desktop" };
+  const DEFAULTS = { accent: "#0B4BFF", action: "#0B4BFF", canvas: "#F7F3EE", heading: "Serif", primary: "#000F47", sidebar: "Midnight", align: (typeof document !== "undefined" && getComputedStyle(document.documentElement).getPropertyValue("--fol-mx").trim() === "auto") ? "Center" : "Left", theme: (typeof localStorage !== "undefined" && localStorage.getItem("lh-theme") === "dark") ? "Dark" : "Light", device: (typeof localStorage !== "undefined" && localStorage.getItem("lh-device")) || "Desktop" };
   const [t, setTweak] = useTweaks(DEFAULTS);
   // Demo toggle for the "no internet" failure state (previewed via the bottom
   // switch). Purely a prototype affordance — real apps would drive this from the
@@ -168,11 +168,11 @@ function LighthouseTweaks() {
     // (client-brand.js, which is also dark-aware).
     if (window.LHBrand && window.LHBrand.current() !== "marsh") return;
     if (dark) {
-      // Marsh dark palette: light emphasis text, brighter accent, gold CTA kept.
+      // Marsh dark palette: light emphasis text, brighter accent, blue CTA (white label).
       r.setProperty("--primary", "#DCE6F8");   // headings / emphasis text on dark
       r.setProperty("--accent", "#7BA6FF");    // links / active — AA on dark card
-      r.setProperty("--action", "#FFBF00");    // gold reads well on dark
-      r.setProperty("--action-text", "#0B1220");
+      r.setProperty("--action", "#2C6BFF");    // blue CTA, a touch brighter for the dark surface
+      r.setProperty("--action-text", "#FFFFFF");
       return;
     }
     r.setProperty("--accent", t.accent);
@@ -369,6 +369,7 @@ function LighthouseTweaks() {
       <TweakSection label="Action button" />
       <TweakColor label="CTA fill" value={t.action}
         options={[
+          { value: "#0B4BFF", label: "Blue-600 · Accent (default)" },
           { value: "#FFBF00", label: "Gold-750" },
           { value: "#000F47", label: "Blue-1000 · Midnight Blue" },
           { value: "#CEECFF", label: "Blue-250 · Sky Blue" },

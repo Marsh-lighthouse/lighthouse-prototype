@@ -72,8 +72,8 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
 /* ── Themeable knobs (overridden live by the Tweaks panel on :root) ── */
 :root {
   --accent: #0B4BFF;   /* global accent: links, active nav, rings, eyebrows */
-  --action: #FFBF00;   /* primary action / CTA buttons (light fill, midnight text) */
-  --action-text: #000F47; /* text on --action fills (client brands flip to white) */
+  --action: #0B4BFF;   /* primary action / CTA buttons — blue by default (Tweaks can switch to gold) */
+  --action-text: #FFFFFF; /* text on --action fills (white on the blue CTA) */
   --canvas: #F7F3EE;   /* page background tone */
   --primary: #000F47;  /* primary brand color: rails, headings, solid fills */
 

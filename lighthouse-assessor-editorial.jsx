@@ -10,8 +10,8 @@ function AssessorEditorial() {
   // ═══════ TOKENS (Folio · Accessor Flow 2026) ═══════
   const navy = "#000F47";               // midnight — primary brand
   const teal = "#0B4BFF";               // accent blue — links, active, rings, progress
-  const gold = "#FFBF00";               // action — primary CTA fill (midnight text)
-  const goldDark = "#E9AE00";
+  const gold = "#0B4BFF";               // action — primary CTA fill (blue, white text). Was gold #FFBF00.
+  const goldDark = "#0A3FD6";           // CTA hover (darker blue)
   const tealBg = `${teal}14`;
   const navyBg = `${navy}0D`;
   const bg = "#F7F3EE";                  // cream canvas
@@ -74,7 +74,7 @@ function AssessorEditorial() {
     .dot{width:6px;height:6px;border-radius:3px;flex-shrink:0}
     .row-bb{border-bottom:1px solid ${bd}}
     .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:14px;font-weight:600;border-radius:${br}px;cursor:pointer;transition:all .15s}
-    .btn-primary{background:${gold};color:${navy};font-weight:700}
+    .btn-primary{background:${gold};color:#fff;font-weight:700}
     .btn-primary:hover{background:${goldDark}}
     .btn-secondary{background:${card};color:${tx};border:1px solid ${bd}}
     .btn-secondary:hover{border-color:${bdStrong}}
@@ -1782,7 +1782,7 @@ function AssessorEditorial() {
         {/* Pencil FAB */}
         <button onClick={()=>setNotesOpen(o=>!o)} aria-label="Assessor notes" title="Notes & to-do" style={{position:"fixed",bottom:28,right:28,width:54,height:54,borderRadius:27,border:"none",background:notesOpen?teal:navy,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:"0 8px 24px rgba(0,15,71,.28)",zIndex:60,transition:"background .18s, transform .18s"}} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.06)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>
           {notesOpen ? <I.X s={20}/> : <I.Edit s={21}/>}
-          {!notesOpen && (notes.length+todos.length)>0 && <span className="tnum" style={{position:"absolute",top:-3,right:-3,minWidth:20,height:20,padding:"0 5px",boxSizing:"border-box",borderRadius:10,background:gold,color:navy,fontSize:14,fontWeight:700,display:"inline-flex",alignItems:"center",justifyContent:"center",border:`2px solid ${bg}`}}>{notes.length+todos.length}</span>}
+          {!notesOpen && (notes.length+todos.length)>0 && <span className="tnum" style={{position:"absolute",top:-3,right:-3,minWidth:20,height:20,padding:"0 5px",boxSizing:"border-box",borderRadius:10,background:gold,color:"#fff",fontSize:14,fontWeight:700,display:"inline-flex",alignItems:"center",justifyContent:"center",border:`2px solid ${bg}`}}>{notes.length+todos.length}</span>}
         </button>
       </div>
     );
@@ -2006,7 +2006,7 @@ function AssessorEditorial() {
     };
     const assessorRoster = ["William Bennett","Elizabeth Turner","James Carter","Charlotte Hughes"];
     const activeAssessors = assessorRoster.slice(0, numAssessors);
-    const assessorColors = [teal, "#8F20DE", goldDark, "#0F8A5F"]; // brand accents (blue/purple/gold/green)
+    const assessorColors = [teal, "#8F20DE", "#E9AE00", "#0F8A5F"]; // chart accents (teal/purple/gold/green)
     const initials = (nm) => nm.split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
     const shownForms = assessorForms.map((af, fi) => ({af, fi})).filter(x => !hiddenForms.has(x.fi));
     const toggleForm = (fi) => setHiddenForms(prev => { const n = new Set(prev); if (n.has(fi)) n.delete(fi); else n.add(fi); return n; });
