@@ -1003,7 +1003,7 @@ function LHFooter({ full }) {
     { label: "Manage Cookies", key: "manageCookies" }
   ];
   return (
-    <footer style={{ maxWidth: full ? "none" : "var(--content-max)", margin: full ? "0" : "40px var(--fol-mx) 0", padding: full ? "22px 32px 10px" : "22px 0 10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+    <footer style={{ maxWidth: full ? "none" : "var(--content-max)", margin: full ? "0" : "0 var(--fol-mx)", padding: full ? "22px 32px 10px" : "22px 0 10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
       <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>© 2026 Marsh. {t("allRightsReserved")}.</span>
       <nav style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
         {links.map((l) => (

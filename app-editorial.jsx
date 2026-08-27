@@ -923,7 +923,7 @@ function EdFooter() {
     { label: "Manage Cookies", key: "manageCookies" }
   ];
   return (
-    <footer style={{ maxWidth: "var(--content-max)", margin: "40px var(--fol-mx) 0", padding: "22px 0 10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+    <footer style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "22px 0 10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
       <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT }}>© 2026 Marsh. {t("allRightsReserved")}.</span>
       <nav style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
         {links.map((l) => (
