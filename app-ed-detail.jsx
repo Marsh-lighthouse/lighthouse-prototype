@@ -831,7 +831,6 @@ function EdCenter({ center, onBack, onProctored, onOpenAssess, onReserve }) {
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 28px" }}>{center.name}</h1>
 
       {/* Reserve button removed per request — needsReserve centers open already reserved. */}

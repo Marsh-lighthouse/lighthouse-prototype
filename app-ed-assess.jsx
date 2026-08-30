@@ -62,7 +62,6 @@ function EdAssessIntro({ exercise, onExit, onBegin }) {
   const title = exercise ? exercise.name : "Work Style Preferences";
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <EdBack label="Back" onClick={onExit} />
       <EdEyebrow color={"var(--accent-2)"}>Open task</EdEyebrow>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>{title}</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 560 }}>This task includes {total} questions across different formats. Take your time — there are no time limits.</p>

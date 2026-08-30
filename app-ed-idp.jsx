@@ -1828,7 +1828,6 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Development</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 32px", maxWidth: 560 }}>Build a personalized growth plan based on your assessment insights.</p>
 
