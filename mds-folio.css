@@ -43,36 +43,36 @@
    ============================================================ */
 
 /* Cards / panels / containers -> 8px (radius-lg), circles excluded */
-#root [style*="border-radius: 8px"]:not([style*="width: 16px"]),
-#root [style*="border-radius: 9px"]:not([style*="width: 18px"]),
-#root [style*="border-radius: 10px"]:not([style*="width: 20px"]),
-#root [style*="border-radius: 11px"]:not([style*="width: 22px"]),
-#root [style*="border-radius: 12px"]:not([style*="width: 24px"]),
-#root [style*="border-radius: 13px"]:not([style*="width: 26px"]),
-#root [style*="border-radius: 14px"]:not([style*="width: 28px"]),
-#root [style*="border-radius: 15px"]:not([style*="width: 30px"]),
-#root [style*="border-radius: 16px"]:not([style*="width: 32px"]),
-#root [style*="border-radius: 17px"]:not([style*="width: 34px"]),
-#root [style*="border-radius: 18px"]:not([style*="width: 36px"]),
-#root [style*="border-radius: 19px"]:not([style*="width: 38px"]),
-#root [style*="border-radius: 20px"]:not([style*="width: 40px"]),
-#root [style*="border-radius: 21px"]:not([style*="width: 42px"]),
-#root [style*="border-radius: 22px"]:not([style*="width: 44px"]),
-#root [style*="border-radius: 23px"]:not([style*="width: 46px"]),
-#root [style*="border-radius: 24px"]:not([style*="width: 48px"]),
-#root [style*="border-radius: 25px"]:not([style*="width: 50px"]),
-#root [style*="border-radius: 26px"]:not([style*="width: 52px"]),
-#root [style*="border-radius: 28px"]:not([style*="width: 56px"]),
-#root [style*="border-radius: 30px"]:not([style*="width: 60px"]) {
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 8px"]:not([style*="width: 16px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 9px"]:not([style*="width: 18px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 10px"]:not([style*="width: 20px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 11px"]:not([style*="width: 22px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 12px"]:not([style*="width: 24px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 13px"]:not([style*="width: 26px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 14px"]:not([style*="width: 28px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 15px"]:not([style*="width: 30px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 16px"]:not([style*="width: 32px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 17px"]:not([style*="width: 34px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 18px"]:not([style*="width: 36px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 19px"]:not([style*="width: 38px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 20px"]:not([style*="width: 40px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 21px"]:not([style*="width: 42px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 22px"]:not([style*="width: 44px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 23px"]:not([style*="width: 46px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 24px"]:not([style*="width: 48px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 25px"]:not([style*="width: 50px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 26px"]:not([style*="width: 52px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 28px"]:not([style*="width: 56px"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 30px"]:not([style*="width: 60px"]) {
   border-radius: 8px !important;
 }
 
 /* Small inline radii (5-7px) -> 4px. Any element with a fixed inline width
    is a control (checkbox/radio indicator, icon dot) — left untouched so its
    original design/shape is preserved. */
-#root [style*="border-radius: 5px"]:not([style*="width:"]),
-#root [style*="border-radius: 6px"]:not([style*="width:"]),
-#root [style*="border-radius: 7px"]:not([style*="width:"]) {
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 5px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 6px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) [style*="border-radius: 7px"]:not([style*="width:"]) {
   border-radius: 4px !important;
 }
 
@@ -81,13 +81,13 @@
    Informative #0065AC / Positive #14853D / Negative #C53532 / Warning #DF7A00.
    Folio tags are small FILLED <span>s (status chips, "Available"/"Locked",
    counts, etc.); they already carry the soft semantic colours. */
-#root span[style*="background"][style*="border-radius: 3px"]:not([style*="width:"]),
-#root span[style*="background"][style*="border-radius: 4px"]:not([style*="width:"]),
-#root span[style*="background"][style*="border-radius: 5px"]:not([style*="width:"]),
-#root span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
-#root span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
-#root span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
-#root span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
+:is(#root,[style*="inset: 0px"]) span[style*="background"][style*="border-radius: 3px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) span[style*="background"][style*="border-radius: 4px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) span[style*="background"][style*="border-radius: 5px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
+:is(#root,[style*="inset: 0px"]) span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
   border-radius: 4px !important;
 }
 
@@ -96,7 +96,7 @@
    semantic text — add a 1px border in currentColor so the outline matches the
    type per MDS. SOLID badges (e.g. "Available"/"Locked" over photos, white
    text) are excluded: they have no color-mix() and must stay solid/readable. */
-#root span[style*="color-mix"][style*="border-radius"]:not([style*="width:"]) {
+:is(#root,[style*="inset: 0px"]) span[style*="color-mix"][style*="border-radius"]:not([style*="width:"]) {
   border: 1px solid currentColor !important;
   box-sizing: border-box !important;
 }
@@ -105,18 +105,18 @@
    like buttons. These are timers, NOT status tags, so they are sharp — not
    pills. Targeted by class so notices/alerts (which also use nowrap) are
    unaffected. .ed-cd is the task/program "Due …" countdown — same idea. */
-#root div.oa-cd:not([hidden]),
-#root div.ed-cd:not([hidden]) {
+:is(#root,[style*="inset: 0px"]) div.oa-cd:not([hidden]),
+:is(#root,[style*="inset: 0px"]) div.ed-cd:not([hidden]) {
   border-radius: 2px !important;
 }
 
 /* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
    Higher specificity beats the 8px rule; circles/pills excluded. */
-#root button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]),
-#root .btn,
-#root .btn-primary,
-#root .ed-btn,
-#root .ed-gold {
+:is(#root,[style*="inset: 0px"]) button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]),
+:is(#root,[style*="inset: 0px"]) .btn,
+:is(#root,[style*="inset: 0px"]) .btn-primary,
+:is(#root,[style*="inset: 0px"]) .ed-btn,
+:is(#root,[style*="inset: 0px"]) .ed-gold {
   border-radius: 2px !important;
 }
 /* Selection / option rows are <button>s for a11y but read as cards (left-aligned,
@@ -126,8 +126,8 @@
 /* Side-menu (rail) nav items -> 4px (MDS SideNavigation active item).
    These are <div role="button">, so the 2px button rule doesn't reach them;
    the extra selectors raise specificity above the container 8px rule. */
-#root .ed-rail nav [role="button"],
-#root .ed-rail nav [role="button"] > * {
+:is(#root,[style*="inset: 0px"]) .ed-rail nav [role="button"],
+:is(#root,[style*="inset: 0px"]) .ed-rail nav [role="button"] > * {
   border-radius: 4px !important;
 }
 
@@ -135,9 +135,9 @@
    in Figma — same as buttons). [style] raises specificity above the container
    rule so they aren't pulled to 8px. Checkboxes/radios are excluded (they stay
    as drawn). */
-#root textarea[style]:not([hidden]),
-#root input[style]:not([type="checkbox"]):not([type="radio"]),
-#root select[style]:not([hidden]) {
+:is(#root,[style*="inset: 0px"]) textarea[style]:not([hidden]),
+:is(#root,[style*="inset: 0px"]) input[style]:not([type="checkbox"]):not([type="radio"]),
+:is(#root,[style*="inset: 0px"]) select[style]:not([hidden]) {
   border-radius: 2px !important;
 }
 
@@ -145,7 +145,7 @@
    as a text field around a borderless <input>. They carry cursor:text, which
    is the reliable tell. -> 2px, same as real inputs. The extra attribute
    selectors raise specificity above the 8px container rule. */
-#root div[style*="cursor: text"][style*="border-radius"] {
+:is(#root,[style*="inset: 0px"]) div[style*="cursor: text"][style*="border-radius"] {
   border-radius: 2px !important;
 }
 
@@ -155,7 +155,7 @@
    hairline border that fills with the accent and shows a white tick when
    checked — so every checkbox in Folio looks identical. The hidden consent
    input (opacity:0, already backed by its own custom box) is excluded. */
-#root input[type="checkbox"]:not([style*="opacity: 0"]) {
+:is(#root,[style*="inset: 0px"]) input[type="checkbox"]:not([style*="opacity: 0"]) {
   -webkit-appearance: none; appearance: none;
   width: 20px !important; height: 20px !important;
   flex-shrink: 0; box-sizing: border-box;
@@ -164,10 +164,10 @@
   display: inline-grid; place-content: center; vertical-align: middle;
   transition: background .12s ease, border-color .12s ease;
 }
-#root input[type="checkbox"]:not([style*="opacity: 0"]):checked {
+:is(#root,[style*="inset: 0px"]) input[type="checkbox"]:not([style*="opacity: 0"]):checked {
   background: var(--primary); border-color: var(--primary);
 }
-#root input[type="checkbox"]:not([style*="opacity: 0"]):checked::after {
+:is(#root,[style*="inset: 0px"]) input[type="checkbox"]:not([style*="opacity: 0"]):checked::after {
   content: ""; width: 5px; height: 9px;
   border: solid #fff; border-width: 0 2px 2px 0;
   transform: translateY(-1px) rotate(45deg);
