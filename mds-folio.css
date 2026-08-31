@@ -95,8 +95,8 @@
    like buttons. These are timers, NOT status tags, so they are sharp — not
    pills. Targeted by class so notices/alerts (which also use nowrap) are
    unaffected. .ed-cd is the task/program "Due …" countdown — same idea. */
-.ed-shell .oa-cd,
-.ed-shell .ed-cd {
+.ed-shell div.oa-cd:not([hidden]),
+.ed-shell div.ed-cd:not([hidden]) {
   border-radius: 2px !important;
 }
 
