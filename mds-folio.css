@@ -226,13 +226,17 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
 }
 
-/* Image-select selection indicators -> square 2px, same as the MDS checkbox
-   (not round). The custom <span> tick boxes aren't <input>s, so the rule above
-   doesn't reach them. Covers the multi-select "Select all" box (22px, authored
-   at 5px, checked & unchecked) and the single-select corner badge (26px,
-   authored as a full circle at 13px — the "circle + tick"). */
-:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 22px"][style*="height: 22px"][style*="border-radius: 5px"],
-:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 24px"][style*="height: 24px"][style*="border-radius: 5px"],
+/* Custom checkbox tick boxes are <span>s (not <input>), authored at 5-6px radius
+   across SEVERAL sizes — 16px (checkgrid/NA-row ticks), 22px (image multi-select),
+   24px (captcha), etc. Target them by SIGNATURE (a 2px solid border + 5px/6px
+   radius) rather than by exact pixel size, so every variant squares to 2px on
+   every device — no size can slip through. Radio dots (background only, no
+   border) and status badges (color-mix fill, 1px currentColor border) don't have
+   a "2px solid" border, so they're unaffected. The 26px/6px checkbox BUTTONS
+   (checkgrid + "Not Applicable") are already squared to 2px by the button rule. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border: 2px solid"][style*="border-radius: 5px"],
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border: 2px solid"][style*="border-radius: 6px"],
+/* image-select single-select corner badge: round 13px -> square 2px */
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 26px"][style*="height: 26px"][style*="border-radius: 13px"][style*="position: absolute"] {
   border-radius: 2px !important;
 }
