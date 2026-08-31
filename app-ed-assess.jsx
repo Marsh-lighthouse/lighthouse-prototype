@@ -475,14 +475,14 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.35, paddingRight: 10 }}>{row}</div>
                         {q.cols.map((col, ci) => (
                           <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
-                            <input type="number" inputMode="numeric" disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: 56, height: 38, textAlign: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 14, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }} />
+                            <input type="number" inputMode="numeric" disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: 56, height: 38, textAlign: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 14, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }} />
                           </div>
                         ))}
                         <div style={{ display: "flex", justifyContent: "center" }}>
                           <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ width: 26, height: 26, borderRadius: 6, border: "2px solid " + (na ? eMID : "var(--control-line)"), background: na ? eMID : "#fff", color: "var(--on-accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>{na && <I.check size={15} />}</button>
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                          <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: na ? eMUT : eMID, background: eCARD }}>{na ? "—" : rowTotal(ri)}</div>
+                          <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: na ? eMUT : eMID, background: eCARD }}>{na ? "—" : rowTotal(ri)}</div>
                         </div>
                       </div>
                     );

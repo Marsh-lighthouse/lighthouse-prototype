@@ -11,7 +11,7 @@
   --accent: #0065AC !important;              /* MDS brand-primary-alt: links, active, rings, eyebrows */
   --ink:    #0F0C08 !important;              /* body text — warm near-black (MDS text-icon-secondary) */
   --muted:  rgba(15,12,8,.62) !important;    /* secondary text / captions */
-  --line:   #DEDBD6 !important;              /* borders — MDS hairline-warm */
+  --line:   #B9B6B1 !important;              /* borders — exact MDS neutral-500 */
   /* --action #000F47 (Midnight/Blue-1000), --primary #000F47,
      --canvas #F7F3EE (canvas-warm) already match — left as-is. */
 }
