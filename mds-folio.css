@@ -159,13 +159,13 @@
   -webkit-appearance: none; appearance: none;
   width: 20px !important; height: 20px !important;
   flex-shrink: 0; box-sizing: border-box;
-  border: 1.5px solid var(--control-line); border-radius: 6px !important;
+  border: 1.5px solid var(--control-line); border-radius: 4px !important;
   background: var(--card); cursor: pointer;
   display: inline-grid; place-content: center; vertical-align: middle;
   transition: background .12s ease, border-color .12s ease;
 }
 #root input[type="checkbox"]:not([style*="opacity: 0"]):checked {
-  background: var(--accent); border-color: var(--accent);
+  background: var(--primary); border-color: var(--primary);
 }
 #root input[type="checkbox"]:not([style*="opacity: 0"]):checked::after {
   content: ""; width: 5px; height: 9px;
