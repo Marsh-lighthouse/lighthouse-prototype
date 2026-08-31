@@ -1308,16 +1308,16 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
           {verdict
             // decided → read view: reopen as a draft, or (once approved) mark it done
             ? <React.Fragment>
-                <EdBtn onClick={reopen}><I.edit size={15} /> Edit Plan</EdBtn>
+                <EdBtn small onClick={reopen}><I.edit size={15} /> Edit Plan</EdBtn>
                 {verdict.status === "approved" && !completed &&
-                  <EdBtn primary onClick={markComplete}><I.checkCircle size={15} /> Mark as Complete</EdBtn>}
+                  <EdBtn primary small onClick={markComplete}><I.checkCircle size={15} /> Mark as Complete</EdBtn>}
               </React.Fragment>
             : awaiting
             ? null
             : locked
             ? <React.Fragment>
-                <EdBtn onClick={() => setLocked(false)}><I.edit size={15} /> Edit Plan</EdBtn>
-                <EdBtn primary onClick={() => {
+                <EdBtn small onClick={() => setLocked(false)}><I.edit size={15} /> Edit Plan</EdBtn>
+                <EdBtn primary small onClick={() => {
                   setSubmitted(true);
                   // Hand the submission to the Manager workspace (Direct Reportees).
                   // Resubmitting after a rejection clears the old verdict.
@@ -1327,7 +1327,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                   showToast("Plan submitted — pending approval");
                 }}>Submit Plan</EdBtn>
               </React.Fragment>
-            : <EdBtn primary onClick={() => {
+            : <EdBtn primary small onClick={() => {
                 // Sample 8 demonstrates the blocked save; the other designs save as usual.
                 if (sample === 8 && missingDates.length) { setTriedSave(true); showToast("Add start and end dates before saving"); return; }
                 setTriedSave(false); setLocked(true); showToast("Plan saved");
@@ -1798,7 +1798,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     return (
       <div className="pl-card-3" style={{ display: "flex", alignItems: "center", gap: 16, background: "var(--card)", border: "1px solid " + eLINE, borderLeft: "4px solid " + m.color, borderRadius: 10, padding: "13px 16px", marginBottom: 10, boxShadow: "0 1px 2px rgba(0,15,71,.04)" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>{title}<span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 20, padding: "2px 9px" }}>{action.mix}% · {m.label}</span></div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>{title}<span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 20, padding: "2px 9px" }}>{action.mix}% · {m.label}</span></div>
           <PlDesc text={action.desc} />
           <div style={{ marginTop: 8 }}>{src}</div>
         </div>
@@ -1818,7 +1818,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         <div style={{ flex: "1 1 260px", minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
             {title}
-            <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 20, padding: "2px 9px" }}>{action.mix}% · {m.label}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 20, padding: "2px 9px" }}>{action.mix}% · {m.label}</span>
           </div>
           <PlDescLine text={action.desc} />
         </div>
@@ -1838,7 +1838,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         <div style={{ flex: "1 1 240px", minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
             {title}
-            <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 20, padding: "2px 9px" }}>{action.mix}% · {m.label}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 20, padding: "2px 9px" }}>{action.mix}% · {m.label}</span>
           </div>
           <PlDescLine text={action.desc} />
         </div>
