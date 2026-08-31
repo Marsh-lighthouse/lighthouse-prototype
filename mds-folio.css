@@ -121,11 +121,12 @@
   border-radius: 4px !important;
 }
 
-/* Form controls (text inputs, textarea, select) -> 4px (radius-md).
-   [style] raises specificity above the container rule so they aren't
-   pulled to 8px. Checkboxes/radios are excluded (they stay as drawn). */
+/* Form controls (text inputs, textarea, select) -> 2px (radius-sm, confirmed
+   in Figma — same as buttons). [style] raises specificity above the container
+   rule so they aren't pulled to 8px. Checkboxes/radios are excluded (they stay
+   as drawn). */
 .ed-shell textarea[style]:not([hidden]),
 .ed-shell input[style]:not([type="checkbox"]):not([type="radio"]),
 .ed-shell select[style]:not([hidden]) {
-  border-radius: 4px !important;
+  border-radius: 2px !important;
 }
