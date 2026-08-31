@@ -67,10 +67,12 @@
   border-radius: 8px !important;
 }
 
-/* Small inline radii (5-7px) -> 4px, circles excluded */
-.ed-shell [style*="border-radius: 5px"]:not([style*="width: 10px"]),
-.ed-shell [style*="border-radius: 6px"]:not([style*="width: 12px"]),
-.ed-shell [style*="border-radius: 7px"]:not([style*="width: 14px"]) {
+/* Small inline radii (5-7px) -> 4px. Any element with a fixed inline width
+   is a control (checkbox/radio indicator, icon dot) — left untouched so its
+   original design/shape is preserved. */
+.ed-shell [style*="border-radius: 5px"]:not([style*="width:"]),
+.ed-shell [style*="border-radius: 6px"]:not([style*="width:"]),
+.ed-shell [style*="border-radius: 7px"]:not([style*="width:"]) {
   border-radius: 4px !important;
 }
 
@@ -79,13 +81,13 @@
    3-8px inline radius (status chips, "Available"/"Locked", counts, etc.).
    Scoped to spans (cards are divs) with a background, so only tags match.
    Higher specificity than the value-based radius rules, so it wins. */
-.ed-shell span[style*="background"][style*="border-radius: 3px"],
-.ed-shell span[style*="background"][style*="border-radius: 4px"],
-.ed-shell span[style*="background"][style*="border-radius: 5px"],
-.ed-shell span[style*="background"][style*="border-radius: 6px"],
-.ed-shell span[style*="background"][style*="border-radius: 7px"],
-.ed-shell span[style*="background"][style*="border-radius: 8px"],
-.ed-shell span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"] {
+.ed-shell span[style*="background"][style*="border-radius: 3px"]:not([style*="width:"]),
+.ed-shell span[style*="background"][style*="border-radius: 4px"]:not([style*="width:"]),
+.ed-shell span[style*="background"][style*="border-radius: 5px"]:not([style*="width:"]),
+.ed-shell span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
+.ed-shell span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
+.ed-shell span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
+.ed-shell span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
   border-radius: 999px !important;
 }
 
