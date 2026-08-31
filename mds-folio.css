@@ -128,12 +128,17 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
   border-radius: 2px !important;
 }
 
-/* MDS Badge border: soft-fill status badges (In progress, Not started,
-   counts, etc.) use a color-mix() semantic tint background with matching
-   semantic text — add a 1px border in currentColor so the outline matches the
-   type per MDS. SOLID badges (e.g. "Available"/"Locked" over photos, white
-   text) are excluded: they have no color-mix() and must stay solid/readable. */
-:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="border-radius"]:not([style*="width:"]) {
+/* MDS Badge border: per the MDS Figma, EVERY soft badge carries a 1px inset
+   border in its semantic hue. Two tint authorings exist in Folio — color-mix()
+   (In progress, Not started, counts) and rgba() (e.g. "✓ Hogan Assessment",
+   success/danger/warning source chips). Both get a 1px currentColor border so
+   the outline matches the semantic text colour. SOLID badges (Available/Locked,
+   white text on a full-strength fill) are left as-is: MDS borders them in the
+   SAME hue as the fill, which is visually identical to no outline. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="border-radius"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--success)"][style*="border-radius"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--danger)"][style*="border-radius"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--warn"][style*="border-radius"]:not([style*="width:"]) {
   border: 1px solid currentColor !important;
   box-sizing: border-box !important;
 }
