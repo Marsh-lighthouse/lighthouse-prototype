@@ -40,7 +40,7 @@
 .lh-cookie-actions { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; width: 232px; }
 .lh-cookie-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  height: 46px; padding: 0 20px; border-radius: 8px;
+  height: 46px; padding: 0 20px; border-radius: 2px;
   font-family: var(--sans); font-size: 14px; font-weight: 700; letter-spacing: .01em;
   cursor: pointer; color: #fff;
   background: transparent;
@@ -147,7 +147,7 @@ html[dir="rtl"] .lh-cp-toggle input:checked + .lh-cp-track::after { transform: t
 
 /* sticky footer */
 .lh-cp-foot { position: sticky; bottom: 0; background: #fff; display: flex; flex-direction: column; gap: 10px; padding: 14px 24px 18px; border-top: 1px solid #ECECEC; }
-.lh-cp-btn { display: inline-flex; align-items: center; justify-content: center; height: 46px; border-radius: 8px; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer; transition: background .15s ease, transform .12s ease; }
+.lh-cp-btn { display: inline-flex; align-items: center; justify-content: center; height: 46px; border-radius: 2px; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer; transition: background .15s ease, transform .12s ease; }
 .lh-cp-btn:active { transform: translateY(1px); }
 .lh-cp-btn--primary { background: var(--accent, #0E6BA8); color: #fff; border: none; }
 .lh-cp-btn--primary:hover { filter: brightness(1.08); }
