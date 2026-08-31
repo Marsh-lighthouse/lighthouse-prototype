@@ -89,9 +89,14 @@
 #root span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
 #root span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
   border-radius: 4px !important;
-  /* MDS Badge: soft fill (already inline) + a 1px semantic border. currentColor
-     is each badge's own semantic text colour, so the outline matches per type
-     (Informative blue / Positive green / Negative red / Warning orange). */
+}
+
+/* MDS Badge border: soft-fill status badges (In progress, Not started,
+   counts, etc.) use a color-mix() semantic tint background with matching
+   semantic text — add a 1px border in currentColor so the outline matches the
+   type per MDS. SOLID badges (e.g. "Available"/"Locked" over photos, white
+   text) are excluded: they have no color-mix() and must stay solid/readable. */
+#root span[style*="color-mix"][style*="border-radius"]:not([style*="width:"]) {
   border: 1px solid currentColor !important;
   box-sizing: border-box !important;
 }
