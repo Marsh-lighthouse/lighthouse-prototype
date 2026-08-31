@@ -86,8 +86,8 @@ function EdRow({ item, accent, onClick }) {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{item.name}</span>
-          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: ePURP, background: "rgba(143,32,222,.10)", padding: "2px 8px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
-          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "2px 8px", borderRadius: 5 }}>Report ready</span>}
+          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: ePURP, background: "rgba(143,32,222,.10)", padding: "2px 8px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
+          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "2px 8px", borderRadius: 5 }}>Report ready</span>}
         </div>
         {item.desc && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, marginTop: 3, maxWidth: 460 }}>{item.desc}</div>}
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 7 }}>
@@ -148,8 +148,8 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
         {isError && <div style={{ position: "absolute", inset: 0, background: "rgba(197,53,50,.32)", mixBlendMode: "multiply" }} />}
         {/* badges */}
         <div style={{ position: "absolute", top: 12, left: 14, display: "flex", gap: 7, flexWrap: "wrap" }}>
-          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#fff", background: "var(--surface-deep)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
-          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, background: "var(--card)", padding: "3px 9px", borderRadius: 6 }}>Report ready</span>}
+          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#fff", background: "var(--surface-deep)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
+          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: eMID, background: "var(--card)", padding: "3px 9px", borderRadius: 6 }}>Report ready</span>}
         </div>
         <div style={{ position: "absolute", top: 12, right: 14 }}>
           {isComplete ? <span style={{ width: 26, height: 26, borderRadius: 13, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={15} /></span> :

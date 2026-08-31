@@ -105,8 +105,8 @@ function EdReportCard({ r, onPreview }) {
           : <span style={{ color: eSKY, display: "flex" }}><I.fileText size={38} /></span>}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,15,71,.15) 0%, rgba(0,15,71,0) 45%, rgba(0,15,71,.30) 100%)" }} />
         {r.available
-          ? <span style={{ position: "absolute", top: 10, right: 10, background: "var(--success-fill)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, padding: "3px 9px", borderRadius: 5 }}>Available</span>
-          : <span style={{ position: "absolute", top: 10, right: 10, background: "rgba(0,0,0,.5)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, padding: "3px 9px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4, backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}><I.lock size={11} /> Locked</span>}
+          ? <span style={{ position: "absolute", top: 10, right: 10, background: "var(--success-fill)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "3px 9px", borderRadius: 5 }}>Available</span>
+          : <span style={{ position: "absolute", top: 10, right: 10, background: "rgba(0,0,0,.5)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "3px 9px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4, backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}><I.lock size={11} /> Locked</span>}
       </div>
       <div style={{ padding: 18, display: "flex", flexDirection: "column", flex: 1 }}>
         <h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: locked ? eMUT : eMID, margin: "0 0 12px" }}>{r.name}</h3>
@@ -114,7 +114,7 @@ function EdReportCard({ r, onPreview }) {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
           {r.based.map((b, i) => {
             const isDone = i < r.doneCount;
-            return <span key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "3px 8px", borderRadius: 5, background: isDone ? "rgba(20,133,61,.10)" : "rgba(0,15,71,.05)", color: isDone ? eSUCCESS : eMUT }}>{isDone && "✓ "}{b}</span>;
+            return <span key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "3px 8px", borderRadius: 5, background: isDone ? "rgba(20,133,61,.10)" : "rgba(0,15,71,.05)", color: isDone ? eSUCCESS : eMUT }}>{isDone && "✓ "}{b}</span>;
           })}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: "auto" }}>
