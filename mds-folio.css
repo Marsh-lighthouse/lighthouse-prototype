@@ -147,8 +147,11 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 }
 
 /* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
-   Higher specificity beats the 8px rule; circles/pills excluded. */
-:is(#root,body>div:not([class]),.lh-net-overlay) button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]),
+   Higher specificity beats the 8px rule; circles/pills excluded.
+   The width+radius :not() pairs below preserve CIRCULAR icon/radio buttons
+   (border-radius == half the width, e.g. matrix Likert radios at 20px/10px) —
+   a radio is a round MDS component, not a squared button. */
+:is(#root,body>div:not([class]),.lh-net-overlay) button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]):not([style*="width: 14px"][style*="border-radius: 7px"]):not([style*="width: 16px"][style*="border-radius: 8px"]):not([style*="width: 18px"][style*="border-radius: 9px"]):not([style*="width: 20px"][style*="border-radius: 10px"]):not([style*="width: 22px"][style*="border-radius: 11px"]):not([style*="width: 24px"][style*="border-radius: 12px"]):not([style*="width: 26px"][style*="border-radius: 13px"]):not([style*="width: 28px"][style*="border-radius: 14px"]):not([style*="width: 30px"][style*="border-radius: 15px"]):not([style*="width: 32px"][style*="border-radius: 16px"]):not([style*="width: 34px"][style*="border-radius: 17px"]):not([style*="width: 36px"][style*="border-radius: 18px"]):not([style*="width: 40px"][style*="border-radius: 20px"]):not([style*="width: 44px"][style*="border-radius: 22px"]):not([style*="width: 48px"][style*="border-radius: 24px"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) .btn,
 :is(#root,body>div:not([class]),.lh-net-overlay) .btn-primary,
 :is(#root,body>div:not([class]),.lh-net-overlay) .ed-btn,
