@@ -216,6 +216,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    at 5px, checked & unchecked) and the single-select corner badge (26px,
    authored as a full circle at 13px — the "circle + tick"). */
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 22px"][style*="height: 22px"][style*="border-radius: 5px"],
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 24px"][style*="height: 24px"][style*="border-radius: 5px"],
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 26px"][style*="height: 26px"][style*="border-radius: 13px"][style*="position: absolute"] {
   border-radius: 2px !important;
 }
