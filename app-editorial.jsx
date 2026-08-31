@@ -624,7 +624,7 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
     ? { label: t("statusCompleted"), fg: "var(--success)", bg: "rgba(31,138,91,.10)" }
     : state === "notstarted"
       ? { label: t("statusNotStarted"), fg: MUT, bg: "var(--status-neutral-bg)" }
-      : { label: t("statusInProgress"), fg: p.accent, bg: "color-mix(in srgb, " + p.accent + " 12%, var(--card))" };
+      : { label: t("statusInProgress"), fg: "var(--accent)", bg: "color-mix(in srgb, var(--accent) 12%, var(--card))" };
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, padding: 22, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       {timer && timerPos === "top" && (

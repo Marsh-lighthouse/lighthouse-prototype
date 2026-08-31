@@ -143,6 +143,16 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
   box-sizing: border-box !important;
 }
 
+/* MDS "Neutral" badge (Soft background = No): the neutral status chips
+   ("Not started", etc.) map to the OUTLINED neutral tag in the MDS Badge
+   component — 1px --v3-border-neutral (#94918C) border, NO fill. Folio authors
+   them with a --status-neutral-bg tint and no border, so swap to the outline. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: var(--status-neutral-bg)"] {
+  border: 1px solid #94918C !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
 /* Timers (immersive "THIS TASK" / "PROGRAM" countdowns = .oa-cd) -> 2px,
    like buttons. These are timers, NOT status tags, so they are sharp — not
    pills. Targeted by class so notices/alerts (which also use nowrap) are
