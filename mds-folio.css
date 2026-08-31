@@ -120,6 +120,13 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
   border-radius: 4px !important;
 }
 
+/* The white-bg outline COUNTER pill ("X OF Y RANKED") -> 2px square, per
+   request. Identified by its 1px letter-spacing + 999px radius, so it doesn't
+   affect the tinted status badges. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border-radius: 999px"][style*="letter-spacing: 1px"] {
+  border-radius: 2px !important;
+}
+
 /* MDS Badge border: soft-fill status badges (In progress, Not started,
    counts, etc.) use a color-mix() semantic tint background with matching
    semantic text — add a 1px border in currentColor so the outline matches the
