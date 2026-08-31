@@ -1629,9 +1629,9 @@ function EdPlanView({ onBack, onRestart }) {
   const doneCount = Object.values(tipStatus).filter((s) => s === "done").length;
 
   const statusMeta = {
-    draft: { label: "Draft", color: eMUT, bg: "rgba(123,121,116,.12)" },
-    "under-review": { label: "Under review", color: eWARN, bg: "rgba(203,126,3,.10)" },
-    approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.10)" },
+    draft: { label: "Draft", color: "var(--ink)", bg: "var(--status-neutral-bg)" },
+    "under-review": { label: "Under review", color: "#CB7E03", bg: "color-mix(in srgb, #CB7E03 15%, #ffffff)" },
+    approved: { label: "Approved", color: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)" },
   };
   const sm = statusMeta[status];
 
@@ -1644,7 +1644,7 @@ function EdPlanView({ onBack, onRestart }) {
           <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Your development plan</h1>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0, maxWidth: 540 }}>A balanced 70·20·10 plan generated from your assessment and goals.</p>
         </div>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: sm.color, background: sm.bg, padding: "6px 13px", borderRadius: 6, marginTop: 8, whiteSpace: "nowrap" }}>{sm.label}</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: sm.color, background: sm.bg, padding: "6px 13px", borderRadius: 6, marginTop: 8, whiteSpace: "nowrap" }}>{sm.label}</span>
       </div>
 
       {/* stat strip */}

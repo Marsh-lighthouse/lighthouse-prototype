@@ -131,7 +131,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
       </div>
 
       <div style={{ marginBottom: 16 }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: qBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>In progress</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>In progress</span>
       </div>
 
       <h1 className="serif" style={{ fontSize: isMob ? 34 : 44, color: qMID, lineHeight: 1.05, margin: "0 0 14px", textWrap: "pretty" }}>Your 360° campaign, at a glance.</h1>
@@ -163,7 +163,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = qMID; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = qLINE; }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)" }}>Step 01 · Self-evaluation</div>
-            {c360SelfDone && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 99, background: "rgba(20,133,61,.12)", color: qGREEN, fontSize: 14, fontWeight: 700, fontFamily: "var(--sans)" }}><QI.Check s={11} /> Done</div>}
+            {c360SelfDone && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 99, background: "color-mix(in srgb, #14853D 15%, #ffffff)", color: "#14853D", fontSize: 14, fontWeight: 400, fontFamily: "var(--sans)" }}><QI.Check s={11} /> Done</div>}
           </div>
           <h2 className="serif" style={{ fontSize: 24, color: qMID, lineHeight: 1.15, margin: "0 0 10px" }}>Rate yourself first.</h2>
           <p style={{ fontSize: 14, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 0 18px" }}>Score yourself on {totalSelf} leadership competencies. Your answers anchor the gap analysis in your final report.</p>
@@ -441,8 +441,8 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
         <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, overflow: "hidden" }}>
           {roster.map((r, i) => {
             const stCfg = {
-              complete: { l: "Complete", c: qGREEN, bg: "rgba(20,133,61,.12)" },
-              "in-progress": { l: "In progress", c: qBLUE, bg: qBLUE_BG },
+              complete: { l: "Complete", c: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)" },
+              "in-progress": { l: "In progress", c: "#002C77", bg: "color-mix(in srgb, #002C77 15%, #ffffff)" },
               opened: { l: "Opened", c: qGOLDINK, bg: "rgba(203,126,3,.12)" },
               invited: { l: "Invited", c: qMUT, bg: "rgba(0,15,71,.05)" },
               declined: { l: "Declined", c: qRED, bg: "rgba(197,53,50,.10)" },
@@ -457,7 +457,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                 {!isMob && <div style={{ width: 100, height: 4, background: "var(--track)", borderRadius: 2, overflow: "hidden" }}>
                   <div style={{ height: "100%", width: `${r.progress}%`, background: stCfg.c, transition: "width .3s ease" }} />
                 </div>}
-                <div style={{ padding: "4px 10px", borderRadius: 99, background: stCfg.bg, color: stCfg.c, fontSize: 14, fontWeight: 700, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
+                <div style={{ padding: "4px 10px", borderRadius: 99, background: stCfg.bg, color: stCfg.c, fontSize: 14, fontWeight: 400, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
                 {(r.status === "invited" || r.status === "opened" || r.status === "in-progress") && (
                   <button onClick={() => remind(r)} style={{ padding: "6px 12px", borderRadius: sr, border: "1px solid " + qLINE, background: "transparent", color: qMID, fontSize: 14, fontWeight: 600, fontFamily: "var(--sans)", cursor: "pointer", flexShrink: 0 }}>Remind</button>
                 )}

@@ -512,7 +512,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                 <div className="ed-slot-action" style={{ flexShrink: 0 }}>
                   {isBooked ? (
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSUCCESS, display: "inline-flex", alignItems: "center", gap: 5 }}><I.check size={15} /> Booked</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 5 }}><I.check size={15} /> Booked</span>
                       {slot.cancelBefore && <button onClick={() => setCancelSlot({ slot, center: c, program: c.program })} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}>Cancel</button>}
                     </div>
                   ) : full ? (
@@ -626,7 +626,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.2, marginBottom: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{slotTime(e.slot.time)}</div>
                         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                             {isBooked ? (
-                              <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSUCCESS, display: "inline-flex", alignItems: "center", gap: 3 }}><I.check size={11} /> Booked</span>
+                              <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 3 }}><I.check size={11} /> Booked</span>
                             ) : (
                               <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: e.slot.remaining <= 2 ? eDANGER : eMUT }}>{e.slot.remaining}/{e.slot.total} seats</span>
                             )}

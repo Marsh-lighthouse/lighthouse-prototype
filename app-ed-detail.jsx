@@ -57,15 +57,15 @@ function EdBtn({ children, primary, small, disabled, onClick, full }) {
 
 // ── status helpers ──
 const edStatusMeta = {
-  complete: { label: "Done", color: eSUCCESS, bg: "rgba(20,133,61,.10)" },
-  progress: { label: "In progress", color: eBLUE, bg: "color-mix(in srgb, var(--accent) 10%, var(--card))" },
-  notstarted: { label: "Not started", color: eWARN, bg: "rgba(203,126,3,.10)" },
-  locked: { label: "Locked", color: eMUT, bg: "rgba(123,121,116,.12)" }
+  complete: { label: "Done", color: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)" },
+  progress: { label: "In progress", color: "#002C77", bg: "color-mix(in srgb, #002C77 15%, #ffffff)" },
+  notstarted: { label: "Not started", color: "var(--ink)", bg: "var(--status-neutral-bg)" },
+  locked: { label: "Locked", color: "var(--ink)", bg: "var(--status-neutral-bg)" }
 };
 
 function EdBadge({ status }) {
   const m = edStatusMeta[status] || edStatusMeta.locked;
-  return <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: m.color, background: m.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{m.label}</span>;
+  return <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: m.color, background: m.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{m.label}</span>;
 }
 
 // ── universal exercise / center row ──
@@ -328,7 +328,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ position: "absolute", top: -50, right: -50, width: 200, height: 200, borderRadius: "50%", background: "rgba(206,236,255,.07)" }} />
       <div style={{ position: "relative" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSKY, background: "rgba(206,236,255,.14)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
         </div>
         <h1 className="serif" style={{ fontSize: 40, color: "#fff", lineHeight: 1.06, margin: "0 0 12px", maxWidth: 560 }}>{prog.name}</h1>
         <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 26, flexWrap: "wrap" }}>
@@ -353,7 +353,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
   const heroLight =
   <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 20, padding: "32px 34px", marginBottom: 40 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
       </div>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.06, margin: "0 0 12px", maxWidth: 560 }}>{prog.name}</h1>
       <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 24, flexWrap: "wrap" }}>
@@ -376,7 +376,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
 
   const heroMinimal =
   <div style={{ marginBottom: 40 }}>
-      <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "4px 11px", borderRadius: 6, marginBottom: 14 }}>In progress</span>
+      <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6, marginBottom: 14 }}>In progress</span>
       <h1 className="serif" style={{ fontSize: 48, color: eMID, lineHeight: 1.02, margin: "0 0 24px", maxWidth: 620 }}>{prog.name}</h1>
       <div className="ed-hstats" style={{ display: "flex", alignItems: "center", padding: "4px 0 0" }}>
         {stats.map((m, i) =>
@@ -404,7 +404,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* title + inline status chip (state belongs to the program) */}
       <div style={{ display: "flex", alignItems: "center", gap: 13, flexWrap: "wrap", rowGap: 8, marginBottom: 15 }}>
         <h1 className="serif" style={{ fontSize: 44, color: eMID, lineHeight: 1.02, margin: 0, maxWidth: 560 }}>{prog.name}</h1>
-        <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
+        <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
       </div>
       {/* data line: progress summary leads, then the task breakdown (wraps on mobile) */}
       <div className="ed-hstats" style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", rowGap: 10 }}>
@@ -435,7 +435,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <h1 className="serif" style={{ fontSize: 38, color: eMID, lineHeight: 1.04, margin: 0 }}>{prog.name}</h1>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "5px 12px", borderRadius: 6 }}>In progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 6 }}>In progress</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 13, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "5px 12px", borderRadius: 8 }}>{all.length} Total</span>
@@ -460,7 +460,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* title + meta */}
       <div style={{ flex: 1, minWidth: 200 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eWARN, background: "rgba(203,126,3,.12)", padding: "3px 10px", borderRadius: 6 }}>In progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "3px 10px", borderRadius: 6 }}>In progress</span>
         </div>
         <h1 className="serif" style={{ fontSize: 29, color: eMID, lineHeight: 1.05, margin: 0 }}>{prog.name}</h1>
       </div>
@@ -544,7 +544,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 4 }}>
                 <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: 0 }}>{c.name}</h2>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: eSUCCESS, background: "rgba(20,133,61,.10)", padding: "3px 9px", borderRadius: 5 }}>Completed</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, letterSpacing: ".04em", textTransform: "uppercase", color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "3px 9px", borderRadius: 5 }}>Completed</span>
               </div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 600 }}>You've completed every activity in this assessment center. Your results have been submitted and are being processed.</p>
             </div>
