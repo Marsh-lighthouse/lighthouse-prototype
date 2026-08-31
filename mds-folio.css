@@ -102,13 +102,16 @@
 
 /* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
    Higher specificity beats the 8px rule; circles/pills excluded. */
-.ed-shell button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]),
+.ed-shell button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]),
 .ed-shell .btn,
 .ed-shell .btn-primary,
 .ed-shell .ed-btn,
 .ed-shell .ed-gold {
   border-radius: 2px !important;
 }
+/* Selection / option rows are <button>s for a11y but read as cards (left-aligned,
+   contain a radio/checkbox, have a border) — keep them at the 8px card radius,
+   not the 2px CTA radius. They fall through to the 8px container rule above. */
 
 /* Side-menu (rail) nav items -> 4px (MDS SideNavigation active item).
    These are <div role="button">, so the 2px button rule doesn't reach them;
