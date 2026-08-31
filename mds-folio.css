@@ -89,6 +89,11 @@
 #root span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
 #root span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
   border-radius: 4px !important;
+  /* MDS Badge: soft fill (already inline) + a 1px semantic border. currentColor
+     is each badge's own semantic text colour, so the outline matches per type
+     (Informative blue / Positive green / Negative red / Warning orange). */
+  border: 1px solid currentColor !important;
+  box-sizing: border-box !important;
 }
 
 /* Timers (immersive "THIS TASK" / "PROGRAM" countdowns = .oa-cd) -> 2px,
