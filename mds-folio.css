@@ -97,19 +97,19 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
   border-radius: 4px !important;
 }
 
-/* Status chips / badges / tags -> 4px MDS Badge (NOT a pill). MDS status
-   badges use a soft semantic background + small radius, types:
-   Informative #0065AC / Positive #14853D / Negative #C53532 / Warning #DF7A00.
-   Folio tags are small FILLED <span>s (status chips, "Available"/"Locked",
-   counts, etc.); they already carry the soft semantic colours. */
+/* Status chips / badges / tags -> 8px, matching the MDS Badge component (text
+   badges use radius-lg = 8px in the Figma; verified in the MDS style guide).
+   MDS status badges use a soft semantic background + 1px semantic border, types:
+   Informative #0065AC / Positive #14853D / Negative #C53532 / Notice(Warning) #CB7E03
+   / Neutral outline #94918C. Folio tags are small FILLED <span>s (status chips,
+   "Available"/"Locked", counts, etc.); they already carry the soft colours. */
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 3px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 4px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 5px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
-:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
-  border-radius: 4px !important;
+  border-radius: 8px !important;
 }
 
 /* Some badges were authored as PILLS (border-radius: 999px) rather than 3-8px —
@@ -118,7 +118,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    pill controls (toggles) and white-bg counters (e.g. "0 OF 6 RANKED") stay as
    pills. The MDS border rule below then gives them their semantic outline. */
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="border-radius: 999px"]:not([style*="width:"]) {
-  border-radius: 4px !important;
+  border-radius: 8px !important;
 }
 
 /* The white-bg outline COUNTER pill ("X OF Y RANKED") -> 2px square, per
