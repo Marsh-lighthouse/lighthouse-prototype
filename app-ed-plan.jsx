@@ -454,15 +454,17 @@ function plDiff(plan) {
 // The employee's badge and the manager's chip read from this, so a status can never
 // mean one colour on one screen and another colour on the other.
 const PL_STATUS = {
-  notstarted: { label: "Not Started", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null },
-  draft: { label: "Draft", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null },
-  pending: { label: "Pending Approval", color: eWARN, bg: "color-mix(in srgb, var(--warn, #C77700) 12%, transparent)", icon: "clock" },
+  // MDS Badge soft-background variants: Neutral outline / Notice / Informative /
+  // Positive / Negative. Colours are the exact MDS hues; fill = 85%-white tint.
+  notstarted: { label: "Not Started", color: "var(--ink)", bg: "var(--status-neutral-bg)", icon: null },
+  draft: { label: "Draft", color: "var(--ink)", bg: "var(--status-neutral-bg)", icon: null },
+  pending: { label: "Pending Approval", color: "#CB7E03", bg: "color-mix(in srgb, #CB7E03 15%, #ffffff)", icon: "clock" },
   // The manager has opened the plan for review — no longer just queued.
-  review: { label: "In Review", color: eBLUE, bg: "color-mix(in srgb, var(--accent) 10%, transparent)", icon: "eye" },
-  approved: { label: "Approved", color: eSUCCESS, bg: "rgba(20,133,61,.10)", icon: "checkCircle" },
-  rejected: { label: "Rejected", color: "var(--danger)", bg: "rgba(197,53,50,.10)", icon: "alertCircle" },
+  review: { label: "In Review", color: "#002C77", bg: "color-mix(in srgb, #002C77 15%, #ffffff)", icon: "eye" },
+  approved: { label: "Approved", color: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)", icon: "checkCircle" },
+  rejected: { label: "Rejected", color: "#C53532", bg: "color-mix(in srgb, #C53532 15%, #ffffff)", icon: "alertCircle" },
   // The owner's own marker once they've finished the work — not a manager decision.
-  completed: { label: "Completed", color: "#6B49C8", bg: "rgba(107,73,200,.10)", icon: "checkCircle" },
+  completed: { label: "Completed", color: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)", icon: "checkCircle" },
 };
 // The badge itself — same pill wherever a plan status is shown.
 function PlStatusBadge({ status, size = 14 }) {
@@ -470,7 +472,7 @@ function PlStatusBadge({ status, size = 14 }) {
   const Ic = s.icon && I[s.icon];
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: size,
-      fontWeight: 700, color: s.color, background: s.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
+      fontWeight: 400, color: s.color, background: s.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
       {Ic ? <Ic size={size} /> : null}{s.label}
     </span>
   );
@@ -1075,7 +1077,7 @@ function PlReflectTab({ forceError, showToast }) {
             const over = it.max > 0 && words > it.max;
             return (
               <React.Fragment>
-                <div style={{ border: "1.5px solid " + (err || over ? "var(--danger)" : eLINE), borderRadius: 10, overflow: "hidden", background: err ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)" }}>
+                <div style={{ border: "1.5px solid " + (err || over ? "var(--danger)" : "var(--field-line)"), borderRadius: 2, overflow: "hidden", background: err ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)" }}>
                   <textarea value={v} onChange={(e) => { const nv = e.target.value; setAns((a) => ({ ...a, [i]: nv })); setSavedState(false); }} placeholder="Write your reflection here…" rows={4}
                     style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", border: "none", background: "transparent", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6, display: "block" }} />
                   {/* word / character budget, the same counters the manual flow shows */}
