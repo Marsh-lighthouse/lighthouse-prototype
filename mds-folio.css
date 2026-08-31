@@ -41,9 +41,9 @@
    Cookies) are SECONDARY. The MDS hyperlink blue is too loud for legal footer
    links, so keep them the muted secondary-text colour (as authored) and give a
    subtle underline on hover/focus for link affordance (WCAG-friendly). */
-.ed-content footer a[href] { color: var(--muted) !important; text-decoration: none !important; }
-.ed-content footer a[href]:hover,
-.ed-content footer a[href]:focus-visible { color: var(--ink) !important; text-decoration: underline !important; text-underline-offset: 2px; }
+.ed-content footer a[href]:not([class*="btn"]) { color: var(--muted) !important; text-decoration: none !important; }
+.ed-content footer a[href]:not([class*="btn"]):hover,
+.ed-content footer a[href]:not([class*="btn"]):focus-visible { color: var(--ink) !important; text-decoration: underline !important; text-underline-offset: 2px; }
 
 /* Action / inline links rendered as borderless <button>s ("+ Create my own",
    "Pick from our development library", "Create with AI", "Export", etc.) carry
