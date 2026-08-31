@@ -50,7 +50,7 @@ function EdBtn({ children, primary, small, disabled, onClick, full }) {
     width: full ? "100%" : "auto", opacity: disabled ? 0.5 : 1, transition: "filter .15s"
   };
   const style = primary ?
-  { ...base, background: eGOLD, color: "var(--action-text)", border: "none" } :
+  { ...base, background: eGOLD, color: "var(--action-text)", border: "1.5px solid transparent" } :
   { ...base, background: "transparent", color: eMID, border: "1.5px solid " + eMID };
   return <button style={style} disabled={disabled} onClick={disabled ? undefined : onClick} data-comment-anchor="562fd0fb97-button-54-10">{children}</button>;
 }
