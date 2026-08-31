@@ -340,8 +340,8 @@
   function Copy(p) {
     var dark = p.onDark;
     return React.createElement(React.Fragment, null,
-      p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 999, background: dark ? "rgba(255,255,255,.14)" : "rgba(11,75,255,.10)", color: dark ? "#fff" : TEAL, fontFamily: SANS, fontSize: 11.5, fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase" } },
-        React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : TEAL, display: "inline-block" } }), "New experience"),
+      p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 8, background: dark ? "rgba(255,255,255,.14)" : "color-mix(in srgb, #002C77 15%, #ffffff)", color: dark ? "#fff" : "#002C77", border: dark ? "none" : "1px solid #002C77", boxSizing: "border-box", fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: ".04em", textTransform: "uppercase" } },
+        React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : "#002C77", display: "inline-block" } }), "New experience"),
       React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "One flow, from first review to final sign-off."),
       React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 470 } },
         "Candidate, evaluation, moderation and the assessment centre now work as one connected view — not five screens you hold together yourself."),
@@ -367,9 +367,9 @@
     return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginTop: p.mt === undefined ? 32 : p.mt } },
       React.createElement("div", { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" } },
         React.createElement("button", { className: "ne-ghost", onClick: p.later,
-          style: { padding: "13px 20px", borderRadius: 10, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
+          style: { padding: "13px 20px", borderRadius: 2, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
         React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
-          style: { padding: "13px 24px", borderRadius: 10, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
+          style: { padding: "13px 24px", borderRadius: 2, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
           "Try new experience",
           React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
             React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))),
