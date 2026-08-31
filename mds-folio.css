@@ -267,3 +267,31 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 26px"][style*="height: 26px"][style*="border-radius: 13px"][style*="position: absolute"] {
   border-radius: 2px !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DARK VIEW — MDS dark-surface alignment.
+   Radii / weights / geometry are theme-agnostic (already applied above). This
+   block handles the two things that ARE colour-dependent in dark mode:
+   (1) the form-field border token (light block above is scoped to :not(dark)),
+   (2) the semantic soft badges — the light-mode hexes would render as bright
+       light chips on the dark card, so give them a dark-surface variant.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root[data-theme="dark"] {
+  --field-line: rgba(255,255,255,.32);   /* field border on dark surface */
+}
+/* Dark-surface semantic badges: light hue text + a dark hue-tint fill + mid
+   border. Targeted by the hue the light badge renders as (the browser
+   normalises the authored hex to rgb()); only the soft color-mix() badges carry
+   the hue in their fill, so plain text/headings using the hue are unaffected. */
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(0, 44, 119)"] {      /* Informative #002C77 */
+  color: #9FBEFF !important; background: color-mix(in srgb, #4C7DE0 24%, transparent) !important; border-color: #5E8AE0 !important;
+}
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(20, 133, 61)"] {      /* Positive #14853D */
+  color: #74D291 !important; background: color-mix(in srgb, #2AA866 24%, transparent) !important; border-color: #37B06E !important;
+}
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(197, 53, 50)"] {      /* Negative #C53532 */
+  color: #F2938F !important; background: color-mix(in srgb, #D65A56 24%, transparent) !important; border-color: #E06A66 !important;
+}
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(203, 126, 3)"] {      /* Notice #CB7E03 */
+  color: #ECC069 !important; background: color-mix(in srgb, #D6A340 24%, transparent) !important; border-color: #DEAF4E !important;
+}
