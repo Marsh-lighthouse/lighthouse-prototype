@@ -620,11 +620,16 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
     return () => clearInterval(id);
   }, [timer]);
   const cd = timer ? Math.floor(remain / 60).toString().padStart(2, "0") + ":" + (remain % 60).toString().padStart(2, "0") : "";
+  // MDS Badge component colours (exact Figma hues): Positive #14853D and
+  // Informative #0065AC as "Soft background" variants — 1px border in the hue
+  // (added by mds-folio.css) + an 85%-white tint of the hue as fill. Neutral
+  // ("Not started") is the outline variant (#94918C border, no fill) handled
+  // in mds-folio.css off the --status-neutral-bg tell.
   const tag = state === "complete"
-    ? { label: t("statusCompleted"), fg: "var(--success)", bg: "rgba(31,138,91,.10)" }
+    ? { label: t("statusCompleted"), fg: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)" }
     : state === "notstarted"
       ? { label: t("statusNotStarted"), fg: MUT, bg: "var(--status-neutral-bg)" }
-      : { label: t("statusInProgress"), fg: "var(--accent)", bg: "color-mix(in srgb, var(--accent) 12%, var(--card))" };
+      : { label: t("statusInProgress"), fg: "#0065AC", bg: "color-mix(in srgb, #0065AC 15%, #ffffff)" };
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, padding: 22, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       {timer && timerPos === "top" && (
