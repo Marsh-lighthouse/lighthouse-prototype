@@ -640,7 +640,7 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
         </div>
       )}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 11 }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: ".02em", color: tag.fg, background: tag.bg, padding: "4px 10px", borderRadius: 6 }}>{tag.label}</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, letterSpacing: ".02em", color: tag.fg, background: tag.bg, padding: "4px 10px", borderRadius: 6 }}>{tag.label}</span>
         {timer && timerPos === "bottom" ? (
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--accent)", fontVariantNumeric: "tabular-nums", display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{cd}</span>
         ) : (
