@@ -688,7 +688,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                     </div>
                     {/* booking from the calendar lands on the same confirmation page */}
                     <button onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setDoneSlot({ slot, center, program: pop.program, langPref, lang, justBooked: true }); setPop(null); }}
-                      style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: eBLUE, color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Book this slot <I.check size={14} /></button>
+                      style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: "var(--action)", color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Book this slot <I.check size={14} /></button>
                   </React.Fragment>
                 )}
               </div>
