@@ -224,6 +224,25 @@ html[data-login-style="aura"] .lg-form-panel { flex: 1 1 44%; background: #FFFFF
 .lg-alert::before { content: ""; flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; background: #D11717; -webkit-mask: no-repeat center/18px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z'/%3E%3C/svg%3E"); mask: no-repeat center/18px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z'/%3E%3C/svg%3E"); }
 .lg-btn[disabled] { opacity: .5; pointer-events: none; }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   MDS alignment (light view) — same tokens/geometry as Folio's mds-folio.css.
+   Login pages don't load mds-folio.css, so mirror the light-mode MDS colour
+   tokens here + snap fields/buttons to the MDS 2px radius and the neutral-800
+   field border. Scoped so the cinematic/midnight dark login styles are
+   untouched (they set their own input colours at higher specificity).
+   ═══════════════════════════════════════════════════════════════════════ */
+:root:not([data-theme="dark"]) {
+  --accent: #0065AC;                 /* MDS brand-primary-alt (focus ring / links) */
+  --ink:    #0F0C08;                 /* body text */
+  --muted:  rgba(15,12,8,.62);       /* secondary text */
+  --line:   #E4E1DC;                 /* soft container borders */
+  --field-line: #6F6D68;             /* MDS Input-field border (neutral-800) */
+}
+/* MDS radius-sm (2px) on inputs & buttons — every login style. */
+html .lg-input, html .lg-btn { border-radius: 2px; }
+/* Light ("split") login: MDS Input-field border. Dark variants override. */
+html:not([data-login-style]) .lg-input { border-color: var(--field-line); }
+
 /* ── Bottom-Right Control Bar (shared across Login / Sign Up / Forgot) ── */
 .lg-controls-bar { position: fixed; right: 58px; bottom: 14px; z-index: 60; display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; }
 html[dir="rtl"] .lg-controls-bar { right: auto; left: 58px; flex-direction: row-reverse; }
