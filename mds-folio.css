@@ -24,14 +24,25 @@
   --text-h2:    22px;   /* MDS 2xl (was 21) */
 }
 
-/* ── Links: MDS — underlined, 2px offset, brand-alt blue ── */
+/* ── Links: MDS hyperlink token ──
+   --v3-interaction-text-icon-border-navigation-hyperlink = #0B4BFF (Blue-750).
+   Read from the MDS Figma variables — this is the real hyperlink colour, not
+   the muted #0065AC body-text-link value. Content <a> links are underlined. */
 .ed-content a[href]:not([class*="btn"]),
 .ed-content a:not([href]):not([class*="btn"]) {
-  color: var(--accent);
+  color: #0B4BFF !important;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.ed-content a:hover { color: #002C77; }
+.ed-content a:hover { color: #0A3FD6 !important; }
+
+/* Action / inline links rendered as borderless <button>s ("+ Create my own",
+   "Pick from our development library", "Create with AI", "Export", etc.) carry
+   an inline color:var(--accent). Recolour them to the MDS hyperlink #0B4BFF
+   (their icons use currentColor, so they follow). */
+:is(#root,body>div:not([class])) button[style*="color: var(--accent)"] {
+  color: #0B4BFF !important;
+}
 
 /* ============================================================
    RADIUS — remap inline radii to the MDS scale.
