@@ -329,15 +329,15 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
         ))}
       <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "18px" : "-18px", position: "relative", zIndex: 10,
         background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px", boxShadow: "0 10px 30px rgba(0,15,71,.10)" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, background: "rgba(0,15,71,.05)", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID, background: "rgba(0,15,71,.05)", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
           Question {i + 1} of {QS.length}
         </div>
         <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 12px", lineHeight: 1.45 }}>
           {q.q}{q.req && <span style={{ color: "var(--danger)", marginLeft: 3 }}>*</span>}
-          {!q.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px", marginLeft: 8 }}>Optional</span>}
+          {!q.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400, color: "var(--ink)", background: "var(--status-neutral-bg)", borderRadius: 6, padding: "4px 10px", marginLeft: 8 }}>Optional</span>}
         </h3>
 
-        <div style={{ border: "1.5px solid " + (tried && blocked ? "var(--danger)" : eLINE), borderRadius: 12, overflow: "hidden", background: "var(--card)" }}>
+        <div style={{ border: "1.5px solid " + (tried && blocked ? "var(--danger)" : "var(--field-line)"), borderRadius: 2, overflow: "hidden", background: "var(--card)" }}>
           <textarea autoFocus value={text} onChange={(e) => { const v = e.target.value; setAnswers((a) => ({ ...a, [i]: v })); }}
             rows={4} placeholder="Write your answer here…"
             style={{ width: "100%", boxSizing: "border-box", padding: "14px 16px", border: "none", outline: "none", resize: "vertical", background: "transparent", fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.6, display: "block" }} />
