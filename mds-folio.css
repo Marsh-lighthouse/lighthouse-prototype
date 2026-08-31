@@ -91,15 +91,13 @@
   border-radius: 999px !important;
 }
 
-/* Timer / countdown chips (THIS TASK, PROGRAM, "Due …") -> pill, to match
-   the other MDS status badges. These are inline-flex, single-line <div>s
-   (white-space:nowrap) — cards wrap, so this signature is badge-only. */
-.ed-shell div[style*="white-space: nowrap"][style*="border-radius: 6px"],
-.ed-shell div[style*="white-space: nowrap"][style*="border-radius: 7px"],
-.ed-shell div[style*="white-space: nowrap"][style*="border-radius: 8px"],
-.ed-shell div[style*="white-space: nowrap"][style*="border-radius: 9px"],
-.ed-shell div[style*="white-space: nowrap"][style*="border-radius: 10px"] {
-  border-radius: 999px !important;
+/* Timers (immersive "THIS TASK" / "PROGRAM" countdowns = .oa-cd) -> 2px,
+   like buttons. These are timers, NOT status tags, so they are sharp — not
+   pills. Targeted by class so notices/alerts (which also use nowrap) are
+   unaffected. .ed-cd is the task/program "Due …" countdown — same idea. */
+.ed-shell .oa-cd,
+.ed-shell .ed-cd {
+  border-radius: 2px !important;
 }
 
 /* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
