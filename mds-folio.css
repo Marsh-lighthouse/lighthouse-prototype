@@ -12,7 +12,7 @@
   --ink:    #0F0C08 !important;              /* body text — warm near-black (MDS text-icon-secondary) */
   --muted:  rgba(15,12,8,.62) !important;    /* secondary text / captions */
   --line:   #E4E1DC !important;              /* CONTAINER borders — soft hairline. Cards/dividers are non-interactive, so WCAG 1.4.11 (3:1) does not apply; lighter than MDS neutral-500 #B9B6B1 for the airy look. */
-  --field-line: #7B7974 !important;          /* FORM-FIELD borders — MDS neutral-750. 4.35:1 on white → passes WCAG 2.1 SC 1.4.11 (non-text contrast, needs 3:1) for input boundaries. */
+  --field-line: #6F6D68 !important;          /* FORM-FIELD borders — EXACT MDS Input-field token, verified in the MDS Figma: --v3-border-input → --v3-base-neutral-clear → --neutral-gray-800-2 = rgb(111,109,104). Spec is 1px, radius 2px. ~4.9:1 on white → passes WCAG 2.1 SC 1.4.11. NOTE: this is the true MDS input border and is darker than neutral-500/750; if the team wants a lighter field edge that is a deliberate deviation from the MDS Input component. */
   /* --action #000F47 (Midnight/Blue-1000), --primary #000F47,
      --canvas #F7F3EE (canvas-warm) already match — left as-is. */
 }
