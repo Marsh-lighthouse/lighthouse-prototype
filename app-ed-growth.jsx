@@ -503,9 +503,9 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                     <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{tzMeta.short}</span>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
                     {slot.cancelBefore ? (
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eBLUE, background: "color-mix(in srgb, var(--accent) 8%, transparent)", padding: "2px 8px", borderRadius: 5 }}>Cancel OK ({slot.cancelBefore})</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Cancel OK ({slot.cancelBefore})</span>
                     ) : (
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, background: "rgba(197,53,50,.08)", padding: "2px 8px", borderRadius: 5 }}>No cancellation</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#C53532", background: "color-mix(in srgb, #C53532 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>No cancellation</span>
                     )}
                   </div>
                 </div>
