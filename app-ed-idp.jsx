@@ -909,7 +909,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4" /><path d="M3 4v5h5" /></svg> Reset Chat
           </button>
           <button onClick={() => onFinish(a, true)}
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: eBLUE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 17px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--action)", color: "#fff", border: "none", borderRadius: 8, padding: "11px 17px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
             <I.check size={16} /> Yes, proceed with plan creation
           </button>
           {g3Confirm && (
@@ -917,7 +917,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
               <span style={{ color: "var(--action)", display: "flex", flexShrink: 0 }}><I.alertCircle size={18} /></span>
               <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, whiteSpace: "nowrap" }}>Are you sure you want to discard this chat and start new?</span>
               <button onClick={() => setG3Confirm(false)} style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 7, padding: "6px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer" }}>No</button>
-              <button onClick={g3Reset} style={{ background: eBLUE, border: "none", borderRadius: 7, padding: "6px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#fff", cursor: "pointer" }}>Yes</button>
+              <button onClick={g3Reset} style={{ background: "var(--action)", border: "none", borderRadius: 7, padding: "6px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#fff", cursor: "pointer" }}>Yes</button>
             </div>
           )}
         </div>
