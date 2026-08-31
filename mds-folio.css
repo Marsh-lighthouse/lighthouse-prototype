@@ -43,70 +43,70 @@
    ============================================================ */
 
 /* Cards / panels / containers -> 8px (radius-lg), circles excluded */
-.ed-shell [style*="border-radius: 8px"]:not([style*="width: 16px"]),
-.ed-shell [style*="border-radius: 9px"]:not([style*="width: 18px"]),
-.ed-shell [style*="border-radius: 10px"]:not([style*="width: 20px"]),
-.ed-shell [style*="border-radius: 11px"]:not([style*="width: 22px"]),
-.ed-shell [style*="border-radius: 12px"]:not([style*="width: 24px"]),
-.ed-shell [style*="border-radius: 13px"]:not([style*="width: 26px"]),
-.ed-shell [style*="border-radius: 14px"]:not([style*="width: 28px"]),
-.ed-shell [style*="border-radius: 15px"]:not([style*="width: 30px"]),
-.ed-shell [style*="border-radius: 16px"]:not([style*="width: 32px"]),
-.ed-shell [style*="border-radius: 17px"]:not([style*="width: 34px"]),
-.ed-shell [style*="border-radius: 18px"]:not([style*="width: 36px"]),
-.ed-shell [style*="border-radius: 19px"]:not([style*="width: 38px"]),
-.ed-shell [style*="border-radius: 20px"]:not([style*="width: 40px"]),
-.ed-shell [style*="border-radius: 21px"]:not([style*="width: 42px"]),
-.ed-shell [style*="border-radius: 22px"]:not([style*="width: 44px"]),
-.ed-shell [style*="border-radius: 23px"]:not([style*="width: 46px"]),
-.ed-shell [style*="border-radius: 24px"]:not([style*="width: 48px"]),
-.ed-shell [style*="border-radius: 25px"]:not([style*="width: 50px"]),
-.ed-shell [style*="border-radius: 26px"]:not([style*="width: 52px"]),
-.ed-shell [style*="border-radius: 28px"]:not([style*="width: 56px"]),
-.ed-shell [style*="border-radius: 30px"]:not([style*="width: 60px"]) {
+#root [style*="border-radius: 8px"]:not([style*="width: 16px"]),
+#root [style*="border-radius: 9px"]:not([style*="width: 18px"]),
+#root [style*="border-radius: 10px"]:not([style*="width: 20px"]),
+#root [style*="border-radius: 11px"]:not([style*="width: 22px"]),
+#root [style*="border-radius: 12px"]:not([style*="width: 24px"]),
+#root [style*="border-radius: 13px"]:not([style*="width: 26px"]),
+#root [style*="border-radius: 14px"]:not([style*="width: 28px"]),
+#root [style*="border-radius: 15px"]:not([style*="width: 30px"]),
+#root [style*="border-radius: 16px"]:not([style*="width: 32px"]),
+#root [style*="border-radius: 17px"]:not([style*="width: 34px"]),
+#root [style*="border-radius: 18px"]:not([style*="width: 36px"]),
+#root [style*="border-radius: 19px"]:not([style*="width: 38px"]),
+#root [style*="border-radius: 20px"]:not([style*="width: 40px"]),
+#root [style*="border-radius: 21px"]:not([style*="width: 42px"]),
+#root [style*="border-radius: 22px"]:not([style*="width: 44px"]),
+#root [style*="border-radius: 23px"]:not([style*="width: 46px"]),
+#root [style*="border-radius: 24px"]:not([style*="width: 48px"]),
+#root [style*="border-radius: 25px"]:not([style*="width: 50px"]),
+#root [style*="border-radius: 26px"]:not([style*="width: 52px"]),
+#root [style*="border-radius: 28px"]:not([style*="width: 56px"]),
+#root [style*="border-radius: 30px"]:not([style*="width: 60px"]) {
   border-radius: 8px !important;
 }
 
 /* Small inline radii (5-7px) -> 4px. Any element with a fixed inline width
    is a control (checkbox/radio indicator, icon dot) — left untouched so its
    original design/shape is preserved. */
-.ed-shell [style*="border-radius: 5px"]:not([style*="width:"]),
-.ed-shell [style*="border-radius: 6px"]:not([style*="width:"]),
-.ed-shell [style*="border-radius: 7px"]:not([style*="width:"]) {
+#root [style*="border-radius: 5px"]:not([style*="width:"]),
+#root [style*="border-radius: 6px"]:not([style*="width:"]),
+#root [style*="border-radius: 7px"]:not([style*="width:"]) {
   border-radius: 4px !important;
 }
 
-/* Status chips / badges / tags -> pill (all MDS tags are fully rounded,
-   e.g. "2026 programme"). Folio tags are small FILLED <span>s carrying a
-   3-8px inline radius (status chips, "Available"/"Locked", counts, etc.).
-   Scoped to spans (cards are divs) with a background, so only tags match.
-   Higher specificity than the value-based radius rules, so it wins. */
-.ed-shell span[style*="background"][style*="border-radius: 3px"]:not([style*="width:"]),
-.ed-shell span[style*="background"][style*="border-radius: 4px"]:not([style*="width:"]),
-.ed-shell span[style*="background"][style*="border-radius: 5px"]:not([style*="width:"]),
-.ed-shell span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
-.ed-shell span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
-.ed-shell span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
-.ed-shell span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
-  border-radius: 999px !important;
+/* Status chips / badges / tags -> 4px MDS Badge (NOT a pill). MDS status
+   badges use a soft semantic background + small radius, types:
+   Informative #0065AC / Positive #14853D / Negative #C53532 / Warning #DF7A00.
+   Folio tags are small FILLED <span>s (status chips, "Available"/"Locked",
+   counts, etc.); they already carry the soft semantic colours. */
+#root span[style*="background"][style*="border-radius: 3px"]:not([style*="width:"]),
+#root span[style*="background"][style*="border-radius: 4px"]:not([style*="width:"]),
+#root span[style*="background"][style*="border-radius: 5px"]:not([style*="width:"]),
+#root span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
+#root span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
+#root span[style*="background"][style*="border-radius: 8px"]:not([style*="width:"]),
+#root span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
+  border-radius: 4px !important;
 }
 
 /* Timers (immersive "THIS TASK" / "PROGRAM" countdowns = .oa-cd) -> 2px,
    like buttons. These are timers, NOT status tags, so they are sharp — not
    pills. Targeted by class so notices/alerts (which also use nowrap) are
    unaffected. .ed-cd is the task/program "Due …" countdown — same idea. */
-.ed-shell div.oa-cd:not([hidden]),
-.ed-shell div.ed-cd:not([hidden]) {
+#root div.oa-cd:not([hidden]),
+#root div.ed-cd:not([hidden]) {
   border-radius: 2px !important;
 }
 
 /* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
    Higher specificity beats the 8px rule; circles/pills excluded. */
-.ed-shell button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]),
-.ed-shell .btn,
-.ed-shell .btn-primary,
-.ed-shell .ed-btn,
-.ed-shell .ed-gold {
+#root button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]),
+#root .btn,
+#root .btn-primary,
+#root .ed-btn,
+#root .ed-gold {
   border-radius: 2px !important;
 }
 /* Selection / option rows are <button>s for a11y but read as cards (left-aligned,
@@ -116,8 +116,8 @@
 /* Side-menu (rail) nav items -> 4px (MDS SideNavigation active item).
    These are <div role="button">, so the 2px button rule doesn't reach them;
    the extra selectors raise specificity above the container 8px rule. */
-.ed-shell .ed-rail nav [role="button"],
-.ed-shell .ed-rail nav [role="button"] > * {
+#root .ed-rail nav [role="button"],
+#root .ed-rail nav [role="button"] > * {
   border-radius: 4px !important;
 }
 
@@ -125,9 +125,17 @@
    in Figma — same as buttons). [style] raises specificity above the container
    rule so they aren't pulled to 8px. Checkboxes/radios are excluded (they stay
    as drawn). */
-.ed-shell textarea[style]:not([hidden]),
-.ed-shell input[style]:not([type="checkbox"]):not([type="radio"]),
-.ed-shell select[style]:not([hidden]) {
+#root textarea[style]:not([hidden]),
+#root input[style]:not([type="checkbox"]):not([type="radio"]),
+#root select[style]:not([hidden]) {
+  border-radius: 2px !important;
+}
+
+/* Input-WRAPPER divs (search fields, multi-select, combobox) — a <div> styled
+   as a text field around a borderless <input>. They carry cursor:text, which
+   is the reliable tell. -> 2px, same as real inputs. The extra attribute
+   selectors raise specificity above the 8px container rule. */
+#root div[style*="cursor: text"][style*="border-radius"] {
   border-radius: 2px !important;
 }
 
@@ -137,7 +145,7 @@
    hairline border that fills with the accent and shows a white tick when
    checked — so every checkbox in Folio looks identical. The hidden consent
    input (opacity:0, already backed by its own custom box) is excluded. */
-.ed-shell input[type="checkbox"]:not([style*="opacity: 0"]) {
+#root input[type="checkbox"]:not([style*="opacity: 0"]) {
   -webkit-appearance: none; appearance: none;
   width: 20px !important; height: 20px !important;
   flex-shrink: 0; box-sizing: border-box;
@@ -146,10 +154,10 @@
   display: inline-grid; place-content: center; vertical-align: middle;
   transition: background .12s ease, border-color .12s ease;
 }
-.ed-shell input[type="checkbox"]:not([style*="opacity: 0"]):checked {
+#root input[type="checkbox"]:not([style*="opacity: 0"]):checked {
   background: var(--accent); border-color: var(--accent);
 }
-.ed-shell input[type="checkbox"]:not([style*="opacity: 0"]):checked::after {
+#root input[type="checkbox"]:not([style*="opacity: 0"]):checked::after {
   content: ""; width: 5px; height: 9px;
   border: solid #fff; border-width: 0 2px 2px 0;
   transform: translateY(-1px) rotate(45deg);
