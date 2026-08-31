@@ -990,7 +990,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
             {/* The summary is the end of the conversation — there's nothing left to
                 say to the guide, so the composer goes rather than sitting there greyed out. */}
             {!g3Done && (g3Attach ? g3DropZone() : (
-            <div style={{ position: "relative", border: "1px solid var(--field-line)", borderRadius: 2, background: "var(--card)", padding: "12px 96px 12px 14px" }}>
+            <div style={{ position: "relative", border: "1px solid " + eLINE, borderRadius: 12, background: "var(--card)", padding: "12px 96px 12px 14px" }}>
               <textarea value={g3Input} onChange={(e) => setG3Input(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); g3Send(); } }}
                 placeholder="Type your message here..." rows={2}

@@ -149,7 +149,7 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
         {/* badges */}
         <div style={{ position: "absolute", top: 12, left: 14, display: "flex", gap: 7, flexWrap: "wrap" }}>
           {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#fff", background: "var(--surface-deep)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
-          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: eMID, background: "var(--card)", padding: "3px 9px", borderRadius: 6 }}>Report ready</span>}
+          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6 }}>Report ready</span>}
         </div>
         <div style={{ position: "absolute", top: 12, right: 14 }}>
           {isComplete ? <span style={{ width: 26, height: 26, borderRadius: 13, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={15} /></span> :
