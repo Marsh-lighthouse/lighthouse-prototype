@@ -58,7 +58,7 @@ function EdDevelopment({ onBack }) {
             <div key={si} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: 24 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
                 <h3 className="serif" style={{ fontSize: 22, color: eMID, margin: 0 }}>{skill.name}</h3>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, textTransform: "capitalize", color: eMUT, background: "rgba(0,15,71,.05)", padding: "3px 9px", borderRadius: 5 }}>{skill.skillType}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, textTransform: "capitalize", color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 5 }}>{skill.skillType}</span>
               </div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 18px", maxWidth: 600 }}>{skill.desc}</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -114,7 +114,7 @@ function EdReportCard({ r, onPreview }) {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
           {r.based.map((b, i) => {
             const isDone = i < r.doneCount;
-            return <span key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "3px 8px", borderRadius: 5, background: isDone ? "rgba(20,133,61,.10)" : "rgba(0,15,71,.05)", color: isDone ? eSUCCESS : eMUT }}>{isDone && "✓ "}{b}</span>;
+            return <span key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "4px 10px", borderRadius: 5, background: isDone ? "color-mix(in srgb, #14853D 15%, #ffffff)" : "var(--status-neutral-bg)", color: isDone ? "#14853D" : "var(--ink)" }}>{isDone && "✓ "}{b}</span>;
           })}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: "auto" }}>
@@ -900,7 +900,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                             <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={13} /> {c.duration}</span>
                           </div>
                         </div>
-                        {bookedInCenter > 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSUCCESS, background: "rgba(20,133,61,.10)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0 }}><I.check size={11} /> {bookedInCenter} booked</span>}
+                        {bookedInCenter > 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0 }}><I.check size={11} /> {bookedInCenter} booked</span>}
                       </div>
                       {/* footer sits on the card's bottom edge, so every card in the row lines up */}
                       <div className="ed-sched-foot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: "auto", paddingTop: 12, borderTop: "1px solid " + eLINE }}>

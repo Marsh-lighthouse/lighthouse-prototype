@@ -163,7 +163,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = qMID; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = qLINE; }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)" }}>Step 01 · Self-evaluation</div>
-            {c360SelfDone && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 99, background: "color-mix(in srgb, #14853D 15%, #ffffff)", color: "#14853D", fontSize: 14, fontWeight: 400, fontFamily: "var(--sans)" }}><QI.Check s={11} /> Done</div>}
+            {c360SelfDone && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 99, background: "color-mix(in srgb, #14853D 15%, #ffffff)", color: "#14853D", fontSize: 14, fontWeight: 400, fontFamily: "var(--sans)" }}><QI.Check s={11} /> Done</div>}
           </div>
           <h2 className="serif" style={{ fontSize: 24, color: qMID, lineHeight: 1.15, margin: "0 0 10px" }}>Rate yourself first.</h2>
           <p style={{ fontSize: 14, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 0 18px" }}>Score yourself on {totalSelf} leadership competencies. Your answers anchor the gap analysis in your final report.</p>
@@ -225,7 +225,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)" }}>Step 04 · Report</div>
             {responseRate >= 60 ? (
-              <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 99, background: "rgba(20,133,61,.12)", color: qGREEN, fontSize: 14, fontWeight: 700, fontFamily: "var(--sans)" }}>Ready</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 99, background: "color-mix(in srgb, #002C77 15%, #ffffff)", color: "#002C77", fontSize: 14, fontWeight: 700, fontFamily: "var(--sans)" }}>Ready</div>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: 4, color: qMUT, fontSize: 14, fontFamily: "var(--sans)" }}><QI.Lock s={12} /> Locked</div>
             )}
@@ -443,9 +443,9 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             const stCfg = {
               complete: { l: "Complete", c: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)" },
               "in-progress": { l: "In progress", c: "#002C77", bg: "color-mix(in srgb, #002C77 15%, #ffffff)" },
-              opened: { l: "Opened", c: qGOLDINK, bg: "rgba(203,126,3,.12)" },
-              invited: { l: "Invited", c: qMUT, bg: "rgba(0,15,71,.05)" },
-              declined: { l: "Declined", c: qRED, bg: "rgba(197,53,50,.10)" },
+              opened: { l: "Opened", c: "#CB7E03", bg: "color-mix(in srgb, #CB7E03 15%, #ffffff)" },
+              invited: { l: "Invited", c: "var(--ink)", bg: "var(--status-neutral-bg)" },
+              declined: { l: "Declined", c: "#C53532", bg: "color-mix(in srgb, #C53532 15%, #ffffff)" },
             }[r.status];
             return (
               <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i > 0 ? "1px solid " + qLINE : "none" }}>

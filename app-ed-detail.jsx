@@ -87,7 +87,7 @@ function EdRow({ item, accent, onClick }) {
         <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{item.name}</span>
           {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: ePURP, background: "rgba(143,32,222,.10)", padding: "2px 8px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
-          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "2px 8px", borderRadius: 5 }}>Report ready</span>}
+          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Report ready</span>}
         </div>
         {item.desc && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, marginTop: 3, maxWidth: 460 }}>{item.desc}</div>}
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 7 }}>
@@ -438,8 +438,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 6 }}>In progress</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 13, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", padding: "5px 12px", borderRadius: 8 }}>{all.length} Total</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSUCCESS, background: "rgba(20,133,61,.10)", padding: "5px 12px", borderRadius: 8 }}>{done} Done</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 8 }}>{all.length} Total</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "5px 12px", borderRadius: 8 }}>{done} Done</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: ePURP, background: "rgba(143,32,222,.08)", padding: "5px 12px", borderRadius: 8 }}>{prog.pct}% Progress</span>
         </div>
       </div>
@@ -460,7 +460,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* title + meta */}
       <div style={{ flex: 1, minWidth: 200 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "3px 10px", borderRadius: 6 }}>In progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6 }}>In progress</span>
         </div>
         <h1 className="serif" style={{ fontSize: 29, color: eMID, lineHeight: 1.05, margin: 0 }}>{prog.name}</h1>
       </div>
@@ -544,7 +544,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 4 }}>
                 <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: 0 }}>{c.name}</h2>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, letterSpacing: ".04em", textTransform: "uppercase", color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "3px 9px", borderRadius: 5 }}>Completed</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, letterSpacing: ".04em", textTransform: "uppercase", color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Completed</span>
               </div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 600 }}>You've completed every activity in this assessment center. Your results have been submitted and are being processed.</p>
             </div>

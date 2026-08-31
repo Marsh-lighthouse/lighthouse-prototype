@@ -536,7 +536,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {PlDR
               ? <PlDR start={(val && val.start) || ""} end={(val && val.end) || ""} onChange={(v) => setVal({ ...(val || {}), ...v, quick: "" })} />
-              : <div style={{ border: "1.5px solid " + eLINE, borderRadius: 10, padding: "11px 14px", display: "flex", alignItems: "center", gap: 10 }}><span style={{ color: eMUT, display: "flex" }}><I.cal size={17} /></span><input type="date" value={(val && val.start) || ""} onChange={(e) => setVal({ ...(val || {}), start: e.target.value, quick: "" })} style={{ border: "none", outline: "none", fontSize: 14, color: eINK, fontFamily: "var(--sans)", flex: 1, background: "transparent" }} /></div>}
+              : <div style={{ border: "1.5px solid var(--field-line)", borderRadius: 2, padding: "11px 14px", display: "flex", alignItems: "center", gap: 10 }}><span style={{ color: eMUT, display: "flex" }}><I.cal size={17} /></span><input type="date" value={(val && val.start) || ""} onChange={(e) => setVal({ ...(val || {}), start: e.target.value, quick: "" })} style={{ border: "none", outline: "none", fontSize: 14, color: eINK, fontFamily: "var(--sans)", flex: 1, background: "transparent" }} /></div>}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {q.quick.map((b) => { const on = val && val.quick === b; return <button key={b} onClick={() => setQuick(b)} style={{ flex: "1 1 0", minWidth: 76, padding: "9px 4px", borderRadius: 9, border: "1.5px solid " + (on ? eBLUE : eLINE), background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", color: on ? eBLUE : eINK, fontWeight: on ? 700 : 500, fontSize: 14, fontFamily: "var(--sans)", cursor: "pointer" }}>{b}</button>; })}
             </div>
@@ -990,7 +990,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
             {/* The summary is the end of the conversation — there's nothing left to
                 say to the guide, so the composer goes rather than sitting there greyed out. */}
             {!g3Done && (g3Attach ? g3DropZone() : (
-            <div style={{ position: "relative", border: "1px solid " + eLINE, borderRadius: 12, background: "var(--card)", padding: "12px 96px 12px 14px" }}>
+            <div style={{ position: "relative", border: "1px solid var(--field-line)", borderRadius: 2, background: "var(--card)", padding: "12px 96px 12px 14px" }}>
               <textarea value={g3Input} onChange={(e) => setG3Input(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); g3Send(); } }}
                 placeholder="Type your message here..." rows={2}
@@ -1668,7 +1668,7 @@ function EdPlanView({ onBack, onRestart }) {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
                     <h3 className="serif" style={{ fontSize: 21, color: eMID, margin: 0 }}>{skill.name}</h3>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, textTransform: "capitalize", color: eMUT, background: "rgba(0,15,71,.05)", padding: "3px 9px", borderRadius: 5 }}>{skill.skillType}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, textTransform: "capitalize", color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 5 }}>{skill.skillType}</span>
                   </div>
                   <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 580 }}>{skill.desc}</p>
                 </div>

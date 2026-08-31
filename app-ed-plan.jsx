@@ -1024,7 +1024,7 @@ function PlReflectTab({ forceError, showToast }) {
             <div key={i} style={{ marginBottom: 22, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px" }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
                 <h3 style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.45 }}>
-                  {it.q}{!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px", marginLeft: 8 }}>Optional</span>}
+                  {it.q}{!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: "var(--ink)", background: "var(--status-neutral-bg)", borderRadius: 6, padding: "4px 10px", marginLeft: 8 }}>Optional</span>}
                 </h3>
                 {!on && (
                   <button onClick={() => { setEditing(i); setDraft(ans[i] || ""); }} title="Edit this answer"
@@ -1069,7 +1069,7 @@ function PlReflectTab({ forceError, showToast }) {
         <div key={i} style={{ marginBottom: 24 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 9, flexWrap: "wrap" }}>
             <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>{it.q}{it.req && <span style={{ color: "var(--danger)", marginLeft: 3 }}>*</span>}</h3>
-            {!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px" }}>Optional</span>}
+            {!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: "var(--ink)", background: "var(--status-neutral-bg)", borderRadius: 6, padding: "4px 10px" }}>Optional</span>}
           </div>
           {(() => {
             const v = ans[i] || "";
