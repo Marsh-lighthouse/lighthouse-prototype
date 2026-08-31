@@ -11,7 +11,8 @@
   --accent: #0065AC !important;              /* MDS brand-primary-alt: links, active, rings, eyebrows */
   --ink:    #0F0C08 !important;              /* body text — warm near-black (MDS text-icon-secondary) */
   --muted:  rgba(15,12,8,.62) !important;    /* secondary text / captions */
-  --line:   #E4E1DC !important;              /* borders — soft hairline (lighter than MDS neutral-500 #B9B6B1, which read too dark on white cards) */
+  --line:   #E4E1DC !important;              /* CONTAINER borders — soft hairline. Cards/dividers are non-interactive, so WCAG 1.4.11 (3:1) does not apply; lighter than MDS neutral-500 #B9B6B1 for the airy look. */
+  --field-line: #7B7974 !important;          /* FORM-FIELD borders — MDS neutral-750. 4.35:1 on white → passes WCAG 2.1 SC 1.4.11 (non-text contrast, needs 3:1) for input boundaries. */
   /* --action #000F47 (Midnight/Blue-1000), --primary #000F47,
      --canvas #F7F3EE (canvas-warm) already match — left as-is. */
 }
@@ -186,6 +187,21 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    selectors raise specificity above the 8px container rule. */
 :is(#root,body>div:not([class]),.lh-net-overlay) div[style*="cursor: text"][style*="border-radius"] {
   border-radius: 2px !important;
+}
+
+/* ── WCAG 2.1 SC 1.4.11 (non-text contrast) for FORM FIELDS ──────────────
+   Input boundaries must reach 3:1 against their background to be identifiable.
+   The soft container --line (#E4E1DC, ~1.3:1) fails that, so form controls get
+   the MDS neutral-750 token (--field-line #7B7974, 4.35:1) instead. Scoped to
+   fields whose inline border is the DEFAULT var(--line) — error/focus borders
+   (red/accent) contain a different colour token and are left untouched.
+   Containers (cards, dividers, badges) keep the light --line: they're
+   non-interactive, so 1.4.11 doesn't apply to them. */
+:is(#root,body>div:not([class]),.lh-net-overlay) input[style*="var(--line)"]:not([type="checkbox"]):not([type="radio"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) textarea[style*="var(--line)"],
+:is(#root,body>div:not([class]),.lh-net-overlay) select[style*="var(--line)"],
+:is(#root,body>div:not([class]),.lh-net-overlay) div[style*="cursor: text"][style*="var(--line)"] {
+  border-color: var(--field-line) !important;
 }
 
 /* ── Checkbox unification ──────────────────────────────────────────────
