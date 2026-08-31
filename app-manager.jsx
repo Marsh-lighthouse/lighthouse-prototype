@@ -990,7 +990,7 @@ function LHManager() {
             ) : null}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", padding: "5px 12px", borderRadius: 999 }}>Manager view</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 8 }}>Manager view</span>
           </div>
         </div>
         <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
