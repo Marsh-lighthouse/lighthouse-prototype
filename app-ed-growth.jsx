@@ -329,7 +329,7 @@ function EdInsights({ onBack, initialPreview }) {
       <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Insights</h1>
       <p className="ed-insights-banner" style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.7, margin: 0, maxWidth: "none", whiteSpace: "nowrap" }}>
-        <span style={{ display: "inline-block", fontSize: 14, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 8%, transparent)", padding: "3px 10px", borderRadius: 6, marginRight: 9, verticalAlign: "1px", whiteSpace: "nowrap" }}>{availCount} of {reps.length} ready</span>
+        <span style={{ display: "inline-block", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, marginRight: 9, verticalAlign: "1px", whiteSpace: "nowrap" }}>{availCount} of {reps.length} ready</span>
         Reports unlock automatically as you complete their underlying tasks.
       </p>
 

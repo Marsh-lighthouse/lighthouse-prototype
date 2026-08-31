@@ -118,6 +118,10 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
   border-radius: 8px !important;
+  /* MDS badge label text is REGULAR (400), not bold — globalised here so every
+     badge (incl. ones only in popups/tooltips/modals) is caught, not just the
+     ones edited in source. */
+  font-weight: 400 !important;
 }
 
 /* Some badges were authored as PILLS (border-radius: 999px) rather than 3-8px —

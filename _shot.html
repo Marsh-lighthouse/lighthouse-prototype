@@ -1,0 +1,29 @@
+<!doctype html><meta charset="utf-8"><title>shot</title>
+<style>html,body{margin:0;overflow:hidden}#f{width:1440px;height:1400px;border:0;display:block}</style>
+<iframe id="f"></iframe>
+<script>
+var q = new URLSearchParams(location.search);
+var route = q.get('r') || 'dashboard';
+var click = q.get('click') || '';
+var click2 = q.get('click2') || '';
+document.getElementById('f').src = 'Folio.html#/' + route;
+function hit(txt){
+  var d = document.getElementById('f').contentDocument;
+  if(!d || !txt) return false;
+  var els = d.querySelectorAll('button,a,[role=button],div[style*="cursor"]');
+  for (var i=0;i<els.length;i++){
+    var t=(els[i].textContent||'').trim().replace(/\s+/g,' ');
+    if(t.toLowerCase().indexOf(txt.toLowerCase())===0 || t.toLowerCase()===txt.toLowerCase()){
+      els[i].click(); return true;
+    }
+  }
+  return false;
+}
+setTimeout(function(){
+  var a = hit(click);
+  setTimeout(function(){
+    var b = hit(click2);
+    document.title = 'shot:' + a + ':' + b;
+  }, 1800);
+}, 13000);
+</script>
