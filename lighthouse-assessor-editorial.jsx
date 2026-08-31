@@ -9,7 +9,7 @@ function AssessorEditorial() {
 
   // ═══════ TOKENS (Folio · Accessor Flow 2026) ═══════
   const navy = "#000F47";               // midnight — primary brand
-  const teal = "#0B4BFF";               // accent blue — links, active, rings, progress
+  const teal = "#0065AC";               // MDS accent (brand-primary-alt) — active, rings, progress; matches Folio --accent
   const gold = "#0B4BFF";               // accent blue — rail active, toggles, badges, section accents (was gold #FFBF00). CTA fill is `navy` (Blue-1000) below.
   const goldDark = "#0A3FD6";           // (accent-hover, retained for accent uses)
   const tealBg = `${teal}14`;
@@ -566,7 +566,7 @@ function AssessorEditorial() {
             const active = it.k === "home" ? route === "home" : (it.k === "dashboard" ? ["dashboard","candidate","evaluate","moderate","campaign"].includes(route) : (it.k==="ac" ? ["ac","acCampaign"].includes(route) : route === it.k));
             const disabled = false;
             return (
-              <button key={it.k} data-tour={"nav-"+it.k} onClick={()=>{ setRoute(it.k); }} title={collapsed?it.l:undefined} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:collapsed?"center":"flex-start",gap:12,padding:collapsed?"11px 0":"10px 14px",borderRadius:9,background:active?railActiveBg:"transparent",color:active?railActiveFg:railFg,fontSize:14,fontWeight:active?600:400,marginBottom:2,textAlign:"left",position:"relative",transition:"all .15s"}}>
+              <button key={it.k} data-tour={"nav-"+it.k} onClick={()=>{ setRoute(it.k); }} title={collapsed?it.l:undefined} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:collapsed?"center":"flex-start",gap:12,padding:collapsed?"11px 0":"10px 14px",borderRadius:4,background:active?railActiveBg:"transparent",color:active?railActiveFg:railFg,fontSize:14,fontWeight:active?600:400,marginBottom:2,textAlign:"left",position:"relative",transition:"all .15s"}}>
                 {active && <div style={{position:"absolute",left:0,top:9,bottom:9,width:3,borderRadius:3,background:"#CEECFF"}}/>}
                 <span style={{color:active?railActiveIcon:railIcon,display:"flex"}}><it.I s={18}/></span>
                 {!collapsed && <span style={{flex:1}}>{it.l}</span>}
@@ -1713,7 +1713,7 @@ function AssessorEditorial() {
               {notesTab === "notes" ? (
                 <React.Fragment>
                   {/* Compose */}
-                  <textarea value={noteDraft} onChange={e=>setNoteDraft(e.target.value)} placeholder="Jot down an observation, evidence, follow-up…" style={{width:"100%",boxSizing:"border-box",minHeight:78,resize:"vertical",border:`1px solid ${bd}`,borderRadius:8,padding:"10px 12px",fontSize:14,lineHeight:1.55,color:tx,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor=bd}/>
+                  <textarea value={noteDraft} onChange={e=>setNoteDraft(e.target.value)} placeholder="Jot down an observation, evidence, follow-up…" style={{width:"100%",boxSizing:"border-box",minHeight:78,resize:"vertical",border:`1px solid #6F6D68`,borderRadius:8,padding:"10px 12px",fontSize:14,lineHeight:1.55,color:tx,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor="#6F6D68"}/>
                   <div style={{display:"flex",justifyContent:"flex-end",marginTop:8,marginBottom:notes.length?16:0}}>
                     <button onClick={addNote} disabled={!noteDraft.trim()} className="btn btn-primary" style={{padding:"7px 16px",fontSize:14,opacity:noteDraft.trim()?1:.5,cursor:noteDraft.trim()?"pointer":"default"}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg> Add note</button>
                   </div>
@@ -1754,7 +1754,7 @@ function AssessorEditorial() {
                 <React.Fragment>
                   {/* Add row */}
                   <div style={{display:"flex",gap:8,marginBottom:todos.length?14:0}}>
-                    <input value={newTodo} onChange={e=>setNewTodo(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")addTodo();}} placeholder="Add a task…" style={{flex:1,minWidth:0,boxSizing:"border-box",border:`1px solid ${bd}`,borderRadius:8,padding:"9px 11px",fontSize:14,color:tx,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor=bd}/>
+                    <input value={newTodo} onChange={e=>setNewTodo(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")addTodo();}} placeholder="Add a task…" style={{flex:1,minWidth:0,boxSizing:"border-box",border:`1px solid #6F6D68`,borderRadius:8,padding:"9px 11px",fontSize:14,color:tx,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor="#6F6D68"}/>
                     <button onClick={addTodo} aria-label="Add task" style={{flexShrink:0,width:38,borderRadius:8,border:"none",background:navy,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
                   </div>
 
