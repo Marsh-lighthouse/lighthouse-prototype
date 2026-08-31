@@ -277,21 +277,31 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
        light chips on the dark card, so give them a dark-surface variant.
    ═══════════════════════════════════════════════════════════════════════ */
 :root[data-theme="dark"] {
-  --field-line: rgba(255,255,255,.32);   /* field border on dark surface */
+  /* EXACT MDS dark-surface Input-field border, verified in the MDS Figma:
+     --v3-border-input → --v3-base-neutral-clear → --neutral-gray-500-2 = #B9B6B1,
+     1px inset, radius 2px. (Light mode resolves the same token to neutral-800/#6F6D68.) */
+  --field-line: #B9B6B1 !important;
 }
-/* Dark-surface semantic badges: light hue text + a dark hue-tint fill + mid
-   border. Targeted by the hue the light badge renders as (the browser
-   normalises the authored hex to rgb()); only the soft color-mix() badges carry
-   the hue in their fill, so plain text/headings using the hue are unaffected. */
+/* Dark-surface semantic badges — EXACT MDS values pulled from the Figma file.
+   MDS defines Badge with only Type × Soft-background axes (no separate dark
+   artboard); under the file's dark mode the soft-badge TEXT and BORDER resolve
+   to the full-strength semantic hue (border = text), radius 8px, 1px:
+     Neutral #94918C · Informative #5E9AFF · Positive #57C67A · Negative #EF4E45 · Notice #FFAB4A.
+   The soft FILL in the file is a hard-coded 85%-white layer that does NOT
+   retheme (a genuine gap in the .fig, flagged to the design owner) — so on the
+   dark surface we substitute a low-opacity tint of the same hue rather than the
+   near-white light fill. Targeted by the hue the light badge renders as (the
+   browser normalises the authored hex to rgb()); only the soft color-mix()
+   badges carry the hue in their fill, so plain hue text/headings are unaffected. */
 :root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(0, 44, 119)"] {      /* Informative #002C77 */
-  color: #9FBEFF !important; background: color-mix(in srgb, #4C7DE0 24%, transparent) !important; border-color: #5E8AE0 !important;
+  color: #5E9AFF !important; background: color-mix(in srgb, #5E9AFF 20%, transparent) !important; border-color: #5E9AFF !important;
 }
 :root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(20, 133, 61)"] {      /* Positive #14853D */
-  color: #74D291 !important; background: color-mix(in srgb, #2AA866 24%, transparent) !important; border-color: #37B06E !important;
+  color: #57C67A !important; background: color-mix(in srgb, #57C67A 20%, transparent) !important; border-color: #57C67A !important;
 }
 :root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(197, 53, 50)"] {      /* Negative #C53532 */
-  color: #F2938F !important; background: color-mix(in srgb, #D65A56 24%, transparent) !important; border-color: #E06A66 !important;
+  color: #EF4E45 !important; background: color-mix(in srgb, #EF4E45 20%, transparent) !important; border-color: #EF4E45 !important;
 }
 :root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(203, 126, 3)"] {      /* Notice #CB7E03 */
-  color: #ECC069 !important; background: color-mix(in srgb, #D6A340 24%, transparent) !important; border-color: #DEAF4E !important;
+  color: #FFAB4A !important; background: color-mix(in srgb, #FFAB4A 20%, transparent) !important; border-color: #FFAB4A !important;
 }
