@@ -511,23 +511,27 @@ function AssessorEditorial() {
   };
 
   // ═══════ STATUS STYLES ═══════
+  // MDS Badge mapping (soft-background variants): Informative #002C77, Positive
+  // #14853D, Negative #C53532, Neutral outline (#94918C, no fill). Fill = 85%-
+  // white tint of the hue; each carries a 1px border in its hue (br overrides).
+  const NEUTRAL = {c:"#0F0C08", bg:"transparent", br:"#94918C"};
   const statusStyle = (s) => ({
-    "Not started":{c:warn, bg:"rgba(203,126,3,.10)"},
-    "Not Started":{c:warn, bg:"rgba(203,126,3,.10)"},
-    "In progress":{c:teal, bg:"rgba(11,75,255,.10)"},
-    "In Progress":{c:teal, bg:"rgba(11,75,255,.10)"},
-    "Completed":{c:green, bg:"rgba(20,133,61,.10)"},
-    "Not Available":{c:tm, bg:"rgba(123,121,116,.12)"},
-    "Available":{c:green, bg:"rgba(20,133,61,.10)"},
-    "On Time":{c:green, bg:"rgba(20,133,61,.10)"},
-    "Scheduled":{c:teal, bg:"rgba(11,75,255,.10)"},
-    "No Status":{c:tm, bg:"rgba(123,121,116,.12)"},
-    "Open":{c:green, bg:"rgba(20,133,61,.10)"},
-    "Closed":{c:red, bg:"rgba(197,53,50,.10)"},
-  }[s] || {c:tm, bg:"rgba(123,121,116,.12)"});
+    "Not started":NEUTRAL,
+    "Not Started":NEUTRAL,
+    "In progress":{c:"#002C77", bg:"color-mix(in srgb, #002C77 15%, #ffffff)"},
+    "In Progress":{c:"#002C77", bg:"color-mix(in srgb, #002C77 15%, #ffffff)"},
+    "Completed":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
+    "Not Available":NEUTRAL,
+    "Available":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
+    "On Time":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
+    "Scheduled":{c:"#002C77", bg:"color-mix(in srgb, #002C77 15%, #ffffff)"},
+    "No Status":NEUTRAL,
+    "Open":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
+    "Closed":{c:"#C53532", bg:"color-mix(in srgb, #C53532 15%, #ffffff)"},
+  }[s] || NEUTRAL);
   const StatusPill = ({s}) => {
     const cfg = statusStyle(s);
-    return <span style={{fontFamily:f,fontSize:14,fontWeight:700,color:cfg.c,background:cfg.bg,padding:"4px 11px",borderRadius:6,whiteSpace:"nowrap"}}>{s}</span>;
+    return <span style={{fontFamily:f,fontSize:14,fontWeight:400,color:cfg.c,background:cfg.bg,border:`1px solid ${cfg.br||cfg.c}`,boxSizing:"border-box",padding:"4px 11px",borderRadius:6,whiteSpace:"nowrap"}}>{s}</span>;
   };
 
   // ═══════ SIDEBAR + TOPBAR ═══════
