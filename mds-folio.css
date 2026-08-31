@@ -1,0 +1,117 @@
+/* ============================================================
+   MDS V3 — Folio-only test overrides
+   Loaded ONLY by Folio.html. Delete that <link> to fully revert.
+   Values read directly from the Marsh MDS V3 design system.
+   Only radius, colours, and font tokens change — nothing structural.
+   ============================================================ */
+
+/* ── Colours: LIGHT mode only (dark mode keeps the prototype's dark theme).
+   !important so these beat lh-tweaks' runtime inline vars on <html>. ── */
+:root:not([data-theme="dark"]) {
+  --accent: #0065AC !important;              /* MDS brand-primary-alt: links, active, rings, eyebrows */
+  --ink:    #0F0C08 !important;              /* body text — warm near-black (MDS text-icon-secondary) */
+  --muted:  rgba(15,12,8,.62) !important;    /* secondary text / captions */
+  --line:   #DEDBD6 !important;              /* borders — MDS hairline-warm */
+  /* --action #000F47 (Midnight/Blue-1000), --primary #000F47,
+     --canvas #F7F3EE (canvas-warm) already match — left as-is. */
+}
+
+/* ── Type: nudged to MDS steps ── */
+:root {
+  --text-body:  16px;   /* MDS md (was 15) */
+  --text-small: 14px;   /* MDS sm */
+  --text-label: 14px;   /* MDS sm */
+  --text-h2:    22px;   /* MDS 2xl (was 21) */
+}
+
+/* ── Links: MDS — underlined, 2px offset, brand-alt blue ── */
+.ed-content a[href]:not([class*="btn"]),
+.ed-content a:not([href]):not([class*="btn"]) {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ed-content a:hover { color: #002C77; }
+
+/* ============================================================
+   RADIUS — remap inline radii to the MDS scale.
+   MDS: sm 2px (buttons), md 4px (inputs/controls), lg 8px (cards),
+        full/50% (pills & circles) — LEFT UNTOUCHED.
+   Each container rule EXCLUDES elements whose width == 2×radius: those are
+   circles drawn with border-radius:half (radio dots, avatars, icon chips)
+   and MUST stay round. !important is required to beat React inline styles.
+   ============================================================ */
+
+/* Cards / panels / containers -> 8px (radius-lg), circles excluded */
+.ed-shell [style*="border-radius: 8px"]:not([style*="width: 16px"]),
+.ed-shell [style*="border-radius: 9px"]:not([style*="width: 18px"]),
+.ed-shell [style*="border-radius: 10px"]:not([style*="width: 20px"]),
+.ed-shell [style*="border-radius: 11px"]:not([style*="width: 22px"]),
+.ed-shell [style*="border-radius: 12px"]:not([style*="width: 24px"]),
+.ed-shell [style*="border-radius: 13px"]:not([style*="width: 26px"]),
+.ed-shell [style*="border-radius: 14px"]:not([style*="width: 28px"]),
+.ed-shell [style*="border-radius: 15px"]:not([style*="width: 30px"]),
+.ed-shell [style*="border-radius: 16px"]:not([style*="width: 32px"]),
+.ed-shell [style*="border-radius: 17px"]:not([style*="width: 34px"]),
+.ed-shell [style*="border-radius: 18px"]:not([style*="width: 36px"]),
+.ed-shell [style*="border-radius: 19px"]:not([style*="width: 38px"]),
+.ed-shell [style*="border-radius: 20px"]:not([style*="width: 40px"]),
+.ed-shell [style*="border-radius: 21px"]:not([style*="width: 42px"]),
+.ed-shell [style*="border-radius: 22px"]:not([style*="width: 44px"]),
+.ed-shell [style*="border-radius: 23px"]:not([style*="width: 46px"]),
+.ed-shell [style*="border-radius: 24px"]:not([style*="width: 48px"]),
+.ed-shell [style*="border-radius: 25px"]:not([style*="width: 50px"]),
+.ed-shell [style*="border-radius: 26px"]:not([style*="width: 52px"]),
+.ed-shell [style*="border-radius: 28px"]:not([style*="width: 56px"]),
+.ed-shell [style*="border-radius: 30px"]:not([style*="width: 60px"]) {
+  border-radius: 8px !important;
+}
+
+/* Small inline radii (5-7px) -> 4px, circles excluded */
+.ed-shell [style*="border-radius: 5px"]:not([style*="width: 10px"]),
+.ed-shell [style*="border-radius: 6px"]:not([style*="width: 12px"]),
+.ed-shell [style*="border-radius: 7px"]:not([style*="width: 14px"]) {
+  border-radius: 4px !important;
+}
+
+/* Status chips / badges / tags -> pill (all MDS tags are fully rounded,
+   e.g. "2026 programme"). Folio tags are small FILLED <span>s carrying a
+   3-8px inline radius (status chips, "Available"/"Locked", counts, etc.).
+   Scoped to spans (cards are divs) with a background, so only tags match.
+   Higher specificity than the value-based radius rules, so it wins. */
+.ed-shell span[style*="background"][style*="border-radius: 3px"],
+.ed-shell span[style*="background"][style*="border-radius: 4px"],
+.ed-shell span[style*="background"][style*="border-radius: 5px"],
+.ed-shell span[style*="background"][style*="border-radius: 6px"],
+.ed-shell span[style*="background"][style*="border-radius: 7px"],
+.ed-shell span[style*="background"][style*="border-radius: 8px"],
+.ed-shell span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"] {
+  border-radius: 999px !important;
+}
+
+/* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
+   Higher specificity beats the 8px rule; circles/pills excluded. */
+.ed-shell button:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]),
+.ed-shell .btn,
+.ed-shell .btn-primary,
+.ed-shell .ed-btn,
+.ed-shell .ed-gold {
+  border-radius: 2px !important;
+}
+
+/* Side-menu (rail) nav items -> 4px (MDS SideNavigation active item).
+   These are <div role="button">, so the 2px button rule doesn't reach them;
+   the extra selectors raise specificity above the container 8px rule. */
+.ed-shell .ed-rail nav [role="button"],
+.ed-shell .ed-rail nav [role="button"] > * {
+  border-radius: 4px !important;
+}
+
+/* Form controls (text inputs, textarea, select) -> 4px (radius-md).
+   [style] raises specificity above the container rule so they aren't
+   pulled to 8px. Checkboxes/radios are excluded (they stay as drawn). */
+.ed-shell textarea[style]:not([hidden]),
+.ed-shell input[style]:not([type="checkbox"]):not([type="radio"]),
+.ed-shell select[style]:not([hidden]) {
+  border-radius: 4px !important;
+}
