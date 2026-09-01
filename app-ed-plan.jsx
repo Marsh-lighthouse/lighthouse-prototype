@@ -1459,7 +1459,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                 //    Collapsed shows exactly the heading (name, rating, public, chat, delete). ──
                 if (acc) {
                   return (
-                    <div key={si} data-skill={skill.name} style={{ borderTop: si > 0 ? "1px solid " + eLINE : "none", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2 }}>
+                    <div key={si} data-skill={skill.name} style={{ borderTop: (si > 0 && !active) ? "1px solid " + eLINE : "none", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2, borderRadius: active ? 12 : 0, padding: active ? "0 12px" : 0, margin: active ? "6px -12px" : 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: open ? "16px 0 14px" : "16px 0" }}>
                         <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, marginLeft: -2 }}>
                           <span style={{ display: "flex", transition: "transform .2s", transform: open ? "none" : "rotate(-90deg)" }}><I.chevD size={18} /></span>
