@@ -65,7 +65,7 @@
 
   /* ── TYPOGRAPHY ── */
   --serif: "Marsh Serif", Georgia, "Times New Roman", serif;  /* display, weight 400 ONLY */
-  --sans:  "Noto Sans", system-ui, -apple-system, sans-serif; /* body / UI */
+  --sans:  "Noto Sans", "Helvetica Neue", Arial, sans-serif; /* body / UI */
   --heading-family: var(--serif);   /* swapped serif⇄sans by Tweaks */
   --heading-weight: 400;
   --weight-body: 400;

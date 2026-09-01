@@ -193,7 +193,7 @@ function LighthouseTweaks() {
     const r = document.documentElement.style;
     // Marsh Serif is MARKETING-ONLY — the internal platform is always Noto Sans
     // (see brand.css, which also !important-locks this). The toggle is inert.
-    r.setProperty("--heading-family", '"Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif');
+    r.setProperty("--heading-family", '"Noto Sans", "Helvetica Neue", Arial, sans-serif');
     r.setProperty("--heading-weight", "700");
   }, [t.heading]);
 

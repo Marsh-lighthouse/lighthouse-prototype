@@ -30,8 +30,8 @@ function AssessorEditorial() {
   const warn = "#CB7E03";
   const purple = "#8F20DE";
   const purpleBg = "rgba(143,32,222,.08)";
-  const f = "'Noto Sans',system-ui,-apple-system,sans-serif";
-  const serif = "'Noto Sans',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif";  /* Marsh Serif is marketing-only; app uses Noto Sans (MDS). */
+  const f = "'Noto Sans','Helvetica Neue',Arial,sans-serif";
+  const serif = "'Noto Sans','Helvetica Neue',Arial,sans-serif";  /* Marsh Serif is marketing-only; app uses Noto Sans (MDS). */
 
   // Folio radii
   const cr = 8, br = 8, sr = 8, ir = 6;

@@ -54,8 +54,8 @@
   --danger:  #C53532;
   --warning: #FFBE00;
 
-  --serif: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;  /* Marsh Serif is MARKETING-ONLY; the internal platform uses Noto Sans everywhere (MDS). */
-  --sans:  "Noto Sans", system-ui, -apple-system, sans-serif;
+  --serif: "Noto Sans", "Helvetica Neue", Arial, sans-serif;  /* Marsh Serif is MARKETING-ONLY; the internal platform uses Noto Sans everywhere (MDS). */
+  --sans:  "Noto Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -76,12 +76,12 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
    Marsh Serif) and --heading-weight:400, so it holds regardless of the toggle.
    Display headings render Noto Sans Bold (700). ── */
 :root {
-  --serif: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important;
-  --heading-family: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important;
-  --font-family-display: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important;
+  --serif: "Noto Sans", "Helvetica Neue", Arial, sans-serif !important;
+  --heading-family: "Noto Sans", "Helvetica Neue", Arial, sans-serif !important;
+  --font-family-display: "Noto Sans", "Helvetica Neue", Arial, sans-serif !important;
   --heading-weight: 700 !important;
 }
-.serif { font-family: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important; font-weight: 700 !important; }
+.serif { font-family: "Noto Sans", "Helvetica Neue", Arial, sans-serif !important; font-weight: 700 !important; }
 
 /* ── Themeable knobs (overridden live by the Tweaks panel on :root) ── */
 :root {
