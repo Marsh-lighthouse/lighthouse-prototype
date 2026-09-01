@@ -1270,12 +1270,23 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   // the "save blocked" state. Every other design saves straight away (demo mode).
   const showDateErr = sample === 8 && (triedSave || missingDates.length > 0) && missingDates.length > 0;
 
-  // Link the chat to the plan: opening a skill's thread scrolls that skill into view.
+  // Link the chat to the plan: opening a skill's thread jumps to that skill and
+  // flashes it. In the Sample-10 ACCORDION the target skill is collapsed, so
+  // EXPAND it first — otherwise you land on a closed header and the skill's
+  // content never shows (which read as "the comment doesn't go to the skill").
+  // Then scroll + flash on the next frame, once the expanded body has rendered.
   plUseEffect(() => {
     if (!comments) return;
-    const sel = "[data-skill=\"" + (typeof CSS !== "undefined" && CSS.escape ? CSS.escape(comments) : comments) + "\"]";
-    const el = document.querySelector(sel);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (sample === 10) {
+      let key = null;
+      for (let ci = 0; ci < data.length && !key; ci++) {
+        const si = (data[ci].skills || []).findIndex((s) => s.name === comments);
+        if (si >= 0) key = ci + "-" + si;
+      }
+      if (key) setOpenSkill(key);
+    }
+    const t = setTimeout(() => plGoToSkill(comments), 60);
+    return () => clearTimeout(t);
   }, [comments]);
   // While the comments panel is open it covers the right edge — flag the document so
   // the floating chrome (Plan design / All directions / gear / help) shifts left and
@@ -2166,6 +2177,7 @@ window.EdPlan.ReportTab = PlReportTab;   // the manager shows the very same repo
 // Comments: one conversation shared by the employee and their manager.
 window.EdPlan.Comments = PlComments;
 window.EdPlan.threadsFor = plThreadsFor;
+window.EdPlan.goToSkill = plGoToSkill;   // scroll a skill into view + flash it (shared by the manager)
 window.EdPlan.THREAD_EVENT = PL_THREAD_EVENT;
 window.EdPlan.MGR_NAME = PL_MGR;
 window.EdPlan.ME_NAME = PL_ME;

@@ -487,12 +487,26 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const anyUnread = unreadSkills.length > 0;
   // same rule as the employee plan: only push the page when the column still fits
   const pushRoom = (window.EdPlan && window.EdPlan.usePushRoom) ? window.EdPlan.usePushRoom(comments) : false;
-  // opening a skill's thread brings that section into view, as on the employee side
+  // opening a skill's thread brings that section into view, as on the employee side.
+  // In the Sample-10 accordion the target skill is collapsed, so expand it first,
+  // then scroll + flash on the next frame (matches the employee behaviour).
   mgUseEffect(() => {
     if (!comments) return;
-    const sel = "[data-skill=\"" + (typeof CSS !== "undefined" && CSS.escape ? CSS.escape(comments) : comments) + "\"]";
-    const el = document.querySelector(sel);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (sample === 10) {
+      let key = null;
+      for (let ci = 0; ci < data.length && !key; ci++) {
+        const si = (data[ci].skills || []).findIndex((s) => s.name === comments);
+        if (si >= 0) key = ci + "-" + si;
+      }
+      if (key) setOpenSkill(key);
+    }
+    const go = window.EdPlan && window.EdPlan.goToSkill;
+    const t = setTimeout(() => {
+      if (go) { go(comments); return; }
+      const el = document.querySelector("[data-skill=\"" + (typeof CSS !== "undefined" && CSS.escape ? CSS.escape(comments) : comments) + "\"]");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 60);
+    return () => clearTimeout(t);
   }, [comments]);
   // while the panel covers the right edge, shift the floating chrome left
   mgUseEffect(() => {
