@@ -650,8 +650,12 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
       <h3 className="serif" style={{ fontSize: 22, color: MID, lineHeight: 1.15, margin: "0 0 14px" }}>{t(p.nameKey || p.name)}</h3>
 
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
-        <div style={{ flex: 1, height: 6, borderRadius: 4, background: "var(--track)", overflow: "hidden" }}>
-          <div style={{ width: `${p.pct}%`, height: "100%", borderRadius: 4, background: p.accent }} />
+        {/* MDS Linear Bar — same as the development plan (thin 4px, square ends, navy
+            #000F47 fill that flips to #82BAFF in dark via --pl-fill, #94918C track, 2px gap) */}
+        <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+          <div style={{ width: `${p.pct}%`, height: "100%", background: "var(--pl-fill)", flexShrink: 0 }} />
+          {p.pct > 0 && p.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+          <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
         </div>
       </div>
 
