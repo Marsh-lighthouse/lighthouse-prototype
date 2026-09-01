@@ -1144,8 +1144,10 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   const [tab, setTab] = plUseState("plan");
   // Which action-card design (see PL_SAMPLES). 6 by default, and the choice sticks —
   // the manager side already remembers its own the same way.
-  const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 9 ? v : 6; });
+  const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 6; });
   const [sampleMenu, setSampleMenu] = plUseState(false);
+  // Sample 10 (accordion) — the key "ci-si" of the one open skill; "" means all closed.
+  const [openSkill, setOpenSkill] = plUseState("0-0");
   // User-info presentation. 4 (default) hides the info card entirely and puts the
   // owner's name in the page title instead; 1–3 are the card layouts.
   const [userCard, setUserCard] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-usercard-design"), 10); return v >= 1 && v <= 4 ? v : 4; });
@@ -1353,6 +1355,13 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
               </div>
             </div>
           )}
+          {/* Sample 10 · plan-wide summary bar under the tabs */}
+          {sample === 10 && (() => {
+            const st = plStats(data);
+            const status = completed ? "completed" : verdict ? verdict.status : awaiting ? (storeStatus === "review" ? "review" : "pending") : "draft";
+            const waiting = awaiting ? "Manager" : completed ? "—" : "You";
+            return <PlPlanSummary stats={st} status={status} waiting={waiting} />;
+          })()}
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
@@ -1362,24 +1371,28 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
 
               {cat.skills.map((skill, si) => {
                 const active = comments === skill.name; // this skill's message thread is open → highlight it
-                return (
-                <div key={si} data-skill={skill.name} style={{ borderRadius: 12, transition: "background .2s", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2, padding: active ? "8px 12px" : 0, margin: active ? (si > 0 ? "28px -12px 6px" : "0 -12px 6px") : (si > 0 ? "28px 0 6px" : "0 0 6px") }}>
-                  {/* skill header */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
-                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
-                    <PlStars value={skill.rating} readOnly={!editable} onChange={(v) => mutate((n) => { n[ci].skills[si].rating = v; })} />
-                    {editable && <PlPubToggle isPublic={skill.isPublic} onToggle={() => { mutate((n) => { n[ci].skills[si].isPublic = !skill.isPublic; }); showToast("Skill '" + skill.name + "' has been marked as " + (skill.isPublic ? "private and will be hidden from your manager" : "public")); }} />}
-                    <div style={{ flex: 1 }} />
-                    <button onClick={() => openComments(skill.name)} title={isUnread(skill.name) ? "New message" : "Comments"} style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: isUnread(skill.name) ? "var(--danger)" : eMUT, display: "flex" }}>
-                      <I.chat size={18} />
-                      {isUnread(skill.name) && <span style={{ position: "absolute", top: -3, right: -3, width: 9, height: 9, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--card)" }} />}
-                    </button>
-                    {editable && <button onClick={() => setConfirmDel({ label: "the skill “" + skill.name + "”", onYes: () => { mutate((n) => { n[ci].skills.splice(si, 1); }); showToast("Skill removed"); } })} title="Remove skill" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center", padding: 4 }}><PlTrash size={16} /></button>}
-                  </div>
+                const acc = sample === 10;              // accordion layout (single skill open at a time)
+                const openKey = ci + "-" + si;
+                const open = !acc || openSkill === openKey;
+                const sActs = skill.actions.length;
+                const sPct = sActs ? Math.round(skill.actions.reduce((t, a) => t + (a.completion || 0), 0) / sActs) : 0;
 
-                  {/* action cards (design chosen via the plan-design sample switcher) */}
-                  {skill.actions.length === 0 && <PlNoActions editable={editable} />}
-                  {skill.actions.length > 0 && (() => {
+                // Shared header controls — identical whether flat or accordion.
+                const stars = <PlStars value={skill.rating} readOnly={!editable} onChange={(v) => mutate((n) => { n[ci].skills[si].rating = v; })} />;
+                const pub = editable ? <PlPubToggle isPublic={skill.isPublic} onToggle={() => { mutate((n) => { n[ci].skills[si].isPublic = !skill.isPublic; }); showToast("Skill '" + skill.name + "' has been marked as " + (skill.isPublic ? "private and will be hidden from your manager" : "public")); }} /> : null;
+                const commentBtn = (
+                  <button onClick={() => openComments(skill.name)} title={isUnread(skill.name) ? "New message" : "Comments"} style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: isUnread(skill.name) ? "var(--danger)" : eMUT, display: "flex" }}>
+                    <I.chat size={18} />
+                    {isUnread(skill.name) && <span style={{ position: "absolute", top: -3, right: -3, width: 9, height: 9, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--card)" }} />}
+                  </button>
+                );
+                const delBtn = editable ? <button onClick={() => setConfirmDel({ label: "the skill “" + skill.name + "”", onYes: () => { mutate((n) => { n[ci].skills.splice(si, 1); }); showToast("Skill removed"); } })} title="Remove skill" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center", padding: 4 }}><PlTrash size={16} /></button> : null;
+
+                // action cards (design chosen via the plan-design sample switcher)
+                const actionsNode = (
+                  <React.Fragment>
+                    {skill.actions.length === 0 && <PlNoActions editable={editable} />}
+                    {skill.actions.length > 0 && (() => {
                     const cards = skill.actions.map((a, ai) => (
                       <PlActionCard key={a.id} action={a} editable={editable} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1}
                         dateErr={showDateErr && dateErrIds.indexOf(a.id) !== -1}
@@ -1409,24 +1422,67 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                       ? <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 12, alignItems: "stretch", marginBottom: 6 }}>{cards}</div>
                       : cards;
                   })()}
+                  </React.Fragment>
+                );
 
-                  {/* per-skill add row */}
-                  {editable && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap", padding: "14px 0 6px" }}>
-                      <span style={{ display: "inline-flex", alignItems: "center" }}>
-                        <button onClick={() => setModal({ kind: "own", ci, si })} style={plLink}><I.plus size={15} /> Create my own</button>
-                        <PlInfoTip label="Create my own" text={PL_ADD_TIPS.own} />
-                      </span>
-                      <span style={{ display: "inline-flex", alignItems: "center" }}>
-                        <button onClick={() => setModal({ kind: "library", ci, si })} style={plLink}><I.plus size={15} /> Pick from our development library</button>
-                        <PlInfoTip label="Pick from our development library" text={PL_ADD_TIPS.library} />
-                      </span>
-                      <span style={{ display: "inline-flex", alignItems: "center" }}>
-                        <button onClick={() => setModal({ kind: "ai", ci, si })} style={plLink}><I.plus size={15} /> Create with AI</button>
-                        <PlInfoTip label="Create with AI" text={PL_ADD_TIPS.ai} />
-                      </span>
+                // per-skill add row
+                const addRowNode = editable ? (
+                  <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap", padding: "14px 0 6px" }}>
+                    <span style={{ display: "inline-flex", alignItems: "center" }}>
+                      <button onClick={() => setModal({ kind: "own", ci, si })} style={plLink}><I.plus size={15} /> Create my own</button>
+                      <PlInfoTip label="Create my own" text={PL_ADD_TIPS.own} />
+                    </span>
+                    <span style={{ display: "inline-flex", alignItems: "center" }}>
+                      <button onClick={() => setModal({ kind: "library", ci, si })} style={plLink}><I.plus size={15} /> Pick from our development library</button>
+                      <PlInfoTip label="Pick from our development library" text={PL_ADD_TIPS.library} />
+                    </span>
+                    <span style={{ display: "inline-flex", alignItems: "center" }}>
+                      <button onClick={() => setModal({ kind: "ai", ci, si })} style={plLink}><I.plus size={15} /> Create with AI</button>
+                      <PlInfoTip label="Create with AI" text={PL_ADD_TIPS.ai} />
+                    </span>
+                  </div>
+                ) : null;
+
+                // ── Accordion layout (Sample 10) — a boxed skill that expands one at a time ──
+                if (acc) {
+                  return (
+                    <div key={si} data-skill={skill.name} style={{ border: "1px solid " + eLINE, borderRadius: 8, background: "var(--card)", boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden", marginTop: si > 0 ? 12 : 0, outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "16px 18px" }}>
+                        <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2 }}>
+                          <span style={{ display: "flex", transition: "transform .2s", transform: open ? "none" : "rotate(-90deg)" }}><I.chevD size={18} /></span>
+                        </button>
+                        <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
+                        {stars}
+                        {!open && sActs > 0 && (
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
+                            {sActs} development action{sActs === 1 ? "" : "s"} · {sPct}%
+                            <span style={{ width: 70, height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", display: "inline-block" }}><span style={{ display: "block", width: sPct + "%", height: "100%", background: eBLUE }} /></span>
+                          </span>
+                        )}
+                        {pub}
+                        <div style={{ flex: 1 }} />
+                        {commentBtn}
+                        {delBtn}
+                      </div>
+                      {open && <div style={{ padding: "0 18px 16px" }}>{actionsNode}{addRowNode}</div>}
                     </div>
-                  )}
+                  );
+                }
+
+                // ── Flat layout (Samples 1–9, unchanged) ──
+                return (
+                <div key={si} data-skill={skill.name} style={{ borderRadius: 12, transition: "background .2s", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2, padding: active ? "8px 12px" : 0, margin: active ? (si > 0 ? "28px -12px 6px" : "0 -12px 6px") : (si > 0 ? "28px 0 6px" : "0 0 6px") }}>
+                  {/* skill header */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
+                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
+                    {stars}
+                    {pub}
+                    <div style={{ flex: 1 }} />
+                    {commentBtn}
+                    {delBtn}
+                  </div>
+                  {actionsNode}
+                  {addRowNode}
                 </div>
                 );
               })}
@@ -1561,6 +1617,58 @@ const plParse = (s) => { if (!s) return null; const a = String(s).split("-").map
 const plFmt = (s) => { const d = plParse(s); return d ? d.getDate() + " " + PL_MONTHS[d.getMonth()].slice(0, 3) + " " + d.getFullYear() : ""; };
 const plFmtShort = (s) => { const d = plParse(s); return d ? d.getDate() + " " + PL_MONTHS[d.getMonth()].slice(0, 3) : ""; };
 const plSameDay = (a, b) => a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+// ── Sample 10 (accordion) helpers ──────────────────────────────────────────
+// Rounded human duration between two ISO dates (used beside the source label).
+const plDur = (a, b) => { const s = plParse(a), e = plParse(b); if (!s || !e) return ""; const days = Math.round((e - s) / 86400000); if (days <= 0) return ""; if (days < 14) return days + " day" + (days === 1 ? "" : "s"); if (days < 60) { const w = Math.round(days / 7); return w + " week" + (w === 1 ? "" : "s"); } const mo = Math.max(1, Math.round(days / 30.4)); return mo + " month" + (mo === 1 ? "" : "s"); };
+// Roll the whole plan up into the numbers the summary bar shows.
+function plStats(data) {
+  let skills = 0, actions = 0, complete = 0, sum = 0, overdue = 0, minS = null, maxE = null;
+  const today = new Date();
+  (data || []).forEach((c) => (c.skills || []).forEach((s) => {
+    skills += 1;
+    (s.actions || []).forEach((a) => {
+      actions += 1; const pc = a.completion || 0; sum += pc; if (pc >= 100) complete += 1;
+      const e = plParse(a.end); if (e && pc < 100 && e < today) overdue += 1;
+      const st = plParse(a.start); if (st && (!minS || st < minS)) minS = st;
+      if (e && (!maxE || e > maxE)) maxE = e;
+    });
+  }));
+  const monY = (d) => PL_MONTHS[d.getMonth()].slice(0, 3) + " " + d.getFullYear();
+  return { skills, actions, complete, pct: actions ? Math.round(sum / actions) : 0, overdue, range: (minS && maxE) ? monY(minS) + " – " + monY(maxE) : "" };
+}
+// Stepped 0/25/50/75/100 completion picker.
+function PlSeg({ value, onChange, readOnly }) {
+  return (
+    <div style={{ display: "inline-flex", border: "1px solid " + eLINE, borderRadius: 8, overflow: "hidden" }}>
+      {[0, 25, 50, 75, 100].map((s, i) => { const on = (value || 0) === s; return (
+        <button key={s} onClick={readOnly ? undefined : () => onChange(s)} style={{ minWidth: 46, padding: "7px 12px", background: on ? eBLUE : "var(--card)", color: on ? "#fff" : eMID, border: "none", borderLeft: i ? "1px solid " + eLINE : "none", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 600, cursor: readOnly ? "default" : "pointer" }}>{s}</button>
+      ); })}
+    </div>
+  );
+}
+// Full-width completion bar along the bottom of a Sample-10 card.
+function PlWideBar({ pct }) {
+  return <div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", marginTop: 14 }}><div style={{ width: (pct || 0) + "%", height: "100%", background: eBLUE, borderRadius: 3, transition: "width .3s" }} /></div>;
+}
+// Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
+function PlPlanSummary({ stats, status, waiting }) {
+  const lbl = { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: eMUT, marginBottom: 6 };
+  const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
+  const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
+  return (
+    <div style={{ marginBottom: 8 }}>
+      {stats.range && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 8px" }}>{stats.range}</div>}
+      <div style={{ display: "flex", flexWrap: "wrap", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
+        <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div></div>
+        <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 3 }}>{stats.complete} complete</div></div>
+        <div style={{ ...cell(), minWidth: 150 }}><div style={lbl}>Completion</div><div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", margin: "3px 0 7px" }}><div style={{ width: stats.pct + "%", height: "100%", background: eBLUE, borderRadius: 3 }} /></div><div style={big}>{stats.pct}%</div></div>
+        <div style={cell()}><div style={lbl}>Overdue</div><div style={{ ...big, color: stats.overdue ? "#CB7E03" : eMID }}>{stats.overdue}</div></div>
+        <div style={cell(true)}><div style={lbl}>Waiting on</div><div style={{ ...big, fontSize: 18 }}>{waiting}</div><div style={{ marginTop: 7 }}><PlStatusBadge status={status} /></div></div>
+      </div>
+    </div>
+  );
+}
 
 // One month grid inside the picker popover.
 function PlMonth({ base, sIso, eIso, hIso, onPick, onHover }) {
@@ -1738,6 +1846,7 @@ const PL_SAMPLES = [
   { id: 7, label: "Sample 7 · Media cards", desc: "Each action leads with an image thumbnail, details and progress alongside" },
   { id: 8, label: "Sample 8 · Error", desc: "Save blocked — required start / end dates are missing" },
   { id: 9, label: "Sample 9 · Two-up grid", desc: "Actions as cards, two per row instead of a single list" },
+  { id: 10, label: "Sample 10 · Accordion", desc: "Skills collapse into an accordion (one open at a time); a summary bar under the tabs, and each action shows a stepped 0–100 completion with a full-width bar" },
 ];
 const plMetaLabel = { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: eMUT, margin: "0 0 6px" };
 
@@ -1763,6 +1872,7 @@ function PlRing({ pct, size = 46 }) {
 }
 
 function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, last, dateErr }) {
+  const [showWhy, setShowWhy] = plUseState(false); // Sample 10 "Why this development action" expander
   const m = PL_LEARN[action.mix];
   const srcLabel = action.src === "AI Coach" ? "AI Coach" : action.src === "Custom" ? "Custom" : "Development Library";
   const src = <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{action.src === "AI Coach" ? <I.spark size={14} /> : <I.layers size={14} />}{srcLabel}</span>;
@@ -1893,6 +2003,41 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
             <div><div style={plMetaLabel}>Completion</div><div style={{ display: "flex", alignItems: "center", gap: 10 }}><PlRing pct={action.completion || 0} size={42} />{pencil}</div></div>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  // ── Sample 10 · accordion body card — mode chip, why-expander, stepped
+  //    completion (0/25/50/75/100) and a full-width progress bar along the bottom ──
+  if (sample === 10) {
+    const durTxt = plDur(action.start, action.end);
+    const modeChip = (
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 8, padding: "3px 10px" }}>
+        {React.createElement(I[m.icon] || I.book, { size: 13 })}{m.label}
+      </span>
+    );
+    const why = "Included to develop this skill through " + m.label.toLowerCase() + ". Work towards the completion target using the steps below, and mark your progress as you go.";
+    return (
+      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
+          <span style={{ marginTop: 7, width: 9, height: 9, borderRadius: 5, background: m.color, flexShrink: 0 }} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.title}</div>
+              {modeChip}
+              <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{srcLabel}{durTxt ? " · " + durTxt : ""}</span>
+            </div>
+            <PlDescLine text={action.desc} />
+            <button onClick={() => setShowWhy((v) => !v)} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", padding: 0, marginTop: 8, color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}><I.spark size={13} /> Why this development action</button>
+            {showWhy && <div style={{ background: "color-mix(in srgb, var(--accent) 5%, transparent)", borderRadius: 8, padding: "9px 12px", marginTop: 7, fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{why}</div>}
+          </div>
+          {del}
+        </div>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
+          <div style={{ minWidth: 170 }}><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>
+          <div><div style={plMetaLabel}>Completion</div>{editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.completion || 0}%</span>}</div>
+        </div>
+        <PlWideBar pct={action.completion || 0} />
       </div>
     );
   }
