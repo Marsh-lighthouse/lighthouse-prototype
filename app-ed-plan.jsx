@@ -1844,7 +1844,7 @@ const PL_SAMPLES = [
   { id: 9, label: "Sample 9 · Two-up grid", desc: "Actions as cards, two per row instead of a single list" },
   { id: 10, label: "Sample 10 · Accordion", desc: "Skills collapse into an accordion (one open at a time); a summary bar under the tabs, and each action shows a stepped 0–100 completion with a full-width bar" },
 ];
-const plMetaLabel = { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: eMUT, margin: "0 0 6px" };
+const plMetaLabel = { fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 600, color: eMUT, margin: "0 0 6px" };
 
 // Linear completion bar + %.
 function PlBar({ pct }) {
