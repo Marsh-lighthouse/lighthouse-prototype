@@ -66,7 +66,7 @@ function LighthouseTweaks() {
   // workspace): no Theme control, no Dark-palette reference, and the palette is
   // pinned LIGHT even if lh-theme was set to "dark" elsewhere in the platform.
   const HIDE_DARK = typeof window !== "undefined" && !!window.__LH_HIDE_DARK;
-  const DEFAULTS = { accent: "#0B4BFF", action: "#000F47", canvas: "#F7F3EE", heading: "Serif", primary: "#000F47", sidebar: "Midnight", align: (typeof document !== "undefined" && getComputedStyle(document.documentElement).getPropertyValue("--fol-mx").trim() === "auto") ? "Center" : "Left", theme: (typeof localStorage !== "undefined" && localStorage.getItem("lh-theme") === "dark") ? "Dark" : "Light", device: (typeof localStorage !== "undefined" && localStorage.getItem("lh-device")) || "Desktop" };
+  const DEFAULTS = { accent: "#0B4BFF", action: "#000F47", canvas: "#F7F3EE", heading: "Sans", primary: "#000F47", sidebar: "Midnight", align: (typeof document !== "undefined" && getComputedStyle(document.documentElement).getPropertyValue("--fol-mx").trim() === "auto") ? "Center" : "Left", theme: (typeof localStorage !== "undefined" && localStorage.getItem("lh-theme") === "dark") ? "Dark" : "Light", device: (typeof localStorage !== "undefined" && localStorage.getItem("lh-device")) || "Desktop" };
   const [t, setTweak] = useTweaks(DEFAULTS);
   // Demo toggle for the "no internet" failure state (previewed via the bottom
   // switch). Purely a prototype affordance — real apps would drive this from the
@@ -191,13 +191,10 @@ function LighthouseTweaks() {
   // the .serif class, which reads --heading-family / --heading-weight from :root.
   React.useEffect(() => {
     const r = document.documentElement.style;
-    if (t.heading === "Sans") {
-      r.setProperty("--heading-family", '"Noto Sans", system-ui, -apple-system, sans-serif');
-      r.setProperty("--heading-weight", "600");
-    } else {
-      r.setProperty("--heading-family", '"Marsh Serif", Georgia, "Times New Roman", serif');
-      r.setProperty("--heading-weight", "400");
-    }
+    // Marsh Serif is MARKETING-ONLY — the internal platform is always Noto Sans
+    // (see brand.css, which also !important-locks this). The toggle is inert.
+    r.setProperty("--heading-family", '"Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif');
+    r.setProperty("--heading-weight", "700");
   }, [t.heading]);
 
   // Side menu (rail) theme: Midnight (default) ⇄ White. Drives the --rail-* vars.

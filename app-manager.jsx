@@ -522,14 +522,17 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const Note = window.EdPlan && window.EdPlan.DecisionNote;  // same inline decision note
   const NoActions = window.EdPlan && window.EdPlan.NoActions;
   const META = (window.EdPlan && window.EdPlan.metaLabel) || {};
-  // Same plan-design switcher as the employee side; design 6 is the default here.
-  const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-plan-design"), 10); return v >= 1 && v <= 9 ? v : 6; });
+  // INTERCONNECTED with the employee side: the manager reads the SAME plan-design
+  // key ("pl-plan-design"), so whatever design the employee picks (incl. Sample 10)
+  // is exactly what the manager reviews. Kept in sync live via planTick below.
+  const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 6; });
   const [sampleMenu, setSampleMenu] = mgUseState(false);
+  mgUseEffect(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); if (v >= 1 && v <= 10 && v !== sample) setSample(v); }, [planTick]);
   // 2 (Minimal — picture, name, email) is the default reportee card.
   const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return v >= 1 && v <= 3 ? v : 2; });
   const [userCardMenu, setUserCardMenu] = mgUseState(false);
   const pickUserCard = (n) => { setUserCard(n); try { localStorage.setItem("mgr-usercard-design", String(n)); } catch (e) {} setUserCardMenu(false); };
-  const pickSample = (n) => { setSample(n); try { localStorage.setItem("mgr-plan-design", String(n)); } catch (e) {} setSampleMenu(false); };
+  const pickSample = (n) => { setSample(n); try { localStorage.setItem("pl-plan-design", String(n)); } catch (e) {} setSampleMenu(false); };
   // Wrap a skill's cards the way the employee plan does for grouped designs.
   const wrapCards = (cards) => {
     if (sample === 4 || sample === 6) {

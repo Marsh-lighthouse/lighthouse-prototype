@@ -31,7 +31,7 @@ function AssessorEditorial() {
   const purple = "#8F20DE";
   const purpleBg = "rgba(143,32,222,.08)";
   const f = "'Noto Sans',system-ui,-apple-system,sans-serif";
-  const serif = "'Marsh Serif',Georgia,'Times New Roman',serif";
+  const serif = "'Noto Sans',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif";  /* Marsh Serif is marketing-only; app uses Noto Sans (MDS). */
 
   // Folio radii
   const cr = 8, br = 8, sr = 8, ir = 6;
@@ -66,9 +66,9 @@ function AssessorEditorial() {
     .link{color:${navy};cursor:pointer;text-decoration:none}
     .link:hover{text-decoration:underline}
     .eyebrow{font-size:14px;font-weight:700;letter-spacing:0;text-transform:none;color:${tm}}
-    .display{font-family:${serif};font-size:40px;font-weight:400;letter-spacing:-.01em;line-height:1.04;color:${navy}}
-    .h1{font-family:${serif};font-size:26px;font-weight:400;letter-spacing:-.01em;line-height:1.1;color:${navy}}
-    .h2{font-family:${serif};font-size:20px;font-weight:400;letter-spacing:-.005em;color:${navy}}
+    .display{font-family:${serif};font-size:40px;font-weight:700;letter-spacing:-.02em;line-height:1.04;color:${navy}}
+    .h1{font-family:${serif};font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1;color:${navy}}
+    .h2{font-family:${serif};font-size:20px;font-weight:700;letter-spacing:-.01em;color:${navy}}
     .h3{font-size:14px;font-weight:700;color:${tx}}
     .tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:14px;font-weight:600;letter-spacing:0;border-radius:3px}
     .dot{width:6px;height:6px;border-radius:3px;flex-shrink:0}
@@ -1502,7 +1502,7 @@ function AssessorEditorial() {
         {/* Header strip — evaluating + progress (immersive, full-width) */}
         <div style={{padding:"14px 32px",borderBottom:`1px solid ${bd}`,background:bg,flexShrink:0,display:"flex",alignItems:"center",gap:24,flexWrap:"wrap"}}>
           <div style={{flex:1,minWidth:200}}>
-            <div style={{fontSize:22,fontWeight:400,fontFamily:serif,color:navy}}>{c.name} <span style={{color:tm,fontSize:15,marginLeft:6}}>· {c.email}</span></div>
+            <div style={{fontSize:22,fontWeight:700,fontFamily:serif,color:navy}}>{c.name} <span style={{color:tm,fontSize:15,marginLeft:6}}>· {c.email}</span></div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:14}}>
             <div>
@@ -1621,7 +1621,7 @@ function AssessorEditorial() {
                   {submitted && !showingScores && (
                     <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",padding:"36px 0"}}>
                       <div style={{width:74,height:74,borderRadius:37,background:green,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:22}}><I.Check s={38} style={{color:"#fff",stroke:"#fff"}}/></div>
-                      <h2 style={{fontSize:26,fontWeight:400,fontFamily:serif,color:navy,marginBottom:8}}>Thank you for your time.</h2>
+                      <h2 style={{fontSize:26,fontWeight:700,fontFamily:serif,color:navy,marginBottom:8}}>Thank you for your time.</h2>
                       <p style={{fontSize:14,color:tm,marginBottom:26}}>Your responses have now been recorded.</p>
                       <div style={{display:"flex",gap:12}}>
                         <button onClick={()=>setViewScores(prev=>new Set(prev).add(rf.id))} className="btn btn-primary">View Assessment</button>
@@ -3005,7 +3005,7 @@ function AssessorEditorial() {
         {open && (<>
           <div onClick={()=>setOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
           <div style={{position:"absolute",top:"calc(100% + 6px)",left:0,width:380,maxWidth:"90vw",background:card,border:`1px solid ${bd}`,borderRadius:12,boxShadow:"0 12px 40px rgba(0,15,71,.18)",zIndex:50,padding:20}}>
-            <div style={{fontFamily:serif,fontSize:20,color:navy,marginBottom:16}}>Switch Client</div>
+            <div style={{fontFamily:serif,fontWeight:700,fontSize:20,color:navy,marginBottom:16}}>Switch Client</div>
             <div style={{position:"relative",marginBottom:18}}>
               <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search Client" style={{width:"100%",height:44,border:`1px solid ${bd}`,borderRadius:8,padding:"0 52px 0 14px",fontFamily:f,fontSize:14,color:tx,outline:"none"}}/>
               <span style={{position:"absolute",right:0,top:0,height:44,width:44,display:"flex",alignItems:"center",justifyContent:"center",borderLeft:`1px solid ${bd}`,color:tm}}><I.Search s={16}/></span>
@@ -3844,14 +3844,14 @@ function AssessorEditorial() {
       <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
         <div style={{width:64,height:64,borderRadius:br,background:RPT_THUMB2[0],display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",marginBottom:32}}><LighthouseLogo s={30} c="#fff"/></div>
         <div style={{fontSize:14,color:teal,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",marginBottom:14}}>{report.type}</div>
-        <h1 style={{fontSize:34,fontWeight:400,fontFamily:serif,color:navy,lineHeight:1.2,marginBottom:16}}>{report.name}</h1>
+        <h1 style={{fontSize:34,fontWeight:700,fontFamily:serif,color:navy,lineHeight:1.2,marginBottom:16}}>{report.name}</h1>
         <div style={{fontSize:14,color:tm}}>Prepared for {candidates.find(x=>x.id===subjectId)?.name || "Candidate"}</div>
         <div style={{marginTop:"auto",fontSize:14,color:tm}}>Marsh · Confidential</div>
       </div>
     ) : (
       <div>
         <p className="eyebrow" style={{marginBottom:10}}>Section {i}</p>
-        <h2 style={{fontSize:22,fontWeight:400,fontFamily:serif,color:navy,marginBottom:18}}>{["Executive Summary","Competency Profile","Behavioural Evidence","Development Priorities","Appendix"][(i-1)%5]}</h2>
+        <h2 style={{fontSize:22,fontWeight:700,fontFamily:serif,color:navy,marginBottom:18}}>{["Executive Summary","Competency Profile","Behavioural Evidence","Development Priorities","Appendix"][(i-1)%5]}</h2>
         {[1,2,3].map(p => <div key={p} style={{height:11,borderRadius:6,background:bg2,marginBottom:12,width:p===3?"70%":"100%"}}/>)}
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:16,marginTop:22}}>
           {[1,2].map(b => <div key={b} style={{border:`1px solid ${bd}`,borderRadius:br,padding:16,height:100}}><div style={{height:9,width:"50%",background:bg2,borderRadius:5,marginBottom:10}}/><div style={{height:9,width:"80%",background:bg2,borderRadius:5}}/></div>)}

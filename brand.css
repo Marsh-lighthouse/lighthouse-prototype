@@ -54,7 +54,7 @@
   --danger:  #C53532;
   --warning: #FFBE00;
 
-  --serif: "Marsh Serif", Georgia, "Times New Roman", serif;
+  --serif: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;  /* Marsh Serif is MARKETING-ONLY; the internal platform uses Noto Sans everywhere (MDS). */
   --sans:  "Noto Sans", system-ui, -apple-system, sans-serif;
 }
 
@@ -68,6 +68,20 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
    Text predominantly Midnight Blue / Sky Blue / White. Gold = action only. */
 .serif { font-family: var(--heading-family, var(--serif)); font-weight: var(--heading-weight, 400); font-style: normal; letter-spacing: -0.01em; }
 .sans  { font-family: var(--sans); }
+
+/* ── PLATFORM-WIDE FONT: Marsh Serif is MARKETING-ONLY. Every internal flow —
+   login, direction/launcher, Folio, Assessor, Manager — uses Noto Sans, per MDS
+   ("Noto Sans for everything; 16/24 Bold are the workhorse app headings").
+   !important beats the Tweaks' inline --heading-family (which defaults to "Serif"/
+   Marsh Serif) and --heading-weight:400, so it holds regardless of the toggle.
+   Display headings render Noto Sans Bold (700). ── */
+:root {
+  --serif: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important;
+  --heading-family: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important;
+  --font-family-display: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important;
+  --heading-weight: 700 !important;
+}
+.serif { font-family: "Noto Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif !important; font-weight: 700 !important; }
 
 /* ── Themeable knobs (overridden live by the Tweaks panel on :root) ── */
 :root {
