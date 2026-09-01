@@ -325,3 +325,8 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 /* MDS Segmented Button (Small) — hover on an unselected segment. Exact MDS
    hover: rgba(0,15,71,.08). Selected segments (aria-pressed=true) don't tint. */
 .pl-seg-btn:not([aria-pressed="true"]):hover { background: rgba(0,15,71,.08); }
+/* Outer corners only (2px) on the segmented button — inner segments stay square
+   for the connected look. Overrides the generic 2px button-radius rule above. */
+.pl-seg-btn { border-radius: 0 !important; }
+.pl-seg-btn:first-child { border-radius: 2px 0 0 2px !important; }
+.pl-seg-btn:last-child { border-radius: 0 2px 2px 0 !important; }
