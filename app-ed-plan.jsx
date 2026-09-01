@@ -2080,7 +2080,9 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
             </div>
           </div>
         </div>
-        <PlSlider value={action.completion || 0} onChange={onComplete} readOnly={!editable} />
+        {/* The slider is an editing control — in the saved/view mode we drop it and
+            keep just the % readout above, which makes the card shorter. */}
+        {editable && <PlSlider value={action.completion || 0} onChange={onComplete} />}
       </div>
     );
   }
