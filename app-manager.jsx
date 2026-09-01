@@ -492,14 +492,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   // then scroll + flash on the next frame (matches the employee behaviour).
   mgUseEffect(() => {
     if (!comments) return;
-    if (sample === 10) {
-      let key = null;
-      for (let ci = 0; ci < data.length && !key; ci++) {
-        const si = (data[ci].skills || []).findIndex((s) => s.name === comments);
-        if (si >= 0) key = ci + "-" + si;
-      }
-      if (key) setOpenSkill(key);
-    }
+    // window.EdPlan.goToSkill expands the skill (if collapsed), scrolls + flashes it.
     const go = window.EdPlan && window.EdPlan.goToSkill;
     const t = setTimeout(() => {
       if (go) { go(comments); return; }

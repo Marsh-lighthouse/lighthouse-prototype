@@ -668,12 +668,19 @@ function plGoToSkill(name) {
   const sel = "[data-skill=\"" + (typeof CSS !== "undefined" && CSS.escape ? CSS.escape(name) : name) + "\"]";
   const el = document.querySelector(sel);
   if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "center" });
-  // A brief flash, so it's obvious which block was landed on.
-  const prev = el.style.boxShadow;
-  el.style.transition = "box-shadow .25s ease";
-  el.style.boxShadow = "0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent)";
-  setTimeout(function () { el.style.boxShadow = prev || "none"; }, 1100);
+  // In the Sample-10 accordion the target skill may be COLLAPSED — expand it first
+  // (its header toggle reads title="Expand" while collapsed), otherwise we'd land
+  // on a closed header and the skill's content would stay hidden. Clicking the
+  // toggle also keeps the plan's openSkill React state in sync.
+  const toggle = el.querySelector('button[title="Expand"]');
+  const flash = function () {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    const prev = el.style.boxShadow;
+    el.style.transition = "box-shadow .25s ease";
+    el.style.boxShadow = "0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent)";
+    setTimeout(function () { el.style.boxShadow = prev || "none"; }, 1100);
+  };
+  if (toggle) { toggle.click(); setTimeout(flash, 70); } else { flash(); }
 }
 
 function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names, skills }) {
@@ -1277,14 +1284,8 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   // Then scroll + flash on the next frame, once the expanded body has rendered.
   plUseEffect(() => {
     if (!comments) return;
-    if (sample === 10) {
-      let key = null;
-      for (let ci = 0; ci < data.length && !key; ci++) {
-        const si = (data[ci].skills || []).findIndex((s) => s.name === comments);
-        if (si >= 0) key = ci + "-" + si;
-      }
-      if (key) setOpenSkill(key);
-    }
+    // plGoToSkill expands the skill (if collapsed in the accordion), scrolls to it
+    // and flashes it. Deferred a frame so the freshly-opened thread has rendered.
     const t = setTimeout(() => plGoToSkill(comments), 60);
     return () => clearTimeout(t);
   }, [comments]);
