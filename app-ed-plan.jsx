@@ -127,9 +127,9 @@ function PlInfoTip({ text, label }) {
         <I.info size={14} />
       </button>
       {open && (
-        <span role="tooltip" style={{ position: "absolute", bottom: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)", width: 232, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, lineHeight: 1.45, borderRadius: 9, padding: "9px 11px", boxShadow: "0 8px 24px rgba(0,15,71,.24)", zIndex: 80, textAlign: "left", pointerEvents: "none" }}>
+        <span role="tooltip" style={{ position: "absolute", bottom: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)", width: "max-content", maxWidth: 256, background: "#FFFFFF", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: 1.43, borderRadius: 4, padding: "8px 10px", boxShadow: "0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)", zIndex: 80, textAlign: "left", pointerEvents: "none" }}>
           {text}
-          <span style={{ position: "absolute", top: "100%", left: "50%", marginLeft: -5, borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "5px solid " + eMID }} />
+          <span style={{ position: "absolute", top: "100%", left: "50%", marginLeft: -6, borderLeft: "6px solid transparent", borderRight: "6px solid transparent", borderTop: "6px solid #FFFFFF" }} />
         </span>
       )}
     </span>
@@ -158,19 +158,18 @@ function PlStars({ value, onChange, readOnly }) {
   );
 }
 
-// Public / private pill toggle.
+// Public / Private — the MDS Segmented control (a 2-option pill). Exact MDS spec:
+// full-pill container with a 1px navy (#000F47) outline, transparent fill; the
+// selected segment is a navy pill with off-white (#F7F3EE) text; the unselected
+// segment is bare navy text; Noto Sans 400. Replaces the old green on/off switch.
 function PlPubToggle({ isPublic, onToggle }) {
-  // One switch + a plain-language one-liner about who can see the skill.
+  const seg = (on) => ({ background: on ? eMID : "transparent", color: on ? "#F7F3EE" : eMID, border: "none", borderRadius: 999, padding: "4px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: 1.4, cursor: "pointer", whiteSpace: "nowrap" });
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-      <button role="switch" aria-checked={isPublic} onClick={onToggle} title={isPublic ? "Make private" : "Make public"}
-        style={{ width: 42, height: 24, borderRadius: 999, border: "none", background: isPublic ? eSUCCESS : "rgba(0,15,71,.22)", position: "relative", cursor: "pointer", flexShrink: 0, transition: "background .2s", padding: 0 }}>
-        <span style={{ position: "absolute", top: 3, left: isPublic ? 21 : 3, width: 18, height: 18, borderRadius: "50%", background: "#fff", transition: "left .2s", boxShadow: "0 1px 3px rgba(0,0,0,.25)" }} />
-      </button>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
-        <b style={{ color: eMID, fontWeight: 700 }}>{isPublic ? "Public" : "Private"}</b> — {isPublic ? "everyone can see this" : "only you can see this"}
-      </span>
-    </span>
+    <div role="group" aria-label="Skill visibility" title={isPublic ? "Public — everyone can see this" : "Private — only you can see this"}
+      style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: 2, borderRadius: 999, border: "1px solid " + eMID, background: "transparent", flexShrink: 0 }}>
+      <button type="button" aria-pressed={isPublic} onClick={() => { if (!isPublic) onToggle(); }} style={seg(isPublic)}>Public</button>
+      <button type="button" aria-pressed={!isPublic} onClick={() => { if (isPublic) onToggle(); }} style={seg(!isPublic)}>Private</button>
+    </div>
   );
 }
 
