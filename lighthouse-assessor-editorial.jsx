@@ -768,7 +768,7 @@ function AssessorEditorial() {
           <div style={{position:"absolute",top:"100%",left:16,zIndex:30,marginTop:4,width:230,background:card,border:`1px solid ${bd}`,borderRadius:8,boxShadow:"0 12px 34px rgba(0,15,71,.16)",padding:8}}>
             <div style={{display:"flex",alignItems:"center",gap:6,padding:"6px 9px",background:bg,border:`1px solid ${bd}`,borderRadius:6}}>
               <I.Search s={13} style={{color:tm}}/>
-              <input autoFocus value={dashQ} onChange={e=>setDashQ(e.target.value)} onClick={e=>e.stopPropagation()} placeholder="Search candidate…" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:tx,fontWeight:500}}/>
+              <input autoFocus value={dashQ} onChange={e=>setDashQ(e.target.value)} onClick={e=>e.stopPropagation()} placeholder="Search candidate…" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:navy,fontWeight:500}}/>
               {dashQ && <button onClick={(e)=>{e.stopPropagation();setDashQ("");}} style={{color:tm,fontSize:16,lineHeight:1,fontWeight:600}}>×</button>}
             </div>
           </div>
@@ -1023,7 +1023,7 @@ function AssessorEditorial() {
                 {open && (<div style={{position:"absolute",top:"100%",left:16,zIndex:30,marginTop:4,width:230,background:card,border:`1px solid ${bd}`,borderRadius:8,boxShadow:"0 12px 34px rgba(0,15,71,.16)",padding:8}}>
                   <div style={{display:"flex",alignItems:"center",gap:6,padding:"6px 9px",background:bg,border:`1px solid ${bd}`,borderRadius:6}}>
                     <I.Search s={13} style={{color:tm}}/>
-                    <input autoFocus value={cdQ} onChange={e=>setCdQ(e.target.value)} onClick={e=>e.stopPropagation()} placeholder="Search candidate…" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:tx,fontWeight:500}}/>
+                    <input autoFocus value={cdQ} onChange={e=>setCdQ(e.target.value)} onClick={e=>e.stopPropagation()} placeholder="Search candidate…" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:navy,fontWeight:500}}/>
                     {cdQ && <button onClick={(e)=>{e.stopPropagation();setCdQ("");}} style={{color:tm,fontSize:16,lineHeight:1,fontWeight:600}}>×</button>}
                   </div>
                 </div>)}
@@ -1713,7 +1713,7 @@ function AssessorEditorial() {
               {notesTab === "notes" ? (
                 <React.Fragment>
                   {/* Compose */}
-                  <textarea value={noteDraft} onChange={e=>setNoteDraft(e.target.value)} placeholder="Jot down an observation, evidence, follow-up…" style={{width:"100%",boxSizing:"border-box",minHeight:78,resize:"vertical",border:`1px solid #6F6D68`,borderRadius:8,padding:"10px 12px",fontSize:14,lineHeight:1.55,color:tx,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor="#6F6D68"}/>
+                  <textarea value={noteDraft} onChange={e=>setNoteDraft(e.target.value)} placeholder="Jot down an observation, evidence, follow-up…" style={{width:"100%",boxSizing:"border-box",minHeight:78,resize:"vertical",border:`1px solid #6F6D68`,borderRadius:8,padding:"10px 12px",fontSize:14,lineHeight:1.55,color:navy,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor="#6F6D68"}/>
                   <div style={{display:"flex",justifyContent:"flex-end",marginTop:8,marginBottom:notes.length?16:0}}>
                     <button onClick={addNote} disabled={!noteDraft.trim()} className="btn btn-primary" style={{padding:"7px 16px",fontSize:14,opacity:noteDraft.trim()?1:.5,cursor:noteDraft.trim()?"pointer":"default"}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg> Add note</button>
                   </div>
@@ -1729,7 +1729,7 @@ function AssessorEditorial() {
                         <div key={n.id} style={{border:`1px solid ${bd}`,borderRadius:8,borderLeft:`3px solid ${teal}`,padding:"11px 12px",background:card}}>
                           {editingNoteId===n.id ? (
                             <React.Fragment>
-                              <textarea autoFocus value={editingNoteText} onChange={e=>setEditingNoteText(e.target.value)} style={{width:"100%",boxSizing:"border-box",minHeight:64,resize:"vertical",border:`1px solid ${teal}`,borderRadius:6,padding:"8px 10px",fontSize:14,lineHeight:1.55,color:tx,fontFamily:f,outline:"none",background:card}}/>
+                              <textarea autoFocus value={editingNoteText} onChange={e=>setEditingNoteText(e.target.value)} style={{width:"100%",boxSizing:"border-box",minHeight:64,resize:"vertical",border:`1px solid ${teal}`,borderRadius:6,padding:"8px 10px",fontSize:14,lineHeight:1.55,color:navy,fontFamily:f,outline:"none",background:card}}/>
                               <div style={{display:"flex",justifyContent:"flex-end",gap:8,marginTop:8}}>
                                 <button onClick={()=>{setEditingNoteId(null);setEditingNoteText("");}} className="btn btn-secondary" style={{padding:"5px 12px",fontSize:14}}>Cancel</button>
                                 <button onClick={()=>saveNoteEdit(n.id)} className="btn btn-primary" style={{padding:"5px 12px",fontSize:14}}><I.Save s={12}/> Save</button>
@@ -1754,7 +1754,7 @@ function AssessorEditorial() {
                 <React.Fragment>
                   {/* Add row */}
                   <div style={{display:"flex",gap:8,marginBottom:todos.length?14:0}}>
-                    <input value={newTodo} onChange={e=>setNewTodo(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")addTodo();}} placeholder="Add a task…" style={{flex:1,minWidth:0,boxSizing:"border-box",border:`1px solid #6F6D68`,borderRadius:8,padding:"9px 11px",fontSize:14,color:tx,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor="#6F6D68"}/>
+                    <input value={newTodo} onChange={e=>setNewTodo(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")addTodo();}} placeholder="Add a task…" style={{flex:1,minWidth:0,boxSizing:"border-box",border:`1px solid #6F6D68`,borderRadius:8,padding:"9px 11px",fontSize:14,color:navy,fontFamily:f,outline:"none",background:card}} onFocus={e=>e.target.style.borderColor=teal} onBlur={e=>e.target.style.borderColor="#6F6D68"}/>
                     <button onClick={addTodo} aria-label="Add task" style={{flexShrink:0,width:38,borderRadius:8,border:"none",background:navy,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
                   </div>
 
@@ -2541,7 +2541,7 @@ function AssessorEditorial() {
           <div style={{flex:1}}/>
           <span className="tnum" style={{fontSize:14,fontWeight:600,color:words>max?red:words>0?green:tm}}>{words} / {max} words</span>
         </div>
-        <textarea value={value} onChange={e=>onChange(e.target.value)} placeholder="Begin with the most important behavioural observation…" style={{width:"100%",minHeight:100,padding:"12px 14px",border:`1px solid ${error?red:bd}`,borderRadius:br,fontSize:14,color:navy,lineHeight:1.6,background:error?`${red}08`:card,outline:"none",resize:"vertical",fontFamily:f,boxShadow:error?`0 0 0 3px ${red}1A`:"none"}}/>
+        <textarea value={value} onChange={e=>onChange(e.target.value)} placeholder="Begin with the most important behavioural observation…" style={{width:"100%",minHeight:100,padding:"12px 14px",border:`1px solid ${error?red:"#6F6D68"}`,borderRadius:br,fontSize:14,color:navy,lineHeight:1.6,background:error?`${red}08`:card,outline:"none",resize:"vertical",fontFamily:f,boxShadow:error?`0 0 0 3px ${red}1A`:"none"}}/>
         {error && <div style={{display:"flex",alignItems:"center",gap:6,fontSize:14,color:red,marginTop:7}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>{error}</div>}
       </div>
     );
@@ -2572,7 +2572,7 @@ function AssessorEditorial() {
         <div style={{fontSize:14,fontWeight:700,color:navy,marginBottom:14}}>Behavioural Competency — {num}</div>
         <div style={{fontSize:14,color:tm,marginBottom:6}}>Select Competency</div>
         <div style={{position:"relative"}}>
-          <select value={value.comp} onChange={e=>onChange({...value,comp:e.target.value})} style={{width:"100%",appearance:"none",WebkitAppearance:"none",padding:"10px 34px 10px 12px",border:`1px solid ${bd}`,borderRadius:ir,fontSize:14,color:value.comp?tx:tf,background:card,outline:"none",fontFamily:f,cursor:"pointer"}}>
+          <select value={value.comp} onChange={e=>onChange({...value,comp:e.target.value})} style={{width:"100%",appearance:"none",WebkitAppearance:"none",padding:"10px 34px 10px 12px",border:`1px solid #6F6D68`,borderRadius:ir,fontSize:14,color:value.comp?navy:tf,background:card,outline:"none",fontFamily:f,cursor:"pointer"}}>
             <option value="">Select</option>
             {competencies.map(cc => <option key={cc.id} value={cc.name} style={{color:tx}}>{cc.name}</option>)}
           </select>
@@ -2583,7 +2583,7 @@ function AssessorEditorial() {
           <span style={{flex:1}}/>
           <span className="tnum" style={{fontSize:14,fontWeight:600,color:words>50?red:words>0?green:tf}}>{words} / 50 words</span>
         </div>
-        <textarea value={value.fb} onChange={e=>onChange({...value,fb:e.target.value})} placeholder="Write here…" style={{width:"100%",minHeight:72,padding:"10px 12px",border:`1px solid ${bd}`,borderRadius:br,fontSize:14,color:tx,lineHeight:1.6,background:card,outline:"none",resize:"vertical",fontFamily:f}}/>
+        <textarea value={value.fb} onChange={e=>onChange({...value,fb:e.target.value})} placeholder="Write here…" style={{width:"100%",minHeight:72,padding:"10px 12px",border:`1px solid #6F6D68`,borderRadius:br,fontSize:14,color:navy,lineHeight:1.6,background:card,outline:"none",resize:"vertical",fontFamily:f}}/>
       </div>
     );
   };
@@ -2591,7 +2591,7 @@ function AssessorEditorial() {
   const NarrativeText = ({label, value, onChange}) => (
     <div>
       <div style={{fontSize:14,color:tm,marginBottom:6}}>{label}</div>
-      <input value={value} onChange={e=>onChange(e.target.value)} placeholder="Write" style={{width:"100%",padding:"10px 12px",border:`1px solid ${bd}`,borderRadius:ir,fontSize:14,color:tx,background:card,outline:"none",fontFamily:f}}/>
+      <input value={value} onChange={e=>onChange(e.target.value)} placeholder="Write" style={{width:"100%",padding:"10px 12px",border:`1px solid #6F6D68`,borderRadius:ir,fontSize:14,color:navy,background:card,outline:"none",fontFamily:f}}/>
     </div>
   );
 
@@ -2855,7 +2855,7 @@ function AssessorEditorial() {
           <h3 style={{fontSize:14,fontWeight:700,color:navy,marginBottom:10}}>{form.name}</h3>
           <div style={{marginBottom:14}}>
             <label style={{fontSize:14,color:tm,fontWeight:600,letterSpacing:0,textTransform:"none",display:"block",marginBottom:6}}>Assessor</label>
-            <select value={assessor} onChange={e=>setAssessor(e.target.value)} style={{width:"100%",padding:"8px 34px 8px 12px",border:`1px solid ${bd}`,borderRadius:br,fontSize:14,color:tx,background:`${card} url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 12px center`,appearance:"none",WebkitAppearance:"none",MozAppearance:"none",fontFamily:f,cursor:"pointer",outline:"none"}}>
+            <select value={assessor} onChange={e=>setAssessor(e.target.value)} style={{width:"100%",padding:"8px 34px 8px 12px",border:`1px solid #6F6D68`,borderRadius:br,fontSize:14,color:navy,background:`${card} url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 12px center`,appearance:"none",WebkitAppearance:"none",MozAppearance:"none",fontFamily:f,cursor:"pointer",outline:"none"}}>
               <option>Elena Accardi</option>
               <option>Marco Rossi</option>
               <option>Hiroshi Tanaka</option>
@@ -3007,7 +3007,7 @@ function AssessorEditorial() {
           <div style={{position:"absolute",top:"calc(100% + 6px)",left:0,width:380,maxWidth:"90vw",background:card,border:`1px solid ${bd}`,borderRadius:12,boxShadow:"0 12px 40px rgba(0,15,71,.18)",zIndex:50,padding:20}}>
             <div style={{fontFamily:serif,fontWeight:700,fontSize:20,color:navy,marginBottom:16}}>Switch Client</div>
             <div style={{position:"relative",marginBottom:18}}>
-              <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search Client" style={{width:"100%",height:44,border:`1px solid ${bd}`,borderRadius:8,padding:"0 52px 0 14px",fontFamily:f,fontSize:14,color:tx,outline:"none"}}/>
+              <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search Client" style={{width:"100%",height:44,border:`1px solid #6F6D68`,borderRadius:8,padding:"0 52px 0 14px",fontFamily:f,fontSize:14,color:navy,outline:"none"}}/>
               <span style={{position:"absolute",right:0,top:0,height:44,width:44,display:"flex",alignItems:"center",justifyContent:"center",borderLeft:`1px solid ${bd}`,color:tm}}><I.Search s={16}/></span>
             </div>
             <div className="eyebrow" style={{marginBottom:8}}>Others</div>
@@ -3058,7 +3058,7 @@ function AssessorEditorial() {
           <div style={{flex:1}}/>
           <div data-tour="ac-search" style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",background:card,border:`1px solid ${bd}`,borderRadius:br,width:260}}>
             <I.Search s={14} style={{color:tm}}/>
-            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:tx}}/>
+            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:navy}}/>
           </div>
         </div>
         <div data-tour="ac-table-wrap">
@@ -3191,7 +3191,7 @@ function AssessorEditorial() {
           {(acDetailTab==="subjects"||acDetailTab==="activities") && (
             <div style={{position:"relative"}}>
               <span style={{position:"absolute",left:11,top:10,color:tm,pointerEvents:"none"}}><I.Search s={15}/></span>
-              <input value={acDetailQ} onChange={e=>setAcDetailQ(e.target.value)} placeholder={acDetailTab==="subjects"?"Search subjects":"Search activities"} style={{width:220,height:36,border:`1px solid ${bd}`,borderRadius:8,padding:"0 12px 0 34px",fontFamily:f,fontSize:14,color:tx,background:card,outline:"none"}}/>
+              <input value={acDetailQ} onChange={e=>setAcDetailQ(e.target.value)} placeholder={acDetailTab==="subjects"?"Search subjects":"Search activities"} style={{width:220,height:36,border:`1px solid #6F6D68`,borderRadius:8,padding:"0 12px 0 34px",fontFamily:f,fontSize:14,color:navy,background:card,outline:"none"}}/>
             </div>
           )}
         </div>
@@ -3352,7 +3352,7 @@ function AssessorEditorial() {
     const removeAvail=(id)=>{ setAvails(p=>p.filter(a=>a.id!==id)); setAvailOpen(o=>o===id?null:o); showToast("Availability deleted"); };
     const sel = (val,onCh) => (
       <div style={{position:"relative"}}>
-        <select value={val} onChange={e=>onCh(e.target.value)} style={{appearance:"none",height:40,minWidth:130,border:`1px solid ${bd}`,borderRadius:8,padding:"0 34px 0 12px",fontFamily:f,fontSize:14,color:tx,background:card,cursor:"pointer"}}>{times.map(t=><option key={t}>{t}</option>)}</select>
+        <select value={val} onChange={e=>onCh(e.target.value)} style={{appearance:"none",height:40,minWidth:130,border:`1px solid #6F6D68`,borderRadius:8,padding:"0 34px 0 12px",fontFamily:f,fontSize:14,color:navy,background:card,cursor:"pointer"}}>{times.map(t=><option key={t}>{t}</option>)}</select>
         <span style={{position:"absolute",right:11,top:12,color:tm,pointerEvents:"none"}}><svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" strokeLinecap="round"/></svg></span>
       </div>
     );
@@ -3377,7 +3377,7 @@ function AssessorEditorial() {
             <div>
               <div className="eyebrow" style={{marginBottom:7}}>TimeZone</div>
               <div style={{position:"relative"}}>
-                <select value={d.tz} onChange={e=>setField("tz",e.target.value)} style={{appearance:"none",width:"100%",height:42,border:`1px solid ${bd}`,borderRadius:8,padding:"0 34px 0 12px",fontFamily:f,fontSize:14,color:tx,background:card,cursor:"pointer"}}>
+                <select value={d.tz} onChange={e=>setField("tz",e.target.value)} style={{appearance:"none",width:"100%",height:42,border:`1px solid #6F6D68`,borderRadius:8,padding:"0 34px 0 12px",fontFamily:f,fontSize:14,color:navy,background:card,cursor:"pointer"}}>
                   <option>(GMT+04:00) Asia/Dubai</option><option>(GMT+05:30) Asia/Kolkata</option><option>(GMT+00:00) UTC</option><option>(GMT+01:00) Europe/Rome</option>
                 </select>
                 <span style={{position:"absolute",right:12,top:15,color:tm,pointerEvents:"none"}}><I.Down s={11}/></span>
@@ -3385,11 +3385,11 @@ function AssessorEditorial() {
             </div>
             <div>
               <div className="eyebrow" style={{marginBottom:7}}>Start Date</div>
-              <input type="date" value={d.start} onChange={e=>setField("start",e.target.value)} style={{width:"100%",height:42,border:`1px solid ${bd}`,borderRadius:8,padding:"0 12px",fontFamily:f,fontSize:14,color:d.start?tx:tm,outline:"none",background:card}}/>
+              <input type="date" value={d.start} onChange={e=>setField("start",e.target.value)} style={{width:"100%",height:42,border:`1px solid #6F6D68`,borderRadius:8,padding:"0 12px",fontFamily:f,fontSize:14,color:d.start?navy:tm,outline:"none",background:card}}/>
             </div>
             <div>
               <div className="eyebrow" style={{marginBottom:7}}>End Date</div>
-              <input type="date" min={d.start||undefined} value={d.end} onChange={e=>setField("end",e.target.value)} style={{width:"100%",height:42,border:`1px solid ${bd}`,borderRadius:8,padding:"0 12px",fontFamily:f,fontSize:14,color:d.end?tx:tm,outline:"none",background:card}}/>
+              <input type="date" min={d.start||undefined} value={d.end} onChange={e=>setField("end",e.target.value)} style={{width:"100%",height:42,border:`1px solid #6F6D68`,borderRadius:8,padding:"0 12px",fontFamily:f,fontSize:14,color:d.end?navy:tm,outline:"none",background:card}}/>
             </div>
           </div>
 
