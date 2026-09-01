@@ -172,6 +172,18 @@ function PlPubToggle({ isPublic, onToggle }) {
     </div>
   );
 }
+// Read-only visibility indicator — shown in the SAVED (non-editable) plan in place
+// of the interactive segmented control, so the reader still sees each skill's
+// visibility. Globe = public, lock = private; a neutral MDS-badge outline.
+function PlVisBadge({ isPublic }) {
+  const Ic = isPublic ? I.globe : I.lock;
+  return (
+    <span title={isPublic ? "Public — everyone can see this" : "Private — only you can see this"}
+      style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID, background: "transparent", border: "1px solid #94918C", borderRadius: 999, padding: "3px 11px", whiteSpace: "nowrap" }}>
+      {Ic ? <Ic size={13} /> : null} {isPublic ? "Public" : "Private"}
+    </span>
+  );
+}
 
 // Description with a "more" expander.
 function PlDesc({ text }) {
@@ -1377,7 +1389,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
 
                 // Shared header controls — identical whether flat or accordion.
                 const stars = <PlStars value={skill.rating} readOnly={!editable} onChange={(v) => mutate((n) => { n[ci].skills[si].rating = v; })} />;
-                const pub = editable ? <PlPubToggle isPublic={skill.isPublic} onToggle={() => { mutate((n) => { n[ci].skills[si].isPublic = !skill.isPublic; }); showToast("Skill '" + skill.name + "' has been marked as " + (skill.isPublic ? "private and will be hidden from your manager" : "public")); }} /> : null;
+                const pub = editable ? <PlPubToggle isPublic={skill.isPublic} onToggle={() => { mutate((n) => { n[ci].skills[si].isPublic = !skill.isPublic; }); showToast("Skill '" + skill.name + "' has been marked as " + (skill.isPublic ? "private and will be hidden from your manager" : "public")); }} /> : <PlVisBadge isPublic={skill.isPublic} />;
                 const commentBtn = (
                   <button onClick={() => openComments(skill.name)} title={isUnread(skill.name) ? "New message" : "Comments"} style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: isUnread(skill.name) ? "var(--danger)" : eMUT, display: "flex" }}>
                     <I.chat size={18} />
