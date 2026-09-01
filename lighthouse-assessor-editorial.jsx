@@ -10,7 +10,7 @@ function AssessorEditorial() {
   // ═══════ TOKENS (Folio · Accessor Flow 2026) ═══════
   const navy = "#000F47";               // midnight — primary brand
   const teal = "#0065AC";               // MDS accent (brand-primary-alt) — active, rings, progress; matches Folio --accent
-  const gold = "#0B4BFF";               // accent blue — rail active, toggles, badges, section accents (was gold #FFBF00). CTA fill is `navy` (Blue-1000) below.
+  const gold = "#0065AC";               // accent blue — rail active, toggles, badges, section accents (was gold #FFBF00). CTA fill is `navy` (Blue-1000) below.
   const goldDark = "#0A3FD6";           // (accent-hover, retained for accent uses)
   const tealBg = `${teal}14`;
   const navyBg = `${navy}0D`;
@@ -22,7 +22,7 @@ function AssessorEditorial() {
   const ts = "#333F6B";                 // secondary body
   const tm = "#47527B";                 // muted / captions (Folio muted, WCAG-darkened)
   const tf = "rgba(0,15,71,.4)";       // faint — placeholders, em-dashes (Folio navy-tinted)
-  const bd = "rgba(0,15,71,.11)";
+  const bd = "#DEDBD6";                 // CONTAINER / card borders — EXACT MDS soft divider (matches Folio --line), was navy-tint rgba(0,15,71,.11)
   const bdStrong = "rgba(0,15,71,.17)";
   const green = "#14853D";
   const red = "#C53532";
@@ -2795,7 +2795,7 @@ function AssessorEditorial() {
     );
   };
 
-  const RPT_THUMB = [navy, teal, "#8F20DE", "#CB7E03", "#0B4BFF", "#2E7D5B"];
+  const RPT_THUMB = [navy, teal, "#8F20DE", "#CB7E03", "#0065AC", "#2E7D5B"];
   const ReportsDrawer = () => {
     const [tab, setTab] = useState("main");
     const shown = tab==="main" ? (mainReport?[mainReport]:[]) : otherReports;
@@ -3839,7 +3839,7 @@ function AssessorEditorial() {
     const [zoom, setZoom] = useState(1);
     if (!report) return null;
     const pages = report.pages || 4;
-    const RPT_THUMB2 = [navy, teal, "#8F20DE", "#CB7E03", "#0B4BFF", "#2E7D5B"];
+    const RPT_THUMB2 = [navy, teal, "#8F20DE", "#CB7E03", "#0065AC", "#2E7D5B"];
     const PageBody = ({i}) => i===0 ? (
       <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
         <div style={{width:64,height:64,borderRadius:br,background:RPT_THUMB2[0],display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",marginBottom:32}}><LighthouseLogo s={30} c="#fff"/></div>
