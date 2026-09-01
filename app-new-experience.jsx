@@ -464,7 +464,7 @@
 
     if (!open) return null;
 
-    var shell = { background: "#fff", borderRadius: 18, boxShadow: "0 40px 90px rgba(6,12,40,.34)", overflow: "hidden", maxHeight: "94vh" };
+    var shell = { background: "#fff", borderRadius: 8, boxShadow: "0 40px 90px rgba(6,12,40,.34)", overflow: "hidden", maxHeight: "94vh" };   // MDS surface radius (was 18 — too round)
     // No visible close cross (per feedback): "Maybe later" is the dismiss, and Escape
     // still closes for keyboard users.
     var pane = { flex: "0 0 42%", minWidth: 0, padding: "34px 34px", display: "flex", flexDirection: "column", justifyContent: "center" };

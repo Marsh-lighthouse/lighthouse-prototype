@@ -2541,7 +2541,7 @@ function AssessorEditorial() {
           <div style={{flex:1}}/>
           <span className="tnum" style={{fontSize:14,fontWeight:600,color:words>max?red:words>0?green:tm}}>{words} / {max} words</span>
         </div>
-        <textarea value={value} onChange={e=>onChange(e.target.value)} placeholder="Begin with the most important behavioural observation…" style={{width:"100%",minHeight:100,padding:"12px 14px",border:`1px solid ${error?red:bd}`,borderRadius:br,fontSize:14,color:tx,lineHeight:1.6,background:error?`${red}08`:card,outline:"none",resize:"vertical",fontFamily:f,boxShadow:error?`0 0 0 3px ${red}1A`:"none"}}/>
+        <textarea value={value} onChange={e=>onChange(e.target.value)} placeholder="Begin with the most important behavioural observation…" style={{width:"100%",minHeight:100,padding:"12px 14px",border:`1px solid ${error?red:bd}`,borderRadius:br,fontSize:14,color:navy,lineHeight:1.6,background:error?`${red}08`:card,outline:"none",resize:"vertical",fontFamily:f,boxShadow:error?`0 0 0 3px ${red}1A`:"none"}}/>
         {error && <div style={{display:"flex",alignItems:"center",gap:6,fontSize:14,color:red,marginTop:7}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>{error}</div>}
       </div>
     );
@@ -2721,7 +2721,7 @@ function AssessorEditorial() {
     const toggle = k => setCollapsed(p=>({...p,[k]:!p[k]}));
     const InfoDot = ({id, title, desc}) => (
       <span style={{position:"relative",display:"inline-flex"}} onMouseEnter={()=>setTipKey(id)} onMouseLeave={()=>setTipKey(t=>t===id?null:t)}>
-        <span style={{display:"inline-flex",width:14,height:14,borderRadius:"50%",border:`1.3px solid ${tm}`,color:tm,alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,fontStyle:"normal",flexShrink:0,cursor:"help"}}>i</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={tm} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,cursor:"help"}}><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
         {tipKey===id && desc && (
           <span style={{position:"absolute",bottom:"calc(100% + 9px)",left:-10,zIndex:90,width:250,background:card,border:`1px solid ${bd}`,borderRadius:br,boxShadow:"0 12px 34px rgba(0,15,71,.20)",padding:"14px 16px",textAlign:"left"}}>
             <span style={{display:"block",fontSize:14,fontWeight:700,color:navy,marginBottom:6}}>{title}</span>
