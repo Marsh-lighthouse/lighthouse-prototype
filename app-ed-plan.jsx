@@ -1792,7 +1792,7 @@ function PlDateRange({ start, end, onChange, invalid }) {
   return (
     <React.Fragment>
       <button ref={btnRef} onClick={() => open ? setOpen(false) : openPop()} title="Set start & end dates"
-        style={{ width: "100%", boxSizing: "border-box", display: "flex", alignItems: "center", gap: 6, border: "1px solid " + (invalid ? "var(--danger)" : open ? eBLUE : eLINE), borderRadius: 8, padding: "8px 10px", background: invalid ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)", cursor: "pointer" }}>
+        style={{ width: "100%", boxSizing: "border-box", display: "flex", alignItems: "center", gap: 6, border: "1px solid " + (invalid ? "var(--danger)" : open ? eBLUE : "var(--field-line)"), borderRadius: 2, padding: "8px 10px", background: invalid ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)", cursor: "pointer" }}>
         <span style={{ flex: 1, textAlign: "left", fontFamily: "var(--sans)", fontSize: 12, fontWeight: label ? 600 : 400, color: label ? eMID : eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label || "Start date  →  End date"}</span>
         <I.cal size={14} style={{ color: eMUT, flexShrink: 0 }} />
       </button>
