@@ -1443,28 +1443,24 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                   </div>
                 ) : null;
 
-                // ── Accordion layout (Sample 10) — a boxed skill that expands one at a time ──
+                // ── Accordion layout (Sample 10) — no box; the plain skill heading with a
+                //    leading arrow, a divider line between skills, and the body collapsing.
+                //    Collapsed shows exactly the heading (name, rating, public, chat, delete). ──
                 if (acc) {
                   return (
-                    <div key={si} data-skill={skill.name} style={{ border: "1px solid " + eLINE, borderRadius: 8, background: "var(--card)", boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden", marginTop: si > 0 ? 12 : 0, outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -1 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "16px 18px" }}>
-                        <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2 }}>
+                    <div key={si} data-skill={skill.name} style={{ borderTop: si > 0 ? "1px solid " + eLINE : "none", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: open ? "16px 0 14px" : "16px 0" }}>
+                        <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, marginLeft: -2 }}>
                           <span style={{ display: "flex", transition: "transform .2s", transform: open ? "none" : "rotate(-90deg)" }}><I.chevD size={18} /></span>
                         </button>
                         <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
                         {stars}
-                        {!open && sActs > 0 && (
-                          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
-                            {sActs} development action{sActs === 1 ? "" : "s"} · {sPct}%
-                            <span style={{ width: 70, height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", display: "inline-block" }}><span style={{ display: "block", width: sPct + "%", height: "100%", background: eBLUE }} /></span>
-                          </span>
-                        )}
                         {pub}
                         <div style={{ flex: 1 }} />
                         {commentBtn}
                         {delBtn}
                       </div>
-                      {open && <div style={{ padding: "0 18px 16px" }}>{actionsNode}{addRowNode}</div>}
+                      {open && <div style={{ paddingBottom: 16 }}>{actionsNode}{addRowNode}</div>}
                     </div>
                   );
                 }
