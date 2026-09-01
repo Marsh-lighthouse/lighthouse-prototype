@@ -132,14 +132,18 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
      so this flips to dark ink (see dark-theme.css) to keep the content legible. */
   --on-accent: #FFFFFF;
 
-  /* ── Type scale (platform-wide guideline) ──
-     Headings use the serif family; body/labels use the sans family. */
-  --text-display: 40px;   /* hero / page H1 (serif) */
-  --text-h1:      28px;   /* section heading (serif) */
-  --text-h2:      21px;   /* small heading / card title (serif) */
-  --text-body:    15px;   /* body copy (sans) */
-  --text-small:   14px;   /* small / secondary (sans) */
-  --text-label:   14px; /* labels / eyebrows / captions (sans, 700) */
+  /* ── Type scale — snapped to the MDS Noto Sans size ramp ──
+     MDS Noto Sans steps: 8/10/11/12/14/16/18/20/22/24/32/40/48/72.
+     Headings render Bold (700, MDS "workhorse" heading weight); body/labels
+     Regular (400) / SemiBold (600) — all real MDS Noto Sans weights.
+     (These tokens are documentary — components carry inline font-size — but the
+     ramp is kept MDS-legal so nothing drifts off-scale.) */
+  --text-display: 40px;   /* MDS 40 · hero / page H1 (700) */
+  --text-h1:      32px;   /* MDS 32 · section heading (700) — was 28 (off-ramp) */
+  --text-h2:      22px;   /* MDS 22 · small heading / card title (700) — was 21 (off-ramp) */
+  --text-body:    16px;   /* MDS 16 · body copy (400) — was 15 (off-ramp) */
+  --text-small:   14px;   /* MDS 14 · small / secondary (400) */
+  --text-label:   14px;   /* MDS 14 · labels / eyebrows / captions (600) */
 
   /* Unified content column width for all pages that have the rail + top bar.
      Page wrappers add 56px horizontal padding; this caps the content column so
