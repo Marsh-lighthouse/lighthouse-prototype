@@ -143,7 +143,7 @@ function MnGettingStarted({ onNext }) {
         work on, rate where you are today, and answer a few reflective questions.
       </p>
 
-      <div onClick={() => setWatched(true)} style={{ position: "relative", width: "100%", paddingBottom: "46%", borderRadius: 16, overflow: "hidden", background: "var(--surface-deep)", marginBottom: 24, cursor: "pointer" }}>
+      <div onClick={() => setWatched(true)} style={{ position: "relative", width: "100%", paddingBottom: "46%", borderRadius: 8, overflow: "hidden", background: "var(--surface-deep)", marginBottom: 24, cursor: "pointer" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 20% 0%, rgba(206,236,255,.22), transparent 55%), linear-gradient(135deg, var(--surface-deep), #001F8C)" }} />
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
           {watched ? (
@@ -166,7 +166,7 @@ function MnGettingStarted({ onNext }) {
           { ic: "book", l: "10% Formal training", d: "Courses, certifications, and reading" }].map((it, i) => {
           const Ic = I[it.ic];
           return (
-            <div key={i} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 14, padding: 16 }}>
+            <div key={i} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 8, padding: 16 }}>
               <span style={{ color: eBLUE, display: "flex", marginBottom: 8 }}><Ic size={20} /></span>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 4 }}>{it.l}</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{it.d}</div>
@@ -175,7 +175,7 @@ function MnGettingStarted({ onNext }) {
         })}
       </div>
 
-      <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 14, padding: 18, marginBottom: 28 }}>
+      <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 8, padding: 18, marginBottom: 28 }}>
         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 12 }}>What to expect</div>
         {["Choose the behavioural and technical skills you want to develop",
           "Rate yourself honestly on each one — today's level, not your target",
@@ -203,7 +203,7 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
       <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 20px" }}>Add Skills</h1>
 
       {MN_CATS.map((c, ci) => (
-        <div key={ci} style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16,
+        <div key={ci} style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8,
           padding: "20px 22px 24px", marginBottom: 16, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
             <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
@@ -249,7 +249,7 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
         </p>
       </div>
 
-      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
+      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid " + eLINE }}>
           <div style={{ ...head, flex: 1, minWidth: 0 }}>Skill</div>
           <div style={{ ...head, width: 170, flexShrink: 0 }}>Skill Type</div>
@@ -324,12 +324,12 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
               "--mn-y": 15 * (g + 1) + "px", "--mn-sx": 1 - (g + 1) * 0.045,
               // each sheet a shade deeper, so the edges separate cleanly
               background: g === 0 ? "var(--card)" : "color-mix(in srgb, var(--primary) " + (2 + g * 2) + "%, var(--card))",
-              border: "1px solid " + eLINE, borderRadius: 16,
+              border: "1px solid " + eLINE, borderRadius: 8,
               boxShadow: "0 2px 5px rgba(0,15,71,.05)", zIndex: 9 - g }} />
         ))}
       <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "18px" : "-18px", position: "relative", zIndex: 10,
-        background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "22px 24px", boxShadow: "0 10px 30px rgba(0,15,71,.10)" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID, background: "rgba(0,15,71,.05)", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
+        background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "22px 24px", boxShadow: "0 10px 30px rgba(0,15,71,.10)" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID, background: "transparent", border: "1px solid #94918C", borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
           Question {i + 1} of {QS.length}
         </div>
         <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 12px", lineHeight: 1.45 }}>
