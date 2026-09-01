@@ -112,7 +112,7 @@ function AssessorEditorial() {
     Doc:(p)=><svg width={p?.s||16} height={p?.s||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>,
     Edit:(p)=><svg width={p?.s||14} height={p?.s||14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
     Back:(p)=><svg width={p?.s||14} height={p?.s||14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>,
-    Info:(p)=><svg width={p?.s||13} height={p?.s||13} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>,
+    Info:(p)=><svg width={p?.s||13} height={p?.s||13} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>,
     Dots:(p)=><svg width={p?.s||16} height={p?.s||16} viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>,
     User:(p)=><svg width={p?.s||18} height={p?.s||18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>,
     Chart:(p)=><svg width={p?.s||18} height={p?.s||18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m7 15 3-3 4 4 6-7"/></svg>,
@@ -2146,7 +2146,7 @@ function AssessorEditorial() {
                         const on = !hiddenForms.has(fi);
                         return (
                           <label key={af.short} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 14px",fontSize:14,color:tx,cursor:"pointer"}}>
-                            <span onClick={()=>toggleForm(fi)} style={{width:15,height:15,borderRadius:4,border:`1.5px solid ${on?teal:bdStrong}`,background:on?teal:"transparent",display:"inline-flex",alignItems:"center",justifyContent:"center",color:"#fff",flexShrink:0}}>{on ? <I.Check s={11}/> : null}</span>
+                            <span onClick={()=>toggleForm(fi)} style={{width:15,height:15,borderRadius:2,border:`1.5px solid ${on?navy:bdStrong}`,background:on?navy:"transparent",display:"inline-flex",alignItems:"center",justifyContent:"center",color:"#fff",flexShrink:0}}>{on ? <I.Check s={11}/> : null}</span>
                             <span onClick={()=>toggleForm(fi)} className="elide" style={{flex:1}}>{af.name}</span>
                           </label>
                         );
@@ -2638,7 +2638,7 @@ function AssessorEditorial() {
                       const on = !hiddenCols[col.k];
                       return (
                         <label key={col.k} onClick={()=>setHiddenCols(p=>({...p,[col.k]:on}))} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 14px",fontSize:14,color:tx,cursor:"pointer"}}>
-                          <span style={{width:15,height:15,borderRadius:4,border:`1.5px solid ${on?teal:bdStrong}`,background:on?teal:"transparent",display:"inline-flex",alignItems:"center",justifyContent:"center",color:"#fff",flexShrink:0}}>{on ? <I.Check s={11}/> : null}</span>
+                          <span style={{width:15,height:15,borderRadius:2,border:`1.5px solid ${on?navy:bdStrong}`,background:on?navy:"transparent",display:"inline-flex",alignItems:"center",justifyContent:"center",color:"#fff",flexShrink:0}}>{on ? <I.Check s={11}/> : null}</span>
                           <span style={{flex:1}}>{col.title}</span>
                         </label>
                       );
