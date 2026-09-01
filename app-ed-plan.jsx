@@ -789,10 +789,12 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
             const lastName = r.last ? (NAMES[r.last.who] || PL_ME) : "";
             // The plan-level thread isn't one of the skills — it gets its own tag and a
             // tinted card so it reads as the odd one out rather than the first of a list.
-            // MDS Message component: solid-navy Informative tag (#000F47 fill, white text).
+            // MDS Badge variants, differentiated: the plan-level thread is a solid-navy
+            // Informative badge (stands out as the odd one), skill threads are the
+            // Neutral outline badge (#94918C border, no fill) — the regular ones.
             const tag = r.overall
-              ? { label: "Whole plan", fg: "#FFFFFF", bg: "#000F47" }
-              : { label: "Skill", fg: "#FFFFFF", bg: "#000F47" };
+              ? { label: "Whole plan", fg: "#FFFFFF", bg: "#000F47", border: "1px solid #000F47" }
+              : { label: "Skill", fg: "var(--ink)", bg: "transparent", border: "1px solid #94918C" };
             return (
               <div key={i} role="button" tabIndex={0} onClick={() => onOpen(r.name)}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(r.name); } }}
@@ -805,7 +807,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                     <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
                     {r.unread && <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--danger)", flexShrink: 0 }} />}
                   </div>
-                  <span style={{ display: "inline-block", marginTop: 5, padding: "3px 9px", borderRadius: 8, background: tag.bg, color: tag.fg, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400 }}>{tag.label}</span>
+                  <span style={{ display: "inline-block", marginTop: 5, padding: "3px 9px", borderRadius: 8, background: tag.bg, color: tag.fg, border: tag.border, boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400 }}>{tag.label}</span>
                   <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 4 }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</span>
@@ -1695,7 +1697,6 @@ function PlPlanSummary({ stats, status }) {
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   return (
     <div style={{ marginBottom: 8 }}>
-      {stats.range && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 8px" }}>{stats.range}</div>}
       <div style={{ display: "flex", flexWrap: "wrap", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
         <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div></div>
         <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 3 }}>{stats.complete} complete</div></div>
