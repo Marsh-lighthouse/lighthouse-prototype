@@ -33,7 +33,7 @@ html[data-login-style="spotlight"] .lg-form-panel,
 html[data-login-style="cinematic"] .lg-form-panel,
 html[data-login-style="midnight"] .lg-form-panel {
   flex: none; width: min(470px, 100%); min-width: 0; position: relative; z-index: 1;
-  padding: 42px 46px 36px; border-radius: 18px;
+  padding: 42px 46px 36px; border-radius: 2px;   /* MDS card/panel default (was 18px) */
 }
 html[data-login-style="spotlight"] .lg-footer,
 html[data-login-style="cinematic"] .lg-footer,
@@ -202,7 +202,7 @@ html[data-login-style="midnight"] .lg-signup { color: rgba(206, 236, 255, .62); 
 html[data-login-style="aura"] .lg-split { background: #FFFFFF; padding: 16px; }
 html[data-login-style="aura"] .lg-feature {
   display: block !important; order: -1; flex: 1 1 56%; min-width: 0; position: relative;
-  border-radius: 24px; overflow: hidden; background: #05050F;
+  border-radius: 2px; overflow: hidden; background: #05050F;
 }
 html[data-login-style="aura"] .lg-video {
   display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
@@ -220,7 +220,7 @@ html[data-login-style="aura"] .lg-form-panel { flex: 1 1 44%; background: #FFFFF
 .lg-input.is-error:focus { border-color: #D11717; box-shadow: 0 0 0 3px rgba(209,23,23,.14); }
 .lg-error-msg { display: flex; align-items: center; gap: 6px; margin: 7px 0 0; font-size: 14px; font-weight: 600; color: #D11717; line-height: 1.4; }
 .lg-error-msg::before { content: ""; flex-shrink: 0; width: 14px; height: 14px; border-radius: 50%; background: #D11717; -webkit-mask: no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z'/%3E%3C/svg%3E"); mask: no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z'/%3E%3C/svg%3E"); }
-.lg-alert { display: flex; align-items: flex-start; gap: 11px; background: #FDECEC; border: 1px solid #F2C4C4; color: #A81616; border-radius: 12px; padding: 13px 15px; font-size: 14px; line-height: 1.5; font-weight: 600; margin: 0 0 22px; }
+.lg-alert { display: flex; align-items: flex-start; gap: 11px; background: #FDECEC; border: 1px solid #F2C4C4; color: #A81616; border-radius: 2px; padding: 13px 15px; font-size: 14px; line-height: 1.5; font-weight: 600; margin: 0 0 22px; }
 .lg-alert::before { content: ""; flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; background: #D11717; -webkit-mask: no-repeat center/18px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z'/%3E%3C/svg%3E"); mask: no-repeat center/18px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v7h-2V7zm0 9h2v2h-2v-2z'/%3E%3C/svg%3E"); }
 .lg-btn[disabled] { opacity: .5; pointer-events: none; }
 
@@ -277,7 +277,7 @@ html[dir="rtl"] .lg-type-menu { right: auto; left: 0; }
 .lg-style-chip svg { width: 12px; height: 12px; flex-shrink: 0; }
 .lg-style-menu {
   display: none; position: absolute; right: 0; bottom: 36px; min-width: 168px;
-  background: #FFFFFF; border: 1px solid rgba(0,15,71,.12); border-radius: 12px;
+  background: #FFFFFF; border: 1px solid rgba(0,15,71,.12); border-radius: 2px;
   box-shadow: 0 14px 40px rgba(0,15,71,.16); padding: 6px; flex-direction: column; gap: 1px;
 }
 .lg-style-switch.open .lg-style-menu { display: flex; }
@@ -450,7 +450,7 @@ html[data-login-style="celestial"] .lg-feature { display: none !important; }
 html[data-login-style="celestial"] .lg-sky { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 html[data-login-style="celestial"] .lg-form-panel {
   flex: none; width: min(470px, 100%); min-width: 0; position: relative; z-index: 2;
-  padding: 42px 46px 36px; border-radius: 18px;
+  padding: 42px 46px 36px; border-radius: 2px;   /* MDS card/panel default (was 18px) */
   background: rgba(1, 8, 34, .60); border: 1px solid rgba(206, 236, 255, .20);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 32px 90px rgba(0, 4, 20, .45);

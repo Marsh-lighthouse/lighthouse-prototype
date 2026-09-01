@@ -18,7 +18,7 @@
 // ════════════════════════════════════════════════
 (function () {
   var KEY = "lh-radius";
-  var DEFAULT = 8; // slider's starting position the first time it's touched
+  var DEFAULT = 2; // slider's starting position the first time it's touched — MDS radius-sm (2px) base
 
   // Elements whose radius we drive. The attribute selector covers every
   // inline-styled rounded element in the React apps; the explicit element

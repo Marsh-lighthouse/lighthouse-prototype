@@ -71,7 +71,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
 
 /* ── Themeable knobs (overridden live by the Tweaks panel on :root) ── */
 :root {
-  --accent: #0B4BFF;   /* global accent: links, active nav, rings, eyebrows */
+  --accent: #0065AC;   /* global accent: links, active nav, rings, eyebrows — MDS Primary Blue 600 (was #0B4BFF Blue-750; aligned to the Folio accent) */
   --action: #000F47;   /* primary action / CTA buttons — Blue-1000 (Midnight) by default (Tweaks can switch to gold/other) */
   --action-text: #FFFFFF; /* text on --action fills (white on the midnight CTA) */
   --canvas: #F7F3EE;   /* page background tone */
