@@ -2060,7 +2060,14 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         </div>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
           <div style={{ minWidth: 170 }}><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>
-          <div><div style={plMetaLabel}>Completion</div><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.completion || 0}%</span></div>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
+            <div style={plMetaLabel}>Completion</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
+              {/* quick-select steps (0/25/50/75/100) — keep alongside the slider */}
+              {editable && <PlSeg value={action.completion || 0} onChange={onComplete} />}
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
+            </div>
+          </div>
         </div>
         <PlSlider value={action.completion || 0} onChange={onComplete} readOnly={!editable} />
       </div>
