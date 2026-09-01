@@ -1179,10 +1179,26 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                                                       // after saving it becomes the read view (Edit / Submit Plan)
   const [toast, setToast] = plUseState(null);
   const [comments, setComments] = plUseState(null);   // skill name whose comments are open, or "" for global
-  const [readSkills, setReadSkills] = plUseState([]);  // threads the user has opened (clears the unread dot)
-  const isUnread = (name) => PL_NEW_MSG_SKILLS.includes(name) && readSkills.indexOf(name) < 0;
-  const anyUnread = PL_NEW_MSG_SKILLS.some((n) => readSkills.indexOf(n) < 0);
-  const openComments = (name) => { setComments(name); setReadSkills((rs) => name ? (rs.indexOf(name) < 0 ? rs.concat(name) : rs) : PL_NEW_MSG_SKILLS.slice()); };
+  // Unread dots are derived from the LIVE shared thread store (what the manager
+  // actually posts to) — NOT the static PL_NEW_MSG_SKILLS seed snapshot, which
+  // never updated when the manager left a new comment (the dot then disagreed
+  // with the content). Kept in sync via the same thread event PlComments uses.
+  const [threads, setThreads] = plUseState(() => plThreadsFor(PL_OWNER));
+  plUseEffect(() => {
+    const sync = () => setThreads(plThreadsFor(PL_OWNER));
+    window.addEventListener(PL_THREAD_EVENT, sync);   // same tab (manager view in this session)
+    window.addEventListener("storage", sync);          // manager in another tab
+    window.addEventListener("focus", sync);
+    return () => { window.removeEventListener(PL_THREAD_EVENT, sync); window.removeEventListener("storage", sync); window.removeEventListener("focus", sync); };
+  }, []);
+  // Per-thread "seen" watermark (message count at the moment the user opened it),
+  // so a NEWER manager message re-lights the dot even after a read.
+  const [seenCounts, setSeenCounts] = plUseState({});
+  const plThreadLen = (name) => (threads[name] || []).reduce((n, c) => n + 1 + ((c.replies || []).length), 0);
+  const plThreadLastWho = (name) => { const flat = (threads[name] || []).flatMap((c) => [c, ...(c.replies || [])]); const last = flat[flat.length - 1]; return last && last.who; };
+  const isUnread = (name) => plThreadLastWho(name) === "mgr" && plThreadLen(name) > (seenCounts[name] || 0);
+  const anyUnread = Object.keys(threads).some(isUnread);
+  const openComments = (name) => { setComments(name); if (name) setSeenCounts((s) => ({ ...s, [name]: plThreadLen(name) })); };
   const [modal, setModal] = plUseState(null);         // { kind, ci, si }
   const [addSkills, setAddSkills] = plUseState(false);
   const [confirmDel, setConfirmDel] = plUseState(null); // { label, onYes }
