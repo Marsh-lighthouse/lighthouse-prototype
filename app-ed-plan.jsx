@@ -1359,8 +1359,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
           {sample === 10 && (() => {
             const st = plStats(data);
             const status = completed ? "completed" : verdict ? verdict.status : awaiting ? (storeStatus === "review" ? "review" : "pending") : "draft";
-            const waiting = awaiting ? "Manager" : completed ? "—" : "You";
-            return <PlPlanSummary stats={st} status={status} waiting={waiting} />;
+            return <PlPlanSummary stats={st} status={status} />;
           })()}
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
@@ -1648,7 +1647,7 @@ function PlWideBar({ pct }) {
   return <div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", marginTop: 14 }}><div style={{ width: (pct || 0) + "%", height: "100%", background: eBLUE, borderRadius: 3, transition: "width .3s" }} /></div>;
 }
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
-function PlPlanSummary({ stats, status, waiting }) {
+function PlPlanSummary({ stats, status }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
@@ -1660,7 +1659,7 @@ function PlPlanSummary({ stats, status, waiting }) {
         <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 3 }}>{stats.complete} complete</div></div>
         <div style={{ ...cell(), minWidth: 150 }}><div style={lbl}>Completion</div><div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", margin: "3px 0 7px" }}><div style={{ width: stats.pct + "%", height: "100%", background: eBLUE, borderRadius: 3 }} /></div><div style={big}>{stats.pct}%</div></div>
         <div style={cell()}><div style={lbl}>Overdue</div><div style={{ ...big, color: stats.overdue ? "#CB7E03" : eMID }}>{stats.overdue}</div></div>
-        <div style={cell(true)}><div style={lbl}>Waiting on</div><div style={{ ...big, fontSize: 18 }}>{waiting}</div><div style={{ marginTop: 7 }}><PlStatusBadge status={status} /></div></div>
+        <div style={cell(true)}><div style={lbl}>Status</div><div style={{ marginTop: 6 }}><PlStatusBadge status={status} size={15} /></div></div>
       </div>
     </div>
   );
