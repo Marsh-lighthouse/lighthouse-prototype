@@ -250,8 +250,11 @@ html .lg-input, html .lg-btn, html .lg-lang-btn { border-radius: 2px; }
    fixed-brand screen. #0B4BFF is itself an MDS colour (the hyperlink token),
    but the project's interactive accent is Blue-600, matching the Folio flow. */
 html:root { --accent: #0065AC !important; }
-/* Light ("split") login: MDS Input-field border. Dark variants override. */
-html:not([data-login-style]) .lg-input { border-color: var(--field-line); }
+/* MDS Input-field border (#6F6D68) on every LIGHT login style — default split,
+   spotlight, aura. The dark styles (cinematic / midnight / celestial) each carry
+   their own higher-specificity .lg-input border rule, so they override this and
+   keep their light-on-dark field edge. */
+html .lg-input { border-color: var(--field-line); }
 
 /* ── Bottom-Right Control Bar (shared across Login / Sign Up / Forgot) ── */
 .lg-controls-bar { position: fixed; right: 58px; bottom: 14px; z-index: 60; display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; }
