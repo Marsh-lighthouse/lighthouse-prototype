@@ -17,7 +17,7 @@
 .lg-footer nav { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
 .lg-foot-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .lg-cobrand { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; }
-.lg-cobrand-box { width: 50px; height: 50px; flex: 0 0 auto; border: 1px solid rgba(0,15,71,.16); border-radius: 7px; display: flex; align-items: center; justify-content: center; background: #fff; }
+.lg-cobrand-box { width: 50px; height: 50px; flex: 0 0 auto; border: 1px solid rgba(0,15,71,.16); border-radius: 2px; display: flex; align-items: center; justify-content: center; background: #fff; }
 .lg-cobrand-box svg { width: 21px; height: auto; display: block; }
 .lg-cobrand-box img { max-width: 78%; max-height: 78%; display: block; }
 .lg-cobrand-ph { background-image: repeating-linear-gradient(135deg, rgba(0,15,71,.05) 0 5px, transparent 5px 10px); }
@@ -242,6 +242,14 @@ html[data-login-style="aura"] .lg-form-panel { flex: 1 1 44%; background: #FFFFF
    language switcher (.lg-lang-btn is authored inline at 8px in each login HTML;
    `html .` here outranks it). */
 html .lg-input, html .lg-btn, html .lg-lang-btn { border-radius: 2px; }
+/* Lock the accent to MDS Primary Blue 600 on the login screens. The imported
+   preview harness injects its Tweaks default accent (Blue-750 #0B4BFF) as an
+   INLINE style on <html>, which beats normal page CSS — so !important is the
+   only lever. Scoped to login only (this file isn't loaded on Folio/Assessor/
+   Manager). Trade-off: the Tweaks accent swatch is inert on login, which is a
+   fixed-brand screen. #0B4BFF is itself an MDS colour (the hyperlink token),
+   but the project's interactive accent is Blue-600, matching the Folio flow. */
+html:root { --accent: #0065AC !important; }
 /* Light ("split") login: MDS Input-field border. Dark variants override. */
 html:not([data-login-style]) .lg-input { border-color: var(--field-line); }
 
