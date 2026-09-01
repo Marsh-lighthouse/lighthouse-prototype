@@ -238,8 +238,10 @@ html[data-login-style="aura"] .lg-form-panel { flex: 1 1 44%; background: #FFFFF
   --line:   #E4E1DC;                 /* soft container borders */
   --field-line: #6F6D68;             /* MDS Input-field border (neutral-800) */
 }
-/* MDS radius-sm (2px) on inputs & buttons — every login style. */
-html .lg-input, html .lg-btn { border-radius: 2px; }
+/* MDS radius-sm (2px) on inputs & buttons — every login style. Includes the
+   language switcher (.lg-lang-btn is authored inline at 8px in each login HTML;
+   `html .` here outranks it). */
+html .lg-input, html .lg-btn, html .lg-lang-btn { border-radius: 2px; }
 /* Light ("split") login: MDS Input-field border. Dark variants override. */
 html:not([data-login-style]) .lg-input { border-color: var(--field-line); }
 

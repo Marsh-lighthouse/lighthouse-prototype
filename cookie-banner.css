@@ -13,7 +13,7 @@
   padding: 24px 30px 24px 28px;
   background: #000F47; color: #fff;
   font-family: var(--sans);
-  border-radius: 16px;
+  border-radius: 8px;   /* MDS radius-lg (max); 16px was above the 8px ceiling */
   box-shadow: 0 18px 50px rgba(0, 4, 20, .38);
   animation: lh-cookie-rise .4s cubic-bezier(.2,.7,.3,1) both;
 }
@@ -26,7 +26,7 @@
 .lh-cookie-ico {
   flex-shrink: 0; width: 44px; height: 44px; margin-top: 2px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 12px; background: rgba(255,255,255,.1); color: #fff;
+  border-radius: 8px; background: rgba(255,255,255,.1); color: #fff;   /* MDS lg; was 12px */
 }
 .lh-cookie-ico svg { width: 24px; height: 24px; }
 
