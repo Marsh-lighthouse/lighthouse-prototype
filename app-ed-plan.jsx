@@ -1649,7 +1649,7 @@ function PlWideBar({ pct }) {
 }
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
 function PlPlanSummary({ stats, status, waiting }) {
-  const lbl = { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: eMUT, marginBottom: 6 };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   return (
