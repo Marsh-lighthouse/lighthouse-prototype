@@ -594,7 +594,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         {self ? (
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>My Development Plan</h1>
         ) : (
-        <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{person.first} {person.last}{"’"}s Development Plan</h1>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{person.first} {person.last}, Development Plan</h1>
         )}
         <div style={{ position: "relative", display: "flex", flexShrink: 0, alignItems: "center", gap: 8 }}>
           {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
