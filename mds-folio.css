@@ -314,7 +314,10 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    The filled portion comes from the --pct custom property set inline.
    ═══════════════════════════════════════════════════════════════════════ */
 .pl-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 16px; background: transparent; cursor: pointer; outline: none; margin: 0; }
-.pl-slider::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: linear-gradient(to right, #000F47 var(--pct, 0%), #94918C var(--pct, 0%)); }
+/* Filled (#000F47) + a transparent gap around the thumb + unfilled (#94918C) —
+   the thumb is 12px, so the navy line ends 8px before its centre and the gray
+   starts 8px after, leaving a ~2px gap on each side of the circle (MDS look). */
+.pl-slider::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: linear-gradient(to right, #000F47 0, #000F47 calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) + 8px), #94918C calc(var(--pct, 0%) + 8px), #94918C 100%); }
 .pl-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #000F47; border: none; margin-top: -5px; cursor: pointer; transition: box-shadow .15s ease; }
 .pl-slider:hover::-webkit-slider-thumb, .pl-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 10px rgba(11,75,255,.1); }
 .pl-slider::-moz-range-track { height: 2px; border-radius: 2px; background: #94918C; }

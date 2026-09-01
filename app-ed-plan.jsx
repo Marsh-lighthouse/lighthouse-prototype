@@ -1676,9 +1676,13 @@ function PlWideBar({ pct }) {
 // (--v3-surface-primary), unfilled track #94918C gray (--v3-surface-disabled-strong).
 function PlLinearBar({ pct, width = 96 }) {
   const v = Math.max(0, Math.min(100, pct || 0));
+  // Navy fill + a 2px gap + gray track (the MDS separation between the two
+  // segments). The gap is a transparent sliver, shown only mid-range.
   return (
-    <div style={{ width, height: 8, background: "#94918C", overflow: "hidden", flexShrink: 0 }}>
-      <div style={{ width: v + "%", height: "100%", background: "#000F47" }} />
+    <div style={{ display: "flex", alignItems: "center", width, height: 8, overflow: "hidden", flexShrink: 0 }}>
+      <div style={{ width: v + "%", height: "100%", background: "#000F47", flexShrink: 0 }} />
+      {v > 0 && v < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+      <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
     </div>
   );
 }
