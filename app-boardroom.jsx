@@ -81,7 +81,7 @@ function BRail({ activeId, onNav, collapsed, onToggle, theme }) {
           <div style={{ background: "var(--sky-surface)", borderRadius: 12, padding: 16 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
               <div style={{ position: "relative", width: 56, height: 56, flexShrink: 0, borderRadius: "50%", background: "conic-gradient(" + bGOLD + " " + (LH.profile.pct * 3.6) + "deg, rgba(0,15,71,.12) 0)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--card)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bMID }}>{LH.profile.pct}%</div>
+                <div style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--card)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: bMID }}>{LH.profile.pct}%</div>
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: bMID }}>Profile completion</div>
@@ -321,7 +321,7 @@ function BProgramRow({ p, onOpen, onSystemCheck }) {
       <div style={{ position: "relative", width: 76, height: 76, flexShrink: 0 }}>
         <RingB pct={p.pct} size={76} stroke={6} color={p.accent} track="rgba(0,15,71,.08)" />
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-          <span className="serif" style={{ fontSize: 21, color: bMID, lineHeight: 1 }}>{p.pct}%</span>
+          <span className="serif" style={{ fontSize: 22, color: bMID, lineHeight: 1 }}>{p.pct}%</span>
         </div>
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -362,13 +362,13 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
         <div style={{ flex: 1, background: "var(--surface-deep)", padding: "44px 40px", color: "#fff", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <div style={{ fontSize: 14, color: bSKY, fontWeight: 600, marginBottom: 18 }}>Overall progress</div>
           <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 22 }}>
-            <span className="serif" style={{ fontSize: 76, color: "#fff", lineHeight: .9 }}>30</span>
+            <span className="serif" style={{ fontSize: 72, color: "#fff", lineHeight: .9 }}>30</span>
             <span className="serif" style={{ fontSize: 40, color: bSKY }}>%</span>
           </div>
           <div style={{ display: "flex", gap: 28 }}>
             {[{ n: "3", l: "Done" }, { n: "5", l: "Active" }, { n: "2", l: "Reports" }].map((s, i) => (
               <div key={i}>
-                <div className="serif" style={{ fontSize: 26, color: "#fff", lineHeight: 1 }}>{s.n}</div>
+                <div className="serif" style={{ fontSize: 24, color: "#fff", lineHeight: 1 }}>{s.n}</div>
                 <div style={{ fontSize: 14, color: "rgba(255,255,255,.82)", marginTop: 4 }}>{s.l}</div>
               </div>
             ))}
@@ -379,7 +379,7 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
       {/* Main + right rail */}
       <div style={{ display: "grid", gridTemplateColumns: "1.7fr 1fr", gap: 28 }}>
         <div>
-          <h2 className="serif" style={{ fontSize: 26, color: bMID, margin: "0 0 18px" }}>Your programs</h2>
+          <h2 className="serif" style={{ fontSize: 24, color: bMID, margin: "0 0 18px" }}>Your programs</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {LH.programs.map((p) => <BProgramRow key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}
           </div>
@@ -407,7 +407,7 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 46, height: 46, borderRadius: 12, background: "rgba(197,53,50,.10)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.clock size={22} /></div>
               <div>
-                <div className="serif" style={{ fontSize: 19, color: bMID, lineHeight: 1.1 }}>{LH.deadline.daysLeft} days left</div>
+                <div className="serif" style={{ fontSize: 20, color: bMID, lineHeight: 1.1 }}>{LH.deadline.daysLeft} days left</div>
                 <div style={{ fontSize: 14, color: bMUT, marginTop: 2 }}>{LH.deadline.program} · {LH.deadline.due}</div>
               </div>
             </div>

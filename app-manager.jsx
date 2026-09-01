@@ -237,7 +237,7 @@ const MgrBadge = ({ status }) => {
   const t = MGR_TONE(status);
   const Ic = t.icon && I[t.icon];
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: t.bg, color: t.color, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: t.bg, color: t.color, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
       {Ic ? <Ic size={13} /> : null}{t.label}
     </span>
   );
@@ -279,7 +279,7 @@ function MgrPersonCard({ p, design }) {
         <MgrAvatar p={p} size={46} />
         <div style={{ lineHeight: 1.35 }}>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{p.email}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{p.email}</div>
         </div>
       </div>
     );
@@ -387,13 +387,13 @@ function MgrSummaryDrawer({ person, onClose, onDecide }) {
           )}
           {Object.keys(groups).map((skill) => (
             <div key={skill} style={{ marginBottom: 20 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 8 }}>{skill}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 8 }}>{skill}</div>
               {groups[skill].map((c, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "7px 0", borderTop: i ? "1px solid " + eLINE : "none" }}>
                   <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? eBLUE : c.kind === "removed" ? "var(--danger)" : "#B4770A" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>
                     {c.label}
-                    {c.scope === "skill" && <span style={{ color: eMUT, fontSize: 13 }}> · whole skill</span>}
+                    {c.scope === "skill" && <span style={{ color: eMUT, fontSize: 14 }}> · whole skill</span>}
                   </span>
                 </div>
               ))}
@@ -436,7 +436,7 @@ function MgrNotePop({ kind, onClose, onSubmit }) {
   return (
     <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 320, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: 18 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{isReject ? "Reject Plan" : "Approve Plan"}</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{isReject ? "Reject Plan" : "Approve Plan"}</div>
         <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 0 }}><I.plus size={17} style={{ transform: "rotate(45deg)" }} /></button>
       </div>
       <textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={isReject ? "Add Reason…" : "Add Note…"}
@@ -521,12 +521,16 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const Report = window.EdPlan && window.EdPlan.ReportTab;   // same report preview as the employee side
   const Note = window.EdPlan && window.EdPlan.DecisionNote;  // same inline decision note
   const NoActions = window.EdPlan && window.EdPlan.NoActions;
+  const PlanSummary = window.EdPlan && window.EdPlan.PlanSummary;   // Sample-10 summary bar (reused read-only)
+  const edStats = (window.EdPlan && window.EdPlan.stats) || (() => ({ skills: 0, actions: 0, complete: 0, pct: 0, overdue: 0, range: "" }));
+  const VisBadge = window.EdPlan && window.EdPlan.VisBadge;         // read-only public/private badge
   const META = (window.EdPlan && window.EdPlan.metaLabel) || {};
   // INTERCONNECTED with the employee side: the manager reads the SAME plan-design
   // key ("pl-plan-design"), so whatever design the employee picks (incl. Sample 10)
   // is exactly what the manager reviews. Kept in sync live via planTick below.
   const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 6; });
   const [sampleMenu, setSampleMenu] = mgUseState(false);
+  const [openSkill, setOpenSkill] = mgUseState("0-0");   // Sample-10 accordion: key of the one open skill ("" = all closed)
   mgUseEffect(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); if (v >= 1 && v <= 10 && v !== sample) setSample(v); }, [planTick]);
   // 2 (Minimal — picture, name, email) is the default reportee card.
   const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return v >= 1 && v <= 3 ? v : 2; });
@@ -590,13 +594,10 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         {self ? (
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>My Development Plan</h1>
         ) : (
-        <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer", textAlign: "left" }}>
-          <I.arrowL size={20} style={{ color: eMID, flexShrink: 0 }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, lineHeight: 1.3 }}>Direct Reportees Detail</span>
-        </button>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>Direct Reportees Detail</h1>
         )}
         <div style={{ position: "relative", display: "flex", flexShrink: 0, alignItems: "center", gap: 8 }}>
-          {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 500, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
+          {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
             {MGR_TONE(person.status).label}
           </span>}
           {/* 1 · the note lives behind a comment icon next to the chip */}
@@ -606,7 +607,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           {hasNote && noteDesign === 1 && showReason && (
             <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 288, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: "14px 16px", textAlign: "left" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
                 {when && <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{when}</span>}
               </div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55 }}>{note}</div>
@@ -623,7 +624,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
               <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
-              {when && <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{when}</span>}
+              {when && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{when}</span>}
             </div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.55 }}>{note}</div>
           </div>
@@ -635,8 +636,27 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         Note ? <Note status={person.status} note={note} when={when} /> : null
       )}
 
-      {/* the reportee's details, in the same card the employee side uses */}
-      <MgrPersonCard p={person} design={userCard} />
+      {/* the reportee's details. On the Sample-10 design the employee has a plan
+          summary bar under the tabs, so the manager shows the SAME bar (window.EdPlan
+          .PlanSummary) with the reportee's avatar/name/email folded in as its lead
+          row. Other designs keep the standalone person card. */}
+      {sample === 10 && !showEmpty && PlanSummary ? (
+        <PlanSummary
+          stats={edStats(data)}
+          status={person.status}
+          lead={(
+            <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
+              <MgrAvatar p={person} size={46} />
+              <div style={{ lineHeight: 1.35 }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{person.first} {person.last}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{person.email}</div>
+              </div>
+            </div>
+          )}
+        />
+      ) : (
+        <MgrPersonCard p={person} design={userCard} />
+      )}
 
       {/* tabs + actions */}
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginBottom: 4 }}>
@@ -703,12 +723,83 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
                 <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon] || I.bulb, { size: 22 })}</div>
-                <h2 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
+                <h2 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
               </div>
 
               {cat.skills.map((skill, si) => {
                 const skillChanges = skill.changes || [];
                 const active = comments === skill.name;   // its thread is open → highlight the section
+                const acc = sample === 10;                // accordion layout (single skill open), matching the employee
+                const openKey = ci + "-" + si;
+                const open = !acc || openSkill === openKey;
+
+                // read-only header controls (rating stars + comments), shared by both layouts
+                const stars = (
+                  <span style={{ display: "inline-flex", gap: 3 }}>
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <svg key={n} width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style={{ color: n <= (skill.rating || 0) ? "var(--action)" : "rgba(0,15,71,.18)" }}><path d="M12 2l2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.9 5.9 20.3l1.5-6.7L2.3 9l6.8-.7z" /></svg>
+                    ))}
+                  </span>
+                );
+                const chatBtn = (
+                  <button onClick={() => setComments(skill.name)} title={"Comments on " + skill.name}
+                    style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: comments === skill.name ? eMID : eMUT, display: "flex", padding: 2 }}>
+                    <I.chat size={17} />
+                    {unreadSkills.indexOf(skill.name) >= 0 && comments !== skill.name && <span style={{ position: "absolute", top: 0, right: 0, width: 8, height: 8, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--canvas)" }} />}
+                  </button>
+                );
+
+                // the plan cards + change summary — the collapsing body in accordion mode
+                const bodyNode = (
+                  <React.Fragment>
+                    {skill.actions.length === 0 && NoActions && <NoActions editable={editable} />}
+                    {skill.actions.length > 0 && wrapCards(skill.actions.map((a, ai) => (
+                      ACard
+                        ? <ACard key={a.id} action={a} editable={editable} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1}
+                            onDate={(v) => mutate((n) => { Object.assign(n[ci].skills[si].actions[ai], v); })}
+                            onComplete={(v) => mutate((n) => { n[ci].skills[si].actions[ai].completion = v; })}
+                            onDelete={() => mutate((n) => { n[ci].skills[si].actions.splice(ai, 1); })} />
+                        : <div key={a.id} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, padding: "10px 0" }}>{a.title}</div>
+                    )))}
+                    {skillChanges.length > 0 && (
+                      <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
+                        <ul style={{ margin: 0, paddingLeft: 18 }}>
+                          {skillChanges.map((c, i) => (
+                            <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
+                              {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
+                              {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
+                              <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </React.Fragment>
+                );
+
+                // ── Accordion (Sample 10) — divider between skills, arrow at left, body collapses.
+                //    Collapsed shows exactly name, rating, visibility and chat. Same as the employee. ──
+                if (acc) {
+                  return (
+                    <div key={si} data-skill={skill.name} style={{ borderTop: si > 0 ? "1px solid " + eLINE : "none", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: open ? "16px 0 14px" : "16px 0" }}>
+                        <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, marginLeft: -2 }}>
+                          <span style={{ display: "flex", transition: "transform .2s", transform: open ? "none" : "rotate(-90deg)" }}><I.chevD size={18} /></span>
+                        </button>
+                        <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
+                        {stars}
+                        {VisBadge && <VisBadge isPublic={skill.isPublic} />}
+                        {skill.edited && <MgrTag kind="Edited" />}
+                        <div style={{ flex: 1 }} />
+                        {chatBtn}
+                      </div>
+                      {open && <div style={{ paddingBottom: 16 }}>{bodyNode}</div>}
+                    </div>
+                  );
+                }
+
+                // ── Flat (Samples 1–9) — unchanged shape ──
                 return (
                 <div key={si} data-skill={skill.name} style={{ marginBottom: 26, borderRadius: 12, transition: "background .2s",
                   background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent",
@@ -716,47 +807,13 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                   padding: active ? "8px 12px" : 0, marginLeft: active ? -12 : 0, marginRight: active ? -12 : 0 }}>
                   {/* skill header — same shape as the employee plan */}
                   <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
-                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
-                    <span style={{ display: "inline-flex", gap: 3 }}>
-                      {[1, 2, 3, 4, 5].map((n) => (
-                        <svg key={n} width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style={{ color: n <= (skill.rating || 0) ? "var(--action)" : "rgba(0,15,71,.18)" }}><path d="M12 2l2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.9 5.9 20.3l1.5-6.7L2.3 9l6.8-.7z" /></svg>
-                      ))}
-                    </span>
+                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
+                    {stars}
                     {skill.edited && <MgrTag kind="Edited" />}
                     <div style={{ flex: 1 }} />
-                    <button onClick={() => setComments(skill.name)} title={"Comments on " + skill.name}
-                      style={{ position: "relative", background: "none", border: "none", cursor: "pointer", color: comments === skill.name ? eMID : eMUT, display: "flex", padding: 2 }}>
-                      <I.chat size={17} />
-                      {unreadSkills.indexOf(skill.name) >= 0 && comments !== skill.name && <span style={{ position: "absolute", top: 0, right: 0, width: 8, height: 8, borderRadius: 999, background: "var(--danger)", border: "1.5px solid var(--canvas)" }} />}
-                    </button>
+                    {chatBtn}
                   </div>
-
-                  {/* the employee's plan cards, rendered with the very same component */}
-                  {skill.actions.length === 0 && NoActions && <NoActions editable={editable} />}
-                  {skill.actions.length > 0 && wrapCards(skill.actions.map((a, ai) => (
-                    ACard
-                      ? <ACard key={a.id} action={a} editable={editable} sample={sample === 8 ? 1 : sample} last={ai === skill.actions.length - 1}
-                          onDate={(v) => mutate((n) => { Object.assign(n[ci].skills[si].actions[ai], v); })}
-                          onComplete={(v) => mutate((n) => { n[ci].skills[si].actions[ai].completion = v; })}
-                          onDelete={() => mutate((n) => { n[ci].skills[si].actions.splice(ai, 1); })} />
-                      : <div key={a.id} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, padding: "10px 0" }}>{a.title}</div>
-                  )))}
-
-                  {/* what changed on this skill — sits under the skill, not above it */}
-                  {skillChanges.length > 0 && (
-                    <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
-                      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
-                      <ul style={{ margin: 0, paddingLeft: 18 }}>
-                        {skillChanges.map((c, i) => (
-                          <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
-                            {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
-                            {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
-                            <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                  {bodyNode}
                 </div>
                 );
               })}
@@ -993,7 +1050,7 @@ function LHManager() {
             ) : null}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 8 }}>Manager view</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 8 }}>Manager view</span>
           </div>
         </div>
         <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: "1 0 auto", display: "flex", flexDirection: "column" }}>

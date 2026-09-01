@@ -55,8 +55,8 @@ function MnStepper({ step, design }) {
     return (
       <div style={{ marginBottom: 30 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {step + 1} of {MN_STEPS.length}</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID }}>{MN_STEPS[step]}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT }}>Step {step + 1} of {MN_STEPS.length}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID }}>{MN_STEPS[step]}</span>
         </div>
         <div style={{ display: "flex", gap: 6 }}>
           {MN_STEPS.map((l, i) => (
@@ -119,7 +119,7 @@ function MnStepper({ step, design }) {
                 background: done ? eSUCCESS : on ? eMID : "rgba(0,15,71,.06)",
                 color: done || on ? "#fff" : eMUT,
                 border: done ? "none" : "1px solid " + (on ? eMID : eLINE),
-                fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>
+                fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 }}>
                 {done ? <I.check size={16} /> : i + 1}
               </span>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
@@ -137,8 +137,8 @@ function MnGettingStarted({ onNext }) {
   const [watched, setWatched] = mnUseState(false);
   return (
     <div>
-      <h1 className="serif" style={{ fontSize: 30, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>Getting Started</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 24px" }}>
+      <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>Getting Started</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 24px" }}>
         You're building this plan yourself. Watch the short introduction, then choose the skills you want to
         work on, rate where you are today, and answer a few reflective questions.
       </p>
@@ -208,7 +208,7 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
             <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
             <div>
-              <div className="serif" style={{ fontSize: 21, color: eMID }}>{c.name}</div>
+              <div className="serif" style={{ fontSize: 22, color: eMID }}>{c.name}</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
             </div>
           </div>
@@ -329,10 +329,10 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
         ))}
       <div key={i} className="mn-card" style={{ "--mn-from": dir > 0 ? "18px" : "-18px", position: "relative", zIndex: 10,
         background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "22px 24px", boxShadow: "0 10px 30px rgba(0,15,71,.10)" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID, background: "transparent", border: "1px solid #94918C", borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: eMID, background: "transparent", border: "1px solid #94918C", borderRadius: 8, padding: "6px 12px", marginBottom: 16 }}>
           Question {i + 1} of {QS.length}
         </div>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 12px", lineHeight: 1.45 }}>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "0 0 12px", lineHeight: 1.45 }}>
           {q.q}{q.req && <span style={{ color: "var(--danger)", marginLeft: 3 }}>*</span>}
           {!q.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400, color: "var(--ink)", background: "var(--status-neutral-bg)", borderRadius: 6, padding: "4px 10px", marginLeft: 8 }}>Optional</span>}
         </h3>
@@ -342,13 +342,13 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
             rows={4} placeholder="Write your answer here…"
             style={{ width: "100%", boxSizing: "border-box", padding: "14px 16px", border: "none", outline: "none", resize: "vertical", background: "transparent", fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.6, display: "block" }} />
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 18, padding: "8px 16px", borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)" }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: over ? "var(--danger)" : eMUT }}>Words : {words}</span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Characters : {chars}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: over ? "var(--danger)" : eMUT }}>Words : {words}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Characters : {chars}</span>
           </div>
         </div>
 
         {(min || max) > 0 && (
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: tried && blocked ? "var(--danger)" : eMUT, marginTop: 8 }}>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: tried && blocked ? "var(--danger)" : eMUT, marginTop: 8 }}>
             {tried && short ? "Please write at least " + Math.max(min, 1) + " words."
               : tried && over ? "That's over the " + max + " word limit."
               : "Must be between " + min + " and " + max + " words"}

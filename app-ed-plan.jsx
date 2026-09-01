@@ -179,7 +179,7 @@ function PlVisBadge({ isPublic }) {
   const Ic = isPublic ? I.globe : I.lock;
   return (
     <span title={isPublic ? "Public — everyone can see this" : "Private — only you can see this"}
-      style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID, background: "transparent", border: "1px solid #94918C", borderRadius: 999, padding: "3px 11px", whiteSpace: "nowrap" }}>
+      style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: eMID, background: "transparent", border: "1px solid #94918C", borderRadius: 999, padding: "3px 11px", whiteSpace: "nowrap" }}>
       {Ic ? <Ic size={13} /> : null} {isPublic ? "Public" : "Private"}
     </span>
   );
@@ -272,7 +272,7 @@ function PlLibraryModal({ skillName, onAdd, onClose }) {
             <label key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "16px 14px", borderRadius: 12, background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", borderBottom: "1px solid " + eLINE }}>
               <input type="checkbox" checked={on} onChange={() => setSel((s) => ({ ...s, [a.title]: !on }))} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0, accentColor: "var(--accent)" }} />
               <div style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{a.title}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{a.title}</div>
                 <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: "4px 0 10px" }}>{a.desc}</p>
                 <PlMix mix={a.mix} />
               </div>
@@ -316,7 +316,7 @@ function PlAiModal({ skillName, onAdd, onClose }) {
                 <label key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "16px 4px", cursor: "pointer", borderBottom: "1px solid " + eLINE }}>
                   <input type="checkbox" checked={on} onChange={() => setSel((s) => ({ ...s, [i]: !on }))} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0, accentColor: "var(--accent)" }} />
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{a.title}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{a.title}</div>
                     <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: "4px 0 10px" }}>{a.desc}</p>
                     <PlMix mix={a.mix} />
                   </div>
@@ -601,7 +601,7 @@ function plUsePushRoom(dep) {
   return room;
 }
 
-const plCLink = { display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const plCLink = { display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" };
 const PlReplyIcon = ({ size = 13 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M9 14 4 9l5-5" /><path d="M4 9h11a5 5 0 0 1 5 5v3" /></svg>;
 
 // One threaded comment — avatar · name · time · text · Reply — with nested replies.
@@ -760,7 +760,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                       background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent" }}>
                     <span style={{ width: 15, flexShrink: 0, color: eBLUE, display: "flex" }}>{on ? <I.check size={14} /> : null}</span>
                     <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eINK }}>{label}</span>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{n}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{n}</span>
                   </button>
                 );
               })}
@@ -783,7 +783,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
       ) : (
         // inbox of conversations
         <div style={{ flex: 1, overflowY: "auto", padding: "12px 12px" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "2px 4px 10px" }}>{rows.length} {filter === "resolved" ? "with resolved comments" : (rows.length === 1 ? "conversation" : "conversations")} · tap one to open the thread</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, padding: "2px 4px 10px" }}>{rows.length} {filter === "resolved" ? "with resolved comments" : (rows.length === 1 ? "conversation" : "conversations")} · tap one to open the thread</div>
           {rows.map((r, i) => {
             const mine = r.last ? r.last.who === role : false;
             const lastName = r.last ? (NAMES[r.last.who] || PL_ME) : "";
@@ -808,7 +808,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                     {r.unread && <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--danger)", flexShrink: 0 }} />}
                   </div>
                   <span style={{ display: "inline-block", marginTop: 5, padding: "3px 9px", borderRadius: 8, background: tag.bg, color: tag.fg, border: tag.border, boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400 }}>{tag.label}</span>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 4 }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</span>
                     {/* Skill threads can jump to the skill itself without opening the thread.
@@ -875,7 +875,7 @@ function PlAddSkills({ current, onClose, onSave }) {
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
                 <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
                 <div>
-                  <div className="serif" style={{ fontSize: 21, color: eMID }}>{c.name}</div>
+                  <div className="serif" style={{ fontSize: 22, color: eMID }}>{c.name}</div>
                   <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
                 </div>
               </div>
@@ -908,7 +908,7 @@ function PlConfirmDelete({ label, onNo, onYes }) {
     <div onClick={onNo} style={{ position: "fixed", inset: 0, zIndex: 320, background: "rgba(0,15,71,.45)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 420, background: "var(--card)", borderRadius: 16, boxShadow: "0 40px 90px rgba(0,15,71,.35)", padding: "26px 26px 22px", textAlign: "center" }}>
         <div style={{ width: 54, height: 54, margin: "0 auto 16px", borderRadius: "50%", background: "color-mix(in srgb, var(--danger) 10%, transparent)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center" }}><PlTrash size={24} /></div>
-        <h2 style={{ fontFamily: "var(--sans)", fontSize: 19, fontWeight: 700, color: eMID, margin: "0 0 8px" }}>Are you sure you want to delete?</h2>
+        <h2 style={{ fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: eMID, margin: "0 0 8px" }}>Are you sure you want to delete?</h2>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "0 0 22px" }}>This will remove {label} from your plan. This action can’t be undone.</p>
         <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
           <EdBtn onClick={onNo}>No, keep it</EdBtn>
@@ -1096,19 +1096,19 @@ function PlReflectTab({ forceError, showToast }) {
                     style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", border: "none", background: "transparent", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6, display: "block" }} />
                   {/* word / character budget, the same counters the manual flow shows */}
                   <div style={{ display: "flex", justifyContent: "flex-end", gap: 18, padding: "7px 14px", borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)" }}>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: over ? "var(--danger)" : eMUT }}>Words : {words}</span>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Characters : {v.length}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: over ? "var(--danger)" : eMUT }}>Words : {words}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Characters : {v.length}</span>
                   </div>
                 </div>
                 {(it.min || it.max) > 0 && !err && (
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: over ? "var(--danger)" : eMUT, marginTop: 6 }}>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: over ? "var(--danger)" : eMUT, marginTop: 6 }}>
                     {over ? "That's over the " + it.max + " word limit." : "Must be between " + it.min + " and " + it.max + " words"}
                   </div>
                 )}
               </React.Fragment>
             );
           })()}
-          {err && <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 13 }}><I.alertCircle size={13} /> This question is required.</div>}
+          {err && <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 14 }}><I.alertCircle size={13} /> This question is required.</div>}
         </div>
         );
       })}
@@ -1139,10 +1139,10 @@ function PlReportTab() {
         <div key={i} className="ed-report-page" style={{ ...a4, background: "radial-gradient(120% 120% at 15% 0%, rgba(206,236,255,.16), transparent 55%), linear-gradient(150deg, var(--surface-deep), #001F8C)", padding: 56, overflow: "hidden", justifyContent: "space-between" }}>
           <svg viewBox="0 0 43.17 44.26" width="36" height="37" aria-hidden="true"><polygon fill="#fff" points="42.49 0 21.65 30.43 22.2 30.43 35.07 24.39 35.07 44.26 43.17 44.26 43.17 0 42.49 0" /><polygon fill="#fff" points="0 0 0 44.26 8.1 44.26 8.1 24.4 20.9 30.43 21.52 30.43 .68 0 0 0" /></svg>
           <div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#CEECFF", marginBottom: 14 }}>Confidential · For internal use only</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#CEECFF", marginBottom: 14 }}>Confidential · For internal use only</div>
             <h1 className="serif" style={{ fontSize: 40, color: "#fff", lineHeight: 1.06, margin: 0, maxWidth: 440 }}>Leadership Program Report</h1>
           </div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "rgba(206,236,255,.7)" }}>Marsh · All rights reserved</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(206,236,255,.7)" }}>Marsh · All rights reserved</div>
         </div>
       ) : (
         <div key={i} className="ed-report-page" style={{ ...a4, background: "var(--card)", border: "1px solid " + eLINE, padding: "48px 52px" }}>
@@ -1379,7 +1379,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
                 <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon], { size: 22 })}</div>
-                <h2 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
+                <h2 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
               </div>
 
               {cat.skills.map((skill, si) => {
@@ -1466,7 +1466,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                         <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, marginLeft: -2 }}>
                           <span style={{ display: "flex", transition: "transform .2s", transform: open ? "none" : "rotate(-90deg)" }}><I.chevD size={18} /></span>
                         </button>
-                        <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
+                        <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
                         {stars}
                         {pub}
                         <div style={{ flex: 1 }} />
@@ -1483,7 +1483,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                 <div key={si} data-skill={skill.name} style={{ borderRadius: 12, transition: "background .2s", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2, padding: active ? "8px 12px" : 0, margin: active ? (si > 0 ? "28px -12px 6px" : "0 -12px 6px") : (si > 0 ? "28px 0 6px" : "0 0 6px") }}>
                   {/* skill header */}
                   <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
-                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
+                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
                     {stars}
                     {pub}
                     <div style={{ flex: 1 }} />
@@ -1706,15 +1706,17 @@ function PlSlider({ value, onChange, readOnly }) {
   );
 }
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
-function PlPlanSummary({ stats, status }) {
-  const lbl = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, marginBottom: 6 };
+function PlPlanSummary({ stats, status, lead }) {
+  const lbl = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   return (
     <div style={{ marginBottom: 8 }}>
       <div style={{ display: "flex", flexWrap: "wrap", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
+        {/* optional identity row (manager view folds the reportee's profile into the same box) */}
+        {lead && <div style={{ flex: "1 1 100%", padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
         <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div></div>
-        <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 3 }}>{stats.complete} complete</div></div>
+        <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 3 }}>{stats.complete} complete</div></div>
         <div style={{ ...cell(), minWidth: 150 }}><div style={lbl}>Completion</div><div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", margin: "3px 0 7px" }}><div style={{ width: stats.pct + "%", height: "100%", background: eBLUE, borderRadius: 3 }} /></div><div style={big}>{stats.pct}%</div></div>
         <div style={cell()}><div style={lbl}>Overdue</div><div style={{ ...big, color: stats.overdue ? "#CB7E03" : eMID }}>{stats.overdue}</div></div>
         <div style={cell(true)}><div style={lbl}>Status</div><div style={{ marginTop: 6 }}><PlStatusBadge status={status} size={15} /></div></div>
@@ -1929,7 +1931,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
   const m = PL_LEARN[action.mix];
   const srcLabel = action.src === "AI Coach" ? "AI Coach" : action.src === "Custom" ? "Custom" : "Development Library";
   const src = <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{action.src === "AI Coach" ? <I.spark size={14} /> : <I.layers size={14} />}{srcLabel}</span>;
-  const title = <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.title}</div>;
+  const title = <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{action.title}</div>;
   const dateNode = editable
     ? <React.Fragment>
         <PlDateRange start={action.start || ""} end={action.end || ""} onChange={onDate} invalid={dateErr} />
@@ -2065,7 +2067,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
   if (sample === 10) {
     const durTxt = plDur(action.start, action.end);
     const modeChip = (
-      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 8, padding: "3px 10px" }}>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 8, padding: "3px 10px" }}>
         {React.createElement(I[m.icon] || I.book, { size: 13 })}{m.label}
       </span>
     );
@@ -2075,7 +2077,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.title}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{action.title}</div>
               {modeChip}
               <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{srcLabel}{durTxt ? " · " + durTxt : ""}</span>
             </div>
@@ -2093,7 +2095,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
               {/* edit mode: quick-select steps (0/25/50/75/100) + slider below.
                   view mode: the MDS Linear Bar as a compact visual next to the %. */}
               {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
             </div>
           </div>
         </div>
@@ -2165,6 +2167,10 @@ window.EdPlan.OWNER = PL_OWNER;
 // One status palette / badge for the employee and the manager alike.
 window.EdPlan.STATUS = PL_STATUS;
 window.EdPlan.StatusBadge = PlStatusBadge;
+window.EdPlan.PlanSummary = PlPlanSummary;   // Sample-10 summary bar — reused read-only by the manager
+window.EdPlan.stats = plStats;               // plan roll-up used by that bar
+window.EdPlan.VisBadge = PlVisBadge;          // read-only public/private badge (accordion header)
+window.EdPlan.Stars = PlStars;                // rating stars (read-only on the manager)
 window.EdPlan.usePushRoom = plUsePushRoom;   // shared panel-vs-overlay rule
 window.EdPlan.NoActions = PlNoActions;   // per-skill empty state, shared with the manager
 // Reflective questions — shared, so the manager reads and can edit the same answers.

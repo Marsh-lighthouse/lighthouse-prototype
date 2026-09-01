@@ -319,7 +319,7 @@ function EdSettings({ onBack }) {
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--accent)", marginBottom: 12 }}>Settings</div>
-      <h1 className="serif" style={{ fontSize: 44, color: MID, lineHeight: 1.06, margin: "0 0 28px" }}>Settings</h1>
+      <h1 className="serif" style={{ fontSize: 40, color: MID, lineHeight: 1.06, margin: "0 0 28px" }}>Settings</h1>
       {card("Notifications", <React.Fragment>
         {row("Assessment reminders", "Email me before upcoming deadlines.", sw(s.remind, () => set("remind", !s.remind)))}
         {row("Weekly digest", "A summary of your progress every Monday.", sw(s.digest, () => set("digest", !s.digest)))}
@@ -431,7 +431,7 @@ function EdProfile({ onBack, onNav }) {
 
   const sectionHead = (s, title) => (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "16px 22px", borderBottom: "1px solid var(--line)" }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{title}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: MID }}>{title}</div>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         {savedSection === s && section !== s && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: "var(--success)" }}>Saved</span>}
         {section !== s && <button onClick={() => startEdit(s)} title={"Edit " + title.toLowerCase()} style={pencilSt}><I.edit size={15} /></button>}
@@ -461,7 +461,7 @@ function EdProfile({ onBack, onNav }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 28 }}>
         <div>
-          <h1 className="serif" style={{ fontSize: 44, color: MID, lineHeight: 1.06, margin: 0 }}>My Profile</h1>
+          <h1 className="serif" style={{ fontSize: 40, color: MID, lineHeight: 1.06, margin: 0 }}>My Profile</h1>
         </div>
       </div>
 
@@ -475,7 +475,7 @@ function EdProfile({ onBack, onNav }) {
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{t("profileCompletion")}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: MID }}>{t("profileCompletion")}</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 2 }}>{LH.profile.done} {t("of")} {LH.profile.total} {t("sectionsCompleted")} — finish to unlock personalized insights.</div>
           </div>
         </div>
@@ -515,7 +515,7 @@ function EdProfile({ onBack, onNav }) {
               <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 22px", borderBottom: "1px solid var(--line)" }}>
                 {avatarView}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: MID }}>{data.first} {data.last}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: MID }}>{data.first} {data.last}</div>
                   <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 2 }}>{data.email}</div>
                 </div>
               </div>
@@ -582,7 +582,7 @@ function EdChangePassword({ onBack }) {
   );
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <h1 className="serif" style={{ fontSize: 44, color: MID, lineHeight: 1.06, margin: "0 0 28px" }}>Change Password</h1>
+      <h1 className="serif" style={{ fontSize: 40, color: MID, lineHeight: 1.06, margin: "0 0 28px" }}>Change Password</h1>
       <div style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, padding: "26px 26px 28px", marginBottom: 20 }}>
         {pwField("Old Password", "old")}
         {pwField("Password", "pw")}
@@ -602,7 +602,7 @@ function EdChangePassword({ onBack }) {
 function EdStat({ value, label, last }) {
   return (
     <div style={{ flex: 1, padding: "0 32px", borderRight: last ? "none" : "1px solid var(--line)" }}>
-      <div className="serif" style={{ fontSize: 36, color: MID, lineHeight: 1 }}>{value}</div>
+      <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{value}</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 8 }}>{label}</div>
     </div>
   );
@@ -727,7 +727,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
             <div className="ed-stats" style={{ display: "flex" }}>
               {LH.stats.map((s, i) => (
                 <div key={i} style={{ paddingLeft: i === 0 ? 0 : 24, paddingRight: i < 1 ? 24 : 0, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-                  <div className="serif" style={{ fontSize: 36, color: MID, lineHeight: 1 }}>{s.value}</div>
+                  <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
                   <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
                 </div>
               ))}
@@ -736,7 +736,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         </div>
 
         {/* Programs immediately below */}
-        <h2 className="serif" style={{ fontSize: 30, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}
@@ -768,7 +768,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
             const translatedLabel = t(labelMap[s.label] || s.label);
             return (
               <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-                <div className="serif" style={{ fontSize: 36, color: MID, lineHeight: 1 }}>{s.value}</div>
+                <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
                 <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{translatedLabel}</div>
               </div>
             );
@@ -782,14 +782,14 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: MID }}>Complete your profile</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: MID }}>Complete your profile</div>
             <div style={{ fontSize: 14, color: MUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} done — finish to unlock personalized insights</div>
           </div>
           <button onClick={() => onOpen("profile")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: MID, border: "1.5px solid " + MID, borderRadius: 10, padding: "10px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Continue setup <I.arrow size={16} /></button>
         </div>
 
         {/* Programs */}
-        <h2 className="serif" style={{ fontSize: 30, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}
@@ -814,13 +814,13 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         <div className="ed-stats" style={{ display: "flex", borderTop: "1px solid var(--line)", padding: "22px 0 0", marginBottom: 34 }}>
           {LH.stats.map((s, i) => (
             <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-              <div className="serif" style={{ fontSize: 36, color: MID, lineHeight: 1 }}>{s.value}</div>
+              <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
               <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
             </div>
           ))}
         </div>
 
-        <h2 className="serif" style={{ fontSize: 30, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <EdProgram key="timer-demo" p={LH.programs[0]} onOpen={onOpen} onSystemCheck={onSystemCheck} variant="summary" timer={{ seconds: 30 * 60, message: "Assessment window is closing" }} />
@@ -846,13 +846,13 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         <div className="ed-stats" style={{ display: "flex", borderTop: "1px solid var(--line)", padding: "22px 0 0", marginBottom: 34 }}>
           {LH.stats.map((s, i) => (
             <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-              <div className="serif" style={{ fontSize: 36, color: MID, lineHeight: 1 }}>{s.value}</div>
+              <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
               <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
             </div>
           ))}
         </div>
 
-        <h2 className="serif" style={{ fontSize: 30, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <EdProgram key="timer-demo" p={LH.programs[0]} onOpen={onOpen} onSystemCheck={onSystemCheck} variant="summary" timer={{ seconds: 30 * 60, message: "Assessment window is closing" }} timerPos="bottom" />
@@ -877,14 +877,14 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
       <div className="ed-stats" style={{ display: "flex", borderTop: "1px solid var(--line)", padding: "22px 0 0", marginBottom: 34 }}>
         {LH.stats.map((s, i) => (
           <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-            <div className="serif" style={{ fontSize: 36, color: MID, lineHeight: 1 }}>{s.value}</div>
+            <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
             <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
           </div>
         ))}
       </div>
 
       {/* Programs - NO profile card in between */}
-      <h2 className="serif" style={{ fontSize: 30, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+      <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
       <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
       <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
         {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}

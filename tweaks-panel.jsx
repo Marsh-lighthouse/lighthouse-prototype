@@ -70,7 +70,7 @@ const __TWEAKS_STYLE = `
     padding:10px 8px 10px 14px;cursor:move;user-select:none}
   .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
   .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
-    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:14px;line-height:1}
   .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
   .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
     overflow-y:auto;overflow-x:hidden;min-height:0;
@@ -155,7 +155,7 @@ const __TWEAKS_STYLE = `
   .twk-chip-name{display:flex;flex-direction:column;align-items:center;line-height:1.1;overflow:hidden}
   .twk-chip-name b{font-size:9.5px;font-weight:600;color:rgba(41,38,27,.74);
     max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .twk-chip-name i{font-size:9px;font-style:normal;color:rgba(41,38,27,.5);
+  .twk-chip-name i{font-size:10px;font-style:normal;color:rgba(41,38,27,.5);
     font-variant-numeric:tabular-nums;letter-spacing:.02em}
   .twk-chip{position:relative;appearance:none;width:100%;height:44px;
     padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;

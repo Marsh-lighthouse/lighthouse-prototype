@@ -170,7 +170,7 @@ function EdBookings() {
     const Row = ({ label, children }) => (
       <div style={{ display: "flex", gap: 14, padding: "13px 0", borderTop: "1px solid " + kLINE }}>
         <div style={{ flex: "0 0 96px", fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>{label}</div>
-        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>{children}</div>
+        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>{children}</div>
       </div>
     );
     return (
@@ -179,15 +179,15 @@ function EdBookings() {
           {/* hero */}
           <div style={{ textAlign: "center" }}>
             <div style={{ width: 60, height: 60, borderRadius: 30, background: kSUCCESSFILL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", color: "#fff" }}><I.check size={28} /></div>
-            <h1 className="serif" style={{ fontSize: 28, color: kINK, margin: "0 0 8px", lineHeight: 1.1 }}>You're all set</h1>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, margin: "0 auto 4px", maxWidth: 440, lineHeight: 1.5 }}>Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details.</p>
+            <h1 className="serif" style={{ fontSize: 32, color: kINK, margin: "0 0 8px", lineHeight: 1.1 }}>You're all set</h1>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kMUT, margin: "0 auto 4px", maxWidth: 440, lineHeight: 1.5 }}>Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details.</p>
           </div>
 
           {/* details summary panel */}
           <div style={{ marginTop: 28, borderRadius: 12, border: "1px solid " + kLINE, background: "transparent", padding: "6px 20px 8px" }}>
             <div style={{ display: "flex", gap: 14, padding: "13px 0" }}>
               <div style={{ flex: "0 0 96px", fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>Session</div>
-              <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 600 }}>{f.invite.title}</div>
+              <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 16, color: kINK, fontWeight: 600 }}>{f.invite.title}</div>
             </div>
             <Row label="When">
               Tuesday, August 0{f.date}, 2026<br />
@@ -232,11 +232,11 @@ function EdBookings() {
     return (
       <div style={wrap}>
         {/* ── heading + description live on the page (not trapped in a scrolling box) ── */}
-        <h1 className="serif" style={{ fontSize: 30, color: kINK, lineHeight: 1.12, margin: "0 0 10px" }}>{f.invite.title}</h1>
+        <h1 className="serif" style={{ fontSize: 32, color: kINK, lineHeight: 1.12, margin: "0 0 10px" }}>{f.invite.title}</h1>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, marginBottom: 14 }}>
           <I.clock size={16} /> {f.invite.dur} session
         </div>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, lineHeight: 1.65, margin: "0 0 6px", maxWidth: 720, ...(descOpen ? {} : { display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }) }}>{f.invite.desc}</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, lineHeight: 1.65, margin: "0 0 6px", maxWidth: 720, ...(descOpen ? {} : { display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }) }}>{f.invite.desc}</p>
         <BkMoreToggle open={descOpen} onClick={() => toggleCard("flowdesc")} />
 
         {/* ── the booking form ── */}
@@ -285,7 +285,7 @@ function EdBookings() {
               {!f.date &&
                 <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.5 }}>Select an available date to see open times.</div>}
               {f.date && !f.time && <React.Fragment>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 600, marginBottom: 14 }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, fontWeight: 600, marginBottom: 14 }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {BK_SLOTS.map((s) =>
                     <button key={s} onClick={() => set({ time: s })} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: kMID, background: kCARD, border: "1px solid " + kLINE, borderRadius: 10, padding: "12px", cursor: "pointer" }}>{s}</button>)}
@@ -294,12 +294,12 @@ function EdBookings() {
               {f.date && f.time && <React.Fragment>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
                   <button onClick={() => set({ time: null })} style={{ background: "none", border: "none", cursor: "pointer", color: kMUT, display: "flex", padding: 0 }}><I.chevL size={16} /></button>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug, <span style={{ fontWeight: 700 }}>{f.time}</span></span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug, <span style={{ fontWeight: 700 }}>{f.time}</span></span>
                 </div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, marginBottom: 12 }}>Do you have a language preference?</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, marginBottom: 12 }}>Do you have a language preference?</div>
                 <div style={{ display: "flex", gap: 22, marginBottom: 16 }}>
                   {["yes", "no"].map((v) =>
-                    <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>
+                    <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>
                       <input type="radio" name="bk-lang" checked={f.langPref === v} onChange={() => set({ langPref: v })} style={{ accentColor: kACCENT, width: 16, height: 16 }} />
                       {v === "yes" ? "Yes" : "No"}
                     </label>)}
@@ -358,7 +358,7 @@ function EdBookings() {
   const inviteEditorial = (iv) => (
     <Card key={iv.id} id={iv.id}
       head={<React.Fragment>
-        <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 8px", lineHeight: 1.15 }}>{iv.title}</h2>
+        <h2 className="serif" style={{ fontSize: 22, color: kINK, margin: "0 0 8px", lineHeight: 1.15 }}>{iv.title}</h2>
         {inviteMeta(iv)}
       </React.Fragment>}
       body={iv.desc}
@@ -371,7 +371,7 @@ function EdBookings() {
       <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, padding: "18px 22px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 className="serif" style={{ fontSize: 19, color: kINK, margin: "0 0 6px", lineHeight: 1.2 }}>{iv.title}</h2>
+            <h2 className="serif" style={{ fontSize: 20, color: kINK, margin: "0 0 6px", lineHeight: 1.2 }}>{iv.title}</h2>
             {inviteMeta(iv, 15)}
           </div>
           <BkBtn kind="primary" onClick={() => startBooking(iv)}>Book <I.arrow size={15} /></BkBtn>
@@ -387,7 +387,7 @@ function EdBookings() {
     return (
       <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, overflow: "hidden", display: "grid", gridTemplateColumns: "minmax(0,1fr) 190px" }}>
         <div style={{ padding: "22px 24px" }}>
-          <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{iv.title}</h2>
+          <h2 className="serif" style={{ fontSize: 22, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{iv.title}</h2>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: 0, ...(open ? {} : clamp) }}>{iv.desc}</p>
           <div style={{ marginTop: 8 }}><BkMoreToggle open={open} onClick={() => toggleCard(iv.id)} /></div>
         </div>
@@ -422,7 +422,7 @@ function EdBookings() {
   // Description is clamped to 3 lines (…); the full text lives one click deeper, on Book.
   const inviteGrid = (iv) => (
     <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, padding: "20px 22px", display: "flex", flexDirection: "column", height: "100%" }}>
-      <h2 className="serif" style={{ fontSize: 19, color: kINK, margin: "0 0 8px", lineHeight: 1.2 }}>{iv.title}</h2>
+      <h2 className="serif" style={{ fontSize: 20, color: kINK, margin: "0 0 8px", lineHeight: 1.2 }}>{iv.title}</h2>
       {inviteMeta(iv, 15)}
       <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: "12px 0 18px", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{iv.desc}</p>
       <div style={{ marginTop: "auto" }}>
@@ -442,7 +442,7 @@ function EdBookings() {
   return (
     <div style={wrap}>
       <h1 className="serif" style={{ fontSize: 40, color: kINK, lineHeight: 1.08, margin: "0 0 8px" }}>Bookings</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 560 }}>Review your invitations and book your assessment sessions.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 560 }}>Review your invitations and book your assessment sessions.</p>
       <div style={{ display: "flex", gap: 2, borderBottom: "1px solid " + kLINE, marginBottom: 30 }}>
         <Tab id="invites" label="Invites" count={invites.length} />
         <Tab id="bookings" label="Bookings" count={bookings.length} />
@@ -464,7 +464,7 @@ function EdBookings() {
             return (
             <Card key={bk.id} id={"b-" + bk.id}
               head={<React.Fragment>
-                <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{bk.title}</h2>
+                <h2 className="serif" style={{ fontSize: 22, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{bk.title}</h2>
                 <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16, fontFamily: "var(--sans)", fontSize: 14 }}>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kMUT, fontWeight: 600 }}><I.clock size={15} /> {durLabel}</span>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kINK }}><I.cal size={15} /> {bk.day}th August 2026 <b style={{ fontWeight: 700 }}>{bk.start}</b> - <b style={{ fontWeight: 700 }}>{bk.end}</b> <span style={{ color: kMUT }}>(GMT+2)</span></span>
@@ -524,15 +524,15 @@ function BkConfirmDialog({ f, end, onClose, onConfirm }) {
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: "0 0 20px" }}>Please confirm these details are correct before we finalize your session.</p>
         <div style={{ borderTop: "1px solid " + kLINE, textAlign: "left", padding: "18px 0 4px", display: "grid", gridTemplateColumns: "88px 1fr", rowGap: 16, columnGap: 12 }}>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>What</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 500 }}>{f.invite.title}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, fontWeight: 500 }}>{f.invite.title}</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>When</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>
             Tuesday, August 0{f.date}, 2026<br />
             <span style={{ fontWeight: 500 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} - {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
           </div>
           {f.langPref === "yes" && <React.Fragment>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>Language</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>{f.lang}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>{f.lang}</div>
           </React.Fragment>}
         </div>
         <div style={{ borderTop: "1px solid " + kLINE, marginTop: 18, paddingTop: 18, display: "flex", gap: 10, justifyContent: "flex-end" }}>
@@ -566,7 +566,7 @@ function BkEmpty({ msg }) {
   return (
     <div style={{ margin: 0, textAlign: "center", background: kCARD, border: "1px dashed " + kLINE, borderRadius: 14, padding: "56px 30px" }}>
       <div style={{ width: 52, height: 52, borderRadius: 26, background: kSKY, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: kACCENT }}><I.cal size={24} /></div>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, margin: 0, lineHeight: 1.5 }}>{msg}</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kMUT, margin: 0, lineHeight: 1.5 }}>{msg}</p>
     </div>
   );
 }

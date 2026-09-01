@@ -99,7 +99,7 @@
   function pill(text, tone) {
     var map = { blue: { bg: "rgba(11,75,255,.10)", fg: TEAL }, green: { bg: "rgba(20,133,61,.11)", fg: GREEN },
       amber: { bg: "rgba(255,191,0,.20)", fg: "#8A6400" }, grey: { bg: "rgba(0,15,71,.06)", fg: TM } }[tone || "grey"];
-    return React.createElement("span", { style: { display: "inline-block", padding: "2px 7px", borderRadius: 999, background: map.bg, color: map.fg, fontSize: 9, fontWeight: 700, whiteSpace: "nowrap" } }, text);
+    return React.createElement("span", { style: { display: "inline-block", padding: "2px 7px", borderRadius: 999, background: map.bg, color: map.fg, fontSize: 10, fontWeight: 700, whiteSpace: "nowrap" } }, text);
   }
   function avatar(initials, color, size) {
     var d = size || 19;
@@ -135,10 +135,10 @@
       React.createElement(Row, { i: 1, style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 10 } },
         avatar("LW", TEAL, 26),
         React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-          React.createElement("div", { style: { fontFamily: SERIF, fontSize: 15, color: NAVY, lineHeight: 1.1 } }, "Lukas Weber"),
+          React.createElement("div", { style: { fontFamily: SERIF, fontSize: 16, color: NAVY, lineHeight: 1.1 } }, "Lukas Weber"),
           React.createElement("div", { style: { fontFamily: SANS, fontSize: 8, color: TM, marginTop: 2 } }, "l.weber@tte.email · Generali DGE 2026")),
-        React.createElement("span", { style: { fontFamily: SANS, fontSize: 9, fontWeight: 600, color: NAVY, border: "1px solid " + BD, borderRadius: 6, padding: "5px 10px", background: "#fff" } }, "Evaluate"),
-        React.createElement("span", { style: { fontFamily: SANS, fontSize: 9, fontWeight: 700, color: "#fff", borderRadius: 6, padding: "5px 10px", background: NAVY } }, "Moderate scores")),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 10, fontWeight: 600, color: NAVY, border: "1px solid " + BD, borderRadius: 6, padding: "5px 10px", background: "#fff" } }, "Evaluate"),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 10, fontWeight: 700, color: "#fff", borderRadius: 6, padding: "5px 10px", background: NAVY } }, "Moderate scores")),
       React.createElement(Row, { i: 2 }, tabs(["Assessments", "Timeline", "Documents"], 0)),
       card(
         [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 10px", borderBottom: "1px solid " + BD, animationDelay: ".16s" } },
@@ -177,7 +177,7 @@
           React.createElement("div", { style: { fontFamily: SANS, fontSize: 9.5, fontWeight: 700, color: NAVY, marginBottom: 7 } }, "Your Response"),
           React.createElement("div", { style: { display: "flex", gap: 10, borderBottom: "1px solid " + BD, marginBottom: 9 } },
             [["1. Leadership", true], ["2. Strategy", false]].map(function (t, i) {
-              return React.createElement("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 4, paddingBottom: 6, borderBottom: "2px solid " + (i === 0 ? NAVY : "transparent"), marginBottom: -1, fontFamily: SANS, fontSize: 9, fontWeight: i === 0 ? 700 : 500, color: i === 0 ? NAVY : TM, whiteSpace: "nowrap" } },
+              return React.createElement("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 4, paddingBottom: 6, borderBottom: "2px solid " + (i === 0 ? NAVY : "transparent"), marginBottom: -1, fontFamily: SANS, fontSize: 10, fontWeight: i === 0 ? 700 : 500, color: i === 0 ? NAVY : TM, whiteSpace: "nowrap" } },
                 React.createElement("span", { style: { width: 9, height: 9, borderRadius: 999, background: t[1] ? GREEN : GOLD, flexShrink: 0 } }), t[0]);
             })),
           React.createElement("div", { style: { fontFamily: SANS, fontSize: 8, fontWeight: 700, color: TEAL } }, "ST1"),
@@ -221,17 +221,17 @@
           rows.map(function (r, i) {
             if (r.group) {
               return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", borderTop: "1px solid " + BD, background: "rgba(0,15,71,.035)", animationDelay: 0.16 + i * 0.045 + "s" } },
-                React.createElement("div", { style: { flex: 1, padding: "5px 8px", fontFamily: SANS, fontSize: 9, fontWeight: 700, color: NAVY } }, "⌄  " + r.group));
+                React.createElement("div", { style: { flex: 1, padding: "5px 8px", fontFamily: SANS, fontSize: 10, fontWeight: 700, color: NAVY } }, "⌄  " + r.group));
             }
             return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", borderTop: "1px solid " + BD, animationDelay: 0.16 + i * 0.045 + "s" } },
               React.createElement("div", { style: { flex: col[0], padding: "5px 8px", display: "flex", gap: 5, alignItems: "center", minWidth: 0 } },
                 React.createElement("span", { style: { fontFamily: SANS, fontSize: 8, fontWeight: 700, color: TEAL, flexShrink: 0 } }, r.code),
-                React.createElement("span", { style: { fontFamily: SANS, fontSize: 9, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r.name)),
+                React.createElement("span", { style: { fontFamily: SANS, fontSize: 10, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r.name)),
               r.v.map(function (v, k) {
-                return React.createElement("div", { key: k, style: { flex: col[k + 1], padding: "5px 3px", textAlign: "center", fontFamily: SANS, fontSize: 9, fontWeight: k === 3 ? 700 : 500, color: r.hot ? RED : TX, whiteSpace: "nowrap" } }, v);
+                return React.createElement("div", { key: k, style: { flex: col[k + 1], padding: "5px 3px", textAlign: "center", fontFamily: SANS, fontSize: 10, fontWeight: k === 3 ? 700 : 500, color: r.hot ? RED : TX, whiteSpace: "nowrap" } }, v);
               }),
               React.createElement("div", { style: { flex: col[5], padding: "3px 5px", display: "flex", justifyContent: "center" } },
-                React.createElement("span", { style: { minWidth: 28, padding: "3px 5px", borderRadius: 5, border: "1px solid " + (r.hot ? TEAL : BD), background: r.hot ? "rgba(11,75,255,.08)" : "#fff", fontFamily: SANS, fontSize: 9, fontWeight: 700, color: NAVY, textAlign: "center" } }, r.fin)));
+                React.createElement("span", { style: { minWidth: 28, padding: "3px 5px", borderRadius: 5, border: "1px solid " + (r.hot ? TEAL : BD), background: r.hot ? "rgba(11,75,255,.08)" : "#fff", fontFamily: SANS, fontSize: 10, fontWeight: 700, color: NAVY, textAlign: "center" } }, r.fin)));
           })
         ])),
       React.createElement(Row, { i: 6, style: { display: "flex", justifyContent: "flex-end", gap: 6, padding: "7px 12px", borderTop: "1px solid " + BD, background: "rgba(0,15,71,.02)" } },
@@ -249,13 +249,13 @@
       ["Timezone", "Asia/Kolkata"], ["Seats booked", "2"], ["Seats remaining", "88"]];
     var subs = [["TI", "TI user", "6/6", "1/3", "On Time", "green", TEAL], ["RG", "RG user", "6/6", "1/3", "No Status", "grey", RED]];
     return React.createElement("div", { style: { padding: "12px 14px", position: "relative" } },
-      React.createElement(Row, { i: 0, style: { fontFamily: SERIF, fontSize: 15, color: NAVY, marginBottom: 8 } }, "16th Sep 2025, 4:30 pm"),
+      React.createElement(Row, { i: 0, style: { fontFamily: SERIF, fontSize: 16, color: NAVY, marginBottom: 8 } }, "16th Sep 2025, 4:30 pm"),
       React.createElement(Row, { i: 1, style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: BD, border: "1px solid " + BD, borderRadius: 8, overflow: "hidden", marginBottom: 9 } },
         cells.map(function (c, i) {
           return React.createElement("div", { key: i, style: { background: "#fff", padding: "6px 8px" } },
             React.createElement("div", { style: { fontFamily: SANS, fontSize: 7.5, color: TM } }, c[0]),
             i === 2 ? React.createElement("div", { style: { marginTop: 3 } }, pill("Open", "green"))
-              : React.createElement("div", { style: { fontFamily: SANS, fontSize: 9, fontWeight: 700, color: NAVY, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c[1]));
+              : React.createElement("div", { style: { fontFamily: SANS, fontSize: 10, fontWeight: 700, color: NAVY, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c[1]));
         })),
       React.createElement(Row, { i: 2, style: { marginBottom: 7 } }, tabs(["Subjects", "Resources", "Activities", "Recordings"], 0)),
       card(
@@ -267,8 +267,8 @@
           return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "7px 9px", borderBottom: i === subs.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.2 + i * 0.05 + "s" } },
             React.createElement("span", { style: { flex: 2, display: "flex", alignItems: "center", gap: 6, minWidth: 0 } }, avatar(s[0], s[6], 17),
               React.createElement("span", { style: { fontFamily: SANS, fontSize: 9.5, fontWeight: 600, color: TX } }, s[1])),
-            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 9, color: TX } }, s[2]),
-            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 9, color: TX } }, s[3]),
+            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 10, color: TX } }, s[2]),
+            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 10, color: TX } }, s[3]),
             React.createElement("span", { style: { flex: 1, display: "flex", justifyContent: "center" } }, pill(s[4], s[5])));
         }))
       ),
@@ -331,7 +331,7 @@
       // No dot slider, no play/pause button — the screen just animates, and its name is
       // the indicator. The caption announces politely so it isn't silent to a screen reader.
       React.createElement("div", { "aria-live": "polite", style: { marginTop: 14 } },
-        React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 13, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
+        React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 14, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
           React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY, fontSize: 14 } }, s.label), " — ", s.note))
     );
   }
@@ -343,7 +343,7 @@
       p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 8, background: dark ? "rgba(255,255,255,.14)" : "color-mix(in srgb, #002C77 15%, #ffffff)", color: dark ? "#fff" : "#002C77", border: dark ? "none" : "1px solid #002C77", boxSizing: "border-box", fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: ".04em", textTransform: "uppercase" } },
         React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : "#002C77", display: "inline-block" } }), "New experience"),
       React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "One flow, from first review to final sign-off."),
-      React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 470 } },
+      React.createElement("p", { style: { fontFamily: SANS, fontSize: 16, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 470 } },
         "Candidate, evaluation, moderation and the assessment centre now work as one connected view — not five screens you hold together yourself."),
       React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, margin: "16px 0 0" } },
         // Each bullet is a bold lead, an em dash, then muted detail.
@@ -367,9 +367,9 @@
     return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginTop: p.mt === undefined ? 32 : p.mt } },
       React.createElement("div", { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" } },
         React.createElement("button", { className: "ne-ghost", onClick: p.later,
-          style: { padding: "13px 20px", borderRadius: 2, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
+          style: { padding: "13px 20px", borderRadius: 2, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 16, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
         React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
-          style: { padding: "13px 24px", borderRadius: 2, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
+          style: { padding: "13px 24px", borderRadius: 2, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 16, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
           "Try new experience",
           React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
             React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))),

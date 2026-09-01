@@ -64,7 +64,7 @@ function EdAssessIntro({ exercise, onExit, onBegin }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <EdEyebrow color={"var(--primary)"}>Open task</EdEyebrow>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>{title}</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 560 }}>This task includes {total} questions across different formats. Take your time — there are no time limits.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 560 }}>This task includes {total} questions across different formats. Take your time — there are no time limits.</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
         {[{ ic: "fileText", t: `${total} questions`, d: "MCQ, text, ranking, matrix, file upload, audio" },
         { ic: "clock", t: "~15 minutes", d: "No time limit — go at your own pace" },
@@ -102,7 +102,7 @@ function EdPrivacyNotice({ onClose }) {
           <button onClick={onClose} aria-label="Close" style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
         </div>
         <div style={{ overflowY: "auto", padding: "28px 32px" }}>
-          <h1 className="serif" style={{ fontSize: 30, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>Marsh Talent Enterprise Privacy Notice</h1>
+          <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>Marsh Talent Enterprise Privacy Notice</h1>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginBottom: 22 }}>Effective Date: 15 September 2024</div>
           <P>This Privacy Notice describes how Marsh Talent Enterprise (“MTE”) collects, uses, shares, retains, transfers and otherwise processes information relating to identified or identifiable individuals (Personal Information), and the rights you may have regarding your Personal Information.</P>
           <P>MTE is a provider of behavioural science assessment solutions and, in some instances, acts on behalf of and under the instructions of clients, financial institutions, merchants, and other partners who act as data controllers.</P>
@@ -134,19 +134,19 @@ function EdConsent({ exercise, onAccept, onExit }) {
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.4, color: eBLUE, marginBottom: 12 }}>MARSH · CONFIDENTIAL</div>
-      <h1 className="serif" style={{ fontSize: 38, color: eMID, lineHeight: 1.08, margin: "0 0 8px", maxWidth: 640 }}>Consent to Process and Transfer Personal Information</h1>
+      <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px", maxWidth: 640 }}>Consent to Process and Transfer Personal Information</h1>
       <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginBottom: 24 }}>Version 4.0 · Updated on May 29, 2025</div>
       <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "30px 32px" }}>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.65, margin: "0 0 16px" }}>In order to ensure your meaningful participation in this activity, some of your personal information will be collected and processed. The activity is being administered by Marsh Talent Enterprise on behalf of and at the instruction of our client, who determines the purpose for processing your personal information and how we may use it.</p>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.65, margin: "0 0 16px" }}>Please note that your information may be transferred across national borders as part of the Services provided to our clients. In such an instance, we act as the Data Importer and our client acts as the Data Exporter. Any international transfer of personal information will be conducted in accordance with applicable data protection laws.</p>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.65, margin: "0 0 24px" }}>For more information about how we process your personal information, please <span onClick={() => setShowPrivacy(true)} style={{ color: eBLUE, fontWeight: 600, cursor: "pointer", textDecoration: "underline" }}>read our global privacy notice</span>.</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.65, margin: "0 0 16px" }}>In order to ensure your meaningful participation in this activity, some of your personal information will be collected and processed. The activity is being administered by Marsh Talent Enterprise on behalf of and at the instruction of our client, who determines the purpose for processing your personal information and how we may use it.</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.65, margin: "0 0 16px" }}>Please note that your information may be transferred across national borders as part of the Services provided to our clients. In such an instance, we act as the Data Importer and our client acts as the Data Exporter. Any international transfer of personal information will be conducted in accordance with applicable data protection laws.</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.65, margin: "0 0 24px" }}>For more information about how we process your personal information, please <span onClick={() => setShowPrivacy(true)} style={{ color: eBLUE, fontWeight: 600, cursor: "pointer", textDecoration: "underline" }}>read our global privacy notice</span>.</p>
         <label htmlFor="ed-consent-box" style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer", background: eCREAM, border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 24 }}>
           <input id="ed-consent-box" type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} style={{ position: "absolute", opacity: 0, width: 1, height: 1 }} />
           <span style={{ width: 22, height: 22, flexShrink: 0, borderRadius: 2, border: "1.5px solid " + (agreed ? "var(--primary)" : "var(--control-line)"), background: agreed ? "var(--primary)" : "var(--card)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", marginTop: 1, transition: "background .12s, border-color .12s" }}>{agreed && <I.check size={14} />}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, lineHeight: 1.5 }}>By checking this box, you agree that you have read our privacy notice and consent to the collection and processing of your personal information as described therein, including the international transfer of your personal information.</span>
         </label>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <button onClick={agreed ? onAccept : undefined} disabled={!agreed} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: agreed ? eGOLD : "var(--track)", color: agreed ? "var(--action-text)" : eMUT, border: "none", borderRadius: 10, padding: "13px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: agreed ? "pointer" : "not-allowed", transition: "background .12s" }}>Accept &amp; continue <I.arrow size={16} /></button>
+          <button onClick={agreed ? onAccept : undefined} disabled={!agreed} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: agreed ? eGOLD : "var(--track)", color: agreed ? "var(--action-text)" : eMUT, border: "none", borderRadius: 10, padding: "13px 26px", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: agreed ? "pointer" : "not-allowed", transition: "background .12s" }}>Accept &amp; continue <I.arrow size={16} /></button>
         </div>
       </div>
       {showPrivacy && <EdPrivacyNotice onClose={() => setShowPrivacy(false)} />}
@@ -337,7 +337,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
             so headers never touch; the circles centre within the same columns. */}
         <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.cols.length}, 88px)`, columnGap: 10, marginBottom: 8, padding: "0 15px" }}>
           <div />
-          {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, whiteSpace: "nowrap" }}>{col}</div>)}
+          {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, whiteSpace: "nowrap" }}>{col}</div>)}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {q.rows.map((row, ri) => {
@@ -587,7 +587,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                         </button>
                       );
                     })}
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginLeft: 4 }}>{rating || "–"}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginLeft: 4 }}>{rating || "–"}</span>
                   </div>
                 </div>
               );
@@ -741,7 +741,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
           <div ref={factorRef} style={{ position: "relative" }}>
             <div onClick={() => setFactorOpen((v) => !v)} style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "10px 40px 10px 12px", border: "1px solid " + (factorOpen ? eBLUE : eLINE), borderRadius: 12, background: eCARD, minHeight: 46, cursor: "pointer", position: "relative" }}>
               {sel.length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Select factors…</span>}
-              {sel.map((o) => <span key={o} onClick={(e) => { e.stopPropagation(); remove(o); }} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eMID, border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", borderRadius: 7, padding: "4px 9px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>{o} <span style={{ cursor: "pointer", color: eMUT, fontSize: 15, lineHeight: 1 }}>×</span></span>)}
+              {sel.map((o) => <span key={o} onClick={(e) => { e.stopPropagation(); remove(o); }} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eMID, border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", borderRadius: 7, padding: "4px 9px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>{o} <span style={{ cursor: "pointer", color: eMUT, fontSize: 16, lineHeight: 1 }}>×</span></span>)}
               <span style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%) " + (factorOpen ? "rotate(180deg)" : ""), color: eMUT, display: "flex", transition: "transform .15s" }}><I.chevD size={16} /></span>
             </div>
             {factorOpen &&
@@ -898,7 +898,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
           <div>
             <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.scale.length}, 38px) 30px repeat(3, 40px)`, alignItems: "center", marginBottom: 6, paddingLeft: 4, columnGap: 8 }}>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT }}>Categories</span>
-              {q.scale.map((e, i) => <span key={i} style={{ textAlign: "center", fontSize: 19 }}>{e}</span>)}
+              {q.scale.map((e, i) => <span key={i} style={{ textAlign: "center", fontSize: 20 }}>{e}</span>)}
               <span></span>
               <span style={{ gridColumn: "span 3", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, textAlign: "center" }}>Tell Us Why</span>
             </div>
@@ -965,7 +965,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
           // then tap a group; tap a placed item to send it back to the pool.
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: pickSel ? eBLUE : eMUT, marginBottom: 8 }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: pickSel ? eBLUE : eMUT, marginBottom: 8 }}>
                 {pool.length === 0 ? "All items placed" : pickSel ? "Now tap a group to place “" + pickSel + "”" : "Tap an item, then tap a group"}
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -979,7 +979,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
                   <span>{g}</span>{armed && <span style={{ fontSize: 12, fontWeight: 600, color: eBLUE }}>Tap to place</span>}
                 </div>
                 <div style={{ minHeight: 48, padding: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {(v[gi] || []).map((it) => <button key={it} onClick={(e) => { e.stopPropagation(); moveTo(it, null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 8px 7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 14, color: eMID, cursor: "pointer" }}>{it} <span style={{ color: eMUT, fontSize: 15, lineHeight: 1 }}>&times;</span></button>)}
+                  {(v[gi] || []).map((it) => <button key={it} onClick={(e) => { e.stopPropagation(); moveTo(it, null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 8px 7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 14, color: eMID, cursor: "pointer" }}>{it} <span style={{ color: eMUT, fontSize: 16, lineHeight: 1 }}>&times;</span></button>)}
                   {(v[gi] || []).length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, alignSelf: "center" }}>{armed ? "Tap to place here" : "No items yet"}</span>}
                 </div>
               </div>); })}
@@ -1047,7 +1047,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
       {q.type === "video" && (value ?
         <div style={{ textAlign: "center", padding: 24, background: eCARD, border: "1px solid " + eLINE, borderRadius: 14 }}>
           <div style={{ width: 60, height: 60, borderRadius: 30, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.check size={26} /></div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>Video recorded</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>Video recorded</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 4 }}>{recTime}s captured</div>
           <button onClick={() => { onChange(undefined); setRecTime(0); }} style={{ marginTop: 14, padding: "9px 18px", borderRadius: 9, border: "1px solid rgba(197,53,50,.3)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Re-record</button>
         </div> :
@@ -1235,7 +1235,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
           <React.Fragment>
             <div className="oa-upnext" style={{ textAlign: "left", background: "color-mix(in srgb, var(--accent) 5%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 18%, transparent)", borderRadius: 14, padding: "16px 18px", marginBottom: 16 }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.3, color: eBLUE, marginBottom: 6 }}>Up next</div>
-              <div className="serif" style={{ fontSize: 19, color: eMID, lineHeight: 1.2, marginBottom: 5 }}>{nextEx.name}</div>
+              <div className="serif" style={{ fontSize: 20, color: eMID, lineHeight: 1.2, marginBottom: 5 }}>{nextEx.name}</div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, margin: 0 }}>{nextEx.desc}</p>
               {nextEx.time && nextEx.time !== "\u2014" && <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 10, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}><I.clock size={13} /> {nextEx.time}</div>}
             </div>
@@ -1259,7 +1259,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
         <div style={{ flexShrink: 0, background: "var(--card)", borderBottom: "1px solid " + eLINE, padding: "10px 28px" }}>
           <div className="oa-headrow" style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button onClick={() => { if (qIdx > 0) setQIdx(qIdx - 1); else (onBack || onExit)(); }} className="oa-back" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, padding: 4, display: "flex", flexShrink: 0 }}><I.arrowL size={18} /></button>
-            <h1 className="serif oa-headtitle" style={{ fontSize: 19, color: eMID, lineHeight: 1.1, margin: 0, marginRight: "auto" }}>{title}</h1>
+            <h1 className="serif oa-headtitle" style={{ fontSize: 20, color: eMID, lineHeight: 1.1, margin: 0, marginRight: "auto" }}>{title}</h1>
             <div className="oa-timers" style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <OaCountdown end={taskEnd} label="This task" danger compact />
               <OaCountdown end={campaignEnd} label="Program" compact />
@@ -1279,7 +1279,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
           {/* LEFT: question prompt */}
           <div className="oa-split-q" ref={splitQRef} style={{ width: "42%", flexShrink: 0, overflowY: "auto", background: "var(--card)", borderRight: "1px solid " + eLINE, padding: "48px 52px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
             <div style={{ maxWidth: 560, width: "100%", margin: 0, textAlign: "left" }}>
-              <h2 className="serif" style={{ fontSize: 30, color: eMID, lineHeight: 1.16, margin: 0 }}>{curQ.prompt}</h2>
+              <h2 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.16, margin: 0 }}>{curQ.prompt}</h2>
             </div>
           </div>
           {/* RIGHT: answer area */}
@@ -1312,7 +1312,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
       <div style={{ flexShrink: 0, background: "var(--card)", borderBottom: "1px solid " + eLINE, padding: "10px 28px" }}>
         <div className="oa-headrow" style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <button onClick={() => { if (page > 0) setPage(page - 1); else (onBack || onExit)(); }} className="oa-back" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, padding: 4, display: "flex", flexShrink: 0 }}><I.arrowL size={18} /></button>
-          <h1 className="serif oa-headtitle" style={{ fontSize: 19, color: eMID, lineHeight: 1.1, margin: 0, marginRight: "auto" }}>{title}</h1>
+          <h1 className="serif oa-headtitle" style={{ fontSize: 20, color: eMID, lineHeight: 1.1, margin: 0, marginRight: "auto" }}>{title}</h1>
           <div className="oa-timers" style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <OaCountdown end={taskEnd} label="This task" danger compact />
             <OaCountdown end={campaignEnd} label="Program" compact />

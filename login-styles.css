@@ -46,7 +46,7 @@ html[data-login-style="cinematic"] .lg-sub,
 html[data-login-style="midnight"] .lg-sub { margin-bottom: 28px; }
 html[data-login-style="spotlight"] .lg-title,
 html[data-login-style="cinematic"] .lg-title,
-html[data-login-style="midnight"] .lg-title { font-size: 36px; }
+html[data-login-style="midnight"] .lg-title { font-size: 32px; }
 html[data-login-style="spotlight"] .lg-form-center,
 html[data-login-style="cinematic"] .lg-form-center,
 html[data-login-style="midnight"] .lg-form-center { flex: none; display: block; }
@@ -349,7 +349,7 @@ html[data-login-style="showcase"] .lg-video { display: none; }
 
 /* Login page only: Mintlify-style form (email · continue · OR · Google) */
 html[data-login-style="showcase"] .lg-split[data-screen-label="Login"] .lg-form-box { display: flex; flex-direction: column; align-items: stretch; }
-html[data-login-style="showcase"] .lg-split[data-screen-label="Login"] .lg-title { order: 1; font-size: 34px; }
+html[data-login-style="showcase"] .lg-split[data-screen-label="Login"] .lg-title { order: 1; font-size: 32px; }
 html[data-login-style="showcase"] .lg-split[data-screen-label="Login"] .lg-sub { display: none; }
 html[data-login-style="showcase"] .lg-split[data-screen-label="Login"] .lg-signup { order: 2; text-align: center; margin: 26px 0 34px; }
 html[data-login-style="showcase"] .lg-split[data-screen-label="Login"] #lg-signup::after { content: " →"; }
@@ -391,12 +391,12 @@ html[data-login-style="showcase"] .lg-desk {
 .lg-ph-iconbtn { width: 34px; height: 34px; border-radius: 10px; background: #FFFFFF; border: 1px solid rgba(0,15,71,.08); display: flex; align-items: center; justify-content: center; color: #000F47; }
 .lg-ph-body { padding: 18px 22px 0; overflow: hidden; }
 .lg-ph-eyebrow { font-size: 14px; font-weight: 700; color: var(--accent); margin: 0 0 10px; }
-.lg-ph-greet { font-family: var(--heading-family, var(--serif)); font-weight: var(--heading-weight, 400); letter-spacing: -0.01em; font-size: 30px; line-height: 1.12; color: #000F47; margin: 0 0 10px; }
+.lg-ph-greet { font-family: var(--heading-family, var(--serif)); font-weight: var(--heading-weight, 400); letter-spacing: -0.01em; font-size: 32px; line-height: 1.12; color: #000F47; margin: 0 0 10px; }
 .lg-ph-intro { font-size: 14px; line-height: 1.55; color: var(--muted); margin: 0 0 16px; }
 .lg-ph-stats { display: flex; border-top: 1px solid rgba(0,15,71,.10); padding-top: 14px; }
 .lg-ph-stats > div { flex: 1; padding: 0 10px; border-left: 1px solid rgba(0,15,71,.10); }
 .lg-ph-stats > div:first-child { padding-left: 0; border-left: none; }
-.lg-ph-num { font-family: var(--heading-family, var(--serif)); font-weight: var(--heading-weight, 400); font-size: 26px; color: #000F47; line-height: 1; margin: 0 0 6px; }
+.lg-ph-num { font-family: var(--heading-family, var(--serif)); font-weight: var(--heading-weight, 400); font-size: 24px; color: #000F47; line-height: 1; margin: 0 0 6px; }
 .lg-ph-lbl { font-size: 14px; line-height: 1.35; color: var(--muted); margin: 0; }
 .lg-ph-card { margin: 18px 22px; background: #FFFFFF; border: 1px solid rgba(0,15,71,.08); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 13px; }
 .lg-ph-ring { width: 44px; height: 44px; flex: none; border-radius: 50%; background: conic-gradient(var(--accent) 0 30%, #E3EAF6 30% 100%); display: flex; align-items: center; justify-content: center; }
@@ -481,7 +481,7 @@ html[data-login-style="celestial"] .lg-footer a:hover { color: #FFFFFF; }
 html[data-login-style="celestial"] .lg-form-center { flex: none; display: block; }
 html[data-login-style="celestial"] .lg-logo { display: none; }
 html[data-login-style="celestial"] .lg-logo--white { display: block; height: 26px; margin-bottom: 30px; }
-html[data-login-style="celestial"] .lg-title { font-size: 36px; color: #FFFFFF; }
+html[data-login-style="celestial"] .lg-title { font-size: 32px; color: #FFFFFF; }
 html[data-login-style="celestial"] .lg-sub { margin-bottom: 28px; color: rgba(206, 236, 255, .78); }
 html[data-login-style="celestial"] .lg-label { color: #CEECFF; }
 html[data-login-style="celestial"] .lg-input { background: rgba(255, 255, 255, .07); border-color: rgba(206, 236, 255, .28); color: #FFFFFF; }

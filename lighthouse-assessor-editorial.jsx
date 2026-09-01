@@ -67,7 +67,7 @@ function AssessorEditorial() {
     .link:hover{text-decoration:underline}
     .eyebrow{font-size:14px;font-weight:700;letter-spacing:0;text-transform:none;color:${tm}}
     .display{font-family:${serif};font-size:40px;font-weight:700;letter-spacing:-.02em;line-height:1.04;color:${navy}}
-    .h1{font-family:${serif};font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1;color:${navy}}
+    .h1{font-family:${serif};font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.1;color:${navy}}
     .h2{font-family:${serif};font-size:20px;font-weight:700;letter-spacing:-.01em;color:${navy}}
     .h3{font-size:14px;font-weight:700;color:${tx}}
     .tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:14px;font-weight:600;letter-spacing:0;border-radius:3px}
@@ -707,7 +707,7 @@ function AssessorEditorial() {
               : <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>}
           </div>
         </div>
-        <div className="serif" style={{fontSize:27,fontWeight:400,color:navy,letterSpacing:-.4,marginBottom:12}}>{title}</div>
+        <div className="serif" style={{fontSize:24,fontWeight:400,color:navy,letterSpacing:-.4,marginBottom:12}}>{title}</div>
         <div style={{fontSize:14,color:tm,maxWidth:460,lineHeight:1.65,marginBottom:30}}>{body}</div>
         <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center"}}>
           <button onClick={onPrimary} className="btn btn-primary">{primaryLabel}</button>
@@ -769,7 +769,7 @@ function AssessorEditorial() {
             <div style={{display:"flex",alignItems:"center",gap:6,padding:"6px 9px",background:bg,border:`1px solid ${bd}`,borderRadius:6}}>
               <I.Search s={13} style={{color:tm}}/>
               <input autoFocus value={dashQ} onChange={e=>setDashQ(e.target.value)} onClick={e=>e.stopPropagation()} placeholder="Search candidate…" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:tx,fontWeight:500}}/>
-              {dashQ && <button onClick={(e)=>{e.stopPropagation();setDashQ("");}} style={{color:tm,fontSize:15,lineHeight:1,fontWeight:600}}>×</button>}
+              {dashQ && <button onClick={(e)=>{e.stopPropagation();setDashQ("");}} style={{color:tm,fontSize:16,lineHeight:1,fontWeight:600}}>×</button>}
             </div>
           </div>
         )}
@@ -804,7 +804,7 @@ function AssessorEditorial() {
         <div style={{display:"none",gridTemplateColumns:isNarrow?"1fr 1fr":"repeat(4,1fr)",gap:24,padding:"28px 0 0",borderTop:`1px solid ${bd}`,marginBottom:36}}>
           {kpis.map((k,i) => (
             <div key={i}>
-              <div className="serif" style={{fontSize:34,fontWeight:400,color:k.c,lineHeight:1,marginBottom:10}}>{k.v}</div>
+              <div className="serif" style={{fontSize:32,fontWeight:400,color:k.c,lineHeight:1,marginBottom:10}}>{k.v}</div>
               <div style={{fontSize:14,fontWeight:700,color:tx,marginBottom:2}}>{k.l}</div>
               <div style={{fontSize:14,color:tm}}>{k.sub}</div>
             </div>
@@ -981,7 +981,7 @@ function AssessorEditorial() {
         <div style={{display:"flex",alignItems:"flex-end",gap:24,flexWrap:"wrap",marginBottom:28}}>
           <div style={{flex:1,minWidth:280}}>
             <p className="eyebrow" style={{marginBottom:10,color:navy}}>Campaign · {cp.id}</p>
-            <h1 className="display" style={{fontSize:36,marginBottom:6}}>{cp.project}</h1>
+            <h1 className="display" style={{fontSize:32,marginBottom:6}}>{cp.project}</h1>
             <p style={{fontSize:14,color:ts,lineHeight:1.55,maxWidth:640}}>{cp.subtitle} · {cp.client} · {cp.window}</p>
           </div>
         </div>
@@ -996,7 +996,7 @@ function AssessorEditorial() {
             { l:"Completed", v:modDone, sub:"signed off", c:green },
           ].map((k,i) => (
             <div key={i}>
-              <div className="serif" style={{fontSize:38,fontWeight:400,color:k.c||navy,lineHeight:1,letterSpacing:-1.2,marginBottom:6}}>{k.v}</div>
+              <div className="serif" style={{fontSize:40,fontWeight:400,color:k.c||navy,lineHeight:1,letterSpacing:-1.2,marginBottom:6}}>{k.v}</div>
               <div style={{fontSize:14,fontWeight:600,color:tx,marginBottom:2}}>{k.l}</div>
               <div style={{fontSize:14,color:tm}}>{k.sub}</div>
             </div>
@@ -1024,7 +1024,7 @@ function AssessorEditorial() {
                   <div style={{display:"flex",alignItems:"center",gap:6,padding:"6px 9px",background:bg,border:`1px solid ${bd}`,borderRadius:6}}>
                     <I.Search s={13} style={{color:tm}}/>
                     <input autoFocus value={cdQ} onChange={e=>setCdQ(e.target.value)} onClick={e=>e.stopPropagation()} placeholder="Search candidate…" style={{border:"none",outline:"none",flex:1,fontSize:14,background:"transparent",color:tx,fontWeight:500}}/>
-                    {cdQ && <button onClick={(e)=>{e.stopPropagation();setCdQ("");}} style={{color:tm,fontSize:15,lineHeight:1,fontWeight:600}}>×</button>}
+                    {cdQ && <button onClick={(e)=>{e.stopPropagation();setCdQ("");}} style={{color:tm,fontSize:16,lineHeight:1,fontWeight:600}}>×</button>}
                   </div>
                 </div>)}
               </th>
@@ -1108,7 +1108,7 @@ function AssessorEditorial() {
         <div style={{display:"flex",alignItems:"flex-start",gap:24,marginBottom:28,flexWrap:"wrap"}}>
           <div style={{width:72,height:72,borderRadius:36,background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
           <div style={{flex:1,minWidth:280}}>
-            <h1 className="display" style={{fontSize:36,marginBottom:6}}>{c.name}</h1>
+            <h1 className="display" style={{fontSize:32,marginBottom:6}}>{c.name}</h1>
             <div style={{fontSize:14,color:ts}}>{c.email}</div>
           </div>
           <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
@@ -1502,7 +1502,7 @@ function AssessorEditorial() {
         {/* Header strip — evaluating + progress (immersive, full-width) */}
         <div style={{padding:"14px 32px",borderBottom:`1px solid ${bd}`,background:bg,flexShrink:0,display:"flex",alignItems:"center",gap:24,flexWrap:"wrap"}}>
           <div style={{flex:1,minWidth:200}}>
-            <div style={{fontSize:22,fontWeight:700,fontFamily:serif,color:navy}}>{c.name} <span style={{color:tm,fontSize:15,marginLeft:6}}>· {c.email}</span></div>
+            <div style={{fontSize:22,fontWeight:700,fontFamily:serif,color:navy}}>{c.name} <span style={{color:tm,fontSize:16,marginLeft:6}}>· {c.email}</span></div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:14}}>
             <div>
@@ -1519,7 +1519,7 @@ function AssessorEditorial() {
           {/* ══ LEFT: participant response (READ ONLY) ══ */}
           <div style={{width:`${evalSplit}%`,display:"flex",flexDirection:"column",minWidth:0,background:bg}}>
             <div style={{padding:"16px 28px 0",flexShrink:0}}>
-              <div style={{fontSize:15,fontWeight:700,color:navy,marginBottom:12}}>Assessor Brief</div>
+              <div style={{fontSize:16,fontWeight:700,color:navy,marginBottom:12}}>Assessor Brief</div>
               <TabScroller fade={bg} gap={24}>
                 <button onClick={()=>setEvalLeftTab("overview")} style={{padding:"6px 0 12px",fontSize:14,fontWeight:evalLeftTab==="overview"?700:500,color:evalLeftTab==="overview"?navy:tm,borderBottom:`2px solid ${evalLeftTab==="overview"?navy:"transparent"}`,marginBottom:-1,whiteSpace:"nowrap",flexShrink:0}}>Overview</button>
                 {participantForms.map((pf,i) => {
@@ -1593,7 +1593,7 @@ function AssessorEditorial() {
           {/* ══ RIGHT: your response (EDITABLE) ══ */}
           <div style={{width:`${100-evalSplit}%`,display:"flex",flexDirection:"column",minWidth:0,background:card}}>
             <div style={{padding:"16px 28px 0",flexShrink:0}}>
-              <div style={{fontSize:15,fontWeight:700,color:navy,marginBottom:12}}>Your Response</div>
+              <div style={{fontSize:16,fontWeight:700,color:navy,marginBottom:12}}>Your Response</div>
               <TabScroller fade={card} gap={22}>
                 {evalForms.map((ff,i) => {
                   const active = evalRightTab === i;
@@ -1613,7 +1613,7 @@ function AssessorEditorial() {
               {rf && (
                 <div>
                   <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:22}}>
-                    <div style={{fontSize:15,fontWeight:700,color:navy,flex:1,minWidth:0}} className="elide">{typeof evalRightTab==="number"?evalRightTab+1:""}. {rf.name.replace(/^Generali — /,"")}</div>
+                    <div style={{fontSize:16,fontWeight:700,color:navy,flex:1,minWidth:0}} className="elide">{typeof evalRightTab==="number"?evalRightTab+1:""}. {rf.name.replace(/^Generali — /,"")}</div>
                     <ProgressBar pct={submitted ? 1 : rProgress}/>
                   </div>
 
@@ -1621,7 +1621,7 @@ function AssessorEditorial() {
                   {submitted && !showingScores && (
                     <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",padding:"36px 0"}}>
                       <div style={{width:74,height:74,borderRadius:37,background:green,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:22}}><I.Check s={38} style={{color:"#fff",stroke:"#fff"}}/></div>
-                      <h2 style={{fontSize:26,fontWeight:700,fontFamily:serif,color:navy,marginBottom:8}}>Thank you for your time.</h2>
+                      <h2 style={{fontSize:24,fontWeight:700,fontFamily:serif,color:navy,marginBottom:8}}>Thank you for your time.</h2>
                       <p style={{fontSize:14,color:tm,marginBottom:26}}>Your responses have now been recorded.</p>
                       <div style={{display:"flex",gap:12}}>
                         <button onClick={()=>setViewScores(prev=>new Set(prev).add(rf.id))} className="btn btn-primary">View Assessment</button>
@@ -2689,7 +2689,7 @@ function AssessorEditorial() {
           {[["Target role",p.targetRole],["Current role",p.currentRole],["Target level",p.targetLevel]].map(([k,v]) => (
             <div key={k}>
               <div style={{fontSize:14,color:tm,marginBottom:5}}>{k}</div>
-              <div style={{fontSize:15,fontWeight:700,color:navy}}>{v}</div>
+              <div style={{fontSize:16,fontWeight:700,color:navy}}>{v}</div>
             </div>
           ))}
         </div>
@@ -2815,7 +2815,7 @@ function AssessorEditorial() {
               <LighthouseLogo s={24} c="#fff"/>
             </div>
             <div style={{flex:1,minWidth:0}}>
-              <div style={{fontSize:15,fontWeight:600,color:tx}}>{r.name}</div>
+              <div style={{fontSize:16,fontWeight:600,color:tx}}>{r.name}</div>
               <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"flex-start",marginTop:12}}>
                 <button onClick={()=>setOpenReport(r)} className="btn btn-secondary"><I.Eye s={14}/> View</button>
                 <button onClick={()=>showToast(`Downloading ${r.name}`)} className="btn btn-secondary"><I.Download s={14}/> Download</button>
@@ -3434,7 +3434,7 @@ function AssessorEditorial() {
         {avails.length===0 && (
           <div style={{background:card,border:`1px dashed ${bdStrong}`,borderRadius:br,padding:"48px 24px",textAlign:"center"}}>
             <div style={{color:tm,marginBottom:6}}><I.Cal s={26}/></div>
-            <div style={{fontSize:15,fontWeight:700,color:navy,marginBottom:4}}>No availability yet</div>
+            <div style={{fontSize:16,fontWeight:700,color:navy,marginBottom:4}}>No availability yet</div>
             <div style={{fontSize:14,color:tm,marginBottom:18}}>Add a schedule so campaigns know when you can assess.</div>
             <button onClick={()=>startEdit(null)} className="btn btn-primary">+ Add new availability</button>
           </div>
@@ -3844,7 +3844,7 @@ function AssessorEditorial() {
       <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
         <div style={{width:64,height:64,borderRadius:br,background:RPT_THUMB2[0],display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",marginBottom:32}}><LighthouseLogo s={30} c="#fff"/></div>
         <div style={{fontSize:14,color:teal,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",marginBottom:14}}>{report.type}</div>
-        <h1 style={{fontSize:34,fontWeight:700,fontFamily:serif,color:navy,lineHeight:1.2,marginBottom:16}}>{report.name}</h1>
+        <h1 style={{fontSize:32,fontWeight:700,fontFamily:serif,color:navy,lineHeight:1.2,marginBottom:16}}>{report.name}</h1>
         <div style={{fontSize:14,color:tm}}>Prepared for {candidates.find(x=>x.id===subjectId)?.name || "Candidate"}</div>
         <div style={{marginTop:"auto",fontSize:14,color:tm}}>Marsh · Confidential</div>
       </div>
@@ -3864,13 +3864,13 @@ function AssessorEditorial() {
           <div style={{display:"flex",alignItems:"center",gap:14,padding:"16px 22px",borderBottom:`1px solid ${bd}`,flexShrink:0}}>
             <div style={{width:38,height:38,borderRadius:10,background:navy,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Report s={18}/></div>
             <div style={{flex:1,minWidth:0}}>
-              <div className="elide" style={{fontSize:15,fontWeight:700,color:navy}}>{report.name}</div>
+              <div className="elide" style={{fontSize:16,fontWeight:700,color:navy}}>{report.name}</div>
               <div style={{fontSize:14,color:tm}}>Page {page+1} of {pages}</div>
             </div>
             <div style={{display:"flex",alignItems:"center",gap:2,border:`1px solid ${bd}`,borderRadius:9,padding:3,flexShrink:0}}>
               <button onClick={()=>setZoom(z=>Math.max(0.5,Math.round((z-.25)*100)/100))} disabled={zoom<=0.5} style={{width:28,height:28,borderRadius:7,border:"none",background:"transparent",color:zoom<=0.5?"rgba(0,15,71,.25)":navy,cursor:zoom<=0.5?"default":"pointer",fontSize:18,lineHeight:1}}>−</button>
               <span className="tnum" style={{fontSize:14,fontWeight:600,color:navy,minWidth:44,textAlign:"center"}}>{Math.round(zoom*100)}%</span>
-              <button onClick={()=>setZoom(z=>Math.min(2,Math.round((z+.25)*100)/100))} disabled={zoom>=2} style={{width:28,height:28,borderRadius:7,border:"none",background:"transparent",color:zoom>=2?"rgba(0,15,71,.25)":navy,cursor:zoom>=2?"default":"pointer",fontSize:17,lineHeight:1}}>+</button>
+              <button onClick={()=>setZoom(z=>Math.min(2,Math.round((z+.25)*100)/100))} disabled={zoom>=2} style={{width:28,height:28,borderRadius:7,border:"none",background:"transparent",color:zoom>=2?"rgba(0,15,71,.25)":navy,cursor:zoom>=2?"default":"pointer",fontSize:18,lineHeight:1}}>+</button>
             </div>
             <button onClick={()=>showToast("Downloading PDF…")} className="btn btn-secondary" style={{flexShrink:0}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg> Download PDF</button>
             <button onClick={onClose} style={{width:34,height:34,borderRadius:9,border:`1px solid ${bd}`,background:card,color:tm,cursor:"pointer",fontSize:18,flexShrink:0}}>×</button>

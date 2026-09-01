@@ -27,7 +27,7 @@ function EdDevelopment({ onBack }) {
       <EdBack label="Back" onClick={onBack} />
       <EdEyebrow color={eBLUE}>Your plan</EdEyebrow>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Development</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 4px", maxWidth: 560 }}>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 4px", maxWidth: 560 }}>
         Built from your assessment results and growth conversations — organised by the 70·20·10 model: 70% on-the-job, 20% from others, 10% formal training.
       </p>
 
@@ -109,7 +109,7 @@ function EdReportCard({ r, onPreview }) {
           : <span style={{ position: "absolute", top: 10, right: 10, background: "rgba(0,0,0,.5)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "3px 9px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4, backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}><I.lock size={11} /> Locked</span>}
       </div>
       <div style={{ padding: 18, display: "flex", flexDirection: "column", flex: 1 }}>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: locked ? eMUT : eMID, margin: "0 0 12px" }}>{r.name}</h3>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: locked ? eMUT : eMID, margin: "0 0 12px" }}>{r.name}</h3>
         <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 }}>Based on {r.based.length === 1 ? "1 assessment" : `${r.based.length} assessments`}:</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
           {r.based.map((b, i) => {
@@ -194,7 +194,7 @@ function ReportPage({ report, page }) {
           <div key={i}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{c.name}</span>
-              <span className="serif" style={{ fontSize: 15, color: c.score >= 80 ? eSUCCESS : c.score < 70 ? eWARN : eBLUE }}>{c.score}</span>
+              <span className="serif" style={{ fontSize: 16, color: c.score >= 80 ? eSUCCESS : c.score < 70 ? eWARN : eBLUE }}>{c.score}</span>
             </div>
             <div style={{ height: 8, borderRadius: 4, background: "var(--track)", overflow: "hidden" }}>
               <div style={{ width: c.score + "%", height: "100%", borderRadius: 4, background: c.score >= 80 ? eSUCCESS : c.score < 70 ? eWARN : eBLUE }} />
@@ -265,13 +265,13 @@ function EdReportReader({ report, onClose }) {
         <div className="ed-reader-head" style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
           <div style={{ width: 38, height: 38, borderRadius: 10, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.fileText size={18} /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{report.name}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{report.name}</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Page {page + 1} of {pages}</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 2, border: "1px solid " + eLINE, borderRadius: 9, padding: 3, flexShrink: 0 }}>
             <button onClick={() => setZoom((z) => Math.max(0.5, Math.round((z - 0.25) * 100) / 100))} disabled={zoom <= 0.5} title="Zoom out" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom <= 0.5 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom <= 0.5 ? "default" : "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
             <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, minWidth: 44, textAlign: "center" }}>{Math.round(zoom * 100)}%</span>
-            <button onClick={() => setZoom((z) => Math.min(2, Math.round((z + 0.25) * 100) / 100))} disabled={zoom >= 2} title="Zoom in" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom >= 2 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom >= 2 ? "default" : "pointer", fontSize: 17, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+            <button onClick={() => setZoom((z) => Math.min(2, Math.round((z + 0.25) * 100) / 100))} disabled={zoom >= 2} title="Zoom in" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom >= 2 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom >= 2 ? "default" : "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
           </div>
           <EdBtn small><I.download size={15} /> <span className="ed-reader-pdf-lbl">Download PDF</span></EdBtn>
           <button onClick={onClose} style={{ width: 34, height: 34, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 18, flexShrink: 0 }}>×</button>
@@ -328,14 +328,14 @@ function EdInsights({ onBack, initialPreview }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Insights</h1>
-      <p className="ed-insights-banner" style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.7, margin: 0, maxWidth: "none", whiteSpace: "nowrap" }}>
+      <p className="ed-insights-banner" style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.7, margin: 0, maxWidth: "none", whiteSpace: "nowrap" }}>
         <span style={{ display: "inline-block", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, marginRight: 9, verticalAlign: "1px", whiteSpace: "nowrap" }}>{availCount} of {reps.length} ready</span>
         Reports unlock automatically as you complete their underlying tasks.
       </p>
 
       {groups.map((g, gi) => (
         <div key={gi} style={{ borderTop: "1px solid " + eLINE, paddingTop: 26, marginTop: 32 }}>
-          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 18px" }}>{g.label}</h2>
+          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 18px" }}>{g.label}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 18 }}>
             {g.items.map((r) => <EdReportCard key={r.id} r={r} onPreview={setPreview} />)}
           </div>
@@ -569,7 +569,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
         <div className="ed-cal-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <button onClick={() => setCalWeek(Math.max(0, wkIdx - 1))} disabled={wkIdx <= 0} style={{ width: 34, height: 34, borderRadius: 9, background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx <= 0 ? "default" : "pointer", color: wkIdx <= 0 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevL size={17} /></button>
-            <h3 className="serif" style={{ fontSize: 21, color: eMID, margin: 0, minWidth: 220, textAlign: "center" }}>{rangeLabel}</h3>
+            <h3 className="serif" style={{ fontSize: 22, color: eMID, margin: 0, minWidth: 220, textAlign: "center" }}>{rangeLabel}</h3>
             <button onClick={() => setCalWeek(Math.min(weekKeys.length - 1, wkIdx + 1))} disabled={wkIdx >= weekKeys.length - 1} style={{ width: 34, height: 34, borderRadius: 9, background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx >= weekKeys.length - 1 ? "default" : "pointer", color: wkIdx >= weekKeys.length - 1 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevR size={17} /></button>
           </div>
           <div className="ed-cal-legend" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -707,7 +707,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, padding: 28, maxWidth: 440, width: "100%", boxShadow: "0 24px 60px rgba(0,15,71,.3)" }}>
             <button onClick={() => setConfirmSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: 8, border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
             <EdEyebrow color={eBLUE}>Confirm booking</EdEyebrow>
-            <h2 className="serif" style={{ fontSize: 26, color: eMID, lineHeight: 1.1, margin: "0 0 16px" }}>{center.name}</h2>
+            <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.1, margin: "0 0 16px" }}>{center.name}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
               {[[I.cal, `${slot.date} · ${slot.day}`], [I.clock, `${slotTime(slot.time)} · ${tzMeta.short}`], [I.globe, center.location]].map(([Ic, txt], i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ color: eBLUE, display: "flex" }}><Ic size={17} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{txt}</span></div>
@@ -784,7 +784,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ width: 62, height: 62, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}><I.check size={30} /></div>
             <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 10px" }}>{doneSlot.justBooked === false ? "Your booking" : "You're all set"}</h1>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>{doneSlot.justBooked === false ? "This session is confirmed. You can add it to your calendar, reschedule, or cancel below." : "Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details."}</p>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>{doneSlot.justBooked === false ? "This session is confirmed. You can add it to your calendar, reschedule, or cancel below." : "Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details."}</p>
           </div>
 
           <div style={{ border: "1px solid " + eLINE, borderRadius: 14, padding: "4px 20px 14px", marginBottom: 26 }}>
@@ -801,7 +801,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           {/* what the session actually is — so this page works as the booking's detail view */}
           {center.desc && (
             <div style={{ marginBottom: 26 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 8 }}>About this session</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 8 }}>About this session</div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: 0 }}>{center.desc}</p>
               <button onClick={() => { setDoneSlot(null); setView(center.id); }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
@@ -809,7 +809,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
               </button>
             </div>
           )}
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {providers.map((c) => (
               <button key={c} onClick={() => showSchedToast("Added to " + c)}
@@ -841,7 +841,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Scheduling</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 22px" }}>Browse available time slots and book your assessment center sessions.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 22px" }}>Browse available time slots and book your assessment center sessions.</p>
 
       {/* List / Calendar toggle removed from overview — calendar lives inside each center.
          renderCalendar() is retained for that per-center view and future use. */}

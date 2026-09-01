@@ -100,8 +100,8 @@ html[data-device="mobile"] .lh-page { padding-left: 18px !important; padding-rig
 html[data-device="mobile"] .lh-topbar { padding-left: 16px !important; padding-right: 16px !important; }
 
 /* — headings scale down — */
-html[data-device="mobile"] #root h1 { font-size: 33px !important; line-height: 1.12 !important; }
-html[data-device="mobile"] #root h2 { font-size: 23px !important; }
+html[data-device="mobile"] #root h1 { font-size: 32px !important; line-height: 1.12 !important; }
+html[data-device="mobile"] #root h2 { font-size: 24px !important; }
 
 /* ── Folio-specific chrome (ed-* classes) ── */
 /* phone top bar (logo + hamburger) replaces the desktop utility bar */
@@ -118,7 +118,7 @@ html[data-device="mobile"] .ed-stats > div { flex: 1 1 0 !important; min-width: 
 html[data-device="mobile"] .ed-stats > div:first-child { padding-left: 0 !important; }
 html[data-device="mobile"] .ed-stats .serif { font-size: 24px !important; }
 /* greeting stays the largest element on phones (above the stat numerals) */
-html[data-device="mobile"] .ed-hero-h1 { font-size: 30px !important; }
+html[data-device="mobile"] .ed-hero-h1 { font-size: 32px !important; }
 /* rows with trailing buttons wrap their controls below */
 html[data-device="mobile"] .ed-m-wrap { flex-wrap: wrap !important; }
 /* IDP guided-questions: the AI Career Companion is a fixed right rail on desktop; inside the
@@ -236,7 +236,7 @@ html[data-device="mobile"] .oa-cd {
 }
 html[data-device="mobile"] .oa-cd > span:nth-child(1) { grid-row: 1 / 3 !important; display: flex !important; }   /* clock icon, left of the centred cluster */
 html[data-device="mobile"] .oa-cd > span:nth-child(2) { grid-column: 2 !important; grid-row: 1 !important; font-size: 11px !important; line-height: 1.3 !important; text-align: center !important; }   /* label */
-html[data-device="mobile"] .oa-cd > span:nth-child(3) { grid-column: 2 !important; grid-row: 2 !important; font-size: 13px !important; line-height: 1.2 !important; text-align: center !important; }   /* time */
+html[data-device="mobile"] .oa-cd > span:nth-child(3) { grid-column: 2 !important; grid-row: 2 !important; font-size: 14px !important; line-height: 1.2 !important; text-align: center !important; }   /* time */
 
 /* Phone: Likert matrix (compact) — one option PER ROW (each option full width, the
    radio on the left with its label), so the scale reads as a simple vertical list. */

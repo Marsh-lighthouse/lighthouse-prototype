@@ -85,7 +85,7 @@ function EdRow({ item, accent, onClick }) {
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{item.name}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{item.name}</span>
           {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: ePURP, background: "rgba(143,32,222,.10)", padding: "2px 8px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
           {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Report ready</span>}
         </div>
@@ -161,7 +161,7 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
 
       {/* body */}
       <div style={{ padding: "14px 16px 15px", display: "flex", flexDirection: "column", flex: 1 }}>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: "0 0 10px", lineHeight: 1.25 }}>{item.name}</h3>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: "0 0 10px", lineHeight: 1.25 }}>{item.name}</h3>
 
         {/* progress */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -200,8 +200,8 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <EdEyebrow color={eMUT}>{t("programInstructions")}</EdEyebrow>
-      <h1 className="serif" style={{ fontSize: 44, color: eMID, lineHeight: 1.06, margin: "0 0 10px" }}>{prog.name}</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 32px", maxWidth: 600 }}>{t("watchTheShortIntroduction")}</p>
+      <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.06, margin: "0 0 10px" }}>{prog.name}</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 32px", maxWidth: 600 }}>{t("watchTheShortIntroduction")}</p>
 
       {/* intro video */}
       <div onClick={onWatch} style={{ position: "relative", width: "100%", paddingBottom: "50%", borderRadius: 16, overflow: "hidden", background: "var(--surface-deep)", marginBottom: 28, cursor: "pointer" }}>
@@ -334,7 +334,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 26, flexWrap: "wrap" }}>
           {stats.map((m, i) =>
         <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-              <span className="serif" style={{ fontSize: 30, color: i === 1 ? eGOLD : i === 2 ? eSKY : "#fff" }}>{m.v}</span>
+              <span className="serif" style={{ fontSize: 32, color: i === 1 ? eGOLD : i === 2 ? eSKY : "#fff" }}>{m.v}</span>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(255,255,255,.82)" }}>{m.l}</span>
             </div>
         )}
@@ -359,7 +359,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 24, flexWrap: "wrap" }}>
         {stats.map((m, i) =>
       <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-            <span className="serif" style={{ fontSize: 30, color: i === 1 ? eBLUE : eMID }}>{m.v}</span>
+            <span className="serif" style={{ fontSize: 32, color: i === 1 ? eBLUE : eMID }}>{m.v}</span>
             <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{m.l}</span>
           </div>
       )}
@@ -403,7 +403,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
   <div style={{ marginBottom: 30 }}>
       {/* title + inline status chip (state belongs to the program) */}
       <div style={{ display: "flex", alignItems: "center", gap: 13, flexWrap: "wrap", rowGap: 8, marginBottom: 15 }}>
-        <h1 className="serif" style={{ fontSize: 44, color: eMID, lineHeight: 1.02, margin: 0, maxWidth: 560 }}>{prog.name}</h1>
+        <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.02, margin: 0, maxWidth: 560 }}>{prog.name}</h1>
         <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
       </div>
       {/* data line: progress summary leads, then the task breakdown (wraps on mobile) */}
@@ -412,7 +412,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
           <div style={{ flex: 1, height: 6, borderRadius: 4, background: "color-mix(in srgb, var(--ink) 14%, transparent)", overflow: "hidden" }}>
             <div style={{ width: `${prog.pct}%`, height: "100%", borderRadius: 4, background: eMID }} />
           </div>
-          <span className="serif" style={{ fontSize: 17, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
+          <span className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
         </div>
         <div style={{ width: 1, height: 22, background: eLINE, flexShrink: 0 }} />
         <div style={{ display: "flex", alignItems: "baseline" }}>
@@ -434,7 +434,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ width: 4, borderRadius: 3, background: prog.accent, alignSelf: "stretch", flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-          <h1 className="serif" style={{ fontSize: 38, color: eMID, lineHeight: 1.04, margin: 0 }}>{prog.name}</h1>
+          <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.04, margin: 0 }}>{prog.name}</h1>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 6 }}>In progress</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 13, flexWrap: "wrap" }}>
@@ -454,7 +454,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ position: "relative", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <EdRing2 pct={prog.pct} size={76} stroke={7} color={eGOLD} track="rgba(0,15,71,.08)" />
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
+          <span className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
         </div>
       </div>
       {/* title + meta */}
@@ -462,13 +462,13 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6 }}>In progress</span>
         </div>
-        <h1 className="serif" style={{ fontSize: 29, color: eMID, lineHeight: 1.05, margin: 0 }}>{prog.name}</h1>
+        <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.05, margin: 0 }}>{prog.name}</h1>
       </div>
       {/* inline stats */}
       <div style={{ display: "flex", flexShrink: 0 }}>
         {stats.map((m, i) =>
       <div key={i} style={{ textAlign: "center", padding: "0 18px", borderLeft: i ? "1px solid " + eLINE : "none" }}>
-            <div className="serif" style={{ fontSize: 26, color: i === 1 ? eWARN : eMID, lineHeight: 1 }}>{m.v}</div>
+            <div className="serif" style={{ fontSize: 24, color: i === 1 ? eWARN : eMID, lineHeight: 1 }}>{m.v}</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, letterSpacing: 0.2, color: eMUT, marginTop: 5 }}>{m.l}</div>
           </div>
       )}
@@ -517,7 +517,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
     <div style={{ margin: "0 0 " + (mb == null ? 24 : mb) + "px", background: done ? "rgba(20,133,61,.05)" : eCARD, border: "1px solid " + (done ? "rgba(20,133,61,.28)" : eLINE), borderRadius: 16, padding: "20px 24px", display: "flex", gap: 18, alignItems: "flex-start", opacity: locked ? 0.62 : 1 }}>
       <div style={{ width: 44, height: 44, borderRadius: 12, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: done ? "rgba(20,133,61,.12)" : locked ? "rgba(123,121,116,.10)" : "rgba(143,32,222,.10)", color: done ? eSUCCESS : locked ? eMUT : ePURP }}>{done ? <I.checkCircle size={22} /> : locked ? <I.lock size={20} /> : <I.users size={22} />}</div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <h2 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 4px", letterSpacing: -0.1 }}>{title}</h2>
+        <h2 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "0 0 4px", letterSpacing: -0.1 }}>{title}</h2>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, margin: 0, maxWidth: 600 }}>{done ? "You've completed every activity in this assessment center. Your results are included in your reports." : "You will be added to the assessment center or receive an invite to book your slot. Once you're part of the center, you can complete the activities by clicking the View Detail button."}</p>
       </div>
       {done ?
@@ -564,7 +564,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
           </div>
           <div className="ed-center-card" style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "26px 28px", marginBottom: last ? 30 : 22, boxShadow: "0 1px 3px rgba(0,15,71,.04)", opacity: 0.62 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap", marginBottom: 9 }}>
-              <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
+              <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
               <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {c.time}</span>
@@ -588,7 +588,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         </div>
         <div className="ed-center-card" style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "24px 26px", marginBottom: last ? 30 : 22, boxShadow: "0 1px 3px rgba(0,15,71,.04)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap", marginBottom: 9 }}>
-            <h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
+            <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
             <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {c.time}</span>
@@ -620,10 +620,10 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ display: "flex", gap: 0, marginBottom: 34, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, overflow: "hidden" }}>
         <div style={{ width: 4, background: started ? eSUCCESS : eBLUE, alignSelf: "stretch", flexShrink: 0 }} />
         <div style={{ flex: 1, padding: "24px 26px" }}>
-          <h2 className="serif" style={{ fontSize: 26, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>{started ? "Assessment in progress" : "Begin when ready"}</h2>
+          <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>{started ? "Assessment in progress" : "Begin when ready"}</h2>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 18px", maxWidth: 600 }}>{started ? "Your activities below are now unlocked. Complete them in your own time — your progress is saved automatically." : "This entire program is proctored. You'll need to complete the proctoring system check before you can begin the assessment."}</p>
           {!started &&
-            <button onClick={() => setStarted(true)} style={{ display: "inline-flex", alignItems: "center", gap: 9, background: eGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Begin <I.arrow size={17} /></button>
+            <button onClick={() => setStarted(true)} style={{ display: "inline-flex", alignItems: "center", gap: 9, background: eGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: "pointer" }}>Begin <I.arrow size={17} /></button>
           }
         </div>
       </div>
@@ -634,8 +634,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
     <div style={eCOL}>
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 20, padding: "60px 48px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div style={{ width: 76, height: 76, borderRadius: 38, display: "flex", alignItems: "center", justifyContent: "center", background: tint, color: tone, marginBottom: 24 }}>{icon}</div>
-        <h1 className="serif" style={{ fontSize: 34, color: eMID, lineHeight: 1.1, margin: "0 0 12px", maxWidth: 520 }}>{title}</h1>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 480 }}>{body}</p>
+        <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 12px", maxWidth: 520 }}>{title}</h1>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 480 }}>{body}</p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
           {primaryLabel &&
             <button onClick={onPrimary} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>{primaryLabel} <I.arrow size={16} /></button>}
@@ -713,7 +713,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={eCOL}>
       {seq.length > 0 &&
         <div style={{ marginBottom: 28 }}>
-          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Sequential exercises</h2>
+          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Sequential exercises</h2>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 16px" }}>Complete in order — each unlocks the next.</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
             {seq.map((ex, i) => {
@@ -752,7 +752,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* OPEN */}
       {d.open.length > 0 &&
         <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 24 }}>
-          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Open exercises</h2>
+          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Open exercises</h2>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 16px" }}>Complete in any order, at your own pace.</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
             {d.open.map((ex) =>
@@ -772,7 +772,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* REPORTS TAB — completed reports only, icon + list, no thumbnails */}
       {tab === "reports" &&
       <div style={eCOL}>
-          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Your reports</h2>
+          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Your reports</h2>
           {progReports.length > 0 ?
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16 }}>
               {progReports.map((r) =>
@@ -784,7 +784,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
 
         <div style={{ marginTop: 16, background: eCARD, border: "1px dashed " + eLINE, borderRadius: 16, padding: "44px 24px", textAlign: "center" }}>
               <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(0,15,71,.04)", color: eMUT, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.fileText size={22} /></div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>No reports yet</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 4 }}>No reports yet</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Reports unlock automatically as you complete the underlying tasks.</div>
             </div>
         }
@@ -905,7 +905,7 @@ function EdPreCheck({ target, onBack, onLaunch }) {
         <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(143,32,222,.10)", color: ePURP, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.shield size={22} /></div>
         <div>
           <EdEyebrow color={ePURP}>Proctored</EdEyebrow>
-          <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 2px" }}>System check</h1>
+          <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 2px" }}>System check</h1>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: 0 }}>{target.name}</p>
         </div>
       </div>

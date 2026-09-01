@@ -11,7 +11,7 @@ const LH_FAB_CSS = `
 .lh-tweak-fab{position:fixed;right:14px;bottom:14px;z-index:61;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,.9);color:#6D6B66;border:1px solid rgba(0,15,71,.12);box-shadow:0 2px 8px rgba(0,15,71,.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:pointer;transition:all .15s ease;}
 .lh-tweak-fab:hover{color:#000F47;background:#fff;border-color:rgba(0,15,71,.2);}
 /* Demo switch (bottom-left) to preview the global "no internet" state. */
-.lh-net-fab{position:fixed;left:50%;transform:translateX(-50%);bottom:58px;z-index:3001;display:inline-flex;align-items:center;gap:7px;border-radius:8px;background:rgba(255,255,255,.9);color:#6D6B66;border:1px solid rgba(0,15,71,.12);box-shadow:0 2px 8px rgba(0,15,71,.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:pointer;font-family:var(--sans,system-ui,sans-serif);font-size:13px;font-weight:600;padding:8px 12px;opacity:.55;transition:opacity .15s ease,color .15s ease,background .15s ease,border-color .15s ease;}
+.lh-net-fab{position:fixed;left:50%;transform:translateX(-50%);bottom:58px;z-index:3001;display:inline-flex;align-items:center;gap:7px;border-radius:8px;background:rgba(255,255,255,.9);color:#6D6B66;border:1px solid rgba(0,15,71,.12);box-shadow:0 2px 8px rgba(0,15,71,.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:pointer;font-family:var(--sans,system-ui,sans-serif);font-size:14px;font-weight:600;padding:8px 12px;opacity:.55;transition:opacity .15s ease,color .15s ease,background .15s ease,border-color .15s ease;}
 .lh-net-fab:hover{opacity:1;color:#000F47;background:#fff;border-color:rgba(0,15,71,.2);}
 .lh-net-fab.on{opacity:1;color:#B4231F;border-color:rgba(180,35,31,.4);background:#fff;}
 .lh-net-overlay{position:fixed;inset:0;z-index:3000;display:flex;align-items:flex-start;justify-content:center;padding:64px 28px 28px;overflow-y:auto;background:var(--canvas,#F7F3EE);animation:lh-net-fade .22s ease-out;}
@@ -52,7 +52,7 @@ function DarkPaletteRef() {
           <span style={{ width: 18, height: 18, borderRadius: 5, flexShrink: 0, background: hex, boxShadow: "inset 0 0 0 .5px rgba(0,0,0,.35)" }} />
           <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.12, minWidth: 0 }}>
             <b style={{ fontSize: 9.5, fontWeight: 600, color: "rgba(41,38,27,.74)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{name}</b>
-            <i style={{ fontSize: 9, fontStyle: "normal", color: "rgba(41,38,27,.5)", fontVariantNumeric: "tabular-nums" }}>{hex.toUpperCase()}</i>
+            <i style={{ fontSize: 10, fontStyle: "normal", color: "rgba(41,38,27,.5)", fontVariantNumeric: "tabular-nums" }}>{hex.toUpperCase()}</i>
           </span>
         </div>
       ))}
@@ -313,8 +313,8 @@ function LighthouseTweaks() {
               <path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><line x1="12" y1="20" x2="12.01" y2="20" /><line x1="2.5" y1="2.5" x2="21.5" y2="21.5" stroke="#B4231F" />
             </svg>
           </div>
-          <h1 className="serif" style={{ fontSize: 30, color: "var(--primary, #000F47)", lineHeight: 1.12, margin: "0 0 12px" }}>No internet connection</h1>
-          <p style={{ fontFamily: "var(--sans, system-ui, sans-serif)", fontSize: 15, color: "var(--muted, #6D6B66)", lineHeight: 1.6, margin: "0 0 26px" }}>We can't reach Marsh right now. Check your connection and try again.</p>
+          <h1 className="serif" style={{ fontSize: 32, color: "var(--primary, #000F47)", lineHeight: 1.12, margin: "0 0 12px" }}>No internet connection</h1>
+          <p style={{ fontFamily: "var(--sans, system-ui, sans-serif)", fontSize: 16, color: "var(--muted, #6D6B66)", lineHeight: 1.6, margin: "0 0 26px" }}>We can't reach Marsh right now. Check your connection and try again.</p>
           <button onClick={() => setOffline(false)} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primary, #000F47)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans, system-ui, sans-serif)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4" /><path d="M3 4v5h5" /></svg>
             Try again

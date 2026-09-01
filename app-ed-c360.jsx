@@ -149,7 +149,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
         ].map((m) => (
           <div key={m.k} style={{ padding: "16px", background: qCARD, border: "1px solid " + qLINE, borderRadius: cr }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 8 }}>{m.k}</div>
-            <div className="serif" style={{ fontSize: 26, color: m.color, lineHeight: 1, marginBottom: 4 }}>{m.v}</div>
+            <div className="serif" style={{ fontSize: 24, color: m.color, lineHeight: 1, marginBottom: 4 }}>{m.v}</div>
             <div style={{ fontSize: 14, color: qINK, fontFamily: "var(--sans)" }}>{m.hint}</div>
           </div>
         ))}
@@ -249,7 +249,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
     <div style={{ ...wrap, maxWidth: 720 }}>
       <Eyebrow color={qBLUE} bg={qBLUE_BG}>Step 01 · Self-evaluation</Eyebrow>
       <h1 className="serif" style={{ fontSize: isMob ? 30 : 38, color: qMID, lineHeight: 1.05, margin: "0 0 16px" }}>Before you ask others, rate yourself.</h1>
-      <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 0 28px" }}>You'll rate yourself on {totalSelf} leadership competencies using a 5-point scale. About 6 minutes. Your answers are private — they anchor the gap analysis when raters respond.</p>
+      <p style={{ fontSize: 16, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 0 28px" }}>You'll rate yourself on {totalSelf} leadership competencies using a 5-point scale. About 6 minutes. Your answers are private — they anchor the gap analysis when raters respond.</p>
       <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: 20, marginBottom: 28 }}>
         <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 12 }}>Rating scale</div>
         <div style={{ display: "grid", gridTemplateColumns: isMob ? "1fr" : "repeat(5,1fr)", gap: isMob ? 6 : 4 }}>
@@ -283,14 +283,14 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           </div>
         </div>
         <h2 className="serif" style={{ fontSize: isMob ? 26 : 30, color: qMID, lineHeight: 1.15, margin: "0 0 12px" }}>{comp.label}</h2>
-        <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 0 32px" }}>{comp.desc}</p>
+        <p style={{ fontSize: 16, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 0 32px" }}>{comp.desc}</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 32 }}>
           {scale.map(opt => {
             const isSel = selected === opt.n;
             return (
               <button key={opt.n} onClick={() => setC360SelfAns(a => ({ ...a, [i]: opt.n }))} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", background: isSel ? qBLUE_BG : qCARD, border: "1px solid " + (isSel ? qBLUE : qLINE), borderRadius: cr, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", transition: "all .15s ease" }}>
-                <div className="serif" style={{ width: 32, height: 32, borderRadius: 16, background: isSel ? qBLUE : "rgba(0,15,71,.05)", color: isSel ? "#fff" : qINK, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{opt.n}</div>
-                <div style={{ flex: 1, fontSize: 15, fontWeight: 600, color: qMID }}>{opt.l}</div>
+                <div className="serif" style={{ width: 32, height: 32, borderRadius: 16, background: isSel ? qBLUE : "rgba(0,15,71,.05)", color: isSel ? "#fff" : qINK, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>{opt.n}</div>
+                <div style={{ flex: 1, fontSize: 16, fontWeight: 600, color: qMID }}>{opt.l}</div>
                 {isSel && <span style={{ color: qBLUE }}><QI.Check s={16} /></span>}
               </button>
             );
@@ -317,7 +317,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
       <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: isMob ? "32px 22px" : "44px 40px", marginBottom: 24 }}>
         <div style={{ width: 72, height: 72, margin: "0 auto 24px", borderRadius: 36, background: qGREEN, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}><QI.Check s={32} /></div>
         <h1 className="serif" style={{ fontSize: isMob ? 28 : 36, color: qMID, lineHeight: 1.1, margin: "0 0 12px" }}>Self-evaluation submitted.</h1>
-        <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>Your {totalSelf} ratings are locked in. Next, nominate the people whose perspective will balance your view.</p>
+        <p style={{ fontSize: 16, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>Your {totalSelf} ratings are locked in. Next, nominate the people whose perspective will balance your view.</p>
       </div>
       <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
         <QBtn primary onClick={() => setC360Step("nominate")}>Nominate raters <QI.Arrow /></QBtn>
@@ -354,7 +354,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
       <div style={wrap}>
         <Eyebrow color={qPURPLE} bg={qPURPLE_BG}>Step 02 · Nominate</Eyebrow>
         <h1 className="serif" style={{ fontSize: isMob ? 30 : 38, color: qMID, lineHeight: 1.05, margin: "0 0 14px" }}>Who should give you feedback?</h1>
-        <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 0 32px", maxWidth: 680 }}>Aim for a mix that sees different facets of your leadership. You'll need at least <strong style={{ color: qMID }}>1 manager, 3–8 peers, and 2 direct reports</strong>.</p>
+        <p style={{ fontSize: 16, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 0 32px", maxWidth: 680 }}>Aim for a mix that sees different facets of your leadership. You'll need at least <strong style={{ color: qMID }}>1 manager, 3–8 peers, and 2 direct reports</strong>.</p>
 
         <div style={{ display: "grid", gridTemplateColumns: isMob ? "1fr" : "1fr 320px", gap: 24, alignItems: "flex-start" }}>
           {/* candidate list */}
@@ -366,7 +366,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             ].map(grp => (
               <div key={grp.rel} style={{ marginBottom: 24 }}>
                 <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12, paddingBottom: 10, borderBottom: "1px solid " + qLINE }}>
-                  <div className="serif" style={{ fontSize: 17, color: qMID }}>{grp.l}</div>
+                  <div className="serif" style={{ fontSize: 18, color: qMID }}>{grp.l}</div>
                   <div style={{ fontSize: 14, fontFamily: "var(--sans)", color: grp.ok ? qGREEN : qMUT, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
                     {byRel(grp.rel).length} selected · {grp.min} {grp.ok && <QI.Check s={11} />}
                   </div>
@@ -394,7 +394,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
 
           {/* invitation + send */}
           <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: 24, position: isMob ? "static" : "sticky", top: 20 }}>
-            <div className="serif" style={{ fontSize: 17, color: qMID, marginBottom: 6 }}>Invitation</div>
+            <div className="serif" style={{ fontSize: 18, color: qMID, marginBottom: 6 }}>Invitation</div>
             <div style={{ fontSize: 14, color: qINK, fontFamily: "var(--sans)", marginBottom: 14 }}>Preview before sending</div>
             <textarea value={c360Msg} onChange={e => setC360Msg(e.target.value)} rows={5} style={{ width: "100%", padding: "10px 12px", borderRadius: ir, border: "1px solid " + qLINE, background: "var(--card)", color: qMID, fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.5, resize: "vertical", boxSizing: "border-box", marginBottom: 14 }} />
             <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 6 }}>Deadline</div>
@@ -420,7 +420,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
       <div style={wrap}>
         <Eyebrow color={qGOLDINK} bg="rgba(203,126,3,.10)">Step 03 · Track</Eyebrow>
         <h1 className="serif" style={{ fontSize: isMob ? 30 : 38, color: qMID, lineHeight: 1.05, margin: "0 0 14px" }}>Response tracker</h1>
-        <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 0 28px" }}>Individual responses are never attributed. You'll unlock your report when response rate reaches 60%.</p>
+        <p style={{ fontSize: 16, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 0 28px" }}>Individual responses are never attributed. You'll unlock your report when response rate reaches 60%.</p>
 
         {/* summary */}
         <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: 20, marginBottom: 28, display: "grid", gridTemplateColumns: isMob ? "1fr 1fr" : "repeat(4,1fr)", gap: 16 }}>
@@ -432,7 +432,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           ].map((m) => (
             <div key={m.l}>
               <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 6 }}>{m.l}</div>
-              <div className="serif" style={{ fontSize: 30, color: m.c }}>{m.n}</div>
+              <div className="serif" style={{ fontSize: 32, color: m.c }}>{m.n}</div>
             </div>
           ))}
         </div>
@@ -486,7 +486,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: isMob ? "32px 22px" : "48px 40px" }}>
             <div style={{ width: 72, height: 72, margin: "0 auto 24px", borderRadius: 36, background: qPURPLE_BG, color: qPURPLE, display: "flex", alignItems: "center", justifyContent: "center" }}><QI.Lock s={32} /></div>
             <h1 className="serif" style={{ fontSize: isMob ? 26 : 34, color: qMID, lineHeight: 1.1, margin: "0 0 12px" }}>Your report isn't ready.</h1>
-            <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 auto 24px", maxWidth: 460 }}>Reports unlock at <strong style={{ color: qMID }}>60% response rate</strong>. You're currently at <strong style={{ color: qGOLDINK }}>{responseRate}%</strong> ({doneCount} of {tot} complete).</p>
+            <p style={{ fontSize: 16, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 auto 24px", maxWidth: 460 }}>Reports unlock at <strong style={{ color: qMID }}>60% response rate</strong>. You're currently at <strong style={{ color: qGOLDINK }}>{responseRate}%</strong> ({doneCount} of {tot} complete).</p>
             <QBtn primary onClick={() => setC360Step("track")}>Open tracker</QBtn>
           </div>
           <Toast />
@@ -510,7 +510,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           <div style={{ maxWidth: 640 }}>
             <Eyebrow color={qGREEN} bg="rgba(20,133,61,.12)">Step 04 · Report ready</Eyebrow>
             <h1 className="serif" style={{ fontSize: isMob ? 32 : 40, color: qMID, lineHeight: 1.02, margin: "0 0 12px" }}>How others see you.</h1>
-            <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: 0 }}>{doneCount} of {tot} raters responded ({responseRate}%). Self vs. rater averages across {c360Comps.length} competencies.</p>
+            <p style={{ fontSize: 16, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: 0 }}>{doneCount} of {tot} raters responded ({responseRate}%). Self vs. rater averages across {c360Comps.length} competencies.</p>
           </div>
           <QBtn small onClick={() => showToast("Report exported")}>Export PDF</QBtn>
         </div>
@@ -553,9 +553,9 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                     <div style={{ fontSize: 14, color: qINK, fontFamily: "var(--sans)" }}>{s.desc}</div>
                   </div>
                   <div style={{ display: "flex", gap: 14, alignItems: "baseline", fontFamily: "var(--sans)", fontSize: 14, color: qMUT }}>
-                    <div>Self <strong className="serif" style={{ color: qMID, fontSize: 15 }}>{s.self.toFixed(1)}</strong></div>
-                    <div>Others <strong className="serif" style={{ color: qMID, fontSize: 15 }}>{s.othersAvg.toFixed(1)}</strong></div>
-                    <div className="serif" style={{ color: Math.abs(s.gap) < 0.3 ? qMUT : s.gap > 0 ? qGOLDINK : qBLUE, fontSize: 15 }}>Δ {s.gap > 0 ? "+" : ""}{s.gap.toFixed(1)}</div>
+                    <div>Self <strong className="serif" style={{ color: qMID, fontSize: 16 }}>{s.self.toFixed(1)}</strong></div>
+                    <div>Others <strong className="serif" style={{ color: qMID, fontSize: 16 }}>{s.othersAvg.toFixed(1)}</strong></div>
+                    <div className="serif" style={{ color: Math.abs(s.gap) < 0.3 ? qMUT : s.gap > 0 ? qGOLDINK : qBLUE, fontSize: 16 }}>Δ {s.gap > 0 ? "+" : ""}{s.gap.toFixed(1)}</div>
                   </div>
                 </div>
                 <div style={{ position: "relative", height: 8, background: "rgba(0,15,71,.06)", borderRadius: 4, overflow: "visible" }}>
