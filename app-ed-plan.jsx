@@ -1303,7 +1303,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
 
       {/* Sample 10 · plan-wide summary bar — sits below the title, above the tabs. The
           top status badge already conveys status, so the bar's Status cell is hidden. */}
-      {sample === 10 && <PlPlanSummary stats={plStats(data)} hideStatus />}
+      {sample === 10 && <PlPlanSummary stats={plStats(data)} hideStatus mt={22} />}
 
       {/* tabs — same structure/colours as the program task-detail tabs (Intro / Tasks / Reports) */}
       {/* Tabs left, plan actions right — mirrors the manager's detail layout. */}
@@ -1704,12 +1704,12 @@ function PlSlider({ value, onChange, readOnly }) {
   );
 }
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
-function PlPlanSummary({ stats, status, lead, hideStatus }) {
+function PlPlanSummary({ stats, status, lead, hideStatus, mt }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   return (
-    <div style={{ marginBottom: 8 }}>
+    <div style={{ marginTop: mt || 0, marginBottom: 8 }}>
       <div style={{ display: "flex", flexWrap: "wrap", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
         {/* optional identity row (manager view folds the reportee's profile into the same box) */}
         {lead && <div style={{ flex: "1 1 100%", padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
