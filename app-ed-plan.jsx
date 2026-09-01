@@ -789,22 +789,23 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
             const lastName = r.last ? (NAMES[r.last.who] || PL_ME) : "";
             // The plan-level thread isn't one of the skills — it gets its own tag and a
             // tinted card so it reads as the odd one out rather than the first of a list.
+            // MDS Message component: solid-navy Informative tag (#000F47 fill, white text).
             const tag = r.overall
-              ? { label: "Whole plan", fg: "var(--action)", bg: "color-mix(in srgb, var(--action) 14%, transparent)" }
-              : { label: "Skill", fg: eMUT, bg: "rgba(0,15,71,.06)" };
+              ? { label: "Whole plan", fg: "#FFFFFF", bg: "#000F47" }
+              : { label: "Skill", fg: "#FFFFFF", bg: "#000F47" };
             return (
               <div key={i} role="button" tabIndex={0} onClick={() => onOpen(r.name)}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(r.name); } }}
-                style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 12, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: r.overall ? "color-mix(in srgb, var(--action) 6%, var(--card))" : "var(--card)", cursor: "pointer", marginBottom: 8, boxSizing: "border-box" }}
-                onMouseEnter={(e) => e.currentTarget.style.background = r.overall ? "color-mix(in srgb, var(--action) 11%, var(--card))" : "rgba(0,15,71,.03)"}
-                onMouseLeave={(e) => e.currentTarget.style.background = r.overall ? "color-mix(in srgb, var(--action) 6%, var(--card))" : "var(--card)"}>
+                style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 8, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : "#DEDBD6"), background: "#F9F5F1", cursor: "pointer", marginBottom: 8, boxSizing: "border-box" }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "#F2ECE4"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "#F9F5F1"}>
                 <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{r.last ? plInitials(lastName) : <I.chat size={16} />}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
                     {r.unread && <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--danger)", flexShrink: 0 }} />}
                   </div>
-                  <span style={{ display: "inline-block", marginTop: 5, padding: "2px 8px", borderRadius: 999, background: tag.bg, color: tag.fg, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".02em" }}>{tag.label}</span>
+                  <span style={{ display: "inline-block", marginTop: 5, padding: "3px 9px", borderRadius: 8, background: tag.bg, color: tag.fg, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 400 }}>{tag.label}</span>
                   <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 600 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 4 }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</span>
