@@ -276,11 +276,18 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    (2) the semantic soft badges — the light-mode hexes would render as bright
        light chips on the dark card, so give them a dark-surface variant.
    ═══════════════════════════════════════════════════════════════════════ */
+/* Plan controls (Sample-10 completion: linear bar, slider, segmented button).
+   Light = navy #000F47 fill with sky #CEECFF content, per the MDS light spec. */
+:root { --pl-fill: #000F47; --pl-fill-on: #CEECFF; --pl-fill-empty: rgba(0,15,71,.18); }
 :root[data-theme="dark"] {
   /* EXACT MDS dark-surface Input-field border, verified in the MDS Figma:
      --v3-border-input → --v3-base-neutral-clear → --neutral-gray-500-2 = #B9B6B1,
      1px inset, radius 2px. (Light mode resolves the same token to neutral-800/#6F6D68.) */
   --field-line: #B9B6B1 !important;
+  /* Plan controls: navy #000F47 ≈ the dark surface (rgb 21,30,48) → the fill is
+     invisible on dark. Flip to Blue-500 #82BAFF; content on the filled segment
+     becomes dark ink. Track #94918C already reads on both surfaces. */
+  --pl-fill: #82BAFF; --pl-fill-on: #0B1220; --pl-fill-empty: rgba(130,186,255,.30);
 }
 /* Dark-surface semantic badges — EXACT MDS values pulled from the Figma file.
    MDS defines Badge with only Type × Soft-background axes (no separate dark
@@ -317,9 +324,10 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 /* Filled (#000F47) + a transparent gap around the thumb + unfilled (#94918C) —
    the thumb is 12px, so the navy line ends 8px before its centre and the gray
    starts 8px after, leaving a ~2px gap on each side of the circle (MDS look). */
-.pl-slider::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: linear-gradient(to right, #000F47 0, #000F47 calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) + 8px), #94918C calc(var(--pct, 0%) + 8px), #94918C 100%); }
-.pl-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #000F47; border: none; margin-top: -5px; cursor: pointer; transition: box-shadow .15s ease; }
+.pl-slider::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: linear-gradient(to right, var(--pl-fill) 0, var(--pl-fill) calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) + 8px), #94918C calc(var(--pct, 0%) + 8px), #94918C 100%); }
+.pl-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--pl-fill); border: none; margin-top: -5px; cursor: pointer; transition: box-shadow .15s ease; }
 .pl-slider:hover::-webkit-slider-thumb, .pl-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 10px rgba(11,75,255,.1); }
+.pl-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--pl-fill); border: none; cursor: pointer; }
 .pl-slider::-moz-range-track { height: 2px; border-radius: 2px; background: #94918C; }
 .pl-slider::-moz-range-progress { height: 2px; border-radius: 2px; background: #000F47; }
 .pl-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #000F47; border: none; cursor: pointer; }

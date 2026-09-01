@@ -150,7 +150,7 @@ function PlStars({ value, onChange, readOnly }) {
     <span style={{ display: "inline-flex", gap: 3 }}>
       {[1, 2, 3, 4, 5].map((n) => (
         <button key={n} disabled={readOnly} onClick={() => onChange && onChange(n === value ? 0 : n)} aria-label={"Rate " + n}
-          style={{ background: "none", border: "none", padding: 0, cursor: readOnly ? "default" : "pointer", color: n <= value ? "var(--action)" : "rgba(0,15,71,.18)", display: "flex" }}>
+          style={{ background: "none", border: "none", padding: 0, cursor: readOnly ? "default" : "pointer", color: n <= value ? "var(--pl-fill)" : "var(--pl-fill-empty)", display: "flex" }}>
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.9 5.9 20.3l1.5-6.7L2.3 9l6.8-.7z" /></svg>
         </button>
       ))}
@@ -163,10 +163,10 @@ function PlStars({ value, onChange, readOnly }) {
 // selected segment is a navy pill with off-white (#F7F3EE) text; the unselected
 // segment is bare navy text; Noto Sans 400. Replaces the old green on/off switch.
 function PlPubToggle({ isPublic, onToggle }) {
-  const seg = (on) => ({ background: on ? eMID : "transparent", color: on ? "#F7F3EE" : eMID, border: "none", borderRadius: 999, padding: "4px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: 1.4, cursor: "pointer", whiteSpace: "nowrap" });
+  const seg = (on) => ({ background: on ? "var(--pl-fill)" : "transparent", color: on ? "var(--pl-fill-on)" : "var(--pl-fill)", border: "none", borderRadius: 999, padding: "4px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: 1.4, cursor: "pointer", whiteSpace: "nowrap" });
   return (
     <div role="group" aria-label="Skill visibility" title={isPublic ? "Public — everyone can see this" : "Private — only you can see this"}
-      style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: 2, borderRadius: 999, border: "1px solid " + eMID, background: "transparent", flexShrink: 0 }}>
+      style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: 2, borderRadius: 999, border: "1px solid var(--pl-fill)", background: "transparent", flexShrink: 0 }}>
       <button type="button" aria-pressed={isPublic} onClick={() => { if (!isPublic) onToggle(); }} style={seg(isPublic)}>Public</button>
       <button type="button" aria-pressed={!isPublic} onClick={() => { if (isPublic) onToggle(); }} style={seg(!isPublic)}>Private</button>
     </div>
@@ -1657,10 +1657,10 @@ function PlSeg({ value, onChange, readOnly }) {
   // options — not the doubled 2px seam you get when every segment has its own
   // full border. overflow:hidden clips the segments to the container's 2px radius.
   return (
-    <div role="group" aria-label="Completion" style={{ display: "inline-flex", height: 32, boxSizing: "border-box", border: "1px solid #000F47", borderRadius: 2, overflow: "hidden" }}>
+    <div role="group" aria-label="Completion" style={{ display: "inline-flex", height: 32, boxSizing: "border-box", border: "1px solid var(--pl-fill)", borderRadius: 2, overflow: "hidden" }}>
       {steps.map((s, i) => { const on = (value || 0) === s; return (
         <button key={s} type="button" aria-pressed={on} className="pl-seg-btn" onClick={readOnly ? undefined : () => onChange(s)}
-          style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minWidth: 40, padding: "0 12px", background: on ? "#000F47" : "transparent", color: on ? "#CEECFF" : "#000F47", border: "none", borderLeft: i > 0 ? "1px solid #000F47" : "none", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: readOnly ? "default" : "pointer" }}>{s}</button>
+          style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minWidth: 40, padding: "0 12px", background: on ? "var(--pl-fill)" : "transparent", color: on ? "var(--pl-fill-on)" : "var(--pl-fill)", border: "none", borderLeft: i > 0 ? "1px solid var(--pl-fill)" : "none", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: readOnly ? "default" : "pointer" }}>{s}</button>
       ); })}
     </div>
   );
@@ -1678,7 +1678,7 @@ function PlLinearBar({ pct, width = 96 }) {
   // segments). The gap is a transparent sliver, shown only mid-range.
   return (
     <div style={{ display: "flex", alignItems: "center", width, height: 4, overflow: "hidden", flexShrink: 0 }}>
-      <div style={{ width: v + "%", height: "100%", background: "#000F47", flexShrink: 0 }} />
+      <div style={{ width: v + "%", height: "100%", background: "var(--pl-fill)", flexShrink: 0 }} />
       {v > 0 && v < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
       <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
     </div>
@@ -1691,8 +1691,8 @@ function PlSlider({ value, onChange, readOnly }) {
   const v = Math.max(0, Math.min(100, value || 0));
   if (readOnly) {
     return (
-      <div style={{ position: "relative", height: 2, borderRadius: 2, background: "linear-gradient(to right, #000F47 " + v + "%, #94918C " + v + "%)", margin: "20px 0 8px" }}>
-        <span style={{ position: "absolute", top: -5, left: "calc(" + v + "% - 6px)", width: 12, height: 12, borderRadius: "50%", background: "#000F47" }} />
+      <div style={{ position: "relative", height: 2, borderRadius: 2, background: "linear-gradient(to right, var(--pl-fill) " + v + "%, #94918C " + v + "%)", margin: "20px 0 8px" }}>
+        <span style={{ position: "absolute", top: -5, left: "calc(" + v + "% - 6px)", width: 12, height: 12, borderRadius: "50%", background: "var(--pl-fill)" }} />
       </div>
     );
   }
