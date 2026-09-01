@@ -244,9 +244,14 @@ const MgrBadge = ({ status }) => {
 };
 
 const MgrTag = ({ kind }) => {
-  const map = { Edited: { c: "#B4770A", b: "rgba(255,191,0,.16)" }, New: { c: eBLUE, b: "color-mix(in srgb, var(--accent) 12%, transparent)" } };
+  // MDS Badge, soft-background variants — same dimensions/hues as PlStatusBadge:
+  // Edited = Notice (#CB7E03), New = Informative (#002C77), 15%-white tint fill.
+  const map = {
+    Edited: { c: "#CB7E03", b: "color-mix(in srgb, #CB7E03 15%, #ffffff)" },
+    New:    { c: "#002C77", b: "color-mix(in srgb, #002C77 15%, #ffffff)" },
+  };
   const m = map[kind] || map.Edited;
-  return <span style={{ background: m.b, color: m.c, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>{kind}</span>;
+  return <span style={{ background: m.b, color: m.c, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{kind}</span>;
 };
 
 const MgrAvatar = ({ p, size = 42 }) => (
