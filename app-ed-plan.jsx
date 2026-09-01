@@ -1670,14 +1670,14 @@ function PlWideBar({ pct }) {
   return <div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", marginTop: 14 }}><div style={{ width: (pct || 0) + "%", height: "100%", background: eBLUE, borderRadius: 3, transition: "width .3s" }} /></div>;
 }
 // MDS Linear Bar (determinate) — the read-only completion indicator. Exact MDS
-// values from the Figma: 8px height, SQUARE ends (radius 0), fill #000F47 navy
+// values from the Figma: 4px height (thin MDS Progress Bar), SQUARE ends (radius 0), fill #000F47 navy
 // (--v3-surface-primary), unfilled track #94918C gray (--v3-surface-disabled-strong).
 function PlLinearBar({ pct, width = 96 }) {
   const v = Math.max(0, Math.min(100, pct || 0));
   // Navy fill + a 2px gap + gray track (the MDS separation between the two
   // segments). The gap is a transparent sliver, shown only mid-range.
   return (
-    <div style={{ display: "flex", alignItems: "center", width, height: 8, overflow: "hidden", flexShrink: 0 }}>
+    <div style={{ display: "flex", alignItems: "center", width, height: 4, overflow: "hidden", flexShrink: 0 }}>
       <div style={{ width: v + "%", height: "100%", background: "#000F47", flexShrink: 0 }} />
       {v > 0 && v < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
       <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
