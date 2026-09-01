@@ -11,7 +11,7 @@
   --accent: #0065AC !important;              /* MDS brand-primary-alt: links, active, rings, eyebrows */
   --ink:    #0F0C08 !important;              /* body text — warm near-black (MDS text-icon-secondary) */
   --muted:  rgba(15,12,8,.62) !important;    /* secondary text / captions */
-  --line:   #E4E1DC !important;              /* CONTAINER borders — soft hairline. Cards/dividers are non-interactive, so WCAG 1.4.11 (3:1) does not apply; lighter than MDS neutral-500 #B9B6B1 for the airy look. */
+  --line:   #DEDBD6 !important;              /* CONTAINER borders / dividers — EXACT MDS soft divider, verified in the MDS Figma: Divider Soft=Yes = #DEDBD6 (rgb 222,219,214) = --v3-border-container. (Was #E4E1DC, a slightly lighter approximation.) */
   --field-line: #6F6D68 !important;          /* FORM-FIELD borders — EXACT MDS Input-field token, verified in the MDS Figma: --v3-border-input → --v3-base-neutral-clear → --neutral-gray-800-2 = rgb(111,109,104). Spec is 1px, radius 2px. ~4.9:1 on white → passes WCAG 2.1 SC 1.4.11. NOTE: this is the true MDS input border and is darker than neutral-500/750; if the team wants a lighter field edge that is a deliberate deviation from the MDS Input component. */
   /* --action #000F47 (Midnight/Blue-1000), --primary #000F47,
      --canvas #F7F3EE (canvas-warm) already match — left as-is. */
@@ -305,3 +305,19 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(203, 126, 3)"] {      /* Notice #CB7E03 */
   color: #FFAB4A !important; background: color-mix(in srgb, #FFAB4A 20%, transparent) !important; border-color: #FFAB4A !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MDS Slider — used for the Sample-10 action-card completion control.
+   Exact MDS values (verified in the Figma Slider component): 2px track,
+   filled #000F47 (navy) / unfilled #94918C (neutral gray); 12×12 navy
+   circular thumb, no border/shadow at rest; hover halo rgba(11,75,255,.1).
+   The filled portion comes from the --pct custom property set inline.
+   ═══════════════════════════════════════════════════════════════════════ */
+.pl-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 16px; background: transparent; cursor: pointer; outline: none; margin: 0; }
+.pl-slider::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: linear-gradient(to right, #000F47 var(--pct, 0%), #94918C var(--pct, 0%)); }
+.pl-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #000F47; border: none; margin-top: -5px; cursor: pointer; transition: box-shadow .15s ease; }
+.pl-slider:hover::-webkit-slider-thumb, .pl-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 10px rgba(11,75,255,.1); }
+.pl-slider::-moz-range-track { height: 2px; border-radius: 2px; background: #94918C; }
+.pl-slider::-moz-range-progress { height: 2px; border-radius: 2px; background: #000F47; }
+.pl-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #000F47; border: none; cursor: pointer; }
+.pl-slider:hover::-moz-range-thumb, .pl-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 10px rgba(11,75,255,.1); }

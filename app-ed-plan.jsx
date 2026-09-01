@@ -1658,6 +1658,25 @@ function PlSeg({ value, onChange, readOnly }) {
 function PlWideBar({ pct }) {
   return <div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", marginTop: 14 }}><div style={{ width: (pct || 0) + "%", height: "100%", background: eBLUE, borderRadius: 3, transition: "width .3s" }} /></div>;
 }
+// MDS Slider (completion). Exact MDS values: 2px track — filled #000F47 navy,
+// unfilled #94918C neutral — with a 12×12 navy circular thumb (see .pl-slider in
+// mds-folio.css). Interactive when editable; a static filled track when read-only.
+function PlSlider({ value, onChange, readOnly }) {
+  const v = Math.max(0, Math.min(100, value || 0));
+  if (readOnly) {
+    return (
+      <div style={{ position: "relative", height: 2, borderRadius: 2, background: "linear-gradient(to right, #000F47 " + v + "%, #94918C " + v + "%)", margin: "20px 0 8px" }}>
+        <span style={{ position: "absolute", top: -5, left: "calc(" + v + "% - 6px)", width: 12, height: 12, borderRadius: "50%", background: "#000F47" }} />
+      </div>
+    );
+  }
+  return (
+    <div style={{ marginTop: 12 }}>
+      <input type="range" min="0" max="100" step="1" value={v} className="pl-slider" aria-label="Completion percentage"
+        onChange={(e) => onChange(parseInt(e.target.value, 10))} style={{ ["--pct"]: v + "%" }} />
+    </div>
+  );
+}
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
 function PlPlanSummary({ stats, status }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, marginBottom: 6 };
@@ -2027,7 +2046,6 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     return (
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
-          <span style={{ marginTop: 7, width: 9, height: 9, borderRadius: 5, background: m.color, flexShrink: 0 }} />
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.title}</div>
@@ -2042,9 +2060,9 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         </div>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
           <div style={{ minWidth: 170 }}><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>
-          <div><div style={plMetaLabel}>Completion</div>{editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.completion || 0}%</span>}</div>
+          <div><div style={plMetaLabel}>Completion</div><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{action.completion || 0}%</span></div>
         </div>
-        <PlWideBar pct={action.completion || 0} />
+        <PlSlider value={action.completion || 0} onChange={onComplete} readOnly={!editable} />
       </div>
     );
   }
