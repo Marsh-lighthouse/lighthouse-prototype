@@ -650,6 +650,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           stats={edStats(data)}
           status={person.status}
           hideStatus
+          mb={18}
           lead={(
             <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
               <MgrAvatar p={person} size={46} />

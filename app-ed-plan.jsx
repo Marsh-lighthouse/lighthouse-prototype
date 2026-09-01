@@ -1704,12 +1704,12 @@ function PlSlider({ value, onChange, readOnly }) {
   );
 }
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
-function PlPlanSummary({ stats, status, lead, hideStatus, mt }) {
+function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   return (
-    <div style={{ marginTop: mt || 0, marginBottom: 8 }}>
+    <div style={{ marginTop: mt || 0, marginBottom: mb != null ? mb : 8 }}>
       <div style={{ display: "flex", flexWrap: "wrap", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
         {/* optional identity row (manager view folds the reportee's profile into the same box) */}
         {lead && <div style={{ flex: "1 1 100%", padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
