@@ -33,7 +33,7 @@ html[data-login-style="spotlight"] .lg-form-panel,
 html[data-login-style="cinematic"] .lg-form-panel,
 html[data-login-style="midnight"] .lg-form-panel {
   flex: none; width: min(470px, 100%); min-width: 0; position: relative; z-index: 1;
-  padding: 42px 46px 36px; border-radius: 2px;   /* MDS card/panel default (was 18px) */
+  padding: 42px 46px 36px; border-radius: 8px;   /* match the Folio content-card radius (was 18px) */
 }
 html[data-login-style="spotlight"] .lg-footer,
 html[data-login-style="cinematic"] .lg-footer,
@@ -202,7 +202,7 @@ html[data-login-style="midnight"] .lg-signup { color: rgba(206, 236, 255, .62); 
 html[data-login-style="aura"] .lg-split { background: #FFFFFF; padding: 16px; }
 html[data-login-style="aura"] .lg-feature {
   display: block !important; order: -1; flex: 1 1 56%; min-width: 0; position: relative;
-  border-radius: 2px; overflow: hidden; background: #05050F;
+  border-radius: 8px; overflow: hidden; background: #05050F;
 }
 html[data-login-style="aura"] .lg-video {
   display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
@@ -461,7 +461,7 @@ html[data-login-style="celestial"] .lg-feature { display: none !important; }
 html[data-login-style="celestial"] .lg-sky { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 html[data-login-style="celestial"] .lg-form-panel {
   flex: none; width: min(470px, 100%); min-width: 0; position: relative; z-index: 2;
-  padding: 42px 46px 36px; border-radius: 2px;   /* MDS card/panel default (was 18px) */
+  padding: 42px 46px 36px; border-radius: 8px;   /* match the Folio content-card radius (was 18px) */
   background: rgba(1, 8, 34, .60); border: 1px solid rgba(206, 236, 255, .20);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 32px 90px rgba(0, 4, 20, .45);
