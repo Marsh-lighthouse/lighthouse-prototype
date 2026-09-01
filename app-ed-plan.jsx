@@ -1158,7 +1158,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   const [tab, setTab] = plUseState("plan");
   // Which action-card design (see PL_SAMPLES). 6 by default, and the choice sticks —
   // the manager side already remembers its own the same way.
-  const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 6; });
+  const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 10; });
   const [sampleMenu, setSampleMenu] = plUseState(false);
   // Sample 10 (accordion) — the key "ci-si" of the one open skill; "" means all closed.
   const [openSkill, setOpenSkill] = plUseState("0-0");
@@ -1301,6 +1301,10 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {/* User information — a snapshot of the plan owner, shown above the tabs */}
       {userCard !== 4 && <PlUserInfo design={userCard} />}
 
+      {/* Sample 10 · plan-wide summary bar — sits below the title, above the tabs. The
+          top status badge already conveys status, so the bar's Status cell is hidden. */}
+      {sample === 10 && <PlPlanSummary stats={plStats(data)} hideStatus />}
+
       {/* tabs — same structure/colours as the program task-detail tabs (Intro / Tasks / Reports) */}
       {/* Tabs left, plan actions right — mirrors the manager's detail layout. */}
       <div className="ed-tabs" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginTop: 22, marginBottom: 30 }}>
@@ -1369,12 +1373,6 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
               </div>
             </div>
           )}
-          {/* Sample 10 · plan-wide summary bar under the tabs */}
-          {sample === 10 && (() => {
-            const st = plStats(data);
-            const status = completed ? "completed" : verdict ? verdict.status : awaiting ? (storeStatus === "review" ? "review" : "pending") : "draft";
-            return <PlPlanSummary stats={st} status={status} />;
-          })()}
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>

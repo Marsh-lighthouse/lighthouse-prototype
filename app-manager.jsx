@@ -395,7 +395,7 @@ function MgrSummaryDrawer({ person, onClose, onDecide }) {
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 8 }}>{skill}</div>
               {groups[skill].map((c, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "7px 0", borderTop: i ? "1px solid " + eLINE : "none" }}>
-                  <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? eBLUE : c.kind === "removed" ? "var(--danger)" : "#B4770A" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
+                  <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>
                     {c.label}
                     {c.scope === "skill" && <span style={{ color: eMUT, fontSize: 14 }}> · whole skill</span>}
@@ -533,7 +533,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   // INTERCONNECTED with the employee side: the manager reads the SAME plan-design
   // key ("pl-plan-design"), so whatever design the employee picks (incl. Sample 10)
   // is exactly what the manager reviews. Kept in sync live via planTick below.
-  const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 6; });
+  const [sample, setSample] = mgUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 10; });
   const [sampleMenu, setSampleMenu] = mgUseState(false);
   const [openSkill, setOpenSkill] = mgUseState("0-0");   // Sample-10 accordion: key of the one open skill ("" = all closed)
   mgUseEffect(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); if (v >= 1 && v <= 10 && v !== sample) setSample(v); }, [planTick]);
@@ -775,7 +775,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                             <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
                               {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
                               {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
-                              <span style={{ background: c.kind === "added" ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "rgba(255,191,0,.16)", color: c.kind === "added" ? eBLUE : "#B4770A", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                              <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
                             </li>
                           ))}
                         </ul>
