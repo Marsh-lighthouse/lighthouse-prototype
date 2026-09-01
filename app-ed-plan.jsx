@@ -789,11 +789,11 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
             const lastName = r.last ? (NAMES[r.last.who] || PL_ME) : "";
             // The plan-level thread isn't one of the skills — it gets its own tag and a
             // tinted card so it reads as the odd one out rather than the first of a list.
-            // MDS Badge variants, differentiated: the plan-level thread is a solid-navy
-            // Informative badge (stands out as the odd one), skill threads are the
-            // Neutral outline badge (#94918C border, no fill) — the regular ones.
+            // Two light MDS outline badges (these tags appear on most cards, so no
+            // heavy solid fill): the plan-level thread is an Informative blue outline
+            // (#002C77 + a faint tint), skill threads are the Neutral gray outline.
             const tag = r.overall
-              ? { label: "Whole plan", fg: "#FFFFFF", bg: "#000F47", border: "1px solid #000F47" }
+              ? { label: "Whole plan", fg: "#002C77", bg: "color-mix(in srgb, #002C77 10%, transparent)", border: "1px solid #002C77" }
               : { label: "Skill", fg: "var(--ink)", bg: "transparent", border: "1px solid #94918C" };
             return (
               <div key={i} role="button" tabIndex={0} onClick={() => onOpen(r.name)}
@@ -1671,6 +1671,17 @@ function PlSeg({ value, onChange, readOnly }) {
 function PlWideBar({ pct }) {
   return <div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", marginTop: 14 }}><div style={{ width: (pct || 0) + "%", height: "100%", background: eBLUE, borderRadius: 3, transition: "width .3s" }} /></div>;
 }
+// MDS Linear Bar (determinate) — the read-only completion indicator. Exact MDS
+// values from the Figma: 8px height, SQUARE ends (radius 0), fill #000F47 navy
+// (--v3-surface-primary), unfilled track #94918C gray (--v3-surface-disabled-strong).
+function PlLinearBar({ pct, width = 96 }) {
+  const v = Math.max(0, Math.min(100, pct || 0));
+  return (
+    <div style={{ width, height: 8, background: "#94918C", overflow: "hidden", flexShrink: 0 }}>
+      <div style={{ width: v + "%", height: "100%", background: "#000F47" }} />
+    </div>
+  );
+}
 // MDS Slider (completion). Exact MDS values: 2px track — filled #000F47 navy,
 // unfilled #94918C neutral — with a 12×12 navy circular thumb (see .pl-slider in
 // mds-folio.css). Interactive when editable; a static filled track when read-only.
@@ -2075,8 +2086,9 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
             <div style={plMetaLabel}>Completion</div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
-              {/* quick-select steps (0/25/50/75/100) — keep alongside the slider */}
-              {editable && <PlSeg value={action.completion || 0} onChange={onComplete} />}
+              {/* edit mode: quick-select steps (0/25/50/75/100) + slider below.
+                  view mode: the MDS Linear Bar as a compact visual next to the %. */}
+              {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
               <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
             </div>
           </div>
