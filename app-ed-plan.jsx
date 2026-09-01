@@ -1706,7 +1706,7 @@ function PlSlider({ value, onChange, readOnly }) {
   );
 }
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
-function PlPlanSummary({ stats, status, lead }) {
+function PlPlanSummary({ stats, status, lead, hideStatus }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
@@ -1718,8 +1718,8 @@ function PlPlanSummary({ stats, status, lead }) {
         <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div></div>
         <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 3 }}>{stats.complete} complete</div></div>
         <div style={{ ...cell(), minWidth: 150 }}><div style={lbl}>Completion</div><div style={{ height: 6, background: "rgba(0,15,71,.08)", borderRadius: 3, overflow: "hidden", margin: "3px 0 7px" }}><div style={{ width: stats.pct + "%", height: "100%", background: eBLUE, borderRadius: 3 }} /></div><div style={big}>{stats.pct}%</div></div>
-        <div style={cell()}><div style={lbl}>Overdue</div><div style={{ ...big, color: stats.overdue ? "#CB7E03" : eMID }}>{stats.overdue}</div></div>
-        <div style={cell(true)}><div style={lbl}>Status</div><div style={{ marginTop: 6 }}><PlStatusBadge status={status} size={15} /></div></div>
+        <div style={cell(hideStatus)}><div style={lbl}>Overdue</div><div style={{ ...big, color: stats.overdue ? "#CB7E03" : eMID }}>{stats.overdue}</div></div>
+        {!hideStatus && <div style={cell(true)}><div style={lbl}>Status</div><div style={{ marginTop: 6 }}><PlStatusBadge status={status} size={15} /></div></div>}
       </div>
     </div>
   );
