@@ -629,14 +629,14 @@ function IdpWizard({ initial, onBack, onFinish }) {
           <div style={{ display: "flex", gap: 11, alignItems: "flex-start", marginBottom: 16 }}>
             <div style={{ width: 34, height: 34, borderRadius: 10, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={16} /></div>
             <div style={{ flex: 1, minWidth: 0, background: "#fff", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 18px" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: eBLUE, marginBottom: 6 }}>Question {qi + 1}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eBLUE, marginBottom: 6 }}>Question {qi + 1}</div>
               <div className="serif" style={{ fontSize: 20, color: eMID, lineHeight: 1.25 }}>{q.q}</div>
             </div>
           </div>
           {/* reply dock */}
           <div style={{ marginLeft: 45 }}>
             <div style={{ background: error ? "color-mix(in srgb, var(--danger) 5%, var(--card))" : eCARD, border: error ? "1.5px solid " + eDANGER : "1px solid " + eLINE, borderRadius: 16, padding: "18px 18px 20px", transition: "border-color .2s, background .2s" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: eMUT, marginBottom: 13 }}>Your reply</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 13 }}>Your reply</div>
               {renderInput()}
             </div>
             {/* Only errors surface inline (you must see them). Positive coach responses
@@ -680,13 +680,13 @@ function IdpWizard({ initial, onBack, onFinish }) {
           <div ref={coachScrollRef} style={{ flex: 1, overflowY: "auto", padding: "16px 16px 70vh" }}>
             {themes.length > 0 && (
               <div style={{ marginBottom: 20 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: eMUT, marginBottom: 10 }}>What we have learned</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 10 }}>What we have learned</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
                   {themes.slice(0, 12).map((tg, ix) => <span key={ix} style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", borderRadius: 8, padding: "5px 10px" }}>{tg}</span>)}
                 </div>
               </div>
             )}
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: eMUT, marginBottom: 10 }}>Questions</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 10 }}>Questions</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {IDP_Q.map((qq, i) => {
                 const isCur = i === qi, isErr = isCur && !!error, done = i < qi;
@@ -698,7 +698,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                         <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: (isCur || done) ? eMID : eMUT }}>{qq.short}</span>
-                        {revised[i] && <span title="This answer was revised" style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".03em", textTransform: "uppercase", color: eMUT, background: "rgba(0,15,71,.06)", borderRadius: 5, padding: "1px 6px" }}>Revised</span>}
+                        {revised[i] && <span title="This answer was revised" style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, color: eMUT, background: "rgba(0,15,71,.06)", borderRadius: 5, padding: "1px 6px" }}>Revised</span>}
                       </div>
                       {isErr ? <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eDANGER, lineHeight: 1.45, marginTop: 3 }}>{error.reason}</div>
                         : done ? <React.Fragment>

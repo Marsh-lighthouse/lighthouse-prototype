@@ -55,7 +55,7 @@ function MnStepper({ step, design }) {
     return (
       <div style={{ marginBottom: 30 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: eMUT }}>Step {step + 1} of {MN_STEPS.length}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {step + 1} of {MN_STEPS.length}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID }}>{MN_STEPS[step]}</span>
         </div>
         <div style={{ display: "flex", gap: 6 }}>
