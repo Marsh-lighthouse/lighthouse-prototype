@@ -1652,11 +1652,15 @@ function plStats(data) {
 // mds-folio.css.
 function PlSeg({ value, onChange, readOnly }) {
   const steps = [0, 25, 50, 75, 100];
+  // The outline lives on the CONTAINER; each segment carries only a single
+  // border-left divider (none on the first). This gives ONE 1px line between
+  // options — not the doubled 2px seam you get when every segment has its own
+  // full border. overflow:hidden clips the segments to the container's 2px radius.
   return (
-    <div role="group" aria-label="Completion" style={{ display: "inline-flex" }}>
-      {steps.map((s, i) => { const on = (value || 0) === s; const first = i === 0; const last = i === steps.length - 1; return (
+    <div role="group" aria-label="Completion" style={{ display: "inline-flex", height: 32, boxSizing: "border-box", border: "1px solid #000F47", borderRadius: 2, overflow: "hidden" }}>
+      {steps.map((s, i) => { const on = (value || 0) === s; return (
         <button key={s} type="button" aria-pressed={on} className="pl-seg-btn" onClick={readOnly ? undefined : () => onChange(s)}
-          style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minWidth: 40, height: 32, boxSizing: "border-box", padding: "0 12px", background: on ? "#000F47" : "transparent", color: on ? "#CEECFF" : "#000F47", border: "1px solid #000F47", borderRadius: first ? "2px 0 0 2px" : last ? "0 2px 2px 0" : 0, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: readOnly ? "default" : "pointer" }}>{s}</button>
+          style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minWidth: 40, padding: "0 12px", background: on ? "#000F47" : "transparent", color: on ? "#CEECFF" : "#000F47", border: "none", borderLeft: i > 0 ? "1px solid #000F47" : "none", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: readOnly ? "default" : "pointer" }}>{s}</button>
       ); })}
     </div>
   );
