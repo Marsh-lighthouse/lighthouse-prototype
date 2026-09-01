@@ -607,7 +607,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
               {Array.from({ length: segs }).map((_, i) => {
                 const on = i < filled;
                 return (
-                  <div key={i} style={{ height: 26, borderRadius: 5, border: "2px solid var(--green-1000)", background: on ? "repeating-linear-gradient(45deg, var(--green-750), var(--green-750) 6px, #57A626 6px, #57A626 12px)" : "#fff", transition: "background .12s" }} />
+                  <div key={i} style={{ height: 26, borderRadius: 5, border: "2px solid #0E5C2A", background: on ? "repeating-linear-gradient(45deg, #14853D, #14853D 6px, #117A38 6px, #117A38 12px)" : "#fff", transition: "background .12s" }} />
                 );
               })}
             </div>
