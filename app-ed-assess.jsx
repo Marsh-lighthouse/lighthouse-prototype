@@ -1267,8 +1267,10 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
             <button onClick={onExit} className="oa-exit" style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "4px 6px", flexShrink: 0 }}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg> Exit</button>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 10 }}>
-            <div style={{ flex: 1, height: 6, borderRadius: 3, background: "var(--track)", overflow: "hidden" }}>
-              <div style={{ width: `${(qIdx + 1) / total * 100}%`, height: "100%", borderRadius: 3, background: eBLUE, transition: "width .35s ease" }} />
+            <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+              <div style={{ width: `${(qIdx + 1) / total * 100}%`, height: "100%", background: "var(--pl-fill)", flexShrink: 0, transition: "width .35s ease" }} />
+              {qIdx + 1 < total && <div style={{ width: 2, flexShrink: 0 }} />}
+              <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
             </div>
             <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, whiteSpace: "nowrap", flexShrink: 0 }}>{answeredCount}/{total} answered</span>
           </div>
@@ -1320,8 +1322,10 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
           <button onClick={onExit} className="oa-exit" style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "4px 6px", flexShrink: 0 }}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg> Exit</button>
                   </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 10 }}>
-          <div style={{ flex: 1, height: 6, borderRadius: 3, background: "var(--track)", overflow: "hidden" }}>
-            <div style={{ width: `${(page + 1) / pages * 100}%`, height: "100%", borderRadius: 3, background: eBLUE, transition: "width .35s ease" }} />
+          <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+            <div style={{ width: `${(page + 1) / pages * 100}%`, height: "100%", background: "var(--pl-fill)", flexShrink: 0, transition: "width .35s ease" }} />
+            {page + 1 < pages && <div style={{ width: 2, flexShrink: 0 }} />}
+            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, whiteSpace: "nowrap", flexShrink: 0 }}>{answeredCount}/{total} answered</span>
         </div>

@@ -167,8 +167,10 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           </div>
           <h2 className="serif" style={{ fontSize: 24, color: qMID, lineHeight: 1.15, margin: "0 0 10px" }}>Rate yourself first.</h2>
           <p style={{ fontSize: 14, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 0 18px" }}>Score yourself on {totalSelf} leadership competencies. Your answers anchor the gap analysis in your final report.</p>
-          <div style={{ height: 4, background: "var(--track)", borderRadius: 2, overflow: "hidden", marginBottom: 14 }}>
-            <div style={{ height: "100%", width: `${c360SelfDone ? 100 : selfPct}%`, background: c360SelfDone ? qGREEN : qBLUE, transition: "width .3s ease" }} />
+          <div style={{ display: "flex", alignItems: "center", height: 4, overflow: "hidden", marginBottom: 14 }}>
+            <div style={{ height: "100%", width: `${c360SelfDone ? 100 : selfPct}%`, background: c360SelfDone ? qGREEN : "var(--pl-fill)", flexShrink: 0, transition: "width .3s ease" }} />
+            {!c360SelfDone && selfPct > 0 && selfPct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: "auto", color: qBLUE, fontSize: 14, fontWeight: 700, fontFamily: "var(--sans)" }}>
             {c360SelfDone ? "Review responses" : selfAnsweredCount > 0 ? "Continue" : "Begin self-evaluation"} <QI.Arrow />
@@ -278,8 +280,10 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
       <div style={{ ...wrap, maxWidth: 720 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", whiteSpace: "nowrap" }}>Question {i + 1} of {c360Comps.length}</div>
-          <div style={{ flex: 1, height: 3, background: "var(--track)", borderRadius: 2, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${((i + 1) / c360Comps.length) * 100}%`, background: qBLUE, transition: "width .3s ease" }} />
+          <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+            <div style={{ height: "100%", width: `${((i + 1) / c360Comps.length) * 100}%`, background: "var(--pl-fill)", flexShrink: 0, transition: "width .3s ease" }} />
+            {i + 1 < c360Comps.length && <div style={{ width: 2, flexShrink: 0 }} />}
+            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
         </div>
         <h2 className="serif" style={{ fontSize: isMob ? 26 : 30, color: qMID, lineHeight: 1.15, margin: "0 0 12px" }}>{comp.label}</h2>
@@ -454,8 +458,10 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                   <div style={{ fontSize: 14, fontWeight: 700, color: qMID, fontFamily: "var(--sans)", marginBottom: 2 }}>{r.name}</div>
                   <div style={{ fontSize: 14, color: qINK, fontFamily: "var(--sans)" }}>{r.role}</div>
                 </div>
-                {!isMob && <div style={{ width: 100, height: 4, background: "var(--track)", borderRadius: 2, overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: `${r.progress}%`, background: stCfg.c, transition: "width .3s ease" }} />
+                {!isMob && <div style={{ width: 100, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${r.progress}%`, background: stCfg.c, flexShrink: 0, transition: "width .3s ease" }} />
+                  {r.progress > 0 && r.progress < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+                  <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
                 </div>}
                 <div style={{ padding: "4px 10px", borderRadius: 99, background: stCfg.bg, color: stCfg.c, fontSize: 14, fontWeight: 400, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
                 {(r.status === "invited" || r.status === "opened" || r.status === "in-progress") && (

@@ -168,8 +168,10 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT }}>Progress</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: isError ? eDANGER : isComplete ? eSUCCESS : st === "notstarted" || locked ? eMUT : col }}>{progLabel}</span>
         </div>
-        <div style={{ height: 4, borderRadius: 2, background: "var(--track)", overflow: "hidden", marginBottom: 12 }}>
-          <div style={{ width: `${barPct}%`, height: "100%", borderRadius: 2, background: isError ? eDANGER : isComplete ? eSUCCESS : col }} />
+        <div style={{ display: "flex", alignItems: "center", height: 4, overflow: "hidden", marginBottom: 12 }}>
+          <div style={{ width: `${barPct}%`, height: "100%", background: isError ? eDANGER : isComplete ? eSUCCESS : "var(--pl-fill)", flexShrink: 0 }} />
+          {barPct > 0 && barPct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+          <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
         </div>
 
         {/* footer */}
@@ -340,8 +342,10 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         )}
           <div style={{ flex: 1, minWidth: 100 }} />
           <div style={{ display: "flex", alignItems: "center", gap: 10, width: 180 }}>
-            <div style={{ flex: 1, height: 7, borderRadius: 4, background: "rgba(255,255,255,.14)", overflow: "hidden" }}>
-              <div style={{ width: `${prog.pct}%`, height: "100%", borderRadius: 4, background: eSKY }} />
+            <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+              <div style={{ width: `${prog.pct}%`, height: "100%", background: eSKY, flexShrink: 0 }} />
+              {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+              <div style={{ flex: 1, height: "100%", background: "rgba(255,255,255,.22)" }} />
             </div>
             <span className="serif" style={{ fontSize: 18, color: eSKY }}>{prog.pct}%</span>
           </div>
@@ -365,8 +369,10 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       )}
         <div style={{ flex: 1, minWidth: 100 }} />
         <div style={{ display: "flex", alignItems: "center", gap: 10, width: 180 }}>
-          <div style={{ flex: 1, height: 7, borderRadius: 4, background: "var(--track)", overflow: "hidden" }}>
-            <div style={{ width: `${prog.pct}%`, height: "100%", borderRadius: 4, background: eBLUE }} />
+          <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+            <div style={{ width: `${prog.pct}%`, height: "100%", background: "var(--pl-fill)", flexShrink: 0 }} />
+            {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
           <span className="serif" style={{ fontSize: 18, color: eBLUE }}>{prog.pct}%</span>
         </div>
@@ -387,8 +393,10 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       )}
         <div className="ed-hspacer" style={{ flex: 1 }} />
         <div className="ed-hprog" style={{ display: "flex", alignItems: "center", gap: 10, width: 180 }}>
-          <div style={{ flex: 1, height: 6, borderRadius: 4, background: "var(--track)", overflow: "hidden" }}>
-            <div style={{ width: `${prog.pct}%`, height: "100%", borderRadius: 4, background: "var(--accent)" }} />
+          <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+            <div style={{ width: `${prog.pct}%`, height: "100%", background: "var(--pl-fill)", flexShrink: 0 }} />
+            {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
           <span className="serif" style={{ fontSize: 18, color: eMID }}>{prog.pct}%</span>
         </div>
@@ -409,8 +417,10 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* data line: progress summary leads, then the task breakdown (wraps on mobile) */}
       <div className="ed-hstats" style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", rowGap: 10 }}>
         <div className="ed-hprog" style={{ display: "flex", alignItems: "center", gap: 10, width: 172, flexShrink: 0 }}>
-          <div style={{ flex: 1, height: 6, borderRadius: 4, background: "color-mix(in srgb, var(--ink) 14%, transparent)", overflow: "hidden" }}>
-            <div style={{ width: `${prog.pct}%`, height: "100%", borderRadius: 4, background: eMID }} />
+          <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
+            <div style={{ width: `${prog.pct}%`, height: "100%", background: "var(--pl-fill)", flexShrink: 0 }} />
+            {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
+            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
           <span className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
         </div>
