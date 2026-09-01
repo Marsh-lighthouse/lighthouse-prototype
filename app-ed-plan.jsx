@@ -1644,12 +1644,19 @@ function plStats(data) {
   const monY = (d) => PL_MONTHS[d.getMonth()].slice(0, 3) + " " + d.getFullYear();
   return { skills, actions, complete, pct: actions ? Math.round(sum / actions) : 0, overdue, range: (minS && maxE) ? monY(minS) + " – " + monY(maxE) : "" };
 }
-// Stepped 0/25/50/75/100 completion picker.
+// Stepped 0/25/50/75/100 completion picker — the MDS Segmented Button, Small
+// (32px) variant. Exact MDS values (verified in the Figma): selected bg #000F47
+// navy / text #CEECFF (Sky Blue); unselected transparent / navy #000F47 text;
+// 1px #000F47 border per segment; 2px outer corner radius; Noto Sans 700 16px;
+// hover on an unselected segment = rgba(0,15,71,.08). See .pl-seg-btn hover in
+// mds-folio.css.
 function PlSeg({ value, onChange, readOnly }) {
+  const steps = [0, 25, 50, 75, 100];
   return (
-    <div style={{ display: "inline-flex", border: "1px solid " + eLINE, borderRadius: 8, overflow: "hidden" }}>
-      {[0, 25, 50, 75, 100].map((s, i) => { const on = (value || 0) === s; return (
-        <button key={s} onClick={readOnly ? undefined : () => onChange(s)} style={{ minWidth: 46, padding: "7px 12px", background: on ? eBLUE : "var(--card)", color: on ? "#fff" : eMID, border: "none", borderLeft: i ? "1px solid " + eLINE : "none", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 600, cursor: readOnly ? "default" : "pointer" }}>{s}</button>
+    <div role="group" aria-label="Completion" style={{ display: "inline-flex" }}>
+      {steps.map((s, i) => { const on = (value || 0) === s; const first = i === 0; const last = i === steps.length - 1; return (
+        <button key={s} type="button" aria-pressed={on} className="pl-seg-btn" onClick={readOnly ? undefined : () => onChange(s)}
+          style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minWidth: 40, height: 32, boxSizing: "border-box", padding: "0 12px", background: on ? "#000F47" : "transparent", color: on ? "#CEECFF" : "#000F47", border: "1px solid #000F47", borderRadius: first ? "2px 0 0 2px" : last ? "0 2px 2px 0" : 0, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: readOnly ? "default" : "pointer" }}>{s}</button>
       ); })}
     </div>
   );

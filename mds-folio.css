@@ -321,3 +321,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 .pl-slider::-moz-range-progress { height: 2px; border-radius: 2px; background: #000F47; }
 .pl-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #000F47; border: none; cursor: pointer; }
 .pl-slider:hover::-moz-range-thumb, .pl-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 10px rgba(11,75,255,.1); }
+
+/* MDS Segmented Button (Small) — hover on an unselected segment. Exact MDS
+   hover: rgba(0,15,71,.08). Selected segments (aria-pressed=true) don't tint. */
+.pl-seg-btn:not([aria-pressed="true"]):hover { background: rgba(0,15,71,.08); }
