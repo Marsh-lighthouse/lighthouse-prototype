@@ -796,7 +796,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
             return (
               <div key={i} role="button" tabIndex={0} onClick={() => onOpen(r.name)}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(r.name); } }}
-                style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 8, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : "#DEDBD6"), background: "#F9F5F1", cursor: "pointer", marginBottom: 8, boxSizing: "border-box" }}
+                style={{ width: "100%", textAlign: "left", display: "flex", gap: 11, alignItems: "flex-start", padding: 12, borderRadius: 4, border: "1px solid " + (r.unread ? "color-mix(in srgb, var(--danger) 30%, transparent)" : "#DEDBD6"), background: "#F9F5F1", cursor: "pointer", marginBottom: 8, boxSizing: "border-box" }}
                 onMouseEnter={(e) => e.currentTarget.style.background = "#F2ECE4"}
                 onMouseLeave={(e) => e.currentTarget.style.background = "#F9F5F1"}>
                 <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{r.last ? plInitials(lastName) : <I.chat size={16} />}</span>
