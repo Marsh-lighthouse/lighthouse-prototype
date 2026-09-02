@@ -471,7 +471,7 @@ function MgrChangePanel({ person, changes, onClose, onSkill }) {
   const skills = Object.keys(groups);
   const total = (changes || []).length;
   return ReactDOM.createPortal(
-    <aside style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(340px, 92vw)", zIndex: 86, background: "var(--card)", borderLeft: "1px solid " + eLINE, boxShadow: "-18px 0 50px rgba(0,15,71,.18)", display: "flex", flexDirection: "column" }}>
+    <aside className="ed-idp-notes" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 40, background: "var(--card)", borderLeft: "1px solid " + eLINE, display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "18px 20px", borderBottom: "1px solid " + eLINE }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <h2 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>Change summary</h2>
