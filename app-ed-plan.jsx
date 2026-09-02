@@ -140,7 +140,7 @@ function PlInfoTip({ text, label }) {
 // tooltip (replaces the inline "Development Library / AI Coach / Manual" text).
 const PL_SRC = {
   "AI Coach": { icon: "spark", label: "AI Coach" },
-  "Custom": { icon: "edit", label: "Manual" },
+  "Custom": { icon: "fileText", label: "Manual" },
   "Development Library": { icon: "layers", label: "Development Library" },
 };
 function PlSrcIcon({ src }) {
