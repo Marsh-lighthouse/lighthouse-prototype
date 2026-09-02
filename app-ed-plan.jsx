@@ -2143,7 +2143,8 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
             <a href="#" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
               style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 9, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: "var(--accent)", textDecoration: "none", cursor: "pointer" }}>
               Open course
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7" /><path d="M8 7h9v9" /></svg>
+              {/* MDS external-link icon (filled glyph, currentColor) */}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M 10.969 3 C 11.383 3 11.719 3.336 11.719 3.75 C 11.719 4.164 11.383 4.5 10.969 4.5 L 4.5 4.5 L 4.5 19.5 L 19.5 19.5 L 19.5 14.063 C 19.5 13.648 19.836 13.313 20.25 13.313 C 20.664 13.313 21 13.648 21 14.063 L 21 20.25 C 21 20.664 20.664 21 20.25 21 L 3.75 21 C 3.336 21 3 20.664 3 20.25 L 3 3.75 C 3 3.336 3.336 3 3.75 3 L 10.969 3 Z M 19.5 9.938 L 19.5 5.561 L 11.499 13.562 C 11.206 13.854 10.731 13.854 10.438 13.562 C 10.146 13.269 10.146 12.794 10.438 12.501 L 18.439 4.5 L 14.063 4.5 C 13.648 4.5 13.313 4.164 13.313 3.75 C 13.313 3.336 13.648 3 14.063 3 L 20.25 3 C 20.664 3 21 3.336 21 3.75 L 21 9.938 C 21 10.352 20.664 10.688 20.25 10.688 C 19.836 10.688 19.5 10.352 19.5 9.938 Z" fill="currentColor" fillRule="nonzero" /></svg>
             </a>
           )}
         </div>
