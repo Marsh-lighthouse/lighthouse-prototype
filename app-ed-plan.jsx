@@ -10,7 +10,7 @@ const { useState: plUseState, useEffect: plUseEffect, useRef: plUseRef } = React
 const PL_LEARN = {
   10: { label: "Formal Learning", color: eMID, icon: "book" },
   20: { label: "Collaborative Learning", color: eSUCCESS, icon: "users" },
-  70: { label: "Learning on the Job", color: eBLUE, icon: "user" },
+  70: { label: "Learning on the Job", color: eBLUE, icon: "briefcase" },
 };
 
 // Seed plan content (mirrors the assessment competencies).
@@ -2146,6 +2146,13 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     // stay plain — heading + description. Within the library set, a stable ~half lead
     // with a photo so the plan still shows both card styles.
     const hasImg = action.src === "Development Library" && plHasImg(action.title);
+    // 100% complete — flag the card with a solid MDS Positive badge (top-right).
+    const done = (action.completion || 0) >= 100;
+    const completedBadge = done ? (
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 5, flexShrink: 0, background: "#14853D", color: "#ffffff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, borderRadius: 8, padding: "4px 11px", whiteSpace: "nowrap" }}>
+        <I.check size={14} /> Completed
+      </span>
+    ) : null;
     const modeChip = (
       <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 8, padding: "3px 10px" }}>
         {React.createElement(I[m.icon] || I.book, { size: 13 })}{m.label}
@@ -2172,17 +2179,18 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
             </a>
           )}
         </div>
-        {del}
+        {/* completed badge + delete sit together at the card's top-right */}
+        <div style={{ display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }}>{completedBadge}{del}</div>
       </div>
     );
     const dateBlock = (<div><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>);
-    // Completion: view shows just the %, edit adds the 0/25/50/75/100 steps. The fill
-    // itself is the edge-to-edge bar along the card's bottom (progressLine below).
+    // Completion — edit mode: the 0/25/50/75/100 steps (the fill shows as the edge-to-edge
+    // bar along the bottom). Saved/view mode: the small inline MDS bar next to the %.
     const completionBlock = (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
         <div style={plMetaLabel}>Completion</div>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          {editable && <PlSeg value={action.completion || 0} onChange={onComplete} />}
+          {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
           <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
         </div>
       </div>
@@ -2195,13 +2203,14 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
       </div>
     );
     const cardOuter = { background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
-    // The completion progress bar runs edge-to-edge along the very bottom of the card
+    // While editing, the completion runs edge-to-edge along the very bottom of the card
     // (negative margins cancel the card padding; the bottom corners are rounded to match).
-    const progressLine = (
+    // Saved cards drop it — the small inline bar in completionBlock is enough.
+    const progressLine = editable ? (
       <div style={{ marginTop: 14, marginLeft: -18, marginRight: -18, marginBottom: -18, overflow: "hidden", borderRadius: "0 0 7px 7px" }}>
         <PlLinearBar pct={action.completion || 0} width="100%" />
       </div>
-    );
+    ) : null;
     // Media card: the thumbnail sits beside the title / description / open-course / delete
     // in one row; the dates + completion drop to a full-width row underneath.
     if (hasImg) {

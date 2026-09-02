@@ -385,6 +385,7 @@ const I = {
   user: mk(["M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z", "M4.5 20a7.5 7.5 0 0 1 15 0"]),
   moon: mk(["M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"]),
   logout: mk(["M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4", "M15 12H7", "M15 6l6 6-6 6"]),
+  briefcase: mk(["M4 7h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z", "M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", "M3 13h18"]),
 };
 
 // ── Marsh wordmark (inline so it can be recolored white-on-midnight) ──
