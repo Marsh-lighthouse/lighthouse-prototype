@@ -2199,35 +2199,30 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
       </div>
     );
     const cardOuter = { background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
-    // View-mode media card: a smaller thumbnail leads the left column with the dates
-    // tucked right under it, so the title / description / completion take the full width.
-    if (hasImg && !editable) {
+    // Media card (view AND edit): a smaller thumbnail leads the left column with the
+    // dates tucked right under it, so the title / description / completion take the full
+    // width. In edit mode the date field is a wide picker, so the left column widens.
+    if (hasImg) {
       return (
         <div style={cardOuter}>
           <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-            <div style={{ flexShrink: 0, width: 72, display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ flexShrink: 0, width: editable ? 180 : 72, display: "flex", flexDirection: "column", gap: 12 }}>
               <PlThumb mix={action.mix} seed={action.title} size={72} />
               {dateBlock}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               {head}
               <div style={{ marginTop: 14 }}>{completionBlock}</div>
+              {slider}
             </div>
           </div>
         </div>
       );
     }
-    // Editing a media card keeps the thumbnail on the left but the wide date picker in
-    // the bottom row; plain cards use the same body with no thumbnail.
-    const body = (<React.Fragment>{head}{meta}{slider}</React.Fragment>);
+    // Plain card (no thumbnail): heading, then date + completion in a row, then slider.
     return (
       <div style={cardOuter}>
-        {hasImg
-          ? <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-              <PlThumb mix={action.mix} seed={action.title} size={96} />
-              <div style={{ flex: 1, minWidth: 0 }}>{body}</div>
-            </div>
-          : body}
+        {head}{meta}{slider}
       </div>
     );
   }
