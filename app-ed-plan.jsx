@@ -8,7 +8,7 @@ const { useState: plUseState, useEffect: plUseEffect, useRef: plUseRef } = React
 
 // Learning-mix metadata (70·20·10).
 const PL_LEARN = {
-  10: { label: "Formal Learning", color: eMID, icon: "mdsBook" },
+  10: { label: "Formal Learning", color: eMID, icon: "mdsOpenBook" },
   20: { label: "Collaborative Learning", color: eSUCCESS, icon: "mdsPeople" },
   70: { label: "Learning on the Job", color: eBLUE, icon: "mdsBriefcase" },
 };
