@@ -317,7 +317,7 @@ function MgrPersonCard({ p, design }) {
 // ════════════════════════════════════════════════
 //  1 · DIRECT REPORTEES — the list
 // ════════════════════════════════════════════════
-function MgrList({ team, onOpen, onSummary }) {
+function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
@@ -332,105 +332,102 @@ function MgrList({ team, onOpen, onSummary }) {
           <div style={{ ...head, width: 130, flexShrink: 0 }}>Actions</div>
         </div>
 
-        {/* the whole row opens the reportee — the chevron is the affordance, as in the assessor tables */}
-        {team.map((p, i) => (
-          <div key={p.id} className="mgr-row" role="button" tabIndex={0}
-            onClick={() => onOpen(p)}
-            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(p); } }}
-            style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 22px", borderTop: i ? "1px solid " + eLINE : "none", cursor: "pointer" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
-              <MgrAvatar p={p} />
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</div>
+        {/* the whole row opens the reportee — the chevron is the affordance, as in the assessor tables.
+            Summary no longer opens a drawer: it expands the change log inline, right under the row. */}
+        {team.map((p, i) => {
+          const expanded = openId === p.id;
+          const hasChanges = (p.changes || []).length > 0;
+          return (
+            <React.Fragment key={p.id}>
+              <div className="mgr-row" role="button" tabIndex={0}
+                onClick={() => onOpen(p)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(p); } }}
+                style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 22px", borderTop: i ? "1px solid " + eLINE : "none", cursor: "pointer", background: expanded ? "rgba(0,15,71,.02)" : "transparent" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
+                  <MgrAvatar p={p} />
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</div>
+                  </div>
+                </div>
+                <div style={{ width: 160, flexShrink: 0 }}><MgrBadge status={p.status} /></div>
+                <div style={{ width: 130, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+                  {/* The link is tied to there being changes, not to a status: what the
+                      reportee altered is worth reading while reviewing and after deciding. */}
+                  {hasChanges ? (
+                    <button onClick={(e) => { e.stopPropagation(); onToggleSummary(p); }} className="mgr-link" aria-expanded={expanded}
+                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 5 }}>
+                      Summary
+                      <span style={{ display: "flex", transition: "transform .15s", transform: expanded ? "rotate(180deg)" : "none" }}><I.chevD size={15} /></span>
+                    </button>
+                  ) : <span />}
+                  <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevR size={17} /></span>
+                </div>
               </div>
-            </div>
-            <div style={{ width: 160, flexShrink: 0 }}><MgrBadge status={p.status} /></div>
-            <div style={{ width: 130, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-              {/* The link is tied to there being changes, not to a status: what the
-                  reportee altered is worth reading while reviewing and after deciding. */}
-              {(p.changes || []).length > 0 ? (
-                <button onClick={(e) => { e.stopPropagation(); onSummary(p); }} className="mgr-link"
-                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Summary</button>
-              ) : <span />}
-              <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevR size={17} /></span>
-            </div>
-          </div>
-        ))}
+              {expanded && <MgrSummaryPanel person={p} onDecide={onDecide} />}
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );
 }
 
 // ════════════════════════════════════════════════
-//  2 · SUMMARY LOGS — side drawer of what the employee changed
+//  2 · SUMMARY LOGS — inline expand of what the employee changed
+//      (expands under the row in the reportee table; no drawer)
 // ════════════════════════════════════════════════
-function MgrSummaryDrawer({ person, onClose, onDecide }) {
+function MgrSummaryPanel({ person, onDecide }) {
   const groups = {};
   (person.changes || []).forEach((c) => { const k = c.skill || "Development plan"; (groups[k] = groups[k] || []).push(c); });
   const total = (person.changes || []).length;
   return (
-    <React.Fragment>
-      <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 85, background: "rgba(0,15,71,.28)" }} />
-      <aside style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(460px, 92vw)", zIndex: 86, background: "var(--card)", boxShadow: "-18px 0 50px rgba(0,15,71,.20)", display: "flex", flexDirection: "column" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "20px 24px", borderBottom: "1px solid " + eLINE }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 style={{ fontFamily: "var(--sans)", fontSize: 16.5, fontWeight: 700, color: eMID, margin: 0 }}>Change summary</h2>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, marginTop: 2 }}>
-              {person.first} {person.last} · {total} {total === 1 ? "change" : "changes"}
-            </div>
-          </div>
-          <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, flexShrink: 0 }}><I.plus size={19} style={{ transform: "rotate(45deg)" }} /></button>
-        </div>
+    <div style={{ borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)", padding: "18px 22px 20px" }}>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, letterSpacing: ".01em", marginBottom: 14 }}>
+        Change summary · {total} {total === 1 ? "change" : "changes"}
+      </div>
 
-        {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "18px 24px" }}>
-          {total === 0 && (
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, padding: "8px 0" }}>
-              {person.first} hasn't changed anything since the plan was created.
-            </div>
-          )}
-          {Object.keys(groups).map((skill) => (
-            <div key={skill} style={{ marginBottom: 20 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 8 }}>{skill}</div>
-              {groups[skill].map((c, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "7px 0", borderTop: i ? "1px solid " + eLINE : "none" }}>
-                  <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>
-                    {c.label}
-                    {c.scope === "skill" && <span style={{ color: eMUT, fontSize: 14 }}> · whole skill</span>}
-                  </span>
-                </div>
-              ))}
+      {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
+      {total === 0 && (
+        <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, padding: "2px 0 8px" }}>
+          {person.first} hasn't changed anything since the plan was created.
+        </div>
+      )}
+      {Object.keys(groups).map((skill) => (
+        <div key={skill} style={{ marginBottom: 16 }}>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 6 }}>{skill}</div>
+          {groups[skill].map((c, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "6px 0", borderTop: i ? "1px solid " + eLINE : "none" }}>
+              <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>
+                {c.label}
+                {c.scope === "skill" && <span style={{ color: eMUT, fontSize: 14 }}> · whole skill</span>}
+              </span>
             </div>
           ))}
         </div>
+      ))}
 
-        {/* Same gate as the plan screen: a decision only becomes available once the
-            review has actually been started, and never again after it's been taken. */}
-        <div style={{ borderTop: "1px solid " + eLINE, padding: "18px 26px", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end" }}>
-          {person.status === "pending" && (
-            <EdBtn primary onClick={() => onDecide("review")}><I.eye size={15} /> Start Review</EdBtn>
-          )}
-          {person.status === "review" && (
-            <React.Fragment>
-              <button onClick={() => onDecide("rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 20px", cursor: "pointer" }}>Reject</button>
-              <EdBtn primary onClick={() => onDecide("approved")}>Approve</EdBtn>
-            </React.Fragment>
-          )}
-          {(person.status === "approved" || person.status === "rejected") && (
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
-              Already {person.status === "approved" ? "approved" : "rejected"} — open the plan to review the decision.
-            </div>
-          )}
-          {person.status !== "pending" && person.status !== "review" && person.status !== "approved" && person.status !== "rejected" && (
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
-              {person.first} hasn't submitted this plan for approval yet.
-            </div>
-          )}
-        </div>
-      </aside>
-    </React.Fragment>
+      {/* Same gate as the plan screen: a decision only becomes available once the
+          review has actually been started, and never again after it's been taken.
+          Works in every state — In Review shows Approve / Reject; decided shows the outcome. */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: 4 }}>
+        {person.status === "pending" && (
+          <EdBtn primary small onClick={() => onDecide(person, "review")}><I.eye size={15} /> Start Review</EdBtn>
+        )}
+        {person.status === "review" && (
+          <React.Fragment>
+            <button onClick={() => onDecide(person, "rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
+            <EdBtn primary small onClick={() => onDecide(person, "approved")}>Approve</EdBtn>
+          </React.Fragment>
+        )}
+        {(person.status === "approved" || person.status === "rejected") && (
+          <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
+            Already {person.status === "approved" ? "approved" : "rejected"} — open the plan to review the decision.
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -1077,22 +1074,23 @@ function LHManager() {
                   : <MgrDetail self person={MGR_ME} onBack={() => {}} onDecide={() => {}} showToast={showToast} />)
               : route.page === "detail" && person
                 ? <MgrDetail person={person} onBack={() => setRoute({ page: "list", person: null })} onDecide={decide} showToast={showToast} />
-                : <MgrList team={team} onOpen={(p) => setRoute({ page: "detail", person: p })} onSummary={(p) => setSummary(p)} />}
+                : <MgrList team={team}
+                    onOpen={(p) => setRoute({ page: "detail", person: p })}
+                    openId={summary && summary.id}
+                    onToggleSummary={(p) => setSummary((cur) => (cur && cur.id === p.id ? null : p))}
+                    onDecide={(p, status) => {
+                      // Starting the review isn't a verdict — keep the row expanded so the
+                      // manager can read the changes and then decide, as on the plan screen.
+                      if (status === "review") { decide(p.id, "review", ""); showToast("Review started"); return; }
+                      decide(p.id, status, status === "rejected" ? "Rejected" : "");
+                      showToast(status === "approved" ? "Plan approved" : "Plan rejected");
+                    }} />}
           </div>
           {/* footer sits on the bottom edge even when the page is short */}
           <div style={{ marginTop: "auto" }}>{Footer ? <Footer /> : null}</div>
         </div>
         </div>
       </main>
-
-      {summary && <MgrSummaryDrawer person={team.find((t) => t.id === summary.id) || summary} onClose={() => setSummary(null)} onDecide={(status) => {
-        // Starting the review isn't a verdict — keep the drawer open so the manager
-        // can read the changes and then decide, exactly as on the plan screen.
-        if (status === "review") { decide(summary.id, "review", ""); showToast("Review started"); return; }
-        decide(summary.id, status, status === "rejected" ? "Rejected" : "");
-        setSummary(null);
-        showToast(status === "approved" ? "Plan approved" : "Plan rejected");
-      }} />}
 
       {toast && (
         <div style={{ position: "fixed", left: "50%", bottom: 28, transform: "translateX(-50%)", zIndex: 90, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "11px 18px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", display: "inline-flex", alignItems: "center", gap: 8 }}>
