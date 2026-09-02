@@ -2175,25 +2175,53 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         {del}
       </div>
     );
-    const meta = (
-      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
-        <div style={{ minWidth: 170 }}><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
-          <div style={plMetaLabel}>Completion</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
-            {/* edit mode: quick-select steps (0/25/50/75/100) + slider below.
-                view mode: the MDS Linear Bar as a compact visual next to the %. */}
-            {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
-            <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
-          </div>
+    const dateBlock = (<div><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>);
+    const completionBlock = (
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
+        <div style={plMetaLabel}>Completion</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
+          {/* edit mode: quick-select steps (0/25/50/75/100) + slider below.
+              view mode: the MDS Linear Bar as a compact visual next to the %. */}
+          {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
+          <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
         </div>
       </div>
     );
     // The slider is an editing control — in the saved/view mode we drop it and
     // keep just the % readout above, which makes the card shorter.
-    const body = (<React.Fragment>{head}{meta}{editable && <PlSlider value={action.completion || 0} onChange={onComplete} />}</React.Fragment>);
+    const slider = editable ? <PlSlider value={action.completion || 0} onChange={onComplete} /> : null;
+    // Bottom meta row (date + completion side by side) — used by the plain card and by
+    // the media card while editing (the date picker needs the room).
+    const meta = (
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
+        <div style={{ minWidth: 170 }}>{dateBlock}</div>
+        {completionBlock}
+      </div>
+    );
+    const cardOuter = { background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
+    // View-mode media card: a smaller thumbnail leads the left column with the dates
+    // tucked right under it, so the title / description / completion take the full width.
+    if (hasImg && !editable) {
+      return (
+        <div style={cardOuter}>
+          <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+            <div style={{ flexShrink: 0, width: 104, display: "flex", flexDirection: "column", gap: 12 }}>
+              <PlThumb mix={action.mix} seed={action.title} size={72} />
+              {dateBlock}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {head}
+              <div style={{ marginTop: 14 }}>{completionBlock}</div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    // Editing a media card keeps the thumbnail on the left but the wide date picker in
+    // the bottom row; plain cards use the same body with no thumbnail.
+    const body = (<React.Fragment>{head}{meta}{slider}</React.Fragment>);
     return (
-      <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
+      <div style={cardOuter}>
         {hasImg
           ? <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
               <PlThumb mix={action.mix} seed={action.title} size={96} />
