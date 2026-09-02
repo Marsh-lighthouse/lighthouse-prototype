@@ -394,17 +394,18 @@ function MgrSummaryPanel({ person, onDecide }) {
         </div>
       )}
       {Object.keys(groups).map((skill) => (
-        <div key={skill} style={{ marginBottom: 16 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 6 }}>{skill}</div>
-          {groups[skill].map((c, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "6px 0", borderTop: i ? "1px solid " + eLINE : "none" }}>
-              <span style={{ flexShrink: 0, width: 64, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03" }}>{c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Edited"}</span>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.45 }}>
-                {c.label}
-                {c.scope === "skill" && <span style={{ color: eMUT, fontSize: 14 }}> · whole skill</span>}
-              </span>
-            </div>
-          ))}
+        <div key={skill} style={{ marginBottom: 14 }}>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 4 }}>{skill}</div>
+          {/* same line format as the plan's "Change summary": kind + type, then the name as a tinted chip */}
+          <ul style={{ margin: 0, paddingLeft: 18 }}>
+            {groups[skill].map((c, i) => (
+              <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
+                {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
+                {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
+                <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       ))}
 
