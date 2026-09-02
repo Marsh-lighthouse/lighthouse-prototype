@@ -341,3 +341,15 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 .pl-seg-btn { border-radius: 0 !important; }
 .pl-seg-btn:first-child { border-radius: 2px 0 0 2px !important; }
 .pl-seg-btn:last-child { border-radius: 0 2px 2px 0 !important; }
+
+/* MDS scrollbar — thin, neutral, rounded (thumb = --v3-border-disabled #B9B6B1,
+   hover = neutral #94918C). Used by the manager's inline change-summary list when
+   it has more than 5 changes and needs to scroll. */
+.mgr-scrolly { scrollbar-width: thin; scrollbar-color: #B9B6B1 transparent; }
+.mgr-scrolly::-webkit-scrollbar { width: 10px; }
+.mgr-scrolly::-webkit-scrollbar-track { background: transparent; }
+.mgr-scrolly::-webkit-scrollbar-thumb { background: #B9B6B1; border-radius: 999px; border: 3px solid transparent; background-clip: content-box; }
+.mgr-scrolly::-webkit-scrollbar-thumb:hover { background: #94918C; border: 3px solid transparent; background-clip: content-box; }
+:root[data-theme="dark"] .mgr-scrolly { scrollbar-color: #56544F transparent; }
+:root[data-theme="dark"] .mgr-scrolly::-webkit-scrollbar-thumb { background: #56544F; }
+:root[data-theme="dark"] .mgr-scrolly::-webkit-scrollbar-thumb:hover { background: #6F6D68; }

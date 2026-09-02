@@ -382,15 +382,18 @@ function MgrSummaryPanel({ person, onDecide }) {
   const groups = {};
   (person.changes || []).forEach((c) => { const k = c.skill || "Development plan"; (groups[k] = groups[k] || []).push(c); });
   const total = (person.changes || []).length;
+  // Up to 5 changes render in full; from the 6th on the list gets a fixed height
+  // (~5 rows) and scrolls, keeping the decision bar in view. No scroll = no divider.
+  const scroll = total > 5;
   return (
     <div style={{ borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)", padding: "18px 22px 20px" }}>
       <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, marginBottom: 12 }}>
         {total} {total === 1 ? "change" : "changes"}
       </div>
 
-      {/* changes list — capped height so a long summary scrolls instead of
-          stretching the panel; the decision bar below stays pinned in view */}
-      <div style={{ maxHeight: 224, overflowY: "auto", paddingRight: 4, marginBottom: 4 }}>
+      {/* changes list — from the 6th change it gets a fixed height and scrolls (MDS
+          scrollbar) so the panel never stretches; ≤5 changes render in full */}
+      <div className={scroll ? "mgr-scrolly" : undefined} style={scroll ? { maxHeight: 165, overflowY: "auto", paddingRight: 10, marginBottom: 4 } : { marginBottom: 0 }}>
       {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
       {total === 0 && (
         <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, padding: "2px 0 8px" }}>
@@ -418,7 +421,7 @@ function MgrSummaryPanel({ person, onDecide }) {
           review has actually been started, and never again after it's been taken.
           Works in every state — In Review shows Approve / Reject; decided shows the outcome.
           Pinned below the scroll area so it stays reachable however long the change list is. */}
-      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: 12, borderTop: "1px solid " + eLINE, paddingTop: 14 }}>
+      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: scroll ? 12 : 10, borderTop: scroll ? "1px solid " + eLINE : "none", paddingTop: scroll ? 14 : 0 }}>
         {person.status === "pending" && (
           <EdBtn primary small onClick={() => onDecide(person, "review")}><I.eye size={15} /> Start Review</EdBtn>
         )}
