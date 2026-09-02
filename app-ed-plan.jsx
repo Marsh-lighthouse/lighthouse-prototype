@@ -2189,7 +2189,9 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     );
     // The slider is an editing control — in the saved/view mode we drop it and
     // keep just the % readout above, which makes the card shorter.
-    const slider = editable ? <PlSlider value={action.completion || 0} onChange={onComplete} /> : null;
+    // Completion is a 5-step control (0/25/50/75/100). Instead of a draggable slider,
+    // the chosen value shows as the MDS progress-bar line spanning the card beneath.
+    const progressLine = editable ? (<div style={{ marginTop: 12 }}><PlLinearBar pct={action.completion || 0} width="100%" /></div>) : null;
     // Bottom meta row (date + completion side by side) — used by the plain card and by
     // the media card while editing (the date picker needs the room).
     const meta = (
@@ -2213,16 +2215,17 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
             <div style={{ flex: 1, minWidth: 0 }}>
               {head}
               <div style={{ marginTop: 14 }}>{completionBlock}</div>
-              {slider}
             </div>
           </div>
+          {/* the progress line spans the whole card, so it runs left under the thumbnail */}
+          {progressLine}
         </div>
       );
     }
-    // Plain card (no thumbnail): heading, then date + completion in a row, then slider.
+    // Plain card (no thumbnail): heading, then date + completion in a row, then the line.
     return (
       <div style={cardOuter}>
-        {head}{meta}{slider}
+        {head}{meta}{progressLine}
       </div>
     );
   }
