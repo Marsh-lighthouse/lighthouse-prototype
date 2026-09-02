@@ -388,6 +388,9 @@ function MgrSummaryPanel({ person, onDecide }) {
         {total} {total === 1 ? "change" : "changes"}
       </div>
 
+      {/* changes list — capped height so a long summary scrolls instead of
+          stretching the panel; the decision bar below stays pinned in view */}
+      <div style={{ maxHeight: 224, overflowY: "auto", paddingRight: 4, marginBottom: 4 }}>
       {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
       {total === 0 && (
         <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, padding: "2px 0 8px" }}>
@@ -409,11 +412,13 @@ function MgrSummaryPanel({ person, onDecide }) {
           </ul>
         </div>
       ))}
+      </div>
 
       {/* Same gate as the plan screen: a decision only becomes available once the
           review has actually been started, and never again after it's been taken.
-          Works in every state — In Review shows Approve / Reject; decided shows the outcome. */}
-      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: 4 }}>
+          Works in every state — In Review shows Approve / Reject; decided shows the outcome.
+          Pinned below the scroll area so it stays reachable however long the change list is. */}
+      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: 12, borderTop: "1px solid " + eLINE, paddingTop: 14 }}>
         {person.status === "pending" && (
           <EdBtn primary small onClick={() => onDecide(person, "review")}><I.eye size={15} /> Start Review</EdBtn>
         )}
