@@ -8,9 +8,9 @@ const { useState: plUseState, useEffect: plUseEffect, useRef: plUseRef } = React
 
 // Learning-mix metadata (70·20·10).
 const PL_LEARN = {
-  10: { label: "Formal Learning", color: eMID, icon: "book" },
-  20: { label: "Collaborative Learning", color: eSUCCESS, icon: "users" },
-  70: { label: "Learning on the Job", color: eBLUE, icon: "briefcase" },
+  10: { label: "Formal Learning", color: eMID, icon: "mdsBook" },
+  20: { label: "Collaborative Learning", color: eSUCCESS, icon: "mdsPeople" },
+  70: { label: "Learning on the Job", color: eBLUE, icon: "mdsBriefcase" },
 };
 
 // Seed plan content (mirrors the assessment competencies).
@@ -139,9 +139,9 @@ function PlInfoTip({ text, label }) {
 // Source of a development action, shown as a compact icon with a hover / focus
 // tooltip (replaces the inline "Development Library / AI Coach / Manual" text).
 const PL_SRC = {
-  "AI Coach": { icon: "spark", label: "AI Coach" },
-  "Custom": { icon: "fileText", label: "Manual" },
-  "Development Library": { icon: "layers", label: "Development Library" },
+  "AI Coach": { icon: "mdsSparkle", label: "AI Coach" },
+  "Custom": { icon: "mdsDocument", label: "Manual" },
+  "Development Library": { icon: "mdsLibrary", label: "Development Library" },
 };
 function PlSrcIcon({ src }) {
   const s = PL_SRC[src] || PL_SRC["Development Library"];
@@ -2150,7 +2150,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     const done = (action.completion || 0) >= 100;
     const completedBadge = done ? (
       <span style={{ display: "inline-flex", alignItems: "center", gap: 5, flexShrink: 0, background: "#14853D", color: "#ffffff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, borderRadius: 8, padding: "4px 11px", whiteSpace: "nowrap" }}>
-        <I.check size={14} /> Completed
+        <I.mdsCheck size={14} /> Completed
       </span>
     ) : null;
     const modeChip = (
