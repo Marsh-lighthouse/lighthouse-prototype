@@ -2202,7 +2202,9 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         {completionBlock}
       </div>
     );
-    const cardOuter = { background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
+    // A completed action (100%) reads as done: MDS Positive-green border + a faint green
+    // tint, alongside the "Completed" badge. Neutral card otherwise.
+    const cardOuter = { background: done ? "color-mix(in srgb, #14853D 4%, var(--card))" : "var(--card)", border: "1px solid " + (done ? "#14853D" : eLINE), borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
     // While editing, the completion runs edge-to-edge along the very bottom of the card
     // (negative margins cancel the card padding; the bottom corners are rounded to match).
     // Saved cards drop it — the small inline bar in completionBlock is enough.
