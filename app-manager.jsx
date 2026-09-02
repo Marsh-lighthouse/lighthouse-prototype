@@ -364,7 +364,7 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
                   <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevR size={17} /></span>
                 </div>
               </div>
-              {expanded && <MgrSummaryPanel person={p} onDecide={onDecide} />}
+              {expanded && <MgrSummaryPanel person={p} onDecide={onDecide} onOpen={onOpen} />}
             </React.Fragment>
           );
         })}
@@ -377,7 +377,7 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
 //  2 · SUMMARY LOGS — inline expand of what the employee changed
 //      (expands under the row in the reportee table; no drawer)
 // ════════════════════════════════════════════════
-function MgrSummaryPanel({ person, onDecide }) {
+function MgrSummaryPanel({ person, onDecide, onOpen }) {
   const [pop, setPop] = mgUseState(null);           // "approved" | "rejected" — note prompt before deciding
   const groups = {};
   (person.changes || []).forEach((c) => { const k = c.skill || "Development plan"; (groups[k] = groups[k] || []).push(c); });
@@ -421,23 +421,29 @@ function MgrSummaryPanel({ person, onDecide }) {
           review has actually been started, and never again after it's been taken.
           Works in every state — In Review shows Approve / Reject; decided shows the outcome.
           Pinned below the scroll area so it stays reachable however long the change list is. */}
-      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: scroll ? 12 : 10, borderTop: scroll ? "1px solid " + eLINE : "none", paddingTop: scroll ? 14 : 0 }}>
-        {person.status === "pending" && (
-          <EdBtn primary small onClick={() => onDecide(person, "review")}><I.eye size={15} /> Start Review</EdBtn>
-        )}
-        {person.status === "review" && (
-          <React.Fragment>
-            {/* Approve / Reject prompt for a note first — the same MgrNotePop the plan screen uses */}
-            <button onClick={() => setPop(pop === "rejected" ? null : "rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
-            <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
-          </React.Fragment>
-        )}
-        {(person.status === "approved" || person.status === "rejected") && (
-          <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
-            Already {person.status === "approved" ? "approved" : "rejected"} — open the plan to review the decision.
-          </div>
-        )}
-        {pop && <MgrNotePop kind={pop} onClose={() => setPop(null)} onSubmit={(text) => { onDecide(person, pop, text); setPop(null); }} />}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "space-between", flexWrap: "wrap", marginTop: scroll ? 12 : 10, borderTop: scroll ? "1px solid " + eLINE : "none", paddingTop: scroll ? 14 : 0 }}>
+        {/* permanent — opens the reportee's full plan, same as clicking the row */}
+        <button onClick={() => onOpen && onOpen(person)} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", padding: "6px 2px", cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+          <I.eye size={15} /> View plan
+        </button>
+        <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10 }}>
+          {person.status === "pending" && (
+            <EdBtn primary small onClick={() => onDecide(person, "review")}><I.eye size={15} /> Start Review</EdBtn>
+          )}
+          {person.status === "review" && (
+            <React.Fragment>
+              {/* Approve / Reject prompt for a note first — the same MgrNotePop the plan screen uses */}
+              <button onClick={() => setPop(pop === "rejected" ? null : "rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
+              <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
+            </React.Fragment>
+          )}
+          {(person.status === "approved" || person.status === "rejected") && (
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
+              Already {person.status === "approved" ? "approved" : "rejected"}.
+            </div>
+          )}
+          {pop && <MgrNotePop kind={pop} onClose={() => setPop(null)} onSubmit={(text) => { onDecide(person, pop, text); setPop(null); }} />}
+        </div>
       </div>
     </div>
   );
