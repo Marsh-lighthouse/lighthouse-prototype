@@ -1196,13 +1196,11 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   // the manager side already remembers its own the same way.
   const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 10; });
   const [sampleMenu, setSampleMenu] = plUseState(false);
-  // Summary card design: 1 = totals bar (Skills/Actions/Completion), 2 = per-skill roll-up.
-  const [summaryDesign, setSummaryDesign] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-summary-design"), 10); return v === 2 ? 2 : 1; });
   // Sample 10 (accordion) — the key "ci-si" of the one open skill; "" means all closed.
   const [openSkill, setOpenSkill] = plUseState("0-0");
   // User-info presentation. 4 (default) hides the info card entirely and puts the
   // owner's name in the page title instead; 1–3 are the card layouts.
-  const [userCard, setUserCard] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-usercard-design"), 10); return v >= 1 && v <= 4 ? v : 4; });
+  const [userCard, setUserCard] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-usercard-design"), 10); return v >= 1 && v <= 5 ? v : 4; });
   const [userCardMenu, setUserCardMenu] = plUseState(false);
   const [reflectErr, setReflectErr] = plUseState(false); // demo: force the Reflective-questions error state
   const [reflectMenu, setReflectMenu] = plUseState(false);
@@ -1362,11 +1360,11 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {verdict && <div style={{ marginTop: 16 }}><PlDecisionNote status={verdict.status} note={verdict.note} when={plWhen(verdict.at)} /></div>}
 
       {/* User information — a snapshot of the plan owner, shown above the tabs */}
-      {userCard !== 4 && <PlUserInfo design={userCard} />}
+      {userCard !== 4 && userCard !== 5 && <PlUserInfo design={userCard} />}
 
       {/* Sample 10 · plan-wide summary bar — sits below the title, above the tabs. The
           top status badge already conveys status, so the bar's Status cell is hidden. */}
-      {sample === 10 && <PlPlanSummary stats={plStats(data)} hideStatus mt={22} data={data} design={summaryDesign} />}
+      {sample === 10 && <PlPlanSummary stats={plStats(data)} hideStatus mt={22} data={data} design={userCard === 5 ? 2 : 1} />}
 
       {/* tabs — same structure/colours as the program task-detail tabs (Intro / Tasks / Reports) */}
       {/* Tabs left, plan actions right — mirrors the manager's detail layout. */}
@@ -1636,15 +1634,6 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {/* comments */}
       {comments != null && <PlComments chip={comments || null} skills={plSkillNames(data)} onClose={() => setComments(null)} onOpen={(name) => openComments(name || "")} />}
 
-      {/* Summary design toggle — switches the top summary between Totals and the
-          per-skill roll-up. Floats just above the plan-design chip. */}
-      {tab === "plan" && sample === 10 && ReactDOM.createPortal(
-        <div style={{ position: "fixed", right: 200, bottom: 58, zIndex: 60, fontFamily: "var(--sans)" }}>
-          <button onClick={() => { const nd = summaryDesign === 2 ? 1 : 2; setSummaryDesign(nd); try { localStorage.setItem("pl-summary-design", String(nd)); } catch (e) {} }}
-            title="Switch the summary design" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
-            <I.chart size={14} /> Summary · {summaryDesign === 2 ? "By skill" : "Totals"}
-          </button>
-        </div>, document.body)}
 
       {/* Plan-design sample switcher — floats near the Marsh / All-directions chrome,
           only on the Plan tab. The chosen design carries into the saved (read) view. */}
@@ -1671,7 +1660,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
           {userCardMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>User card design</div>
-              {[[4, "Name in title", "No info bar — name sits in the heading"], [1, "Divided", "Identity beside a metadata grid"], [2, "Pills", "Details as soft tinted chips"], [3, "Hero panel", "Tinted identity column"]].map(([id, label, desc]) => { const on = userCard === id; return (
+              {[[4, "Name in title", "No info bar — name sits in the heading"], [1, "Divided", "Identity beside a metadata grid"], [2, "Pills", "Details as soft tinted chips"], [3, "Hero panel", "Tinted identity column"], [5, "By skill", "Summary lists each skill with its actions & completion"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
                   <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
