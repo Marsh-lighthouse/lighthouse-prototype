@@ -603,7 +603,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const [openSkill, setOpenSkill] = mgUseState("0-0");   // Sample-10 accordion: key of the one open skill ("" = all closed)
   mgUseEffect(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); if (v >= 1 && v <= 10 && v !== sample) setSample(v); }, [planTick]);
   // 2 (Minimal — picture, name, email) is the default reportee card.
-  const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return v >= 1 && v <= 3 ? v : 2; });
+  const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return (v >= 1 && v <= 3) || v === 5 ? v : 2; });
   const [userCardMenu, setUserCardMenu] = mgUseState(false);
   const pickUserCard = (n) => { setUserCard(n); try { localStorage.setItem("mgr-usercard-design", String(n)); } catch (e) {} setUserCardMenu(false); };
   const pickSample = (n) => { setSample(n); try { localStorage.setItem("pl-plan-design", String(n)); } catch (e) {} setSampleMenu(false); };
@@ -723,6 +723,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           status={person.status}
           hideStatus
           mb={18}
+          data={data}
+          design={userCard === 5 ? 2 : 1}
           lead={(
             <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
               <MgrAvatar p={person} size={46} />
@@ -944,7 +946,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           {userCardMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
-              {[[1, "Divided", "Identity beside a metadata grid"], [2, "Minimal", "Just picture, name and email"], [3, "Hero panel", "Tinted identity column"]].map(([id, label, desc]) => { const on = userCard === id; return (
+              {[[2, "Minimal", "Just picture, name and email"], [1, "Divided", "Identity beside a metadata grid"], [3, "Hero panel", "Tinted identity column"], [5, "By skill", "Summary lists each skill with its actions & completion"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
                   <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
