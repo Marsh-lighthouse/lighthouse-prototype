@@ -2119,9 +2119,11 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
   //    completion (0/25/50/75/100) and a full-width progress bar along the bottom ──
   if (sample === 10) {
     const durTxt = plDur(action.start, action.end);
-    // A stable ~half of the actions lead with a photo (media card); the rest stay
-    // text-only — so the plan shows both card styles side by side.
-    const hasImg = plHasImg(action.title);
+    // The image thumbnail + "Open course" link belong to Development Library actions
+    // only (they're catalogue courses). "Create my own" (Custom) and AI Coach items
+    // stay plain — heading + description. Within the library set, a stable ~half lead
+    // with a photo so the plan still shows both card styles.
+    const hasImg = action.src === "Development Library" && plHasImg(action.title);
     const modeChip = (
       <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 8, padding: "3px 10px" }}>
         {React.createElement(I[m.icon] || I.book, { size: 13 })}{m.label}
