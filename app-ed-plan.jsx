@@ -1634,6 +1634,9 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {/* comments */}
       {comments != null && <PlComments chip={comments || null} skills={plSkillNames(data)} onClose={() => setComments(null)} onOpen={(name) => openComments(name || "")} />}
 
+      {/* Ideation: category-breakdown chip, floats just above the plan-design chip */}
+      {tab === "plan" && <PlBreakdownChip data={data} />}
+
       {/* Plan-design sample switcher — floats near the Marsh / All-directions chrome,
           only on the Plan tab. The chosen design carries into the saved (read) view. */}
       {tab === "plan" && ReactDOM.createPortal(
@@ -1782,6 +1785,66 @@ function PlSlider({ value, onChange, readOnly }) {
     </div>
   );
 }
+// Floating "Breakdown" chip — a category split (Behavioral vs Technical) of the
+// plan-wide totals: how many skills and development actions sit under each, and how
+// many are complete. Ideation: sits beside the plan-design chip, opens a small card.
+function PlBreakdownChip({ data }) {
+  const [open, setOpen] = plUseState(false);
+  const ref = plUseRef(null);
+  plUseEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+  const rows = (data || []).map((c) => {
+    let actions = 0, complete = 0;
+    (c.skills || []).forEach((s) => (s.actions || []).forEach((a) => { actions++; if ((a.completion || 0) >= 100) complete++; }));
+    return { cat: c.cat, icon: c.icon, skills: (c.skills || []).length, actions, complete };
+  });
+  const T = rows.reduce((o, r) => ({ skills: o.skills + r.skills, actions: o.actions + r.actions, complete: o.complete + r.complete }), { skills: 0, actions: 0, complete: 0 });
+  const catColor = { Behavioral: eBLUE, Technical: eSUCCESS };
+  const num = { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: eMID, lineHeight: 1.1 };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 600, color: eMUT };
+  return ReactDOM.createPortal(
+    <div ref={ref} style={{ position: "fixed", right: 200, bottom: 58, zIndex: 60, fontFamily: "var(--sans)" }}>
+      {open && (
+        <div style={{ position: "absolute", bottom: 44, right: 0, width: 320, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: "14px 16px" }}>
+          <div style={{ fontSize: 14.5, fontWeight: 700, color: eMID }}>Breakdown by category</div>
+          <div style={{ fontSize: 13, color: eMUT, marginTop: 2, marginBottom: 12 }}>{T.skills} skills · {T.actions} actions · {T.complete} complete</div>
+          {rows.map((r, i) => {
+            const col = catColor[r.cat] || eMID;
+            const pct = r.actions ? Math.round(r.complete / r.actions * 100) : 0;
+            return (
+              <div key={i} style={{ padding: "11px 0", borderTop: "1px solid " + eLINE }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 9 }}>
+                  <span style={{ width: 24, height: 24, borderRadius: 7, background: col, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[r.icon] || I.bulb, { size: 14 })}</span>
+                  <span style={{ fontSize: 14.5, fontWeight: 700, color: eMID }}>{r.cat}</span>
+                </div>
+                <div style={{ display: "flex", gap: 22 }}>
+                  <div><div style={lbl}>Skills</div><div style={num}>{r.skills}</div></div>
+                  <div><div style={lbl}>Actions</div><div style={num}>{r.actions}</div></div>
+                  <div><div style={lbl}>Complete</div><div style={{ ...num, color: eSUCCESS }}>{r.complete}</div></div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 9 }}>
+                  <div style={{ flex: 1, height: 5, borderRadius: 3, overflow: "hidden", background: "rgba(0,15,71,.08)" }}>
+                    <div style={{ width: pct + "%", height: "100%", background: col }} />
+                  </div>
+                  <span style={{ fontSize: 12.5, fontWeight: 700, color: eMUT, minWidth: 30, textAlign: "right" }}>{pct}%</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <button onClick={() => setOpen((v) => !v)} title="Category breakdown" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+        <I.chart size={14} /> Breakdown
+      </button>
+    </div>,
+    document.body);
+}
+
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
 function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 };
