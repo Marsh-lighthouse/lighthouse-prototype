@@ -1952,7 +1952,6 @@ function PlRing({ pct, size = 46 }) {
 }
 
 function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, last, dateErr }) {
-  const [showWhy, setShowWhy] = plUseState(false); // Sample 10 "Why this development action" expander
   const m = PL_LEARN[action.mix];
   const srcLabel = action.src === "AI Coach" ? "AI Coach" : action.src === "Custom" ? "Custom" : "Development Library";
   const src = <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{action.src === "AI Coach" ? <I.spark size={14} /> : <I.layers size={14} />}{srcLabel}</span>;
@@ -2096,7 +2095,6 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         {React.createElement(I[m.icon] || I.book, { size: 13 })}{m.label}
       </span>
     );
-    const why = "Included to develop this skill through " + m.label.toLowerCase() + ". Work towards the completion target using the steps below, and mark your progress as you go.";
     return (
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
@@ -2107,8 +2105,6 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
               <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{srcLabel}{durTxt ? " · " + durTxt : ""}</span>
             </div>
             <PlDescLine text={action.desc} />
-            <button onClick={() => setShowWhy((v) => !v)} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", padding: 0, marginTop: 8, color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}><I.spark size={13} /> Why this development action</button>
-            {showWhy && <div style={{ background: "color-mix(in srgb, var(--accent) 5%, transparent)", borderRadius: 8, padding: "9px 12px", marginTop: 7, fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{why}</div>}
           </div>
           {del}
         </div>
