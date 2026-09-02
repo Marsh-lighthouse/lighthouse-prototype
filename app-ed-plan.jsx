@@ -1316,7 +1316,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         {/* The status rides beside the title while there's room for it, and drops
             onto its own line when the actions on the right leave none. */}
         <div style={{ flex: "1 1 auto", minWidth: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "9px 12px" }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3, minWidth: 0 }}>{userCard === 4 ? LH.user.first + " " + LH.user.last + ", Development Plan" : "Development Plan"}</h1>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3, minWidth: 0 }}>My Development Plan</h1>
           <span style={{ flexShrink: 0, display: "inline-flex" }}>
             <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : storeStatus === "review" ? "review" : awaiting ? "pending" : "draft"} />
           </span>
@@ -1743,8 +1743,7 @@ function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb }) {
         {lead && <div style={{ flex: "1 1 100%", padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
         <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div></div>
         <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 3 }}>{stats.complete} complete</div></div>
-        <div style={{ ...cell(), minWidth: 150 }}><div style={lbl}>Completion</div><div style={{ margin: "6px 0 9px" }}><PlLinearBar pct={stats.pct} width="100%" /></div><div style={big}>{stats.pct}%</div></div>
-        <div style={cell(hideStatus)}><div style={lbl}>Overdue</div><div style={{ ...big, color: stats.overdue ? "#CB7E03" : eMID }}>{stats.overdue}</div></div>
+        <div style={{ ...cell(hideStatus), minWidth: 150 }}><div style={lbl}>Completion</div><div style={{ margin: "6px 0 9px" }}><PlLinearBar pct={stats.pct} width="100%" /></div><div style={big}>{stats.pct}%</div></div>
         {!hideStatus && <div style={cell(true)}><div style={lbl}>Status</div><div style={{ marginTop: 6 }}><PlStatusBadge status={status} size={15} /></div></div>}
       </div>
     </div>
