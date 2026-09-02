@@ -136,6 +136,35 @@ function PlInfoTip({ text, label }) {
   );
 }
 
+// Source of a development action, shown as a compact icon with a hover / focus
+// tooltip (replaces the inline "Development Library / AI Coach / Manual" text).
+const PL_SRC = {
+  "AI Coach": { icon: "spark", label: "AI Coach" },
+  "Custom": { icon: "edit", label: "Manual" },
+  "Development Library": { icon: "layers", label: "Development Library" },
+};
+function PlSrcIcon({ src }) {
+  const s = PL_SRC[src] || PL_SRC["Development Library"];
+  const Ic = I[s.icon] || I.layers;
+  const [open, setOpen] = plUseState(false);
+  return (
+    <span style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+      <span tabIndex={0} role="img" aria-label={s.label}
+        onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}
+        onFocus={() => setOpen(true)} onBlur={() => setOpen(false)}
+        style={{ display: "inline-flex", alignItems: "center", color: eMUT, cursor: "default" }}>
+        <Ic size={15} />
+      </span>
+      {open && (
+        <span role="tooltip" style={{ position: "absolute", bottom: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)", width: "max-content", maxWidth: 256, background: "#FFFFFF", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: 1.43, borderRadius: 4, padding: "8px 10px", boxShadow: "0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)", zIndex: 80, textAlign: "left", pointerEvents: "none" }}>
+          {s.label}
+          <span style={{ position: "absolute", top: "100%", left: "50%", marginLeft: -6, borderLeft: "6px solid transparent", borderRight: "6px solid transparent", borderTop: "6px solid #FFFFFF" }} />
+        </span>
+      )}
+    </span>
+  );
+}
+
 // Tooltip copy for the three "add a development action" options.
 // TODO: replace with the final UX wording once provided.
 const PL_ADD_TIPS = {
@@ -2090,39 +2119,54 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
   //    completion (0/25/50/75/100) and a full-width progress bar along the bottom ──
   if (sample === 10) {
     const durTxt = plDur(action.start, action.end);
+    // A stable ~half of the actions lead with a photo (media card); the rest stay
+    // text-only — so the plan shows both card styles side by side.
+    const hasImg = plHasImg(action.title);
     const modeChip = (
       <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: m.color, background: "color-mix(in srgb, " + m.color + " 12%, transparent)", borderRadius: 8, padding: "3px 10px" }}>
         {React.createElement(I[m.icon] || I.book, { size: 13 })}{m.label}
       </span>
     );
+    const head = (
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{action.title}</div>
+            {modeChip}
+            {/* source is now an icon with a hover tooltip, not inline text */}
+            <PlSrcIcon src={action.src} />
+            {durTxt && <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{durTxt}</span>}
+          </div>
+          <PlDescLine text={action.desc} />
+        </div>
+        {del}
+      </div>
+    );
+    const meta = (
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
+        <div style={{ minWidth: 170 }}><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
+          <div style={plMetaLabel}>Completion</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
+            {/* edit mode: quick-select steps (0/25/50/75/100) + slider below.
+                view mode: the MDS Linear Bar as a compact visual next to the %. */}
+            {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
+            <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
+          </div>
+        </div>
+      </div>
+    );
+    // The slider is an editing control — in the saved/view mode we drop it and
+    // keep just the % readout above, which makes the card shorter.
+    const body = (<React.Fragment>{head}{meta}{editable && <PlSlider value={action.completion || 0} onChange={onComplete} />}</React.Fragment>);
     return (
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 11 }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{action.title}</div>
-              {modeChip}
-              <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{srcLabel}{durTxt ? " · " + durTxt : ""}</span>
+        {hasImg
+          ? <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+              <PlThumb mix={action.mix} seed={action.title} size={96} />
+              <div style={{ flex: 1, minWidth: 0 }}>{body}</div>
             </div>
-            <PlDescLine text={action.desc} />
-          </div>
-          {del}
-        </div>
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
-          <div style={{ minWidth: 170 }}><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
-            <div style={plMetaLabel}>Completion</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
-              {/* edit mode: quick-select steps (0/25/50/75/100) + slider below.
-                  view mode: the MDS Linear Bar as a compact visual next to the %. */}
-              {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
-              <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
-            </div>
-          </div>
-        </div>
-        {/* The slider is an editing control — in the saved/view mode we drop it and
-            keep just the % readout above, which makes the card shorter. */}
-        {editable && <PlSlider value={action.completion || 0} onChange={onComplete} />}
+          : body}
       </div>
     );
   }
