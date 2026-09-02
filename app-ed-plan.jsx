@@ -140,8 +140,8 @@ function PlInfoTip({ text, label }) {
 // tooltip (replaces the inline "Development Library / AI Coach / Manual" text).
 const PL_SRC = {
   "AI Coach": { icon: "mdsSparkle", label: "AI Coach" },
-  "Custom": { icon: "mdsDocument", label: "Manual" },
-  "Development Library": { icon: "mdsLibrary", label: "Development Library" },
+  "Custom": { icon: "mdsStylusNote", label: "Manual" },
+  "Development Library": { icon: "mdsTransitionSlide", label: "Development Library" },
 };
 function PlSrcIcon({ src }) {
   const s = PL_SRC[src] || PL_SRC["Development Library"];
