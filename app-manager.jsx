@@ -462,6 +462,45 @@ function MgrNotePop({ kind, onClose, onSubmit }) {
   );
 }
 
+// ── Change-summary side panel (manager plan view). Every change the reportee made,
+//    grouped by skill, in one place — so the manager reads them all without opening
+//    each skill. Opens like the chat panel; clicking a skill jumps to it in the plan. ──
+function MgrChangePanel({ person, changes, onClose, onSkill }) {
+  const groups = {};
+  (changes || []).forEach((c) => { const k = c.skill || "Development plan"; (groups[k] = groups[k] || []).push(c); });
+  const skills = Object.keys(groups);
+  const total = (changes || []).length;
+  return ReactDOM.createPortal(
+    <aside style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(340px, 92vw)", zIndex: 86, background: "var(--card)", borderLeft: "1px solid " + eLINE, boxShadow: "-18px 0 50px rgba(0,15,71,.18)", display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "18px 20px", borderBottom: "1px solid " + eLINE }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>Change summary</h2>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>{person.first} {person.last} · {total} {total === 1 ? "change" : "changes"}</div>
+        </div>
+        <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, flexShrink: 0 }}><I.plus size={19} style={{ transform: "rotate(45deg)" }} /></button>
+      </div>
+      <div className="mgr-scrolly" style={{ flex: 1, overflowY: "auto", padding: "16px 20px 22px" }}>
+        {total === 0 && (<div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6 }}>{person.first} hasn't changed anything since the plan was created.</div>)}
+        {skills.map((skill) => (
+          <div key={skill} style={{ marginBottom: 18 }}>
+            {/* the skill heading is a link — jumps to that skill in the plan (same as opening its comments) */}
+            <button onClick={() => onSkill(skill)} title="Go to this skill" style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, marginBottom: 6, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--accent)", textAlign: "left" }}>
+              {skill}<I.chevR size={15} />
+            </button>
+            <ul style={{ margin: 0, paddingLeft: 18 }}>
+              {groups[skill].map((c, i) => (
+                <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.85 }}>
+                  {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}{c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
+                  <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </aside>, document.body);
+}
+
 // ════════════════════════════════════════════════
 //  3 · DIRECT REPORTEES DETAIL — the plan, with the decision
 // ════════════════════════════════════════════════
@@ -476,6 +515,9 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const Comments = window.EdPlan && window.EdPlan.Comments;
   const threadsFor = (window.EdPlan && window.EdPlan.threadsFor) || (() => ({}));
   const [comments, setComments] = mgUseState(null);   // skill name, "" for the inbox, null = closed
+  const [changesOpen, setChangesOpen] = mgUseState(false);   // the change-summary side panel
+  // Only one right-side panel at a time — opening comments closes the change summary.
+  mgUseEffect(() => { if (comments != null) setChangesOpen(false); }, [comments]);
   const owner = self ? "self" : person.id;
   const [threadTick, setThreadTick] = mgUseState(0);
   mgUseEffect(() => {
@@ -495,7 +537,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   }, [owner, threadTick]);
   const anyUnread = unreadSkills.length > 0;
   // same rule as the employee plan: only push the page when the column still fits
-  const pushRoom = (window.EdPlan && window.EdPlan.usePushRoom) ? window.EdPlan.usePushRoom(comments) : false;
+  const pushRoom = (window.EdPlan && window.EdPlan.usePushRoom) ? window.EdPlan.usePushRoom(comments != null || changesOpen) : false;
   // opening a skill's thread brings that section into view, as on the employee side.
   // In the Sample-10 accordion the target skill is collapsed, so expand it first,
   // then scroll + flash on the next frame (matches the employee behaviour).
@@ -513,9 +555,9 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   // while the panel covers the right edge, shift the floating chrome left
   mgUseEffect(() => {
     const el = document.documentElement;
-    if (comments != null) el.setAttribute("data-lh-comments", "1"); else el.removeAttribute("data-lh-comments");
+    if (comments != null || changesOpen) el.setAttribute("data-lh-comments", "1"); else el.removeAttribute("data-lh-comments");
     return () => el.removeAttribute("data-lh-comments");
-  }, [comments]);
+  }, [comments, changesOpen]);
   const pickNote = (n) => { setNoteDesign(n); try { localStorage.setItem("mgr-reject-note", String(n)); } catch (e) {} setNoteMenu(false); };
   // The decision note — the reason on a rejection, the manager's note on an approval.
   // No attribution: the message is the point, not who wrote it.
@@ -606,7 +648,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
 
   return (
-    <div className="ed-plan-wrap" style={{ paddingRight: comments != null && pushRoom ? 344 : 0, transition: "padding .25s ease" }}>
+    <div className="ed-plan-wrap" style={{ paddingRight: (comments != null || changesOpen) && pushRoom ? 344 : 0, transition: "padding .25s ease" }}>
     <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
       {/* title row — status sits under the heading, as on the employee's plan, so a
           long title can never shove anything onto a second line */}
@@ -636,6 +678,13 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           )}
         </div>
         </div>
+        {/* Change summary — opens the side panel listing every change, grouped by skill */}
+        {!self && (person.changes || []).length > 0 && (
+          <button onClick={() => setChangesOpen(true)} title="See every change in one place"
+            style={{ alignSelf: "center", flexShrink: 0, display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", padding: "6px 2px", cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+            <I.layers size={16} /> Change summary
+          </button>
+        )}
       </div>
 
       {/* 2 · the note reads as a comment on the plan */}
@@ -908,6 +957,13 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           names={{ me: person.first + " " + person.last, mgr: MGR_ME.first + " " + MGR_ME.last }}
           onClose={() => setComments(null)} onOpen={(name) => setComments(name || "")} />,
         document.body)}
+
+      {/* Change-summary side panel — all changes in one place, skills jump to the plan */}
+      {changesOpen && !self && (
+        <MgrChangePanel person={person} changes={person.changes || []}
+          onClose={() => setChangesOpen(false)}
+          onSkill={(name) => { const go = window.EdPlan && window.EdPlan.goToSkill; if (go) go(name); }} />
+      )}
     </div>
     </div>
   );
