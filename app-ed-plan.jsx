@@ -2176,24 +2176,18 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
       </div>
     );
     const dateBlock = (<div><div style={plMetaLabel}>Start – End date</div>{dateNode}</div>);
+    // Completion: view shows just the %, edit adds the 0/25/50/75/100 steps. The fill
+    // itself is the edge-to-edge bar along the card's bottom (progressLine below).
     const completionBlock = (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
         <div style={plMetaLabel}>Completion</div>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          {/* edit mode: quick-select steps (0/25/50/75/100) + slider below.
-              view mode: the MDS Linear Bar as a compact visual next to the %. */}
-          {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
+          {editable && <PlSeg value={action.completion || 0} onChange={onComplete} />}
           <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
         </div>
       </div>
     );
-    // The slider is an editing control — in the saved/view mode we drop it and
-    // keep just the % readout above, which makes the card shorter.
-    // Completion is a 5-step control (0/25/50/75/100). Instead of a draggable slider,
-    // the chosen value shows as the MDS progress-bar line spanning the card beneath.
-    const progressLine = editable ? (<div style={{ marginTop: 12 }}><PlLinearBar pct={action.completion || 0} width="100%" /></div>) : null;
-    // Bottom meta row (date + completion side by side) — used by the plain card and by
-    // the media card while editing (the date picker needs the room).
+    // Bottom meta row: date on the left, completion on the right, full card width.
     const meta = (
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 18, flexWrap: "wrap", marginTop: 14 }}>
         <div style={{ minWidth: 170 }}>{dateBlock}</div>
@@ -2201,28 +2195,28 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
       </div>
     );
     const cardOuter = { background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "16px 18px 18px", marginBottom: 12, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
-    // Media card (view AND edit): a smaller thumbnail leads the left column with the
-    // dates tucked right under it, so the title / description / completion take the full
-    // width. In edit mode the date field is a wide picker, so the left column widens.
+    // The completion progress bar runs edge-to-edge along the very bottom of the card
+    // (negative margins cancel the card padding; the bottom corners are rounded to match).
+    const progressLine = (
+      <div style={{ marginTop: 14, marginLeft: -18, marginRight: -18, marginBottom: -18, overflow: "hidden", borderRadius: "0 0 7px 7px" }}>
+        <PlLinearBar pct={action.completion || 0} width="100%" />
+      </div>
+    );
+    // Media card: the thumbnail sits beside the title / description / open-course / delete
+    // in one row; the dates + completion drop to a full-width row underneath.
     if (hasImg) {
       return (
         <div style={cardOuter}>
-          <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-            <div style={{ flexShrink: 0, width: editable ? 180 : 72, display: "flex", flexDirection: "column", gap: 12 }}>
-              <PlThumb mix={action.mix} seed={action.title} size={72} />
-              {dateBlock}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              {head}
-              <div style={{ marginTop: 14 }}>{completionBlock}</div>
-            </div>
+          <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+            <PlThumb mix={action.mix} seed={action.title} size={88} />
+            <div style={{ flex: 1, minWidth: 0 }}>{head}</div>
           </div>
-          {/* the progress line spans the whole card, so it runs left under the thumbnail */}
+          {meta}
           {progressLine}
         </div>
       );
     }
-    // Plain card (no thumbnail): heading, then date + completion in a row, then the line.
+    // Plain card (no thumbnail): heading, then date + completion, then the bottom bar.
     return (
       <div style={cardOuter}>
         {head}{meta}{progressLine}
