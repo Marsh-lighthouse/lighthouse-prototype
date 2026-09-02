@@ -2204,8 +2204,8 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     if (hasImg && !editable) {
       return (
         <div style={cardOuter}>
-          <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-            <div style={{ flexShrink: 0, width: 104, display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+            <div style={{ flexShrink: 0, width: 72, display: "flex", flexDirection: "column", gap: 12 }}>
               <PlThumb mix={action.mix} seed={action.title} size={72} />
               {dateBlock}
             </div>
