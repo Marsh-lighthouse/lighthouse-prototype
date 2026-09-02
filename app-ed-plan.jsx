@@ -1196,6 +1196,8 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   // the manager side already remembers its own the same way.
   const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 10; });
   const [sampleMenu, setSampleMenu] = plUseState(false);
+  // Summary card design: 1 = totals bar (Skills/Actions/Completion), 2 = per-skill roll-up.
+  const [summaryDesign, setSummaryDesign] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-summary-design"), 10); return v === 2 ? 2 : 1; });
   // Sample 10 (accordion) — the key "ci-si" of the one open skill; "" means all closed.
   const [openSkill, setOpenSkill] = plUseState("0-0");
   // User-info presentation. 4 (default) hides the info card entirely and puts the
@@ -1364,7 +1366,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
 
       {/* Sample 10 · plan-wide summary bar — sits below the title, above the tabs. The
           top status badge already conveys status, so the bar's Status cell is hidden. */}
-      {sample === 10 && <PlPlanSummary stats={plStats(data)} hideStatus mt={22} />}
+      {sample === 10 && <PlPlanSummary stats={plStats(data)} hideStatus mt={22} data={data} design={summaryDesign} />}
 
       {/* tabs — same structure/colours as the program task-detail tabs (Intro / Tasks / Reports) */}
       {/* Tabs left, plan actions right — mirrors the manager's detail layout. */}
@@ -1634,8 +1636,15 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {/* comments */}
       {comments != null && <PlComments chip={comments || null} skills={plSkillNames(data)} onClose={() => setComments(null)} onOpen={(name) => openComments(name || "")} />}
 
-      {/* Ideation: category-breakdown chip, floats just above the plan-design chip */}
-      {tab === "plan" && <PlBreakdownChip data={data} />}
+      {/* Summary design toggle — switches the top summary between Totals and the
+          per-skill roll-up. Floats just above the plan-design chip. */}
+      {tab === "plan" && sample === 10 && ReactDOM.createPortal(
+        <div style={{ position: "fixed", right: 200, bottom: 58, zIndex: 60, fontFamily: "var(--sans)" }}>
+          <button onClick={() => { const nd = summaryDesign === 2 ? 1 : 2; setSummaryDesign(nd); try { localStorage.setItem("pl-summary-design", String(nd)); } catch (e) {} }}
+            title="Switch the summary design" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            <I.chart size={14} /> Summary · {summaryDesign === 2 ? "By skill" : "Totals"}
+          </button>
+        </div>, document.body)}
 
       {/* Plan-design sample switcher — floats near the Marsh / All-directions chrome,
           only on the Plan tab. The chosen design carries into the saved (read) view. */}
@@ -1846,10 +1855,45 @@ function PlBreakdownChip({ data }) {
 }
 
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
-function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb }) {
+function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
+  // Design 2 — per-skill roll-up: every skill listed with its action count, completed
+  // count and average completion, grouped by category. (Design 1 = the totals bar.)
+  if (design === 2 && data) {
+    return (
+      <div style={{ marginTop: mt || 0, marginBottom: mb != null ? mb : 8 }}>
+        <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
+          {lead && <div style={{ padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
+          <div style={{ padding: "4px 18px 12px" }}>
+            {(data || []).map((cat, ci) => (
+              <div key={ci}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, color: eMUT, textTransform: "uppercase", letterSpacing: ".05em", margin: ci ? "16px 0 2px" : "12px 0 2px" }}>{cat.cat}</div>
+                {(cat.skills || []).map((s, si) => {
+                  const acts = (s.actions || []).length;
+                  const done = (s.actions || []).filter((a) => (a.completion || 0) >= 100).length;
+                  const avg = acts ? Math.round((s.actions || []).reduce((n, a) => n + (a.completion || 0), 0) / acts) : 0;
+                  return (
+                    <div key={si} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 0", borderTop: "1px solid " + eLINE, flexWrap: "wrap" }}>
+                      <div style={{ flex: "1 1 220px", minWidth: 0 }}>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID }}>{s.name}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 1 }}>{acts} action{acts === 1 ? "" : "s"} · {done} complete</div>
+                      </div>
+                      <div style={{ width: 170, flexShrink: 0, display: "flex", alignItems: "center", gap: 10 }}>
+                        <PlLinearBar pct={avg} width="100%" />
+                        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{avg}%</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div style={{ marginTop: mt || 0, marginBottom: mb != null ? mb : 8 }}>
       <div style={{ display: "flex", flexWrap: "wrap", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>

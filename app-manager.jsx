@@ -422,8 +422,9 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
           Works in every state — In Review shows Approve / Reject; decided shows the outcome.
           Pinned below the scroll area so it stays reachable however long the change list is. */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "space-between", flexWrap: "wrap", marginTop: scroll ? 12 : 10, borderTop: scroll ? "1px solid " + eLINE : "none", paddingTop: scroll ? 14 : 0 }}>
-        {/* permanent — opens the reportee's full plan, same as clicking the row */}
-        <button onClick={() => onOpen && onOpen(person)} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", padding: "6px 2px", cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+        {/* permanent — opens the reportee's full plan, same as clicking the row. A white
+            bordered button matching Reject. */}
+        <button onClick={() => onOpen && onOpen(person)} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
           <I.eye size={15} /> View plan
         </button>
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10 }}>
@@ -433,8 +434,8 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
           {person.status === "review" && (
             <React.Fragment>
               {/* Approve / Reject prompt for a note first — the same MgrNotePop the plan screen uses */}
-              <button onClick={() => setPop(pop === "rejected" ? null : "rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
-              <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
+              <button onClick={() => setPop(pop === "rejected" ? null : "rejected")} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}><I.plus size={15} style={{ transform: "rotate(45deg)" }} /> Reject</button>
+              <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}><I.check size={15} /> Approve</EdBtn>
             </React.Fragment>
           )}
           {(person.status === "approved" || person.status === "rejected") && (
