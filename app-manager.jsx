@@ -378,13 +378,14 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
 //      (expands under the row in the reportee table; no drawer)
 // ════════════════════════════════════════════════
 function MgrSummaryPanel({ person, onDecide }) {
+  const [pop, setPop] = mgUseState(null);           // "approved" | "rejected" — note prompt before deciding
   const groups = {};
   (person.changes || []).forEach((c) => { const k = c.skill || "Development plan"; (groups[k] = groups[k] || []).push(c); });
   const total = (person.changes || []).length;
   return (
     <div style={{ borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)", padding: "18px 22px 20px" }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, letterSpacing: ".01em", marginBottom: 14 }}>
-        Change summary · {total} {total === 1 ? "change" : "changes"}
+      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 14 }}>
+        Change summary <span style={{ fontWeight: 400, color: eMUT }}>· {total} {total === 1 ? "change" : "changes"}</span>
       </div>
 
       {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
@@ -395,7 +396,7 @@ function MgrSummaryPanel({ person, onDecide }) {
       )}
       {Object.keys(groups).map((skill) => (
         <div key={skill} style={{ marginBottom: 14 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, marginBottom: 4 }}>{skill}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 4 }}>{skill}</div>
           {/* same line format as the plan's "Change summary": kind + type, then the name as a tinted chip */}
           <ul style={{ margin: 0, paddingLeft: 18 }}>
             {groups[skill].map((c, i) => (
@@ -412,14 +413,15 @@ function MgrSummaryPanel({ person, onDecide }) {
       {/* Same gate as the plan screen: a decision only becomes available once the
           review has actually been started, and never again after it's been taken.
           Works in every state — In Review shows Approve / Reject; decided shows the outcome. */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: 4 }}>
+      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, justifyContent: "flex-end", marginTop: 4 }}>
         {person.status === "pending" && (
           <EdBtn primary small onClick={() => onDecide(person, "review")}><I.eye size={15} /> Start Review</EdBtn>
         )}
         {person.status === "review" && (
           <React.Fragment>
-            <button onClick={() => onDecide(person, "rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
-            <EdBtn primary small onClick={() => onDecide(person, "approved")}>Approve</EdBtn>
+            {/* Approve / Reject prompt for a note first — the same MgrNotePop the plan screen uses */}
+            <button onClick={() => setPop(pop === "rejected" ? null : "rejected")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
+            <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
           </React.Fragment>
         )}
         {(person.status === "approved" || person.status === "rejected") && (
@@ -427,6 +429,7 @@ function MgrSummaryPanel({ person, onDecide }) {
             Already {person.status === "approved" ? "approved" : "rejected"} — open the plan to review the decision.
           </div>
         )}
+        {pop && <MgrNotePop kind={pop} onClose={() => setPop(null)} onSubmit={(text) => { onDecide(person, pop, text); setPop(null); }} />}
       </div>
     </div>
   );
@@ -1079,11 +1082,12 @@ function LHManager() {
                     onOpen={(p) => setRoute({ page: "detail", person: p })}
                     openId={summary && summary.id}
                     onToggleSummary={(p) => setSummary((cur) => (cur && cur.id === p.id ? null : p))}
-                    onDecide={(p, status) => {
+                    onDecide={(p, status, text) => {
                       // Starting the review isn't a verdict — keep the row expanded so the
                       // manager can read the changes and then decide, as on the plan screen.
                       if (status === "review") { decide(p.id, "review", ""); showToast("Review started"); return; }
-                      decide(p.id, status, status === "rejected" ? "Rejected" : "");
+                      // Approve / Reject carry the manager's note (reason on reject) — same as the plan screen.
+                      decide(p.id, status, text || "");
                       showToast(status === "approved" ? "Plan approved" : "Plan rejected");
                     }} />}
           </div>
