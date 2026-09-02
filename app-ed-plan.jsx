@@ -2138,6 +2138,14 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
             {durTxt && <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>{durTxt}</span>}
           </div>
           <PlDescLine text={action.desc} />
+          {/* course link — only on the media (image) cards; third-party, opens in a new tab, no underline */}
+          {hasImg && (
+            <a href="#" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 9, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: "var(--accent)", textDecoration: "none", cursor: "pointer" }}>
+              Open course
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7" /><path d="M8 7h9v9" /></svg>
+            </a>
+          )}
         </div>
         {del}
       </div>
