@@ -1248,6 +1248,10 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   }, []);
   // every edit lands in the shared store, so the manager's view is always current
   plUseEffect(() => { plSavePlan(PL_OWNER, data); }, [data]);
+  // what the owner changed vs. the assigned plan, grouped by skill — shown under each
+  // skill (the same change summary the manager reads), so the owner can review before submitting.
+  const changesBySkill = {};
+  (plDiff(data) || []).forEach((c) => { const k = c.skill || ""; (changesBySkill[k] = changesBySkill[k] || []).push(c); });
   const verdict = decision && (decision.status === "approved" || decision.status === "rejected") ? decision : null;
   const storeStatus = decision && decision.status;
   // Waiting on the manager — either queued (pending) or actively being reviewed.
@@ -1442,6 +1446,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                 const acc = sample === 10;              // accordion layout (single skill open at a time)
                 const openKey = ci + "-" + si;
                 const open = !acc || openSkill === openKey;
+                const skillChanges = changesBySkill[skill.name] || [];
                 const sActs = skill.actions.length;
                 const sPct = sActs ? Math.round(skill.actions.reduce((t, a) => t + (a.completion || 0), 0) / sActs) : 0;
 
@@ -1511,6 +1516,22 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                   </div>
                 ) : null;
 
+                // per-skill change summary — the same block the manager reads, under each skill
+                const changesNode = skillChanges.length > 0 ? (
+                  <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
+                    <ul style={{ margin: 0, paddingLeft: 18 }}>
+                      {skillChanges.map((c, i) => (
+                        <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
+                          {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
+                          {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
+                          <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null;
+
                 // ── Accordion layout (Sample 10) — no box; the plain skill heading with a
                 //    leading arrow, a divider line between skills, and the body collapsing.
                 //    Collapsed shows exactly the heading (name, rating, public, chat, delete). ──
@@ -1528,7 +1549,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                         {commentBtn}
                         {delBtn}
                       </div>
-                      {open && <div style={{ paddingBottom: 16 }}>{actionsNode}{addRowNode}</div>}
+                      {open && <div style={{ paddingBottom: 16 }}>{actionsNode}{changesNode}{addRowNode}</div>}
                     </div>
                   );
                 }
@@ -1546,6 +1567,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                     {delBtn}
                   </div>
                   {actionsNode}
+                  {changesNode}
                   {addRowNode}
                 </div>
                 );
