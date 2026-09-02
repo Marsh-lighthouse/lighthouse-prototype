@@ -384,8 +384,8 @@ function MgrSummaryPanel({ person, onDecide }) {
   const total = (person.changes || []).length;
   return (
     <div style={{ borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)", padding: "18px 22px 20px" }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 14 }}>
-        Change summary <span style={{ fontWeight: 400, color: eMUT }}>· {total} {total === 1 ? "change" : "changes"}</span>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, marginBottom: 12 }}>
+        {total} {total === 1 ? "change" : "changes"}
       </div>
 
       {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
