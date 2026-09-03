@@ -1766,7 +1766,7 @@ function EdDevChoice({ onBack, onPickAI, onPickManual }) {
 function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
   const [mode, setMode] = idpUseState(initialMode || "choose"); // choose | landing | flow | manual | plan
   const [watched, setWatched] = idpUseState(false);
-  const [fromManual, setFromManual] = idpUseState(false);   // a hand-built plan opens read-only
+  const [fromManual, setFromManual] = idpUseState(false);   // tracked for context; a freshly-created plan (manual OR AI) always opens in edit mode
 
   // The rail can drive the mode (New Plan / My Plan). React only to an actual change
   // of the prop, so internal transitions (generate → plan) aren't clobbered.
@@ -1818,7 +1818,7 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
   if (mode === "manual") { const M = window.EdManual && window.EdManual.ManualFlow;
     return M ? <M onExit={() => setMode("choose")} onDone={() => { setFromManual(true); setMode("plan"); }} /> : null; }
   if (mode === "flow") return <EdIdpFlow initialStep={idpStep} onStep={onStep} onExit={() => setMode("landing")} onDone={() => setMode("plan")} />;
-  if (mode === "plan") { const P = window.EdPlan && window.EdPlan.EdPlanPage; return P ? <P onBack={onBack} onRestart={() => setMode("flow")} startLocked={fromManual} /> : <EdPlanView onBack={onBack} onRestart={() => setMode("flow")} />; }
+  if (mode === "plan") { const P = window.EdPlan && window.EdPlan.EdPlanPage; return P ? <P onBack={onBack} onRestart={() => setMode("flow")} startLocked={false} /> : <EdPlanView onBack={onBack} onRestart={() => setMode("flow")} />; }
 
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
