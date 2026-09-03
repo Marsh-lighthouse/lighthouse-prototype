@@ -1866,7 +1866,7 @@ function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }
           {lead && <div style={{ flex: "1 1 100%", padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
           <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div><div style={sub}>{splitLines("skills")}</div></div>
           <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={sub}>{splitLines("actions")}</div></div>
-          <div style={cell(true)}><div style={lbl}>Completion</div><div style={big}>{stats.pct}%</div></div>
+          <div style={cell(true)}><div style={lbl}>Completion</div><div style={big}>{stats.pct}%</div><div style={{ marginTop: 12 }}><PlLinearBar pct={stats.pct} width="100%" /></div></div>
         </div>
       </div>
     );
