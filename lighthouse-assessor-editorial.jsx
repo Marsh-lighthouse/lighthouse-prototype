@@ -1632,10 +1632,7 @@ function AssessorEditorial() {
 
                   {submitted && showingScores && (
                     <div>
-                      <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"rgba(20,133,61,.08)",border:`1px solid rgba(20,133,61,.28)`,borderRadius:br,marginBottom:18}}>
-                        <I.CheckCircle s={16} style={{color:green}}/>
-                        <span style={{fontSize:14,color:tx}}>Your responses have now been recorded.</span>
-                      </div>
+                      <MdsAlert severity="success" align="center" mb={18}>Your responses have now been recorded.</MdsAlert>
                       <div style={{display:"flex",justifyContent:"flex-end",marginBottom:12}}>
                         <button onClick={()=>showToast("Downloading CSV…")} className="link" style={{fontSize:14,fontWeight:600,display:"inline-flex",alignItems:"center",gap:6}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg> Download CSV</button>
                       </div>

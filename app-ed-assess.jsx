@@ -1109,10 +1109,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
       })()}
 
       {error &&
-        <div style={{ display: "flex", alignItems: "center", gap: 9, marginTop: 16, padding: "10px 13px", borderRadius: 10, background: "rgba(197,53,50,.07)", border: "1px solid rgba(197,53,50,.3)" }}>
-          <span style={{ color: eDANGER, display: "flex", flexShrink: 0 }}><I.alertCircle size={16} /></span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, lineHeight: 1.4 }}>{error}</span>
-        </div>
+        <MdsAlert severity="critical" align="center" mt={16}>{error}</MdsAlert>
       }
     </div>
   );

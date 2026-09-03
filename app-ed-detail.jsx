@@ -246,10 +246,7 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
         </EdBtn>
       </React.Fragment> :
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "13px 16px", background: "rgba(20,133,61,.08)", border: "1px solid rgba(20,133,61,.20)", borderRadius: 12 }}>
-          <span style={{ color: eSUCCESS, display: "flex" }}><I.check size={18} /></span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eSUCCESS, fontWeight: 600 }}>{t("instructionsAcknowledged")}</span>
-        </div>
+      <MdsAlert severity="success" align="center">{t("instructionsAcknowledged")}</MdsAlert>
       }
     </div>);
 
@@ -957,12 +954,7 @@ function EdPreCheck({ target, onBack, onLaunch }) {
             )}
             </div>
           </div>
-          <div style={{ background: "rgba(203,126,3,.07)", border: "1px solid rgba(203,126,3,.22)", borderRadius: 14, padding: 16, marginBottom: 20, display: "flex", gap: 11, alignItems: "flex-start" }}>
-            <span style={{ color: eWARN, display: "flex", flexShrink: 0, marginTop: 1 }}><I.info size={18} /></span>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: 0 }}>
-              <strong style={{ color: eMID }}>Important:</strong> Once you start, the timer begins and cannot be paused. Any suspicious activity (leaving the tab, multiple faces detected) will be flagged. Ensure you are fully prepared before proceeding.
-            </p>
-          </div>
+          <MdsAlert severity="warning" mb={20}><strong style={{ fontWeight: 700 }}>Important:</strong> Once you start, the timer begins and cannot be paused. Any suspicious activity (leaving the tab, multiple faces detected) will be flagged. Ensure you are fully prepared before proceeding.</MdsAlert>
           <EdBtn primary full onClick={runChecks}>I understand — Proceed to system check <I.arrow size={16} /></EdBtn>
         </div>
       }

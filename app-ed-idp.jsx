@@ -1247,14 +1247,9 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
           const ok = toast.kind === "success";
           const accent = ok ? eSUCCESS : eDANGER;
           return (
-            <div role={ok ? "status" : "alert"} style={{ display: "flex", alignItems: "flex-start", gap: 11, background: "color-mix(in srgb, " + accent + " 6%, " + eCARD + ")", border: "1px solid " + eLINE, borderLeft: "4px solid " + accent, borderRadius: 12, padding: "13px 14px", marginBottom: 22, boxShadow: "0 2px 10px rgba(0,15,71,.05)", animation: "ed-banner-in .22s ease-out" }}>
-              <span style={{ color: accent, display: "flex", flexShrink: 0, marginTop: 1 }}>{ok ? <I.check size={19} /> : <I.alertCircle size={19} />}</span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{toast.msg}</div>
-                {toast.sub && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, marginTop: 2 }}>{toast.sub}</div>}
-              </div>
-              <button onClick={() => setToast(null)} title="Dismiss" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", flexShrink: 0, padding: 2, marginTop: 1 }}><I.plus size={16} style={{ transform: "rotate(45deg)" }} /></button>
-            </div>
+            <MdsAlert severity={ok ? "success" : "critical"} title={toast.msg} mb={22} onClose={() => setToast(null)} style={{ animation: "ed-banner-in .22s ease-out" }}>
+              {toast.sub || null}
+            </MdsAlert>
           );
         })()}
 

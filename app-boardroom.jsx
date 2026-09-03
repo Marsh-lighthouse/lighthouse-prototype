@@ -137,10 +137,7 @@ function BChangePassword({ onBack }) {
         {pwField("Old Password", "old")}
         {pwField("Password", "pw")}
         {pwField("Password Confirmation", "conf")}
-        <div style={{ background: "rgba(203,126,3,.08)", border: "1px solid rgba(203,126,3,.28)", borderRadius: 12, padding: "13px 15px", display: "flex", gap: 11, alignItems: "flex-start", marginBottom: 24 }}>
-          <span style={{ color: "#CB7E03", display: "flex", flexShrink: 0, marginTop: 1 }}><I.info size={18} /></span>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: bINK, lineHeight: 1.5, margin: 0 }}><strong style={{ color: bMID }}>Important:</strong> Changing your password will log you out.</p>
-        </div>
+        <MdsAlert severity="warning" mb={24}><strong style={{ fontWeight: 700 }}>Important:</strong> Changing your password will log you out.</MdsAlert>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Update <I.arrow size={16} /></button>
         </div>

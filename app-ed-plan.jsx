@@ -1108,10 +1108,7 @@ function PlReflectTab({ forceError, showToast }) {
   return (
     <div style={{ maxWidth: 820 }}>
       {showErr && !allReq && (
-        <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 22, background: "color-mix(in srgb, var(--danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--danger) 30%, transparent)", borderRadius: 10, padding: "11px 14px" }}>
-          <span style={{ color: "var(--danger)", display: "flex", flexShrink: 0 }}><I.alertCircle size={16} /></span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMID }}>Please answer all required questions (marked <span style={{ color: "var(--danger)", fontWeight: 700 }}>*</span>) before saving.</span>
-        </div>
+        <MdsAlert severity="critical" align="center" mb={22}>Please answer all required questions (marked <span style={{ color: "var(--danger)", fontWeight: 700 }}>*</span>) before saving.</MdsAlert>
       )}
       {QS.map((it, i) => {
         const err = showErr && missing(i);
@@ -1155,10 +1152,7 @@ function PlReflectTab({ forceError, showToast }) {
         <EdBtn primary onClick={() => { if (allReq) setSavedState(true); else setTried(true); }}>Save Reflections</EdBtn>
       </div>
       {saved && allReq && (
-        <div style={{ display: "flex", alignItems: "center", gap: 9, marginTop: 16, background: "color-mix(in srgb, var(--success) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--success) 26%, transparent)", borderRadius: 10, padding: "11px 14px" }}>
-          <span style={{ color: eSUCCESS, display: "flex" }}><I.check size={16} /></span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMID }}>Your reflections have been saved.</span>
-        </div>
+        <MdsAlert severity="success" align="center" mt={16}>Your reflections have been saved.</MdsAlert>
       )}
     </div>
   );
@@ -1424,15 +1418,9 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         <React.Fragment>
           {/* Save blocked — required start / end dates are missing on one or more actions. */}
           {showDateErr && (
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 10, margin: "0 0 6px", background: "color-mix(in srgb, var(--danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--danger) 30%, transparent)", borderRadius: 12, padding: "13px 16px" }}>
-              <span style={{ color: "var(--danger)", display: "flex", flexShrink: 0, marginTop: 1 }}><I.alertCircle size={17} /></span>
-              <div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID }}>We couldn't save your plan</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, marginTop: 2 }}>
-                  {missingDates.length} development action{missingDates.length === 1 ? "" : "s"} still need a start and end date. Set the highlighted dates below, then save again. Completion can be left at 0%.
-                </div>
-              </div>
-            </div>
+            <MdsAlert severity="critical" title="We couldn't save your plan" mb={6}>
+              {missingDates.length} development action{missingDates.length === 1 ? "" : "s"} still need a start and end date. Set the highlighted dates below, then save again. Completion can be left at 0%.
+            </MdsAlert>
           )}
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
