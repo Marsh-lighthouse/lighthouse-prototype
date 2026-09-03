@@ -938,7 +938,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
         {designSwitch}
         <div className="ed-idp-main" style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", width: "100%", display: "flex", flexDirection: "column", height: "calc(100vh - 132px)", minHeight: 520 }}>
           {/* header */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "0 0 16px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
+          <div className="ed-idp-g3head" style={{ display: "flex", alignItems: "center", gap: 12, padding: "0 0 16px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
             <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>Your Development Guide</h1>
             <button onClick={g3Reset} title="Start the conversation again"
               style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 600, padding: 2 }}>Reset Chat</button>

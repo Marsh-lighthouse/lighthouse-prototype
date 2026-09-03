@@ -402,3 +402,16 @@ html[data-device="mobile"] .idp-rpt-actions {
   justify-content: space-between !important;
   margin-top: 8px !important;
 }
+
+/* Phone only: the AI-coach "Your Development Guide" header stacks — the heading
+   spans the full width on its own line, and "Reset Chat" drops to the bottom-right
+   below it. iPad and desktop keep the single-row layout. */
+html[data-device="mobile"] .ed-idp-g3head {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+}
+html[data-device="mobile"] .ed-idp-g3head > button {
+  align-self: flex-end !important;
+  margin-left: 0 !important;
+}
