@@ -161,9 +161,9 @@ function MnGettingStarted({ onNext }) {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, marginBottom: 16 }}>
-        {[{ ic: "chart", l: "70% On-the-job", d: "Stretch assignments, projects, and real work" },
-          { ic: "users", l: "20% From others", d: "Coaching, mentoring, and feedback from peers" },
-          { ic: "book", l: "10% Formal training", d: "Courses, certifications, and reading" }].map((it, i) => {
+        {[{ ic: "mdsBriefcase", l: "70% On-the-job", d: "Stretch assignments, projects, and real work" },
+          { ic: "mdsGroup", l: "20% From others", d: "Coaching, mentoring, and feedback from peers" },
+          { ic: "mdsOpenBook", l: "10% Formal training", d: "Courses, certifications, and reading" }].map((it, i) => {
           const Ic = I[it.ic];
           return (
             <div key={i} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 8, padding: 16 }}>

@@ -1852,9 +1852,9 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
 
       {/* 70-20-10 model + what to expect (same overview content as the IDP intro) */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 16, textAlign: "left" }}>
-        {[{ ic: "chart", l: "70% On-the-job", d: "Learning through stretch assignments, projects, and real work" },
-          { ic: "users", l: "20% From others", d: "Coaching, mentoring, and feedback from peers and leaders" },
-          { ic: "book", l: "10% Formal training", d: "Structured courses, certifications, and reading materials" }].map((it, i) => {
+        {[{ ic: "mdsBriefcase", l: "70% On-the-job", d: "Learning through stretch assignments, projects, and real work" },
+          { ic: "mdsGroup", l: "20% From others", d: "Coaching, mentoring, and feedback from peers and leaders" },
+          { ic: "mdsOpenBook", l: "10% Formal training", d: "Structured courses, certifications, and reading materials" }].map((it, i) => {
           const Ic = I[it.ic];
           return (
             <div key={i} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 14, padding: 16 }}>
