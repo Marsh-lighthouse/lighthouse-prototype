@@ -616,7 +616,7 @@ function AssessorEditorial() {
         </div>
         <div style={{position:"relative"}}>
           <button data-tour="profile" onClick={()=>{setProfileOpen(!profileOpen);setLangOpen(false);}} className="btn btn-ghost" style={{padding:"4px 10px 4px 4px",gap:8}}>
-            <div style={{width:28,height:28,borderRadius:8,background:teal,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:f,fontSize:14,fontWeight:700}}>EA</div>
+            <div style={{width:28,height:28,borderRadius:"50%",background:teal,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:f,fontSize:14,fontWeight:700}}>EA</div>
             <span style={{fontFamily:f,fontSize:14,fontWeight:700,color:navy}}>Elena Accardi</span>
             <I.Down s={10}/>
           </button>
