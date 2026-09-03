@@ -77,6 +77,7 @@
       // so without this the focus ring would be the browser's default on a borderless
       // element — easy to lose against the panel.
       ".ne-mask :focus-visible, .ne-chip :focus-visible{outline:3px solid #0B4BFF;outline-offset:2px;border-radius:8px}",
+      ".ne-mask [tabindex=\"-1\"]:focus{outline:none}",
       ".ne-dark :focus-visible{outline-color:#FFBF00}",
       // Dots stay 7px tall visually but keep a 24px pointer/touch target (WCAG 2.5.8).
       ".ne-dotwrap{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:none;border:none;padding:0;cursor:pointer}",
@@ -436,9 +437,9 @@
         )).filter(function (el) { return el.offsetParent !== null || el === document.activeElement; });
       };
       var t = setTimeout(function () {
-        var f = focusables();
-        if (f.length) f[0].focus();
-        else if (boxRef.current) { boxRef.current.setAttribute("tabindex", "-1"); boxRef.current.focus(); }
+        // Focus the dialog container (not the first button) so no control shows a
+        // focus ring on open; the Tab/Escape trap below still works for keyboard users.
+        if (boxRef.current) { boxRef.current.setAttribute("tabindex", "-1"); boxRef.current.focus(); }
       }, 60);
       var onKey = function (e) {
         if (e.key === "Escape") { e.preventDefault(); later(); return; }
