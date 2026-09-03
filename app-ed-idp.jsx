@@ -1236,7 +1236,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
             (Back + controls) stays fixed on scroll. */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", rowGap: 10, padding: "20px 0 16px", marginBottom: 20 }}>
           <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: 0 }}>Program Report</h1>
-          <div style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0 }}>
+          <div className="idp-rpt-actions" style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0 }}>
             <EdBtn onClick={downloadReport}><I.download size={15} /> Download report</EdBtn>
             <EdBtn primary onClick={() => setPhase("chatintro")}>Next <I.arrow size={16} /></EdBtn>
           </div>
