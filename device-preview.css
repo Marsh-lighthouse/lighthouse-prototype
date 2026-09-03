@@ -393,11 +393,12 @@ html[data-device="mobile"][data-client-brand="dge"] .lg-logo { height: 30px !imp
 html[data-device="mobile"][data-client-brand="generali"] .lg-logo { height: 40px !important; }
 html[data-device="mobile"] .lg-lang-btn { padding: 6px 11px !important; font-size: 14px !important; flex-shrink: 0; }
 
-/* Phone only: the AI-flow "Program Report" header actions (Download report + Next)
-   drop onto their own full-width row, right-aligned, with a little top gap from the
-   "Program Report" title. iPad and desktop keep the inline right-aligned layout. */
+/* Phone only: the AI-flow "Program Report" header actions drop onto their own
+   full-width row and spread apart — Download report to the far left, Next to the
+   right — with a little top gap from the "Program Report" title. iPad and desktop
+   keep the inline right-aligned layout. */
 html[data-device="mobile"] .idp-rpt-actions {
   width: 100% !important;
-  justify-content: flex-end !important;
+  justify-content: space-between !important;
   margin-top: 8px !important;
 }
