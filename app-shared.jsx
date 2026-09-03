@@ -424,22 +424,26 @@ const MarshWordmark = ({ color = "#001F52", height = 22, ...rest }) =>
 // warning | critical (danger/error alias critical). Body kept at the prototype's
 // 14px density; every colour/border/radius/icon is the MDS spec exactly.
 const MDS_ALERT = {
-  info:     { fill: "#ECF5FF", border: "#5E9AFF", icon: "mdsAlertInfo" },
-  success:  { fill: "#DCEDE2", border: "#14853D", icon: "mdsAlertSuccess" },
-  warning:  { fill: "#F7ECD9", border: "#CB7E03", icon: "mdsAlertWarning" },
-  critical: { fill: "#F6E1E0", border: "#C53532", icon: "mdsAlertCritical" },
+  info:     { fill: "#ECF5FF", accent: "#5E9AFF", icon: "mdsAlertInfo" },
+  success:  { fill: "#DCEDE2", accent: "#14853D", icon: "mdsAlertSuccess" },
+  warning:  { fill: "#F7ECD9", accent: "#CB7E03", icon: "mdsAlertWarning" },
+  critical: { fill: "#F6E1E0", accent: "#C53532", icon: "mdsAlertCritical" },
 };
-function MdsAlert({ severity = "info", title, children, mt, mb, align = "flex-start", onClose, style }) {
+// Matches the MDS Alert render: severity-coloured left accent bar (4px) + hairline
+// border, severity-coloured leading icon, navy title/body, muted navy date, 8px
+// radius, soft floating shadow. severity: info|success|warning|critical (danger/error→critical).
+function MdsAlert({ severity = "info", title, children, date, mt, mb, align = "flex-start", onClose, style }) {
   const key = severity === "danger" || severity === "error" ? "critical" : severity;
   const s = MDS_ALERT[key] || MDS_ALERT.info;
   const Ic = I[s.icon];
   return (
     <div role={key === "success" || key === "info" ? "status" : "alert"}
-      style={{ display: "flex", alignItems: align, gap: 8, background: s.fill, border: "1px solid " + s.border, borderRadius: 4, padding: "12px", marginTop: mt || 0, marginBottom: mb != null ? mb : 0, ...(style || {}) }}>
-      <span style={{ flexShrink: 0, width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", color: "#000F47", marginTop: align === "flex-start" ? 1 : 0 }}><Ic size={16} /></span>
+      style={{ display: "flex", alignItems: align, gap: 10, background: s.fill, border: "1px solid " + s.accent, borderLeft: "4px solid " + s.accent, borderRadius: 8, padding: "14px 16px", boxShadow: "0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)", marginTop: mt || 0, marginBottom: mb != null ? mb : 0, ...(style || {}) }}>
+      <span style={{ flexShrink: 0, width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", color: s.accent, marginTop: align === "flex-start" ? 1 : 0 }}><Ic size={18} /></span>
       <div style={{ flex: "1 1 auto", fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.5, color: "#000F47", minWidth: 0 }}>
-        {title ? <div style={{ fontWeight: 700, marginBottom: children != null ? 2 : 0 }}>{title}</div> : null}
+        {title ? <div style={{ fontWeight: 700, marginBottom: (children != null || date) ? 4 : 0 }}>{title}</div> : null}
         {children != null ? <div style={{ fontWeight: 400 }}>{children}</div> : null}
+        {date ? <div style={{ fontWeight: 400, opacity: .8, marginTop: 8 }}>{date}</div> : null}
       </div>
       {onClose ? <button onClick={onClose} title="Dismiss" style={{ flexShrink: 0, background: "none", border: "none", cursor: "pointer", color: "#000F47", display: "flex", padding: 2, marginTop: align === "flex-start" ? -1 : 0 }}><I.plus size={14} style={{ transform: "rotate(45deg)" }} /></button> : null}
     </div>
