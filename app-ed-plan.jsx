@@ -1848,37 +1848,25 @@ function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }
   const lbl = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
-  // Design 2 — per-skill roll-up: every skill listed with its action count, completed
-  // count and average completion, grouped by category. (Design 1 = the totals bar.)
+  // Design 2 — totals with a Behavioral / Technical split under Skills and Development
+  // actions, plus the overall completion %. No progress bars. (Design 1 = plain totals.)
   if (design === 2 && data) {
+    const cats = (data || []).map((c) => {
+      let actions = 0;
+      (c.skills || []).forEach((s) => { actions += (s.actions || []).length; });
+      return { cat: c.cat, skills: (c.skills || []).length, actions };
+    });
+    const sub = { fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 7, lineHeight: 1.6 };
+    const splitLines = (key) => cats.map((c, i) => (
+      <div key={i}><span style={{ color: eMID, fontWeight: 600 }}>{c[key]}</span> {c.cat}</div>
+    ));
     return (
       <div style={{ marginTop: mt || 0, marginBottom: mb != null ? mb : 8 }}>
-        <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
-          {lead && <div style={{ padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
-          <div style={{ padding: "4px 18px 12px" }}>
-            {(data || []).map((cat, ci) => (
-              <div key={ci}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, color: eMUT, textTransform: "uppercase", letterSpacing: ".05em", margin: ci ? "16px 0 2px" : "12px 0 2px" }}>{cat.cat}</div>
-                {(cat.skills || []).map((s, si) => {
-                  const acts = (s.actions || []).length;
-                  const done = (s.actions || []).filter((a) => (a.completion || 0) >= 100).length;
-                  const avg = acts ? Math.round((s.actions || []).reduce((n, a) => n + (a.completion || 0), 0) / acts) : 0;
-                  return (
-                    <div key={si} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 0", borderTop: "1px solid " + eLINE, flexWrap: "wrap" }}>
-                      <div style={{ flex: "1 1 220px", minWidth: 0 }}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID }}>{s.name}</div>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 1 }}>{acts} action{acts === 1 ? "" : "s"} · {done} complete</div>
-                      </div>
-                      <div style={{ width: 170, flexShrink: 0, display: "flex", alignItems: "center", gap: 10 }}>
-                        <PlLinearBar pct={avg} width="100%" />
-                        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{avg}%</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
+        <div style={{ display: "flex", flexWrap: "wrap", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, boxShadow: "0 1px 3px rgba(0,15,71,.05)", overflow: "hidden" }}>
+          {lead && <div style={{ flex: "1 1 100%", padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
+          <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div><div style={sub}>{splitLines("skills")}</div></div>
+          <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={sub}>{splitLines("actions")}</div></div>
+          <div style={cell(true)}><div style={lbl}>Completion</div><div style={big}>{stats.pct}%</div></div>
         </div>
       </div>
     );
