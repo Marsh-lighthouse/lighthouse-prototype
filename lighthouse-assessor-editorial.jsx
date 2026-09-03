@@ -2307,7 +2307,7 @@ function AssessorEditorial() {
                 </table>
               </div>
               {ReactDOM.createPortal(
-                <div ref={tipRef} style={{display:"none",position:"fixed",zIndex:9999,background:navy,color:"#fff",fontSize:14,fontWeight:500,padding:"7px 11px",borderRadius:6,boxShadow:"0 8px 24px rgba(0,15,71,.34)",maxWidth:280,lineHeight:1.4,pointerEvents:"none"}}></div>,
+                <div ref={tipRef} style={{display:"none",position:"fixed",zIndex:9999,background:"#fff",color:navy,border:"1px solid rgba(0,15,71,.12)",fontSize:14,fontWeight:500,padding:"7px 11px",borderRadius:6,boxShadow:"0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)",maxWidth:280,lineHeight:1.4,pointerEvents:"none"}}></div>,
                 document.body
               )}
 
