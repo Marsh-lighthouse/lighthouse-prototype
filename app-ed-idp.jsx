@@ -1745,7 +1745,6 @@ function EdDevChoice({ onBack, onPickAI, onPickManual }) {
   const card = { flex: "1 1 330px", minWidth: 280, boxSizing: "border-box", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "32px 28px 28px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14, boxShadow: "0 1px 3px rgba(0,15,71,.05)" };
   return (
     <div className="ed-dev-choose" style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <EdBack label="Back" onClick={onBack} />
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Development</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 44px", maxWidth: 560 }}>Build a personalized growth plan based on your assessment insights.</p>
       <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.15, margin: "8px 0 22px" }}>Choose how you'd like to build your plan.</h2>

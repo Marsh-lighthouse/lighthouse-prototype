@@ -1347,7 +1347,7 @@ function DashEditorial({ initialRoute } = {}) {
   const renderTopBack = (label, onClick) => (
     <button onClick={onClick} className="ed-topbar-back" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", margin: 0, color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", flexShrink: 0 }}>
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: document.documentElement.dir === "rtl" ? "scaleX(-1)" : "none" }}><path d="M15 18l-6-6 6-6" /></svg>
-      {label}
+      Back
     </button>
   );
   // Route-level back (program-flow pages) — hidden on the dashboard and main nav pages.
