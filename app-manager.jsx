@@ -803,7 +803,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon] || I.bulb, { size: 22 })}</div>
+                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon] || I.bulb, { size: 22 })}</div>
                 <h2 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
               </div>
 

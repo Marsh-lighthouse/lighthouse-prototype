@@ -909,7 +909,7 @@ function PlAddSkills({ current, onClose, onSave }) {
           {cats.map((c, ci) => (
             <div key={ci} style={{ borderTop: ci ? "1px solid " + eLINE : "none", paddingTop: ci ? 26 : 18, marginTop: ci ? 26 : 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
+                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
                 <div>
                   <div className="serif" style={{ fontSize: 22, color: eMID }}>{c.name}</div>
                   <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
@@ -943,7 +943,7 @@ function PlConfirmDelete({ label, onNo, onYes }) {
   return ReactDOM.createPortal(
     <div onClick={onNo} style={{ position: "fixed", inset: 0, zIndex: 320, background: "rgba(0,15,71,.45)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 420, background: "var(--card)", borderRadius: 16, boxShadow: "0 40px 90px rgba(0,15,71,.35)", padding: "26px 26px 22px", textAlign: "center" }}>
-        <div style={{ width: 54, height: 54, margin: "0 auto 16px", borderRadius: "50%", background: "color-mix(in srgb, var(--danger) 10%, transparent)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center" }}><PlTrash size={24} /></div>
+        <div style={{ width: 54, height: 54, margin: "0 auto 16px", borderRadius: "50%", background: "color-mix(in srgb, var(--danger) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--danger) 22%, transparent)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center" }}><PlTrash size={24} /></div>
         <h2 style={{ fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: eMID, margin: "0 0 8px" }}>Are you sure you want to delete?</h2>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "0 0 22px" }}>This will remove {label} from your plan. This action can’t be undone.</p>
         <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
@@ -1437,7 +1437,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon], { size: 22 })}</div>
+                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon], { size: 22 })}</div>
                 <h2 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
               </div>
 

@@ -793,7 +793,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             </div> :
 
         <div style={{ marginTop: 16, background: eCARD, border: "1px dashed " + eLINE, borderRadius: 16, padding: "44px 24px", textAlign: "center" }}>
-              <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(0,15,71,.04)", color: eMUT, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.fileText size={22} /></div>
+              <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(0,15,71,.04)", border: "1px solid rgba(0,15,71,.10)", color: eMUT, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.fileText size={22} /></div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 4 }}>No reports yet</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Reports unlock automatically as you complete the underlying tasks.</div>
             </div>
@@ -912,7 +912,7 @@ function EdPreCheck({ target, onBack, onLaunch }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
 
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-        <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(143,32,222,.10)", color: ePURP, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.shield size={22} /></div>
+        <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(143,32,222,.10)", border: "1px solid rgba(143,32,222,.22)", color: ePURP, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.shield size={22} /></div>
         <div>
           <EdEyebrow color={ePURP}>Proctored</EdEyebrow>
           <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 2px" }}>System check</h1>
@@ -948,7 +948,7 @@ function EdPreCheck({ target, onBack, onLaunch }) {
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {guidelines.map((g, i) =>
             <div key={i} style={{ display: "flex", gap: 13, alignItems: "flex-start" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><g.ic size={18} /></div>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><g.ic size={18} /></div>
                   <div>
                     <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 3 }}>{g.title}</div>
                     <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55 }}>{g.desc}</div>

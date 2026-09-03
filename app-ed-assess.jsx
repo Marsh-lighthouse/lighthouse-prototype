@@ -73,7 +73,7 @@ function EdAssessIntro({ exercise, onExit, onBegin }) {
           const Ic = I[it.ic];
           return (
             <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 13, padding: "15px 17px", background: eCARD, borderRadius: 14, border: "1px solid " + eLINE }}>
-              <div style={{ width: 38, height: 38, borderRadius: 10, background: "color-mix(in srgb, var(--accent-2) 14%, transparent)", color: "var(--accent-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={18} /></div>
+              <div style={{ width: 38, height: 38, borderRadius: 10, background: "color-mix(in srgb, var(--accent-2) 14%, transparent)", border: "1px solid color-mix(in srgb, var(--accent-2) 24%, transparent)", color: "var(--accent-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={18} /></div>
               <div><div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{it.t}</div><div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{it.d}</div></div>
             </div>);
 
@@ -697,13 +697,13 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
 
       {q.type === "file" && (value ?
         <div style={{ padding: 20, borderRadius: 14, border: "1px solid rgba(20,133,61,.3)", background: "rgba(20,133,61,.05)", textAlign: "center" }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(20,133,61,.12)", color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.fileText size={20} /></div>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(20,133,61,.12)", border: "1px solid rgba(20,133,61,.24)", color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.fileText size={20} /></div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{value}</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eSUCCESS, fontWeight: 600, marginTop: 4 }}>✓ Uploaded</div>
           <button onClick={() => onChange(undefined)} style={{ marginTop: 12, padding: "7px 18px", borderRadius: 9, border: "1px solid rgba(197,53,50,.3)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Remove</button>
         </div> :
         <div onClick={() => onChange("Leadership_Impact_Report.pdf")} style={{ padding: "36px 20px", borderRadius: 14, border: "2px dashed var(--line)", background: eCARD, textAlign: "center", cursor: "pointer" }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.upload size={20} /></div>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.upload size={20} /></div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 4 }}>Click to upload</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{q.accepts} · Max {q.maxSize}</div>
         </div>)

@@ -1369,7 +1369,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
         <div style={{ display: "flex", gap: 18, alignItems: "stretch" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 14 }}>
-          <div style={{ width: 38, height: 38, borderRadius: 19, background: "color-mix(in srgb, var(--accent) 10%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center" }}><I.bulb size={19} /></div>
+          <div style={{ width: 38, height: 38, borderRadius: 19, background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center" }}><I.bulb size={19} /></div>
           <div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>AI Coach</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Question {Math.min(q + 1, Q.length)} of {Q.length}{isFileStep ? " · File upload" : ""}</div>
@@ -1419,7 +1419,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
         </div>
         <aside style={{ width: 296, flexShrink: 0, alignSelf: "stretch", background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: 16, display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: 12, borderBottom: "1px solid " + eLINE }}>
-            <div style={{ width: 32, height: 32, borderRadius: 9, background: "color-mix(in srgb, var(--accent) 10%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={17} /></div>
+            <div style={{ width: 32, height: 32, borderRadius: 9, background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={17} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>AI notes</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{noteEntries.length} captured from your answers</div>
@@ -1475,7 +1475,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
 
     const sectionHead = (icon, title) => (
       <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 16 }}>
-        <div style={{ width: 34, height: 34, borderRadius: 9, background: "color-mix(in srgb, var(--accent) 10%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
+        <div style={{ width: 34, height: 34, borderRadius: 9, background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
         <h2 className="serif" style={{ fontSize: 20, color: eMID, margin: 0 }}>{title}</h2>
       </div>
     );
@@ -1751,7 +1751,7 @@ function EdDevChoice({ onBack, onPickAI, onPickManual }) {
       <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "stretch" }}>
         {/* Manual — placeholder, not clickable yet */}
         <div style={card}>
-          <div style={{ width: 54, height: 54, borderRadius: 14, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.edit size={24} /></div>
+          <div style={{ width: 54, height: 54, borderRadius: 14, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.edit size={24} /></div>
           <div className="serif" style={{ fontSize: 22, color: eMID }}>Manual Development Plan</div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, margin: 0, flex: 1 }}>Build the plan yourself — choose the skills and development actions you want to work on, step by step.</p>
           <button onClick={onPickManual} title="Build your plan step by step" style={{ marginTop: 4, display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "11px 20px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Start manually <I.arrow size={15} /></button>
