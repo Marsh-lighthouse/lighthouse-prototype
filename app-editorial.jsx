@@ -197,14 +197,14 @@ function EdUserMenuCollapsed({ onNav, user }) {
   return (
     <div style={{ position: "relative" }}>
       <button ref={btnRef} onClick={toggle} title={`${U.first} ${U.last}`} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "1px solid var(--rail-border)", borderRadius: 10, padding: "8px", cursor: "pointer", color: "var(--rail-icon)" }}>
-        <span style={{ width: 28, height: 28, borderRadius: 8, background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+        <span style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
       </button>
       {open && pos && (
         <React.Fragment>
           <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 1000 }} />
           <div style={{ position: "fixed", bottom: pos.bottom, left: pos.left, right: pos.right, width: 224, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 14px 40px rgba(0,15,71,.18)", zIndex: 1001, overflow: "hidden", fontFamily: "var(--sans)" }}>
             <div style={{ padding: "13px 15px", borderBottom: "1px solid var(--line)", display: "flex", alignItems: "center", gap: 11 }}>
-              <span style={{ width: 38, height: 38, borderRadius: 10, background: MID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+              <span style={{ width: 38, height: 38, borderRadius: "50%", background: MID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
               </div>
@@ -232,7 +232,7 @@ function EdUserMenuExpanded({ onNav, user }) {
     <div style={{ marginTop: 4 }}>
       {/* User identity — no inline logout icon anymore */}
       <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "8px 4px 12px 8px" }}>
-        <span style={{ width: 34, height: 34, borderRadius: 9, background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+        <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: "var(--rail-active-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{U.first} {U.last}</div>
           <div style={{ fontSize: 14, color: "var(--rail-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }}>{email}</div>
@@ -259,7 +259,7 @@ function EdUserMenu({ onNav }) {
   return (
     <div style={{ position: "relative" }}>
       <button onClick={() => setOpen((v) => !v)} title={`${U.first} ${U.last}`} style={{ display: "flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 10, padding: "4px 9px 4px 4px", cursor: "pointer" }}>
-        <span style={{ width: 32, height: 32, borderRadius: 8, background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+        <span style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
         <I.chevD size={15} style={{ color: MUT, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
       </button>
       {open && (
@@ -267,7 +267,7 @@ function EdUserMenu({ onNav }) {
           <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
           <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 224, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 14px 40px rgba(0,15,71,.18)", zIndex: 41, overflow: "hidden", fontFamily: "var(--sans)" }}>
             <div style={{ padding: "13px 15px", borderBottom: "1px solid var(--line)", display: "flex", alignItems: "center", gap: 11 }}>
-              <span style={{ width: 38, height: 38, borderRadius: 10, background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+              <span style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
                 <div style={{ fontSize: 14, color: MUT }}>{U.role}</div>
@@ -420,8 +420,8 @@ function EdProfile({ onBack, onNav }) {
     "(GMT+04:00) Gulf Standard Time — Dubai", "(GMT+05:30) India Standard Time", "(GMT+08:00) China Standard Time", "(GMT+09:00) Japan Standard Time"
   ];
   const avatarView = data.avatar
-    ? <img src={data.avatar} alt="" style={{ width: 64, height: 64, borderRadius: 16, objectFit: "cover", display: "block", flexShrink: 0 }} />
-    : <div style={{ width: 64, height: 64, borderRadius: 16, background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 22, flexShrink: 0 }}>{initials}</div>;
+    ? <img src={data.avatar} alt="" style={{ width: 64, height: 64, borderRadius: "50%", objectFit: "cover", display: "block", flexShrink: 0 }} />
+    : <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 22, flexShrink: 0 }}>{initials}</div>;
 
   // ── shared card chrome: each section is its own card with an inline edit toggle ──
   const cardSt = { background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, overflow: "hidden" };

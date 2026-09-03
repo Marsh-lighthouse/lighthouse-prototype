@@ -449,7 +449,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
     return (
       <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 15, marginBottom: 18 }}>
-          <div style={{ width: 50, height: 50, borderRadius: 13, background: "color-mix(in srgb, " + c.color + " 12%, #fff)", border: "1px solid color-mix(in srgb, " + c.color + " 24%, transparent)", color: c.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={23} /></div>
+          <div style={{ width: 50, height: 50, borderRadius: "50%", background: "color-mix(in srgb, " + c.color + " 12%, #fff)", border: "1px solid color-mix(in srgb, " + c.color + " 24%, transparent)", color: c.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={23} /></div>
           <div>
             <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.08, margin: "0 0 2px" }}>{c.name}</h1>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{c.program}</div>
@@ -889,7 +889,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,15,71,.10)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,15,71,.04)"; e.currentTarget.style.transform = "none"; }}>
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, marginBottom: 12 }}>
-                        <div style={{ width: 40, height: 40, borderRadius: 11, background: "color-mix(in srgb, var(--accent) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={19} /></div>
+                        <div style={{ width: 40, height: 40, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={19} /></div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 4 }}>{c.name}</div>
                           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
