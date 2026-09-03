@@ -429,16 +429,16 @@ const MDS_ALERT = {
   warning:  { fill: "#F7ECD9", accent: "#CB7E03", icon: "mdsAlertWarning" },
   critical: { fill: "#F6E1E0", accent: "#C53532", icon: "mdsAlertCritical" },
 };
-// Matches the MDS Alert render: severity-coloured left accent bar (4px) + hairline
-// border, severity-coloured leading icon, navy title/body, muted navy date, 8px
-// radius, soft floating shadow. severity: info|success|warning|critical (danger/error→critical).
+// Matches the MDS Alert render: ONE overall severity-coloured 1px border (no left
+// accent bar), severity-coloured leading icon, navy title/body, muted navy date,
+// 8px radius, soft floating shadow. severity: info|success|warning|critical (danger/error→critical).
 function MdsAlert({ severity = "info", title, children, date, mt, mb, align = "flex-start", onClose, style }) {
   const key = severity === "danger" || severity === "error" ? "critical" : severity;
   const s = MDS_ALERT[key] || MDS_ALERT.info;
   const Ic = I[s.icon];
   return (
     <div role={key === "success" || key === "info" ? "status" : "alert"}
-      style={{ display: "flex", alignItems: align, gap: 10, background: s.fill, border: "1px solid " + s.accent, borderLeft: "4px solid " + s.accent, borderRadius: 8, padding: "14px 16px", boxShadow: "0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)", marginTop: mt || 0, marginBottom: mb != null ? mb : 0, ...(style || {}) }}>
+      style={{ display: "flex", alignItems: align, gap: 10, background: s.fill, border: "1px solid " + s.accent, borderRadius: 8, padding: "14px 16px", boxShadow: "0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)", marginTop: mt || 0, marginBottom: mb != null ? mb : 0, ...(style || {}) }}>
       <span style={{ flexShrink: 0, width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", color: s.accent, marginTop: align === "flex-start" ? 1 : 0 }}><Ic size={18} /></span>
       <div style={{ flex: "1 1 auto", fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.5, color: "#000F47", minWidth: 0 }}>
         {title ? <div style={{ fontWeight: 700, marginBottom: (children != null || date) ? 4 : 0 }}>{title}</div> : null}
