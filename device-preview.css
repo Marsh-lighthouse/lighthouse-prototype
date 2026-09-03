@@ -410,6 +410,7 @@ html[data-device="mobile"] .ed-idp-g3head {
   flex-direction: column !important;
   align-items: stretch !important;
   gap: 10px !important;
+  padding-top: 20px !important;
 }
 html[data-device="mobile"] .ed-idp-g3head > button {
   align-self: flex-end !important;
