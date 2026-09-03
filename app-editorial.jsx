@@ -491,7 +491,7 @@ function EdProfile({ onBack, onNav }) {
                 <div style={{ display: "flex", gap: 24, alignItems: "flex-start", flexWrap: "wrap" }}>
                   <div style={{ flexShrink: 0 }}>
                     <input ref={fileRef} type="file" accept="image/*" onChange={onFile} style={{ display: "none" }} />
-                    <div onClick={() => fileRef.current && fileRef.current.click()} title="Add photo" style={{ width: 104, height: 104, borderRadius: 12, border: draft.avatar ? "1px solid var(--line)" : "1.5px dashed var(--line)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer", color: MID, overflow: "hidden", background: draft.avatar ? "transparent" : "rgba(0,15,71,.02)" }}>
+                    <div onClick={() => fileRef.current && fileRef.current.click()} title="Add photo" style={{ width: 104, height: 104, borderRadius: "50%", border: draft.avatar ? "1px solid var(--line)" : "1.5px dashed var(--line)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer", color: MID, overflow: "hidden", background: draft.avatar ? "transparent" : "rgba(0,15,71,.02)" }}>
                       {draft.avatar
                         ? <img src={draft.avatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                         : <React.Fragment><I.plus size={24} /><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Add Photo</span></React.Fragment>}

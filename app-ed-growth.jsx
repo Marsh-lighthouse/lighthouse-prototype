@@ -113,7 +113,7 @@ function EdReportCard({ r, onPreview }) {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
           {r.based.map((b, i) => {
             const isDone = i < r.doneCount;
-            return <span key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "4px 10px", borderRadius: 5, background: isDone ? "color-mix(in srgb, #14853D 15%, #ffffff)" : "var(--status-neutral-bg)", color: isDone ? "#14853D" : "var(--ink)" }}>{isDone && "✓ "}{b}</span>;
+            return <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "4px 10px", borderRadius: 5, background: isDone ? "color-mix(in srgb, #14853D 15%, #ffffff)" : "var(--status-neutral-bg)", color: isDone ? "#14853D" : "var(--ink)" }}>{isDone && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M5 13l4 4L19 7" /></svg>}{b}</span>;
           })}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: "auto" }}>
