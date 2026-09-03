@@ -511,7 +511,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {q.options.map((o) => { const sel = val === o.value; const Ic = I[o.icon]; return (
             <div key={o.value} onClick={() => setVal(o.value)} style={{ padding: "14px 16px", borderRadius: 12, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "#fff", cursor: "pointer", display: "flex", alignItems: "center", gap: 13, transition: "border-color .15s, background .15s" }}>
-              <span style={{ width: 38, height: 38, borderRadius: 10, background: sel ? eBLUE : "rgba(0,15,71,.05)", color: sel ? "#fff" : eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={18} /></span>
+              <span style={{ width: 38, height: 38, borderRadius: "50%", background: sel ? eBLUE : "rgba(0,15,71,.05)", color: sel ? "#fff" : eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={18} /></span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{o.label}</div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 2 }}>{o.desc}</div>
@@ -608,7 +608,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           {/* coach hero */}
           <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
             <div style={{ width: 52, height: 52, flexShrink: 0 }}>
-              <div style={{ width: 52, height: 52, borderRadius: 15, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center" }}><I.spark size={24} /></div>
+              <div style={{ width: 52, height: 52, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center" }}><I.spark size={24} /></div>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID }}>AI Coach</div>
@@ -627,7 +627,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           </div>
           {/* conversation */}
           <div style={{ display: "flex", gap: 11, alignItems: "flex-start", marginBottom: 16 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 10, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={16} /></div>
+            <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={16} /></div>
             <div style={{ flex: 1, minWidth: 0, background: "#fff", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 18px" }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eBLUE, marginBottom: 6 }}>Question {qi + 1}</div>
               <div className="serif" style={{ fontSize: 20, color: eMID, lineHeight: 1.25 }}>{q.q}</div>
@@ -1024,7 +1024,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
       <div className="ed-idp-main" style={{ maxWidth: "var(--content-max)", margin: "0 auto", width: "100%" }}>
         {/* coach header */}
         <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 16 }}>
-          <div style={{ width: 40, height: 40, borderRadius: 11, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={20} /></div>
+          <div style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={20} /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>AI Coach</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Question {qi + 1} of {total}</div>
@@ -1071,7 +1071,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           main content). It records insights from your answers; there's no chat input. */}
       <aside className="ed-idp-notes ed-idp-rail" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 30, background: eCARD, borderLeft: error ? "3px solid " + eDANGER : "1px solid " + eLINE, display: "flex", flexDirection: "column", overflow: "hidden", transition: "border-color .2s" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "16px 18px", borderBottom: "1px solid " + (error ? "color-mix(in srgb, var(--danger) 30%, transparent)" : eLINE), background: error ? "color-mix(in srgb, var(--danger) 7%, transparent)" : "transparent", transition: "background .2s" }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: error ? eDANGER : "var(--surface-deep)", color: error ? "#fff" : eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{error ? <I.alertCircle size={19} /> : <I.spark size={19} />}</div>
+          <div style={{ width: 36, height: 36, borderRadius: "50%", background: error ? eDANGER : "var(--surface-deep)", color: error ? "#fff" : eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{error ? <I.alertCircle size={19} /> : <I.spark size={19} />}</div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: error ? eDANGER : eMID }}>AI Coach Companion</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: error ? eDANGER : eMUT }}>{error ? "Your answer needs attention" : `${qi} of ${total} captured`}</div>
@@ -1413,13 +1413,13 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
           <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
             <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Or type your own answer…" onKeyDown={(e) => { if (e.key === "Enter" && input.trim()) answer(input.trim(), q); }}
               style={{ flex: 1, padding: "11px 14px", borderRadius: 10, border: "1px solid " + eLINE, background: "var(--card)", color: eINK, fontFamily: "var(--sans)", fontSize: 14, outline: "none" }} />
-            <button onClick={() => input.trim() && answer(input.trim(), q)} disabled={!input.trim()} style={{ width: 44, height: 44, borderRadius: 10, background: input.trim() ? eMID : "rgba(0,15,71,.12)", color: "#fff", border: "none", cursor: input.trim() ? "pointer" : "default", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={17} /></button>
+            <button onClick={() => input.trim() && answer(input.trim(), q)} disabled={!input.trim()} style={{ width: 44, height: 44, borderRadius: "50%", background: input.trim() ? eMID : "rgba(0,15,71,.12)", color: "#fff", border: "none", cursor: input.trim() ? "pointer" : "default", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={17} /></button>
           </div>
         )}
         </div>
         <aside style={{ width: 296, flexShrink: 0, alignSelf: "stretch", background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: 16, display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: 12, borderBottom: "1px solid " + eLINE }}>
-            <div style={{ width: 32, height: 32, borderRadius: 9, background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={17} /></div>
+            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={17} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>AI notes</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{noteEntries.length} captured from your answers</div>
@@ -1475,7 +1475,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
 
     const sectionHead = (icon, title) => (
       <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 16 }}>
-        <div style={{ width: 34, height: 34, borderRadius: 9, background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
+        <div style={{ width: 34, height: 34, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
         <h2 className="serif" style={{ fontSize: 20, color: eMID, margin: 0 }}>{title}</h2>
       </div>
     );

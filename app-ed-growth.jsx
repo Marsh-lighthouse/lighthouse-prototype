@@ -262,7 +262,7 @@ function EdReportReader({ report, onClose }) {
       <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, width: "100%", height: "100%", display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 30px 80px rgba(0,15,71,.4)" }}>
         {/* header */}
         <div className="ed-reader-head" style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
-          <div style={{ width: 38, height: 38, borderRadius: 10, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.fileText size={18} /></div>
+          <div style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.fileText size={18} /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{report.name}</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Page {page + 1} of {pages}</div>
@@ -306,9 +306,9 @@ function EdReportReader({ report, onClose }) {
         </div>
         {/* footer nav */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "12px 22px", borderTop: "1px solid " + eLINE, flexShrink: 0 }}>
-          <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0} style={{ width: 36, height: 36, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: page === 0 ? "rgba(0,15,71,.2)" : eMID, cursor: page === 0 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevL size={17} /></button>
+          <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0} style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: page === 0 ? "rgba(0,15,71,.2)" : eMID, cursor: page === 0 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevL size={17} /></button>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{page + 1} / {pages}</span>
-          <button onClick={() => setPage((p) => Math.min(pages - 1, p + 1))} disabled={page === pages - 1} style={{ width: 36, height: 36, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: page === pages - 1 ? "rgba(0,15,71,.2)" : eMID, cursor: page === pages - 1 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevR size={17} /></button>
+          <button onClick={() => setPage((p) => Math.min(pages - 1, p + 1))} disabled={page === pages - 1} style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: page === pages - 1 ? "rgba(0,15,71,.2)" : eMID, cursor: page === pages - 1 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevR size={17} /></button>
         </div>
       </div>
     </div>
@@ -566,9 +566,9 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
         {/* header */}
         <div className="ed-cal-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <button onClick={() => setCalWeek(Math.max(0, wkIdx - 1))} disabled={wkIdx <= 0} style={{ width: 34, height: 34, borderRadius: 9, background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx <= 0 ? "default" : "pointer", color: wkIdx <= 0 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevL size={17} /></button>
+            <button onClick={() => setCalWeek(Math.max(0, wkIdx - 1))} disabled={wkIdx <= 0} style={{ width: 34, height: 34, borderRadius: "50%", background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx <= 0 ? "default" : "pointer", color: wkIdx <= 0 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevL size={17} /></button>
             <h3 className="serif" style={{ fontSize: 22, color: eMID, margin: 0, minWidth: 220, textAlign: "center" }}>{rangeLabel}</h3>
-            <button onClick={() => setCalWeek(Math.min(weekKeys.length - 1, wkIdx + 1))} disabled={wkIdx >= weekKeys.length - 1} style={{ width: 34, height: 34, borderRadius: 9, background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx >= weekKeys.length - 1 ? "default" : "pointer", color: wkIdx >= weekKeys.length - 1 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevR size={17} /></button>
+            <button onClick={() => setCalWeek(Math.min(weekKeys.length - 1, wkIdx + 1))} disabled={wkIdx >= weekKeys.length - 1} style={{ width: 34, height: 34, borderRadius: "50%", background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx >= weekKeys.length - 1 ? "default" : "pointer", color: wkIdx >= weekKeys.length - 1 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevR size={17} /></button>
           </div>
           <div className="ed-cal-legend" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
@@ -703,7 +703,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
       {confirmSlot && (() => { const { slot, center } = confirmSlot; return (
         <div onClick={() => setConfirmSlot(null)} style={{ position: "fixed", inset: 0, zIndex: 80, background: "rgba(0,15,71,.4)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
           <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, padding: 28, maxWidth: 440, width: "100%", boxShadow: "0 24px 60px rgba(0,15,71,.3)" }}>
-            <button onClick={() => setConfirmSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: 8, border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
+            <button onClick={() => setConfirmSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: "50%", border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
             <EdEyebrow color={eBLUE}>Confirm booking</EdEyebrow>
             <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.1, margin: "0 0 16px" }}>{center.name}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
@@ -748,8 +748,8 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
       {cancelSlot && (() => { const { slot, center } = cancelSlot; return (
         <div onClick={() => setCancelSlot(null)} style={{ position: "fixed", inset: 0, zIndex: 80, background: "rgba(0,15,71,.4)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
           <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, padding: 28, maxWidth: 420, width: "100%", boxShadow: "0 24px 60px rgba(0,15,71,.3)" }}>
-            <button onClick={() => setCancelSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: 8, border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
-            <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(197,53,50,.10)", border: "1px solid rgba(197,53,50,.22)", color: eDANGER, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><I.info size={22} /></div>
+            <button onClick={() => setCancelSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: "50%", border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
+            <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(197,53,50,.10)", border: "1px solid rgba(197,53,50,.22)", color: eDANGER, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><I.info size={22} /></div>
             <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.12, margin: "0 0 8px" }}>Cancel this booking?</h2>
             <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 8px" }}>You're about to cancel <strong style={{ color: eMID }}>{center.name}</strong> on {slot.date} at {slotTime(slot.time)}.</p>
             <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, margin: "0 0 22px" }}>{slot.cancelBefore ? `This is within the cancellation window (${slot.cancelBefore} before).` : "This session is non-refundable — cancelling forfeits your seat."}</p>
@@ -853,7 +853,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                     style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(20,133,61,.05)", border: "1px solid rgba(20,133,61,.22)", borderRadius: 14, padding: "14px 18px", cursor: "pointer", transition: "background .15s" }}
                     onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(20,133,61,.09)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(20,133,61,.05)"; }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 11, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.checkCircle size={19} /></div>
+                    <div style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.checkCircle size={19} /></div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{b.center.name}</div>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{b.slot.date} · {slotTime(b.slot.time)} · {b.center.location}</div>

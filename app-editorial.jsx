@@ -984,7 +984,7 @@ function AiAssistant() {
       {open && (
         <div className="ed-aipanel" style={{ position: "fixed", right: 24, bottom: 124, width: 366, maxWidth: "calc(100vw - 48px)", height: 480, maxHeight: "calc(100vh - 150px)", background: "var(--card)", borderRadius: 18, border: "1px solid var(--line)", boxShadow: "0 24px 64px rgba(0,15,71,.24)", zIndex: 71, display: "flex", flexDirection: "column", overflow: "hidden", fontFamily: "var(--sans)" }}>
           <div style={{ background: "var(--surface-deep)", color: "#fff", padding: "15px 17px", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(206,236,255,.16)", color: SKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><ChatBubble size={20} /></div>
+            <div style={{ width: 38, height: 38, borderRadius: "50%", background: "rgba(206,236,255,.16)", color: SKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><ChatBubble size={20} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 14, fontWeight: 700 }}>AI Assistant</div>
               <div style={{ fontSize: 14, color: "rgba(255,255,255,.82)", display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 7, height: 7, borderRadius: 4, background: "var(--success)" }} /> Online</div>
@@ -1005,7 +1005,7 @@ function AiAssistant() {
           </div>
           <div style={{ borderTop: "1px solid var(--line)", padding: 12, display: "flex", gap: 8, background: "var(--card)", flexShrink: 0 }}>
             <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") send(); }} placeholder="Ask a question…" style={{ flex: 1, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 13px", fontFamily: "var(--sans)", fontSize: 14, color: INK, outline: "none" }} />
-            <button onClick={send} title="Send" style={{ width: 40, height: 40, borderRadius: 10, background: GOLD, color: "var(--action-text)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={17} /></button>
+            <button onClick={send} title="Send" style={{ width: 40, height: 40, borderRadius: "50%", background: GOLD, color: "var(--action-text)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={17} /></button>
           </div>
         </div>
       )}

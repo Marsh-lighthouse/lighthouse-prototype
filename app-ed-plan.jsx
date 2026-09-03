@@ -903,7 +903,7 @@ function PlAddSkills({ current, onClose, onSave }) {
       <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 720, background: "var(--card)", borderRadius: 16, boxShadow: "0 40px 90px rgba(0,15,71,.35)", overflow: "hidden", display: "flex", flexDirection: "column", maxHeight: "calc(100vh - 80px)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "20px 24px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
           <h1 className="serif" style={{ fontSize: 24, color: eMID, margin: 0 }}>Add Skills</h1>
-          <button onClick={onClose} title="Close" style={{ width: 34, height: 34, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
+          <button onClick={onClose} title="Close" style={{ width: 34, height: 34, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
         </div>
         <div style={{ padding: "8px 24px 24px", overflowY: "auto" }}>
           {cats.map((c, ci) => (
@@ -1385,7 +1385,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
             <I.plus size={15} /> Add Skills
           </button>
           )}
-          <button title="Download" style={{ width: 38, height: 38, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
+          <button title="Download" style={{ width: 38, height: 38, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
           {verdict
             // decided → read view: reopen as a draft, or (once approved) mark it done
             ? <React.Fragment>

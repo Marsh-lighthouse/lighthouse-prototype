@@ -405,7 +405,7 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
           <BSideCard>
             <div style={{ fontSize: 14, fontWeight: 600, color: bMUT, marginBottom: 12 }}>Upcoming deadline</div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ width: 46, height: 46, borderRadius: 12, background: "rgba(197,53,50,.10)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.clock size={22} /></div>
+              <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(197,53,50,.10)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.clock size={22} /></div>
               <div>
                 <div className="serif" style={{ fontSize: 20, color: bMID, lineHeight: 1.1 }}>{LH.deadline.daysLeft} days left</div>
                 <div style={{ fontSize: 14, color: bMUT, marginTop: 2 }}>{LH.deadline.program} · {LH.deadline.due}</div>
@@ -422,7 +422,7 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {LH.reports.map((r, i) => (
                 <div key={i} onClick={() => onOpen("insights")} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderTop: i ? "1px solid var(--line)" : "none", cursor: "pointer" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 9, background: "var(--sky-surface)", color: bMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.doc size={18} /></div>
+                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--sky-surface)", color: bMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.doc size={18} /></div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 14, fontWeight: 600, color: bMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</div>
                     <div style={{ fontSize: 14, color: bMUT }}>{r.program} · {r.pages} pages</div>

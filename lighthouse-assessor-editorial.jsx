@@ -1688,7 +1688,7 @@ function AssessorEditorial() {
           <div style={{position:"fixed",bottom:92,right:28,width:352,maxWidth:"calc(100vw - 40px)",maxHeight:"min(560px, calc(100vh - 130px))",background:card,border:`1px solid ${bd}`,borderRadius:12,boxShadow:"0 18px 50px rgba(0,15,71,.22)",zIndex:60,display:"flex",flexDirection:"column",overflow:"hidden"}}>
             {/* Header */}
             <div style={{display:"flex",alignItems:"center",gap:10,padding:"14px 16px",borderBottom:`1px solid ${bd}`,background:bg,flexShrink:0}}>
-              <span style={{width:30,height:30,borderRadius:8,background:navy,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Edit s={15}/></span>
+              <span style={{width:30,height:30,borderRadius:"50%",background:navy,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Edit s={15}/></span>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{fontSize:14,fontWeight:700,color:navy}}>Assessor Notes</div>
               </div>
@@ -1720,7 +1720,7 @@ function AssessorEditorial() {
 
                   {notes.length===0 ? (
                     <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",padding:"26px 0 8px",color:tm}}>
-                      <span style={{width:40,height:40,borderRadius:10,background:bg2,color:tm,display:"inline-flex",alignItems:"center",justifyContent:"center",marginBottom:12}}><I.Edit s={18}/></span>
+                      <span style={{width:40,height:40,borderRadius:"50%",background:bg2,color:tm,display:"inline-flex",alignItems:"center",justifyContent:"center",marginBottom:12}}><I.Edit s={18}/></span>
                       <div style={{fontSize:14,lineHeight:1.5}}>No notes yet.<br/>Type above and press <b style={{color:navy}}>Add note</b>.</div>
                     </div>
                   ) : (
@@ -1762,7 +1762,7 @@ function AssessorEditorial() {
 
                   {todos.length===0 ? (
                     <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",padding:"22px 0 8px",color:tm}}>
-                      <span style={{width:40,height:40,borderRadius:10,background:bg2,color:tm,display:"inline-flex",alignItems:"center",justifyContent:"center",marginBottom:12}}><I.Check s={18}/></span>
+                      <span style={{width:40,height:40,borderRadius:"50%",background:bg2,color:tm,display:"inline-flex",alignItems:"center",justifyContent:"center",marginBottom:12}}><I.Check s={18}/></span>
                       <div style={{fontSize:14,lineHeight:1.5}}>No tasks yet.<br/>Add one above to build your list.</div>
                     </div>
                   ) : (
@@ -3446,7 +3446,7 @@ function AssessorEditorial() {
             return (
             <div key={a.id} style={{background:card,border:`1px solid ${bd}`,borderRadius:br,overflow:"hidden"}}>
               <div style={{display:"flex",alignItems:"center",gap:14,padding:"18px 24px",borderBottom:open?`1px solid ${bd}`:"none"}}>
-                <div style={{width:40,height:40,borderRadius:8,background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={18}/></div>
+                <div style={{width:40,height:40,borderRadius:"50%",background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={18}/></div>
                 <div style={{flex:1,minWidth:0,cursor:"pointer"}} onClick={()=>setAvailOpen(open?null:a.id)}>
                   <div style={{fontSize:16,fontWeight:700,color:navy}}>{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div>
                   <div style={{fontSize:14,color:tm,marginTop:2}}>{daySummary(a.active)} · {a.tz}</div>
@@ -3505,7 +3505,7 @@ function AssessorEditorial() {
     const SectionHead = ({title, count, action, onAction, accent, icon:Ic}) => (
       <div style={{display:"flex",alignItems:"center",gap:10,padding:"16px 20px",borderBottom:`1px solid ${bd}`}}>
         <div style={{fontFamily:f,fontSize:14,fontWeight:700,color:navy,letterSpacing:-.1,flex:1,minWidth:0,display:"inline-flex",alignItems:"center",gap:10}}>
-          {Ic && <span style={{width:30,height:30,borderRadius:8,background:`${accent||navy}14`,color:accent||navy,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Ic s={16}/></span>}
+          {Ic && <span style={{width:30,height:30,borderRadius:"50%",background:`${accent||navy}14`,color:accent||navy,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Ic s={16}/></span>}
           <span style={{minWidth:0}} className="elide">{title}</span>
 
         </div>
@@ -3589,7 +3589,7 @@ function AssessorEditorial() {
               </div>
               {sessions.slice(0,3).map((s,i)=>(
                 <div key={s.id} onClick={()=>{setRoute("ac");setAcTab("campaigns");}} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 0",borderTop:i===0?"none":`1px solid ${bd}`,cursor:"pointer"}}>
-                  <div style={{width:32,height:32,borderRadius:8,background:purpleBg,color:purple,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={15}/></div>
+                  <div style={{width:32,height:32,borderRadius:"50%",background:purpleBg,color:purple,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={15}/></div>
                   <div style={{flex:1,minWidth:0}}><div style={{fontSize:14,fontWeight:600,color:navy}} className="elide">{s.slot}</div><div style={{fontSize:14,color:tm}} className="elide">{s.when}</div></div>
                   <span style={{color:tm,display:"flex",flexShrink:0}}><I.Chev s={13}/></span>
                 </div>
@@ -3633,7 +3633,7 @@ function AssessorEditorial() {
                 <div>
                   {avails.map((a,i)=>(
                     <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"13px 20px",borderTop:i===0?"none":`1px solid ${bd}`}}>
-                      <div style={{width:32,height:32,borderRadius:8,background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={15}/></div>
+                      <div style={{width:32,height:32,borderRadius:"50%",background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={15}/></div>
                       <div style={{minWidth:0}}><div style={{fontSize:14,fontWeight:700,color:navy}} className="elide">{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div><div style={{fontSize:14,color:tm,marginTop:1}} className="elide">{daySummary(a.active)} · {a.tz}</div></div>
                     </div>
                   ))}
@@ -3749,7 +3749,7 @@ function AssessorEditorial() {
               <div>
                 {(dashSample==="3"?sessions.slice(0,3):sessions).map((s,i)=>(
                   <div key={s.id} onClick={()=>{setRoute("ac");setAcTab("campaigns");}} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 20px",borderTop:i===0?"none":`1px solid ${bd}`,cursor:"pointer",transition:"background .15s"}} onMouseEnter={e=>e.currentTarget.style.background=navyBg} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
-                    <div style={{width:34,height:34,borderRadius:8,background:purpleBg,color:purple,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={16}/></div>
+                    <div style={{width:34,height:34,borderRadius:"50%",background:purpleBg,color:purple,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={16}/></div>
                     <div style={{flex:1,minWidth:0}}>
                       <div style={{fontSize:14,fontWeight:600,color:navy}} className="elide">{s.slot}</div>
                       <div style={{fontSize:14,color:tm,marginTop:1}}>{s.when} · {s.dur}</div>
@@ -3774,7 +3774,7 @@ function AssessorEditorial() {
                 <div>
                   {avails.map((a,i)=>(
                     <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",borderTop:i===0?"none":`1px solid ${bd}`}}>
-                      <div style={{width:34,height:34,borderRadius:8,background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={16}/></div>
+                      <div style={{width:34,height:34,borderRadius:"50%",background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={16}/></div>
                       <div style={{minWidth:0}}>
                         <div style={{fontSize:14,fontWeight:700,color:navy}} className="elide">{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div>
                         <div style={{fontSize:14,color:tm,marginTop:1}} className="elide">{daySummary(a.active)} · {a.tz}</div>
@@ -3862,7 +3862,7 @@ function AssessorEditorial() {
       <div onClick={onClose} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(0,15,71,.55)",backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center",padding:28}}>
         <div onClick={e=>e.stopPropagation()} style={{background:card,borderRadius:18,width:"100%",height:"100%",maxWidth:1400,display:"flex",flexDirection:"column",overflow:"hidden",boxShadow:"0 30px 80px rgba(0,15,71,.4)"}}>
           <div style={{display:"flex",alignItems:"center",gap:14,padding:"16px 22px",borderBottom:`1px solid ${bd}`,flexShrink:0}}>
-            <div style={{width:38,height:38,borderRadius:10,background:navy,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Report s={18}/></div>
+            <div style={{width:38,height:38,borderRadius:"50%",background:navy,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Report s={18}/></div>
             <div style={{flex:1,minWidth:0}}>
               <div className="elide" style={{fontSize:16,fontWeight:700,color:navy}}>{report.name}</div>
               <div style={{fontSize:14,color:tm}}>Page {page+1} of {pages}</div>
