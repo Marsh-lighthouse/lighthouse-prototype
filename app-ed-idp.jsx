@@ -1751,14 +1751,14 @@ function EdDevChoice({ onBack, onPickAI, onPickManual }) {
       <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "stretch" }}>
         {/* Manual — placeholder, not clickable yet */}
         <div style={card}>
-          <div style={{ width: 54, height: 54, borderRadius: 14, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.edit size={24} /></div>
+          <div style={{ width: 54, height: 54, borderRadius: "50%", background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.edit size={24} /></div>
           <div className="serif" style={{ fontSize: 22, color: eMID }}>Manual Development Plan</div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, margin: 0, flex: 1 }}>Build the plan yourself — choose the skills and development actions you want to work on, step by step.</p>
           <button onClick={onPickManual} title="Build your plan step by step" style={{ marginTop: 4, display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "11px 20px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Start manually <I.arrow size={15} /></button>
         </div>
         {/* AI — opens the guided flow */}
         <div style={card}>
-          <div style={{ width: 54, height: 54, borderRadius: 14, background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center" }}><I.spark size={24} /></div>
+          <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center" }}><I.spark size={24} /></div>
           <div className="serif" style={{ fontSize: 22, color: eMID }}>AI Development Plan</div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, margin: 0, flex: 1 }}>An interactive, conversation-driven flow where you co-create your plan with the AI in a few guided steps.</p>
           <div style={{ marginTop: 4 }}><EdBtn primary onClick={onPickAI}>Start with AI <I.arrow size={15} /></EdBtn></div>
