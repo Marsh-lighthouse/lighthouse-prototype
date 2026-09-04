@@ -231,7 +231,7 @@ function PlDesc({ text }) {
 function PlDescLine({ text }) {
   const [open, setOpen] = plUseState(false);
   const base = { fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.45, marginTop: 3, cursor: "pointer" };
-  const clamp = { overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical" };
+  const clamp = { overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" };
   return <div onClick={() => setOpen((v) => !v)} title={open ? "Show less" : "Show full detail"} style={open ? base : { ...base, ...clamp }}>{text}{open && <button onClick={(e) => { e.stopPropagation(); setOpen(false); }} style={{ background: "none", border: "none", padding: 0, marginLeft: 6, color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>less</button>}</div>;
 }
 
