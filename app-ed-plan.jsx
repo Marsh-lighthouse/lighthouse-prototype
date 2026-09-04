@@ -1379,7 +1379,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
             <I.plus size={15} /> Add Skills
           </button>
           )}
-          <button title="Download" style={{ width: 38, height: 38, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
+          <button title="Download" style={{ width: 38, height: 38, borderRadius: 2, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
           {verdict
             // decided → read view: reopen as a draft, or (once approved) mark it done
             ? <React.Fragment>
@@ -1513,7 +1513,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                         <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
                           {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
                           {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
-                          <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                          <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{c.label}</span>
                         </li>
                       ))}
                     </ul>
