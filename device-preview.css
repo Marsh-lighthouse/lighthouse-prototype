@@ -546,3 +546,27 @@ html[data-device="mobile"] #root .pl-fullmodal > div {
    here) and the Save Skills button stays right-aligned even when the footer wraps. */
 html[data-device="mobile"] #root .pl-fullmodal h1 { font-size: 20px !important; line-height: 1.2 !important; }
 html[data-device="mobile"] .pl-addskills-foot > button { margin-left: auto !important; }
+
+/* ── Manual-flow (Rate Skills / stepper / footer) — phone only ── */
+/* Rate Skills table: each row stacks (skill name, then type, then stars); the column
+   header is hidden since the stacked layout is self-explanatory. */
+html[data-device="mobile"] .mn-rate-head { display: none !important; }
+html[data-device="mobile"] .mn-rate-row {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+}
+html[data-device="mobile"] .mn-rate-row > div {
+  width: auto !important;
+  flex: none !important;
+  justify-content: flex-start !important;
+}
+
+/* Stepper: show only the CURRENT step's name; the others are just numbered circles
+   (keeps the whole rail on one line without horizontal scrolling). */
+html[data-device="mobile"] .mn-step-label { display: none !important; }
+html[data-device="mobile"] .mn-step-label-on { display: inline !important; }
+
+/* Footer nav: the primary "Continue" button stays right-aligned when it wraps below
+   the Back button. */
+html[data-device="mobile"] .mn-foot > button:last-child { margin-left: auto !important; }

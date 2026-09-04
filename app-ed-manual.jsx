@@ -17,7 +17,7 @@ function MnFooterNav({ onBack, onNext, nextLabel, nextDisabled }) {
   // No divider above the actions: the card edge already separates them, and
   // Getting Started / Reflective Questions don't carry one either.
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
+    <div className="mn-foot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
       <button onClick={onBack}
         style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID,
           background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
@@ -122,7 +122,7 @@ function MnStepper({ step, design }) {
                 fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 }}>
                 {done ? <I.check size={16} /> : i + 1}
               </span>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
+              <span className={"mn-step-label" + (on ? " mn-step-label-on" : "")} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
             </div>
             {i < MN_STEPS.length - 1 && <span style={{ flex: "1 1 14px", minWidth: 12, height: 1, background: i < step ? eSUCCESS : eLINE, margin: "0 9px" }} />}
           </React.Fragment>
@@ -250,13 +250,13 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
       </div>
 
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid " + eLINE }}>
+        <div className="mn-rate-head" style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid " + eLINE }}>
           <div style={{ ...head, flex: 1, minWidth: 0 }}>Skill</div>
           <div style={{ ...head, width: 170, flexShrink: 0 }}>Skill Type</div>
           <div style={{ ...head, width: 130, flexShrink: 0, textAlign: "right" }}>Your self rating</div>
         </div>
         {rows.map((r, i) => (
-          <div key={r.name} style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 20px", borderTop: i ? "1px solid " + eLINE : "none" }}>
+          <div key={r.name} className="mn-rate-row" style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 20px", borderTop: i ? "1px solid " + eLINE : "none" }}>
             <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 14.5, color: eMID }}>{r.name}</div>
             <div style={{ width: 170, flexShrink: 0, display: "flex", alignItems: "center", gap: 9 }}>
               <span style={{ width: 28, height: 28, borderRadius: 14, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
