@@ -416,3 +416,17 @@ html[data-device="mobile"] .ed-idp-g3head > button {
   align-self: flex-end !important;
   margin-left: 0 !important;
 }
+
+/* Phone only: the AI-coach wrap-up actions ("Reset Chat" + "Yes, proceed with plan
+   creation") stack full-width so both buttons are the SAME width, and each label
+   stays on a single line (slightly smaller type keeps the long CTA to one row). */
+html[data-device="mobile"] .ed-idp-g3actions {
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+html[data-device="mobile"] .ed-idp-g3actions > button {
+  width: 100% !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  font-size: 15px !important;
+}

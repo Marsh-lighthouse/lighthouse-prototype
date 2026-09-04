@@ -903,7 +903,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
         )}
         <div style={{ borderTop: "1px solid " + eLINE, margin: "18px 0" }} />
         <p style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, lineHeight: 1.6, margin: "0 0 14px" }}>I can now create a tailored plan with practical actions to support your growth. You can also restart the chat to refine your inputs, if needed.</p>
-        <div style={{ position: "relative", display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+        <div className="ed-idp-g3actions" style={{ position: "relative", display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
           <button onClick={() => setG3Confirm(true)}
             style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--danger)", color: "#fff", border: "none", borderRadius: 8, padding: "11px 17px", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4" /><path d="M3 4v5h5" /></svg> Reset Chat
