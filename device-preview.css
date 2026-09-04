@@ -473,7 +473,9 @@ html[data-device="mobile"] .pl-chg-badge {
    Private, comment (chat) and delete — with delete sitting right after the chat
    icon. The flex spacer is removed so nothing pushes delete onto a new row. */
 html[data-device="mobile"] .pl-skill-head { gap: 7px !important; }
-html[data-device="mobile"] .pl-skill-head .pl-head-spacer { display: none !important; }
+/* keep the flex spacer active on the controls line so the chat + delete icons are
+   pushed to the right (rating + Public/Private stay on the left). */
+html[data-device="mobile"] .pl-skill-head .pl-head-spacer { display: block !important; flex: 1 1 auto !important; }
 /* name (with its chevron) takes the full first line so the rating + Public/Private
    + chat + delete always sit together on the line below — regardless of name length. */
 html[data-device="mobile"] .pl-skill-head .pl-skill-title { flex: 1 1 100% !important; }
