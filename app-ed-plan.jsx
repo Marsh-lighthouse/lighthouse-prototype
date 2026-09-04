@@ -1343,7 +1343,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         {/* The status rides beside the title while there's room for it, and drops
             onto its own line when the actions on the right leave none. */}
         <div style={{ flex: "1 1 auto", minWidth: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "9px 12px" }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3, minWidth: 0 }}>My Development Plan</h1>
+          <h1 className="pl-plan-title" style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3, minWidth: 0 }}>My Development Plan</h1>
           <span style={{ flexShrink: 0, display: "inline-flex" }}>
             <PlStatusBadge status={completed ? "completed" : verdict ? verdict.status : storeStatus === "review" ? "review" : awaiting ? "pending" : "draft"} />
           </span>
@@ -1370,7 +1370,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         })}
         </div>
         {/* plan actions belong to the Plan tab, as in the manager */}
-        {tab === "plan" && <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, paddingBottom: 8 }}>
+        {tab === "plan" && <div className="pl-plan-actions" style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, paddingBottom: 8 }}>
         {/* Add Skills leads the plan actions, left of Download. */}
           {editable && (
             <button onClick={() => setAddSkills(true)} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1px solid " + eLINE, borderRadius: 9, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "border-color .15s, background .15s" }}

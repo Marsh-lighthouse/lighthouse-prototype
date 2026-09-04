@@ -478,3 +478,25 @@ html[data-device="mobile"] .pl-skill-head .pl-head-spacer { display: none !impor
 /* Phone only: the by-skill summary's Completion cell (which wraps onto its own row)
    gets a top divider so it reads as a connected box with the two cells above it. */
 html[data-device="mobile"] .pl-sum-completion { border-top: 1px solid var(--line) !important; }
+
+/* Phone only: the plan Comments panel becomes a full-screen overlay (anchored to the
+   phone frame, not the desktop side-panel). Its own header carries the ✕ to close. */
+html[data-device="mobile"] #root .ed-idp-notes {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  z-index: 120 !important;
+  border-left: none !important;
+}
+
+/* Phone only: plan action buttons split into two groups with space between —
+   Add Skills + Download on the left, Save Plan + Chat on the right. */
+html[data-device="mobile"] .pl-plan-actions { width: 100% !important; }
+html[data-device="mobile"] .pl-plan-actions .pl-dl-btn { margin-right: auto !important; }
+
+/* Phone only: keep the plan title at 22px (not the blanket 32px) so the "Draft"
+   status badge rides beside it on one line, cutting the header height. */
+html[data-device="mobile"] #root .pl-plan-title { font-size: 22px !important; line-height: 1.3 !important; }
