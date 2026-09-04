@@ -552,15 +552,16 @@ html[data-device="mobile"] .pl-addskills-foot > button { margin-left: auto !impo
    header is hidden since the stacked layout is self-explanatory. */
 html[data-device="mobile"] .mn-rate-head { display: none !important; }
 html[data-device="mobile"] .mn-rate-row {
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 8px !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 8px 12px !important;
 }
-html[data-device="mobile"] .mn-rate-row > div {
-  width: auto !important;
-  flex: none !important;
-  justify-content: flex-start !important;
-}
+/* skill name on its own first line */
+html[data-device="mobile"] .mn-rate-row > div:first-child { flex: 1 1 100% !important; }
+/* type (icon + label) on the left of the second line */
+html[data-device="mobile"] .mn-rate-row > div:nth-child(2) { width: auto !important; flex: 1 1 auto !important; }
+/* rating stars pushed to the right, on the same line as the type */
+html[data-device="mobile"] .mn-rate-row > div:last-child { width: auto !important; flex: 0 0 auto !important; margin-left: auto !important; justify-content: flex-end !important; }
 
 /* Stepper: show only the CURRENT step's name; the others are just numbered circles
    (keeps the whole rail on one line without horizontal scrolling). */
