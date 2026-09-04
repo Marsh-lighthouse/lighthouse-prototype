@@ -536,3 +536,8 @@ html[data-device="mobile"] #root .pl-fullmodal > div {
   height: 100% !important;
   border-radius: 0 !important;
 }
+
+/* Phone only: Add Skills modal — smaller title (the blanket 32px h1 rule is too big
+   here) and the Save Skills button stays right-aligned even when the footer wraps. */
+html[data-device="mobile"] #root .pl-fullmodal h1 { font-size: 20px !important; line-height: 1.2 !important; }
+html[data-device="mobile"] .pl-addskills-foot > button { margin-left: auto !important; }

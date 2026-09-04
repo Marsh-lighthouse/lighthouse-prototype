@@ -926,7 +926,7 @@ function PlAddSkills({ current, onClose, onSave }) {
             </div>
           ))}
         </div>
-        <div style={{ borderTop: "1px solid " + eLINE, padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", flexShrink: 0 }}>
+        <div className="pl-addskills-foot" style={{ borderTop: "1px solid " + eLINE, padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", flexShrink: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 9, color: eMUT, fontFamily: "var(--sans)", fontSize: 14 }}>
             <span style={{ display: "flex", flexShrink: 0, color: eWARN }}><I.alertCircle size={17} /></span>
             This is a final action — it adds the selected skills to your development plan.
