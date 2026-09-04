@@ -1513,7 +1513,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                         <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
                           {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
                           {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
-                          <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{c.label}</span>
+                          <span className="pl-chg-badge" style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{c.label}</span>
                         </li>
                       ))}
                     </ul>
@@ -1533,7 +1533,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                         <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
                         {stars}
                         {pub}
-                        <div style={{ flex: 1 }} />
+                        <div className="pl-head-spacer" style={{ flex: 1 }} />
                         {commentBtn}
                         {delBtn}
                       </div>
@@ -1550,7 +1550,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                     <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
                     {stars}
                     {pub}
-                    <div style={{ flex: 1 }} />
+                    <div className="pl-head-spacer" style={{ flex: 1 }} />
                     {commentBtn}
                     {delBtn}
                   </div>
@@ -1854,7 +1854,7 @@ function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }
           {lead && <div style={{ flex: "1 1 100%", padding: "14px 18px", borderBottom: "1px solid " + eLINE }}>{lead}</div>}
           <div style={cell()}><div style={lbl}>Skills</div><div style={big}>{stats.skills}</div><div style={sub}>{splitLines("skills")}</div></div>
           <div style={cell()}><div style={lbl}>Development actions</div><div style={big}>{stats.actions}</div><div style={sub}>{splitLines("actions")}</div></div>
-          <div style={cell(true)}><div style={lbl}>Completion</div><div style={big}>{stats.pct}%</div><div style={{ marginTop: 12 }}><PlLinearBar pct={stats.pct} width="100%" /></div></div>
+          <div className="pl-sum-completion" style={cell(true)}><div style={lbl}>Completion</div><div style={big}>{stats.pct}%</div><div style={{ marginTop: 12 }}><PlLinearBar pct={stats.pct} width="100%" /></div></div>
         </div>
       </div>
     );

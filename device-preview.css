@@ -456,3 +456,23 @@ html[data-device="mobile"] .pl-skill-head > h3 { flex: 1 1 auto !important; min-
 /* Phone only: the plan Download button is a square with a 2px radius (desktop keeps
    the circular icon-tile treatment). */
 html[data-device="mobile"] .pl-dl-btn { border-radius: 2px !important; }
+
+/* Phone only: change-summary badge drops to its own line below the "Removed
+   Development Action:" label and sizes to its content — so the action name gets the
+   full width and fits on one line (wrapping only if genuinely too long). */
+html[data-device="mobile"] .pl-chg-badge {
+  display: block !important;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 3px !important;
+}
+
+/* Phone only: skill-header controls pack together on one line — rating, Public/
+   Private, comment (chat) and delete — with delete sitting right after the chat
+   icon. The flex spacer is removed so nothing pushes delete onto a new row. */
+html[data-device="mobile"] .pl-skill-head { gap: 7px !important; }
+html[data-device="mobile"] .pl-skill-head .pl-head-spacer { display: none !important; }
+
+/* Phone only: the by-skill summary's Completion cell (which wraps onto its own row)
+   gets a top divider so it reads as a connected box with the two cells above it. */
+html[data-device="mobile"] .pl-sum-completion { border-top: 1px solid var(--line) !important; }
