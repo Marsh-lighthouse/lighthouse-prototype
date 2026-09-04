@@ -447,3 +447,12 @@ html[data-device="mobile"] .ed-tabbtns > button {
   white-space: nowrap !important;
   flex-shrink: 0 !important;
 }
+
+/* Phone only: plan skill header — the skill name fills the first line so the rating
+   stars, Public/Private toggle and comment icon wrap together onto ONE line below. */
+html[data-device="mobile"] .pl-skill-head { gap: 8px !important; row-gap: 8px !important; }
+html[data-device="mobile"] .pl-skill-head > h3 { flex: 1 1 auto !important; min-width: 0 !important; }
+
+/* Phone only: the plan Download button is a square with a 2px radius (desktop keeps
+   the circular icon-tile treatment). */
+html[data-device="mobile"] .pl-dl-btn { border-radius: 2px !important; }
