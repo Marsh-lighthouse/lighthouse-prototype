@@ -899,7 +899,7 @@ function PlAddSkills({ current, onClose, onSave }) {
   const addSug = (ci, s) => setSel((x) => x.map((arr, i) => (i === ci && !arr.includes(s) ? [...arr, s] : arr)));
   plUseEffect(() => { const onKey = (e) => { if (e.key === "Escape") onClose(); }; document.addEventListener("keydown", onKey); return () => document.removeEventListener("keydown", onKey); }, []);
   return ReactDOM.createPortal(
-    <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 300, background: "rgba(0,15,71,.45)", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "clamp(20px,5vh,60px) 20px", overflowY: "auto" }}>
+    <div className="pl-fullmodal" onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 300, background: "rgba(0,15,71,.45)", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "clamp(20px,5vh,60px) 20px", overflowY: "auto" }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 720, background: "var(--card)", borderRadius: 16, boxShadow: "0 40px 90px rgba(0,15,71,.35)", overflow: "hidden", display: "flex", flexDirection: "column", maxHeight: "calc(100vh - 80px)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "20px 24px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
           <h1 className="serif" style={{ fontSize: 24, color: eMID, margin: 0 }}>Add Skills</h1>
@@ -934,7 +934,7 @@ function PlAddSkills({ current, onClose, onSave }) {
           <EdBtn primary onClick={() => onSave(sel)}>Save Skills</EdBtn>
         </div>
       </div>
-    </div>, document.body);
+    </div>, (typeof document !== "undefined" && document.getElementById("root")) || document.body);
 }
 
 // ── Delete confirmation dialog ──

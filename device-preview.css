@@ -520,3 +520,19 @@ html[data-device="mobile"] .pl-lib-tabs > button { flex-shrink: 0 !important; wh
 html[data-device="mobile"] .pl-media-row { flex-direction: column !important; }
 html[data-device="mobile"] .pl-completion-block { align-items: flex-start !important; }
 html[data-device="mobile"] .pl-completion-block > div { justify-content: flex-start !important; }
+
+/* Phone only: the Add Skills full-page modal (portaled into #root) is pinned to the
+   phone frame with position:absolute so it no longer escapes to the whole viewport;
+   it fills the frame edge-to-edge and its card scrolls inside. */
+html[data-device="mobile"] #root .pl-fullmodal {
+  position: absolute !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+  z-index: 200 !important;
+}
+html[data-device="mobile"] #root .pl-fullmodal > div {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+}
