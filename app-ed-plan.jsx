@@ -289,7 +289,7 @@ function PlLibraryModal({ skillName, onAdd, onClose }) {
     <PlModal onClose={onClose}>
       <PlModalHead onClose={onClose} title={<React.Fragment>Development Actions Library for <strong style={{ color: eMID }}>{skillName}</strong></React.Fragment>} />
       <div style={{ padding: "0 24px 12px" }}>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
+        <div className="pl-lib-tabs" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
           {tabs.map((t) => <button key={t} onClick={() => setFilter(t)} style={{ padding: "7px 13px", borderRadius: 8, border: "1.5px solid " + (filter === t ? eBLUE : eLINE), background: filter === t ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "var(--card)", color: filter === t ? eBLUE : eINK, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>{t}</button>)}
         </div>
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search Development Actions" style={{ width: "100%", boxSizing: "border-box", padding: "11px 14px", borderRadius: 10, border: "1.5px solid " + eLINE, fontSize: 14, fontFamily: "var(--sans)", color: eINK, outline: "none" }} />
