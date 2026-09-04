@@ -453,7 +453,7 @@ html[data-device="mobile"] .ed-tabbtns > button {
 /* Phone only: plan skill header — the skill name fills the first line so the rating
    stars, Public/Private toggle and comment icon wrap together onto ONE line below. */
 html[data-device="mobile"] .pl-skill-head { gap: 8px !important; row-gap: 8px !important; }
-html[data-device="mobile"] .pl-skill-head > h3 { flex: 1 1 auto !important; min-width: 0 !important; }
+html[data-device="mobile"] .pl-skill-head .pl-skill-title > h3 { min-width: 0 !important; overflow: hidden; text-overflow: ellipsis; }
 
 /* Phone only: the plan Download button is a square with a 2px radius (desktop keeps
    the circular icon-tile treatment). */
@@ -474,6 +474,9 @@ html[data-device="mobile"] .pl-chg-badge {
    icon. The flex spacer is removed so nothing pushes delete onto a new row. */
 html[data-device="mobile"] .pl-skill-head { gap: 7px !important; }
 html[data-device="mobile"] .pl-skill-head .pl-head-spacer { display: none !important; }
+/* name (with its chevron) takes the full first line so the rating + Public/Private
+   + chat + delete always sit together on the line below — regardless of name length. */
+html[data-device="mobile"] .pl-skill-head .pl-skill-title { flex: 1 1 100% !important; }
 
 /* Phone only: the by-skill summary's Completion cell (which wraps onto its own row)
    gets a top divider so it reads as a connected box with the two cells above it. */

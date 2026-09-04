@@ -1527,10 +1527,12 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                   return (
                     <div key={si} data-skill={skill.name} style={{ borderTop: (si > 0 && !active) ? "1px solid " + eLINE : "none", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2, borderRadius: active ? 12 : 0, padding: active ? "0 12px" : 0, margin: active ? "6px -12px" : 0 }}>
                       <div className="pl-skill-head" style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: open ? "16px 0 14px" : "16px 0" }}>
+                        <div className="pl-skill-title" style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
                         <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, marginLeft: -2 }}>
                           <span style={{ display: "flex", transition: "transform .2s", transform: open ? "none" : "rotate(-90deg)" }}><I.chevD size={18} /></span>
                         </button>
                         <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
+                        </div>
                         {stars}
                         {pub}
                         <div className="pl-head-spacer" style={{ flex: 1 }} />
@@ -1547,7 +1549,9 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                 <div key={si} data-skill={skill.name} style={{ borderRadius: 12, transition: "background .2s", background: active ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "transparent", outline: active ? "2px solid color-mix(in srgb, var(--accent) 35%, transparent)" : "none", outlineOffset: -2, padding: active ? "8px 12px" : 0, margin: active ? (si > 0 ? "28px -12px 6px" : "0 -12px 6px") : (si > 0 ? "28px 0 6px" : "0 0 6px") }}>
                   {/* skill header */}
                   <div className="pl-skill-head" style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
+                    <div className="pl-skill-title" style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
                     <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
+                    </div>
                     {stars}
                     {pub}
                     <div className="pl-head-spacer" style={{ flex: 1 }} />
