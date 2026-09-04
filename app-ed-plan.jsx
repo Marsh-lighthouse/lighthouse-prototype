@@ -1194,7 +1194,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   const [openSkill, setOpenSkill] = plUseState("0-0");
   // User-info presentation. 4 (default) hides the info card entirely and puts the
   // owner's name in the page title instead; 1–3 are the card layouts.
-  const [userCard, setUserCard] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-usercard-design"), 10); return v >= 1 && v <= 5 ? v : 4; });
+  const [userCard, setUserCard] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-usercard-design-v2"), 10); return v >= 1 && v <= 5 ? v : 5; });
   const [userCardMenu, setUserCardMenu] = plUseState(false);
   const [reflectErr, setReflectErr] = plUseState(false); // demo: force the Reflective-questions error state
   const [reflectMenu, setReflectMenu] = plUseState(false);
@@ -1291,7 +1291,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [reflectMenu]);
-  const pickUserCard = (n) => { setUserCard(n); localStorage.setItem("pl-usercard-design", String(n)); setUserCardMenu(false); };
+  const pickUserCard = (n) => { setUserCard(n); localStorage.setItem("pl-usercard-design-v2", String(n)); setUserCardMenu(false); };
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2600); };
   const mutate = (fn) => setData((d) => { const n = plClone(d); fn(n); return n; });
