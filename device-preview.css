@@ -513,3 +513,10 @@ html[data-device="mobile"] .pl-lib-tabs {
 }
 html[data-device="mobile"] .pl-lib-tabs::-webkit-scrollbar { display: none; }
 html[data-device="mobile"] .pl-lib-tabs > button { flex-shrink: 0 !important; white-space: nowrap !important; }
+
+/* Phone only: the media (image) action card stacks — thumbnail on top, all text
+   below (like the no-thumbnail card) — and the Completion block left-aligns instead
+   of hugging the right edge. */
+html[data-device="mobile"] .pl-media-row { flex-direction: column !important; }
+html[data-device="mobile"] .pl-completion-block { align-items: flex-start !important; }
+html[data-device="mobile"] .pl-completion-block > div { justify-content: flex-start !important; }

@@ -2259,7 +2259,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     // Completion — edit mode: the 0/25/50/75/100 steps (the fill shows as the edge-to-edge
     // bar along the bottom). Saved/view mode: the small inline MDS bar next to the %.
     const completionBlock = (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
+      <div className="pl-completion-block" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 7 }}>
         <div style={plMetaLabel}>Completion</div>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
           {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
@@ -2290,7 +2290,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     if (hasImg) {
       return (
         <div style={cardOuter}>
-          <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+          <div className="pl-media-row" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
             <PlThumb mix={action.mix} seed={action.title} size={88} />
             <div style={{ flex: 1, minWidth: 0 }}>{head}</div>
           </div>
