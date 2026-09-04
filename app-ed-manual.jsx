@@ -23,7 +23,7 @@ function MnFooterNav({ onBack, onNext, nextLabel, nextDisabled }) {
           background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
         <I.arrowL size={15} /> Back
       </button>
-      <EdBtn primary disabled={nextDisabled} onClick={() => { if (!nextDisabled) onNext(); }}>{nextLabel} <I.arrow size={15} /></EdBtn>
+      <EdBtn primary disabled={nextDisabled} onClick={() => { if (!nextDisabled) onNext(); }}><span className="mn-next-full">{nextLabel}</span><span className="mn-next-short">Continue</span> <I.arrow size={15} /></EdBtn>
     </div>
   );
 }

@@ -571,3 +571,10 @@ html[data-device="mobile"] .mn-step-label-on { display: inline !important; }
 /* Footer nav: the primary "Continue" button stays right-aligned when it wraps below
    the Back button. */
 html[data-device="mobile"] .mn-foot > button:last-child { margin-left: auto !important; }
+
+/* Phone only: the manual-flow footer "Continue" button drops the descriptive tail
+   ("… to Rate skills" / "… to Reflective questions") and just reads "Continue".
+   Desktop / iPad keep the full label. */
+.mn-next-short { display: none; }
+html[data-device="mobile"] .mn-next-full { display: none !important; }
+html[data-device="mobile"] .mn-next-short { display: inline !important; }
