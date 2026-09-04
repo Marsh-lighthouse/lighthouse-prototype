@@ -1363,7 +1363,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {/* tabs — same structure/colours as the program task-detail tabs (Intro / Tasks / Reports) */}
       {/* Tabs left, plan actions right — mirrors the manager's detail layout. */}
       <div className="ed-tabs" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid " + eLINE, marginTop: 22, marginBottom: 30 }}>
-        <div style={{ display: "flex", alignItems: "flex-end", gap: 2, minWidth: 0, flexWrap: "wrap" }}>
+        <div className="ed-tabbtns" style={{ display: "flex", alignItems: "flex-end", gap: 2, minWidth: 0, flexWrap: "wrap" }}>
         {[["plan", "Plan"], ["report", "Program Report"], ["reflect", "Reflective Questions"]].map(([k, l]) => {
           const on = tab === k;
           return <button key={k} onClick={() => setTab(k)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{l}</button>;

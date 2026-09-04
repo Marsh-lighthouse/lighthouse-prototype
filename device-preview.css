@@ -430,3 +430,20 @@ html[data-device="mobile"] .ed-idp-g3actions > button {
   white-space: nowrap !important;
   font-size: 15px !important;
 }
+
+/* Phone only: the plan tabs (Plan / Program Report / Reflective Questions) stay on
+   ONE line — never wrap to a second row. Tighter padding helps them fit; if the
+   three still exceed the width they scroll horizontally rather than wrapping. */
+html[data-device="mobile"] .ed-tabbtns {
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+html[data-device="mobile"] .ed-tabbtns::-webkit-scrollbar { display: none; }
+html[data-device="mobile"] .ed-tabbtns > button {
+  padding-left: 9px !important;
+  padding-right: 9px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}

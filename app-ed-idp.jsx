@@ -1178,7 +1178,9 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
 
   // shared shell for the flow steps (no step dots; the shell .ed-topbar carries the back).
   const Shell = ({ children, narrow, className, center }) => (
-    <div className={className} style={{ maxWidth: "var(--content-max)", margin: center ? "0 auto" : "32px var(--fol-mx) 72px", padding: 0, width: center ? "100%" : undefined }}>
+    <div className={className} style={center
+      ? { maxWidth: "var(--content-max)", margin: "0 auto", padding: "24px 0", width: "100%", flex: "1 0 auto", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }
+      : { maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
       {children}
     </div>
   );
