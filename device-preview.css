@@ -578,3 +578,16 @@ html[data-device="mobile"] .mn-foot > button:last-child { margin-left: auto !imp
 .mn-next-short { display: none; }
 html[data-device="mobile"] .mn-next-full { display: none !important; }
 html[data-device="mobile"] .mn-next-short { display: inline !important; }
+
+/* Phone only: reflective-question nav stacks — Previous question and the primary
+   button (Next / Create Development Plan) each go full-width, the primary at the
+   bottom. */
+html[data-device="mobile"] .mn-q-nav {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+}
+html[data-device="mobile"] .mn-q-nav > button {
+  width: 100% !important;
+  justify-content: center !important;
+}

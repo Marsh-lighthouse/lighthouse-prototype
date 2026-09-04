@@ -355,7 +355,7 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 20 }}>
+        <div className="mn-q-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 20 }}>
           {i > 0
             ? <button onClick={() => go(i - 1)}
                 style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
