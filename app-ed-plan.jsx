@@ -263,11 +263,15 @@ function PlCreateOwnModal({ skillName, onAdd, onClose }) {
     <PlModal onClose={onClose}>
       <PlModalHead onClose={onClose} title={<React.Fragment>Create my own development action for <strong style={{ color: eMID }}>{skillName}</strong></React.Fragment>} />
       <div style={{ padding: "0 24px 8px", display: "flex", flexDirection: "column", gap: 12, overflowY: "auto" }}>
-        <select value={mix} onChange={(e) => setMix(+e.target.value)} style={{ ...inp, cursor: "pointer", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", paddingRight: 40, background: "var(--card) url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238A94A6' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") no-repeat right 14px center" }}>
-          <option value={70}>Learning on the Job</option>
-          <option value={20}>Collaborative Learning</option>
-          <option value={10}>Formal Learning</option>
-        </select>
+        <div style={{ position: "relative" }}>
+          <select value={mix} onChange={(e) => setMix(+e.target.value)} style={{ ...inp, cursor: "pointer", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", paddingRight: 40, background: "var(--card)" }}>
+            <option value={70}>Learning on the Job</option>
+            <option value={20}>Collaborative Learning</option>
+            <option value={10}>Formal Learning</option>
+          </select>
+          {/* MDS dropdown chevron (KeyboardArrowDown) */}
+          <span style={{ position: "absolute", right: 13, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: eMUT, display: "flex" }}><I.chevD size={18} /></span>
+        </div>
         <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter Development Action Title" style={inp} />
         <textarea value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Enter Development Action Description" rows={7} style={{ ...inp, resize: "vertical", lineHeight: 1.6 }} />
       </div>
