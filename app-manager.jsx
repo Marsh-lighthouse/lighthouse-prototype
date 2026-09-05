@@ -603,9 +603,9 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const [openSkill, setOpenSkill] = mgUseState("0-0");   // Sample-10 accordion: key of the one open skill ("" = all closed)
   mgUseEffect(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); if (v >= 1 && v <= 10 && v !== sample) setSample(v); }, [planTick]);
   // 2 (Minimal — picture, name, email) is the default reportee card.
-  const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design"), 10); return (v >= 1 && v <= 3) || v === 5 ? v : 2; });
+  const [userCard, setUserCard] = mgUseState(() => { const v = parseInt(localStorage.getItem("mgr-usercard-design-v2"), 10); return (v >= 1 && v <= 3) || v === 5 ? v : 5; });
   const [userCardMenu, setUserCardMenu] = mgUseState(false);
-  const pickUserCard = (n) => { setUserCard(n); try { localStorage.setItem("mgr-usercard-design", String(n)); } catch (e) {} setUserCardMenu(false); };
+  const pickUserCard = (n) => { setUserCard(n); try { localStorage.setItem("mgr-usercard-design-v2", String(n)); } catch (e) {} setUserCardMenu(false); };
   const pickSample = (n) => { setSample(n); try { localStorage.setItem("pl-plan-design", String(n)); } catch (e) {} setSampleMenu(false); };
   // Wrap a skill's cards the way the employee plan does for grouped designs.
   const wrapCards = (cards) => {
