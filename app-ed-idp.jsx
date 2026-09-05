@@ -1802,13 +1802,13 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
     // clobber the child's back, since child effects run before this parent one.
   }, [mode, devTopCtx]);
 
-  // Rail: keep it collapsed on the generated plan, expand it on the choose/landing
-  // entry screens (EdIdpFlow handles the questions/generation screens itself).
+  // Rail: collapse the side menu as soon as a build path is picked (manual OR AI) so
+  // the wizard / plan get the full width — on desktop AND iPad (collapseRail drives the
+  // shared rail state, which the iPad layout honours too). Only the "choose" entry
+  // screen (the Development tab's main screen) keeps the rail expanded.
   idpUseEffect(() => {
     if (!devTopCtx || !devTopCtx.collapseRail) return;
-    if (mode === "plan") devTopCtx.collapseRail(true);
-    // the manual flow keeps the rail as-is, so its pages are the same width as the rest
-    else if (mode === "choose" || mode === "landing" || mode === "manual") devTopCtx.collapseRail(false);
+    devTopCtx.collapseRail(mode !== "choose");
   }, [mode, devTopCtx]);
   // Restore the rail to its pre-Development state when leaving the Development tab.
   idpUseEffect(() => {
