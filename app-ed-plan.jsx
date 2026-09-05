@@ -263,7 +263,7 @@ function PlCreateOwnModal({ skillName, onAdd, onClose }) {
     <PlModal onClose={onClose}>
       <PlModalHead onClose={onClose} title={<React.Fragment>Create my own development action for <strong style={{ color: eMID }}>{skillName}</strong></React.Fragment>} />
       <div style={{ padding: "0 24px 8px", display: "flex", flexDirection: "column", gap: 12, overflowY: "auto" }}>
-        <select value={mix} onChange={(e) => setMix(+e.target.value)} style={{ ...inp, cursor: "pointer" }}>
+        <select value={mix} onChange={(e) => setMix(+e.target.value)} style={{ ...inp, cursor: "pointer", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", paddingRight: 40, background: "var(--card) url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238A94A6' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") no-repeat right 14px center" }}>
           <option value={70}>Learning on the Job</option>
           <option value={20}>Collaborative Learning</option>
           <option value={10}>Formal Learning</option>
@@ -1379,7 +1379,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
             <I.plus size={15} /> Add Skills
           </button>
           )}
-          <button title="Download" className="pl-dl-btn" style={{ width: 38, height: 38, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
+          <button title="Download" className="pl-dl-btn" style={{ width: 38, height: 38, borderRadius: 10, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.download size={17} /></button>
           {verdict
             // decided → read view: reopen as a draft, or (once approved) mark it done
             ? <React.Fragment>
