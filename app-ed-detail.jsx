@@ -911,7 +911,7 @@ function EdPreCheck({ target, onBack, onLaunch }) {
       <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 24 }}>
         <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(143,32,222,.10)", border: "1px solid rgba(143,32,222,.22)", color: ePURP, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.shield size={22} /></div>
         <div>
-          <EdEyebrow color={eMID}>Proctored</EdEyebrow>
+          <span style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: 0.2, color: ePURP, background: "rgba(143,32,222,.10)", padding: "3px 10px", borderRadius: 6, marginBottom: 10 }}>Proctored</span>
           <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 2px" }}>System check</h1>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: 0 }}>{target.name}</p>
         </div>
