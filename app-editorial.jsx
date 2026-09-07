@@ -7,14 +7,22 @@
 const MID = "var(--primary)", SKY = "#CEECFF", GOLD = "var(--action)", INK = "var(--ink)",
       MUT = "var(--muted)", CREAM = "var(--canvas)", BLUE = "var(--accent)", PURP = "#8F20DE";
 
+// MDS determinate circular progress: value + track arcs, both round-capped, with a
+// small gap at the top and at the value/track junction.
 function Ring({ pct, size = 48, stroke = 4, color = BLUE, track = "rgba(255,255,255,.25)" }) {
-  const r = (size - stroke) / 2, c = 2 * Math.PI * r;
+  const p = Math.max(0, Math.min(100, pct || 0));
+  const cx = size / 2, cy = size / 2, r = (size - stroke) / 2, c = 2 * Math.PI * r;
+  const gap = Math.min(stroke * 1.6, c * 0.06);
+  const deg = (len) => (len / c) * 360;
+  const twoArcs = p > 0 && p < 100;
+  const vLen = Math.max(0, c * (p / 100) - (p > 0 ? gap : 0));
+  const tLen = Math.max(0, c * ((100 - p) / 100) - (twoArcs ? gap : p === 0 ? gap : 0));
+  const vStart = -90 + deg(gap / 2);
+  const tStart = -90 + deg(c * (p / 100) + gap / 2);
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ display: "block" }}>
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={track} strokeWidth={stroke} />
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={stroke}
-        strokeDasharray={c} strokeDashoffset={c * (1 - pct/100)} strokeLinecap="round"
-        transform={`rotate(-90 ${size/2} ${size/2})`} />
+      {tLen > 0 && <circle cx={cx} cy={cy} r={r} fill="none" stroke={track} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={`${tLen} ${c}`} transform={`rotate(${p === 0 ? -90 + deg(gap / 2) : tStart} ${cx} ${cy})`} />}
+      {vLen > 0 && <circle cx={cx} cy={cy} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={`${vLen} ${c}`} transform={`rotate(${vStart} ${cx} ${cy})`} />}
     </svg>
   );
 }
