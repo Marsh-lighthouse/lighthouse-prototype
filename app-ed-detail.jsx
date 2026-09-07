@@ -917,7 +917,7 @@ function ScHead({ icon, title, sub, badge }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 22 }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, minWidth: 0 }}>
-        <div style={{ width: 44, height: 44, borderRadius: 12, background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
+        <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
         <div style={{ minWidth: 0 }}>
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, lineHeight: 1.2, margin: 0 }}>{title}</h1>
           <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "4px 0 0", lineHeight: 1.5 }}>{sub}</p>
