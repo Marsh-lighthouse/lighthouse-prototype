@@ -1180,7 +1180,7 @@ function ScPermissionPrompt({ host, onAllow, onDeny, onStream }) {
   const row = { display: "flex", alignItems: "center", gap: 12, color: "#3c4043", fontFamily: "var(--sans)", fontSize: 14 };
   const panel = { background: scTint(eBLUE, "9%"), borderRadius: 12, padding: 12, marginBottom: 12 };
   return (
-    <div onClick={onDeny} style={{ position: "fixed", inset: 0, background: "rgba(0,15,71,.32)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "flex-start", padding: "60px 16px 16px 44px", overflow: "auto" }}>
+    <div onClick={onDeny} style={{ position: "fixed", inset: 0, background: "rgba(0,15,71,.32)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "56px 16px 16px", overflow: "auto" }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: 380, maxWidth: "100%", background: "#fff", borderRadius: 16, boxShadow: "0 24px 64px rgba(0,0,0,.34)", padding: "18px 18px 20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
           <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: "#202124", lineHeight: 1.35 }}><span style={{ fontWeight: 700 }}>{host}</span><br />wants to</div>
