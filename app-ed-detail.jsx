@@ -974,6 +974,7 @@ function ScWelcome({ target, onStart }) {
   const pers = ["Close all unnecessary applications and browser tabs", "Ensure your device is fully charged or plugged into socket", "Set aside uninterrupted time for the full assessment"];
   return (
     <div style={scWrap}>
+      <div style={{ ...scCard, padding: "30px 32px" }}>
       <div style={{ marginBottom: 26 }}>
         <h1 style={{ fontFamily: "var(--sans)", fontSize: 24, fontWeight: 700, color: eMID, margin: 0, letterSpacing: -0.2 }}>System check</h1>
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "5px 0 0" }}>Confirm your device and connection are ready before you begin{target && target.name ? " " + target.name : ""}.</p>
@@ -1013,6 +1014,7 @@ function ScWelcome({ target, onStart }) {
       </label>
 
       <EdBtn primary full disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
+      </div>
     </div>
   );
 }
