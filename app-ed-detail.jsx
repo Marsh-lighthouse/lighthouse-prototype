@@ -1157,7 +1157,23 @@ function ScNetwork({ setResult, onBack, onNext }) {
 // Illustrative mock of the browser's camera/mic permission prompt — shown in the
 // flow so people see how granting access will look. It is the app's own UI (not a
 // real system dialog); "Allow" proceeds to the real camera step.
-function ScPermissionPrompt({ host, onAllow, onDeny }) {
+function ScPermissionPrompt({ host, onAllow, onDeny, onStream }) {
+  const videoRef = React.useRef(null);
+  const [hasFeed, setHasFeed] = React.useState(false);
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        if (cancelled) { stream.getTracks().forEach((t) => t.stop()); return; }
+        if (videoRef.current) { videoRef.current.srcObject = stream; videoRef.current.muted = true; videoRef.current.play().catch(() => {}); }
+        setHasFeed(true);
+        if (onStream) onStream(stream);
+      } catch (e) {}
+    })();
+    return () => { cancelled = true; };
+  }, []);
   const pill = { display: "block", width: "100%", textAlign: "center", background: scTint(eBLUE, "14%"), color: eMID, border: "none", borderRadius: 999, padding: "12px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, cursor: "pointer" };
   const dd = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, background: "#fff", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 14, color: eINK };
   const row = { display: "flex", alignItems: "center", gap: 12, color: "#3c4043", fontFamily: "var(--sans)", fontSize: 14 };
@@ -1175,7 +1191,8 @@ function ScPermissionPrompt({ host, onAllow, onDeny }) {
         </div>
         <div style={panel}>
           <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", background: "#0b1020", aspectRatio: "16 / 10", marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ color: "rgba(255,255,255,.55)", display: "flex" }}><I.cam size={30} /></span>
+            <video ref={videoRef} autoPlay playsInline muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", opacity: hasFeed ? 1 : 0 }} />
+            {!hasFeed && <span style={{ color: "rgba(255,255,255,.55)", display: "flex" }}><I.cam size={30} /></span>}
             <span style={{ position: "absolute", top: 8, right: 8, background: "#c8f0d0", color: "#137333", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, borderRadius: 999, padding: "3px 9px", display: "inline-flex", alignItems: "center", gap: 5 }}><I.cam size={12} /> Preview</span>
           </div>
           <div style={dd}><span>FaceTime HD Camera</span><I.chevD size={16} /></div>
@@ -1198,8 +1215,9 @@ function ScPermissionPrompt({ host, onAllow, onDeny }) {
 }
 
 // ═══ VIDEO AND AUDIO ═══════════════════════════════════════════════════════
-function ScVideo({ setResult, onBack, onNext }) {
+function ScVideo({ setResult, onBack, onNext, onStep }) {
   const [vstate, setVstate] = React.useState("permission"); // permission|init|denied|preview|countdown|recording|reviewing|checking|pass|fail
+  React.useEffect(() => { if (onStep) onStep("video/" + vstate); }, [vstate]);
   const [attempts, setAttempts] = React.useState(0);
   const [count, setCount] = React.useState(3);
   const [sec, setSec] = React.useState(0);
@@ -1222,6 +1240,13 @@ function ScVideo({ setResult, onBack, onNext }) {
     } catch (e) { setVstate("denied"); }
   };
   React.useEffect(() => { return () => { stopStream(); }; }, []);
+  const allowMedia = async () => {
+    if (streamRef.current) {
+      try { const list = await navigator.mediaDevices.enumerateDevices(); setDevices({ cams: list.filter((d) => d.kind === "videoinput"), mics: list.filter((d) => d.kind === "audioinput") }); } catch (e) {}
+      setVstate("preview");
+    } else { requestMedia(); }
+  };
+  const denyMedia = () => { stopStream(); streamRef.current = null; setVstate("denied"); };
 
   React.useEffect(() => {
     if ((vstate === "preview" || vstate === "countdown" || vstate === "recording") && videoRef.current && streamRef.current) {
@@ -1266,7 +1291,7 @@ function ScVideo({ setResult, onBack, onNext }) {
         <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge="pending" />
         <div style={media}><div style={overlayText}>{vstate === "init" ? <React.Fragment><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: 13, border: "3px solid rgba(255,255,255,.35)", borderTopColor: "#fff", display: "block" }} /><span style={{ fontFamily: "var(--sans)", fontSize: 14 }}>Starting camera &amp; microphone…</span></React.Fragment> : <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(255,255,255,.75)" }}>Allow camera &amp; microphone access to continue.</span>}</div></div>
         <ScFoot onBackClick={onBack} right={<EdBtn onClick={() => setVstate("permission")} disabled={vstate === "init"}>Show permission prompt</EdBtn>} />
-        {vstate === "permission" && <ScPermissionPrompt host={host} onAllow={requestMedia} onDeny={() => setVstate("denied")} />}
+        {vstate === "permission" && <ScPermissionPrompt host={host} onAllow={allowMedia} onDeny={denyMedia} onStream={(s) => { streamRef.current = s; }} />}
       </div>
     );
   }
@@ -1399,16 +1424,18 @@ function ScResult({ results, onRerun, onBack, onLaunch }) {
   );
 }
 
-function EdPreCheck({ target, onBack, onLaunch }) {
-  const [phase, setPhase] = edUseState("welcome");
+function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep }) {
+  const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
   const [results, setResults] = edUseState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
   const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
+  // reflect the current step in the URL (video reports its own sub-step)
+  React.useEffect(() => { if (onStep && phase !== "video") onStep(phase); }, [phase]);
 
   if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase("browser")} />;
   if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
   if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-  if (phase === "video") return <ScVideo setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+  if (phase === "video") return <ScVideo setResult={(v) => setResult("video", v)} onStep={onStep} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
   if (phase === "result") return <ScResult results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
   return null;
 }

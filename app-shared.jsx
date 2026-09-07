@@ -503,7 +503,7 @@ function edRouteToPath(r) {
     case "tasks": return base;
     case "instructions": return base + "/instructions";
     case "center": return base + "/center" + (r.center && r.center.id ? "/" + r.center.id : "");
-    case "precheck": return base + "/system-check" + exId;
+    case "precheck": return base + "/system-check" + exId + (r.pcStep ? "/" + r.pcStep : "");
     case "assessintro": return base + "/assessment" + exId;
     case "consent": return base + "/assessment" + exId + "/consent";
     case "openassess": {
@@ -541,7 +541,7 @@ function edPathToRoute(path) {
     if (!sub) return tasks;
     if (sub === "instructions") return { page: "instructions", progId, center: null, target: null };
     if (sub === "center") { const c = edFindEx(prog, segs[3]); return c ? { page: "center", progId, center: c, target: null } : tasks; }
-    if (sub === "system-check") { const t = edFindEx(prog, segs[3]); return t ? { page: "precheck", progId, center: null, target: t } : tasks; }
+    if (sub === "system-check") { const t = edFindEx(prog, segs[3]); return t ? { page: "precheck", progId, center: null, target: t, pcStep: segs.slice(4).join("/") || null } : tasks; }
     if (sub === "assessment") {
       const ex = edFindEx(prog, segs[3]);
       if (!ex) return tasks;

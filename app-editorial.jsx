@@ -1231,8 +1231,9 @@ function DashEditorial({ initialRoute } = {}) {
       onReserve={(c) => { setRoute((r) => ({ ...r, page: "scheduling", schedCenter: c && c.schedId })); }}
       onProctored={(target) => setRoute((r) => ({ ...r, page: "precheck", target }))} />;
   } else if (route.page === "precheck") {
-    content = <D.EdPreCheck target={route.target}
-      onBack={() => setRoute((r) => ({ ...r, page: route.center ? "center" : "tasks", target: null }))}
+    content = <D.EdPreCheck target={route.target} initialStep={route.pcStep}
+      onStep={(step) => setRoute((r) => (r.pcStep === step ? r : { ...r, pcStep: step }))}
+      onBack={() => setRoute((r) => ({ ...r, page: route.center ? "center" : "tasks", target: null, pcStep: null }))}
       onLaunch={toTasks} />;
   } else if (route.page === "assessintro") {
     content = <A.EdAssessIntro exercise={route.target} onExit={toTasks} onBegin={() => setRoute((r) => ({ ...r, page: "consent" }))} />;
