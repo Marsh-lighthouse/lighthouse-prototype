@@ -964,51 +964,55 @@ function useScCountdown(active, onDone) {
 // ═══ WELCOME ═══════════════════════════════════════════════════════════════
 function ScWelcome({ target, onStart }) {
   const [ack, setAck] = React.useState(false);
-  const infoCard = (icon, title, rows, note) => (
-    <div style={{ ...scCard, padding: 22, flex: 1, minWidth: 260 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-        <span style={{ color: eBLUE, display: "flex" }}>{icon}</span>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h3>
-      </div>
-      {rows}
-      {note && <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{note}</p>}
-    </div>
-  );
-  const kv = (k, v) => <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "7px 0" }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{v}</span></div>;
+  const hair = "1px solid " + eLINE;
+  const kv = (k, v) => <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "6px 0" }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{v}</span></div>;
   const chk = (icon, label) => <div style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{label}</span></div>;
-  const li = (t) => <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
-  const subCard = (icon, title, items) => (
-    <div style={{ background: scTint(eMID, "3%"), border: "1px solid " + eLINE, borderRadius: 12, padding: 20, flex: 1, minWidth: 260 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14 }}><span style={{ color: eMID, display: "flex" }}>{icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h4></div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{items.map((t, i) => <React.Fragment key={i}>{li(t)}</React.Fragment>)}</div>
-    </div>
-  );
+  const li = (t, i) => <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
+  const secTitle = (icon, title, mb) => <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: mb == null ? 14 : mb }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h3></div>;
+  const colTitle = (icon, title) => <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14 }}><span style={{ color: eMID, display: "flex" }}>{icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h4></div>;
+  const env = ["A quiet, well-lit room with no other people present", "Clean desk with no unauthorized materials", "Stable internet connection (minimum 1 Mbps)", "Working camera and microphone", "Ready to share your screen throughout the session"];
+  const pers = ["Close all unnecessary applications and browser tabs", "Ensure your device is fully charged or plugged into socket", "Set aside uninterrupted time for the full assessment"];
   return (
     <div style={scWrap}>
-      <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginBottom: 18 }}>
-        {infoCard(<I.clock size={20} />, "Time Commitment", <div>{kv("System Check", "Less than 5 minutes")}{kv("Task Duration", target && target.time ? target.time : "5 hours")}</div>, "Plan for the full duration. Once started, breaks may not be allowed depending on the assessment type.")}
-        {infoCard(<I.monitor size={20} />, "System Checks", <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 24px" }}>{chk(<I.monitor size={16} />, "Browser & Device")}{chk(<I.wifi size={16} />, "Internet Speed")}{chk(<I.cam size={16} />, "Video & Audio")}</div>, "All checks must pass before you can proceed.")}
-      </div>
-      <div style={{ ...scCard, padding: 24, marginBottom: 18 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}><span style={{ color: eBLUE, display: "flex" }}><I.bulb size={20} /></span><h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>Before you begin</h3></div>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 18px" }}>Make sure you and your environment are fully prepared</p>
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          {subCard(<I.globe size={18} />, "Environment Setup", ["A quiet, well-lit room with no other people present", "Clean desk with no unauthorized materials", "Stable internet connection (minimum 1 Mbps)", "Working camera and microphone", "Ready to share your screen throughout the session"])}
-          {subCard(<I.user size={18} />, "Personal Readiness", ["Close all unnecessary applications and browser tabs", "Ensure your device is fully charged or plugged into socket", "Set aside uninterrupted time for the full assessment"])}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 44, paddingBottom: 26, borderBottom: hair, marginBottom: 26 }}>
+        <div style={{ flex: 1, minWidth: 260 }}>
+          {secTitle(<I.clock size={20} />, "Time Commitment")}
+          {kv("System Check", "Less than 5 minutes")}
+          {kv("Task Duration", target && target.time ? target.time : "5 hours")}
+          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "12px 0 0" }}>Plan for the full duration. Once started, breaks may not be allowed depending on the assessment type.</p>
+        </div>
+        <div style={{ flex: 1, minWidth: 260 }}>
+          {secTitle(<I.monitor size={20} />, "System Checks")}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 28px" }}>{chk(<I.monitor size={16} />, "Browser & Device")}{chk(<I.wifi size={16} />, "Internet Speed")}{chk(<I.cam size={16} />, "Video & Audio")}</div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>All checks must pass before you can proceed.</p>
         </div>
       </div>
-      <label style={{ display: "flex", gap: 12, alignItems: "flex-start", background: scTint(eMID, "3%"), border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 22, cursor: "pointer" }}>
+
+      <div style={{ paddingBottom: 26, borderBottom: hair, marginBottom: 22 }}>
+        {secTitle(<I.bulb size={20} />, "Before you begin", 4)}
+        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 20px" }}>Make sure you and your environment are fully prepared</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 44 }}>
+          <div style={{ flex: 1, minWidth: 260 }}>
+            {colTitle(<I.globe size={18} />, "Environment Setup")}
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{env.map(li)}</div>
+          </div>
+          <div style={{ flex: 1, minWidth: 260 }}>
+            {colTitle(<I.user size={18} />, "Personal Readiness")}
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{pers.map(li)}</div>
+          </div>
+        </div>
+      </div>
+
+      <label style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 20, cursor: "pointer" }}>
         <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} style={{ width: 18, height: 18, accentColor: eMID, marginTop: 1, flexShrink: 0 }} />
         <span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, display: "block", marginBottom: 2 }}>I acknowledge and understand</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>I have read and understood the instructions above and am ready to proceed with the system check.</span></span>
       </label>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <EdBtn primary disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
-      </div>
+
+      <EdBtn primary full disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
     </div>
   );
 }
 
-// ═══ BROWSER ═══════════════════════════════════════════════════════════════
 function ScBrowser({ result, setResult, onBack, onNext }) {
   const [rows, setRows] = React.useState([]);
   React.useEffect(() => {
