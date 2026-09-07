@@ -1125,11 +1125,11 @@ function ScNetwork({ setResult, onBack, onNext }) {
           <div style={{ width: 68, height: 68, borderRadius: "50%", border: "3px solid " + eSUCCESS, color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}><I.check size={34} /></div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: "0 0 22px" }}>Your connection speed is optimal</p>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ flex: 1, maxWidth: 200, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Download Mbps</div></div>
+            <div style={{ flex: 1, maxWidth: 200 }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Download Mbps</div></div>
             <div style={{ flex: 1, maxWidth: 200 }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Upload Mbps</div></div>
           </div>
           <div style={{ borderTop: "1px solid " + eLINE, margin: "22px auto 0", paddingTop: 18, display: "flex", justifyContent: "center" }}>
-            <div style={{ flex: 1, maxWidth: 200, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Required Download in Mbps</div></div>
+            <div style={{ flex: 1, maxWidth: 200 }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Required Download in Mbps</div></div>
             <div style={{ flex: 1, maxWidth: 200 }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Required Upload in Mbps</div></div>
           </div>
         </div>
