@@ -964,10 +964,10 @@ function useScCountdown(active, onDone) {
 // ═══ WELCOME ═══════════════════════════════════════════════════════════════
 function ScWelcome({ target, onStart }) {
   const [ack, setAck] = React.useState(false);
-  const iconTile = (icon) => <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>{icon}</div>;
-  const cardHead = (icon, title) => <React.Fragment>{iconTile(icon)}<h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 14px" }}>{title}</h3></React.Fragment>;
+  const iconTile = (icon) => <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>;
+  const cardHead = (icon, title, subtitle) => <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "center", gap: 13, marginBottom: 16 }}>{iconTile(icon)}<div><h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.25 }}>{title}</h3>{subtitle && <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "3px 0 0", lineHeight: 1.45 }}>{subtitle}</p>}</div></div>;
   const note = (t) => <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{t}</p>;
-  const kv = (k, v) => <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "6px 0" }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{v}</span></div>;
+  const kv = (k, v) => <div style={{ display: "flex", gap: 16, padding: "6px 0", alignItems: "baseline" }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, width: 128, flexShrink: 0 }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{v}</span></div>;
   const chk = (icon, label) => <div style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{label}</span></div>;
   const li = (t, i) => <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
   const colTitle = (icon, title) => <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14 }}><span style={{ color: eMID, display: "flex" }}>{icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h4></div>;
@@ -990,14 +990,13 @@ function ScWelcome({ target, onStart }) {
         </div>
         <div style={{ ...box, flex: 1, minWidth: 260 }}>
           {cardHead(<I.monitor size={22} />, "System Checks")}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 28px" }}>{chk(<I.monitor size={16} />, "Browser & Device")}{chk(<I.wifi size={16} />, "Internet Speed")}{chk(<I.cam size={16} />, "Video & Audio")}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{chk(<I.monitor size={16} />, "Browser & Device")}{chk(<I.wifi size={16} />, "Internet Speed")}{chk(<I.cam size={16} />, "Video & Audio")}</div>
           {note("All checks must pass before you can proceed.")}
         </div>
       </div>
 
       <div style={{ ...box, marginBottom: 24 }}>
-        {cardHead(<I.bulb size={22} />, "Before you begin")}
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "-8px 0 22px" }}>Make sure you and your environment are fully prepared</p>
+        {cardHead(<I.bulb size={22} />, "Before you begin", "Make sure you and your environment are fully prepared")}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 44 }}>
           <div style={{ flex: 1, minWidth: 260 }}>
             {colTitle(<I.globe size={18} />, "Environment Setup")}
