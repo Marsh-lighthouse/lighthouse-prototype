@@ -1535,7 +1535,7 @@ function AssessorEditorial() {
               {evalLeftTab === "overview" ? (
                 <div>
                   <div style={{border:`1px solid ${teal}`,borderRadius:br,padding:"18px 20px",display:"flex",alignItems:"center",gap:16,marginBottom:40}}>
-                    <div style={{width:64,height:64,borderRadius:br,background:teal,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.User s={34}/></div>
+                    <div style={{width:64,height:64,borderRadius:"50%",background:teal,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.User s={34}/></div>
                     <div>
                       <div style={{fontSize:16,fontWeight:700,color:navy,marginBottom:3}}>{c.name}</div>
                       <div style={{fontSize:14,color:tm}}>{c.email}</div>
