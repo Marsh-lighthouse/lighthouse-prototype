@@ -971,7 +971,7 @@ function EdPreCheck({ target, onBack, onLaunch }) {
                   color: st === "pass" ? eSUCCESS : st === "warning" ? eWARN : eBLUE }}><itm.ic size={18} /></div>
                   <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{itm.l}</span>
                   {!st && <span className="ed-spin" style={{ width: 16, height: 16, borderRadius: 8, border: "2px solid var(--line)", borderTopColor: eBLUE, display: "block" }} />}
-                  {st === "pass" && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eSUCCESS, fontWeight: 700 }}>✓ Pass</span>}
+                  {st === "pass" && <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, color: eSUCCESS, fontWeight: 700 }}><I.check size={15} /> Pass</span>}
                   {st === "warning" && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eWARN, fontWeight: 700 }}>⚠ Slow</span>}
                 </div>);
 
