@@ -123,13 +123,6 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
   // ═══════════════════════════════════════════════════════════
   if (c360Step === "home") return (
     <div style={wrap}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
-        <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", cursor: "pointer", color: qMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "4px 0" }}>
-          <QI.Arrow s={16} style={{ transform: "rotate(180deg)" }} /> Dashboard
-        </button>
-        {countdown || null}
-      </div>
-
       <div style={{ marginBottom: 16 }}>
         <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>In progress</span>
       </div>

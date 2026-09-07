@@ -59,8 +59,8 @@ const LH = {
             ] },
         ],
         sequential: [
-          { id: "hogan", name: "Hogan Assessment", desc: "Leadership personality profiling.", time: "40 min", status: "notstarted", pct: 0, proctored: false },
-          { id: "cognitive", name: "Cognitive Ability Test", desc: "Verbal, numerical, and abstract reasoning.", time: "35 min", status: "locked", pct: 0, proctored: true },
+          { id: "cognitive", name: "Cognitive Ability Test", desc: "Verbal, numerical, and abstract reasoning.", time: "35 min", status: "notstarted", pct: 0, proctored: true },
+          { id: "hogan", name: "Hogan Assessment", desc: "Leadership personality profiling.", time: "40 min", status: "locked", pct: 0, proctored: false },
           { id: "interview", name: "Video Interview", desc: "Structured behavioural interview with AI analysis.", time: "30 min", status: "locked", pct: 0, proctored: true },
         ],
         open: [
