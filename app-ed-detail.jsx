@@ -868,133 +868,488 @@ function EdCenter({ center, onBack, onProctored, onOpenAssess, onReserve }) {
 
 }
 
-// ════════════════════════════════════════════════
-//  PRE-CHECK (Proctored) — guidelines → system check → launch
-// ════════════════════════════════════════════════
-function EdPreCheck({ target, onBack, onLaunch }) {
-  const [consent, setConsent] = edUseState(false);
-  const [checks, setChecks] = edUseState({});
-  const [running, setRunning] = edUseState(false);
-  const [done, setDone] = edUseState(false);
+// ═══════════════════════════════════════════════════════════════════════════
+//  PRE-CHECK (Proctored) — Systems check
+//  Multi-step flow rebuilt from the reference screenshots, re-skinned in the
+//  MDS design system: Welcome → 1 Browser → 2 Network → 3 Video and Audio → 4 Result.
+//  Center screen only. Content is reference; fonts/colors/sizes are ours.
+//  NOTE: step components live at module scope (stable identity) so state and
+//  timers survive parent re-renders — nesting them inside EdPreCheck remounts them.
+// ═══════════════════════════════════════════════════════════════════════════
+const SC_PHRASE = "I am ready. This is a test recording to confirm that my video and microphone are working properly.";
+const SC_REQ_DL = 3, SC_REQ_UL = 8;
+const SC_STEPS = ["Browser", "Network", "Video and Audio", "Result"];
+const scWrap = { maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 };
+const scCard = { background: eCARD, border: "1px solid " + eLINE, borderRadius: 16 };
+const scTint = (c, a) => "color-mix(in srgb, " + c + " " + a + ", transparent)";
 
-  const sysItems = [
-  { k: "browser", ic: I.monitor, l: "Browser" },
-  { k: "internet", ic: I.wifi, l: "Internet" },
-  { k: "camera", ic: I.cam, l: "Camera" },
-  { k: "mic", ic: I.mic, l: "Microphone" },
-  { k: "upload", ic: I.upload, l: "Upload speed" }];
+function ScBadge({ state }) {
+  const m = {
+    pending: { bg: scTint(eBLUE, "12%"), col: eBLUE, ic: <span className="ed-spin" style={{ width: 12, height: 12, borderRadius: 6, border: "2px solid " + scTint(eBLUE, "40%"), borderTopColor: eBLUE, display: "block" }} />, l: "Pending" },
+    pass: { bg: scTint(eSUCCESS, "14%"), col: eSUCCESS, ic: <I.checkCircle size={13} />, l: "Pass" },
+    fail: { bg: scTint(eDANGER, "12%"), col: eDANGER, ic: <I.alertCircle size={13} />, l: "Fail" },
+  }[state] || {};
+  return <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: m.col, background: m.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{m.ic} {m.l}</span>;
+}
 
+function ScStepper({ index }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", margin: "0 0 30px" }}>
+      {SC_STEPS.map((label, i) => {
+        const done = i < index, active = i === index;
+        return (
+          <React.Fragment key={i}>
+            <div style={{ display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
+              <div style={{ width: 30, height: 30, borderRadius: 15, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, background: active ? eMID : done ? scTint(eMID, "8%") : scTint(eMID, "6%"), color: active ? "#fff" : done ? eMID : eMUT }}>
+                {done ? <I.check size={15} /> : i + 1}
+              </div>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 500, color: active || done ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
+            </div>
+            {i < SC_STEPS.length - 1 && <div style={{ flex: 1, height: 2, background: done ? eMID : eLINE, margin: "0 14px", minWidth: 18 }} />}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
 
-  const runChecks = () => {
-    setConsent(true);setRunning(true);setChecks({});setDone(false);
-    ["browser", "internet", "camera", "mic", "upload"].forEach((c, i) => {
-      setTimeout(() => {
-        setChecks((p) => ({ ...p, [c]: c === "internet" ? "warning" : "pass" }));
-        if (i === 4) {setRunning(false);setDone(true);}
-      }, 650 * (i + 1));
-    });
+function ScHead({ icon, title, sub, badge }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 22 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 13, minWidth: 0 }}>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
+        <div style={{ minWidth: 0 }}>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, lineHeight: 1.2, margin: 0 }}>{title}</h1>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "4px 0 0", lineHeight: 1.5 }}>{sub}</p>
+        </div>
+      </div>
+      {badge && <ScBadge state={badge} />}
+    </div>
+  );
+}
+
+function ScFoot({ onBackClick, right }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginTop: 22, flexWrap: "wrap" }}>
+      <EdBtn onClick={onBackClick}><I.arrowL size={16} /> Back</EdBtn>
+      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>{right}</div>
+    </div>
+  );
+}
+
+function ScHowToFix({ items }) {
+  return (
+    <div style={{ background: scTint(eDANGER, "5%"), border: "1px solid " + scTint(eDANGER, "18%"), borderRadius: 12, padding: "16px 18px", marginTop: 16 }}>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eDANGER, marginBottom: 8 }}>How to fix:</div>
+      <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>
+        {items.map((t, i) => <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</li>)}
+      </ul>
+    </div>
+  );
+}
+
+// countdown auto-advance — shows "(n)" and fires onDone at 0
+function useScCountdown(active, onDone) {
+  const [n, setN] = React.useState(null);
+  const cb = React.useRef(onDone); cb.current = onDone;
+  React.useEffect(() => {
+    if (!active) { setN(null); return; }
+    setN(3); let c = 3;
+    const t = setInterval(() => { c -= 1; setN(c); if (c <= 0) { clearInterval(t); cb.current && cb.current(); } }, 1000);
+    return () => clearInterval(t);
+  }, [active]);
+  return n;
+}
+
+// ═══ WELCOME ═══════════════════════════════════════════════════════════════
+function ScWelcome({ target, onStart }) {
+  const [ack, setAck] = React.useState(false);
+  const infoCard = (icon, title, rows, note) => (
+    <div style={{ ...scCard, padding: 22, flex: 1, minWidth: 260 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+        <span style={{ color: eBLUE, display: "flex" }}>{icon}</span>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h3>
+      </div>
+      {rows}
+      {note && <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{note}</p>}
+    </div>
+  );
+  const kv = (k, v) => <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "7px 0" }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{v}</span></div>;
+  const chk = (icon, label) => <div style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{label}</span></div>;
+  const li = (t) => <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
+  const subCard = (icon, title, items) => (
+    <div style={{ background: scTint(eMID, "3%"), border: "1px solid " + eLINE, borderRadius: 12, padding: 20, flex: 1, minWidth: 260 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14 }}><span style={{ color: eMID, display: "flex" }}>{icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h4></div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{items.map((t, i) => <React.Fragment key={i}>{li(t)}</React.Fragment>)}</div>
+    </div>
+  );
+  return (
+    <div style={scWrap}>
+      <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginBottom: 18 }}>
+        {infoCard(<I.clock size={20} />, "Time Commitment", <div>{kv("System Check", "Less than 5 minutes")}{kv("Task Duration", target && target.time ? target.time : "5 hours")}</div>, "Plan for the full duration. Once started, breaks may not be allowed depending on the assessment type.")}
+        {infoCard(<I.monitor size={20} />, "System Checks", <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 24px" }}>{chk(<I.monitor size={16} />, "Browser & Device")}{chk(<I.wifi size={16} />, "Internet Speed")}{chk(<I.cam size={16} />, "Video & Audio")}</div>, "All checks must pass before you can proceed.")}
+      </div>
+      <div style={{ ...scCard, padding: 24, marginBottom: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}><span style={{ color: eBLUE, display: "flex" }}><I.bulb size={20} /></span><h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>Before you begin</h3></div>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 18px" }}>Make sure you and your environment are fully prepared</p>
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+          {subCard(<I.globe size={18} />, "Environment Setup", ["A quiet, well-lit room with no other people present", "Clean desk with no unauthorized materials", "Stable internet connection (minimum 1 Mbps)", "Working camera and microphone", "Ready to share your screen throughout the session"])}
+          {subCard(<I.user size={18} />, "Personal Readiness", ["Close all unnecessary applications and browser tabs", "Ensure your device is fully charged or plugged into socket", "Set aside uninterrupted time for the full assessment"])}
+        </div>
+      </div>
+      <label style={{ display: "flex", gap: 12, alignItems: "flex-start", background: scTint(eMID, "3%"), border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 22, cursor: "pointer" }}>
+        <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} style={{ width: 18, height: 18, accentColor: eMID, marginTop: 1, flexShrink: 0 }} />
+        <span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, display: "block", marginBottom: 2 }}>I acknowledge and understand</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>I have read and understood the instructions above and am ready to proceed with the system check.</span></span>
+      </label>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <EdBtn primary disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
+      </div>
+    </div>
+  );
+}
+
+// ═══ BROWSER ═══════════════════════════════════════════════════════════════
+function ScBrowser({ result, setResult, onBack, onNext }) {
+  const [rows, setRows] = React.useState([]);
+  React.useEffect(() => {
+    let name = "your browser", ver = "";
+    try {
+      const ua = navigator.userAgent;
+      if (/Edg\//.test(ua)) { name = "Edge"; ver = (ua.match(/Edg\/([\d.]+)/) || [])[1] || ""; }
+      else if (/OPR\//.test(ua)) { name = "Opera"; ver = (ua.match(/OPR\/([\d.]+)/) || [])[1] || ""; }
+      else if (/Firefox\//.test(ua)) { name = "Firefox"; ver = (ua.match(/Firefox\/([\d.]+)/) || [])[1] || ""; }
+      else if (/Chrome\//.test(ua)) { name = "Chrome"; ver = (ua.match(/Chrome\/([\d.]+)/) || [])[1] || ""; }
+      else if (/Safari\//.test(ua)) { name = "Safari"; ver = (ua.match(/Version\/([\d.]+)/) || [])[1] || ""; }
+    } catch (e) {}
+    let webgl = false; try { webgl = !!document.createElement("canvas").getContext("webgl"); } catch (e) {}
+    const mr = typeof window.MediaRecorder !== "undefined";
+    let ls = false; try { localStorage.setItem("__sc", "1"); localStorage.removeItem("__sc"); ls = true; } catch (e) {}
+    const all = [
+      { l: "Browser Compatibility: " + name + (ver ? " " + ver : ""), ok: true },
+      { l: "WebGL API Support", ok: webgl },
+      { l: "MediaRecorder API Support", ok: mr },
+      { l: "LocalStorage Enabled", ok: ls },
+    ];
+    const timers = all.map((r, i) => setTimeout(() => setRows((p) => (p.length > i ? p : [...p, r])), 350 * (i + 1)));
+    const done = setTimeout(() => setResult(all.every((r) => r.ok) ? "pass" : "fail"), 350 * all.length + 250);
+    return () => { timers.forEach(clearTimeout); clearTimeout(done); };
+  }, []);
+  const finished = result !== "pending";
+  const cd = useScCountdown(finished && result === "pass", onNext);
+  return (
+    <div style={scWrap}>
+      <ScStepper index={0} />
+      <ScHead icon={<I.globe size={22} />} title="Browser Compatibility Test" sub="Checking if your browser supports all required features" badge={finished ? result : "pending"} />
+      <div style={{ ...scCard, padding: "6px 22px" }}>
+        {rows.map((r, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 13, padding: "13px 0", borderBottom: i < 3 ? "1px solid " + eLINE : "none" }}>
+            <span style={{ color: r.ok ? eSUCCESS : eDANGER, display: "flex" }}>{r.ok ? <I.checkCircle size={20} /> : <I.alertCircle size={20} />}</span>
+            <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eMID }}>{r.l}</span>
+            <ScBadge state={r.ok ? "pass" : "fail"} />
+          </div>
+        ))}
+        {rows.length < 4 && <div style={{ padding: "13px 0", fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Checking…</div>}
+      </div>
+      <ScFoot onBackClick={onBack} right={<EdBtn primary disabled={!finished} onClick={onNext}>Continue{cd != null && cd > 0 ? " (" + cd + ")" : ""} <I.arrow size={16} /></EdBtn>} />
+    </div>
+  );
+}
+
+// ═══ NETWORK ═══════════════════════════════════════════════════════════════
+function ScNetwork({ setResult, onBack, onNext }) {
+  const [runs, setRuns] = React.useState(0);
+  const [stage, setStage] = React.useState("latency"); // latency|download|upload|done
+  const [dl, setDl] = React.useState(0);
+  const [ul, setUl] = React.useState(0);
+  const [outcome, setOutcome] = React.useState(null);
+
+  React.useEffect(() => {
+    const finalDl = runs === 0 ? 2.11 : 6.70;
+    const finalUl = runs === 0 ? 6.40 : 10.04;
+    let cancelled = false; const timers = [];
+    const T = (fn, ms) => { const t = setTimeout(() => { if (!cancelled) fn(); }, ms); timers.push(() => clearTimeout(t)); };
+    const ramp = (to, setter, ms, after) => {
+      const start = Date.now();
+      const iv = setInterval(() => {
+        if (cancelled) { clearInterval(iv); return; }
+        const t = Math.min(1, (Date.now() - start) / ms);
+        setter(+(to * t).toFixed(2));
+        if (t >= 1) { clearInterval(iv); after && after(); }
+      }, 60);
+      timers.push(() => clearInterval(iv));
+    };
+    setStage("latency"); setDl(0); setUl(0); setOutcome(null);
+    T(() => { setStage("download"); ramp(finalDl, setDl, 1600, () => {
+      T(() => { setStage("upload"); ramp(finalUl, setUl, 1600, () => {
+        T(() => { const pass = finalDl >= SC_REQ_DL && finalUl >= SC_REQ_UL; setStage("done"); setOutcome(pass ? "pass" : "fail"); setResult(pass ? "pass" : "fail"); }, 300);
+      }); }, 300);
+    }); }, 900);
+    return () => { cancelled = true; timers.forEach((c) => c()); };
+  }, [runs]);
+
+  const cd = useScCountdown(outcome === "pass", onNext);
+  const pending = stage !== "done";
+  return (
+    <div style={scWrap}>
+      <ScStepper index={1} />
+      <ScHead icon={<I.wifi size={22} />} title="Internet Speed Test" sub="Testing the quality of your internet connection between our servers and your device." badge={pending ? "pending" : outcome} />
+      {pending && (
+        <div style={{ ...scCard, padding: "48px 22px", textAlign: "center" }}>
+          <div style={{ position: "relative", width: 120, height: 120, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
+            <span className="ed-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid " + scTint(eMID, "25%") }} />
+            <span className="ed-ping" style={{ position: "absolute", inset: 18, borderRadius: "50%", border: "1px solid " + scTint(eMID, "35%"), animationDelay: ".4s" }} />
+            <span style={{ width: 64, height: 64, borderRadius: "50%", background: eMID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.wifi size={30} /></span>
+          </div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eMID, fontWeight: 600, margin: "26px 0 0" }}>{stage === "latency" ? "Checking latency…" : stage === "download" ? "Testing download speed…" : "Testing upload speed…"}</p>
+          {stage !== "latency" && (
+            <div style={{ maxWidth: 340, margin: "16px auto 0" }}>
+              <div style={{ height: 6, borderRadius: 3, background: eLINE, overflow: "hidden" }}><div style={{ height: "100%", width: (stage === "download" ? (dl / 8) : 1) * 100 + "%", background: eMID, borderRadius: 3, transition: "width .2s" }} /></div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 30, fontWeight: 700, color: eMID, marginTop: 16 }}>{(stage === "download" ? dl : ul).toFixed(2)}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{stage === "download" ? "Download" : "Upload"}</div>
+            </div>
+          )}
+        </div>
+      )}
+      {!pending && outcome === "pass" && (
+        <div style={{ ...scCard, padding: "34px 22px", textAlign: "center" }}>
+          <div style={{ width: 68, height: 68, borderRadius: "50%", border: "3px solid " + eSUCCESS, color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}><I.check size={34} /></div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: "0 0 22px" }}>Your connection speed is optimal</p>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ flex: 1, maxWidth: 200, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Download Mbps</div></div>
+            <div style={{ flex: 1, maxWidth: 200 }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Upload Mbps</div></div>
+          </div>
+          <div style={{ borderTop: "1px solid " + eLINE, margin: "22px auto 0", paddingTop: 18, display: "flex", justifyContent: "center" }}>
+            <div style={{ flex: 1, maxWidth: 200, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Required Download in Mbps</div></div>
+            <div style={{ flex: 1, maxWidth: 200 }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>Required Upload in Mbps</div></div>
+          </div>
+        </div>
+      )}
+      {!pending && outcome === "fail" && (
+        <div style={{ ...scCard, padding: 24 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16 }}>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ color: eDANGER, display: "flex", flexShrink: 0, marginTop: 2 }}><I.alertCircle size={22} /></span>
+              <div><h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 4px" }}>Internet speed is slower than required for the campaign</h3><p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, margin: 0, lineHeight: 1.5 }}>Minimum Download Speed of {SC_REQ_DL} Mbps and Minimum Upload Speed of {SC_REQ_UL} Mbps required for this campaign.</p></div>
+            </div>
+            <ScBadge state="fail" />
+          </div>
+          <ScHowToFix items={["Close other applications that may be using bandwidth (video streaming, downloads)", "Move closer to your Wi-Fi router or connect via ethernet cable", "Restart your router/modem and try again", "Try using a different network connection if available", "If the issue persists, contact your internet service provider for further assistance"]} />
+        </div>
+      )}
+      <ScFoot onBackClick={onBack} right={<React.Fragment>
+        {!pending && <EdBtn onClick={() => setRuns((r) => r + 1)}>Re-run Check</EdBtn>}
+        <EdBtn primary disabled={pending} onClick={onNext}>Continue{cd != null && cd > 0 ? " (" + cd + ")" : ""} <I.arrow size={16} /></EdBtn>
+      </React.Fragment>} />
+    </div>
+  );
+}
+
+// ═══ VIDEO AND AUDIO ═══════════════════════════════════════════════════════
+function ScVideo({ setResult, onBack, onNext }) {
+  const [vstate, setVstate] = React.useState("init"); // init|denied|preview|countdown|recording|reviewing|checking|pass|fail
+  const [attempts, setAttempts] = React.useState(0);
+  const [count, setCount] = React.useState(3);
+  const [sec, setSec] = React.useState(0);
+  const [devices, setDevices] = React.useState({ cams: [], mics: [] });
+  const [clipUrl, setClipUrl] = React.useState(null);
+  const videoRef = React.useRef(null);
+  const streamRef = React.useRef(null);
+  const recRef = React.useRef(null);
+  const chunksRef = React.useRef([]);
+  const stopStream = () => { try { streamRef.current && streamRef.current.getTracks().forEach((t) => t.stop()); } catch (e) {} };
+
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error("unsupported");
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        if (cancelled) { stream.getTracks().forEach((t) => t.stop()); return; }
+        streamRef.current = stream;
+        try { const list = await navigator.mediaDevices.enumerateDevices(); setDevices({ cams: list.filter((d) => d.kind === "videoinput"), mics: list.filter((d) => d.kind === "audioinput") }); } catch (e) {}
+        setVstate("preview");
+      } catch (e) { if (!cancelled) setVstate("denied"); }
+    })();
+    return () => { cancelled = true; stopStream(); };
+  }, []);
+
+  React.useEffect(() => {
+    if ((vstate === "preview" || vstate === "countdown" || vstate === "recording") && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current; videoRef.current.muted = true; videoRef.current.play().catch(() => {});
+    }
+  }, [vstate]);
+
+  React.useEffect(() => {
+    if (vstate !== "countdown") return;
+    setCount(3); let c = 3;
+    const iv = setInterval(() => { c -= 1; setCount(c); if (c <= 0) { clearInterval(iv); startRec(); } }, 800);
+    return () => clearInterval(iv);
+  }, [vstate]);
+
+  React.useEffect(() => {
+    if (vstate !== "recording") return;
+    setSec(0); let s = 0;
+    const iv = setInterval(() => { s += 1; setSec(s); if (s >= 30) { clearInterval(iv); stopRec(); } }, 1000);
+    return () => clearInterval(iv);
+  }, [vstate]);
+
+  const startRec = () => {
+    chunksRef.current = [];
+    try {
+      const rec = new MediaRecorder(streamRef.current);
+      rec.ondataavailable = (e) => { if (e.data && e.data.size) chunksRef.current.push(e.data); };
+      rec.onstop = () => { try { const blob = new Blob(chunksRef.current, { type: "video/webm" }); setClipUrl(URL.createObjectURL(blob)); } catch (e) {} setVstate("reviewing"); };
+      recRef.current = rec; rec.start(); setVstate("recording");
+    } catch (e) { setVstate("reviewing"); }
   };
+  const stopRec = () => { try { if (recRef.current && recRef.current.state !== "inactive") recRef.current.stop(); else setVstate("reviewing"); } catch (e) { setVstate("reviewing"); } };
+  const evaluate = () => { setVstate("checking"); setTimeout(() => { const ok = attempts >= 1; setVstate(ok ? "pass" : "fail"); setResult(ok ? "pass" : "fail"); }, 1400); };
 
-  const step = !consent ? "info" : !done ? "check" : "ready";
+  const media = { position: "relative", width: "100%", background: "#0b1020", borderRadius: 14, overflow: "hidden", aspectRatio: "16 / 9" };
+  const overlayText = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, textAlign: "center", padding: 24, color: "#fff" };
 
-  const guidelines = [
-  { ic: I.cam, title: "Camera & video recording", desc: "Your camera will be active throughout. Ensure good lighting and a clear background." },
-  { ic: I.mic, title: "Microphone monitoring", desc: "Audio will be monitored. Be in a quiet environment with no interruptions." },
-  { ic: I.wifi, title: "Stable internet connection", desc: "A minimum of 2 Mbps upload speed is required. Use a wired connection if possible." },
-  { ic: I.users, title: "Professional appearance", desc: "Dress presentably as if attending a professional assessment. Be camera-ready." },
-  { ic: I.bulb, title: "Right mindset & focus", desc: "Close all other apps and tabs. Give this your full, undivided attention." }];
-
+  if (vstate === "denied") {
+    return (
+      <div style={scWrap}>
+        <ScStepper index={2} />
+        <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge="fail" />
+        <div style={{ background: scTint(eMID, "4%"), border: "1px solid " + eLINE, borderRadius: 14, padding: "60px 24px", textAlign: "center" }}>
+          <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={44} /></span>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eMID, fontWeight: 600, maxWidth: 460, margin: "16px auto 0", lineHeight: 1.5 }}>Camera/Microphone access was denied or blocked by your browser. Please check your browser permissions.</p>
+        </div>
+        <ScHowToFix items={["Check your browser's site permissions and allow camera & microphone access", "Refresh the browser to apply the changes, then re-run the check"]} />
+        <ScFoot onBackClick={onBack} right={<React.Fragment>
+          <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("init"); }}>Re-run Check</EdBtn>
+          <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>
+        </React.Fragment>} />
+      </div>
+    );
+  }
 
   return (
-    <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 24 }}>
-        <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(143,32,222,.10)", border: "1px solid rgba(143,32,222,.22)", color: ePURP, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.shield size={22} /></div>
-        <div>
-          <span style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: 0.2, color: ePURP, background: "rgba(143,32,222,.10)", padding: "3px 10px", borderRadius: 6, marginBottom: 10 }}>Proctored</span>
-          <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 2px" }}>System check</h1>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: 0 }}>{target.name}</p>
+    <div style={scWrap}>
+      <ScStepper index={2} />
+      <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge={vstate === "pass" ? "pass" : vstate === "fail" ? "fail" : "pending"} />
+      {(vstate === "init" || vstate === "preview" || vstate === "countdown" || vstate === "recording") && (
+        <div style={media}>
+          <video ref={videoRef} playsInline style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          {vstate === "init" && <div style={overlayText}><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: 13, border: "3px solid rgba(255,255,255,.35)", borderTopColor: "#fff", display: "block" }} /><span style={{ fontFamily: "var(--sans)", fontSize: 14 }}>Requesting camera &amp; microphone…</span></div>}
+          {vstate === "preview" && <div style={{ ...overlayText, background: "rgba(11,16,32,.55)" }}><p style={{ fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.5, maxWidth: 460, margin: 0 }}>Select your microphone and camera, click Record, then read aloud and repeat the sentence appearing at the bottom 3 times.</p><EdBtn primary onClick={() => setVstate("countdown")}>Let's start!</EdBtn></div>}
+          {vstate === "countdown" && <div style={overlayText}><div style={{ fontFamily: "var(--sans)", fontSize: 96, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
+          {vstate === "recording" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0 }}>
+            <div style={{ background: "linear-gradient(transparent, rgba(0,0,0,.75))", padding: "26px 18px 12px", color: "#fff", fontFamily: "var(--sans)", fontSize: 15, textAlign: "center", lineHeight: 1.5 }}>{SC_PHRASE}</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#0b1020", padding: "10px 16px" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 }}><span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
+              <button onClick={stopRec} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Stop</button>
+            </div>
+          </div>}
+          {vstate === "preview" && (devices.cams.length > 0 || devices.mics.length > 0) && <div style={{ position: "absolute", left: 14, top: 14, display: "flex", gap: 8 }}>
+            {devices.cams.length > 0 && <span style={{ background: "rgba(0,0,0,.55)", color: "#fff", borderRadius: 6, padding: "4px 8px", fontFamily: "var(--sans)", fontSize: 12, display: "inline-flex", alignItems: "center", gap: 5 }}><I.cam size={13} /> {devices.cams.length}</span>}
+            {devices.mics.length > 0 && <span style={{ background: "rgba(0,0,0,.55)", color: "#fff", borderRadius: 6, padding: "4px 8px", fontFamily: "var(--sans)", fontSize: 12, display: "inline-flex", alignItems: "center", gap: 5 }}><I.mic size={13} /> {devices.mics.length}</span>}
+          </div>}
         </div>
+      )}
+      {vstate === "reviewing" && (
+        <div>
+          <div style={media}>{clipUrl ? <video src={clipUrl} controls playsInline style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <div style={overlayText}><span style={{ fontFamily: "var(--sans)", fontSize: 14 }}>Recording captured.</span></div>}</div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
+        </div>
+      )}
+      {vstate === "checking" && <div style={{ ...scCard, padding: "60px 22px", textAlign: "center" }}><span className="ed-spin" style={{ width: 28, height: 28, borderRadius: 14, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, margin: "16px 0 0" }}>Verifying your recording…</p></div>}
+      {vstate === "fail" && <div style={{ background: scTint(eMID, "4%"), border: "1px solid " + eLINE, borderRadius: 14, padding: "56px 24px", textAlign: "center" }}>
+        <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={44} /></span>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "14px 0 6px" }}>Video check failed</h3>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, maxWidth: 480, margin: "0 auto", lineHeight: 1.5 }}>Your speech did not match the test phrase. Please try again and speak the phrase clearly.</p>
+      </div>}
+      {vstate === "pass" && <div style={{ ...scCard, padding: "40px 22px", textAlign: "center", background: scTint(eSUCCESS, "6%"), borderColor: scTint(eSUCCESS, "22%") }}>
+        <div style={{ width: 62, height: 62, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}><I.check size={30} /></div>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Camera and microphone verified</h3>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, margin: 0 }}>Your video and audio are working correctly.</p>
+      </div>}
+      <ScFoot onBackClick={onBack} right={<React.Fragment>
+        {vstate === "reviewing" && <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("preview"); }}>Re-record</EdBtn>}
+        {vstate === "reviewing" && <EdBtn primary onClick={evaluate}>Confirm recording <I.arrow size={16} /></EdBtn>}
+        {vstate === "fail" && <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("preview"); }}>Re-run Check</EdBtn>}
+        {vstate === "fail" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
+        {vstate === "pass" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
+      </React.Fragment>} />
+    </div>
+  );
+}
+
+// ═══ RESULT ════════════════════════════════════════════════════════════════
+function ScResult({ results, onRerun, onBack, onLaunch }) {
+  const [open, setOpen] = React.useState({});
+  const CHECKS = [
+    { k: "browser", icon: <I.globe size={20} />, label: "Browser Compatibility", passMsg: "Your browser is compatible with this campaign.", failMsg: "Your browser is missing one or more required features.", fix: { title: "Browser", items: ["Update your browser to the latest version", "Use a supported browser (Chrome, Edge, Firefox, Safari)", "Disable extensions that may block required features"] } },
+    { k: "network", icon: <I.wifi size={20} />, label: "Internet Speed", passMsg: "Your Internet speed meets the minimum requirements for the campaign.", failMsg: "Your speed is slower than required (min " + SC_REQ_DL + " Mbps down / " + SC_REQ_UL + " Mbps up).", fix: { title: "Internet Speed", items: ["Close other applications using bandwidth", "Move closer to your Wi-Fi router or use an ethernet cable", "Restart your router/modem and re-run the check"] } },
+    { k: "video", icon: <I.cam size={20} />, label: "Video and Audio", passMsg: "Your camera and microphone are working correctly.", failMsg: "Your speech did not match the test phrase, or access was blocked.", fix: { title: "Video and Audio Recording", items: ["Click the lock/info icon in your browser's address bar to check camera and microphone permissions. If blocked, reset permissions in browser settings", "Find \"Camera\" and \"Microphone\" settings and set them to \"Allow\"", "Refresh the page after changing permissions", "On Windows: Check Privacy Settings > Camera/Microphone access", "On Mac: Check System Preferences > Security & Privacy > Camera/Microphone", "If permission is enabled and there was an upload issue, re-run the check and try uploading the video again"] } },
+  ];
+  const allPass = CHECKS.every((c) => results[c.k] === "pass");
+  const failed = CHECKS.filter((c) => results[c.k] !== "pass");
+  return (
+    <div style={scWrap}>
+      <ScStepper index={3} />
+      <div style={{ textAlign: "center", marginBottom: 8 }}>
+        <span style={{ display: "inline-flex", color: allPass ? eSUCCESS : eWARN }}>{allPass ? <I.checkCircle size={64} /> : <I.alertCircle size={64} />}</span>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID, margin: "8px 0 6px" }}>{allPass ? "System Check Complete" : "System Check Warning"}</h1>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: 0 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
       </div>
-
-      {/* step indicator */}
-      <div style={{ display: "flex", alignItems: "center", margin: "0 0 28px" }}>
-        {["Read guidelines", "System check", "Launch"].map((label, i) => {
-          const sDone = i === 0 && consent || i === 1 && done;
-          const sActive = i === 0 && step === "info" || i === 1 && step === "check" || i === 2 && step === "ready";
+      <div style={{ ...scCard, overflow: "hidden", marginTop: 22 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>
+          <span>Check</span><span style={{ textAlign: "center" }}>Result</span><span style={{ textAlign: "right" }}>Details</span>
+        </div>
+        {CHECKS.map((c, i) => {
+          const st = results[c.k] === "pass" ? "pass" : "fail"; const isOpen = !!open[c.k];
           return (
-            <div key={i} style={{ display: "flex", alignItems: "center", flex: i < 2 ? 1 : "none" }}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                <div style={{ width: 26, height: 26, borderRadius: 13, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700,
-                  background: sDone ? eSUCCESS : sActive ? eMID : "rgba(0,15,71,.08)", color: sDone || sActive ? "#fff" : eMUT }}>
-                  {sDone ? <I.check size={13} /> : i + 1}
-                </div>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: sActive ? 700 : 500, color: sActive ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
+            <div key={c.k} style={{ borderBottom: i < CHECKS.length - 1 ? "1px solid " + eLINE : "none" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 16, alignItems: "center", padding: "16px 22px" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
+                <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
+                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>{isOpen ? "Hide Details" : "View Details"}</button>
               </div>
-              {i < 2 && <div style={{ flex: 1, height: 2, background: sDone ? "rgba(20,133,61,.35)" : eLINE, margin: "0 10px", marginBottom: 16, minWidth: 16 }} />}
-            </div>);
-
+              {isOpen && <div style={{ margin: "0 22px 16px", background: st === "pass" ? scTint(eSUCCESS, "7%") : scTint(eDANGER, "6%"), border: "1px solid " + (st === "pass" ? scTint(eSUCCESS, "22%") : scTint(eDANGER, "18%")), borderRadius: 12, padding: "14px 18px" }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 6 }}>{c.label}</div>
+                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}><span style={{ color: st === "pass" ? eSUCCESS : eDANGER, flexShrink: 0, marginTop: 1, display: "flex" }}>{st === "pass" ? <I.check size={15} /> : <I.alertCircle size={15} />}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{st === "pass" ? c.passMsg : c.failMsg}</span></div>
+              </div>}
+            </div>
+          );
         })}
       </div>
-
-      {step === "info" &&
-      <div>
-          <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: 24, marginBottom: 18 }}>
-            <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: "0 0 8px" }}>What happens next</h3>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 18px" }}>This is a proctored task. We'll check your system readiness and then launch the task in a monitored environment.</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {guidelines.map((g, i) =>
-            <div key={i} style={{ display: "flex", gap: 13, alignItems: "flex-start" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><g.ic size={18} /></div>
-                  <div>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 3 }}>{g.title}</div>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55 }}>{g.desc}</div>
-                  </div>
-                </div>
-            )}
+      {failed.length > 0 && (
+        <div style={{ ...scCard, padding: 24, marginTop: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}><span style={{ color: eBLUE, display: "flex" }}><I.info size={20} /></span><h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>Troubleshooting Guide</h3></div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 16px" }}>Follow these steps to resolve the issues detected during the system check</p>
+          {failed.map((c) => (
+            <div key={c.k} style={{ background: scTint(eMID, "3%"), border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 10 }}><span style={{ color: eMID, display: "flex" }}>{c.icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{c.fix.title}</h4></div>
+              <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>{c.fix.items.map((t, j) => <li key={j} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</li>)}</ul>
             </div>
-          </div>
-          <MdsAlert severity="warning" mb={20}><strong style={{ fontWeight: 700 }}>Important:</strong> Once you start, the timer begins and cannot be paused. Any suspicious activity (leaving the tab, multiple faces detected) will be flagged. Ensure you are fully prepared before proceeding.</MdsAlert>
-          <EdBtn primary full onClick={runChecks}>I understand — Proceed to system check <I.arrow size={16} /></EdBtn>
+          ))}
         </div>
-      }
-
-      {step === "check" &&
-      <div>
-          <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "8px 22px", marginBottom: 18 }}>
-            {sysItems.map((itm, i) => {
-            const st = checks[itm.k];
-            return (
-              <div key={itm.k} style={{ display: "flex", alignItems: "center", gap: 13, padding: "13px 0", borderBottom: i < sysItems.length - 1 ? "1px solid " + eLINE : "none" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                  background: st === "pass" ? "rgba(20,133,61,.10)" : st === "warning" ? "rgba(203,126,3,.10)" : "color-mix(in srgb, var(--accent) 10%, var(--card))",
-                  color: st === "pass" ? eSUCCESS : st === "warning" ? eWARN : eBLUE }}><itm.ic size={18} /></div>
-                  <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{itm.l}</span>
-                  {!st && <span className="ed-spin" style={{ width: 16, height: 16, borderRadius: 8, border: "2px solid var(--line)", borderTopColor: eBLUE, display: "block" }} />}
-                  {st === "pass" && <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, color: eSUCCESS, fontWeight: 700 }}><I.check size={15} /> Pass</span>}
-                  {st === "warning" && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eWARN, fontWeight: 700 }}>⚠ Slow</span>}
-                </div>);
-
-          })}
-          </div>
-          {running && <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textAlign: "center" }}>Please wait while we verify your setup…</p>}
-        </div>
-      }
-
-      {step === "ready" &&
-      <div>
-          <div style={{ background: "rgba(20,133,61,.07)", border: "1px solid rgba(20,133,61,.22)", borderRadius: 16, padding: 26, marginBottom: 20, textAlign: "center" }}>
-            <div style={{ width: 50, height: 50, borderRadius: 25, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}><I.check size={24} /></div>
-            <h3 className="serif" style={{ fontSize: 24, color: eMID, margin: "0 0 6px" }}>System check passed</h3>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, margin: 0 }}>Your device is ready. Click below to enter the task.</p>
-            {Object.values(checks).includes("warning") && <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eWARN, marginTop: 10 }}>Note: your internet speed is slow. Performance may be affected.</p>}
-          </div>
-          <EdBtn primary full onClick={onLaunch}>Launch {target.name} <I.arrow size={16} /></EdBtn>
-        </div>
-      }
-    </div>);
-
+      )}
+      <ScFoot onBackClick={onBack} right={<React.Fragment>
+        <EdBtn onClick={onRerun}>Re-run Checks</EdBtn>
+        <EdBtn primary onClick={onLaunch}>Continue <I.arrow size={16} /></EdBtn>
+      </React.Fragment>} />
+    </div>
+  );
 }
+
+function EdPreCheck({ target, onBack, onLaunch }) {
+  const [phase, setPhase] = edUseState("welcome");
+  const [results, setResults] = edUseState({ browser: "pending", network: "pending", video: "pending" });
+  const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
+  const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
+
+  if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase("browser")} />;
+  if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
+  if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
+  if (phase === "video") return <ScVideo setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+  if (phase === "result") return <ScResult results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
+  return null;
+}
+
 
 function LHFooter({ full }) {
   const t = (k) => (window.LangSwitcher ? window.LangSwitcher.get(k) : k);
