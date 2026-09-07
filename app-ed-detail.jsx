@@ -1157,7 +1157,24 @@ function ScNetwork({ setResult, onBack, onNext }) {
 // Illustrative mock of the browser's camera/mic permission prompt — shown in the
 // flow so people see how granting access will look. It is the app's own UI (not a
 // real system dialog); "Allow" proceeds to the real camera step.
-function ScPermissionPrompt({ host, onAllow, onDeny }) {
+function ScPermissionPrompt({ host, onAllow, onDeny, onStream }) {
+  const videoRef = React.useRef(null);
+  const [feedState, setFeedState] = React.useState("loading"); // loading|ready|blocked
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error("unsupported");
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        if (cancelled) { stream.getTracks().forEach((t) => t.stop()); return; }
+        if (videoRef.current) { videoRef.current.srcObject = stream; videoRef.current.muted = true; videoRef.current.play().catch(() => {}); }
+        if (onStream) onStream(stream);
+        setFeedState("ready");
+      } catch (e) { if (!cancelled) setFeedState("blocked"); }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+  const canAllow = feedState !== "loading";
   const pill = { display: "block", width: "100%", textAlign: "center", background: scTint(eBLUE, "14%"), color: eMID, border: "none", borderRadius: 999, padding: "12px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, cursor: "pointer" };
   const dd = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, background: "#fff", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 14, color: eINK };
   const row = { display: "flex", alignItems: "center", gap: 12, color: "#3c4043", fontFamily: "var(--sans)", fontSize: 14 };
@@ -1175,7 +1192,8 @@ function ScPermissionPrompt({ host, onAllow, onDeny }) {
         </div>
         <div style={panel}>
           <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", background: "#0b1020", aspectRatio: "16 / 10", marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ color: "rgba(255,255,255,.55)", display: "flex" }}><I.cam size={30} /></span>
+            <video ref={videoRef} autoPlay playsInline muted style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", opacity: feedState === "ready" ? 1 : 0 }} />
+            {feedState !== "ready" && <span style={{ color: "rgba(255,255,255,.55)", display: "flex" }}>{feedState === "loading" ? <span className="ed-spin" style={{ width: 22, height: 22, borderRadius: 11, border: "3px solid rgba(255,255,255,.3)", borderTopColor: "#fff", display: "block" }} /> : <I.cam size={30} />}</span>}
             <span style={{ position: "absolute", top: 8, right: 8, background: "#c8f0d0", color: "#137333", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, borderRadius: 999, padding: "3px 9px", display: "inline-flex", alignItems: "center", gap: 5 }}><I.cam size={12} /> Preview</span>
           </div>
           <div style={dd}><span>FaceTime HD Camera</span><I.chevD size={16} /></div>
@@ -1188,8 +1206,8 @@ function ScPermissionPrompt({ host, onAllow, onDeny }) {
           <div style={dd}><span>MacBook Pro Microphone</span><I.chevD size={16} /></div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <button onClick={onAllow} style={pill}>Allow while visiting the site</button>
-          <button onClick={onAllow} style={pill}>Allow this time</button>
+          <button onClick={() => canAllow && onAllow()} disabled={!canAllow} style={{ ...pill, opacity: canAllow ? 1 : 0.5, cursor: canAllow ? "pointer" : "default" }}>Allow while visiting the site</button>
+          <button onClick={() => canAllow && onAllow()} disabled={!canAllow} style={{ ...pill, opacity: canAllow ? 1 : 0.5, cursor: canAllow ? "pointer" : "default" }}>Allow this time</button>
           <button onClick={onDeny} style={pill}>Never allow</button>
         </div>
       </div>
@@ -1274,7 +1292,7 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
         <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge="pending" />
         <div style={media}><div style={overlayText}>{vstate === "init" ? <React.Fragment><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: 13, border: "3px solid rgba(255,255,255,.35)", borderTopColor: "#fff", display: "block" }} /><span style={{ fontFamily: "var(--sans)", fontSize: 14 }}>Starting camera &amp; microphone…</span></React.Fragment> : <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(255,255,255,.75)" }}>Allow camera &amp; microphone access to continue.</span>}</div></div>
         <ScFoot onBackClick={onBack} right={<EdBtn onClick={() => setVstate("permission")} disabled={vstate === "init"}>Show permission prompt</EdBtn>} />
-        {vstate === "permission" && <ScPermissionPrompt host={host} onAllow={requestMedia} onDeny={denyMedia} />}
+        {vstate === "permission" && <ScPermissionPrompt host={host} onAllow={allowMedia} onDeny={denyMedia} onStream={(s) => { streamRef.current = s; }} />}
       </div>
     );
   }
