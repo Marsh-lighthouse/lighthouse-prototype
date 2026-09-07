@@ -1782,7 +1782,7 @@ function AssessorEditorial() {
         )}
 
         {/* Pencil FAB */}
-        <button onClick={()=>setNotesOpen(o=>!o)} aria-label="Assessor notes" title="Notes & to-do" style={{position:"fixed",bottom:28,right:28,width:54,height:54,borderRadius:27,border:"none",background:notesOpen?teal:navy,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:"0 8px 24px rgba(0,15,71,.28)",zIndex:60,transition:"background .18s, transform .18s"}} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.06)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>
+        <button onClick={()=>setNotesOpen(o=>!o)} aria-label="Assessor notes" title="Notes & to-do" style={{position:"fixed",bottom:28,right:28,width:54,height:54,borderRadius:"50%",border:"none",background:notesOpen?teal:navy,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:"0 8px 24px rgba(0,15,71,.28)",zIndex:60,transition:"background .18s, transform .18s"}} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.06)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>
           {notesOpen ? <I.X s={20}/> : <I.Edit s={21}/>}
           {!notesOpen && (notes.length+todos.length)>0 && <span className="tnum" style={{position:"absolute",top:-3,right:-3,minWidth:20,height:20,padding:"0 5px",boxSizing:"border-box",borderRadius:10,background:gold,color:"#fff",fontSize:14,fontWeight:700,display:"inline-flex",alignItems:"center",justifyContent:"center",border:`2px solid ${bg}`}}>{notes.length+todos.length}</span>}
         </button>
