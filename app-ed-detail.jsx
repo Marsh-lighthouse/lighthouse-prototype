@@ -974,11 +974,11 @@ function ScWelcome({ target, onStart }) {
   const pers = ["Close all unnecessary applications and browser tabs", "Ensure your device is fully charged or plugged into socket", "Set aside uninterrupted time for the full assessment"];
   return (
     <div style={scWrap}>
-      <div style={{ ...scCard, padding: "30px 32px" }}>
-      <div style={{ marginBottom: 26 }}>
+      <div style={{ marginBottom: 22 }}>
         <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
         <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: 0 }}>Confirm your device and connection are ready before you begin{target && target.name ? " " + target.name : ""}.</p>
       </div>
+      <div style={{ ...scCard, padding: "28px 30px", marginBottom: 24 }}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 44, paddingBottom: 26, borderBottom: hair, marginBottom: 26 }}>
         <div style={{ flex: 1, minWidth: 260 }}>
           {secTitle(<I.clock size={20} />, "Time Commitment")}
@@ -993,7 +993,7 @@ function ScWelcome({ target, onStart }) {
         </div>
       </div>
 
-      <div style={{ paddingBottom: 26, borderBottom: hair, marginBottom: 22 }}>
+      <div>
         {secTitle(<I.bulb size={20} />, "Before you begin", 4)}
         <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 20px" }}>Make sure you and your environment are fully prepared</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 44 }}>
@@ -1007,6 +1007,7 @@ function ScWelcome({ target, onStart }) {
           </div>
         </div>
       </div>
+      </div>
 
       <label style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 20, cursor: "pointer" }}>
         <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} style={{ width: 18, height: 18, accentColor: eMID, marginTop: 1, flexShrink: 0 }} />
@@ -1014,7 +1015,6 @@ function ScWelcome({ target, onStart }) {
       </label>
 
       <EdBtn primary full disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
-      </div>
     </div>
   );
 }
