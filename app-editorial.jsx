@@ -1064,6 +1064,9 @@ function DashEditorial({ initialRoute } = {}) {
   const [dashSample, setDashSample] = React.useState(() => { try { return localStorage.getItem("ed-dash-sample") || "5"; } catch (e) { return "5"; } });
   const [dashMenu, setDashMenu] = React.useState(false);
   const setSample = (v) => { setDashSample(v); try { localStorage.setItem("ed-dash-sample", v); } catch (e) {} };
+  const [scVariant, setScVariant] = React.useState(() => { try { return localStorage.getItem("ed-sc-variant") || "1"; } catch (e) { return "1"; } });
+  const [scMenu, setScMenu] = React.useState(false);
+  const setScV = (v) => { setScVariant(v); try { localStorage.setItem("ed-sc-variant", v); } catch (e) {} };
   const [mobileNav, setMobileNav] = React.useState(false);
   const [langMenu, setLangMenu] = React.useState(false);
   const [language, setLanguage] = React.useState(() => window.LangSwitcher?.currentLang || "en");
@@ -1231,7 +1234,7 @@ function DashEditorial({ initialRoute } = {}) {
       onReserve={(c) => { setRoute((r) => ({ ...r, page: "scheduling", schedCenter: c && c.schedId })); }}
       onProctored={(target) => setRoute((r) => ({ ...r, page: "precheck", target }))} />;
   } else if (route.page === "precheck") {
-    content = <D.EdPreCheck target={route.target} initialStep={route.pcStep}
+    content = <D.EdPreCheck target={route.target} initialStep={route.pcStep} variant={scVariant}
       onStep={(step) => setRoute((r) => (r.pcStep === step ? r : { ...r, pcStep: step }))}
       onBack={() => setRoute((r) => ({ ...r, page: route.center ? "center" : "tasks", target: null, pcStep: null }))}
       onLaunch={toTasks} />;
@@ -1457,6 +1460,33 @@ function DashEditorial({ initialRoute } = {}) {
           onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = "var(--primary)"; }}
           onMouseLeave={(e) => { if (!dashMenu) { e.currentTarget.style.opacity = 0.62; e.currentTarget.style.color = "var(--muted)"; } }}>
           <I.panel size={14} /> Sample {dashSample}
+        </button>
+      </div>
+    ), document.body)}
+    {route.page === "precheck" && ReactDOM.createPortal((
+      <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
+        {scMenu && (
+          <div style={{ position: "absolute", bottom: 42, right: 0, width: 252, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
+            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>System check design</div>
+            {[{ id: "1", l: "System Check 1", d: "Current — stepped flow" }, { id: "2", l: "System Check 2", d: "New design (in progress)" }].map((o) => {
+              const on = scVariant === o.id;
+              return (
+                <button key={o.id} onClick={() => { setScV(o.id); setScMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
+                  <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
+                  <span style={{ flex: 1 }}>
+                    <span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 14, color: "var(--muted)" }}>{o.d}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+        <button onClick={() => setScMenu((v) => !v)} title="Switch system check design"
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: scMenu ? "#fff" : "rgba(255,255,255,.72)", color: scMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: scMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = "var(--primary)"; }}
+          onMouseLeave={(e) => { if (!scMenu) { e.currentTarget.style.opacity = 0.62; e.currentTarget.style.color = "var(--muted)"; } }}>
+          <I.panel size={14} /> System check {scVariant}
         </button>
       </div>
     ), document.body)}

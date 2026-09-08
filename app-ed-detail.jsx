@@ -1019,6 +1019,44 @@ function ScWelcome({ target, onStart }) {
   );
 }
 
+// ═══ WELCOME — System Check 2 (new design variant; work-in-progress canvas) ══
+function ScWelcome2({ target, onStart }) {
+  const [ack, setAck] = React.useState(false);
+  const checks = [
+    { icon: <I.monitor size={20} />, t: "Browser & Device", d: "We confirm your browser supports every required feature." },
+    { icon: <I.wifi size={20} />, t: "Internet Speed", d: "We test that your connection meets the minimum speed." },
+    { icon: <I.cam size={20} />, t: "Video & Audio", d: "We check your camera and microphone are working." },
+  ];
+  return (
+    <div style={scWrap}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: 0.3, textTransform: "uppercase", color: eBLUE, background: scTint(eBLUE, "12%"), padding: "4px 10px", borderRadius: 999 }}>Design 2</span>
+      </div>
+      <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 620 }}>A quick check of your device and connection — under 5 minutes — before you begin{target && target.name ? " " + target.name : ""}. All checks must pass to continue.</p>
+
+      <div style={{ ...scCard, padding: "6px 26px", marginBottom: 24 }}>
+        {checks.map((c, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 0", borderBottom: i < checks.length - 1 ? "1px solid " + eLINE : "none" }}>
+            <div style={{ width: 46, height: 46, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{c.icon}</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{c.t}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5 }}>{c.d}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <label style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 20, cursor: "pointer" }}>
+        <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} style={{ width: 18, height: 18, accentColor: eMID, marginTop: 1, flexShrink: 0 }} />
+        <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>I have a quiet, well-lit space, a stable connection, and a working camera and microphone, and I'm ready to begin.</span>
+      </label>
+
+      <EdBtn primary full disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
+    </div>
+  );
+}
+
 function ScBrowser({ result, setResult, onBack, onNext }) {
   const [rows, setRows] = React.useState([]);
   React.useEffect(() => {
@@ -1388,7 +1426,8 @@ function ScResult({ results, onRerun, onBack, onLaunch }) {
   );
 }
 
-function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep }) {
+function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) {
+  const v2 = variant === "2";
   const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
   const [results, setResults] = edUseState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
@@ -1396,7 +1435,7 @@ function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep }) {
   // reflect the current step in the URL (video reports its own sub-step)
   React.useEffect(() => { if (onStep && phase !== "video") onStep(phase); }, [phase]);
 
-  if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase("browser")} />;
+  if (phase === "welcome") return v2 ? <ScWelcome2 target={target} onStart={() => setPhase("browser")} /> : <ScWelcome target={target} onStart={() => setPhase("browser")} />;
   if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
   if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
   if (phase === "video") return <ScVideo setResult={(v) => setResult("video", v)} onStep={onStep} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
