@@ -1208,7 +1208,7 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
             </div>
             <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 26 }}>
               {isActive ? (
-                <div style={{ ...scCard, padding: "18px 20px" }}>{activeBody(s.k)}</div>
+                <div style={{ paddingTop: 2 }}>{activeBody(s.k)}</div>
               ) : (
                 <div style={{ display: "flex", alignItems: "center", gap: 12, minHeight: 34, opacity: done ? 1 : 0.5 }}>
                   <span style={{ color: done ? eBLUE : eMUT, display: "flex" }}>{s.icon}</span>
