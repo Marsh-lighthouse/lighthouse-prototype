@@ -51,7 +51,7 @@ function EdBtn({ children, primary, small, disabled, onClick, full, dark }) {
   };
   const style = dark ?
   (primary
-    ? { ...base, background: "#fff", color: eMID, border: "1.5px solid #fff" }
+    ? { ...base, background: "#DCE6F5", color: eMID, border: "1.5px solid #DCE6F5" }
     : { ...base, background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.7)" }) :
   primary ?
   { ...base, background: eGOLD, color: "var(--action-text)", border: "1.5px solid transparent" } :
