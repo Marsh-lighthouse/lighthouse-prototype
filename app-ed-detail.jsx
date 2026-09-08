@@ -879,6 +879,7 @@ function EdCenter({ center, onBack, onProctored, onOpenAssess, onReserve }) {
 const SC_PHRASE = "I am ready. This is a test recording to confirm that my video and microphone are working properly.";
 const SC_REQ_DL = 3, SC_REQ_UL = 8;
 const SC_STEPS = ["Browser", "Network", "Video and Audio", "Result"];
+const SC_AUTO_ADVANCE = false; // hidden for now — set true to restore the "Continue (3)" auto-advance countdown
 const scWrap = { maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 };
 const scCard = { background: eCARD, border: "1px solid " + eLINE, borderRadius: 16 };
 const scTint = (c, a) => "color-mix(in srgb, " + c + " " + a + ", transparent)";
@@ -1083,7 +1084,7 @@ function ScBrowser({ result, setResult, onBack, onNext }) {
     return () => { timers.forEach(clearTimeout); clearTimeout(done); };
   }, []);
   const finished = result !== "pending";
-  const cd = useScCountdown(finished && result === "pass", onNext);
+  const cd = useScCountdown(SC_AUTO_ADVANCE && finished && result === "pass", onNext);
   return (
     <div style={scWrap}>
       <ScStepper index={0} />
@@ -1135,7 +1136,7 @@ function ScNetwork({ setResult, onBack, onNext }) {
     return () => { cancelled = true; timers.forEach((c) => c()); };
   }, [runs]);
 
-  const cd = useScCountdown(outcome === "pass", onNext);
+  const cd = useScCountdown(SC_AUTO_ADVANCE && outcome === "pass", onNext);
   const pending = stage !== "done";
   return (
     <div style={scWrap}>
