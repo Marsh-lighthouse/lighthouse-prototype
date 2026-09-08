@@ -1275,7 +1275,7 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
       </svg>
     </div>
   );
-  const chip = (icon, label) => <span style={{ background: "rgba(0,0,0,.5)", color: "#fff", borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 12, display: "inline-flex", alignItems: "center", gap: 6 }}>{icon} {label}</span>;
+  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>{icon} {label}</span>;
 
   if (vstate === "permission") {
     return (
