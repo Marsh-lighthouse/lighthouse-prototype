@@ -42,14 +42,18 @@ function EdSectionLabel({ children }) {
   return <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eMUT, marginBottom: 4 }}>{children}</div>;
 }
 
-function EdBtn({ children, primary, small, disabled, onClick, full }) {
+function EdBtn({ children, primary, small, disabled, onClick, full, dark }) {
   const base = {
     display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
     fontFamily: "var(--sans)", fontWeight: 600, cursor: disabled ? "not-allowed" : "pointer",
     borderRadius: 10, padding: small ? "8px 14px" : "12px 18px", fontSize: small ? 14 : 14,
     width: full ? "100%" : "auto", opacity: disabled ? 0.5 : 1, transition: "filter .15s"
   };
-  const style = primary ?
+  const style = dark ?
+  (primary
+    ? { ...base, background: "#fff", color: eMID, border: "1.5px solid #fff" }
+    : { ...base, background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.7)" }) :
+  primary ?
   { ...base, background: eGOLD, color: "var(--action-text)", border: "1.5px solid transparent" } :
   { ...base, background: "transparent", color: eMID, border: "1.5px solid " + eMID };
   return <button style={style} disabled={disabled} onClick={disabled ? undefined : onClick} data-comment-anchor="562fd0fb97-button-54-10">{children}</button>;
@@ -1313,7 +1317,7 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
           {silhouette}
           {vstate === "preview" && <div style={{ ...overlayText, background: "rgba(11,16,32,.5)" }}>
             <p style={{ fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.5, maxWidth: 460, margin: 0 }}>Select your microphone and camera, click <strong>Let's start</strong>, then read aloud and repeat the sentence appearing at the bottom 3 times.</p>
-            <EdBtn primary onClick={() => setVstate("countdown")}>Let's start! <I.arrow size={16} /></EdBtn>
+            <EdBtn primary dark onClick={() => setVstate("countdown")}>Let's start! <I.arrow size={16} /></EdBtn>
           </div>}
           {vstate === "countdown" && <div style={overlayText}><div style={{ fontFamily: "var(--sans)", fontSize: 96, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
           {vstate === "recording" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 2 }}>
