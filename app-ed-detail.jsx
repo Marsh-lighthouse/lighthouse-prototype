@@ -1329,7 +1329,7 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
       {!pending && outcome === "pass" && (
         <div style={{ ...scCard, padding: vertical ? "20px" : "34px 22px", textAlign: "center" }}>
           <div style={{ width: vertical ? 50 : 68, height: vertical ? 50 : 68, borderRadius: "50%", border: "3px solid " + eSUCCESS, color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: vertical ? "0 auto 8px" : "0 auto 14px" }}><I.check size={vertical ? 26 : 34} /></div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: vertical ? "0 0 16px" : "0 0 22px" }}>Your connection speed is optimal</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: vertical ? "0 0 16px" : "0 0 22px" }}>Your connection speed is optimal</p>
           {vertical ? (
             <div style={{ display: "flex", maxWidth: 520, margin: "0 auto" }}>
               {[[dl.toFixed(2), "Download", "Mbps", eMID], [ul.toFixed(2), "Upload", "Mbps", eMID], [SC_REQ_DL, "Required", "download", eINK], [SC_REQ_UL, "Required", "upload", eINK]].map((s, i) => (
