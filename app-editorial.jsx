@@ -1352,6 +1352,18 @@ function DashEditorial({ initialRoute } = {}) {
   const [pageBack, setPageBack] = React.useState(null);
   // Let nested pages (e.g. the Development flow) collapse/expand the left rail.
   const collapseRail = React.useCallback((v) => { setRailCollapsed(v); try { localStorage.setItem("ed-rail-collapsed", v ? "1" : "0"); } catch (e) {} }, []);
+  // Auto-collapse the side menu inside the proctored assessment flow; restore the saved preference on exit.
+  const preProctoredRail = React.useRef(null);
+  React.useEffect(() => {
+    const proctored = ["precheck", "assessintro", "consent", "openassess"].indexOf(route.page) >= 0;
+    if (proctored) {
+      if (preProctoredRail.current === null) preProctoredRail.current = railCollapsed;
+      setRailCollapsed(true);
+    } else if (preProctoredRail.current !== null) {
+      setRailCollapsed(preProctoredRail.current);
+      preProctoredRail.current = null;
+    }
+  }, [route.page]);
   const topBarCtx = React.useMemo(() => ({ setBack: setPageBack, collapseRail }), [collapseRail]);
   const renderTopBack = (label, onClick) => (
     <button onClick={onClick} className="ed-topbar-back" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", margin: 0, color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}>
