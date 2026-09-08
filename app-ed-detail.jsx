@@ -1707,11 +1707,10 @@ function ScVideoLive({ setResult, onBack, onNext }) {
                 <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: "#fff", fontWeight: 700 }}>{SC_PHRASE}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
-                  <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
+                  <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30
                 </span>
                 <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.25)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(255,255,255,.85)", flexShrink: 0 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
                 <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
               </div>
             </div>
