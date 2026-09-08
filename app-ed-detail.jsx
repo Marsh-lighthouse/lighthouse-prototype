@@ -923,7 +923,7 @@ function ScHead({ icon, title, sub, badge }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 22 }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, minWidth: 0 }}>
-        <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
+        {icon && <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
         <div style={{ minWidth: 0 }}>
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.2, margin: 0 }}>{title}</h1>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.5 }}>{sub}</p>
@@ -1234,16 +1234,16 @@ function ScPanel({ target, onBack, onLaunch, onStep }) {
   React.useEffect(() => { if (onStep) onStep("panel/" + phase); }, [phase]);
 
   const activeBody = (k) => {
-    if (k === "browser") return <ScBrowser vertical result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
-    if (k === "network") return <ScNetwork vertical setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-    if (k === "video") return <ScVideoLive vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+    if (k === "browser") return <ScBrowser vertical panel result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
+    if (k === "network") return <ScNetwork vertical panel setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
+    if (k === "video") return <ScVideoLive vertical panel setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
     if (k === "result") return <ScResult vertical results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
     return null;
   };
 
   return (
     <div style={scWrap}>
-      <div style={{ display: "grid", gridTemplateColumns: "312px minmax(0,1fr)", gap: 28, alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "232px minmax(0,1fr)", gap: 32, alignItems: "start" }}>
         {/* LEFT · step navigation */}
         <div style={{ padding: "2px 8px 0 0", position: "sticky", top: 16 }}>
           <div style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 22 }}>
@@ -1274,7 +1274,7 @@ function ScPanel({ target, onBack, onLaunch, onStep }) {
   );
 }
 
-function ScBrowser({ result, setResult, onBack, onNext, vertical }) {
+function ScBrowser({ result, setResult, onBack, onNext, vertical, panel }) {
   const [rows, setRows] = React.useState([]);
   React.useEffect(() => {
     let name = "your browser", ver = "";
@@ -1304,7 +1304,7 @@ function ScBrowser({ result, setResult, onBack, onNext, vertical }) {
   return (
     <div style={vertical ? scWrapV : scWrap}>
       {!vertical && <ScStepper index={0} />}
-      <ScHead icon={<I.globe size={22} />} title="Browser Compatibility Test" sub="Checking if your browser supports all required features" badge={finished ? result : "pending"} />
+      <ScHead icon={panel ? null : <I.globe size={22} />} title="Browser Compatibility Test" sub="Checking if your browser supports all required features" badge={finished ? result : "pending"} />
       <div style={{ ...scCard, padding: "6px 22px" }}>
         {rows.map((r, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 13, padding: "13px 0", borderBottom: i < 3 ? "1px solid " + eLINE : "none" }}>
@@ -1321,7 +1321,7 @@ function ScBrowser({ result, setResult, onBack, onNext, vertical }) {
 }
 
 // ═══ NETWORK ═══════════════════════════════════════════════════════════════
-function ScNetwork({ setResult, onBack, onNext, vertical }) {
+function ScNetwork({ setResult, onBack, onNext, vertical, panel }) {
   const [runs, setRuns] = React.useState(0);
   const [stage, setStage] = React.useState("latency"); // latency|download|upload|done
   const [dl, setDl] = React.useState(0);
@@ -1358,7 +1358,7 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
   return (
     <div style={vertical ? scWrapV : scWrap}>
       {!vertical && <ScStepper index={1} />}
-      <ScHead icon={<I.wifi size={22} />} title="Internet Speed Test" sub="Testing the quality of your internet connection between our servers and your device." badge={pending ? "pending" : outcome} />
+      <ScHead icon={panel ? null : <I.wifi size={22} />} title="Internet Speed Test" sub="Testing the quality of your internet connection between our servers and your device." badge={pending ? "pending" : outcome} />
       {pending && (
         <div style={{ ...scCard, padding: "48px 22px", textAlign: "center" }}>
           <div style={{ position: "relative", width: 120, height: 120, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
@@ -1615,7 +1615,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
 // Real camera + microphone via getUserMedia + MediaRecorder. Used in SC2 (vertical).
 // Falls back to clear "enable / denied / unsupported" states where the camera is
 // blocked (e.g. sandboxed preview panes); the live feed works on the deployed site.
-function ScVideoLive({ setResult, onBack, onNext, vertical }) {
+function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const [vstate, setVstate] = React.useState("intro"); // intro|denied|unsupported|preview|countdown|recording|reviewing|checking|pass
   const [count, setCount] = React.useState(3);
   const [sec, setSec] = React.useState(0);
@@ -1704,7 +1704,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical }) {
   const confirm = () => { setVstate("checking"); setTimeout(() => { stopStream(); setResult("pass"); setVstate("pass"); }, 1300); };
   const reRecord = () => { setVstate("preview"); };
 
-  const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#16264a,#0b1020)", borderRadius: 14, overflow: "hidden", aspectRatio: "16 / 9" };
+  const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#16264a,#0b1020)", borderRadius: 14, overflow: "hidden", aspectRatio: panel ? "3 / 2" : "16 / 9" };
   const overlay = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, textAlign: "center", padding: 24, color: "#fff", zIndex: 2 };
   const chip = (icon, label) => <span title={label} style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 200, minWidth: 0 }}><span style={{ flexShrink: 0, display: "flex" }}>{icon}</span><span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{label}</span></span>;
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
@@ -1712,7 +1712,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical }) {
   return (
     <div style={vertical ? scWrapV : scWrap}>
       {!vertical && <ScStepper index={2} />}
-      <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="We'll use your real camera and microphone. Record a short clip, then play it back to confirm." badge={vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending"} />
+      <ScHead icon={panel ? null : <I.cam size={22} />} title="Camera and Microphone Test" sub="We'll use your real camera and microphone. Record a short clip, then play it back to confirm." badge={vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending"} />
 
       {(vstate === "intro" || vstate === "denied" || vstate === "unsupported") && (
         <div style={media}>
