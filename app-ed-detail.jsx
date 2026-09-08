@@ -1329,15 +1329,26 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
       {!pending && outcome === "pass" && (
         <div style={{ ...scCard, padding: vertical ? "20px" : "34px 22px", textAlign: "center" }}>
           <div style={{ width: vertical ? 50 : 68, height: vertical ? 50 : 68, borderRadius: "50%", border: "3px solid " + eSUCCESS, color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: vertical ? "0 auto 8px" : "0 auto 14px" }}><I.check size={vertical ? 26 : 34} /></div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: vertical ? "0 0 14px" : "0 0 22px" }}>Your connection speed is optimal</p>
-          <div style={{ border: "1px solid " + eLINE, borderRadius: 12, maxWidth: 460, margin: "0 auto", overflow: "hidden", background: scTint(eSUCCESS, "5%") }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-              <div style={{ padding: statPad, borderRight: "1px solid " + eLINE, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Download Mbps</div></div>
-              <div style={{ padding: statPad, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Upload Mbps</div></div>
-              <div style={{ padding: statPad, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Download (Mbps)</div></div>
-              <div style={{ padding: statPad }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Upload (Mbps)</div></div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: vertical ? "0 0 16px" : "0 0 22px" }}>Your connection speed is optimal</p>
+          {vertical ? (
+            <div style={{ display: "flex", maxWidth: 520, margin: "0 auto" }}>
+              {[[dl.toFixed(2), "Download", "Mbps", eMID], [ul.toFixed(2), "Upload", "Mbps", eMID], [SC_REQ_DL, "Required", "download", eINK], [SC_REQ_UL, "Required", "upload", eINK]].map((s, i) => (
+                <div key={i} style={{ flex: 1, padding: "0 6px", borderLeft: i > 0 ? "1px solid " + eLINE : "none" }}>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 24, fontWeight: 700, color: s[3] }}>{s[0]}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT, marginTop: 3, lineHeight: 1.35 }}>{s[1]}<br />{s[2]}</div>
+                </div>
+              ))}
             </div>
-          </div>
+          ) : (
+            <div style={{ border: "1px solid " + eLINE, borderRadius: 12, maxWidth: 460, margin: "0 auto", overflow: "hidden", background: scTint(eSUCCESS, "5%") }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+                <div style={{ padding: statPad, borderRight: "1px solid " + eLINE, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Download Mbps</div></div>
+                <div style={{ padding: statPad, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Upload Mbps</div></div>
+                <div style={{ padding: statPad, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Download (Mbps)</div></div>
+                <div style={{ padding: statPad }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Upload (Mbps)</div></div>
+              </div>
+            </div>
+          )}
         </div>
       )}
       {!pending && outcome === "fail" && (
