@@ -1325,11 +1325,11 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
           {vstate === "recording" && <React.Fragment>
             {/* top-left: REC pill + live audio meter */}
             <div style={{ position: "absolute", left: 14, top: 14, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".02em" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".02em" }}>
                 <span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block", boxShadow: "0 0 0 4px rgba(203,17,17,.25)" }} />
                 REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}
               </span>
-              <span title="Microphone level" style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 30, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 999, padding: "0 12px" }}>
+              <span title="Microphone level" style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 30, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 12px" }}>
                 {[0, 1, 2, 3, 4].map((i) => <span key={i} className="ed-eq" style={{ width: 3, borderRadius: 2, background: "#7fd0a0", animationDelay: (i * 0.13) + "s" }} />)}
               </span>
             </div>
@@ -1350,7 +1350,7 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
                 </div>
                 <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
               </div>
-              <button onClick={() => setVstate("reviewing")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 999, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}>
+              <button onClick={() => setVstate("reviewing")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}>
                 <span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop recording
               </button>
             </div>
