@@ -1775,7 +1775,7 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
                 <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
-                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
+                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
               </div>
               {isOpen && <div style={{ margin: "0 22px", borderTop: "1px solid " + eLINE, padding: "14px 0 18px" }}>
                 <div style={{ display: "flex", gap: 9, alignItems: "flex-start" }}><span style={{ color: st === "pass" ? eSUCCESS : eDANGER, flexShrink: 0, marginTop: 1, display: "flex" }}>{st === "pass" ? <I.checkCircle size={16} /> : <I.alertCircle size={16} />}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{st === "pass" ? c.passMsg : c.failMsg}</span></div>
@@ -1788,9 +1788,9 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
         <div style={{ ...scCard, padding: 24, marginTop: 18 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}><span style={{ color: eBLUE, display: "flex" }}><I.info size={20} /></span><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>Troubleshooting Guide</h3></div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 16px" }}>Follow these steps to resolve the issues detected during the system check</p>
-          {failed.map((c) => (
-            <div key={c.k} style={{ background: scTint(eMID, "3%"), border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 12 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 10 }}><span style={{ color: eMID, display: "flex" }}>{c.icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{c.fix.title}</h4></div>
+          {failed.map((c, idx) => (
+            <div key={c.k} style={{ padding: "16px 0 2px", borderTop: idx > 0 ? "1px solid " + eLINE : "none" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 10 }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{c.fix.title}</h4></div>
               <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>{c.fix.items.map((t, j) => <li key={j} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t}</li>)}</ul>
             </div>
           ))}
