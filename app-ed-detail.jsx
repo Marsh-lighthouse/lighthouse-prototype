@@ -1184,7 +1184,7 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
   const activeBody = (k) => {
     if (k === "browser") return <ScBrowser vertical result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
     if (k === "network") return <ScNetwork vertical setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-    if (k === "video") return <ScVideo vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+    if (k === "video") return <ScVideoLive setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
     if (k === "result") return <ScResult vertical results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
     return null;
   };
@@ -1571,6 +1571,185 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
   );
 }
 
+
+// ═══ VIDEO (LIVE CAPTURE) ══════════════════════════════════════════════════
+// Real camera + microphone via getUserMedia + MediaRecorder. Used in SC2 (vertical).
+// Falls back to clear "enable / denied / unsupported" states where the camera is
+// blocked (e.g. sandboxed preview panes); the live feed works on the deployed site.
+function ScVideoLive({ setResult, onBack, onNext }) {
+  const [vstate, setVstate] = React.useState("intro"); // intro|denied|unsupported|preview|countdown|recording|reviewing|checking|pass
+  const [count, setCount] = React.useState(3);
+  const [sec, setSec] = React.useState(0);
+  const [busy, setBusy] = React.useState(false);
+  const [devices, setDevices] = React.useState({ cam: "Camera", mic: "Microphone" });
+  const [level, setLevel] = React.useState(0);
+  const videoRef = React.useRef(null);
+  const playbackRef = React.useRef(null);
+  const streamRef = React.useRef(null);
+  const recorderRef = React.useRef(null);
+  const chunksRef = React.useRef([]);
+  const blobUrlRef = React.useRef(null);
+  const audioCtxRef = React.useRef(null);
+  const rafRef = React.useRef(null);
+
+  const supported = typeof navigator !== "undefined" && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof window.MediaRecorder !== "undefined";
+
+  const stopMeter = () => { try { if (rafRef.current) cancelAnimationFrame(rafRef.current); } catch (e) {} rafRef.current = null; try { if (audioCtxRef.current) { audioCtxRef.current.close(); } } catch (e) {} audioCtxRef.current = null; };
+  const stopStream = () => { stopMeter(); try { if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop()); } catch (e) {} streamRef.current = null; };
+  React.useEffect(() => () => { stopStream(); try { if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current); } catch (e) {} }, []);
+
+  React.useEffect(() => {
+    if ((vstate === "preview" || vstate === "countdown" || vstate === "recording") && videoRef.current && streamRef.current) {
+      try { videoRef.current.srcObject = streamRef.current; const p = videoRef.current.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+    }
+  }, [vstate]);
+
+  const startMeter = (stream) => {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      const ctx = new AC(); audioCtxRef.current = ctx;
+      const analyser = ctx.createAnalyser(); analyser.fftSize = 256;
+      ctx.createMediaStreamSource(stream).connect(analyser);
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      const tick = () => { analyser.getByteFrequencyData(data); let sum = 0; for (let i = 0; i < data.length; i++) sum += data[i]; setLevel(Math.min(1, (sum / data.length) / 80)); rafRef.current = requestAnimationFrame(tick); };
+      tick();
+    } catch (e) {}
+  };
+
+  const enable = async () => {
+    if (!supported) { setVstate("unsupported"); setResult("fail"); return; }
+    setBusy(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 }, audio: true });
+      streamRef.current = stream;
+      const vt = stream.getVideoTracks()[0], at = stream.getAudioTracks()[0];
+      setDevices({ cam: (vt && vt.label) || "Camera", mic: (at && at.label) || "Microphone" });
+      startMeter(stream);
+      setBusy(false); setVstate("preview");
+    } catch (err) { setBusy(false); setResult("fail"); setVstate("denied"); }
+  };
+
+  React.useEffect(() => {
+    if (vstate !== "countdown") return;
+    setCount(3); let c = 3;
+    const iv = setInterval(() => { c -= 1; setCount(c); if (c <= 0) { clearInterval(iv); startRecording(); } }, 800);
+    return () => clearInterval(iv);
+  }, [vstate]);
+
+  const startRecording = () => {
+    if (!streamRef.current) { setVstate("preview"); return; }
+    try {
+      chunksRef.current = [];
+      const cands = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm", "video/mp4"];
+      let mime = ""; for (const m of cands) { try { if (window.MediaRecorder.isTypeSupported && window.MediaRecorder.isTypeSupported(m)) { mime = m; break; } } catch (e) {} }
+      const rec = mime ? new MediaRecorder(streamRef.current, { mimeType: mime }) : new MediaRecorder(streamRef.current);
+      recorderRef.current = rec;
+      rec.ondataavailable = (e) => { if (e.data && e.data.size) chunksRef.current.push(e.data); };
+      rec.onstop = () => { try { const blob = new Blob(chunksRef.current, { type: mime || "video/webm" }); if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current); blobUrlRef.current = URL.createObjectURL(blob); } catch (e) {} setVstate("reviewing"); };
+      rec.start();
+      setVstate("recording");
+    } catch (e) { setVstate("preview"); }
+  };
+
+  React.useEffect(() => {
+    if (vstate !== "recording") return;
+    setSec(0); let s = 0;
+    const iv = setInterval(() => { s += 1; setSec(s); if (s >= 30) { clearInterval(iv); stopRecording(); } }, 1000);
+    return () => clearInterval(iv);
+  }, [vstate]);
+
+  const stopRecording = () => { try { if (recorderRef.current && recorderRef.current.state !== "inactive") recorderRef.current.stop(); else setVstate("reviewing"); } catch (e) { setVstate("reviewing"); } };
+
+  React.useEffect(() => { if (vstate === "reviewing" && playbackRef.current && blobUrlRef.current) { try { playbackRef.current.src = blobUrlRef.current; } catch (e) {} } }, [vstate]);
+
+  const confirm = () => { setVstate("checking"); setTimeout(() => { stopStream(); setResult("pass"); setVstate("pass"); }, 1300); };
+  const reRecord = () => { setVstate("preview"); };
+
+  const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#16264a,#0b1020)", borderRadius: 14, overflow: "hidden", aspectRatio: "16 / 9" };
+  const overlay = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, textAlign: "center", padding: 24, color: "#fff", zIndex: 2 };
+  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{icon} {label}</span>;
+  const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
+
+  return (
+    <div style={scWrapV}>
+      <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="We'll use your real camera and microphone. Record a short clip, then play it back to confirm." badge={vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending"} />
+
+      {(vstate === "intro" || vstate === "denied" || vstate === "unsupported") && (
+        <div style={media}>
+          <div style={overlay}>
+            <span style={{ color: vstate === "intro" ? "rgba(207,224,255,.9)" : "#ffd7d0", display: "flex" }}>{vstate === "intro" ? <I.cam size={40} /> : <I.alertCircle size={40} />}</span>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.55, maxWidth: 480, margin: 0 }}>
+              {vstate === "intro" && "We'll access your camera and microphone. Click below and choose “Allow” in your browser's permission prompt."}
+              {vstate === "denied" && "Camera and microphone access was blocked. Allow access in your browser's site settings (address-bar icon), then try again."}
+              {vstate === "unsupported" && "Live camera capture isn't available in this browser or context. Open the check on the deployed site in Chrome, Edge, Safari or Firefox."}
+            </p>
+            {vstate !== "unsupported" && <EdBtn primary dark disabled={busy} onClick={enable}>{busy ? "Requesting access…" : vstate === "denied" ? "Try again" : "Enable camera & microphone"} <I.arrow size={16} /></EdBtn>}
+          </div>
+        </div>
+      )}
+
+      {(vstate === "preview" || vstate === "countdown" || vstate === "recording") && (
+        <div style={media}>
+          {liveVideo}
+          <div style={{ position: "absolute", left: 14, top: 14, display: "flex", gap: 8, zIndex: 3, flexWrap: "wrap" }}>{chip(<I.cam size={13} />, devices.cam)}{chip(<I.mic size={13} />, devices.mic)}</div>
+
+          {vstate === "preview" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.72))", padding: "40px 18px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "#fff", maxWidth: 360, textAlign: "left", lineHeight: 1.45 }}>When you're ready, start recording and read the sentence shown aloud.</span>
+            <EdBtn primary dark onClick={() => setVstate("countdown")}>Start recording <I.arrow size={16} /></EdBtn>
+          </div>}
+
+          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(11,16,32,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 92, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
+
+          {vstate === "recording" && <React.Fragment>
+            <div style={{ position: "absolute", left: 14, bottom: 96, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>
+                <span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block", boxShadow: "0 0 0 4px rgba(203,17,17,.25)" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}
+              </span>
+              <span title="Microphone level" style={{ display: "inline-flex", alignItems: "flex-end", gap: 3, height: 30, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 12px" }}>
+                {[0, 1, 2, 3, 4].map((i) => { const h = Math.max(4, Math.min(24, 4 + level * 30 * (i === 2 ? 1 : i % 2 ? 0.75 : 0.55))); return <span key={i} style={{ width: 3, height: h, borderRadius: 2, background: "#7fd0a0", transition: "height .08s linear" }} />; })}
+              </span>
+            </div>
+            <div style={{ position: "absolute", left: 16, right: 16, bottom: 74, zIndex: 3, display: "flex", justifyContent: "center" }}>
+              <div style={{ maxWidth: 620, background: "rgba(11,16,32,.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 14, padding: "12px 20px", textAlign: "center" }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 6 }}>Read aloud</div>
+                <p style={{ fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 500 }}>{SC_PHRASE}</p>
+              </div>
+            </div>
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55))", padding: "44px 16px 14px", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.22)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
+              </div>
+              <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop recording</button>
+            </div>
+          </React.Fragment>}
+        </div>
+      )}
+
+      {vstate === "reviewing" && (
+        <div>
+          <div style={media}><video ref={playbackRef} controls playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 1 }} /></div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
+        </div>
+      )}
+
+      {vstate === "checking" && <div style={{ ...scCard, padding: "48px 22px", textAlign: "center" }}><span className="ed-spin" style={{ width: 28, height: 28, borderRadius: 14, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, margin: "16px 0 0" }}>Verifying your recording…</p></div>}
+
+      {vstate === "pass" && <div style={{ ...scCard, padding: "34px 22px", textAlign: "center", background: scTint(eSUCCESS, "6%"), borderColor: scTint(eSUCCESS, "22%") }}>
+        <div style={{ width: 56, height: 56, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.check size={28} /></div>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Camera and microphone verified</h3>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, margin: 0 }}>Your video and audio are working correctly.</p>
+      </div>}
+
+      <ScFoot onBackClick={onBack} right={<React.Fragment>
+        {vstate === "reviewing" && <EdBtn onClick={reRecord}>Re-record</EdBtn>}
+        {vstate === "reviewing" && <EdBtn primary onClick={confirm}>Confirm recording <I.arrow size={16} /></EdBtn>}
+        {(vstate === "denied" || vstate === "unsupported") && <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>}
+        {vstate === "pass" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
+      </React.Fragment>} />
+    </div>
+  );
+}
 
 // ═══ RESULT ════════════════════════════════════════════════════════════════
 function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
