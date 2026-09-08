@@ -1167,11 +1167,13 @@ function ScNetwork({ setResult, onBack, onNext }) {
         <div style={{ ...scCard, padding: "34px 22px", textAlign: "center" }}>
           <div style={{ width: 68, height: 68, borderRadius: "50%", border: "3px solid " + eSUCCESS, color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}><I.check size={34} /></div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: "0 0 22px" }}>Your connection speed is optimal</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: 12, maxWidth: 460, margin: "0 auto" }}>
-            <div style={{ border: "1px solid " + scTint(eSUCCESS, "35%"), background: scTint(eSUCCESS, "7%"), borderRadius: 12, padding: "16px 10px" }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Download Mbps</div></div>
-            <div style={{ border: "1px solid " + scTint(eSUCCESS, "35%"), background: scTint(eSUCCESS, "7%"), borderRadius: 12, padding: "16px 10px" }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Upload Mbps</div></div>
-            <div style={{ border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 10px" }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Download (Mbps)</div></div>
-            <div style={{ border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 10px" }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Upload (Mbps)</div></div>
+          <div style={{ border: "1px solid " + eLINE, borderRadius: 12, maxWidth: 460, margin: "0 auto", overflow: "hidden" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+              <div style={{ padding: "18px 12px", borderRight: "1px solid " + eLINE, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Download Mbps</div></div>
+              <div style={{ padding: "18px 12px", borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Upload Mbps</div></div>
+              <div style={{ padding: "18px 12px", borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Download (Mbps)</div></div>
+              <div style={{ padding: "18px 12px" }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Upload (Mbps)</div></div>
+            </div>
           </div>
         </div>
       )}
