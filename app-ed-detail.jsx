@@ -1417,14 +1417,14 @@ function ScResult({ results, onRerun, onBack, onLaunch }) {
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: 0 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
       </div>
       <div style={{ ...scCard, overflow: "hidden", marginTop: 22 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>
           <span>Check</span><span style={{ textAlign: "center" }}>Result</span><span style={{ textAlign: "right" }}>Details</span>
         </div>
         {CHECKS.map((c, i) => {
           const st = results[c.k] === "pass" ? "pass" : "fail"; const isOpen = !!open[c.k];
           return (
             <div key={c.k} style={{ borderBottom: i < CHECKS.length - 1 ? "1px solid " + eLINE : "none" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 16, alignItems: "center", padding: "16px 22px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
                 <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
                 <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>{isOpen ? "Hide Details" : "View Details"}</button>
