@@ -54,6 +54,8 @@
   .ed-blink { animation: ed-blink 1s ease-in-out infinite; }
   @keyframes ed-ping { 0% { transform: scale(.65); opacity: .75; } 100% { transform: scale(1.25); opacity: 0; } }
   .ed-ping { animation: ed-ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+  @keyframes ed-eq { 0%,100% { height: 5px; } 50% { height: 22px; } }
+  .ed-eq { height: 5px; animation: ed-eq .9s ease-in-out infinite; }
   @keyframes idp-blink { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
   /* team rows: shed the skills/actions column before anything wraps */
   @media (max-width: 1180px) { .mgr-counts { display: none; } }
@@ -103,7 +105,7 @@
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script src="lh-route.js"></script>
 <script type="text/babel" src="app-shared.jsx"></script>
-<script type="text/babel" src="app-ed-detail.jsx?v=1788850443"></script>
+<script type="text/babel" src="app-ed-detail.jsx?v=1788851129"></script>
 <script type="text/babel" src="app-ed-assess.jsx"></script>
 <script type="text/babel" src="app-ed-growth.jsx"></script>
 <script type="text/babel" src="app-ed-idp.jsx"></script>

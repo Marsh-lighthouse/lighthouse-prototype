@@ -1320,13 +1320,39 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
             <EdBtn primary dark onClick={() => setVstate("countdown")}>Let's start! <I.arrow size={16} /></EdBtn>
           </div>}
           {vstate === "countdown" && <div style={overlayText}><div style={{ fontFamily: "var(--sans)", fontSize: 96, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
-          {vstate === "recording" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 2 }}>
-            <div style={{ background: "linear-gradient(transparent, rgba(0,0,0,.78))", padding: "26px 18px 12px", color: "#fff", fontFamily: "var(--sans)", fontSize: 15, textAlign: "center", lineHeight: 1.5 }}>{SC_PHRASE}</div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#0b1020", padding: "10px 16px" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 }}><span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
-              <button onClick={() => setVstate("reviewing")} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Stop</button>
+          {vstate === "recording" && <React.Fragment>
+            {/* top-left: REC pill + live audio meter */}
+            <div style={{ position: "absolute", left: 14, top: 14, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".02em" }}>
+                <span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block", boxShadow: "0 0 0 4px rgba(203,17,17,.25)" }} />
+                REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}
+              </span>
+              <span title="Microphone level" style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 30, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 999, padding: "0 12px" }}>
+                {[0, 1, 2, 3, 4].map((i) => <span key={i} className="ed-eq" style={{ width: 3, borderRadius: 2, background: "#7fd0a0", animationDelay: (i * 0.13) + "s" }} />)}
+              </span>
             </div>
-          </div>}
+
+            {/* teleprompter caption */}
+            <div style={{ position: "absolute", left: 16, right: 16, bottom: 82, zIndex: 3, display: "flex", justifyContent: "center" }}>
+              <div style={{ maxWidth: 620, background: "rgba(11,16,32,.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 14, padding: "14px 22px", textAlign: "center" }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 8 }}>Read aloud</div>
+                <p style={{ fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 500 }}>{SC_PHRASE}</p>
+              </div>
+            </div>
+
+            {/* bottom: progress toward 0:30 + Stop */}
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55))", padding: "44px 16px 14px", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.22)", overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} />
+                </div>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
+              </div>
+              <button onClick={() => setVstate("reviewing")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 999, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}>
+                <span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop recording
+              </button>
+            </div>
+          </React.Fragment>}
           {vstate === "preview" && <div style={{ position: "absolute", left: 14, top: 14, display: "flex", gap: 8, zIndex: 2 }}>{chip(<I.cam size={13} />, "FaceTime HD Camera")}{chip(<I.mic size={13} />, "MacBook Pro Microphone")}</div>}
         </div>
       )}
