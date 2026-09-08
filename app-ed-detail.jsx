@@ -1184,7 +1184,7 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
   const activeBody = (k) => {
     if (k === "browser") return <ScBrowser vertical result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
     if (k === "network") return <ScNetwork vertical setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-    if (k === "video") return <ScVideoLive setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+    if (k === "video") return <ScVideoLive vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
     if (k === "result") return <ScResult vertical results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
     return null;
   };
@@ -1565,7 +1565,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
 // Real camera + microphone via getUserMedia + MediaRecorder. Used in SC2 (vertical).
 // Falls back to clear "enable / denied / unsupported" states where the camera is
 // blocked (e.g. sandboxed preview panes); the live feed works on the deployed site.
-function ScVideoLive({ setResult, onBack, onNext }) {
+function ScVideoLive({ setResult, onBack, onNext, vertical }) {
   const [vstate, setVstate] = React.useState("intro"); // intro|denied|unsupported|preview|countdown|recording|reviewing|checking|pass
   const [count, setCount] = React.useState(3);
   const [sec, setSec] = React.useState(0);
@@ -1660,7 +1660,8 @@ function ScVideoLive({ setResult, onBack, onNext }) {
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
   return (
-    <div style={scWrapV}>
+    <div style={vertical ? scWrapV : scWrap}>
+      {!vertical && <ScStepper index={2} />}
       <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="We'll use your real camera and microphone. Record a short clip, then play it back to confirm." badge={vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending"} />
 
       {(vstate === "intro" || vstate === "denied" || vstate === "unsupported") && (
@@ -1800,13 +1801,13 @@ function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) 
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
   const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
   // reflect the current step in the URL (video reports its own sub-step)
-  React.useEffect(() => { if (onStep && phase !== "video" && phase !== "vertical") onStep(phase); }, [phase]);
+  React.useEffect(() => { if (onStep && phase !== "vertical") onStep(phase); }, [phase]);
 
   if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase(v2 ? "vertical" : "browser")} />;
   if (phase === "vertical") return <ScVertical target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
   if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
   if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-  if (phase === "video") return <ScVideo setResult={(v) => setResult("video", v)} onStep={onStep} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+  if (phase === "video") return <ScVideoLive setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
   if (phase === "result") return <ScResult results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
   return null;
 }
