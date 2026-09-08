@@ -1168,10 +1168,10 @@ function ScScan2({ target, onBack, onLaunch, onStep }) {
 
 // SC2 · vertical single-page stepper — identical checks to SC1, stacked on one screen
 const SC_VSTEPS = [
-  { k: "browser", icon: <I.monitor size={17} />, label: "Browser & Device" },
-  { k: "network", icon: <I.wifi size={17} />, label: "Internet Speed" },
-  { k: "video", icon: <I.cam size={17} />, label: "Video and Audio" },
-  { k: "result", icon: <I.checkCircle size={17} />, label: "Result" },
+  { k: "browser", icon: <I.monitor size={17} />, label: "Browser & Device", d: "We confirm your browser supports every required feature." },
+  { k: "network", icon: <I.wifi size={17} />, label: "Internet Speed", d: "We test that your connection meets the minimum speed." },
+  { k: "video", icon: <I.cam size={17} />, label: "Video and Audio", d: "We check your camera and microphone are working." },
+  { k: "result", icon: <I.checkCircle size={17} />, label: "Result", d: "Review your results, then continue to the assessment." },
 ];
 function ScVertical({ target, onBack, onLaunch, onStep }) {
   const [phase, setPhase] = React.useState("browser");
@@ -1220,6 +1220,56 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+// SC3 · split layout — left step-nav bar + current step content on the right (single view, no scroll)
+function ScPanel({ target, onBack, onLaunch, onStep }) {
+  const [phase, setPhase] = React.useState("browser");
+  const [results, setResults] = React.useState({ browser: "pending", network: "pending", video: "pending" });
+  const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
+  const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
+  const activeIndex = SC_VSTEPS.findIndex((s) => s.k === phase);
+  React.useEffect(() => { if (onStep) onStep("panel/" + phase); }, [phase]);
+
+  const activeBody = (k) => {
+    if (k === "browser") return <ScBrowser vertical result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
+    if (k === "network") return <ScNetwork vertical setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
+    if (k === "video") return <ScVideoLive vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+    if (k === "result") return <ScResult vertical results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
+    return null;
+  };
+
+  return (
+    <div style={scWrap}>
+      <div style={{ display: "grid", gridTemplateColumns: "312px minmax(0,1fr)", gap: 28, alignItems: "start" }}>
+        {/* LEFT · step navigation */}
+        <div style={{ ...scCard, padding: "22px 20px", background: "linear-gradient(180deg, " + scTint(eBLUE, "7%") + ", " + scTint(eBLUE, "1%") + ")", position: "sticky", top: 16 }}>
+          <div style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 22 }}>
+            <span style={{ color: eBLUE, display: "flex", flexShrink: 0, marginTop: 1 }}><I.info size={17} /></span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.5 }}>Complete each step below to finish your system check.</span>
+          </div>
+          {SC_VSTEPS.map((s, i) => {
+            const done = i < activeIndex, active = i === activeIndex, last = i === SC_VSTEPS.length - 1;
+            const dim = !done && !active;
+            return (
+              <div key={s.k} style={{ display: "flex", gap: 14, alignItems: "stretch" }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: dim ? scTint(eBLUE, "9%") : eBLUE, color: dim ? eMUT : "#fff", border: dim ? "1px solid " + scTint(eBLUE, "20%") : "none", boxShadow: active ? "0 0 0 4px " + scTint(eBLUE, "16%") : "none", transition: "background .2s, box-shadow .2s" }}>{done ? <I.check size={19} /> : s.icon}</div>
+                  {!last && <div style={{ flex: 1, width: 2, minHeight: 20, background: done ? eBLUE : scTint(eMID, "12%"), margin: "6px 0" }} />}
+                </div>
+                <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 20, opacity: dim ? 0.7 : 1 }}>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: dim ? eMUT : eMID, marginTop: 9 }}>{s.label}</div>
+                  {active && <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.45, marginTop: 3 }}>{s.d}</div>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {/* RIGHT · current step */}
+        <div style={{ minWidth: 0 }}>{activeBody(phase)}</div>
+      </div>
     </div>
   );
 }
@@ -1796,15 +1846,17 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
 
 function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) {
   const v2 = variant === "2";
-  const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "vertical", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
+  const v3 = variant === "3";
+  const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "vertical", "panel", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
   const [results, setResults] = edUseState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
   const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
-  // reflect the current step in the URL (video reports its own sub-step)
-  React.useEffect(() => { if (onStep && phase !== "vertical") onStep(phase); }, [phase]);
+  // reflect the current step in the URL (video reports its own sub-step; vertical/panel own their sub-URLs)
+  React.useEffect(() => { if (onStep && phase !== "vertical" && phase !== "panel") onStep(phase); }, [phase]);
 
-  if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase(v2 ? "vertical" : "browser")} />;
+  if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase(v3 ? "panel" : v2 ? "vertical" : "browser")} />;
   if (phase === "vertical") return <ScVertical target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
+  if (phase === "panel") return <ScPanel target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
   if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
   if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
   if (phase === "video") return <ScVideoLive setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
