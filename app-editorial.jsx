@@ -1464,7 +1464,7 @@ function DashEditorial({ initialRoute } = {}) {
       </div>
     ), document.body)}
     {route.page === "precheck" && ReactDOM.createPortal((
-      <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60, display: "flex", alignItems: "center", gap: 8, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 10, padding: "7px 9px 7px 12px", boxShadow: "0 6px 20px rgba(0,15,71,.12)" }}>
+      <div style={{ position: "fixed", left: "calc(var(--rail-w, 256px) + 20px)", bottom: 14, zIndex: 60, display: "flex", alignItems: "center", gap: 8, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 10, padding: "7px 9px 7px 12px", boxShadow: "0 6px 20px rgba(0,15,71,.12)" }}>
         <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--muted)" }}>System check</span>
         {["1", "2"].map((d) => {
           const on = scVariant === d;
