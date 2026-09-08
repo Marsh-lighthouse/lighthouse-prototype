@@ -883,7 +883,7 @@ function EdCenter({ center, onBack, onProctored, onOpenAssess, onReserve }) {
 const SC_PHRASE = "I am ready. This is a test recording to confirm that my video and microphone are working properly.";
 const SC_REQ_DL = 3, SC_REQ_UL = 8;
 const SC_STEPS = ["Browser", "Network", "Video and Audio", "Result"];
-const SC_AUTO_ADVANCE = false; // hidden for now — set true to restore the "Continue (3)" auto-advance countdown
+const SC_AUTO_ADVANCE = true; // "Continue (4)" auto-advance countdown after a step passes (all three flows)
 const scWrap = { maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 };
 const scWrapV = { margin: 0, padding: 0 }; // embedded (vertical single-page) — no page margins
 const scCard = { background: eCARD, border: "1px solid " + eLINE, borderRadius: 16 };
@@ -960,7 +960,7 @@ function useScCountdown(active, onDone) {
   const cb = React.useRef(onDone); cb.current = onDone;
   React.useEffect(() => {
     if (!active) { setN(null); return; }
-    setN(3); let c = 3;
+    setN(4); let c = 4;
     const t = setInterval(() => { c -= 1; setN(c); if (c <= 0) { clearInterval(t); cb.current && cb.current(); } }, 1000);
     return () => clearInterval(t);
   }, [active]);
