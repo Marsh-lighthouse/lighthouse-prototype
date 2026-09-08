@@ -1667,7 +1667,7 @@ function ScVideoLive({ setResult, onBack, onNext }) {
 
   const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#16264a,#0b1020)", borderRadius: 14, overflow: "hidden", aspectRatio: "16 / 9" };
   const overlay = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, textAlign: "center", padding: 24, color: "#fff", zIndex: 2 };
-  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{icon} {label}</span>;
+  const chip = (icon, label) => <span title={label} style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 200, minWidth: 0 }}><span style={{ flexShrink: 0, display: "flex" }}>{icon}</span><span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{label}</span></span>;
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
   return (
@@ -1703,12 +1703,15 @@ function ScVideoLive({ setResult, onBack, onNext }) {
           {vstate === "recording" && (
             <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55) 55%, rgba(0,0,0,.78))", padding: "50px 12px 11px", display: "flex", flexDirection: "column", gap: 9 }}>
               <div style={{ alignSelf: "center", maxWidth: "100%", background: "rgba(11,16,32,.5)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "6px 14px", textAlign: "center", lineHeight: 1.4 }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".1em", color: "rgba(220,230,245,.7)", marginRight: 8 }}>READ ALOUD</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(220,230,245,.72)", marginRight: 8 }}>Read aloud</span>
                 <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: "#fff", fontWeight: 700 }}>{SC_PHRASE}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
                   <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30
+                </span>
+                <span title="Microphone level" style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 22, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 10px", flexShrink: 0 }}>
+                  {[0, 1, 2, 3, 4].map((i) => { const h = Math.max(4, Math.min(18, 4 + level * 34 * (i === 2 ? 1 : i % 2 ? 0.7 : 0.45))); return <span key={i} style={{ width: 3, height: h, borderRadius: 2, background: "#7fd0a0", transition: "height .08s linear" }} />; })}
                 </span>
                 <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.25)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
                 <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
@@ -1734,7 +1737,7 @@ function ScVideoLive({ setResult, onBack, onNext }) {
       </div>}
 
       <ScFoot onBackClick={onBack} right={<React.Fragment>
-        {vstate === "reviewing" && <EdBtn onClick={reRecord}>Re-record</EdBtn>}
+        {vstate === "reviewing" && <EdBtn onClick={reRecord}><I.sync size={15} /> Retake</EdBtn>}
         {vstate === "reviewing" && <EdBtn primary onClick={confirm}>Confirm recording <I.arrow size={16} /></EdBtn>}
         {(vstate === "denied" || vstate === "unsupported") && <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>}
         {vstate === "pass" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
@@ -1762,21 +1765,20 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: 0 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
       </div>
       <div style={{ ...scCard, overflow: "hidden", marginTop: 22 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>
           <span>Check</span><span style={{ textAlign: "center" }}>Result</span><span style={{ textAlign: "right" }}>Details</span>
         </div>
         {CHECKS.map((c, i) => {
           const st = results[c.k] === "pass" ? "pass" : "fail"; const isOpen = !!open[c.k];
           return (
-            <div key={c.k} style={{ borderBottom: i < CHECKS.length - 1 ? "1px solid " + eLINE : "none" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
+            <div key={c.k} style={{ borderBottom: i < CHECKS.length - 1 ? "1px solid " + eLINE : "none", background: isOpen ? scTint(eMID, "3%") : "transparent", transition: "background .2s" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
                 <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
-                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 5 }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
+                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
               </div>
-              {isOpen && <div style={{ margin: "0 22px 16px", background: st === "pass" ? scTint(eSUCCESS, "7%") : scTint(eDANGER, "6%"), border: "1px solid " + (st === "pass" ? scTint(eSUCCESS, "22%") : scTint(eDANGER, "18%")), borderRadius: 12, padding: "14px 18px" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 6 }}>{c.label}</div>
-                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}><span style={{ color: st === "pass" ? eSUCCESS : eDANGER, flexShrink: 0, marginTop: 1, display: "flex" }}>{st === "pass" ? <I.check size={15} /> : <I.alertCircle size={15} />}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{st === "pass" ? c.passMsg : c.failMsg}</span></div>
+              {isOpen && <div style={{ margin: "0 22px", borderTop: "1px solid " + eLINE, padding: "14px 0 18px" }}>
+                <div style={{ display: "flex", gap: 9, alignItems: "flex-start" }}><span style={{ color: st === "pass" ? eSUCCESS : eDANGER, flexShrink: 0, marginTop: 1, display: "flex" }}>{st === "pass" ? <I.checkCircle size={16} /> : <I.alertCircle size={16} />}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{st === "pass" ? c.passMsg : c.failMsg}</span></div>
               </div>}
             </div>
           );
