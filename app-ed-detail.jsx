@@ -1245,7 +1245,7 @@ function ScPanel({ target, onBack, onLaunch, onStep }) {
     <div style={scWrap}>
       <div style={{ display: "grid", gridTemplateColumns: "312px minmax(0,1fr)", gap: 28, alignItems: "start" }}>
         {/* LEFT · step navigation */}
-        <div style={{ ...scCard, padding: "22px 20px", background: "linear-gradient(180deg, " + scTint(eBLUE, "7%") + ", " + scTint(eBLUE, "1%") + ")", position: "sticky", top: 16 }}>
+        <div style={{ padding: "2px 8px 0 0", position: "sticky", top: 16 }}>
           <div style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 22 }}>
             <span style={{ color: eBLUE, display: "flex", flexShrink: 0, marginTop: 1 }}><I.info size={17} /></span>
             <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.5 }}>Complete each step below to finish your system check.</span>
