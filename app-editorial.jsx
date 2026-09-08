@@ -1064,7 +1064,7 @@ function DashEditorial({ initialRoute } = {}) {
   const [dashSample, setDashSample] = React.useState(() => { try { return localStorage.getItem("ed-dash-sample") || "5"; } catch (e) { return "5"; } });
   const [dashMenu, setDashMenu] = React.useState(false);
   const setSample = (v) => { setDashSample(v); try { localStorage.setItem("ed-dash-sample", v); } catch (e) {} };
-  const [scVariant, setScVariant] = React.useState("1"); // default to System Check 1 on load; switcher can still flip to 2/3
+  const [scVariant, setScVariant] = React.useState(() => { try { return localStorage.getItem("ed-sc-variant") || "1"; } catch (e) { return "1"; } });
   const [scMenu, setScMenu] = React.useState(false);
   const setScV = (v) => { setScVariant(v); try { localStorage.setItem("ed-sc-variant", v); } catch (e) {} };
   const [mobileNav, setMobileNav] = React.useState(false);
