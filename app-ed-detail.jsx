@@ -1364,7 +1364,7 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
         </div>
       )}
       <ScFoot onBackClick={onBack} right={<React.Fragment>
-        {!pending && <EdBtn onClick={() => setRuns((r) => r + 1)}>Re-run Check</EdBtn>}
+        {!pending && <EdBtn onClick={() => setRuns((r) => r + 1)}><I.sync size={15} /> Re-run Check</EdBtn>}
         <EdBtn primary disabled={pending} onClick={onNext}>Continue{cd != null && cd > 0 ? " (" + cd + ")" : ""} <I.arrow size={16} /></EdBtn>
       </React.Fragment>} />
     </div>
@@ -1476,7 +1476,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
         </div>
         <ScHowToFix items={["Check your browser's site permissions and allow camera & microphone access", "Refresh the browser to apply the changes, then re-run the check"]} />
         <ScFoot onBackClick={onBack} right={<React.Fragment>
-          <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("permission"); }}>Re-run Check</EdBtn>
+          <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("permission"); }}><I.sync size={15} /> Re-run Check</EdBtn>
           <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>
         </React.Fragment>} />
       </div>
@@ -1563,7 +1563,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
       <ScFoot onBackClick={onBack} right={<React.Fragment>
         {vstate === "reviewing" && <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("preview"); }}>Re-record</EdBtn>}
         {vstate === "reviewing" && <EdBtn primary onClick={evaluate}>Confirm recording <I.arrow size={16} /></EdBtn>}
-        {vstate === "fail" && <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("preview"); }}>Re-run Check</EdBtn>}
+        {vstate === "fail" && <EdBtn onClick={() => { setAttempts((a) => a + 1); setVstate("preview"); }}><I.sync size={15} /> Re-run Check</EdBtn>}
         {vstate === "fail" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
         {vstate === "pass" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
       </React.Fragment>} />
@@ -1780,7 +1780,7 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
                 <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
-                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>{isOpen ? "Hide Details" : "View Details"}</button>
+                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 5 }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
               </div>
               {isOpen && <div style={{ margin: "0 22px 16px", background: st === "pass" ? scTint(eSUCCESS, "7%") : scTint(eDANGER, "6%"), border: "1px solid " + (st === "pass" ? scTint(eSUCCESS, "22%") : scTint(eDANGER, "18%")), borderRadius: 12, padding: "14px 18px" }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 6 }}>{c.label}</div>
@@ -1803,7 +1803,7 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
         </div>
       )}
       <ScFoot onBackClick={onBack} right={<React.Fragment>
-        <EdBtn onClick={onRerun}>Re-run Checks</EdBtn>
+        <EdBtn onClick={onRerun}><I.sync size={15} /> Re-run Checks</EdBtn>
         <EdBtn primary onClick={onLaunch}>Continue <I.arrow size={16} /></EdBtn>
       </React.Fragment>} />
     </div>
