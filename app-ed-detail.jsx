@@ -1700,29 +1700,22 @@ function ScVideoLive({ setResult, onBack, onNext }) {
 
           {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(11,16,32,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
 
-          {vstate === "recording" && <React.Fragment>
-            <div style={{ position: "absolute", left: 14, bottom: 96, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>
-                <span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block", boxShadow: "0 0 0 4px rgba(203,17,17,.25)" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}
-              </span>
-              <span title="Microphone level" style={{ display: "inline-flex", alignItems: "flex-end", gap: 3, height: 30, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 12px" }}>
-                {[0, 1, 2, 3, 4].map((i) => { const h = Math.max(4, Math.min(24, 4 + level * 30 * (i === 2 ? 1 : i % 2 ? 0.75 : 0.55))); return <span key={i} style={{ width: 3, height: h, borderRadius: 2, background: "#7fd0a0", transition: "height .08s linear" }} />; })}
-              </span>
-            </div>
-            <div style={{ position: "absolute", left: 16, right: 16, bottom: 74, zIndex: 3, display: "flex", justifyContent: "center" }}>
-              <div style={{ maxWidth: 620, background: "rgba(11,16,32,.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 14, padding: "12px 20px", textAlign: "center" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 6 }}>Read aloud</div>
-                <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 700 }}>{SC_PHRASE}</p>
+          {vstate === "recording" && (
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55) 55%, rgba(0,0,0,.78))", padding: "50px 12px 11px", display: "flex", flexDirection: "column", gap: 9 }}>
+              <div style={{ alignSelf: "center", maxWidth: "100%", background: "rgba(11,16,32,.5)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "6px 14px", textAlign: "center", lineHeight: 1.4 }}>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".1em", color: "rgba(220,230,245,.7)", marginRight: 8 }}>READ ALOUD</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: "#fff", fontWeight: 700 }}>{SC_PHRASE}</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
+                  <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC
+                </span>
+                <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.25)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(255,255,255,.85)", flexShrink: 0 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
+                <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
               </div>
             </div>
-            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55))", padding: "44px 16px 14px", display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.22)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
-              </div>
-              <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop recording</button>
-            </div>
-          </React.Fragment>}
+          )}
         </div>
       )}
 
