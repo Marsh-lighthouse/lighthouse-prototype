@@ -1062,6 +1062,109 @@ function ScWelcome2({ target, onStart }) {
   );
 }
 
+// ── SC2 auto-scan helpers ──
+const scWait = (ms) => new Promise((r) => setTimeout(r, ms));
+function scDetectBrowser() {
+  let name = "your browser", ver = "";
+  try {
+    const ua = navigator.userAgent;
+    if (/Edg\//.test(ua)) { name = "Edge"; ver = (ua.match(/Edg\/([\d.]+)/) || [])[1] || ""; }
+    else if (/OPR\//.test(ua)) { name = "Opera"; ver = (ua.match(/OPR\/([\d.]+)/) || [])[1] || ""; }
+    else if (/Firefox\//.test(ua)) { name = "Firefox"; ver = (ua.match(/Firefox\/([\d.]+)/) || [])[1] || ""; }
+    else if (/Chrome\//.test(ua)) { name = "Chrome"; ver = (ua.match(/Chrome\/([\d.]+)/) || [])[1] || ""; }
+    else if (/Safari\//.test(ua)) { name = "Safari"; ver = (ua.match(/Version\/([\d.]+)/) || [])[1] || ""; }
+  } catch (e) {}
+  return name + (ver ? " " + ver.split(".")[0] : "") + " · WebGL, MediaRecorder, storage OK";
+}
+
+// SC2 · single-page automatic scan — all checks run on one screen as live status rows
+function ScScan2({ target, onBack, onLaunch, onStep }) {
+  const rows = [
+    { k: "browser", icon: <I.monitor size={20} />, label: "Browser & Device", checking: "Verifying browser features…", done: () => scDetectBrowser() },
+    { k: "network", icon: <I.wifi size={20} />, label: "Internet Speed", checking: "Measuring connection speed…", done: () => "6.70 Mbps download · 10.04 Mbps upload" },
+    { k: "video", icon: <I.cam size={20} />, label: "Video & Audio", checking: "Detecting camera and microphone…", done: () => "FaceTime HD Camera · MacBook Pro Microphone" },
+  ];
+  const [st, setSt] = React.useState({ browser: "pending", network: "pending", video: "pending" });
+  const [detail, setDetail] = React.useState({ browser: "", network: "", video: "" });
+  const [nonce, setNonce] = React.useState(0);
+
+  React.useEffect(() => { if (onStep) onStep("scan"); }, []);
+  React.useEffect(() => {
+    let alive = true;
+    (async () => {
+      for (const r of rows) {
+        if (!alive) return;
+        setSt((s) => ({ ...s, [r.k]: "checking" }));
+        await scWait(1500 + Math.random() * 900);
+        if (!alive) return;
+        setDetail((d) => ({ ...d, [r.k]: r.done() }));
+        setSt((s) => ({ ...s, [r.k]: "pass" }));
+      }
+    })();
+    return () => { alive = false; };
+  }, [nonce]);
+
+  const states = Object.values(st);
+  const done = states.every((v) => v === "pass" || v === "fail");
+  const allPass = states.every((v) => v === "pass");
+  const anyFail = states.some((v) => v === "fail");
+  const completed = states.filter((v) => v === "pass" || v === "fail").length;
+  const rerun = () => { setSt({ browser: "pending", network: "pending", video: "pending" }); setDetail({ browser: "", network: "", video: "" }); setNonce((n) => n + 1); };
+
+  const tileColor = (s) => s === "pass" ? eSUCCESS : s === "fail" ? eDANGER : s === "checking" ? eBLUE : eMUT;
+  const pill = (s) => {
+    if (s === "pending") return <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT }}>Waiting</span>;
+    if (s === "checking") return <span style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eBLUE }}><span className="ed-spin" style={{ width: 13, height: 13, borderRadius: 7, border: "2px solid " + scTint(eBLUE, "35%"), borderTopColor: eBLUE, display: "block" }} /> Checking…</span>;
+    return <ScBadge state={s} />;
+  };
+  const bannerBg = done ? (allPass ? scTint(eSUCCESS, "7%") : scTint(eWARN, "8%")) : scTint(eBLUE, "5%");
+  const barColor = anyFail ? eWARN : eBLUE;
+
+  return (
+    <div style={scWrap}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: 0.3, textTransform: "uppercase", color: eBLUE, background: scTint(eBLUE, "12%"), padding: "4px 10px", borderRadius: 999 }}>Design 2</span>
+      </div>
+      <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 620 }}>Sit tight — we're automatically checking your device and connection{target && target.name ? " for " + target.name : ""}. This only takes a moment.</p>
+
+      <div style={{ ...scCard, overflow: "hidden" }}>
+        {/* overall status banner */}
+        <div style={{ padding: "22px 26px", display: "flex", alignItems: "center", gap: 16, background: bannerBg, transition: "background .3s" }}>
+          {!done && <span className="ed-spin" style={{ width: 30, height: 30, borderRadius: 16, border: "3px solid " + scTint(eBLUE, "28%"), borderTopColor: eBLUE, display: "block", flexShrink: 0 }} />}
+          {done && allPass && <span style={{ width: 34, height: 34, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.check size={19} /></span>}
+          {done && anyFail && <span style={{ color: eWARN, display: "flex", flexShrink: 0 }}><I.alertCircle size={32} /></span>}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID }}>{!done ? "Running system checks…" : allPass ? "You're all set" : "Some checks need attention"}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 2 }}>{!done ? completed + " of " + rows.length + " complete" : allPass ? "Your device and connection are ready." : "Review the items below, then re-run the checks."}</div>
+          </div>
+        </div>
+        {/* progress bar */}
+        <div style={{ height: 4, background: scTint(eMID, "8%") }}><div style={{ height: "100%", width: (completed / rows.length * 100) + "%", background: barColor, transition: "width .5s ease" }} /></div>
+        {/* live check rows */}
+        {rows.map((r, i) => {
+          const s = st[r.k];
+          return (
+            <div key={r.k} style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 26px", borderTop: "1px solid " + eLINE, opacity: s === "pending" ? 0.55 : 1, transition: "opacity .3s" }}>
+              <div style={{ width: 46, height: 46, borderRadius: "50%", background: scTint(tileColor(s), "10%"), border: "1px solid " + scTint(tileColor(s), "24%"), color: tileColor(s), display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "color .3s, background .3s, border-color .3s" }}>{r.icon}</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{r.label}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s === "checking" ? r.checking : s === "pending" ? "Waiting to start" : detail[r.k]}</div>
+              </div>
+              {pill(s)}
+            </div>
+          );
+        })}
+      </div>
+
+      <ScFoot onBackClick={onBack} right={done ? (allPass
+        ? <EdBtn primary onClick={onLaunch}>Continue <I.arrow size={16} /></EdBtn>
+        : <React.Fragment><EdBtn onClick={rerun}>Re-run Checks</EdBtn><EdBtn primary onClick={onLaunch}>Continue <I.arrow size={16} /></EdBtn></React.Fragment>)
+        : <EdBtn primary disabled>Checking…</EdBtn>} />
+    </div>
+  );
+}
+
 function ScBrowser({ result, setResult, onBack, onNext }) {
   const [rows, setRows] = React.useState([]);
   React.useEffect(() => {
@@ -1459,14 +1562,15 @@ function ScResult({ results, onRerun, onBack, onLaunch }) {
 
 function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) {
   const v2 = variant === "2";
-  const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
+  const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "scan", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
   const [results, setResults] = edUseState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
   const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
   // reflect the current step in the URL (video reports its own sub-step)
   React.useEffect(() => { if (onStep && phase !== "video") onStep(phase); }, [phase]);
 
-  if (phase === "welcome") return v2 ? <ScWelcome2 target={target} onStart={() => setPhase("browser")} /> : <ScWelcome target={target} onStart={() => setPhase("browser")} />;
+  if (phase === "welcome") return v2 ? <ScWelcome2 target={target} onStart={() => setPhase("scan")} /> : <ScWelcome target={target} onStart={() => setPhase("browser")} />;
+  if (phase === "scan") return <ScScan2 target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
   if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
   if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
   if (phase === "video") return <ScVideo setResult={(v) => setResult("video", v)} onStep={onStep} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
