@@ -28,25 +28,25 @@ function EdRing2({ pct, size = 18, stroke = 2.5, color = eBLUE, track = "rgba(0,
 function EdBack({ label, onClick }) {
   const top = /^Back to (programs|program|dashboard|tasks)$/.test(label || "");
   return (
-    <button onClick={onClick} className={"ed-back" + (top ? " ed-pageback" : "")} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", cursor: "pointer", color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "4px 0", marginBottom: 22 }}>
+    <button onClick={onClick} className={"ed-back" + (top ? " ed-pageback" : "")} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", cursor: "pointer", color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "4px 0", marginBottom: 22 }}>
       <I.arrowL size={17} /> {label}
     </button>);
 
 }
 
 function EdEyebrow({ children, color = eBLUE }) {
-  return <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color, marginBottom: 12 }}>{children}</div>;
+  return <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color, marginBottom: 12 }}>{children}</div>;
 }
 
 function EdSectionLabel({ children }) {
-  return <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eMUT, marginBottom: 4 }}>{children}</div>;
+  return <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: eMUT, marginBottom: 4 }}>{children}</div>;
 }
 
 function EdBtn({ children, primary, small, disabled, onClick, full, dark }) {
   const base = {
     display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
-    fontFamily: "var(--sans)", fontWeight: 600, cursor: disabled ? "not-allowed" : "pointer",
-    borderRadius: 10, padding: small ? "8px 14px" : "12px 18px", fontSize: small ? 14 : 14,
+    fontFamily: "var(--sans)", fontWeight: 700, cursor: disabled ? "not-allowed" : "pointer",
+    borderRadius: 10, padding: small ? "8px 14px" : "12px 18px", fontSize: small ? 15 : 15,
     width: full ? "100%" : "auto", opacity: disabled ? 0.5 : 1, transition: "filter .15s"
   };
   const style = dark ?
@@ -69,7 +69,7 @@ const edStatusMeta = {
 
 function EdBadge({ status }) {
   const m = edStatusMeta[status] || edStatusMeta.locked;
-  return <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: m.color, background: m.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{m.label}</span>;
+  return <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: m.color, background: m.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{m.label}</span>;
 }
 
 // ── universal exercise / center row ──
@@ -89,15 +89,15 @@ function EdRow({ item, accent, onClick }) {
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{item.name}</span>
-          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: ePURP, background: "rgba(143,32,222,.10)", padding: "2px 8px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
-          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Report ready</span>}
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{item.name}</span>
+          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: ePURP, background: "rgba(143,32,222,.10)", padding: "2px 8px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
+          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Report ready</span>}
         </div>
-        {item.desc && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, marginTop: 3, maxWidth: 460 }}>{item.desc}</div>}
+        {item.desc && <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, marginTop: 3, maxWidth: 460 }}>{item.desc}</div>}
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 7 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={14} /> {item.time}</span>
-          {item.extra && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{item.extra}</span>}
-          {st === "progress" && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: col }}>{item.pct}%</span>}
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={14} /> {item.time}</span>
+          {item.extra && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{item.extra}</span>}
+          {st === "progress" && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: col }}>{item.pct}%</span>}
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10, flexShrink: 0 }}>
@@ -152,8 +152,8 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
         {isError && <div style={{ position: "absolute", inset: 0, background: "rgba(197,53,50,.32)", mixBlendMode: "multiply" }} />}
         {/* badges */}
         <div style={{ position: "absolute", top: 12, left: 14, display: "flex", gap: 7, flexWrap: "wrap" }}>
-          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#fff", background: "var(--surface-deep)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
-          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6 }}>Report ready</span>}
+          {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#fff", background: "var(--surface-deep)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
+          {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6 }}>Report ready</span>}
         </div>
         <div style={{ position: "absolute", top: 12, right: 14 }}>
           {isComplete ? <span style={{ width: 26, height: 26, borderRadius: 13, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={15} /></span> :
@@ -165,12 +165,12 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
 
       {/* body */}
       <div style={{ padding: "14px 16px 15px", display: "flex", flexDirection: "column", flex: 1 }}>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: "0 0 10px", lineHeight: 1.25 }}>{item.name}</h3>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: "0 0 10px", lineHeight: 1.25 }}>{item.name}</h3>
 
         {/* progress */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT }}>Progress</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: isError ? eDANGER : isComplete ? eSUCCESS : st === "notstarted" || locked ? eMUT : col }}>{progLabel}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: isError ? eDANGER : isComplete ? eSUCCESS : st === "notstarted" || locked ? eMUT : col }}>{progLabel}</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", height: 4, overflow: "hidden", marginBottom: 12 }}>
           <div style={{ width: `${barPct}%`, height: "100%", background: isError ? eDANGER : isComplete ? eSUCCESS : "var(--pl-fill)", flexShrink: 0 }} />
@@ -180,15 +180,15 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
 
         {/* footer */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: "auto", paddingTop: 10 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {item.time}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {item.time}</span>
           {locked ?
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.lock size={13} /> Locked</span> :
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.lock size={13} /> Locked</span> :
           isError ?
-          <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "9px 17px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Retry <I.arrow size={14} /></button> :
+          <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "9px 17px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Retry <I.arrow size={14} /></button> :
           isComplete ?
-          <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "transparent", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: onClick ? "pointer" : "default" }}>Review</button> :
+          <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "transparent", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: onClick ? "pointer" : "default" }}>Review</button> :
 
-          <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "9px 17px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>{pct > 0 ? "Continue" : "Start"} <I.arrow size={14} /></button>
+          <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "9px 17px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{pct > 0 ? "Continue" : "Start"} <I.arrow size={14} /></button>
           }
         </div>
       </div>
@@ -207,7 +207,7 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <EdEyebrow color={eMUT}>{t("programInstructions")}</EdEyebrow>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.06, margin: "0 0 10px" }}>{prog.name}</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 32px", maxWidth: 600 }}>{t("watchTheShortIntroduction")}</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 32px", maxWidth: 600 }}>{t("watchTheShortIntroduction")}</p>
 
       {/* intro video */}
       <div onClick={onWatch} style={{ position: "relative", width: "100%", paddingBottom: "50%", borderRadius: 16, overflow: "hidden", background: "var(--surface-deep)", marginBottom: 28, cursor: "pointer" }}>
@@ -215,12 +215,12 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
           {watched ?
           <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(20,133,61,.92)", padding: "9px 18px", borderRadius: 22 }}>
-              <I.check size={17} /><span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 }}>{t("introductionWatched")}</span>
+              <I.check size={17} /><span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>{t("introductionWatched")}</span>
             </div> :
 
           <React.Fragment>
               <div style={{ width: 60, height: 60, borderRadius: 30, background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
-              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>{t("watchIntroductionVideo")} ({d.videoLen})</span>
+              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>{t("watchIntroductionVideo")} ({d.videoLen})</span>
             </React.Fragment>
           }
         </div>
@@ -232,8 +232,8 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
           {d.instructions.map((pt, i) =>
           <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-              <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 16 }}>{i + 1}</div>
-              <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: 0, flex: 1 }}>{window.tInstruction ? window.tInstruction(pt) : pt}</p>
+              <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
+              <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0, flex: 1 }}>{window.tInstruction ? window.tInstruction(pt) : pt}</p>
             </div>
           )}
         </div>
@@ -243,7 +243,7 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
       <React.Fragment>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
           <input type="checkbox" id="instructions-read" checked={instructionsRead} onChange={(e) => setInstructionsRead(e.target.checked)} style={{ width: 18, height: 18, cursor: "pointer" }} />
-          <label htmlFor="instructions-read" style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, cursor: "pointer", margin: 0 }}>{t("iHaveReadInstructions")}</label>
+          <label htmlFor="instructions-read" style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, cursor: "pointer", margin: 0 }}>{t("iHaveReadInstructions")}</label>
         </div>
         <EdBtn primary full disabled={!instructionsRead} onClick={onContinue}>
           {t("continue")} <I.arrow size={16} />
@@ -278,7 +278,7 @@ function CenterTimer({ end }) {
   const over = diff <= 0;
   const h = Math.floor(diff / 3600000), m = Math.floor(diff % 3600000 / 60000), s = Math.floor(diff % 60000 / 1000);
   const txt = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
-  return <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: over ? eDANGER : eBLUE, background: over ? "rgba(197,53,50,.08)" : "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid " + (over ? "rgba(197,53,50,.28)" : "color-mix(in srgb, var(--accent) 18%, transparent)"), padding: "4px 10px", borderRadius: 7, fontVariantNumeric: "tabular-nums" }}><I.clock size={14} /> {over ? "Time's up" : txt + " left"}</span>;
+  return <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: over ? eDANGER : eBLUE, background: over ? "rgba(197,53,50,.08)" : "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid " + (over ? "rgba(197,53,50,.28)" : "color-mix(in srgb, var(--accent) 18%, transparent)"), padding: "4px 10px", borderRadius: 7, fontVariantNumeric: "tabular-nums" }}><I.clock size={14} /> {over ? "Time's up" : txt + " left"}</span>;
 }
 
 function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSchedule, heroStyle = "light", tasksLayout = "standard" }) {
@@ -331,14 +331,14 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ position: "absolute", top: -50, right: -50, width: 200, height: 200, borderRadius: "50%", background: "rgba(206,236,255,.07)" }} />
       <div style={{ position: "relative" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
         </div>
         <h1 className="serif" style={{ fontSize: 40, color: "#fff", lineHeight: 1.06, margin: "0 0 12px", maxWidth: 560 }}>{prog.name}</h1>
         <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 26, flexWrap: "wrap" }}>
           {stats.map((m, i) =>
         <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-              <span className="serif" style={{ fontSize: 32, color: i === 1 ? eGOLD : i === 2 ? eSKY : "#fff" }}>{m.v}</span>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(255,255,255,.82)" }}>{m.l}</span>
+              <span className="serif" style={{ fontSize: 28, color: i === 1 ? eGOLD : i === 2 ? eSKY : "#fff" }}>{m.v}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "rgba(255,255,255,.82)" }}>{m.l}</span>
             </div>
         )}
           <div style={{ flex: 1, minWidth: 100 }} />
@@ -348,7 +348,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
               {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
               <div style={{ flex: 1, height: "100%", background: "rgba(255,255,255,.22)" }} />
             </div>
-            <span className="serif" style={{ fontSize: 18, color: eSKY }}>{prog.pct}%</span>
+            <span className="serif" style={{ fontSize: 21, color: eSKY }}>{prog.pct}%</span>
           </div>
         </div>
       </div>
@@ -358,14 +358,14 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
   const heroLight =
   <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 20, padding: "32px 34px", marginBottom: 40 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
       </div>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.06, margin: "0 0 12px", maxWidth: 560 }}>{prog.name}</h1>
       <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 24, flexWrap: "wrap" }}>
         {stats.map((m, i) =>
       <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-            <span className="serif" style={{ fontSize: 32, color: i === 1 ? eBLUE : eMID }}>{m.v}</span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{m.l}</span>
+            <span className="serif" style={{ fontSize: 28, color: i === 1 ? eBLUE : eMID }}>{m.v}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{m.l}</span>
           </div>
       )}
         <div style={{ flex: 1, minWidth: 100 }} />
@@ -375,7 +375,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
             <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
-          <span className="serif" style={{ fontSize: 18, color: eBLUE }}>{prog.pct}%</span>
+          <span className="serif" style={{ fontSize: 21, color: eBLUE }}>{prog.pct}%</span>
         </div>
       </div>
     </div>;
@@ -383,13 +383,13 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
 
   const heroMinimal =
   <div style={{ marginBottom: 40 }}>
-      <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6, marginBottom: 14 }}>In progress</span>
-      <h1 className="serif" style={{ fontSize: 48, color: eMID, lineHeight: 1.02, margin: "0 0 24px", maxWidth: 620 }}>{prog.name}</h1>
+      <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6, marginBottom: 14 }}>In progress</span>
+      <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.02, margin: "0 0 24px", maxWidth: 620 }}>{prog.name}</h1>
       <div className="ed-hstats" style={{ display: "flex", alignItems: "center", padding: "4px 0 0" }}>
         {stats.map((m, i) =>
       <div key={i} className="ed-hstat" style={{ paddingRight: 32, marginRight: 32, borderRight: "1px solid " + eLINE }}>
-            <span className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1 }}>{m.v}</span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginLeft: 8 }}>{m.l}</span>
+            <span className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1 }}>{m.v}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginLeft: 8 }}>{m.l}</span>
           </div>
       )}
         <div className="ed-hspacer" style={{ flex: 1 }} />
@@ -399,7 +399,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
             <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
-          <span className="serif" style={{ fontSize: 18, color: eMID }}>{prog.pct}%</span>
+          <span className="serif" style={{ fontSize: 21, color: eMID }}>{prog.pct}%</span>
         </div>
       </div>
     </div>;
@@ -413,7 +413,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* title + inline status chip (state belongs to the program) */}
       <div style={{ display: "flex", alignItems: "center", gap: 13, flexWrap: "wrap", rowGap: 8, marginBottom: 15 }}>
         <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.02, margin: 0, maxWidth: 560 }}>{prog.name}</h1>
-        <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
+        <span style={{ display: "inline-block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6 }}>In progress</span>
       </div>
       {/* data line: progress summary leads, then the task breakdown (wraps on mobile) */}
       <div className="ed-hstats" style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", rowGap: 10 }}>
@@ -423,7 +423,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             {prog.pct > 0 && prog.pct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
             <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
           </div>
-          <span className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
+          <span className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
         </div>
         <div style={{ width: 1, height: 22, background: eLINE, flexShrink: 0 }} />
         <div style={{ display: "flex", alignItems: "baseline" }}>
@@ -431,8 +431,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             const c = i === 0 ? eBLUE : i === 1 ? "var(--accent-2)" : eSUCCESS;
             return (
           <div key={i} className="ed-hstat" style={{ display: "flex", alignItems: "baseline", gap: 6, paddingLeft: i ? 16 : 0, marginLeft: i ? 16 : 0, borderLeft: i ? "1px solid " + eLINE : "none" }}>
-                <span className="serif" style={{ fontSize: 24, color: c, lineHeight: 1 }}>{m.v}</span>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{m.l}</span>
+                <span className="serif" style={{ fontSize: 21, color: c, lineHeight: 1 }}>{m.v}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{m.l}</span>
               </div>);
           })}
         </div>
@@ -446,12 +446,12 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.04, margin: 0 }}>{prog.name}</h1>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 6 }}>In progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 6 }}>In progress</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 13, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 8 }}>{all.length} Total</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "5px 12px", borderRadius: 8 }}>{done} Done</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: ePURP, background: "rgba(143,32,222,.08)", padding: "5px 12px", borderRadius: 8 }}>{prog.pct}% Progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "5px 12px", borderRadius: 8 }}>{all.length} Total</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "5px 12px", borderRadius: 8 }}>{done} Done</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: ePURP, background: "rgba(143,32,222,.08)", padding: "5px 12px", borderRadius: 8 }}>{prog.pct}% Progress</span>
         </div>
       </div>
     </div>;
@@ -465,22 +465,22 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ position: "relative", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <EdRing2 pct={prog.pct} size={76} stroke={7} color={eGOLD} track="rgba(0,15,71,.08)" />
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
+          <span className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1 }}>{prog.pct}%</span>
         </div>
       </div>
       {/* title + meta */}
       <div style={{ flex: 1, minWidth: 200 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6 }}>In progress</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6 }}>In progress</span>
         </div>
-        <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.05, margin: 0 }}>{prog.name}</h1>
+        <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.05, margin: 0 }}>{prog.name}</h1>
       </div>
       {/* inline stats */}
       <div style={{ display: "flex", flexShrink: 0 }}>
         {stats.map((m, i) =>
       <div key={i} style={{ textAlign: "center", padding: "0 18px", borderLeft: i ? "1px solid " + eLINE : "none" }}>
-            <div className="serif" style={{ fontSize: 24, color: i === 1 ? eWARN : eMID, lineHeight: 1 }}>{m.v}</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, letterSpacing: 0.2, color: eMUT, marginTop: 5 }}>{m.l}</div>
+            <div className="serif" style={{ fontSize: 21, color: i === 1 ? eWARN : eMID, lineHeight: 1 }}>{m.v}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: eMUT, marginTop: 5 }}>{m.l}</div>
           </div>
       )}
       </div>
@@ -515,11 +515,11 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ display: "flex", gap: 15, alignItems: "flex-start", background: bannerMeta.tint, border: "1px solid " + bannerMeta.line, borderRadius: 16, padding: "20px 24px", marginBottom: 32 }}>
         <div style={{ width: 46, height: 46, borderRadius: 23, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: bannerMeta.iconBg, color: bannerMeta.tone }}>{bannerMeta.icon}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h2 className={bannerMeta.big ? "serif" : undefined} style={{ fontFamily: bannerMeta.big ? undefined : "var(--sans)", fontSize: bannerMeta.big ? 26 : 17, fontWeight: 700, color: eMID, margin: bannerMeta.big ? "0 0 7px" : "0 0 4px", lineHeight: bannerMeta.big ? 1.12 : 1.3, letterSpacing: -0.1 }}>{bannerMeta.title}</h2>
-          <p style={{ fontFamily: "var(--sans)", fontSize: bannerMeta.big ? 16 : 14, fontWeight: bannerMeta.big ? 500 : 400, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 660 }}>{bannerMeta.body}</p>
+          <h2 className={bannerMeta.big ? "serif" : undefined} style={{ fontFamily: bannerMeta.big ? undefined : "var(--sans)", fontSize: bannerMeta.big ? 28 : 15, fontWeight: 700, color: eMID, margin: bannerMeta.big ? "0 0 7px" : "0 0 4px", lineHeight: bannerMeta.big ? 1.12 : 1.3, letterSpacing: -0.1 }}>{bannerMeta.title}</h2>
+          <p style={{ fontFamily: "var(--sans)", fontSize: bannerMeta.big ? 15 : 15, fontWeight: bannerMeta.big ? 700 : 400, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 660 }}>{bannerMeta.body}</p>
         </div>
         {bannerMeta.cta &&
-          <button onClick={() => setTab("reports")} style={{ display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0, alignSelf: "center", background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>{bannerMeta.cta} <I.arrow size={15} /></button>}
+          <button onClick={() => setTab("reports")} style={{ display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0, alignSelf: "center", background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{bannerMeta.cta} <I.arrow size={15} /></button>}
       </div>
     </div> : null;
 
@@ -528,14 +528,14 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
     <div style={{ margin: "0 0 " + (mb == null ? 24 : mb) + "px", background: done ? "rgba(20,133,61,.05)" : eCARD, border: "1px solid " + (done ? "rgba(20,133,61,.28)" : eLINE), borderRadius: 16, padding: "20px 24px", display: "flex", gap: 18, alignItems: "flex-start", opacity: locked ? 0.62 : 1 }}>
       <div style={{ width: 44, height: 44, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: done ? "rgba(20,133,61,.12)" : locked ? "rgba(123,121,116,.10)" : "rgba(143,32,222,.10)", color: done ? eSUCCESS : locked ? eMUT : ePURP }}>{done ? <I.checkCircle size={22} /> : locked ? <I.lock size={20} /> : <I.users size={22} />}</div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <h2 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "0 0 4px", letterSpacing: -0.1 }}>{title}</h2>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, margin: 0, maxWidth: 600 }}>{done ? "You've completed every activity in this assessment center. Your results are included in your reports." : "You will be added to the assessment center or receive an invite to book your slot. Once you're part of the center, you can complete the activities by clicking the View Detail button."}</p>
+        <h2 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: "0 0 4px", letterSpacing: -0.1 }}>{title}</h2>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, margin: 0, maxWidth: 600 }}>{done ? "You've completed every activity in this assessment center. Your results are included in your reports." : "You will be added to the assessment center or receive an invite to book your slot. Once you're part of the center, you can complete the activities by clicking the View Detail button."}</p>
       </div>
       {done ?
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, flexShrink: 0, alignSelf: "center", color: eSUCCESS, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}><I.check size={15} /> Completed</span> :
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, flexShrink: 0, alignSelf: "center", color: eSUCCESS, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><I.check size={15} /> Completed</span> :
       locked ?
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, flexShrink: 0, alignSelf: "center", color: eMUT, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}><I.lock size={15} /> Locked</span> :
-        <button onClick={() => onOpenCenter(c)} style={{ display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0, alignSelf: "center", background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>View Detail <I.arrow size={15} /></button>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, flexShrink: 0, alignSelf: "center", color: eMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><I.lock size={15} /> Locked</span> :
+        <button onClick={() => onOpenCenter(c)} style={{ display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0, alignSelf: "center", background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>View Detail <I.arrow size={15} /></button>
       }
     </div>;
 
@@ -545,8 +545,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
     const reserved = !!reservedAt;
     const needsReserve = c.needsReserve && !reserved;
     const durMs = edParseDuration(c.time);
-    const ghostBtn = { display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "9px 17px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" };
-    const solidBtn = { display: "inline-flex", alignItems: "center", gap: 7, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer" };
+    const ghostBtn = { display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "9px 17px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" };
+    const solidBtn = { display: "inline-flex", alignItems: "center", gap: 7, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" };
     if (done) {
       return (
         <div key={c.id} className="ed-center-card" style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "26px 28px", marginBottom: last ? 30 : 22, boxShadow: "0 1px 3px rgba(0,15,71,.04)" }}>
@@ -554,14 +554,14 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             <div style={{ width: 44, height: 44, borderRadius: 22, flexShrink: 0, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={22} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 4 }}>
-                <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: 0 }}>{c.name}</h2>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, letterSpacing: ".04em", textTransform: "uppercase", color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Completed</span>
+                <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: 0 }}>{c.name}</h2>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: ".04em", textTransform: "uppercase", color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Completed</span>
               </div>
-              <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 600 }}>You've completed every activity in this assessment center. Your results have been submitted and are being processed.</p>
+              <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 600 }}>You've completed every activity in this assessment center. Your results have been submitted and are being processed.</p>
             </div>
           </div>
           <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 16, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.check size={14} /> {(c.activities || []).length} of {(c.activities || []).length} activities complete</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.check size={14} /> {(c.activities || []).length} of {(c.activities || []).length} activities complete</span>
             <button onClick={() => onOpenCenter(c)} style={ghostBtn}>View summary <I.arrow size={14} /></button>
           </div>
         </div>);
@@ -570,19 +570,19 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       return (
         <React.Fragment key={c.id}>
           <div style={{ maxWidth: 660, margin: "0 0 14px" }}>
-            <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 6px" }}>Assessment Center</h2>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: 0 }}>This section unlocks once you begin the assessment.</p>
+            <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 6px" }}>Assessment Center</h2>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: 0 }}>This section unlocks once you begin the assessment.</p>
           </div>
           <div className="ed-center-card" style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "26px 28px", marginBottom: last ? 30 : 22, boxShadow: "0 1px 3px rgba(0,15,71,.04)", opacity: 0.62 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap", marginBottom: 9 }}>
-              <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
+              <h3 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {c.time}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {c.time}</span>
             </div>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: "0 0 14px", maxWidth: 640 }}>{c.desc}</p>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: "0 0 14px", maxWidth: 640 }}>{c.desc}</p>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 7, color: eMUT, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}><I.lock size={15} /> Locked</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 7, color: eMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><I.lock size={15} /> Locked</span>
             </div>
           </div>
         </React.Fragment>);
@@ -590,8 +590,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
     return (
       <React.Fragment key={c.id}>
         <div style={{ maxWidth: 660, margin: "0 0 14px" }}>
-          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 6px" }}>{c.needsReserve ? "Assessment Center" : c.name}</h2>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: 0 }}>
+          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 6px" }}>{c.needsReserve ? "Assessment Center" : c.name}</h2>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: 0 }}>
             {c.needsReserve
               ? (needsReserve ? "You have received an invite. Please reserve your slot." : "Your slot is booked — your time has started. Open View Detail to complete your tasks before the countdown ends.")
               : "You'll be added to the assessment center or invited to book a slot. Once you're part of the center, complete the activities by clicking View Detail."}
@@ -599,13 +599,13 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         </div>
         <div className="ed-center-card" style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "24px 26px", marginBottom: last ? 30 : 22, boxShadow: "0 1px 3px rgba(0,15,71,.04)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap", marginBottom: 9 }}>
-            <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
+            <h3 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{c.name}</h3>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {c.time}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.clock size={14} /> {c.time}</span>
             {reserved && durMs > 0 && <CenterTimer end={reservedAt + durMs} />}
           </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: "0 0 16px", maxWidth: 640 }}>{c.desc}</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: "0 0 16px", maxWidth: 640 }}>{c.desc}</p>
           <div className="ed-center-actions" style={{ display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap" }}>
             <button onClick={() => onOpenCenter(c)} style={ghostBtn}>View Detail <I.arrow size={14} /></button>
             {c.needsReserve && needsReserve && <button onClick={() => reserveCenter(c)} style={solidBtn}>Reserve your spot <I.arrow size={14} /></button>}
@@ -619,9 +619,9 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
     <div style={{ display: "flex", gap: 16, alignItems: "flex-start", background: "rgba(206,236,255,.45)", border: "1px solid color-mix(in srgb, var(--accent) 10%, var(--card))", borderRadius: 14, padding: "22px 24px", marginBottom: 24 }}>
       <div style={{ width: 44, height: 44, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", color: eBLUE }}><I.clock size={22} /></div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 4 }}>Your Assessment Center will start in</div>
-        <div className="serif" style={{ fontSize: 22, color: eBLUE, marginBottom: 14, letterSpacing: 0.3 }}>3h 2m 1s</div>
-        <button onClick={() => onOpenCenter(d.centers[0])} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eBLUE, border: "1.5px solid " + eBLUE, borderRadius: 9, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>View Details <I.arrow size={14} /></button>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>Your Assessment Center will start in</div>
+        <div className="serif" style={{ fontSize: 21, color: eBLUE, marginBottom: 14, letterSpacing: 0.3 }}>3h 2m 1s</div>
+        <button onClick={() => onOpenCenter(d.centers[0])} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", color: eBLUE, border: "1.5px solid " + eBLUE, borderRadius: 9, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>View Details <I.arrow size={14} /></button>
       </div>
     </div>;
 
@@ -631,10 +631,10 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={{ display: "flex", gap: 0, marginBottom: 34, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, overflow: "hidden" }}>
         <div style={{ width: 4, background: started ? eSUCCESS : eBLUE, alignSelf: "stretch", flexShrink: 0 }} />
         <div style={{ flex: 1, padding: "24px 26px" }}>
-          <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>{started ? "Assessment in progress" : "Begin when ready"}</h2>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 18px", maxWidth: 600 }}>{started ? "Your activities below are now unlocked. Complete them in your own time — your progress is saved automatically." : "This entire program is proctored. You'll need to complete the proctoring system check before you can begin the assessment."}</p>
+          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>{started ? "Assessment in progress" : "Begin when ready"}</h2>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 18px", maxWidth: 600 }}>{started ? "Your activities below are now unlocked. Complete them in your own time — your progress is saved automatically." : "This entire program is proctored. You'll need to complete the proctoring system check before you can begin the assessment."}</p>
           {!started &&
-            <button onClick={() => setStarted(true)} style={{ display: "inline-flex", alignItems: "center", gap: 9, background: eGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, cursor: "pointer" }}>Begin <I.arrow size={17} /></button>
+            <button onClick={() => setStarted(true)} style={{ display: "inline-flex", alignItems: "center", gap: 9, background: eGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Begin <I.arrow size={17} /></button>
           }
         </div>
       </div>
@@ -645,13 +645,13 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
     <div style={eCOL}>
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 20, padding: "60px 48px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div style={{ width: 76, height: 76, borderRadius: 38, display: "flex", alignItems: "center", justifyContent: "center", background: tint, color: tone, marginBottom: 24 }}>{icon}</div>
-        <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 12px", maxWidth: 520 }}>{title}</h1>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 480 }}>{body}</p>
+        <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 12px", maxWidth: 520 }}>{title}</h1>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 480 }}>{body}</p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
           {primaryLabel &&
-            <button onClick={onPrimary} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>{primaryLabel} <I.arrow size={16} /></button>}
+            <button onClick={onPrimary} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{primaryLabel} <I.arrow size={16} /></button>}
           {secondaryLabel &&
-            <button onClick={onSecondary} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>{secondaryLabel}</button>}
+            <button onClick={onSecondary} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: eMID, border: "1.5px solid " + eMID, borderRadius: 10, padding: "12px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{secondaryLabel}</button>}
         </div>
       </div>
     </div>;
@@ -668,7 +668,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         {[{ id: "intro", l: "Intro" }, { id: "tasks", l: "Tasks" }, { id: "reports", l: "Reports" }].map((t) => {
           const on = tab === t.id;
           return (
-            <button key={t.id} onClick={() => setTab(t.id)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{t.l}</button>);
+            <button key={t.id} onClick={() => setTab(t.id)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{t.l}</button>);
 
         })}
       </div>
@@ -681,7 +681,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             <div style={{ position: "absolute", inset: 0, background: `radial-gradient(120% 120% at 20% 0%, rgba(206,236,255,.22), transparent 55%), linear-gradient(135deg, var(--surface-deep), #001F8C)` }} />
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
               <div style={{ width: 60, height: 60, borderRadius: 30, background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
-              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Watch introduction video ({d.videoLen})</span>
+              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Watch introduction video ({d.videoLen})</span>
             </div>
           </div>
           <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 24 }}>
@@ -689,8 +689,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
               {d.instructions.map((pt, i) =>
             <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 16 }}>{i + 1}</div>
-                  <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: 0, flex: 1 }}>{pt}</p>
+                  <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
+                  <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0, flex: 1 }}>{pt}</p>
                 </div>
             )}
             </div>
@@ -724,8 +724,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       <div style={eCOL}>
       {seq.length > 0 &&
         <div style={{ marginBottom: 28 }}>
-          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Sequential exercises</h2>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 16px" }}>Complete in order — each unlocks the next.</p>
+          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Sequential exercises</h2>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 16px" }}>Complete in order — each unlocks the next.</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
             {seq.map((ex, i) => {
               const sSt = forceComplete ? "complete" : lockAll ? "locked" : errorMode ? (ex._status === "complete" ? "complete" : "error") : ex._status;
@@ -737,7 +737,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
                 <div key={ex.id} className="ed-seqcell" style={{ display: "flex", flexDirection: "column" }}>
                   {/* stepper header */}
                   <div className="ed-seqstep" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 14, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700,
+                    <span style={{ width: 28, height: 28, borderRadius: 14, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700,
                       background: sDone ? eSUCCESS : sLocked ? "var(--card)" : prog.accent,
                       color: sLocked ? eMUT : "var(--on-accent)", border: sLocked ? "1.5px solid " + eLINE : "none" }}>{sDone ? <I.check size={15} /> : i + 1}</span>
                     {i !== seq.length - 1 && <div className="ed-seqline" style={{ flex: 1, height: 2, borderRadius: 1, marginLeft: 4, background: sDone ? eSUCCESS : eLINE }} />}
@@ -749,7 +749,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
                   {sSt === "error" &&
                   <div style={{ display: "flex", gap: 7, alignItems: "flex-start", marginTop: 10 }}>
                     <span style={{ color: eDANGER, display: "flex", flexShrink: 0, marginTop: 1 }}><I.alertCircle size={14} /></span>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eDANGER, lineHeight: 1.45, fontWeight: 500 }}>{errMsg}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eDANGER, lineHeight: 1.45, fontWeight: 700 }}>{errMsg}</span>
                   </div>
                   }
                   </div>
@@ -763,8 +763,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* OPEN */}
       {d.open.length > 0 &&
         <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 24 }}>
-          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Open exercises</h2>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 16px" }}>Complete in any order, at your own pace.</p>
+          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Open exercises</h2>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 16px" }}>Complete in any order, at your own pace.</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
             {d.open.map((ex) =>
             <EdCard key={ex.id} accent={prog.accent} icon={ex.proctored ? "shield" : ex.hasReport ? "bars" : "fileText"}
@@ -783,7 +783,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       {/* REPORTS TAB — completed reports only, icon + list, no thumbnails */}
       {tab === "reports" &&
       <div style={eCOL}>
-          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Your reports</h2>
+          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 4px" }}>Your reports</h2>
           {progReports.length > 0 ?
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16 }}>
               {progReports.map((r) =>
@@ -795,8 +795,8 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
 
         <div style={{ marginTop: 16, background: eCARD, border: "1px dashed " + eLINE, borderRadius: 16, padding: "44px 24px", textAlign: "center" }}>
               <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(0,15,71,.04)", border: "1px solid rgba(0,15,71,.10)", color: eMUT, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.fileText size={22} /></div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 4 }}>No reports yet</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Reports unlock automatically as you complete the underlying tasks.</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>No reports yet</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Reports unlock automatically as you complete the underlying tasks.</div>
             </div>
         }
         </div>
@@ -852,7 +852,7 @@ function EdCenter({ center, onBack, onProctored, onOpenAssess, onReserve }) {
           {seqActs.map((a, i) => sequential ? (
             <div key={a.id} className="ed-seqcell" style={{ display: "flex", flexDirection: "column" }}>
               <div className="ed-seqstep" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                <span style={{ width: 28, height: 28, borderRadius: 14, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700,
+                <span style={{ width: 28, height: 28, borderRadius: 14, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700,
                   background: a._status === "complete" ? eSUCCESS : a._status === "locked" ? "var(--card)" : ePURP,
                   color: a._status === "locked" ? eMUT : a._status === "complete" ? "var(--on-accent)" : "#fff", border: a._status === "locked" ? "1.5px solid " + eLINE : "none" }}>{a._status === "complete" ? <I.check size={15} /> : i + 1}</span>
                 {i !== seqActs.length - 1 && <div className="ed-seqline" style={{ flex: 1, height: 2, borderRadius: 1, marginLeft: 4, background: a._status === "complete" ? eSUCCESS : eLINE }} />}
@@ -906,10 +906,10 @@ function ScStepper({ index }) {
         return (
           <React.Fragment key={i}>
             <div style={{ display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
-              <div style={{ width: 30, height: 30, borderRadius: 15, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, background: active ? eMID : done ? scTint(eMID, "8%") : scTint(eMID, "6%"), color: active ? "#fff" : done ? eMID : eMUT }}>
+              <div style={{ width: 30, height: 30, borderRadius: 15, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, background: active ? eMID : done ? scTint(eMID, "8%") : scTint(eMID, "6%"), color: active ? "#fff" : done ? eMID : eMUT }}>
                 {done ? <I.check size={15} /> : i + 1}
               </div>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 500, color: active || done ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 700, color: active || done ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
             </div>
             {i < SC_STEPS.length - 1 && <div style={{ flex: 1, height: 2, background: done ? eMID : eLINE, margin: "0 14px", minWidth: 18 }} />}
           </React.Fragment>
@@ -925,8 +925,8 @@ function ScHead({ icon, title, sub, badge }) {
       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, minWidth: 0 }}>
         <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>
         <div style={{ minWidth: 0 }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, lineHeight: 1.2, margin: 0 }}>{title}</h1>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "4px 0 0", lineHeight: 1.5 }}>{sub}</p>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.2, margin: 0 }}>{title}</h1>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.5 }}>{sub}</p>
         </div>
       </div>
       {badge && <ScBadge state={badge} />}
@@ -946,9 +946,9 @@ function ScFoot({ onBackClick, right }) {
 function ScHowToFix({ items }) {
   return (
     <div style={{ background: scTint(eDANGER, "5%"), border: "1px solid " + scTint(eDANGER, "18%"), borderRadius: 12, padding: "16px 18px", marginTop: 16 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eDANGER, marginBottom: 8 }}>How to fix:</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eDANGER, marginBottom: 8 }}>How to fix:</div>
       <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>
-        {items.map((t, i) => <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</li>)}
+        {items.map((t, i) => <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t}</li>)}
       </ul>
     </div>
   );
@@ -971,11 +971,11 @@ function useScCountdown(active, onDone) {
 function ScWelcome({ target, onStart }) {
   const [ack, setAck] = React.useState(false);
   const iconTile = (icon) => <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>;
-  const cardHead = (icon, title, subtitle) => <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "center", gap: 13, marginBottom: 16 }}>{iconTile(icon)}<div><h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.25 }}>{title}</h3>{subtitle && <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "3px 0 0", lineHeight: 1.45 }}>{subtitle}</p>}</div></div>;
-  const note = (t) => <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{t}</p>;
-  const kv = (k, v) => <div style={{ display: "flex", gap: 12, padding: "6px 0", alignItems: "baseline" }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, width: 100, flexShrink: 0 }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{v}</span></div>;
-  const chk = (icon, label) => <div style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{label}</span></div>;
-  const li = (t, i) => <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
+  const cardHead = (icon, title, subtitle) => <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "center", gap: 13, marginBottom: 16 }}>{iconTile(icon)}<div><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.25 }}>{title}</h3>{subtitle && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "3px 0 0", lineHeight: 1.45 }}>{subtitle}</p>}</div></div>;
+  const note = (t) => <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{t}</p>;
+  const kv = (k, v) => <div style={{ display: "flex", gap: 12, padding: "6px 0", alignItems: "baseline" }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, width: 100, flexShrink: 0 }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{v}</span></div>;
+  const chk = (icon, label) => <div style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>{label}</span></div>;
+  const li = (t, i) => <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
   const colTitle = (icon, title) => <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14 }}><span style={{ color: eMID, display: "flex" }}>{icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h4></div>;
   const env = ["A quiet, well-lit room with no other people present", "Clean desk with no unauthorized materials", "Stable internet connection (minimum 1 Mbps)", "Working camera and microphone", "Ready to share your screen throughout the session"];
   const pers = ["Close all unnecessary applications and browser tabs", "Ensure your device is fully charged or plugged into socket", "Set aside uninterrupted time for the full assessment"];
@@ -983,8 +983,8 @@ function ScWelcome({ target, onStart }) {
   return (
     <div style={scWrap}>
       <div style={{ marginBottom: 22 }}>
-        <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: 0 }}>Confirm your device and connection are ready before you begin{target && target.name ? " " + target.name : ""}.</p>
+        <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0 }}>Confirm your device and connection are ready before you begin{target && target.name ? " " + target.name : ""}.</p>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 20 }}>
@@ -1017,7 +1017,7 @@ function ScWelcome({ target, onStart }) {
 
       <label style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 20, cursor: "pointer" }}>
         <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} style={{ width: 18, height: 18, accentColor: eMID, marginTop: 1, flexShrink: 0 }} />
-        <span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, display: "block", marginBottom: 2 }}>I acknowledge and understand</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>I have read and understood the instructions above and am ready to proceed with the system check.</span></span>
+        <span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, display: "block", marginBottom: 2 }}>I acknowledge and understand</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>I have read and understood the instructions above and am ready to proceed with the system check.</span></span>
       </label>
 
       <EdBtn primary full disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
@@ -1036,18 +1036,18 @@ function ScWelcome2({ target, onStart }) {
   return (
     <div style={scWrap}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: 0.3, textTransform: "uppercase", color: eBLUE, background: scTint(eBLUE, "12%"), padding: "4px 10px", borderRadius: 999 }}>Design 2</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: 0.3, textTransform: "uppercase", color: eBLUE, background: scTint(eBLUE, "12%"), padding: "4px 10px", borderRadius: 999 }}>Design 2</span>
       </div>
-      <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 620 }}>A quick check of your device and connection — under 5 minutes — before you begin{target && target.name ? " " + target.name : ""}. All checks must pass to continue.</p>
+      <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 620 }}>A quick check of your device and connection — under 5 minutes — before you begin{target && target.name ? " " + target.name : ""}. All checks must pass to continue.</p>
 
       <div style={{ ...scCard, padding: "6px 26px", marginBottom: 24 }}>
         {checks.map((c, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 0", borderBottom: i < checks.length - 1 ? "1px solid " + eLINE : "none" }}>
             <div style={{ width: 46, height: 46, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{c.icon}</div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{c.t}</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5 }}>{c.d}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{c.t}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.5 }}>{c.d}</div>
             </div>
           </div>
         ))}
@@ -1055,7 +1055,7 @@ function ScWelcome2({ target, onStart }) {
 
       <label style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 20, cursor: "pointer" }}>
         <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} style={{ width: 18, height: 18, accentColor: eMID, marginTop: 1, flexShrink: 0 }} />
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>I have a quiet, well-lit space, a stable connection, and a working camera and microphone, and I'm ready to begin.</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>I have a quiet, well-lit space, a stable connection, and a working camera and microphone, and I'm ready to begin.</span>
       </label>
 
       <EdBtn primary full disabled={!ack} onClick={() => ack && onStart()}>Start System Check <I.arrow size={16} /></EdBtn>
@@ -1114,7 +1114,7 @@ function ScScan2({ target, onBack, onLaunch, onStep }) {
 
   const tileColor = (s) => s === "pass" ? eSUCCESS : s === "fail" ? eDANGER : s === "checking" ? eBLUE : eMUT;
   const pill = (s) => {
-    if (s === "pending") return <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT }}>Waiting</span>;
+    if (s === "pending") return <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Waiting</span>;
     if (s === "checking") return <span style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eBLUE }}><span className="ed-spin" style={{ width: 13, height: 13, borderRadius: 7, border: "2px solid " + scTint(eBLUE, "35%"), borderTopColor: eBLUE, display: "block" }} /> Checking…</span>;
     return <ScBadge state={s} />;
   };
@@ -1124,10 +1124,10 @@ function ScScan2({ target, onBack, onLaunch, onStep }) {
   return (
     <div style={scWrap}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: 0.3, textTransform: "uppercase", color: eBLUE, background: scTint(eBLUE, "12%"), padding: "4px 10px", borderRadius: 999 }}>Design 2</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: 0.3, textTransform: "uppercase", color: eBLUE, background: scTint(eBLUE, "12%"), padding: "4px 10px", borderRadius: 999 }}>Design 2</span>
       </div>
-      <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 620 }}>Sit tight — we're automatically checking your device and connection{target && target.name ? " for " + target.name : ""}. This only takes a moment.</p>
+      <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 620 }}>Sit tight — we're automatically checking your device and connection{target && target.name ? " for " + target.name : ""}. This only takes a moment.</p>
 
       <div style={{ ...scCard, overflow: "hidden" }}>
         {/* overall status banner */}
@@ -1136,8 +1136,8 @@ function ScScan2({ target, onBack, onLaunch, onStep }) {
           {done && allPass && <span style={{ width: 34, height: 34, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.check size={19} /></span>}
           {done && anyFail && <span style={{ color: eWARN, display: "flex", flexShrink: 0 }}><I.alertCircle size={32} /></span>}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID }}>{!done ? "Running system checks…" : allPass ? "You're all set" : "Some checks need attention"}</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 2 }}>{!done ? completed + " of " + rows.length + " complete" : allPass ? "Your device and connection are ready." : "Review the items below, then re-run the checks."}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{!done ? "Running system checks…" : allPass ? "You're all set" : "Some checks need attention"}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 2 }}>{!done ? completed + " of " + rows.length + " complete" : allPass ? "Your device and connection are ready." : "Review the items below, then re-run the checks."}</div>
           </div>
         </div>
         {/* progress bar */}
@@ -1149,8 +1149,8 @@ function ScScan2({ target, onBack, onLaunch, onStep }) {
             <div key={r.k} style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 26px", borderTop: "1px solid " + eLINE, opacity: s === "pending" ? 0.55 : 1, transition: "opacity .3s" }}>
               <div style={{ width: 46, height: 46, borderRadius: "50%", background: scTint(tileColor(s), "10%"), border: "1px solid " + scTint(tileColor(s), "24%"), color: tileColor(s), display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "color .3s, background .3s, border-color .3s" }}>{r.icon}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{r.label}</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s === "checking" ? r.checking : s === "pending" ? "Waiting to start" : detail[r.k]}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{r.label}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.5, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s === "checking" ? r.checking : s === "pending" ? "Waiting to start" : detail[r.k]}</div>
               </div>
               {pill(s)}
             </div>
@@ -1191,7 +1191,7 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
 
   return (
     <div style={scWrap}>
-      <h1 className="serif" style={{ fontSize: 30, color: eMID, lineHeight: 1.15, margin: "0 0 6px" }}>System check</h1>
+      <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.15, margin: "0 0 6px" }}>System check</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 26px", maxWidth: 620 }}>We'll take you through each check below, one at a time{target && target.name ? ", before you begin " + target.name : ""}. Your progress is shown on the left.</p>
       {SC_VSTEPS.map((s, i) => {
         const done = i < activeIndex;
@@ -1203,7 +1203,7 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
         return (
           <div key={s.k} style={{ display: "flex", gap: 18, alignItems: "stretch" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 34, flexShrink: 0 }}>
-              <div style={{ width: 34, height: 34, borderRadius: 17, background: nodeBg, color: nodeColor, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, flexShrink: 0, transition: "background .3s" }}>{done ? <I.check size={16} /> : i + 1}</div>
+              <div style={{ width: 34, height: 34, borderRadius: 17, background: nodeBg, color: nodeColor, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, flexShrink: 0, transition: "background .3s" }}>{done ? <I.check size={16} /> : i + 1}</div>
               {!last && <div style={{ flex: 1, width: 2, minHeight: 22, background: done ? eSUCCESS : eLINE, margin: "6px 0" }} />}
             </div>
             <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 26 }}>
@@ -1212,7 +1212,7 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
               ) : (
                 <div style={{ display: "flex", alignItems: "center", gap: 12, minHeight: 34, opacity: done ? 1 : 0.5 }}>
                   <span style={{ color: done ? eBLUE : eMUT, display: "flex" }}>{s.icon}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: done ? eMID : eMUT }}>{s.label}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: done ? eMID : eMUT }}>{s.label}</span>
                   {done && <ScBadge state={badgeState} />}
                 </div>
               )}
@@ -1259,11 +1259,11 @@ function ScBrowser({ result, setResult, onBack, onNext, vertical }) {
         {rows.map((r, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 13, padding: "13px 0", borderBottom: i < 3 ? "1px solid " + eLINE : "none" }}>
             <span style={{ color: r.ok ? eSUCCESS : eDANGER, display: "flex" }}>{r.ok ? <I.checkCircle size={20} /> : <I.alertCircle size={20} />}</span>
-            <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eMID }}>{r.l}</span>
+            <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{r.l}</span>
             <ScBadge state={r.ok ? "pass" : "fail"} />
           </div>
         ))}
-        {rows.length < 4 && <div style={{ padding: "13px 0", fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Checking…</div>}
+        {rows.length < 4 && <div style={{ padding: "13px 0", fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Checking…</div>}
       </div>
       <ScFoot onBackClick={onBack} right={<EdBtn primary disabled={!finished} onClick={onNext}>Continue{cd != null && cd > 0 ? " (" + cd + ")" : ""} <I.arrow size={16} /></EdBtn>} />
     </div>
@@ -1316,12 +1316,12 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
             <span className="ed-ping" style={{ position: "absolute", inset: 18, borderRadius: "50%", border: "1px solid " + scTint(eMID, "35%"), animationDelay: ".4s" }} />
             <span style={{ width: 64, height: 64, borderRadius: "50%", background: eMID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.wifi size={30} /></span>
           </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eMID, fontWeight: 600, margin: "26px 0 0" }}>{stage === "latency" ? "Checking latency…" : stage === "download" ? "Testing download speed…" : "Testing upload speed…"}</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 700, margin: "26px 0 0" }}>{stage === "latency" ? "Checking latency…" : stage === "download" ? "Testing download speed…" : "Testing upload speed…"}</p>
           {stage !== "latency" && (
             <div style={{ maxWidth: 340, margin: "16px auto 0" }}>
               <div style={{ height: 6, borderRadius: 3, background: eLINE, overflow: "hidden" }}><div style={{ height: "100%", width: (stage === "download" ? (dl / 8) : 1) * 100 + "%", background: eMID, borderRadius: 3, transition: "width .2s" }} /></div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 30, fontWeight: 700, color: eMID, marginTop: 16 }}>{(stage === "download" ? dl : ul).toFixed(2)}</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{stage === "download" ? "Download" : "Upload"}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID, marginTop: 16 }}>{(stage === "download" ? dl : ul).toFixed(2)}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{stage === "download" ? "Download" : "Upload"}</div>
             </div>
           )}
         </div>
@@ -1329,23 +1329,23 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
       {!pending && outcome === "pass" && (
         <div style={{ ...scCard, padding: vertical ? "20px" : "34px 22px", textAlign: "center" }}>
           <div style={{ width: vertical ? 50 : 68, height: vertical ? 50 : 68, borderRadius: "50%", border: "3px solid " + eSUCCESS, color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: vertical ? "0 auto 8px" : "0 auto 14px" }}><I.check size={vertical ? 26 : 34} /></div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: vertical ? "0 0 16px" : "0 0 22px" }}>Your connection speed is optimal</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: vertical ? "0 0 16px" : "0 0 22px" }}>Your connection speed is optimal</p>
           {vertical ? (
             <div style={{ display: "flex", maxWidth: 520, margin: "0 auto" }}>
               {[[dl.toFixed(2), "Download", "Mbps", eMID], [ul.toFixed(2), "Upload", "Mbps", eMID], [SC_REQ_DL, "Required", "download", eINK], [SC_REQ_UL, "Required", "upload", eINK]].map((s, i) => (
                 <div key={i} style={{ flex: 1, padding: "0 6px", borderLeft: i > 0 ? "1px solid " + eLINE : "none" }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 24, fontWeight: 700, color: s[3] }}>{s[0]}</div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT, marginTop: 3, lineHeight: 1.35 }}>{s[1]}<br />{s[2]}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: s[3] }}>{s[0]}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT, marginTop: 3, lineHeight: 1.35 }}>{s[1]}<br />{s[2]}</div>
                 </div>
               ))}
             </div>
           ) : (
             <div style={{ border: "1px solid " + eLINE, borderRadius: 12, maxWidth: 460, margin: "0 auto", overflow: "hidden", background: scTint(eSUCCESS, "5%") }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-                <div style={{ padding: statPad, borderRight: "1px solid " + eLINE, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Download Mbps</div></div>
-                <div style={{ padding: statPad, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Upload Mbps</div></div>
-                <div style={{ padding: statPad, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Download (Mbps)</div></div>
-                <div style={{ padding: statPad }}><div style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Upload (Mbps)</div></div>
+                <div style={{ padding: statPad, borderRight: "1px solid " + eLINE, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID }}>{dl.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Download Mbps</div></div>
+                <div style={{ padding: statPad, borderBottom: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID }}>{ul.toFixed(2)}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Upload Mbps</div></div>
+                <div style={{ padding: statPad, borderRight: "1px solid " + eLINE }}><div style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eINK }}>{SC_REQ_DL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Download (Mbps)</div></div>
+                <div style={{ padding: statPad }}><div style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eINK }}>{SC_REQ_UL}</div><div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>Required Upload (Mbps)</div></div>
               </div>
             </div>
           )}
@@ -1356,7 +1356,7 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16 }}>
             <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
               <span style={{ color: eDANGER, display: "flex", flexShrink: 0, marginTop: 2 }}><I.alertCircle size={22} /></span>
-              <div><h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: "0 0 4px" }}>Internet speed is slower than required for the campaign</h3><p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, margin: 0, lineHeight: 1.5 }}>Minimum Download Speed of {SC_REQ_DL} Mbps and Minimum Upload Speed of {SC_REQ_UL} Mbps required for this campaign.</p></div>
+              <div><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: "0 0 4px" }}>Internet speed is slower than required for the campaign</h3><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: 0, lineHeight: 1.5 }}>Minimum Download Speed of {SC_REQ_DL} Mbps and Minimum Upload Speed of {SC_REQ_UL} Mbps required for this campaign.</p></div>
             </div>
             <ScBadge state="fail" />
           </div>
@@ -1375,16 +1375,16 @@ function ScNetwork({ setResult, onBack, onNext, vertical }) {
 // flow so people see how granting access will look. It is the app's own UI (not a
 // real system dialog); "Allow" proceeds to the real camera step.
 function ScPermissionPrompt({ host, onAllow, onDeny }) {
-  const pill = { display: "block", width: "100%", textAlign: "center", background: scTint(eBLUE, "14%"), color: eMID, border: "none", borderRadius: 999, padding: "12px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, cursor: "pointer" };
-  const dd = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, background: "#fff", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 14, color: eINK };
-  const row = { display: "flex", alignItems: "center", gap: 12, color: "#3c4043", fontFamily: "var(--sans)", fontSize: 14 };
+  const pill = { display: "block", width: "100%", textAlign: "center", background: scTint(eBLUE, "14%"), color: eMID, border: "none", borderRadius: 999, padding: "12px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" };
+  const dd = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, background: "#fff", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 15, color: eINK };
+  const row = { display: "flex", alignItems: "center", gap: 12, color: "#3c4043", fontFamily: "var(--sans)", fontSize: 15 };
   const panel = { background: scTint(eBLUE, "9%"), borderRadius: 12, padding: 12, marginBottom: 12 };
   return (
     <div onClick={onDeny} style={{ position: "fixed", inset: 0, background: "rgba(0,15,71,.32)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "flex-start", padding: "14px 16px 16px 14px", overflow: "auto" }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: 380, maxWidth: "100%", background: "#fff", borderRadius: 16, boxShadow: "0 24px 64px rgba(0,0,0,.34)", padding: "18px 18px 20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: "#202124", lineHeight: 1.35 }}><span style={{ fontWeight: 700 }}>{host}</span><br />wants to</div>
-          <button onClick={onDeny} aria-label="Close" style={{ background: "none", border: "none", cursor: "pointer", color: "#5f6368", fontSize: 22, lineHeight: 1, padding: 0 }}>&times;</button>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: "#202124", lineHeight: 1.35 }}><span style={{ fontWeight: 700 }}>{host}</span><br />wants to</div>
+          <button onClick={onDeny} aria-label="Close" style={{ background: "none", border: "none", cursor: "pointer", color: "#5f6368", fontSize: 21, lineHeight: 1, padding: 0 }}>&times;</button>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 13, marginBottom: 16 }}>
           <div style={row}><I.cam size={18} /> Use available cameras (1)</div>
@@ -1393,7 +1393,7 @@ function ScPermissionPrompt({ host, onAllow, onDeny }) {
         <div style={panel}>
           <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", background: "#0b1020", aspectRatio: "16 / 10", marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <span style={{ color: "rgba(255,255,255,.55)", display: "flex" }}><I.cam size={30} /></span>
-            <span style={{ position: "absolute", top: 8, right: 8, background: "#c8f0d0", color: "#137333", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, borderRadius: 999, padding: "3px 9px", display: "inline-flex", alignItems: "center", gap: 5 }}><I.cam size={12} /> Preview</span>
+            <span style={{ position: "absolute", top: 8, right: 8, background: "#c8f0d0", color: "#137333", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, borderRadius: 999, padding: "3px 9px", display: "inline-flex", alignItems: "center", gap: 5 }}><I.cam size={12} /> Preview</span>
           </div>
           <div style={dd}><span>FaceTime HD Camera</span><I.chevD size={16} /></div>
         </div>
@@ -1451,14 +1451,14 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
       </svg>
     </div>
   );
-  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>{icon} {label}</span>;
+  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6 }}>{icon} {label}</span>;
 
   if (vstate === "permission") {
     return (
       <div style={vertical ? scWrapV : scWrap}>
         {!vertical && <ScStepper index={2} />}
         <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge="pending" />
-        <div style={media}>{silhouette}<div style={overlayText}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(255,255,255,.75)" }}>Allow camera &amp; microphone access to continue.</span></div></div>
+        <div style={media}>{silhouette}<div style={overlayText}><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "rgba(255,255,255,.75)" }}>Allow camera &amp; microphone access to continue.</span></div></div>
         <ScFoot onBackClick={onBack} right={<EdBtn onClick={() => setVstate("permission")}>Show permission prompt</EdBtn>} />
         <ScPermissionPrompt host={host} onAllow={() => setVstate("preview")} onDeny={() => { setResult("fail"); setVstate("denied"); }} />
       </div>
@@ -1472,7 +1472,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
         <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge="fail" />
         <div style={{ background: scTint(eMID, "4%"), border: "1px solid " + eLINE, borderRadius: 14, padding: "60px 24px", textAlign: "center" }}>
           <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={44} /></span>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eMID, fontWeight: 600, maxWidth: 460, margin: "16px auto 0", lineHeight: 1.5 }}>Camera/Microphone access was denied or blocked by your browser. Please check your browser permissions.</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 700, maxWidth: 460, margin: "16px auto 0", lineHeight: 1.5 }}>Camera/Microphone access was denied or blocked by your browser. Please check your browser permissions.</p>
         </div>
         <ScHowToFix items={["Check your browser's site permissions and allow camera & microphone access", "Refresh the browser to apply the changes, then re-run the check"]} />
         <ScFoot onBackClick={onBack} right={<React.Fragment>
@@ -1492,10 +1492,10 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
         <div style={media}>
           {silhouette}
           {vstate === "preview" && <div style={{ ...overlayText, background: "rgba(11,16,32,.5)" }}>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.5, maxWidth: 460, margin: 0 }}>Select your microphone and camera, click <strong>Let's start</strong>, then read aloud and repeat the sentence appearing at the bottom 3 times.</p>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, maxWidth: 460, margin: 0 }}>Select your microphone and camera, click <strong>Let's start</strong>, then read aloud and repeat the sentence appearing at the bottom 3 times.</p>
             <EdBtn primary dark onClick={() => setVstate("countdown")}>Let's start! <I.arrow size={16} /></EdBtn>
           </div>}
-          {vstate === "countdown" && <div style={overlayText}><div style={{ fontFamily: "var(--sans)", fontSize: 96, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
+          {vstate === "countdown" && <div style={overlayText}><div style={{ fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
           {vstate === "recording" && <React.Fragment>
             {/* top-left: REC pill + live audio meter */}
             <div style={{ position: "absolute", left: 14, top: 14, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
@@ -1511,8 +1511,8 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
             {/* teleprompter caption */}
             <div style={{ position: "absolute", left: 16, right: 16, bottom: 82, zIndex: 3, display: "flex", justifyContent: "center" }}>
               <div style={{ maxWidth: 620, background: "rgba(11,16,32,.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 14, padding: "14px 22px", textAlign: "center" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 8 }}>Read aloud</div>
-                <p style={{ fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 500 }}>{SC_PHRASE}</p>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 8 }}>Read aloud</div>
+                <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 700 }}>{SC_PHRASE}</p>
               </div>
             </div>
 
@@ -1522,9 +1522,9 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
                 <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.22)", overflow: "hidden" }}>
                   <div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} />
                 </div>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
               </div>
-              <button onClick={() => setVstate("reviewing")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}>
+              <button onClick={() => setVstate("reviewing")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}>
                 <span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop recording
               </button>
             </div>
@@ -1539,10 +1539,10 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
             {silhouette}
             <div style={overlayText}>
               <span style={{ width: 60, height: 60, borderRadius: "50%", background: "rgba(255,255,255,.9)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.play size={26} /></span>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(255,255,255,.85)" }}>Your recording &middot; 0:30</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "rgba(255,255,255,.85)" }}>Your recording &middot; 0:30</span>
             </div>
           </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
         </div>
       )}
 
@@ -1550,14 +1550,14 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
 
       {vstate === "fail" && <div style={{ background: scTint(eMID, "4%"), border: "1px solid " + eLINE, borderRadius: 14, padding: "56px 24px", textAlign: "center" }}>
         <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={44} /></span>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "14px 0 6px" }}>Video check failed</h3>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, maxWidth: 480, margin: "0 auto", lineHeight: 1.5 }}>Your speech did not match the test phrase. Please try again and speak the phrase clearly.</p>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: "14px 0 6px" }}>Video check failed</h3>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, maxWidth: 480, margin: "0 auto", lineHeight: 1.5 }}>Your speech did not match the test phrase. Please try again and speak the phrase clearly.</p>
       </div>}
 
       {vstate === "pass" && <div style={{ ...scCard, padding: "40px 22px", textAlign: "center", background: scTint(eSUCCESS, "6%"), borderColor: scTint(eSUCCESS, "22%") }}>
         <div style={{ width: 62, height: 62, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}><I.check size={30} /></div>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Camera and microphone verified</h3>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, margin: 0 }}>Your video and audio are working correctly.</p>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Camera and microphone verified</h3>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: 0 }}>Your video and audio are working correctly.</p>
       </div>}
 
       <ScFoot onBackClick={onBack} right={<React.Fragment>
@@ -1667,7 +1667,7 @@ function ScVideoLive({ setResult, onBack, onNext }) {
 
   const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#16264a,#0b1020)", borderRadius: 14, overflow: "hidden", aspectRatio: "16 / 9" };
   const overlay = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, textAlign: "center", padding: 24, color: "#fff", zIndex: 2 };
-  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{icon} {label}</span>;
+  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{icon} {label}</span>;
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
   return (
@@ -1694,11 +1694,11 @@ function ScVideoLive({ setResult, onBack, onNext }) {
           <div style={{ position: "absolute", left: 14, top: 14, display: "flex", gap: 8, zIndex: 3, flexWrap: "wrap" }}>{chip(<I.cam size={13} />, devices.cam)}{chip(<I.mic size={13} />, devices.mic)}</div>
 
           {vstate === "preview" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.72))", padding: "40px 18px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "#fff", maxWidth: 360, textAlign: "left", lineHeight: 1.45 }}>When you're ready, start recording and read the sentence shown aloud.</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "#fff", maxWidth: 360, textAlign: "left", lineHeight: 1.45 }}>When you're ready, start recording and read the sentence shown aloud.</span>
             <EdBtn primary dark onClick={() => setVstate("countdown")}>Start recording <I.arrow size={16} /></EdBtn>
           </div>}
 
-          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(11,16,32,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 92, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
+          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(11,16,32,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
 
           {vstate === "recording" && <React.Fragment>
             <div style={{ position: "absolute", left: 14, bottom: 96, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
@@ -1711,16 +1711,16 @@ function ScVideoLive({ setResult, onBack, onNext }) {
             </div>
             <div style={{ position: "absolute", left: 16, right: 16, bottom: 74, zIndex: 3, display: "flex", justifyContent: "center" }}>
               <div style={{ maxWidth: 620, background: "rgba(11,16,32,.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 14, padding: "12px 20px", textAlign: "center" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 6 }}>Read aloud</div>
-                <p style={{ fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 500 }}>{SC_PHRASE}</p>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 6 }}>Read aloud</div>
+                <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 700 }}>{SC_PHRASE}</p>
               </div>
             </div>
             <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55))", padding: "44px 16px 14px", display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.22)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(255,255,255,.82)", minWidth: 42 }}>{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30</span>
               </div>
-              <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop recording</button>
+              <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(203,17,17,.4)" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop recording</button>
             </div>
           </React.Fragment>}
         </div>
@@ -1729,7 +1729,7 @@ function ScVideoLive({ setResult, onBack, onNext }) {
       {vstate === "reviewing" && (
         <div>
           <div style={media}><video ref={playbackRef} controls playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 1 }} /></div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
         </div>
       )}
 
@@ -1737,8 +1737,8 @@ function ScVideoLive({ setResult, onBack, onNext }) {
 
       {vstate === "pass" && <div style={{ ...scCard, padding: "34px 22px", textAlign: "center", background: scTint(eSUCCESS, "6%"), borderColor: scTint(eSUCCESS, "22%") }}>
         <div style={{ width: 56, height: 56, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.check size={28} /></div>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Camera and microphone verified</h3>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, margin: 0 }}>Your video and audio are working correctly.</p>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Camera and microphone verified</h3>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: 0 }}>Your video and audio are working correctly.</p>
       </div>}
 
       <ScFoot onBackClick={onBack} right={<React.Fragment>
@@ -1766,11 +1766,11 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
       {!vertical && <ScStepper index={3} />}
       <div style={{ textAlign: "center", marginBottom: 8 }}>
         <span style={{ display: "inline-flex", color: allPass ? eSUCCESS : eWARN }}>{allPass ? <I.checkCircle size={64} /> : <I.alertCircle size={64} />}</span>
-        <h1 style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID, margin: "8px 0 6px" }}>{allPass ? "System Check Complete" : "System Check Warning"}</h1>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID, margin: "8px 0 6px" }}>{allPass ? "System Check Complete" : "System Check Warning"}</h1>
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: 0 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
       </div>
       <div style={{ ...scCard, overflow: "hidden", marginTop: 22 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>
           <span>Check</span><span style={{ textAlign: "center" }}>Result</span><span style={{ textAlign: "right" }}>Details</span>
         </div>
         {CHECKS.map((c, i) => {
@@ -1778,13 +1778,13 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
           return (
             <div key={c.k} style={{ borderBottom: i < CHECKS.length - 1 ? "1px solid " + eLINE : "none" }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 110px 120px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
                 <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
-                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 5 }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
+                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 5 }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
               </div>
               {isOpen && <div style={{ margin: "0 22px 16px", background: st === "pass" ? scTint(eSUCCESS, "7%") : scTint(eDANGER, "6%"), border: "1px solid " + (st === "pass" ? scTint(eSUCCESS, "22%") : scTint(eDANGER, "18%")), borderRadius: 12, padding: "14px 18px" }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 6 }}>{c.label}</div>
-                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}><span style={{ color: st === "pass" ? eSUCCESS : eDANGER, flexShrink: 0, marginTop: 1, display: "flex" }}>{st === "pass" ? <I.check size={15} /> : <I.alertCircle size={15} />}</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{st === "pass" ? c.passMsg : c.failMsg}</span></div>
+                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}><span style={{ color: st === "pass" ? eSUCCESS : eDANGER, flexShrink: 0, marginTop: 1, display: "flex" }}>{st === "pass" ? <I.check size={15} /> : <I.alertCircle size={15} />}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{st === "pass" ? c.passMsg : c.failMsg}</span></div>
               </div>}
             </div>
           );
@@ -1792,12 +1792,12 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
       </div>
       {failed.length > 0 && (
         <div style={{ ...scCard, padding: 24, marginTop: 18 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}><span style={{ color: eBLUE, display: "flex" }}><I.info size={20} /></span><h3 style={{ fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700, color: eMID, margin: 0 }}>Troubleshooting Guide</h3></div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 16px" }}>Follow these steps to resolve the issues detected during the system check</p>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}><span style={{ color: eBLUE, display: "flex" }}><I.info size={20} /></span><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>Troubleshooting Guide</h3></div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 16px" }}>Follow these steps to resolve the issues detected during the system check</p>
           {failed.map((c) => (
             <div key={c.k} style={{ background: scTint(eMID, "3%"), border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 12 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 10 }}><span style={{ color: eMID, display: "flex" }}>{c.icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{c.fix.title}</h4></div>
-              <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>{c.fix.items.map((t, j) => <li key={j} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{t}</li>)}</ul>
+              <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>{c.fix.items.map((t, j) => <li key={j} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t}</li>)}</ul>
             </div>
           ))}
         </div>
@@ -1838,10 +1838,10 @@ function LHFooter({ full }) {
   ];
   return (
     <footer style={{ maxWidth: full ? "none" : "var(--content-max)", margin: full ? "0" : "0 var(--fol-mx)", padding: full ? "22px 32px 10px" : "22px 0 10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>© 2026 Marsh. {t("allRightsReserved")}.</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>© 2026 Marsh. {t("allRightsReserved")}.</span>
       <nav style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
         {links.map((l) => (
-          <a key={l.key} href="#" onClick={(e) => e.preventDefault()} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, textDecoration: "none", transition: "color .15s" }}
+          <a key={l.key} href="#" onClick={(e) => e.preventDefault()} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, textDecoration: "none", transition: "color .15s" }}
             onMouseEnter={(e) => { e.currentTarget.style.color = eMID; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = eMUT; }}>{t(l.key)}</a>
         ))}
@@ -1880,25 +1880,25 @@ function LHAssistant() {
           <div style={{ background: "var(--surface-deep)", color: "#fff", padding: "15px 17px", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
             <div style={{ width: 38, height: 38, borderRadius: "50%", background: "rgba(206,236,255,.16)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><LHSparkle size={20} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 700 }}>AI Assistant</div>
-              <div style={{ fontSize: 14, color: "rgba(255,255,255,.82)", display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 7, height: 7, borderRadius: 4, background: "var(--success)" }} /> Online</div>
+              <div style={{ fontSize: 15, fontWeight: 700 }}>AI Assistant</div>
+              <div style={{ fontSize: 15, color: "rgba(255,255,255,.82)", display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 7, height: 7, borderRadius: 4, background: "var(--success)" }} /> Online</div>
             </div>
             <button onClick={() => setOpen(false)} title="Close" style={{ background: "none", border: "none", color: "rgba(255,255,255,.82)", cursor: "pointer", display: "flex" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
           </div>
           <div ref={bodyRef} style={{ flex: 1, overflowY: "auto", padding: 16, display: "flex", flexDirection: "column", gap: 10, background: eCREAM }}>
             {msgs.map((m, i) => (
-              <div key={i} style={{ alignSelf: m.from === "bot" ? "flex-start" : "flex-end", maxWidth: "86%", background: m.from === "bot" ? "#fff" : eMID, color: m.from === "bot" ? eINK : "#fff", border: m.from === "bot" ? "1px solid var(--line)" : "none", padding: "10px 13px", borderRadius: m.from === "bot" ? "4px 14px 14px 14px" : "14px 14px 4px 14px", fontSize: 14, lineHeight: 1.5 }}>{m.text}</div>
+              <div key={i} style={{ alignSelf: m.from === "bot" ? "flex-start" : "flex-end", maxWidth: "86%", background: m.from === "bot" ? "#fff" : eMID, color: m.from === "bot" ? eINK : "#fff", border: m.from === "bot" ? "1px solid var(--line)" : "none", padding: "10px 13px", borderRadius: m.from === "bot" ? "4px 14px 14px 14px" : "14px 14px 4px 14px", fontSize: 15, lineHeight: 1.5 }}>{m.text}</div>
             ))}
             {msgs.length <= 1 && (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginTop: 4 }}>
                 {quick.map((q) => (
-                  <button key={q} onClick={() => { setMsgs((m) => [...m, { from: "me", text: q }, { from: "bot", text: "Great question — this is a demo assistant, but here's where I'd surface that answer for you." }]); }} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eBLUE, background: "color-mix(in srgb, var(--accent) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 25%, transparent)", borderRadius: 16, padding: "7px 12px", cursor: "pointer" }}>{q}</button>
+                  <button key={q} onClick={() => { setMsgs((m) => [...m, { from: "me", text: q }, { from: "bot", text: "Great question — this is a demo assistant, but here's where I'd surface that answer for you." }]); }} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eBLUE, background: "color-mix(in srgb, var(--accent) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 25%, transparent)", borderRadius: 16, padding: "7px 12px", cursor: "pointer" }}>{q}</button>
                 ))}
               </div>
             )}
           </div>
           <div style={{ borderTop: "1px solid var(--line)", padding: 12, display: "flex", gap: 8, background: "var(--card)", flexShrink: 0 }}>
-            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") send(); }} placeholder="Ask a question…" style={{ flex: 1, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 13px", fontFamily: "var(--sans)", fontSize: 14, color: eINK, outline: "none" }} />
+            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") send(); }} placeholder="Ask a question…" style={{ flex: 1, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 13px", fontFamily: "var(--sans)", fontSize: 15, color: eINK, outline: "none" }} />
             <button onClick={send} title="Send" style={{ width: 40, height: 40, borderRadius: "50%", background: eGOLD, color: "var(--action-text)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={17} /></button>
           </div>
         </div>

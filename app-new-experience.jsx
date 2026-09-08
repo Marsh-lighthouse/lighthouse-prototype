@@ -100,17 +100,17 @@
   function pill(text, tone) {
     var map = { blue: { bg: "rgba(11,75,255,.10)", fg: TEAL }, green: { bg: "rgba(20,133,61,.11)", fg: GREEN },
       amber: { bg: "rgba(255,191,0,.20)", fg: "#8A6400" }, grey: { bg: "rgba(0,15,71,.06)", fg: TM } }[tone || "grey"];
-    return React.createElement("span", { style: { display: "inline-block", padding: "2px 7px", borderRadius: 999, background: map.bg, color: map.fg, fontSize: 10, fontWeight: 700, whiteSpace: "nowrap" } }, text);
+    return React.createElement("span", { style: { display: "inline-block", padding: "2px 7px", borderRadius: 999, background: map.bg, color: map.fg, fontSize: 11.5, fontWeight: 700, whiteSpace: "nowrap" } }, text);
   }
   function avatar(initials, color, size) {
     var d = size || 19;
-    return React.createElement("span", { style: { width: d, height: d, borderRadius: 999, background: color, color: "#fff", fontSize: d < 18 ? 7.5 : 8, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, initials);
+    return React.createElement("span", { style: { width: d, height: d, borderRadius: 999, background: color, color: "#fff", fontSize: d < 18 ? 11.5 : 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, initials);
   }
   function tabs(items, active) {
     return React.createElement("div", { style: { display: "flex", gap: 14, borderBottom: "1px solid " + BD, marginBottom: 9 } },
       items.map(function (t, i) {
         var on = i === active;
-        return React.createElement("span", { key: i, style: { paddingBottom: 6, fontFamily: SANS, fontSize: 9.5, fontWeight: on ? 700 : 500, color: on ? NAVY : TM, borderBottom: "2px solid " + (on ? NAVY : "transparent"), marginBottom: -1, whiteSpace: "nowrap" } }, t);
+        return React.createElement("span", { key: i, style: { paddingBottom: 6, fontFamily: SANS, fontSize: 11.5, fontWeight: on ? 700 : 700, color: on ? NAVY : TM, borderBottom: "2px solid " + (on ? NAVY : "transparent"), marginBottom: -1, whiteSpace: "nowrap" } }, t);
       })
     );
   }
@@ -132,22 +132,22 @@
       ["Cognitive Ability", "Not started", "amber"]
     ];
     return React.createElement("div", { style: { padding: "13px 14px", position: "relative" } },
-      React.createElement(Row, { i: 0, style: { fontFamily: SANS, fontSize: 8, color: TM, marginBottom: 7 } }, "Dashboard  ›  Candidates  ›  Lukas Weber"),
+      React.createElement(Row, { i: 0, style: { fontFamily: SANS, fontSize: 11.5, color: TM, marginBottom: 7 } }, "Dashboard  ›  Candidates  ›  Lukas Weber"),
       React.createElement(Row, { i: 1, style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 10 } },
         avatar("LW", TEAL, 26),
         React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-          React.createElement("div", { style: { fontFamily: SERIF, fontSize: 16, color: NAVY, lineHeight: 1.1 } }, "Lukas Weber"),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 8, color: TM, marginTop: 2 } }, "l.weber@tte.email · Generali DGE 2026")),
-        React.createElement("span", { style: { fontFamily: SANS, fontSize: 10, fontWeight: 600, color: NAVY, border: "1px solid " + BD, borderRadius: 6, padding: "5px 10px", background: "#fff" } }, "Evaluate"),
-        React.createElement("span", { style: { fontFamily: SANS, fontSize: 10, fontWeight: 700, color: "#fff", borderRadius: 6, padding: "5px 10px", background: NAVY } }, "Moderate scores")),
+          React.createElement("div", { style: { fontFamily: SERIF, fontSize: 15, color: NAVY, lineHeight: 1.1 } }, "Lukas Weber"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, color: TM, marginTop: 2 } }, "l.weber@tte.email · Generali DGE 2026")),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, border: "1px solid " + BD, borderRadius: 6, padding: "5px 10px", background: "#fff" } }, "Evaluate"),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: "#fff", borderRadius: 6, padding: "5px 10px", background: NAVY } }, "Moderate scores")),
       React.createElement(Row, { i: 2 }, tabs(["Assessments", "Timeline", "Documents"], 0)),
       card(
         [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 10px", borderBottom: "1px solid " + BD, animationDelay: ".16s" } },
-          React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM } }, "Assessment"),
-          React.createElement("span", { style: { width: 74, textAlign: "center", fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM } }, "Status"))].concat(
+          React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM } }, "Assessment"),
+          React.createElement("span", { style: { width: 74, textAlign: "center", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM } }, "Status"))].concat(
         rows.map(function (r, i) {
           return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "8px 10px", borderBottom: i === rows.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.22 + i * 0.055 + "s" } },
-            React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 9.5, fontWeight: 600, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r[0]),
+            React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r[0]),
             React.createElement("span", { style: { width: 74, display: "flex", justifyContent: "center" } }, pill(r[1], r[2])));
         }))
       ),
@@ -160,35 +160,35 @@
     return React.createElement("div", { style: { position: "relative", height: "100%", display: "flex", flexDirection: "column" } },
       React.createElement(Row, { i: 0, style: { display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", borderBottom: "1px solid " + BD, background: "rgba(0,15,71,.02)" } },
         React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-          React.createElement("span", { style: { fontFamily: SERIF, fontSize: 14, color: NAVY } }, "Lukas Weber"),
-          React.createElement("span", { style: { fontFamily: SANS, fontSize: 8.5, color: TM, marginLeft: 5 } }, "· l.weber@tte.email")),
+          React.createElement("span", { style: { fontFamily: SERIF, fontSize: 15, color: NAVY } }, "Lukas Weber"),
+          React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, color: TM, marginLeft: 5 } }, "· l.weber@tte.email")),
         React.createElement("div", { style: { textAlign: "right" } },
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 8, color: TM } }, "Forms complete"),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 9.5, fontWeight: 700, color: TX } }, "3 / 5")),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, color: TM } }, "Forms complete"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX } }, "3 / 5")),
         React.createElement("div", { style: { width: 22, height: 22, borderRadius: 999, border: "2.5px solid " + TEAL, borderRightColor: "rgba(0,15,71,.12)", borderBottomColor: "rgba(0,15,71,.12)", flexShrink: 0 } })),
       React.createElement("div", { style: { flex: 1, display: "flex", minHeight: 0 } },
         // left · Assessor Brief (read only)
         React.createElement(Row, { i: 1, style: { width: "44%", borderRight: "1px solid rgba(0,15,71,.18)", padding: "9px 11px", background: "rgba(0,15,71,.02)", minWidth: 0 } },
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 9.5, fontWeight: 700, color: NAVY, marginBottom: 7 } }, "Assessor Brief"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, marginBottom: 7 } }, "Assessor Brief"),
           tabs(["Overview", "Role play"], 0),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 8.5, color: TM, lineHeight: 1.65 } },
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, color: TM, lineHeight: 1.65 } },
             "The participant presents a turnaround plan to the board. Observe how they read the market and commit to a direction under challenge.")),
         // right · Your Response (editable)
         React.createElement(Row, { i: 2, style: { flex: 1, padding: "9px 11px", background: "#fff", minWidth: 0 } },
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 9.5, fontWeight: 700, color: NAVY, marginBottom: 7 } }, "Your Response"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, marginBottom: 7 } }, "Your Response"),
           React.createElement("div", { style: { display: "flex", gap: 10, borderBottom: "1px solid " + BD, marginBottom: 9 } },
             [["1. Leadership", true], ["2. Strategy", false]].map(function (t, i) {
-              return React.createElement("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 4, paddingBottom: 6, borderBottom: "2px solid " + (i === 0 ? NAVY : "transparent"), marginBottom: -1, fontFamily: SANS, fontSize: 10, fontWeight: i === 0 ? 700 : 500, color: i === 0 ? NAVY : TM, whiteSpace: "nowrap" } },
+              return React.createElement("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 4, paddingBottom: 6, borderBottom: "2px solid " + (i === 0 ? NAVY : "transparent"), marginBottom: -1, fontFamily: SANS, fontSize: 11.5, fontWeight: i === 0 ? 700 : 700, color: i === 0 ? NAVY : TM, whiteSpace: "nowrap" } },
                 React.createElement("span", { style: { width: 9, height: 9, borderRadius: 999, background: t[1] ? GREEN : GOLD, flexShrink: 0 } }), t[0]);
             })),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 8, fontWeight: 700, color: TEAL } }, "ST1"),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 10, fontWeight: 600, color: TX, marginTop: 2 } }, "Reads market signals"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TEAL } }, "ST1"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX, marginTop: 2 } }, "Reads market signals"),
           React.createElement("div", { style: { display: "flex", gap: 4, marginTop: 8 } },
             [1, 2, 3, 4, 5].map(function (n) {
               var on = n === 4;
-              return React.createElement("div", { key: n, style: { width: 23, height: 23, borderRadius: 6, border: "1px solid " + (on ? TEAL : BD), background: on ? TEAL : "#fff", color: on ? "#fff" : "rgba(0,15,71,.38)", fontFamily: SANS, fontSize: 10, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" } }, n);
+              return React.createElement("div", { key: n, style: { width: 23, height: 23, borderRadius: 6, border: "1px solid " + (on ? TEAL : BD), background: on ? TEAL : "#fff", color: on ? "#fff" : "rgba(0,15,71,.38)", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" } }, n);
             })),
-          React.createElement("div", { style: { marginTop: 8, borderRadius: 6, background: "rgba(0,15,71,.03)", border: "1px solid " + BD, padding: "6px 7px", fontFamily: SANS, fontSize: 8.5, color: TM, lineHeight: 1.5 } },
+          React.createElement("div", { style: { marginTop: 8, borderRadius: 6, background: "rgba(0,15,71,.03)", border: "1px solid " + BD, padding: "6px 7px", fontFamily: SANS, fontSize: 11.5, color: TM, lineHeight: 1.5 } },
             "Spotted the shift before the panel raised it…"))),
       React.createElement(Cursor, { x: 296, y: 176 })
     );
@@ -208,38 +208,38 @@
     return React.createElement("div", { style: { position: "relative", height: "100%", display: "flex", flexDirection: "column" } },
       React.createElement(Row, { i: 0, style: { display: "flex", alignItems: "center", gap: 8, padding: "9px 12px", borderBottom: "1px solid " + BD } },
         avatar("AM", GREEN),
-        React.createElement("span", { style: { flex: 1, fontFamily: SERIF, fontSize: 14, color: NAVY } }, "Alessandro Moretti"),
-        React.createElement("span", { style: { fontFamily: SANS, fontSize: 8.5, fontWeight: 600, color: TM, border: "1px solid " + BD, borderRadius: 6, padding: "3px 7px", background: "#fff" } }, "Collapse all")),
+        React.createElement("span", { style: { flex: 1, fontFamily: SERIF, fontSize: 15, color: NAVY } }, "Alessandro Moretti"),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM, border: "1px solid " + BD, borderRadius: 6, padding: "3px 7px", background: "#fff" } }, "Collapse all")),
       React.createElement("div", { style: { padding: "8px 12px", flex: 1, minHeight: 0 } },
-        React.createElement(Row, { i: 1, style: { display: "flex", gap: 12, marginBottom: 7, fontFamily: SANS, fontSize: 8.5, color: TM } },
+        React.createElement(Row, { i: 1, style: { display: "flex", gap: 12, marginBottom: 7, fontFamily: SANS, fontSize: 11.5, color: TM } },
           React.createElement("span", null, React.createElement("b", { style: { color: TX } }, "Assessor 1:"), " William Bennett"),
           React.createElement("span", null, React.createElement("b", { style: { color: TX } }, "Assessor 2:"), " Elizabeth Turner")),
         card([
           React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", animationDelay: ".15s" } },
             head.map(function (h, i) {
-              return React.createElement("div", { key: i, style: { flex: col[i], padding: "6px 5px", background: i === 5 ? NAVY : "rgba(0,15,71,.04)", color: i === 5 ? "#fff" : TM, fontFamily: SANS, fontSize: 8.5, fontWeight: 700, textAlign: i === 0 ? "left" : "center", whiteSpace: "nowrap", overflow: "hidden" } }, h);
+              return React.createElement("div", { key: i, style: { flex: col[i], padding: "6px 5px", background: i === 5 ? NAVY : "rgba(0,15,71,.04)", color: i === 5 ? "#fff" : TM, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, textAlign: i === 0 ? "left" : "center", whiteSpace: "nowrap", overflow: "hidden" } }, h);
             })),
           rows.map(function (r, i) {
             if (r.group) {
               return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", borderTop: "1px solid " + BD, background: "rgba(0,15,71,.035)", animationDelay: 0.16 + i * 0.045 + "s" } },
-                React.createElement("div", { style: { flex: 1, padding: "5px 8px", fontFamily: SANS, fontSize: 10, fontWeight: 700, color: NAVY } }, "⌄  " + r.group));
+                React.createElement("div", { style: { flex: 1, padding: "5px 8px", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY } }, "⌄  " + r.group));
             }
             return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", borderTop: "1px solid " + BD, animationDelay: 0.16 + i * 0.045 + "s" } },
               React.createElement("div", { style: { flex: col[0], padding: "5px 8px", display: "flex", gap: 5, alignItems: "center", minWidth: 0 } },
-                React.createElement("span", { style: { fontFamily: SANS, fontSize: 8, fontWeight: 700, color: TEAL, flexShrink: 0 } }, r.code),
-                React.createElement("span", { style: { fontFamily: SANS, fontSize: 10, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r.name)),
+                React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TEAL, flexShrink: 0 } }, r.code),
+                React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r.name)),
               r.v.map(function (v, k) {
-                return React.createElement("div", { key: k, style: { flex: col[k + 1], padding: "5px 3px", textAlign: "center", fontFamily: SANS, fontSize: 10, fontWeight: k === 3 ? 700 : 500, color: r.hot ? RED : TX, whiteSpace: "nowrap" } }, v);
+                return React.createElement("div", { key: k, style: { flex: col[k + 1], padding: "5px 3px", textAlign: "center", fontFamily: SANS, fontSize: 11.5, fontWeight: k === 3 ? 700 : 700, color: r.hot ? RED : TX, whiteSpace: "nowrap" } }, v);
               }),
               React.createElement("div", { style: { flex: col[5], padding: "3px 5px", display: "flex", justifyContent: "center" } },
-                React.createElement("span", { style: { minWidth: 28, padding: "3px 5px", borderRadius: 5, border: "1px solid " + (r.hot ? TEAL : BD), background: r.hot ? "rgba(11,75,255,.08)" : "#fff", fontFamily: SANS, fontSize: 10, fontWeight: 700, color: NAVY, textAlign: "center" } }, r.fin)));
+                React.createElement("span", { style: { minWidth: 28, padding: "3px 5px", borderRadius: 5, border: "1px solid " + (r.hot ? TEAL : BD), background: r.hot ? "rgba(11,75,255,.08)" : "#fff", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, textAlign: "center" } }, r.fin)));
           })
         ])),
       React.createElement(Row, { i: 6, style: { display: "flex", justifyContent: "flex-end", gap: 6, padding: "7px 12px", borderTop: "1px solid " + BD, background: "rgba(0,15,71,.02)" } },
         ["Reset", "Save"].map(function (t, i) {
-          return React.createElement("span", { key: i, style: { fontFamily: SANS, fontSize: 8.5, fontWeight: 600, color: TM, border: "1px solid " + BD, borderRadius: 5, padding: "3px 9px", background: "#fff" } }, t);
+          return React.createElement("span", { key: i, style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM, border: "1px solid " + BD, borderRadius: 5, padding: "3px 9px", background: "#fff" } }, t);
         }),
-        React.createElement("span", { style: { fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: NAVY, borderRadius: 5, padding: "3px 11px", background: GOLD } }, "Submit")),
+        React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, borderRadius: 5, padding: "3px 11px", background: GOLD } }, "Submit")),
       React.createElement(Cursor, { x: 322, y: 150 })
     );
   }
@@ -250,26 +250,26 @@
       ["Timezone", "Asia/Kolkata"], ["Seats booked", "2"], ["Seats remaining", "88"]];
     var subs = [["TI", "TI user", "6/6", "1/3", "On Time", "green", TEAL], ["RG", "RG user", "6/6", "1/3", "No Status", "grey", RED]];
     return React.createElement("div", { style: { padding: "12px 14px", position: "relative" } },
-      React.createElement(Row, { i: 0, style: { fontFamily: SERIF, fontSize: 16, color: NAVY, marginBottom: 8 } }, "16th Sep 2025, 4:30 pm"),
+      React.createElement(Row, { i: 0, style: { fontFamily: SERIF, fontSize: 15, color: NAVY, marginBottom: 8 } }, "16th Sep 2025, 4:30 pm"),
       React.createElement(Row, { i: 1, style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: BD, border: "1px solid " + BD, borderRadius: 8, overflow: "hidden", marginBottom: 9 } },
         cells.map(function (c, i) {
           return React.createElement("div", { key: i, style: { background: "#fff", padding: "6px 8px" } },
-            React.createElement("div", { style: { fontFamily: SANS, fontSize: 7.5, color: TM } }, c[0]),
+            React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, color: TM } }, c[0]),
             i === 2 ? React.createElement("div", { style: { marginTop: 3 } }, pill("Open", "green"))
-              : React.createElement("div", { style: { fontFamily: SANS, fontSize: 10, fontWeight: 700, color: NAVY, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c[1]));
+              : React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c[1]));
         })),
       React.createElement(Row, { i: 2, style: { marginBottom: 7 } }, tabs(["Subjects", "Resources", "Activities", "Recordings"], 0)),
       card(
         [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 9px", borderBottom: "1px solid " + BD, animationDelay: ".16s" } },
           ["Participants", "Prework", "Activity", "Attendance"].map(function (h, i) {
-            return React.createElement("span", { key: i, style: { flex: i === 0 ? 2 : 1, fontFamily: SANS, fontSize: 8.5, fontWeight: 700, color: TM, textAlign: i === 0 ? "left" : "center" } }, h);
+            return React.createElement("span", { key: i, style: { flex: i === 0 ? 2 : 1, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM, textAlign: i === 0 ? "left" : "center" } }, h);
           }))].concat(
         subs.map(function (s, i) {
           return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "7px 9px", borderBottom: i === subs.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.2 + i * 0.05 + "s" } },
             React.createElement("span", { style: { flex: 2, display: "flex", alignItems: "center", gap: 6, minWidth: 0 } }, avatar(s[0], s[6], 17),
-              React.createElement("span", { style: { fontFamily: SANS, fontSize: 9.5, fontWeight: 600, color: TX } }, s[1])),
-            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 10, color: TX } }, s[2]),
-            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 10, color: TX } }, s[3]),
+              React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX } }, s[1])),
+            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 11.5, color: TX } }, s[2]),
+            React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 11.5, color: TX } }, s[3]),
             React.createElement("span", { style: { flex: 1, display: "flex", justifyContent: "center" } }, pill(s[4], s[5])));
         }))
       ),
@@ -320,7 +320,7 @@
           React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, padding: "8px 11px", borderBottom: "1px solid " + BD, background: "rgba(0,15,71,.02)" } },
             [0, 1, 2].map(function (i) { return React.createElement("span", { key: i, style: { width: 7, height: 7, borderRadius: 999, background: "rgba(0,15,71,.16)" } }); }),
             React.createElement("div", { style: { flex: 1, display: "flex", justifyContent: "center" } },
-              React.createElement("div", { style: { padding: "2px 12px", borderRadius: 999, background: "rgba(0,15,71,.05)", fontFamily: SANS, fontSize: 10.5, fontWeight: 600, color: TM } }, s.label)),
+              React.createElement("div", { style: { padding: "2px 12px", borderRadius: 999, background: "rgba(0,15,71,.05)", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM } }, s.label)),
             React.createElement("span", { style: { width: 7, height: 7 } })),
           motion === 1 ? React.createElement("div", { key: "sw-" + idx, className: "ne-sweep", style: { position: "absolute", top: 0, bottom: 0, width: "38%", pointerEvents: "none", zIndex: 3, background: "linear-gradient(100deg, transparent, rgba(11,75,255,.09), transparent)" } }) : null,
           React.createElement("div", { style: { display: "flex", background: "rgba(0,15,71,.02)", height: frameH } },
@@ -332,8 +332,8 @@
       // No dot slider, no play/pause button — the screen just animates, and its name is
       // the indicator. The caption announces politely so it isn't silent to a screen reader.
       React.createElement("div", { "aria-live": "polite", style: { marginTop: 14 } },
-        React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 14, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
-          React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY, fontSize: 14 } }, s.label), " — ", s.note))
+        React.createElement("div", { key: "cap-" + idx, className: "ne-row", style: { fontFamily: SANS, fontSize: 15, color: p.onDark ? "rgba(255,255,255,.88)" : TX } },
+          React.createElement("b", { style: { color: p.onDark ? "#fff" : NAVY, fontSize: 15 } }, s.label), " — ", s.note))
     );
   }
 
@@ -341,10 +341,10 @@
   function Copy(p) {
     var dark = p.onDark;
     return React.createElement(React.Fragment, null,
-      p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 8, background: dark ? "rgba(255,255,255,.14)" : "color-mix(in srgb, #002C77 15%, #ffffff)", color: dark ? "#fff" : "#002C77", border: dark ? "none" : "1px solid #002C77", boxSizing: "border-box", fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: ".04em", textTransform: "uppercase" } },
+      p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 8, background: dark ? "rgba(255,255,255,.14)" : "color-mix(in srgb, #002C77 15%, #ffffff)", color: dark ? "#fff" : "#002C77", border: dark ? "none" : "1px solid #002C77", boxSizing: "border-box", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase" } },
         React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : "#002C77", display: "inline-block" } }), "New experience"),
-      React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 34 : 30, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 600 } }, "One flow, from first review to final sign-off."),
-      React.createElement("p", { style: { fontFamily: SANS, fontSize: 16, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 470 } },
+      React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 28 : 28, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 700 } }, "One flow, from first review to final sign-off."),
+      React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 470 } },
         "Candidate, evaluation, moderation and the assessment centre now work as one connected view — not five screens you hold together yourself."),
       React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10, margin: "16px 0 0" } },
         // Each bullet is a bold lead, an em dash, then muted detail.
@@ -352,7 +352,7 @@
          ["The brief beside your scoring", "competency guidance stays on screen while you rate."],
          ["Moderation in minutes", "every assessor's score side by side, one final call."]
         ].map(function (t, i) {
-          return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 14, lineHeight: 1.45 } },
+          return React.createElement("div", { key: i, style: { display: "flex", gap: 9, alignItems: "flex-start", fontFamily: SANS, fontSize: 15, lineHeight: 1.45 } },
             React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0, marginTop: 3 } },
               React.createElement("path", { d: "M20 6L9 17l-5-5" })),
             React.createElement("span", null,
@@ -368,13 +368,13 @@
     return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, marginTop: p.mt === undefined ? 32 : p.mt } },
       React.createElement("div", { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" } },
         React.createElement("button", { className: "ne-ghost", onClick: p.later,
-          style: { padding: "13px 20px", borderRadius: 2, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 16, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
+          style: { padding: "13px 20px", borderRadius: 2, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
         React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
-          style: { padding: "13px 24px", borderRadius: 2, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 16, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
+          style: { padding: "13px 24px", borderRadius: 2, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
           "Try new experience",
           React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
             React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))),
-      React.createElement("div", { style: { fontFamily: SANS, fontSize: 12.5, lineHeight: 1.5, color: dark ? "rgba(255,255,255,.62)" : TM, maxWidth: 440 } },
+      React.createElement("div", { style: { fontFamily: SANS, fontSize: 13, lineHeight: 1.5, color: dark ? "rgba(255,255,255,.62)" : TM, maxWidth: 440 } },
         "The new experience becomes the default for everyone soon. You can switch back to the current view anytime.")
     );
   }
@@ -514,12 +514,12 @@
            ["Motion", [1, 2, 3], motion, function (v) { setMotion(v); try { localStorage.setItem(MOTION_KEY, String(v)); } catch (e) {} }, ["Slide", "Fade", "Deck"]]
           ].map(function (grp) {
             return React.createElement("div", { key: grp[0], style: { display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,.94)", border: "1px solid " + BD, borderRadius: 10, boxShadow: "0 6px 20px rgba(0,15,71,.18)", padding: "6px 9px" } },
-              React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: TM } }, grp[0]),
+              React.createElement("span", { style: { fontSize: 11.5, fontWeight: 700, color: TM } }, grp[0]),
               // named, not numbered — a bare "2" says nothing about what you're comparing
               grp[1].map(function (v, i) {
                 var on = grp[2] === v;
                 return React.createElement("button", { key: v, onClick: function () { grp[3](v); }, title: grp[4][i],
-                  style: { padding: "4px 10px", borderRadius: 7, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, background: on ? NAVY : "rgba(0,15,71,.06)", color: on ? "#fff" : TM, whiteSpace: "nowrap" } }, grp[4][i]);
+                  style: { padding: "4px 10px", borderRadius: 7, border: "none", cursor: "pointer", fontSize: 11.5, fontWeight: 700, background: on ? NAVY : "rgba(0,15,71,.06)", color: on ? "#fff" : TM, whiteSpace: "nowrap" } }, grp[4][i]);
               }));
           }))
       ),

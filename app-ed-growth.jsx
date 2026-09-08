@@ -26,7 +26,7 @@ function EdDevelopment({ onBack }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <EdEyebrow color={eBLUE}>Your plan</EdEyebrow>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Development</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 4px", maxWidth: 560 }}>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 4px", maxWidth: 560 }}>
         Built from your assessment results and growth conversations — organised by the 70·20·10 model: 70% on-the-job, 20% from others, 10% formal training.
       </p>
 
@@ -37,8 +37,8 @@ function EdDevelopment({ onBack }) {
           {comps.map((c, i) => (
             <div key={i}>
               <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 7 }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{c.label}</span>
-                <span className="serif" style={{ fontSize: 18, color: barColor(c.score) }}>{c.score}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{c.label}</span>
+                <span className="serif" style={{ fontSize: 21, color: barColor(c.score) }}>{c.score}</span>
               </div>
               <div style={{ height: 7, borderRadius: 4, background: "var(--track)", overflow: "hidden" }}>
                 <div style={{ width: `${c.score}%`, height: "100%", borderRadius: 4, background: barColor(c.score) }} />
@@ -51,30 +51,30 @@ function EdDevelopment({ onBack }) {
       {/* PLAN FOCUS AREAS */}
       <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 26 }}>
         <EdSectionLabel>Focus areas</EdSectionLabel>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, margin: "0 0 20px" }}>{plan.length} development priorities · {plan.reduce((n, s) => n + s.tips.length, 0)} actions</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 20px" }}>{plan.length} development priorities · {plan.reduce((n, s) => n + s.tips.length, 0)} actions</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           {plan.map((skill, si) => (
             <div key={si} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: 24 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-                <h3 className="serif" style={{ fontSize: 22, color: eMID, margin: 0 }}>{skill.name}</h3>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, textTransform: "capitalize", color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 5 }}>{skill.skillType}</span>
+                <h3 className="serif" style={{ fontSize: 21, color: eMID, margin: 0 }}>{skill.name}</h3>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, textTransform: "capitalize", color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 5 }}>{skill.skillType}</span>
               </div>
-              <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 18px", maxWidth: 600 }}>{skill.desc}</p>
+              <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 18px", maxWidth: 600 }}>{skill.desc}</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 {skill.tips.map((t, ti) => {
                   const m = edTipMeta[t.type];
                   return (
                     <div key={ti} style={{ display: "flex", gap: 14, alignItems: "flex-start", paddingTop: ti === 0 ? 0 : 12, borderTop: ti === 0 ? "none" : "1px solid " + eLINE }}>
                       <div style={{ flexShrink: 0, width: 52, textAlign: "center" }}>
-                        <div className="serif" style={{ fontSize: 22, color: m.color, lineHeight: 1 }}>{t.type}</div>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: m.color, marginTop: 2 }}>{m.label}</div>
+                        <div className="serif" style={{ fontSize: 21, color: m.color, lineHeight: 1 }}>{t.type}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: m.color, marginTop: 2 }}>{m.label}</div>
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{t.title}</div>
-                        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55, margin: "3px 0 7px" }}>{t.desc}</p>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{t.title}</div>
+                        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: "3px 0 7px" }}>{t.desc}</p>
                         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-                          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.cal size={13} /> {t.start} – {t.end}</span>
-                          {t.provider && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{t.provider} · {t.duration}</span>}
+                          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.cal size={13} /> {t.start} – {t.end}</span>
+                          {t.provider && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{t.provider} · {t.duration}</span>}
                         </div>
                       </div>
                     </div>
@@ -104,20 +104,20 @@ function EdReportCard({ r, onPreview }) {
           : <span style={{ color: eSKY, display: "flex" }}><I.fileText size={38} /></span>}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,15,71,.15) 0%, rgba(0,15,71,0) 45%, rgba(0,15,71,.30) 100%)" }} />
         {r.available
-          ? <span style={{ position: "absolute", top: 10, right: 10, background: "var(--success-fill)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "3px 9px", borderRadius: 5 }}>Available</span>
-          : <span style={{ position: "absolute", top: 10, right: 10, background: "rgba(0,0,0,.5)", color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "3px 9px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4, backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}><I.lock size={11} /> Locked</span>}
+          ? <span style={{ position: "absolute", top: 10, right: 10, background: "var(--success-fill)", color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: "3px 9px", borderRadius: 5 }}>Available</span>
+          : <span style={{ position: "absolute", top: 10, right: 10, background: "rgba(0,0,0,.5)", color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: "3px 9px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4, backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}><I.lock size={11} /> Locked</span>}
       </div>
       <div style={{ padding: 18, display: "flex", flexDirection: "column", flex: 1 }}>
-        <h3 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: locked ? eMUT : eMID, margin: "0 0 12px" }}>{r.name}</h3>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, marginBottom: 6 }}>Based on {r.based.length === 1 ? "1 assessment" : `${r.based.length} assessments`}:</div>
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: locked ? eMUT : eMID, margin: "0 0 12px" }}>{r.name}</h3>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, marginBottom: 6 }}>Based on {r.based.length === 1 ? "1 assessment" : `${r.based.length} assessments`}:</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
           {r.based.map((b, i) => {
             const isDone = i < r.doneCount;
-            return <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "4px 10px", borderRadius: 5, background: isDone ? "color-mix(in srgb, #14853D 15%, #ffffff)" : "var(--status-neutral-bg)", color: isDone ? "#14853D" : "var(--ink)" }}>{isDone && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M5 13l4 4L19 7" /></svg>}{b}</span>;
+            return <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: "4px 10px", borderRadius: 5, background: isDone ? "color-mix(in srgb, #14853D 15%, #ffffff)" : "var(--status-neutral-bg)", color: isDone ? "#14853D" : "var(--ink)" }}>{isDone && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M5 13l4 4L19 7" /></svg>}{b}</span>;
           })}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: "auto" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.fileText size={13} /> {r.pages} pages</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.fileText size={13} /> {r.pages} pages</span>
         </div>
         <div style={{ marginTop: 12 }}>
           {r.available ? (
@@ -126,7 +126,7 @@ function EdReportCard({ r, onPreview }) {
               <EdBtn small><I.download size={15} /> PDF</EdBtn>
             </div>
           ) : (
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, background: "rgba(0,15,71,.03)", borderRadius: 9, padding: "9px 12px" }}>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, background: "rgba(0,15,71,.03)", borderRadius: 9, padding: "9px 12px" }}>
               Complete {r.based.length - r.doneCount} more {r.based.length - r.doneCount === 1 ? "assessment" : "assessments"} to unlock.
             </div>
           )}
@@ -140,13 +140,13 @@ function ReportCover({ report, pages }) {
   return (
     <div>
       <img src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%3F%3E%0A%3Csvg%20id%3D%22Layer_2%22%20data-name%3D%22Layer%202%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2043.17%2044.26%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Cg%20id%3D%22Layer_1-2%22%20data-name%3D%22Layer%201%22%3E%0A%20%20%20%20%3Cg%3E%0A%20%20%20%20%20%20%3Cpolygon%20class%3D%22cls-1%22%20fill%3D%22%23000F47%22%20points%3D%2242.49%200%2021.65%2030.43%2022.2%2030.43%2035.07%2024.39%2035.07%2044.26%2043.17%2044.26%2043.17%200%2042.49%200%22%3E%3C%2Fpolygon%3E%0A%20%20%20%20%20%20%3Cpolygon%20class%3D%22cls-1%22%20fill%3D%22%23000F47%22%20points%3D%220%200%200%2044.26%208.1%2044.26%208.1%2024.4%2020.9%2030.43%2021.52%2030.43%20.68%200%200%200%22%3E%3C%2Fpolygon%3E%0A%20%20%20%20%3C%2Fg%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E" alt="" style={{ width: 34, height: "auto", display: "block", marginBottom: 28 }} />
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>Marsh · Confidential</div>
-      <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 14px" }}>{report.name}</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 28px" }}>{report.desc}</p>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>Marsh · Confidential</div>
+      <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 14px" }}>{report.name}</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 28px" }}>{report.desc}</p>
       <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 18 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Prepared for</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{LH.user.first} {LH.user.last}</span></div>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Based on</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{report.based.join(", ")}</span></div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Length</span><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{pages} pages</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Prepared for</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{LH.user.first} {LH.user.last}</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Based on</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{report.based.join(", ")}</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Length</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{pages} pages</span></div>
       </div>
     </div>
   );
@@ -161,9 +161,9 @@ function ReportPage({ report, page }) {
     { name: "Resilience", score: 91 },
     { name: "Execution Focus", score: 74 },
   ];
-  const Para = ({ children }) => <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 14px" }}>{children}</p>;
-  const H = ({ children }) => <h2 className="serif" style={{ fontSize: 24, color: eMID, margin: "0 0 16px" }}>{children}</h2>;
-  const Eyebrow = ({ children }) => <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>{children}</div>;
+  const Para = ({ children }) => <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 14px" }}>{children}</p>;
+  const H = ({ children }) => <h2 className="serif" style={{ fontSize: 21, color: eMID, margin: "0 0 16px" }}>{children}</h2>;
+  const Eyebrow = ({ children }) => <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: eBLUE, marginBottom: 10 }}>{children}</div>;
   const t = (page - 1) % 5;
 
   if (t === 0) return (
@@ -173,11 +173,11 @@ function ReportPage({ report, page }) {
       <Para>This report synthesises {LH.user.first}'s results across the assessment battery into an integrated view of leadership capability, motivation, and growth potential. Findings are benchmarked against a global norm group of senior managers.</Para>
       <Para>Overall, the profile indicates a capable, resilient leader with clear strengths in strategic thinking and personal drive, alongside development opportunities in how influence and team development are exercised day to day.</Para>
       <div style={{ background: "color-mix(in srgb, var(--accent) 5%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 18%, transparent)", borderRadius: 12, padding: "16px 18px", marginTop: 6 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 10 }}>Key themes</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 10 }}>Key themes</div>
         {["Drives clarity and direction under ambiguity", "Builds trust quickly but delegates selectively", "Highly resilient; sustains performance under pressure", "Growth edge: scaling influence beyond direct authority"].map((x, i) => (
           <div key={i} style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: i < 3 ? 8 : 0 }}>
             <span style={{ color: eBLUE, display: "flex", marginTop: 2 }}><I.check size={13} /></span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{x}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{x}</span>
           </div>
         ))}
       </div>
@@ -192,8 +192,8 @@ function ReportPage({ report, page }) {
         {comps.map((c, i) => (
           <div key={i}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID }}>{c.name}</span>
-              <span className="serif" style={{ fontSize: 16, color: c.score >= 80 ? eSUCCESS : c.score < 70 ? eWARN : eBLUE }}>{c.score}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{c.name}</span>
+              <span className="serif" style={{ fontSize: 15, color: c.score >= 80 ? eSUCCESS : c.score < 70 ? eWARN : eBLUE }}>{c.score}</span>
             </div>
             <div style={{ height: 8, borderRadius: 4, background: "var(--track)", overflow: "hidden" }}>
               <div style={{ width: c.score + "%", height: "100%", borderRadius: 4, background: c.score >= 80 ? eSUCCESS : c.score < 70 ? eWARN : eBLUE }} />
@@ -209,12 +209,12 @@ function ReportPage({ report, page }) {
       <H>Strengths & development areas</H>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 18 }}>
         <div style={{ background: "rgba(20,133,61,.06)", border: "1px solid rgba(20,133,61,.2)", borderRadius: 12, padding: "16px 18px" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eSUCCESS, marginBottom: 10 }}>Strengths</div>
-          {["Strategic, big-picture orientation", "Composure and resilience under stress", "Bias for action and follow-through"].map((x, i) => <div key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, marginBottom: 8 }}>• {x}</div>)}
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eSUCCESS, marginBottom: 10 }}>Strengths</div>
+          {["Strategic, big-picture orientation", "Composure and resilience under stress", "Bias for action and follow-through"].map((x, i) => <div key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, marginBottom: 8 }}>• {x}</div>)}
         </div>
         <div style={{ background: "rgba(203,126,3,.06)", border: "1px solid rgba(203,126,3,.2)", borderRadius: 12, padding: "16px 18px" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eWARN, marginBottom: 10 }}>Development areas</div>
-          {["Influencing without formal authority", "Coaching and developing others", "Inviting dissent before deciding"].map((x, i) => <div key={i} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5, marginBottom: 8 }}>• {x}</div>)}
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eWARN, marginBottom: 10 }}>Development areas</div>
+          {["Influencing without formal authority", "Coaching and developing others", "Inviting dissent before deciding"].map((x, i) => <div key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, marginBottom: 8 }}>• {x}</div>)}
         </div>
       </div>
       <Para>These patterns are consistent across self-report and behavioural data, suggesting stable preferences rather than situational responses. The development plan translates each area into concrete on-the-job actions.</Para>
@@ -226,8 +226,8 @@ function ReportPage({ report, page }) {
       <H>Behavioural insights</H>
       <Para>Under typical conditions, {LH.user.first} leads through clarity and structure — setting direction, sequencing priorities, and holding a steady course. Peers experience this as dependable and calming.</Para>
       <div style={{ borderLeft: "3px solid " + eBLUE, padding: "6px 0 6px 16px", margin: "4px 0 18px" }}>
-        <span style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 16, color: eMID, lineHeight: 1.5 }}>“Stays composed when things get hard, and helps the team find the next step.”</span>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 8 }}>— Aggregated 360° feedback</div>
+        <span style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 15, color: eMID, lineHeight: 1.5 }}>“Stays composed when things get hard, and helps the team find the next step.”</span>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 8 }}>— Aggregated 360° feedback</div>
       </div>
       <Para>Under pressure, those same strengths can narrow: decisions become more independent and feedback loops shorten. Deliberately widening input at key moments will amplify impact across the wider organisation.</Para>
     </div>
@@ -239,8 +239,8 @@ function ReportPage({ report, page }) {
       <Para>The following actions are prioritised for the coming two quarters and feed directly into the 70-20-10 development plan.</Para>
       {["Lead a cross-functional initiative to practise lateral influence", "Establish a regular coaching rhythm with two direct reports", "Run a pre-mortem on major decisions to surface dissent early", "Seek a stretch assignment beyond the current domain"].map((x, i) => (
         <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 12 }}>
-          <div className="serif" style={{ width: 26, height: 26, borderRadius: 7, background: "color-mix(in srgb, var(--accent) 8%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14 }}>{i + 1}</div>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6 }}>{x}</span>
+          <div className="serif" style={{ width: 26, height: 26, borderRadius: 7, background: "color-mix(in srgb, var(--accent) 8%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6 }}>{x}</span>
         </div>
       ))}
     </div>
@@ -264,16 +264,16 @@ function EdReportReader({ report, onClose }) {
         <div className="ed-reader-head" style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
           <div style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.fileText size={18} /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{report.name}</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Page {page + 1} of {pages}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{report.name}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Page {page + 1} of {pages}</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 2, border: "1px solid " + eLINE, borderRadius: 9, padding: 3, flexShrink: 0 }}>
-            <button onClick={() => setZoom((z) => Math.max(0.5, Math.round((z - 0.25) * 100) / 100))} disabled={zoom <= 0.5} title="Zoom out" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom <= 0.5 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom <= 0.5 ? "default" : "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, minWidth: 44, textAlign: "center" }}>{Math.round(zoom * 100)}%</span>
-            <button onClick={() => setZoom((z) => Math.min(2, Math.round((z + 0.25) * 100) / 100))} disabled={zoom >= 2} title="Zoom in" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom >= 2 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom >= 2 ? "default" : "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+            <button onClick={() => setZoom((z) => Math.max(0.5, Math.round((z - 0.25) * 100) / 100))} disabled={zoom <= 0.5} title="Zoom out" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom <= 0.5 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom <= 0.5 ? "default" : "pointer", fontSize: 21, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, minWidth: 44, textAlign: "center" }}>{Math.round(zoom * 100)}%</span>
+            <button onClick={() => setZoom((z) => Math.min(2, Math.round((z + 0.25) * 100) / 100))} disabled={zoom >= 2} title="Zoom in" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom >= 2 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom >= 2 ? "default" : "pointer", fontSize: 21, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
           </div>
           <EdBtn small><I.download size={15} /> <span className="ed-reader-pdf-lbl">Download PDF</span></EdBtn>
-          <button onClick={onClose} style={{ width: 34, height: 34, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 18, flexShrink: 0 }}>×</button>
+          <button onClick={onClose} style={{ width: 34, height: 34, borderRadius: 9, border: "1px solid " + eLINE, background: "var(--card)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 21, flexShrink: 0 }}>×</button>
         </div>
         <div style={{ flex: 1, display: "flex", minHeight: 0 }}>
           {/* page rail */}
@@ -285,7 +285,7 @@ function EdReportReader({ report, onClose }) {
                     {i === 0 ? <ReportCover report={report} pages={pages} /> : <ReportPage report={report} page={i} />}
                   </div>
                 </div>
-                <span style={{ position: "absolute", bottom: 2, right: 4, fontFamily: "var(--sans)", fontSize: 14, color: eMUT, background: "rgba(255,255,255,.85)", borderRadius: 3, padding: "0 3px", zIndex: 2 }}>{i + 1}</span>
+                <span style={{ position: "absolute", bottom: 2, right: 4, fontFamily: "var(--sans)", fontSize: 15, color: eMUT, background: "rgba(255,255,255,.85)", borderRadius: 3, padding: "0 3px", zIndex: 2 }}>{i + 1}</span>
               </button>
             ))}
           </div>
@@ -298,8 +298,8 @@ function EdReportReader({ report, onClose }) {
                 <ReportPage report={report} page={page} />
               )}
               <div style={{ marginTop: "auto", paddingTop: 28, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Marsh · Confidential</span>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{report.name} · Page {page + 1}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Marsh · Confidential</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{report.name} · Page {page + 1}</span>
               </div>
             </div>
           </div>
@@ -307,7 +307,7 @@ function EdReportReader({ report, onClose }) {
         {/* footer nav */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "12px 22px", borderTop: "1px solid " + eLINE, flexShrink: 0 }}>
           <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0} style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: page === 0 ? "rgba(0,15,71,.2)" : eMID, cursor: page === 0 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevL size={17} /></button>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{page + 1} / {pages}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{page + 1} / {pages}</span>
           <button onClick={() => setPage((p) => Math.min(pages - 1, p + 1))} disabled={page === pages - 1} style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid " + eLINE, background: "var(--card)", color: page === pages - 1 ? "rgba(0,15,71,.2)" : eMID, cursor: page === pages - 1 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevR size={17} /></button>
         </div>
       </div>
@@ -326,14 +326,14 @@ function EdInsights({ onBack, initialPreview }) {
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Insights</h1>
-      <p className="ed-insights-banner" style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.7, margin: 0, maxWidth: "none", whiteSpace: "nowrap" }}>
-        <span style={{ display: "inline-block", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, marginRight: 9, verticalAlign: "1px", whiteSpace: "nowrap" }}>{availCount} of {reps.length} ready</span>
+      <p className="ed-insights-banner" style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.7, margin: 0, maxWidth: "none", whiteSpace: "nowrap" }}>
+        <span style={{ display: "inline-block", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, marginRight: 9, verticalAlign: "1px", whiteSpace: "nowrap" }}>{availCount} of {reps.length} ready</span>
         Reports unlock automatically as you complete their underlying tasks.
       </p>
 
       {groups.map((g, gi) => (
         <div key={gi} style={{ borderTop: "1px solid " + eLINE, paddingTop: 26, marginTop: 32 }}>
-          <h2 className="serif" style={{ fontSize: 22, color: eMID, lineHeight: 1.15, margin: "0 0 18px" }}>{g.label}</h2>
+          <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: "0 0 18px" }}>{g.label}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 18 }}>
             {g.items.map((r) => <EdReportCard key={r.id} r={r} onPreview={setPreview} />)}
           </div>
@@ -436,7 +436,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
   const ToggleBtn = ({ on, onClick, icon, label }) => {
     const Ic = I[icon];
     return (
-      <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 15px", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, cursor: "pointer", border: "none", background: on ? "#fff" : "transparent", color: on ? eMID : eMUT, boxShadow: on ? "0 1px 4px rgba(0,15,71,.1)" : "none", transition: "all .15s" }}>
+      <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 15px", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, cursor: "pointer", border: "none", background: on ? "#fff" : "transparent", color: on ? eMID : eMUT, boxShadow: on ? "0 1px 4px rgba(0,15,71,.1)" : "none", transition: "all .15s" }}>
         <Ic size={15} /> {label}
       </button>
     );
@@ -451,15 +451,15 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
         <div style={{ display: "flex", alignItems: "center", gap: 15, marginBottom: 18 }}>
           <div style={{ width: 50, height: 50, borderRadius: "50%", background: "color-mix(in srgb, " + c.color + " 12%, #fff)", border: "1px solid color-mix(in srgb, " + c.color + " 24%, transparent)", color: c.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={23} /></div>
           <div>
-            <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.08, margin: "0 0 2px" }}>{c.name}</h1>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{c.program}</div>
+            <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.08, margin: "0 0 2px" }}>{c.name}</h1>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{c.program}</div>
           </div>
         </div>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 16 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.globe size={15} /> {c.location}</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={15} /> {c.duration}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.globe size={15} /> {c.location}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={15} /> {c.duration}</span>
         </div>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 24px", paddingBottom: 24, borderBottom: "1px solid " + eLINE }}>{c.desc}</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 24px", paddingBottom: 24, borderBottom: "1px solid " + eLINE }}>{c.desc}</p>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
           <div style={{ display: "inline-flex", gap: 4, background: "rgba(0,15,71,.05)", borderRadius: 10, padding: 3 }}>
@@ -471,7 +471,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
             <span style={{ color: eMUT, display: "flex" }}><I.globe size={16} /></span>
             <div style={{ position: "relative", display: "inline-block" }}>
               <select value={tz} onChange={(e) => setTz(e.target.value)} title="Show times in this timezone"
-                style={{ appearance: "none", WebkitAppearance: "none", MozAppearance: "none", fontFamily: "var(--sans)", fontSize: 14, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "9px 38px 9px 12px", cursor: "pointer" }}>
+                style={{ appearance: "none", WebkitAppearance: "none", MozAppearance: "none", fontFamily: "var(--sans)", fontSize: 15, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8, padding: "9px 38px 9px 12px", cursor: "pointer" }}>
                 {SCHED_TZS.map((z) => <option key={z.v} value={z.v}>{z.v}</option>)}
               </select>
               <span style={{ position: "absolute", right: 13, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: eMUT, display: "flex" }}>
@@ -491,30 +491,30 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
             return (
               <div key={slot.id} className="ed-slot-row" style={{ background: isBooked ? "rgba(20,133,61,.05)" : eCARD, border: "1px solid " + (isBooked ? "rgba(20,133,61,.3)" : eLINE), borderRadius: 14, padding: "16px 18px", opacity: full ? 0.55 : 1, display: "flex", alignItems: "center", gap: 16 }}>
                 <div style={{ textAlign: "center", width: 54, flexShrink: 0 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT, letterSpacing: 0.2 }}>{slot.day.slice(0, 3)}</div>
-                  <div className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.05 }}>{slot.date.split(" ")[1].replace(",", "")}</div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{slot.date.split(" ")[0]}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, letterSpacing: 0.2 }}>{slot.day.slice(0, 3)}</div>
+                  <div className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.05 }}>{slot.date.split(" ")[1].replace(",", "")}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{slot.date.split(" ")[0]}</div>
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 4 }}>{slotTime(slot.time)}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{slotTime(slot.time)}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{tzMeta.short}</span>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{tzMeta.short}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
                     {slot.cancelBefore ? (
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Cancel OK ({slot.cancelBefore})</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Cancel OK ({slot.cancelBefore})</span>
                     ) : (
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#C53532", background: "color-mix(in srgb, #C53532 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>No cancellation</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#C53532", background: "color-mix(in srgb, #C53532 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>No cancellation</span>
                     )}
                   </div>
                 </div>
                 <div className="ed-slot-action" style={{ flexShrink: 0 }}>
                   {isBooked ? (
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 5 }}><I.check size={15} /> Booked</span>
-                      {slot.cancelBefore && <button onClick={() => setCancelSlot({ slot, center: c, program: c.program })} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}>Cancel</button>}
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 5 }}><I.check size={15} /> Booked</span>
+                      {slot.cancelBefore && <button onClick={() => setCancelSlot({ slot, center: c, program: c.program })} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}>Cancel</button>}
                     </div>
                   ) : full ? (
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMUT }}>Full</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Full</span>
                   ) : (
                     <EdBtn small primary onClick={() => setConfirmSlot({ slot, center: c, program: c.program })}>Book slot</EdBtn>
                   )}
@@ -567,14 +567,14 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
         <div className="ed-cal-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <button onClick={() => setCalWeek(Math.max(0, wkIdx - 1))} disabled={wkIdx <= 0} style={{ width: 34, height: 34, borderRadius: "50%", background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx <= 0 ? "default" : "pointer", color: wkIdx <= 0 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevL size={17} /></button>
-            <h3 className="serif" style={{ fontSize: 22, color: eMID, margin: 0, minWidth: 220, textAlign: "center" }}>{rangeLabel}</h3>
+            <h3 className="serif" style={{ fontSize: 21, color: eMID, margin: 0, minWidth: 220, textAlign: "center" }}>{rangeLabel}</h3>
             <button onClick={() => setCalWeek(Math.min(weekKeys.length - 1, wkIdx + 1))} disabled={wkIdx >= weekKeys.length - 1} style={{ width: 34, height: 34, borderRadius: "50%", background: eCARD, border: "1px solid " + eLINE, cursor: wkIdx >= weekKeys.length - 1 ? "default" : "pointer", color: wkIdx >= weekKeys.length - 1 ? "rgba(0,15,71,.2)" : eMID, display: "flex", alignItems: "center", justifyContent: "center" }}><I.chevR size={17} /></button>
           </div>
           <div className="ed-cal-legend" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>
               <div style={{ width: 9, height: 9, borderRadius: 3, background: "var(--success-fill)" }} />Booked
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>
               <div style={{ width: 9, height: 9, borderRadius: 3, background: eBLUE }} />Available
             </div>
           </div>
@@ -587,8 +587,8 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
             <div />
             {dayCols.map((d, i) => (
               <div key={i} style={{ padding: "12px 10px", textAlign: "center", borderLeft: "1px solid " + eLINE }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{String(d.getDate()).padStart(2, "0")} </span>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT, letterSpacing: 0.5 }}>{wdNames[i]}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{String(d.getDate()).padStart(2, "0")} </span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, letterSpacing: 0.5 }}>{wdNames[i]}</span>
               </div>
             ))}
           </div>
@@ -598,7 +598,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
             <div style={{ position: "relative" }}>
               {hours.map((h, i) => (
                 <div key={h} style={{ height: rowH, position: "relative" }}>
-                  <span style={{ position: "absolute", top: -8, right: 8, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{i === 0 ? "" : hourLabel(h)}</span>
+                  <span style={{ position: "absolute", top: -8, right: 8, fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{i === 0 ? "" : hourLabel(h)}</span>
                 </div>
               ))}
             </div>
@@ -621,12 +621,12 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                         style={{ position: "absolute", top: top + 2, left: 4, right: 4, height, background: "color-mix(in srgb, " + tint + " 9%, #fff)", borderLeft: "3px solid " + tint, borderRadius: 8, padding: "7px 9px", cursor: "pointer", overflow: "hidden", transition: "background .15s" }}
                         onMouseEnter={(ev) => ev.currentTarget.style.background = "color-mix(in srgb, " + tint + " 16%, #fff)"}
                         onMouseLeave={(ev) => ev.currentTarget.style.background = "color-mix(in srgb, " + tint + " 9%, #fff)"}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.2, marginBottom: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{slotTime(e.slot.time)}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.2, marginBottom: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{slotTime(e.slot.time)}</div>
                         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                             {isBooked ? (
-                              <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 3 }}><I.check size={11} /> Booked</span>
+                              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 3 }}><I.check size={11} /> Booked</span>
                             ) : (
-                              <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: e.slot.remaining <= 2 ? eDANGER : eMUT }}>{e.slot.remaining}/{e.slot.total} seats</span>
+                              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: e.slot.remaining <= 2 ? eDANGER : eMUT }}>{e.slot.remaining}/{e.slot.total} seats</span>
                             )}
                         </div>
                       </div>
@@ -638,7 +638,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           </div>
         </div>
 
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginTop: 12 }}>Tap a session to book it. Booked sessions appear in green.</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 12 }}>Tap a session to book it. Booked sessions appear in green.</p>
 
         {pop && (() => {
           const { slot, center } = pop;
@@ -653,25 +653,25 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
               <div onClick={() => setPop(null)} style={{ position: "fixed", inset: 0, zIndex: 79 }} />
               <div className="ed-cal-pop" style={{ position: "absolute", top, left, width: W, zIndex: 80, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, boxShadow: "0 16px 44px rgba(0,15,71,.22)", padding: 16, fontFamily: "var(--sans)" }}>
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, lineHeight: 1.2 }}>Book this slot</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.2 }}>Book this slot</div>
                   <button onClick={() => setPop(null)} title="Close" style={{ background: "none", border: "none", color: eMUT, cursor: "pointer", display: "flex", flexShrink: 0, padding: 0 }}><I.plus size={16} style={{ transform: "rotate(45deg)" }} /></button>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 13 }}>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.cal size={13} /> {slot.date} · {slot.day}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={13} /> {slotTime(slot.time)} · {tzMeta.short}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.globe size={13} /> {center.location}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: slot.remaining <= 2 ? eDANGER : eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.users size={13} /> {slot.remaining} of {slot.total} seats left</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.cal size={13} /> {slot.date} · {slot.day}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={13} /> {slotTime(slot.time)} · {tzMeta.short}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.globe size={13} /> {center.location}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: slot.remaining <= 2 ? eDANGER : eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.users size={13} /> {slot.remaining} of {slot.total} seats left</span>
                 </div>
                 {pop.booked ? (
-                  <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setPop(null); }} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel booking</button>
+                  <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setPop(null); }} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Cancel booking</button>
                 ) : (
                   <React.Fragment>
                     {/* same language question as the list flow */}
                     <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 12, marginBottom: 13 }}>
-                      <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, marginBottom: 8 }}>Do you have a language preference?</div>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, marginBottom: 8 }}>Do you have a language preference?</div>
                       <div style={{ display: "flex", gap: 18, marginBottom: langPref === "yes" ? 10 : 0 }}>
                         {["yes", "no"].map((v) => (
-                          <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 6, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13.5, color: eINK }}>
+                          <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 6, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, color: eINK }}>
                             <input type="radio" name="sched-pop-lang" checked={langPref === v} onChange={() => setLangPref(v)} style={{ accentColor: eBLUE, width: 15, height: 15 }} />
                             {v === "yes" ? "Yes" : "No"}
                           </label>
@@ -679,14 +679,14 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                       </div>
                       {langPref === "yes" && (
                         <select value={lang} onChange={(e) => setLang(e.target.value)}
-                          style={{ width: "100%", boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 9, padding: "9px 11px", cursor: "pointer" }}>
+                          style={{ width: "100%", boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 13, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 9, padding: "9px 11px", cursor: "pointer" }}>
                           <option>English</option><option>Deutsch</option><option>Français</option><option>العربية</option>
                         </select>
                       )}
                     </div>
                     {/* booking from the calendar lands on the same confirmation page */}
                     <button onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setDoneSlot({ slot, center, program: pop.program, langPref, lang, justBooked: true }); setPop(null); }}
-                      style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: "var(--action)", color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Book this slot <I.check size={14} /></button>
+                      style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: "var(--action)", color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Book this slot <I.check size={14} /></button>
                   </React.Fragment>
                 )}
               </div>
@@ -705,18 +705,18 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, padding: 28, maxWidth: 440, width: "100%", boxShadow: "0 24px 60px rgba(0,15,71,.3)" }}>
             <button onClick={() => setConfirmSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: "50%", border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
             <EdEyebrow color={eBLUE}>Confirm booking</EdEyebrow>
-            <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.1, margin: "0 0 16px" }}>{center.name}</h2>
+            <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.1, margin: "0 0 16px" }}>{center.name}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
               {[[I.cal, `${slot.date} · ${slot.day}`], [I.clock, `${slotTime(slot.time)} · ${tzMeta.short}`], [I.globe, center.location]].map(([Ic, txt], i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ color: eBLUE, display: "flex" }}><Ic size={17} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>{txt}</span></div>
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ color: eBLUE, display: "flex" }}><Ic size={17} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>{txt}</span></div>
               ))}
             </div>
             {/* language preference — same question as the Bookings flow */}
             <div style={{ borderTop: "1px solid " + eLINE, paddingTop: 18, marginBottom: 18 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, marginBottom: 10 }}>Do you have a language preference?</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, marginBottom: 10 }}>Do you have a language preference?</div>
               <div style={{ display: "flex", gap: 22, marginBottom: langPref === "yes" ? 12 : 0 }}>
                 {["yes", "no"].map((v) => (
-                  <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, color: eINK }}>
+                  <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>
                     <input type="radio" name="sched-lang" checked={langPref === v} onChange={() => setLangPref(v)} style={{ accentColor: eBLUE, width: 16, height: 16 }} />
                     {v === "yes" ? "Yes" : "No"}
                   </label>
@@ -724,13 +724,13 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
               </div>
               {langPref === "yes" && (
                 <select value={lang} onChange={(e) => setLang(e.target.value)}
-                  style={{ width: "100%", boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 14, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "11px 13px", cursor: "pointer" }}>
+                  style={{ width: "100%", boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 15, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "11px 13px", cursor: "pointer" }}>
                   <option>English</option><option>Deutsch</option><option>Français</option><option>العربية</option>
                 </select>
               )}
             </div>
             <div style={{ background: slot.cancelBefore ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "rgba(203,126,3,.07)", borderRadius: 10, padding: "10px 13px", marginBottom: 22 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.5 }}>{slot.cancelBefore ? `Cancellation up to ${slot.cancelBefore} before the session.` : "This session is non-refundable once booked."}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{slot.cancelBefore ? `Cancellation up to ${slot.cancelBefore} before the session.` : "This session is non-refundable once booked."}</span>
             </div>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
               <EdBtn primary onClick={() => { setBooked((b) => ({ ...b, [slot.id]: true })); markCenterReserved(center); setDoneSlot({ ...confirmSlot, langPref, lang }); setConfirmSlot(null); }}>Confirm booking <I.check size={15} /></EdBtn>
@@ -740,7 +740,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
       ); })()}
 
       {schedToast && (
-        <div style={{ position: "fixed", left: "50%", bottom: 28, transform: "translateX(-50%)", zIndex: 90, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "11px 18px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", display: "inline-flex", alignItems: "center", gap: 8 }}>
+        <div style={{ position: "fixed", left: "50%", bottom: 28, transform: "translateX(-50%)", zIndex: 90, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "11px 18px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", display: "inline-flex", alignItems: "center", gap: 8 }}>
           <I.check size={16} /> {schedToast}
         </div>
       )}
@@ -750,11 +750,11 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, padding: 28, maxWidth: 420, width: "100%", boxShadow: "0 24px 60px rgba(0,15,71,.3)" }}>
             <button onClick={() => setCancelSlot(null)} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: "50%", border: "none", background: "rgba(0,15,71,.05)", color: eMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
             <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(197,53,50,.10)", border: "1px solid rgba(197,53,50,.22)", color: eDANGER, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><I.info size={22} /></div>
-            <h2 className="serif" style={{ fontSize: 24, color: eMID, lineHeight: 1.12, margin: "0 0 8px" }}>Cancel this booking?</h2>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: "0 0 8px" }}>You're about to cancel <strong style={{ color: eMID }}>{center.name}</strong> on {slot.date} at {slotTime(slot.time)}.</p>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.5, margin: "0 0 22px" }}>{slot.cancelBefore ? `This is within the cancellation window (${slot.cancelBefore} before).` : "This session is non-refundable — cancelling forfeits your seat."}</p>
+            <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.12, margin: "0 0 8px" }}>Cancel this booking?</h2>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 8px" }}>You're about to cancel <strong style={{ color: eMID }}>{center.name}</strong> on {slot.date} at {slotTime(slot.time)}.</p>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.5, margin: "0 0 22px" }}>{slot.cancelBefore ? `This is within the cancellation window (${slot.cancelBefore} before).` : "This session is non-refundable — cancelling forfeits your seat."}</p>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setCancelSlot(null); setDoneSlot(null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel booking</button>
+              <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setCancelSlot(null); setDoneSlot(null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Cancel booking</button>
             </div>
           </div>
         </div>
@@ -772,8 +772,8 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
     const providers = (window.EdBookings && window.EdBookings.CAL_PROVIDERS) || ["Google", "Outlook", "Office 365", "iCal", "Yahoo"];
     const row = (label, value) => (
       <div style={{ display: "flex", gap: 20, padding: "14px 0", borderTop: "1px solid " + eLINE }}>
-        <div style={{ width: 110, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{label}</div>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMID, fontWeight: 600 }}>{value}</div>
+        <div style={{ width: 110, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{label}</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 700 }}>{value}</div>
       </div>
     );
     return (
@@ -781,14 +781,14 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
         <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 18, padding: "40px 36px" }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ width: 62, height: 62, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}><I.check size={30} /></div>
-            <h1 className="serif" style={{ fontSize: 32, color: eMID, lineHeight: 1.1, margin: "0 0 10px" }}>{doneSlot.justBooked === false ? "Your booking" : "You're all set"}</h1>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>{doneSlot.justBooked === false ? "This session is confirmed. You can add it to your calendar, reschedule, or cancel below." : "Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details."}</p>
+            <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 10px" }}>{doneSlot.justBooked === false ? "Your booking" : "You're all set"}</h1>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>{doneSlot.justBooked === false ? "This session is confirmed. You can add it to your calendar, reschedule, or cancel below." : "Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details."}</p>
           </div>
 
           <div style={{ border: "1px solid " + eLINE, borderRadius: 14, padding: "4px 20px 14px", marginBottom: 26 }}>
             <div style={{ display: "flex", gap: 20, padding: "14px 0" }}>
-              <div style={{ width: 110, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Session</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMID, fontWeight: 700 }}>{center.name}</div>
+              <div style={{ width: 110, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Session</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 700 }}>{center.name}</div>
             </div>
             {row("When", <React.Fragment>{slot.date} · {slot.day}<br /><span style={{ fontWeight: 700 }}>{slotTime(slot.time)}</span> <span style={{ fontWeight: 400, color: eMUT }}>({tzMeta.short})</span></React.Fragment>)}
             {row("Location", center.location)}
@@ -799,19 +799,19 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           {/* what the session actually is — so this page works as the booking's detail view */}
           {center.desc && (
             <div style={{ marginBottom: 26 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 8 }}>About this session</div>
-              <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.6, margin: 0 }}>{center.desc}</p>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 8 }}>About this session</div>
+              <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0 }}>{center.desc}</p>
               <button onClick={() => { setDoneSlot(null); setView(center.id); }}
-                style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+                style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>
                 View all slots for this center <I.arrow size={14} />
               </button>
             </div>
           )}
-          <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {providers.map((c) => (
               <button key={c} onClick={() => showSchedToast("Added to " + c)}
-                style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 9, transition: "border-color .15s" }}
+                style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eINK, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 9, transition: "border-color .15s" }}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = eMID; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; }}>
                 {PIcon ? <PIcon name={c} /> : <I.cal size={15} />} {c}
               </button>
@@ -819,10 +819,10 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           </div>
 
           <div style={{ borderTop: "1px solid " + eLINE, marginTop: 30, paddingTop: 22, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 14 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>Need to make changes?</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Need to make changes?</div>
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => { setCancelSlot(doneSlot); }} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eDANGER, background: "var(--card)", border: "1px solid " + eDANGER, borderRadius: 10, padding: "11px 18px", cursor: "pointer" }}>Cancel booking</button>
-              <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setDoneSlot(null); setView(center.id); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eMID, borderRadius: 10, padding: "11px 18px", cursor: "pointer" }}><I.clock size={15} /> Reschedule</button>
+              <button onClick={() => { setCancelSlot(doneSlot); }} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eDANGER, background: "var(--card)", border: "1px solid " + eDANGER, borderRadius: 10, padding: "11px 18px", cursor: "pointer" }}>Cancel booking</button>
+              <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setDoneSlot(null); setView(center.id); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eMID, borderRadius: 10, padding: "11px 18px", cursor: "pointer" }}><I.clock size={15} /> Reschedule</button>
             </div>
           </div>
         </div>
@@ -838,7 +838,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Scheduling</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: eINK, lineHeight: 1.6, margin: "0 0 22px" }}>Browse available time slots and book your assessment center sessions.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 22px" }}>Browse available time slots and book your assessment center sessions.</p>
 
       {/* List / Calendar toggle removed from overview — calendar lives inside each center.
          renderCalendar() is retained for that per-center view and future use. */}
@@ -855,16 +855,16 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                     onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(20,133,61,.05)"; }}>
                     <div style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.checkCircle size={19} /></div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID }}>{b.center.name}</div>
-                      <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{b.slot.date} · {slotTime(b.slot.time)} · {b.center.location}</div>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{b.center.name}</div>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{b.slot.date} · {slotTime(b.slot.time)} · {b.center.location}</div>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
                       <button onClick={() => { setBooked((x) => { const n = { ...x }; delete n[b.slot.id]; return n; }); setView(b.center.id); }}
-                        style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "none", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}><I.clock size={14} /> Reschedule</button>
+                        style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "none", border: "1px solid " + eLINE, borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}><I.clock size={14} /> Reschedule</button>
                       {b.slot.cancelBefore ? (
-                        <button onClick={() => setCancelSlot(b)} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}>Cancel</button>
+                        <button onClick={() => setCancelSlot(b)} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eDANGER, background: "none", border: "1px solid rgba(197,53,50,.3)", borderRadius: 8, padding: "6px 11px", cursor: "pointer" }}>Cancel</button>
                       ) : (
-                        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMUT }}>Non-cancellable</span>
+                        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Non-cancellable</span>
                       )}
                       <span style={{ color: eMUT, display: "flex" }}><I.chevR size={16} /></span>
                     </div>
@@ -891,18 +891,18 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, marginBottom: 12 }}>
                         <div style={{ width: 40, height: 40, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={19} /></div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, marginBottom: 4 }}>{c.name}</div>
+                          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{c.name}</div>
                           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-                            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.globe size={13} /> {c.location}</span>
-                            <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={13} /> {c.duration}</span>
+                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.globe size={13} /> {c.location}</span>
+                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={13} /> {c.duration}</span>
                           </div>
                         </div>
-                        {bookedInCenter > 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0 }}><I.check size={11} /> {bookedInCenter} booked</span>}
+                        {bookedInCenter > 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0 }}><I.check size={11} /> {bookedInCenter} booked</span>}
                       </div>
                       {/* footer sits on the card's bottom edge, so every card in the row lines up */}
                       <div className="ed-sched-foot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: "auto", paddingTop: 12, borderTop: "1px solid " + eLINE }}>
-                        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: totalRemaining <= 5 ? eWARN : eMUT, minWidth: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.slots.length} slots · {totalRemaining} open{!bookedInCenter && nextSlot ? ` · next ${nextSlot.date}` : ""}</span>
-                        <span className="ed-sched-view" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 5, color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, whiteSpace: "nowrap", flexShrink: 0 }}>View slots <I.chevR size={15} /></span>
+                        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: totalRemaining <= 5 ? eWARN : eMUT, minWidth: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.slots.length} slots · {totalRemaining} open{!bookedInCenter && nextSlot ? ` · next ${nextSlot.date}` : ""}</span>
+                        <span className="ed-sched-view" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 5, color: eMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0 }}>View slots <I.chevR size={15} /></span>
                       </div>
                     </div>
                   );

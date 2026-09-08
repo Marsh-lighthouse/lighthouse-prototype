@@ -49,7 +49,7 @@ function bkAddMinutes(start12, min) {
 
 // ── shared button (mirrors the platform EdBtn: gold primary / midnight outline) ──
 function BkBtn({ children, kind = "primary", onClick, style }) {
-  const base = { display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, borderRadius: 10, padding: "12px 18px", cursor: "pointer", transition: "filter .15s, background .15s", whiteSpace: "nowrap" };
+  const base = { display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, borderRadius: 10, padding: "12px 18px", cursor: "pointer", transition: "filter .15s, background .15s", whiteSpace: "nowrap" };
   const kinds = {
     primary: { background: kGOLD, color: kGOLDTX, border: "none" },
     outline: { background: "transparent", color: kMID, border: "1.5px solid " + kMID },
@@ -106,7 +106,7 @@ const BK_CAL_PROVIDERS = ["Google", "Outlook", "Office 365", "iCal", "Yahoo"];
 // ── Read more / Show less toggle: primary colour + chevron (down collapsed, up expanded) ──
 function BkMoreToggle({ open, onClick }) {
   return (
-    <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, cursor: "pointer", color: kMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 }}>
+    <button onClick={onClick} style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, cursor: "pointer", color: kMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>
       {open ? "Show less" : "Read more"}
       <span style={{ display: "flex", transition: "transform .18s", transform: open ? "rotate(180deg)" : "none" }}><I.chevD size={16} /></span>
     </button>
@@ -169,8 +169,8 @@ function EdBookings() {
     const f = flow, end = bkAddMinutes(f.time, f.invite.durMin);
     const Row = ({ label, children }) => (
       <div style={{ display: "flex", gap: 14, padding: "13px 0", borderTop: "1px solid " + kLINE }}>
-        <div style={{ flex: "0 0 96px", fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>{label}</div>
-        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>{children}</div>
+        <div style={{ flex: "0 0 96px", fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>{label}</div>
+        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>{children}</div>
       </div>
     );
     return (
@@ -179,29 +179,29 @@ function EdBookings() {
           {/* hero */}
           <div style={{ textAlign: "center" }}>
             <div style={{ width: 60, height: 60, borderRadius: 30, background: kSUCCESSFILL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", color: "#fff" }}><I.check size={28} /></div>
-            <h1 className="serif" style={{ fontSize: 32, color: kINK, margin: "0 0 8px", lineHeight: 1.1 }}>You're all set</h1>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kMUT, margin: "0 auto 4px", maxWidth: 440, lineHeight: 1.5 }}>Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details.</p>
+            <h1 className="serif" style={{ fontSize: 28, color: kINK, margin: "0 0 8px", lineHeight: 1.1 }}>You're all set</h1>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, margin: "0 auto 4px", maxWidth: 440, lineHeight: 1.5 }}>Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details.</p>
           </div>
 
           {/* details summary panel */}
           <div style={{ marginTop: 28, borderRadius: 12, border: "1px solid " + kLINE, background: "transparent", padding: "6px 20px 8px" }}>
             <div style={{ display: "flex", gap: 14, padding: "13px 0" }}>
-              <div style={{ flex: "0 0 96px", fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>Session</div>
-              <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 16, color: kINK, fontWeight: 600 }}>{f.invite.title}</div>
+              <div style={{ flex: "0 0 96px", fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>Session</div>
+              <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 700 }}>{f.invite.title}</div>
             </div>
             <Row label="When">
               Tuesday, August 0{f.date}, 2026<br />
-              <span style={{ fontWeight: 600 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} – {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
+              <span style={{ fontWeight: 700 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} – {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
             </Row>
             {f.langPref === "yes" && <Row label="Language">{f.lang}</Row>}
           </div>
 
           {/* add to calendar — real provider marks */}
           <div style={{ marginTop: 26 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: kINK, marginBottom: 12 }}>Add to your calendar</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kINK, marginBottom: 12 }}>Add to your calendar</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               {BK_CAL_PROVIDERS.map((c) =>
-                <button key={c} onClick={() => showToast("Added to " + c)} style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: kINK, background: kCARD, border: "1px solid " + kLINE, borderRadius: 10, padding: "9px 14px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8, transition: "border-color .15s, background .15s" }}
+                <button key={c} onClick={() => showToast("Added to " + c)} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kINK, background: kCARD, border: "1px solid " + kLINE, borderRadius: 10, padding: "9px 14px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8, transition: "border-color .15s, background .15s" }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = kMID; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; }}>
                   <BkProviderIcon name={c} /> {c}
                 </button>)}
@@ -210,7 +210,7 @@ function EdBookings() {
 
           {/* manage actions — buttons, not text links */}
           <div style={{ borderTop: "1px solid " + kLINE, marginTop: 28, paddingTop: 22, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 14 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>Need to make changes?</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>Need to make changes?</div>
             <div style={{ display: "flex", gap: 10 }}>
               <BkBtn kind="dangerOutline" onClick={() => setCancelId(f.invite.id)}>Cancel booking</BkBtn>
               <BkBtn kind="outline" onClick={() => setFlow({ ...f, step: "cal" })}><I.clock size={15} /> Reschedule</BkBtn>
@@ -232,17 +232,17 @@ function EdBookings() {
     return (
       <div style={wrap}>
         {/* ── heading + description live on the page (not trapped in a scrolling box) ── */}
-        <h1 className="serif" style={{ fontSize: 32, color: kINK, lineHeight: 1.12, margin: "0 0 10px" }}>{f.invite.title}</h1>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, marginBottom: 14 }}>
+        <h1 className="serif" style={{ fontSize: 28, color: kINK, lineHeight: 1.12, margin: "0 0 10px" }}>{f.invite.title}</h1>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, marginBottom: 14 }}>
           <I.clock size={16} /> {f.invite.dur} session
         </div>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, lineHeight: 1.65, margin: "0 0 6px", maxWidth: 720, ...(descOpen ? {} : { display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }) }}>{f.invite.desc}</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, lineHeight: 1.65, margin: "0 0 6px", maxWidth: 720, ...(descOpen ? {} : { display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }) }}>{f.invite.desc}</p>
         <BkMoreToggle open={descOpen} onClick={() => toggleCard("flowdesc")} />
 
         {/* ── the booking form ── */}
         <div style={{ borderTop: "1px solid " + kLINE, marginTop: 26, paddingTop: 26 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 16 }}>
-            <h2 className="serif" style={{ fontSize: 20, color: kINK, margin: 0 }}>Select a date &amp; time</h2>
+            <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: 0 }}>Select a date &amp; time</h2>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ color: kMUT, display: "flex" }}><I.globe size={16} /></span>
               <BkSelect value={f.tz} onChange={(e) => set({ tz: e.target.value })}>
@@ -258,12 +258,12 @@ function EdBookings() {
             <div style={{ padding: "24px 26px", borderRight: "1px solid " + kLINE }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 18, marginBottom: 18 }}>
                 <button style={{ background: "none", border: "none", cursor: "pointer", color: kMUT, display: "flex" }}><I.chevL size={18} /></button>
-                <span className="serif" style={{ fontSize: 18, color: kINK }}>{BK_MONTH} {BK_YEAR}</span>
+                <span className="serif" style={{ fontSize: 21, color: kINK }}>{BK_MONTH} {BK_YEAR}</span>
                 <button style={{ background: "none", border: "none", cursor: "pointer", color: kMUT, display: "flex" }}><I.chevR size={18} /></button>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6 }}>
                 {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) =>
-                  <div key={d} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: kMUT, paddingBottom: 6 }}>{d}</div>)}
+                  <div key={d} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kMUT, paddingBottom: 6 }}>{d}</div>)}
                 {BK_CELLS.map((n, i) => {
                   if (n == null) return <div key={i} />;
                   const avail = BK_AVAIL.includes(n);
@@ -272,7 +272,7 @@ function EdBookings() {
                     <button key={i} disabled={!avail} onClick={() => set({ date: n, time: null })}
                       style={{
                         aspectRatio: "1", borderRadius: 10, border: "none", cursor: avail ? "pointer" : "default",
-                        fontFamily: "var(--sans)", fontSize: 14, fontWeight: sel ? 700 : 500,
+                        fontFamily: "var(--sans)", fontSize: 15, fontWeight: sel ? 700 : 700,
                         background: sel ? kACCENT : avail ? kSKY : "transparent",
                         color: sel ? "var(--on-accent)" : avail ? kINK : kMUT,
                       }}>{n}</button>
@@ -283,23 +283,23 @@ function EdBookings() {
             {/* time slots → language preference */}
             <div style={{ padding: "24px 22px" }}>
               {!f.date &&
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.5 }}>Select an available date to see open times.</div>}
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.5 }}>Select an available date to see open times.</div>}
               {f.date && !f.time && <React.Fragment>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, fontWeight: 600, marginBottom: 14 }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 700, marginBottom: 14 }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {BK_SLOTS.map((s) =>
-                    <button key={s} onClick={() => set({ time: s })} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: kMID, background: kCARD, border: "1px solid " + kLINE, borderRadius: 10, padding: "12px", cursor: "pointer" }}>{s}</button>)}
+                    <button key={s} onClick={() => set({ time: s })} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kMID, background: kCARD, border: "1px solid " + kLINE, borderRadius: 10, padding: "12px", cursor: "pointer" }}>{s}</button>)}
                 </div>
               </React.Fragment>}
               {f.date && f.time && <React.Fragment>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
                   <button onClick={() => set({ time: null })} style={{ background: "none", border: "none", cursor: "pointer", color: kMUT, display: "flex", padding: 0 }}><I.chevL size={16} /></button>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug, <span style={{ fontWeight: 700 }}>{f.time}</span></span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug, <span style={{ fontWeight: 700 }}>{f.time}</span></span>
                 </div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, marginBottom: 12 }}>Do you have a language preference?</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, marginBottom: 12 }}>Do you have a language preference?</div>
                 <div style={{ display: "flex", gap: 22, marginBottom: 16 }}>
                   {["yes", "no"].map((v) =>
-                    <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>
+                    <label key={v} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>
                       <input type="radio" name="bk-lang" checked={f.langPref === v} onChange={() => set({ langPref: v })} style={{ accentColor: kACCENT, width: 16, height: 16 }} />
                       {v === "yes" ? "Yes" : "No"}
                     </label>)}
@@ -326,8 +326,8 @@ function EdBookings() {
   const Tab = ({ id, label, count }) => {
     const on = tab === id;
     return (
-      <button onClick={() => setTab(id)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? kMID : kMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? kMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>
-        {label} <span style={{ color: kMUT, fontWeight: 500 }}>({count})</span>
+      <button onClick={() => setTab(id)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? kMID : kMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? kMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>
+        {label} <span style={{ color: kMUT, fontWeight: 700 }}>({count})</span>
       </button>
     );
   };
@@ -339,7 +339,7 @@ function EdBookings() {
       <div style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14 }}>
         <div onClick={() => toggleCard(id)} style={{ cursor: "pointer", padding: "20px 24px 4px" }}>
           <div style={{ flex: 1, minWidth: 0 }}>{head}</div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: open ? kINK : kMUT, lineHeight: 1.6, margin: "12px 0 0", ...(open ? {} : clamp) }}>{body}</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: open ? kINK : kMUT, lineHeight: 1.6, margin: "12px 0 0", ...(open ? {} : clamp) }}>{body}</p>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "12px 24px 20px" }}>
           <BkMoreToggle open={open} onClick={() => toggleCard(id)} />
@@ -352,13 +352,13 @@ function EdBookings() {
   // ── Invite-card layout SAMPLES (same content, different presentation). ──
   // Add a new object to BK_SAMPLES to extend the gallery; the bottom switcher cycles them.
   const inviteMeta = (iv, size) => (
-    <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}><I.clock size={size || 16} /> {iv.dur}</div>
+    <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><I.clock size={size || 16} /> {iv.dur}</div>
   );
   // 1 · Editorial — the accordion card (current default)
   const inviteEditorial = (iv) => (
     <Card key={iv.id} id={iv.id}
       head={<React.Fragment>
-        <h2 className="serif" style={{ fontSize: 22, color: kINK, margin: "0 0 8px", lineHeight: 1.15 }}>{iv.title}</h2>
+        <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 8px", lineHeight: 1.15 }}>{iv.title}</h2>
         {inviteMeta(iv)}
       </React.Fragment>}
       body={iv.desc}
@@ -371,12 +371,12 @@ function EdBookings() {
       <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, padding: "18px 22px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 className="serif" style={{ fontSize: 20, color: kINK, margin: "0 0 6px", lineHeight: 1.2 }}>{iv.title}</h2>
+            <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 6px", lineHeight: 1.2 }}>{iv.title}</h2>
             {inviteMeta(iv, 15)}
           </div>
           <BkBtn kind="primary" onClick={() => startBooking(iv)}>Book <I.arrow size={15} /></BkBtn>
         </div>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: "12px 0 0", ...(open ? {} : clamp) }}>{iv.desc}</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.6, margin: "12px 0 0", ...(open ? {} : clamp) }}>{iv.desc}</p>
         <div style={{ marginTop: 8 }}><BkMoreToggle open={open} onClick={() => toggleCard(iv.id)} /></div>
       </div>
     );
@@ -387,8 +387,8 @@ function EdBookings() {
     return (
       <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, overflow: "hidden", display: "grid", gridTemplateColumns: "minmax(0,1fr) 190px" }}>
         <div style={{ padding: "22px 24px" }}>
-          <h2 className="serif" style={{ fontSize: 22, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{iv.title}</h2>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: 0, ...(open ? {} : clamp) }}>{iv.desc}</p>
+          <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{iv.title}</h2>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.6, margin: 0, ...(open ? {} : clamp) }}>{iv.desc}</p>
           <div style={{ marginTop: 8 }}><BkMoreToggle open={open} onClick={() => toggleCard(iv.id)} /></div>
         </div>
         <div style={{ borderLeft: "1px solid " + kLINE, padding: "22px 20px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, textAlign: "center" }}>
@@ -403,16 +403,16 @@ function EdBookings() {
     const open = !!openCards[iv.id];
     return (
       <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, padding: "20px 24px", display: "flex", gap: 16 }}>
-        <div style={{ flexShrink: 0, width: 30, height: 30, borderRadius: 15, background: kACCENT, color: "var(--on-accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", marginTop: 3 }}>{i + 1}</div>
+        <div style={{ flexShrink: 0, width: 30, height: 30, borderRadius: 15, background: kACCENT, color: "var(--on-accent)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", marginTop: 3 }}>{i + 1}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 14 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <h2 className="serif" style={{ fontSize: 20, color: kINK, margin: "0 0 6px", lineHeight: 1.18 }}>{iv.title}</h2>
+              <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 6px", lineHeight: 1.18 }}>{iv.title}</h2>
               {inviteMeta(iv, 15)}
             </div>
             <BkBtn kind="primary" onClick={() => startBooking(iv)}>Book <I.arrow size={15} /></BkBtn>
           </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: "12px 0 0", ...(open ? {} : clamp) }}>{iv.desc}</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.6, margin: "12px 0 0", ...(open ? {} : clamp) }}>{iv.desc}</p>
           <div style={{ marginTop: 8 }}><BkMoreToggle open={open} onClick={() => toggleCard(iv.id)} /></div>
         </div>
       </div>
@@ -422,9 +422,9 @@ function EdBookings() {
   // Description is clamped to 3 lines (…); the full text lives one click deeper, on Book.
   const inviteGrid = (iv) => (
     <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, padding: "20px 22px", display: "flex", flexDirection: "column", height: "100%" }}>
-      <h2 className="serif" style={{ fontSize: 20, color: kINK, margin: "0 0 8px", lineHeight: 1.2 }}>{iv.title}</h2>
+      <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 8px", lineHeight: 1.2 }}>{iv.title}</h2>
       {inviteMeta(iv, 15)}
-      <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: "12px 0 18px", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{iv.desc}</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.6, margin: "12px 0 18px", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{iv.desc}</p>
       <div style={{ marginTop: "auto" }}>
         <BkBtn kind="primary" onClick={() => startBooking(iv)} style={{ width: "100%", justifyContent: "center" }}>Book <I.arrow size={15} /></BkBtn>
       </div>
@@ -442,7 +442,7 @@ function EdBookings() {
   return (
     <div style={wrap}>
       <h1 className="serif" style={{ fontSize: 40, color: kINK, lineHeight: 1.08, margin: "0 0 8px" }}>Bookings</h1>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 560 }}>Review your invitations and book your assessment sessions.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, lineHeight: 1.6, margin: "0 0 24px", maxWidth: 560 }}>Review your invitations and book your assessment sessions.</p>
       <div style={{ display: "flex", gap: 2, borderBottom: "1px solid " + kLINE, marginBottom: 30 }}>
         <Tab id="invites" label="Invites" count={invites.length} />
         <Tab id="bookings" label="Bookings" count={bookings.length} />
@@ -464,9 +464,9 @@ function EdBookings() {
             return (
             <Card key={bk.id} id={"b-" + bk.id}
               head={<React.Fragment>
-                <h2 className="serif" style={{ fontSize: 22, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{bk.title}</h2>
-                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16, fontFamily: "var(--sans)", fontSize: 14 }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kMUT, fontWeight: 600 }}><I.clock size={15} /> {durLabel}</span>
+                <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{bk.title}</h2>
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16, fontFamily: "var(--sans)", fontSize: 15 }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kMUT, fontWeight: 700 }}><I.clock size={15} /> {durLabel}</span>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kINK }}><I.cal size={15} /> {bk.day}th August 2026 <b style={{ fontWeight: 700 }}>{bk.start}</b> - <b style={{ fontWeight: 700 }}>{bk.end}</b> <span style={{ color: kMUT }}>(GMT+2)</span></span>
                 </div>
               </React.Fragment>}
@@ -487,14 +487,14 @@ function EdBookings() {
         <div style={{ position: "fixed", right: 172, bottom: 14, zIndex: 190 }}>
           {sampleMenu &&
             <div style={{ position: "absolute", bottom: "calc(100% + 8px)", right: 0, minWidth: 220, background: kCARD, border: "1px solid " + kLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: 6 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: kMUT, padding: "8px 12px 6px" }}>Card style</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: kMUT, padding: "8px 12px 6px" }}>Card style</div>
               {BK_SAMPLES.map((s, i) => {
                 const on = i === sample;
                 return (
                   <button key={s.name} onClick={() => { setSample(i); setSampleMenu(false); }}
                     onMouseEnter={(e) => { if (!on) e.currentTarget.style.background = "rgba(0,15,71,.05)"; }}
                     onMouseLeave={(e) => { if (!on) e.currentTarget.style.background = "transparent"; }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, width: "100%", background: on ? kSKY : "transparent", border: "none", borderRadius: 8, cursor: "pointer", padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: kINK, textAlign: "left" }}>
+                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, width: "100%", background: on ? kSKY : "transparent", border: "none", borderRadius: 8, cursor: "pointer", padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: kINK, textAlign: "left" }}>
                     {s.name}
                     {on && <span style={{ display: "flex", color: kMID }}><I.check size={16} /></span>}
                   </button>
@@ -502,7 +502,7 @@ function EdBookings() {
               })}
             </div>}
           <button onClick={() => setSampleMenu((v) => !v)} title="Choose a booking-card layout"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, background: kCARD, color: kMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "7px 13px", borderRadius: 9, border: "1px solid " + kLINE, boxShadow: "0 3px 12px rgba(0,15,71,.12)", cursor: "pointer" }}>
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, background: kCARD, color: kMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "7px 13px", borderRadius: 9, border: "1px solid " + kLINE, boxShadow: "0 3px 12px rgba(0,15,71,.12)", cursor: "pointer" }}>
             <span style={{ display: "flex", color: kMUT }}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="7" rx="1.5" /><rect x="3" y="14" width="18" height="6" rx="1.5" /></svg></span>
             Card style · {activeSample.name}
             <span style={{ display: "flex", color: kMUT, transition: "transform .18s", transform: sampleMenu ? "rotate(180deg)" : "none" }}><I.chevD size={15} /></span>
@@ -520,19 +520,19 @@ function BkConfirmDialog({ f, end, onClose, onConfirm }) {
       <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: kCARD, border: "1px solid var(--line)", borderRadius: 18, padding: 28, maxWidth: 440, width: "100%", boxShadow: "0 24px 60px rgba(0,15,71,.3)" }}>
         <button onClick={onClose} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: "50%", border: "none", background: "rgba(0,15,71,.05)", color: kMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
         <div style={{ width: 46, height: 46, borderRadius: "50%", background: kSKY, color: kACCENT, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><I.cal size={22} /></div>
-        <h2 className="serif" style={{ fontSize: 24, color: kINK, lineHeight: 1.12, margin: "0 0 8px" }}>Confirm this booking?</h2>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: "0 0 20px" }}>Please confirm these details are correct before we finalize your session.</p>
+        <h2 className="serif" style={{ fontSize: 21, color: kINK, lineHeight: 1.12, margin: "0 0 8px" }}>Confirm this booking?</h2>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.6, margin: "0 0 20px" }}>Please confirm these details are correct before we finalize your session.</p>
         <div style={{ borderTop: "1px solid " + kLINE, textAlign: "left", padding: "18px 0 4px", display: "grid", gridTemplateColumns: "88px 1fr", rowGap: 16, columnGap: 12 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>What</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK, fontWeight: 500 }}>{f.invite.title}</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>When</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>What</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 700 }}>{f.invite.title}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>When</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>
             Tuesday, August 0{f.date}, 2026<br />
-            <span style={{ fontWeight: 500 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} - {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
+            <span style={{ fontWeight: 700 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} - {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
           </div>
           {f.langPref === "yes" && <React.Fragment>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT }}>Language</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 16, color: kINK }}>{f.lang}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>Language</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>{f.lang}</div>
           </React.Fragment>}
         </div>
         <div style={{ borderTop: "1px solid " + kLINE, marginTop: 18, paddingTop: 18, display: "flex", gap: 10, justifyContent: "flex-end" }}>
@@ -551,8 +551,8 @@ function BkCancelDialog({ onNo, onYes }) {
       <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: kCARD, border: "1px solid var(--line)", borderRadius: 18, padding: 28, maxWidth: 420, width: "100%", boxShadow: "0 24px 60px rgba(0,15,71,.3)" }}>
         <button onClick={onNo} title="Close" style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: "50%", border: "none", background: "rgba(0,15,71,.05)", color: kMUT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
         <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(197,53,50,.10)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><I.info size={22} /></div>
-        <h2 className="serif" style={{ fontSize: 24, color: kINK, lineHeight: 1.12, margin: "0 0 8px" }}>Cancel this booking?</h2>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: kMUT, lineHeight: 1.6, margin: "0 0 22px" }}>You can rebook from your invites afterwards, but spots are limited — you may not get the same slot back.</p>
+        <h2 className="serif" style={{ fontSize: 21, color: kINK, lineHeight: 1.12, margin: "0 0 8px" }}>Cancel this booking?</h2>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.6, margin: "0 0 22px" }}>You can rebook from your invites afterwards, but spots are limited — you may not get the same slot back.</p>
         <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
           <BkBtn kind="outline" onClick={onNo}>Keep booking</BkBtn>
           <BkBtn kind="danger" onClick={onYes}>Cancel booking</BkBtn>
@@ -566,14 +566,14 @@ function BkEmpty({ msg }) {
   return (
     <div style={{ margin: 0, textAlign: "center", background: kCARD, border: "1px dashed " + kLINE, borderRadius: 14, padding: "56px 30px" }}>
       <div style={{ width: 52, height: 52, borderRadius: 26, background: kSKY, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: kACCENT }}><I.cal size={24} /></div>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 16, color: kMUT, margin: 0, lineHeight: 1.5 }}>{msg}</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, margin: 0, lineHeight: 1.5 }}>{msg}</p>
     </div>
   );
 }
 
 function BkToast({ msg }) {
   return (
-    <div style={{ position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", background: kMID, color: "#fff", padding: "12px 20px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, zIndex: 300, display: "flex", alignItems: "center", gap: 8 }}>
+    <div style={{ position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", background: kMID, color: "#fff", padding: "12px 20px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, zIndex: 300, display: "flex", alignItems: "center", gap: 8 }}>
       <span style={{ color: "#8CE0A8", display: "flex" }}><I.check size={15} /></span> {msg}
     </div>
   );

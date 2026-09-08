@@ -45,7 +45,7 @@ function BRail({ activeId, onNav, collapsed, onToggle, theme }) {
         justifyContent: collapsed ? "center" : "flex-start", borderRadius: 9,
         background: active ? "var(--sky-surface)" : "transparent",
         color: active ? bMID : bMID, cursor: "pointer",
-        fontFamily: "var(--sans)", fontSize: 14, fontWeight: active ? 600 : 400, position: "relative",
+        fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 400, position: "relative",
       }}>
         {active && !collapsed && <div style={{ position: "absolute", left: 0, top: 9, bottom: 9, width: 3, borderRadius: 3, background: bSKY }} />}
         <span style={{ color: active ? bMID : bMID, display: "flex" }}><Ic size={19} /></span>
@@ -81,24 +81,24 @@ function BRail({ activeId, onNav, collapsed, onToggle, theme }) {
           <div style={{ background: "var(--sky-surface)", borderRadius: 12, padding: 16 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
               <div style={{ position: "relative", width: 56, height: 56, flexShrink: 0, borderRadius: "50%", background: "conic-gradient(" + bGOLD + " " + (LH.profile.pct * 3.6) + "deg, rgba(0,15,71,.12) 0)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--card)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: bMID }}>{LH.profile.pct}%</div>
+                <div style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--card)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bMID }}>{LH.profile.pct}%</div>
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: bMID }}>Profile completion</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: bMUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} sections</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bMID }}>Profile completion</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: bMUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} sections</div>
               </div>
             </div>
-            <button onClick={() => onNav("profile")} style={{ width: "100%", padding: "9px 12px", background: "var(--card)", color: bMID, border: "1px solid " + bLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Complete profile</button>
+            <button onClick={() => onNav("profile")} style={{ width: "100%", padding: "9px 12px", background: "var(--card)", color: bMID, border: "1px solid " + bLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Complete profile</button>
           </div>
         </div>
       )}
       <div style={{ padding: collapsed ? "14px 0" : 14, borderTop: "1px solid " + bLINE, display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "flex-start", gap: 11 }}>
-        <div style={{ width: 38, height: 38, borderRadius: 10, background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{LH.user.initials}</div>
+        <div style={{ width: 38, height: 38, borderRadius: 10, background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>{LH.user.initials}</div>
         {!collapsed && (
           <React.Fragment>
             <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)" }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: bMID }}>{LH.user.first} {LH.user.last}</div>
-              <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, marginTop: 2, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: bBLUE, cursor: "pointer" }}>Log out</button>
+              <div style={{ fontSize: 15, fontWeight: 700, color: bMID }}>{LH.user.first} {LH.user.last}</div>
+              <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, marginTop: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bBLUE, cursor: "pointer" }}>Log out</button>
             </span>
             <button onClick={onToggle} title="Collapse menu" style={bToggleBtn}><I.chevL size={18} /></button>
           </React.Fragment>
@@ -112,8 +112,8 @@ function BRail({ activeId, onNav, collapsed, onToggle, theme }) {
 function BChangePassword({ onBack }) {
   const [show, setShow] = React.useState({ old: false, pw: false, conf: false });
   const [vals, setVals] = React.useState({ old: "", pw: "", conf: "" });
-  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: bMID, marginBottom: 7 };
-  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid " + bLINE, borderRadius: 10, padding: "12px 44px 12px 13px", fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink)", outline: "none", background: "var(--card)" };
+  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bMID, marginBottom: 7 };
+  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid " + bLINE, borderRadius: 10, padding: "12px 44px 12px 13px", fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", outline: "none", background: "var(--card)" };
   const eyeBtn = (k) => (
     <button type="button" onClick={() => setShow((s) => ({ ...s, [k]: !s[k] }))} title={show[k] ? "Hide" : "Show"} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: bBLUE, cursor: "pointer" }}>
       {show[k]
@@ -139,7 +139,7 @@ function BChangePassword({ onBack }) {
         {pwField("Password Confirmation", "conf")}
         <MdsAlert severity="warning" mb={24}><strong style={{ fontWeight: 700 }}>Important:</strong> Changing your password will log you out.</MdsAlert>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Update <I.arrow size={16} /></button>
+          <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Update <I.arrow size={16} /></button>
         </div>
       </div>
     </div>
@@ -159,25 +159,25 @@ function BProfile({ onBack }) {
   const startEdit = () => { setDraft(data); setEditing(true); };
   const save = () => { setData(draft); setEditing(false); };
   const initials = ((data.first[0] || "") + (data.last[0] || "")).toUpperCase();
-  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: bMID, marginBottom: 7 };
-  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid " + bLINE, borderRadius: 10, padding: "11px 13px", fontFamily: "var(--sans)", fontSize: 14, color: bINK, outline: "none", background: "var(--card)" };
+  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bMID, marginBottom: 7 };
+  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid " + bLINE, borderRadius: 10, padding: "11px 13px", fontFamily: "var(--sans)", fontSize: 15, color: bINK, outline: "none", background: "var(--card)" };
   const field = (label, k, opts) => { opts = opts || {}; return (<div style={{ flex: opts.full ? "1 1 100%" : "1 1 calc(50% - 9px)", minWidth: 0 }}><label style={labelSt}>{label}</label><input type={opts.type || "text"} value={draft[k]} placeholder={opts.placeholder || ""} onChange={(ev) => setD(k, ev.target.value)} style={inputSt} /></div>); };
   const select = (label, k, options) => (<div style={{ flex: "1 1 calc(50% - 9px)", minWidth: 0 }}><label style={labelSt}>{label}</label><select value={draft[k]} onChange={(ev) => setD(k, ev.target.value)} style={{ ...inputSt, cursor: "pointer", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", paddingRight: 40, background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23000F47' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") no-repeat right 14px center" }}>{options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}</select></div>);
   const genderLabel = ({ Female: "Female", Male: "Male", Other: "Prefer not to say" })[data.gender] || "—";
   const rows = [["First Name", data.first || "—"], ["Last Name", data.last || "—"], ["Email", data.email || "—"], ["Age", data.age || "—"], ["Gender", genderLabel], ["Preferred Language", data.lang || "—"], ["Target Job", data.targetJob || "—"], ["Target Entity", data.targetEntity || "—"], ["Years of Experience", data.yearsExp || "—"], ["Minimum Education", data.minEdu || "—"], ["Preferred Education", data.prefEdu || "—"]];
-  const avatarView = data.avatar ? <img src={data.avatar} alt="" style={{ width: 64, height: 64, borderRadius: 16, objectFit: "cover", display: "block", flexShrink: 0 }} /> : <div style={{ width: 64, height: 64, borderRadius: 16, background: "var(--sky-surface)", color: bMID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 22, flexShrink: 0 }}>{initials}</div>;
+  const avatarView = data.avatar ? <img src={data.avatar} alt="" style={{ width: 64, height: 64, borderRadius: 16, objectFit: "cover", display: "block", flexShrink: 0 }} /> : <div style={{ width: 64, height: 64, borderRadius: 16, background: "var(--sky-surface)", color: bMID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 21, flexShrink: 0 }}>{initials}</div>;
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 28 }}>
         <div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: bBLUE, marginBottom: 12 }}>My profile</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: bBLUE, marginBottom: 12 }}>My profile</div>
           <h1 className="serif" style={{ fontSize: 40, color: bMID, lineHeight: 1.06, margin: 0 }}>My Profile</h1>
         </div>
         {!editing
-          ? <button onClick={startEdit} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Edit profile</button>
+          ? <button onClick={startEdit} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Edit profile</button>
           : <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => setEditing(false)} style={{ background: "transparent", color: bMID, border: "1.5px solid " + bMID, borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel</button>
-              <button onClick={save} style={{ background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Save changes</button>
+              <button onClick={() => setEditing(false)} style={{ background: "transparent", color: bMID, border: "1.5px solid " + bMID, borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Cancel</button>
+              <button onClick={save} style={{ background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Save changes</button>
             </div>}
       </div>
       {editing ? (
@@ -185,7 +185,7 @@ function BProfile({ onBack }) {
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
             <input ref={fileRef} type="file" accept="image/*" onChange={onFile} style={{ display: "none" }} />
             {avatarView}
-            <button onClick={() => fileRef.current && fileRef.current.click()} style={{ background: "transparent", color: bMID, border: "1.5px solid " + bLINE, borderRadius: 9, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Upload photo</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} style={{ background: "transparent", color: bMID, border: "1.5px solid " + bLINE, borderRadius: 9, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Upload photo</button>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 18 }}>
             {field("First Name", "first")}
@@ -206,15 +206,15 @@ function BProfile({ onBack }) {
           <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "20px 22px", borderBottom: "1px solid " + bLINE }}>
             {avatarView}
             <div>
-              <div className="serif" style={{ fontSize: 24, color: bMID, lineHeight: 1.1 }}>{data.first} {data.last}</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: bMUT, marginTop: 3 }}>{data.email}</div>
+              <div className="serif" style={{ fontSize: 21, color: bMID, lineHeight: 1.1 }}>{data.first} {data.last}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: bMUT, marginTop: 3 }}>{data.email}</div>
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
             {rows.map((r, i) => (
               <div key={i} style={{ padding: "16px 22px", borderBottom: "1px solid " + bLINE, borderRight: i % 2 === 0 ? "1px solid " + bLINE : "none" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: bMUT, marginBottom: 5 }}>{r[0]}</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: bMID, fontWeight: 500 }}>{r[1]}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bMUT, marginBottom: 5 }}>{r[0]}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: bMID, fontWeight: 700 }}>{r[1]}</div>
               </div>
             ))}
           </div>
@@ -239,14 +239,14 @@ function BTopBar({ left, center, language, langMenu, setLangMenu, a11yOpen, setA
         </button>
         {a11yOpen && (
           <div style={{ position: "absolute", top: "calc(100% + 10px)", right: 0, zIndex: 998, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 14, boxShadow: "0 12px 38px rgba(0,15,71,.18)", padding: 10, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "2px 4px 8px" }}>Text size</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "2px 4px 8px" }}>Text size</div>
             <div style={{ display: "flex", border: "1px solid var(--line)", borderRadius: 10, overflow: "hidden" }}>
               <button title="Decrease text size" onClick={decFont} style={{ ...stepBtn, borderRight: "1px solid var(--line)" }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14" /></svg></button>
-              <button title="Reset to default (100%)" onClick={resetFont} style={{ minWidth: 64, height: 46, padding: "0 10px", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", borderRight: "1px solid var(--line)", color: bMID, cursor: "pointer", fontVariantNumeric: "tabular-nums" }}><span style={{ fontSize: 14, fontWeight: 700 }}>{Math.round(fontScale * 100)}%</span></button>
+              <button title="Reset to default (100%)" onClick={resetFont} style={{ minWidth: 64, height: 46, padding: "0 10px", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", borderRight: "1px solid var(--line)", color: bMID, cursor: "pointer", fontVariantNumeric: "tabular-nums" }}><span style={{ fontSize: 15, fontWeight: 700 }}>{Math.round(fontScale * 100)}%</span></button>
               <button title="Increase text size" onClick={incFont} style={stepBtn}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg></button>
             </div>
             {fontScale !== 1 && (
-              <button onClick={resetFont} style={{ marginTop: 8, width: "100%", height: 32, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+              <button onClick={resetFont} style={{ marginTop: 8, width: "100%", height: 32, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
                 Reset to default
               </button>
@@ -260,17 +260,17 @@ function BTopBar({ left, center, language, langMenu, setLangMenu, a11yOpen, setA
       </button>
       {/* Language */}
       <div style={{ position: "relative" }}>
-        <button onClick={() => setLangMenu((v) => !v)} title="Switch language" style={{ display: "inline-flex", alignItems: "center", gap: 8, height: 40, boxSizing: "border-box", background: "var(--card)", color: bMID, border: "1px solid var(--line)", borderRadius: 10, padding: "0 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+        <button onClick={() => setLangMenu((v) => !v)} title="Switch language" style={{ display: "inline-flex", alignItems: "center", gap: 8, height: 40, boxSizing: "border-box", background: "var(--card)", color: bMID, border: "1px solid var(--line)", borderRadius: 10, padding: "0 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
           <span>{language === "en" ? "English" : "العربية"}</span>
           <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </button>
         {langMenu && (
           <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, zIndex: 998, width: 160, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Language</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Language</div>
             {["en", "ar"].map((lang) => { const active = language === lang; return (
               <button key={lang} onClick={() => { window.LangSwitcher?.setLanguage(lang); setLangMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: active ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                 <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{active ? <I.check size={15} /> : null}</span>
-                <span style={{ fontSize: 14, fontWeight: 600, color: active ? bMID : "var(--ink)" }}>{lang === "en" ? "English" : "العربية"}</span>
+                <span style={{ fontSize: 15, fontWeight: 700, color: active ? bMID : "var(--ink)" }}>{lang === "en" ? "English" : "العربية"}</span>
               </button>); })}
           </div>
         )}
@@ -298,8 +298,8 @@ function BCountdown({ due }) {
   return (
     <div style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "var(--sky-surface)", border: "1px solid var(--line)", borderRadius: 6, padding: "7px 15px" }}>
       <span style={{ color: bMID, display: "flex" }}><I.clock size={15} /></span>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: bMID }}>Due {due}</span>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: cdColor, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2 }}>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: bMID }}>Due {due}</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: cdColor, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2 }}>
         {parts.map(([v, l]) => `${String(v).padStart(2, "0")}${l}`).join(" : ")}
       </span>
     </div>
@@ -318,21 +318,21 @@ function BProgramRow({ p, onOpen, onSystemCheck }) {
       <div style={{ position: "relative", width: 76, height: 76, flexShrink: 0 }}>
         <RingB pct={p.pct} size={76} stroke={6} color={p.accent} track="rgba(0,15,71,.08)" />
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-          <span className="serif" style={{ fontSize: 22, color: bMID, lineHeight: 1 }}>{p.pct}%</span>
+          <span className="serif" style={{ fontSize: 21, color: bMID, lineHeight: 1 }}>{p.pct}%</span>
         </div>
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: ".02em", color: tag.fg, background: tag.bg, padding: "4px 10px", borderRadius: 6 }}>{tag.label}</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: bMUT, display: "flex", alignItems: "center", gap: 5 }}><I.clock size={14} />{p.daysLeft} days left · due {p.due}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: ".02em", color: tag.fg, background: tag.bg, padding: "4px 10px", borderRadius: 6 }}>{tag.label}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: bMUT, display: "flex", alignItems: "center", gap: 5 }}><I.clock size={14} />{p.daysLeft} days left · due {p.due}</span>
         </div>
-        <h3 className="serif" style={{ fontSize: 22, color: bMID, margin: "0 0 16px", lineHeight: 1.15 }}>{p.name}</h3>
+        <h3 className="serif" style={{ fontSize: 21, color: bMID, margin: "0 0 16px", lineHeight: 1.15 }}>{p.name}</h3>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          <button onClick={() => onOpen(p.id)} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "11px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+          <button onClick={() => onOpen(p.id)} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: bGOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "11px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
             Continue <I.arrow size={16} />
           </button>
           {p.id === "leadership" && (
-            <button onClick={() => onSystemCheck && onSystemCheck(p.id)} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "none", color: p.accent, border: "1.5px solid " + p.accent, borderRadius: 10, padding: "10px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+            <button onClick={() => onSystemCheck && onSystemCheck(p.id)} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "none", color: p.accent, border: "1.5px solid " + p.accent, borderRadius: 10, padding: "10px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
             System Check <I.arrow size={16} />
           </button>
           )}
@@ -352,21 +352,21 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
       {/* Signature Sky-Blue hero with midnight inset */}
       <div className="lh-hero" style={{ display: "flex", gap: 0, borderRadius: 22, overflow: "hidden", marginBottom: 36 }}>
         <div style={{ flex: 1.6, background: "var(--sky-surface)", padding: "44px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: bBLUE, marginBottom: 14 }}>Your leadership journey</div>
-          <h1 className="serif" style={{ fontSize: 48, color: bMID, lineHeight: 1.04, margin: "0 0 14px" }}>{LH.greeting} {LH.user.first}.</h1>
-          <p style={{ fontSize: 16, color: bMID, lineHeight: 1.6, margin: 0, maxWidth: 440, opacity: .85 }}>{LH.intro}</p>
+          <div style={{ fontSize: 15, fontWeight: 700, color: bBLUE, marginBottom: 14 }}>Your leadership journey</div>
+          <h1 className="serif" style={{ fontSize: 40, color: bMID, lineHeight: 1.04, margin: "0 0 14px" }}>{LH.greeting} {LH.user.first}.</h1>
+          <p style={{ fontSize: 15, color: bMID, lineHeight: 1.6, margin: 0, maxWidth: 440, opacity: .85 }}>{LH.intro}</p>
         </div>
         <div style={{ flex: 1, background: "var(--surface-deep)", padding: "44px 40px", color: "#fff", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <div style={{ fontSize: 14, color: bSKY, fontWeight: 600, marginBottom: 18 }}>Overall progress</div>
+          <div style={{ fontSize: 15, color: bSKY, fontWeight: 700, marginBottom: 18 }}>Overall progress</div>
           <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 22 }}>
-            <span className="serif" style={{ fontSize: 72, color: "#fff", lineHeight: .9 }}>30</span>
+            <span className="serif" style={{ fontSize: 40, color: "#fff", lineHeight: .9 }}>30</span>
             <span className="serif" style={{ fontSize: 40, color: bSKY }}>%</span>
           </div>
           <div style={{ display: "flex", gap: 28 }}>
             {[{ n: "3", l: "Done" }, { n: "5", l: "Active" }, { n: "2", l: "Reports" }].map((s, i) => (
               <div key={i}>
-                <div className="serif" style={{ fontSize: 24, color: "#fff", lineHeight: 1 }}>{s.n}</div>
-                <div style={{ fontSize: 14, color: "rgba(255,255,255,.82)", marginTop: 4 }}>{s.l}</div>
+                <div className="serif" style={{ fontSize: 21, color: "#fff", lineHeight: 1 }}>{s.n}</div>
+                <div style={{ fontSize: 15, color: "rgba(255,255,255,.82)", marginTop: 4 }}>{s.l}</div>
               </div>
             ))}
           </div>
@@ -376,7 +376,7 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
       {/* Main + right rail */}
       <div style={{ display: "grid", gridTemplateColumns: "1.7fr 1fr", gap: 28 }}>
         <div>
-          <h2 className="serif" style={{ fontSize: 24, color: bMID, margin: "0 0 18px" }}>Your programs</h2>
+          <h2 className="serif" style={{ fontSize: 21, color: bMID, margin: "0 0 18px" }}>Your programs</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {LH.programs.map((p) => <BProgramRow key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}
           </div>
@@ -388,24 +388,24 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
               <div style={{ position: "relative", width: 50, height: 50 }}>
                 <RingB pct={LH.profile.pct} size={50} stroke={4.5} color={bBLUE} track="rgba(0,15,71,.08)" />
-                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: bMID }}>{LH.profile.pct}%</div>
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: bMID }}>{LH.profile.pct}%</div>
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: bMID }}>Complete your profile</div>
-                <div style={{ fontSize: 14, color: bMUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} done</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: bMID }}>Complete your profile</div>
+                <div style={{ fontSize: 15, color: bMUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} done</div>
               </div>
             </div>
-            <button style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "transparent", color: bMID, border: "1.5px solid " + bMID, borderRadius: 10, padding: "10px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Continue setup <I.arrow size={16} /></button>
+            <button style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "transparent", color: bMID, border: "1.5px solid " + bMID, borderRadius: 10, padding: "10px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Continue setup <I.arrow size={16} /></button>
           </BSideCard>
 
           {/* Deadline */}
           <BSideCard>
-            <div style={{ fontSize: 14, fontWeight: 600, color: bMUT, marginBottom: 12 }}>Upcoming deadline</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: bMUT, marginBottom: 12 }}>Upcoming deadline</div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(197,53,50,.10)", color: "var(--danger)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.clock size={22} /></div>
               <div>
-                <div className="serif" style={{ fontSize: 20, color: bMID, lineHeight: 1.1 }}>{LH.deadline.daysLeft} days left</div>
-                <div style={{ fontSize: 14, color: bMUT, marginTop: 2 }}>{LH.deadline.program} · {LH.deadline.due}</div>
+                <div className="serif" style={{ fontSize: 21, color: bMID, lineHeight: 1.1 }}>{LH.deadline.daysLeft} days left</div>
+                <div style={{ fontSize: 15, color: bMUT, marginTop: 2 }}>{LH.deadline.program} · {LH.deadline.due}</div>
               </div>
             </div>
           </BSideCard>
@@ -413,16 +413,16 @@ function BDashboardContent({ onOpen, onSystemCheck }) {
           {/* Reports */}
           <BSideCard>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-              <span style={{ fontSize: 14, fontWeight: 600, color: bMUT }}>Reports ready</span>
-              <span onClick={() => onOpen("insights")} style={{ fontSize: 14, fontWeight: 600, color: bBLUE, cursor: "pointer" }}>View all</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: bMUT }}>Reports ready</span>
+              <span onClick={() => onOpen("insights")} style={{ fontSize: 15, fontWeight: 700, color: bBLUE, cursor: "pointer" }}>View all</span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {LH.reports.map((r, i) => (
                 <div key={i} onClick={() => onOpen("insights")} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderTop: i ? "1px solid var(--line)" : "none", cursor: "pointer" }}>
                   <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--sky-surface)", color: bMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.doc size={18} /></div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: bMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</div>
-                    <div style={{ fontSize: 14, color: bMUT }}>{r.program} · {r.pages} pages</div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: bMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</div>
+                    <div style={{ fontSize: 15, color: bMUT }}>{r.program} · {r.pages} pages</div>
                   </div>
                   <span style={{ color: bMUT, display: "flex" }}><I.arrowUR size={16} /></span>
                 </div>
@@ -448,15 +448,15 @@ function BHeroMenu({ heroStyle, setHero }) {
     <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
       {open && (
         <div style={{ position: "absolute", bottom: 42, right: 0, width: 230, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-          <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Card design</div>
+          <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Card design</div>
           {opts.map((o) => {
             const on = heroStyle === o.id;
             return (
               <button key={o.id} onClick={() => { setHero(o.id); setOpen(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                 <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                 <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
-                  <span style={{ display: "block", fontSize: 14, color: "var(--muted)" }}>{o.d}</span>
+                  <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                  <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                 </span>
               </button>
             );
@@ -464,7 +464,7 @@ function BHeroMenu({ heroStyle, setHero }) {
         </div>
       )}
       <button onClick={() => setOpen((v) => !v)} title="Switch card design"
-        style={{ display: "inline-flex", alignItems: "center", gap: 6, background: open ? "#fff" : "rgba(255,255,255,.72)", color: open ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: open ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}>
+        style={{ display: "inline-flex", alignItems: "center", gap: 6, background: open ? "#fff" : "rgba(255,255,255,.72)", color: open ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: open ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}>
         <I.panel size={14} /> Card design
       </button>
     </div>
@@ -618,7 +618,7 @@ function DashBoardroom() {
   const [pageBack, setPageBack] = React.useState(null);
   const topBarCtx = React.useMemo(() => ({ setBack: setPageBack }), []);
   const renderBdBack = (label, onClick) => (
-    <button onClick={onClick} className="bd-topbar-back" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: 0, color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", flexShrink: 0 }}>
+    <button onClick={onClick} className="bd-topbar-back" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: 0, color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}>
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: document.documentElement.dir === "rtl" ? "scaleX(-1)" : "none" }}><path d="M15 18l-6-6 6-6" /></svg>
       {label}
     </button>

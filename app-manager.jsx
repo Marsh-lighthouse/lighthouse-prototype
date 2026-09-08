@@ -156,7 +156,7 @@ const MgrNoPlan = ({ name, what }) => (
         <circle className="mgr-empty-dot" style={{ animationDelay: ".36s" }} cx="108" cy="22" r="2" fill="rgba(0,15,71,.42)" />
       </g>
     </svg>
-    <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 500, color: eMUT, lineHeight: 1.5, maxWidth: 340 }}>
+    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, lineHeight: 1.5, maxWidth: 340 }}>
       {(name || "This reportee") + " has not " + (what || "added any skills") + " yet."}
     </div>
   </div>
@@ -200,8 +200,8 @@ function MgrReflect({ person, showToast }) {
         return (
           <div key={i} style={{ marginBottom: 22, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px" }}>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
-              <h3 style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.45 }}>
-                {it.q}{!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px", marginLeft: 8 }}>Optional</span>}
+              <h3 style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.45 }}>
+                {it.q}{!it.req && <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: eMUT, background: "rgba(0,15,71,.05)", borderRadius: 6, padding: "2px 8px", marginLeft: 8 }}>Optional</span>}
               </h3>
               {!on && (
                 <button onClick={() => { setEditing(i); setDraft(ans[i] || ""); }} title="Edit this answer"
@@ -213,15 +213,15 @@ function MgrReflect({ person, showToast }) {
             {on ? (
               <React.Fragment>
                 <textarea autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} rows={4}
-                  style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + eLINE, background: "var(--card)", fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
+                  style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + eLINE, background: "var(--card)", fontSize: 15, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
                   <button onClick={() => setEditing(null)}
-                    style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "8px 16px", cursor: "pointer" }}>Cancel</button>
+                    style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "8px 16px", cursor: "pointer" }}>Cancel</button>
                   <EdBtn primary small onClick={() => save(i)}>Save</EdBtn>
                 </div>
               </React.Fragment>
             ) : (
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: text ? eINK : eMUT, lineHeight: 1.65, whiteSpace: "pre-wrap" }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: text ? eINK : eMUT, lineHeight: 1.65, whiteSpace: "pre-wrap" }}>
                 {text || "Not answered."}
               </div>
             )}
@@ -237,7 +237,7 @@ const MgrBadge = ({ status }) => {
   const t = MGR_TONE(status);
   const Ic = t.icon && I[t.icon];
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: t.bg, color: t.color, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: t.bg, color: t.color, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
       {Ic ? <Ic size={13} /> : null}{t.label}
     </span>
   );
@@ -251,7 +251,7 @@ const MgrTag = ({ kind }) => {
     New:    { c: "#002C77", b: "color-mix(in srgb, #002C77 15%, #ffffff)" },
   };
   const m = map[kind] || map.Edited;
-  return <span style={{ background: m.b, color: m.c, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{kind}</span>;
+  return <span style={{ background: m.b, color: m.c, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{kind}</span>;
 };
 
 const MgrAvatar = ({ p, size = 42 }) => (
@@ -268,13 +268,13 @@ function MgrPersonCard({ p, design }) {
     ["Grade", p.grade], ["Qualification", p.qual], ["Department", p.dept],
     ["Date of Joining Entity", p.joined], ["Program", p.plan],
   ].filter(([, v]) => !!v);
-  const lbl = { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 500, color: eMUT, marginBottom: 1 };
-  const val = { fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 600, color: eMID };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: eMUT, marginBottom: 1 };
+  const val = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID };
   const identity = (
     <div style={{ lineHeight: 1.35 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 600, color: "var(--accent)" }}>{p.role}</div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{p.email}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--accent)" }}>{p.role}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{p.email}</div>
     </div>
   );
 
@@ -283,8 +283,8 @@ function MgrPersonCard({ p, design }) {
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 20px", marginBottom: 22, boxShadow: "0 1px 2px rgba(0,15,71,.04)", display: "flex", alignItems: "center", gap: 13 }}>
         <MgrAvatar p={p} size={46} />
         <div style={{ lineHeight: 1.35 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15.5, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{p.email}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{p.email}</div>
         </div>
       </div>
     );
@@ -318,12 +318,12 @@ function MgrPersonCard({ p, design }) {
 //  1 · DIRECT REPORTEES — the list
 // ════════════════════════════════════════════════
 function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
-  const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
+  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID };
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
-      <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Direct Reportees</h1>
+      <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Direct Reportees</h1>
       {/* running total, the same line the assessor flow puts under its list headings */}
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, marginBottom: 14 }}>Total : <b style={{ color: eMID }}>{team.length}</b></div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginBottom: 14 }}>Total : <b style={{ color: eMID }}>{team.length}</b></div>
 
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", borderBottom: "1px solid " + eLINE }}>
@@ -346,8 +346,8 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
                 <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
                   <MgrAvatar p={p} />
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</div>
                   </div>
                 </div>
                 <div style={{ width: 160, flexShrink: 0 }}><MgrBadge status={p.status} /></div>
@@ -356,7 +356,7 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
                       reportee altered is worth reading while reviewing and after deciding. */}
                   {hasChanges ? (
                     <button onClick={(e) => { e.stopPropagation(); onToggleSummary(p); }} className="mgr-link" aria-expanded={expanded}
-                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 5 }}>
+                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 5 }}>
                       Summary
                       <span style={{ display: "flex", transition: "transform .15s", transform: expanded ? "rotate(180deg)" : "none" }}><I.chevD size={15} /></span>
                     </button>
@@ -387,7 +387,7 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
   const scroll = total > 5;
   return (
     <div style={{ borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)", padding: "18px 22px 20px" }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: eMUT, marginBottom: 12 }}>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 12 }}>
         {total} {total === 1 ? "change" : "changes"}
       </div>
 
@@ -396,17 +396,17 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
       <div className={scroll ? "mgr-scrolly" : undefined} style={scroll ? { maxHeight: 165, overflowY: "auto", paddingRight: 10, marginBottom: 4 } : { marginBottom: 0 }}>
       {/* one line per change, grouped by skill — no boilerplate, no repeated tags */}
       {total === 0 && (
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6, padding: "2px 0 8px" }}>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.6, padding: "2px 0 8px" }}>
           {person.first} hasn't changed anything since the plan was created.
         </div>
       )}
       {Object.keys(groups).map((skill) => (
         <div key={skill} style={{ marginBottom: 14 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 4 }}>{skill}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{skill}</div>
           {/* same line format as the plan's "Change summary": kind + type, then the name as a tinted chip */}
           <ul style={{ margin: 0, paddingLeft: 18 }}>
             {groups[skill].map((c, i) => (
-              <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
+              <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.9 }}>
                 {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
                 {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
                 <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
@@ -424,7 +424,7 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
       <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "space-between", flexWrap: "wrap", marginTop: scroll ? 12 : 10, borderTop: scroll ? "1px solid " + eLINE : "none", paddingTop: scroll ? 14 : 0 }}>
         {/* permanent — opens the reportee's full plan, same as clicking the row. A white
             bordered button matching Reject. */}
-        <button onClick={() => onOpen && onOpen(person)} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
+        <button onClick={() => onOpen && onOpen(person)} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
           <I.eye size={15} /> View plan
         </button>
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10 }}>
@@ -434,12 +434,12 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
           {person.status === "review" && (
             <React.Fragment>
               {/* Approve / Reject prompt for a note first — the same MgrNotePop the plan screen uses */}
-              <button onClick={() => setPop(pop === "rejected" ? null : "rejected")} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}><I.plus size={15} style={{ transform: "rotate(45deg)" }} /> Reject</button>
+              <button onClick={() => setPop(pop === "rejected" ? null : "rejected")} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}><I.plus size={15} style={{ transform: "rotate(45deg)" }} /> Reject</button>
               <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}><I.check size={15} /> Approve</EdBtn>
             </React.Fragment>
           )}
           {(person.status === "approved" || person.status === "rejected") && (
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eMUT }}>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>
               Already {person.status === "approved" ? "approved" : "rejected"}.
             </div>
           )}
@@ -457,11 +457,11 @@ function MgrNotePop({ kind, onClose, onSubmit }) {
   return (
     <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 320, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: 18 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{isReject ? "Reject Plan" : "Approve Plan"}</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{isReject ? "Reject Plan" : "Approve Plan"}</div>
         <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 0 }}><I.plus size={17} style={{ transform: "rotate(45deg)" }} /></button>
       </div>
       <textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={isReject ? "Add Reason…" : "Add Note…"}
-        style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", borderRadius: 10, border: "1px solid " + eLINE, fontSize: 14, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.5, marginBottom: 14 }} />
+        style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", borderRadius: 10, border: "1px solid " + eLINE, fontSize: 15, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.5, marginBottom: 14 }} />
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <EdBtn primary disabled={isReject && !text.trim()} onClick={() => onSubmit(text.trim())}>Submit</EdBtn>
       </div>
@@ -481,22 +481,22 @@ function MgrChangePanel({ person, changes, onClose, onSkill }) {
     <aside className="ed-idp-notes" style={{ position: "fixed", top: 59, right: 0, bottom: 0, width: 344, zIndex: 40, background: "var(--card)", borderLeft: "1px solid " + eLINE, display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "18px 20px", borderBottom: "1px solid " + eLINE }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h2 style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID, margin: 0 }}>Change summary</h2>
+          <h2 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>Change summary</h2>
           <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>{person.first} {person.last} · {total} {total === 1 ? "change" : "changes"}</div>
         </div>
         <button onClick={onClose} title="Close" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, flexShrink: 0 }}><I.plus size={19} style={{ transform: "rotate(45deg)" }} /></button>
       </div>
       <div className="mgr-scrolly" style={{ flex: 1, overflowY: "auto", padding: "16px 20px 22px" }}>
-        {total === 0 && (<div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT, lineHeight: 1.6 }}>{person.first} hasn't changed anything since the plan was created.</div>)}
+        {total === 0 && (<div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.6 }}>{person.first} hasn't changed anything since the plan was created.</div>)}
         {skills.map((skill) => (
           <div key={skill} style={{ marginBottom: 18 }}>
             {/* the skill heading is a link — jumps to that skill in the plan (same as opening its comments) */}
-            <button onClick={() => onSkill(skill)} title="Go to this skill" style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, marginBottom: 6, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--accent)", textAlign: "left" }}>
+            <button onClick={() => onSkill(skill)} title="Go to this skill" style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, marginBottom: 6, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--accent)", textAlign: "left" }}>
               {skill}<I.chevR size={15} />
             </button>
             <ul style={{ margin: 0, paddingLeft: 18 }}>
               {groups[skill].map((c, i) => (
-                <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.85 }}>
+                <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.85 }}>
                   {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}{c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
                   <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
                 </li>
@@ -652,7 +652,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const showEmpty = !self && ((person.status === "notstarted" && !person.linked)
     || !data.some((c) => (c.skills || []).length));
 
-  const head = { fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID };
+  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID };
 
   return (
     <div className="ed-plan-wrap" style={{ paddingRight: (comments != null || changesOpen) && pushRoom ? 344 : 0, transition: "padding .25s ease" }}>
@@ -662,12 +662,12 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
       <div className="ed-plan-head" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 18 }}>
         <div style={{ flex: "1 1 auto", minWidth: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "9px 12px" }}>
         {self ? (
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>My Development Plan</h1>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>My Development Plan</h1>
         ) : (
-        <h1 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{person.first} {person.last}, Development Plan</h1>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{person.first} {person.last}, Development Plan</h1>
         )}
         <div style={{ position: "relative", display: "flex", flexShrink: 0, alignItems: "center", gap: 8 }}>
-          {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
+          {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
             {MGR_TONE(person.status).label}
           </span>}
           {/* 1 · the note lives behind a comment icon next to the chip */}
@@ -677,10 +677,10 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           {hasNote && noteDesign === 1 && showReason && (
             <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 288, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: "14px 16px", textAlign: "left" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
-                {when && <span style={{ fontFamily: "var(--sans)", fontSize: 12, color: eMUT }}>{when}</span>}
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
+                {when && <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{when}</span>}
               </div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, lineHeight: 1.55 }}>{note}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{note}</div>
             </div>
           )}
         </div>
@@ -688,7 +688,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         {/* Change summary — opens the side panel listing every change, grouped by skill */}
         {!self && (person.changes || []).length > 0 && (
           <button onClick={() => setChangesOpen(true)} title="See every change in one place"
-            style={{ alignSelf: "center", flexShrink: 0, display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", padding: "6px 2px", cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+            style={{ alignSelf: "center", flexShrink: 0, display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", padding: "6px 2px", cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>
             <I.layers size={16} /> Change summary
           </button>
         )}
@@ -700,10 +700,10 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           <span style={{ color: noteTone, display: "flex", flexShrink: 0, marginTop: 2 }}>{isReject ? <I.alertCircle size={18} /> : <I.checkCircle size={18} />}</span>
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
-              {when && <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{when}</span>}
+              <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
+              {when && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{when}</span>}
             </div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14.5, color: eINK, lineHeight: 1.55 }}>{note}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{note}</div>
           </div>
         </div>
       )}
@@ -729,8 +729,8 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
             <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
               <MgrAvatar p={person} size={46} />
               <div style={{ lineHeight: 1.35 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: eMID }}>{person.first} {person.last}</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: eMUT }}>{person.email}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{person.first} {person.last}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{person.email}</div>
               </div>
             </div>
           )}
@@ -744,14 +744,14 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div style={{ display: "flex", gap: 2 }}>
           {[["plan", "Plan"], ["gap", "Program Report"]].map(([k, l]) => {
             const on = tab === k;
-            return <button key={k} onClick={() => setTab(k)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 700 : 500, color: on ? eMID : eMUT, padding: "10px 14px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1 }}>{l}</button>;
+            return <button key={k} onClick={() => setTab(k)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? eMID : eMUT, padding: "10px 14px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1 }}>{l}</button>;
           })}
         </div>
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, paddingBottom: 8 }}>
           {/* the report tab carries one action of its own */}
           {tab === "gap" && (
             <button onClick={() => showToast("Program Report downloaded")}
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: "pointer" }}>
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: "pointer" }}>
               <I.download size={16} /> Download Program Report
             </button>
           )}
@@ -764,7 +764,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           {tab === "plan" && canDecide && (
             <React.Fragment>
               <button onClick={() => setPop(pop === "rejected" ? null : "rejected")}
-                style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
+                style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>Reject</button>
               <EdBtn primary small onClick={() => setPop(pop === "approved" ? null : "approved")}>Approve</EdBtn>
             </React.Fragment>
           )}
@@ -774,7 +774,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
             ? <EdBtn primary small onClick={() => { setEditing(false); showToast("Changes saved to " + person.first + "'s plan"); }}>Done editing</EdBtn>
             : <button onClick={() => { if (canEdit) setEditing(true); }} disabled={!canEdit}
                 title={canEdit ? "Edit this plan" : "Start the review first"}
-                style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: canEdit ? eMID : eMUT, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: canEdit ? "pointer" : "not-allowed", opacity: canEdit ? 1 : .55 }}>
+                style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: canEdit ? eMID : eMUT, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", cursor: canEdit ? "pointer" : "not-allowed", opacity: canEdit ? 1 : .55 }}>
                 <I.edit size={15} /> Edit Plan
               </button>)}
           {tab === "plan" && <button onClick={() => { if (comments == null) setComments(""); else setComments(null); }}
@@ -804,7 +804,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
                 <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon] || I.bulb, { size: 22 })}</div>
-                <h2 style={{ fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
+                <h2 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
               </div>
 
               {cat.skills.map((skill, si) => {
@@ -840,14 +840,14 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                             onDate={(v) => mutate((n) => { Object.assign(n[ci].skills[si].actions[ai], v); })}
                             onComplete={(v) => mutate((n) => { n[ci].skills[si].actions[ai].completion = v; })}
                             onDelete={() => mutate((n) => { n[ci].skills[si].actions.splice(ai, 1); })} />
-                        : <div key={a.id} style={{ fontFamily: "var(--sans)", fontSize: 14, color: eINK, padding: "10px 0" }}>{a.title}</div>
+                        : <div key={a.id} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, padding: "10px 0" }}>{a.title}</div>
                     )))}
                     {skillChanges.length > 0 && (
                       <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
                         <ul style={{ margin: 0, paddingLeft: 18 }}>
                           {skillChanges.map((c, i) => (
-                            <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13.5, color: eINK, lineHeight: 1.9 }}>
+                            <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.9 }}>
                               {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
                               {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
                               <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
@@ -868,7 +868,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                         <button onClick={() => setOpenSkill(open ? "" : openKey)} title={open ? "Collapse" : "Expand"} style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 2, marginLeft: -2 }}>
                           <span style={{ display: "flex", transition: "transform .2s", transform: open ? "none" : "rotate(-90deg)" }}><I.chevD size={18} /></span>
                         </button>
-                        <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
+                        <h3 onClick={() => setOpenSkill(open ? "" : openKey)} style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0, cursor: "pointer" }}>{skill.name}</h3>
                         {stars}
                         {VisBadge && <VisBadge isPublic={skill.isPublic} />}
                         {skill.edited && <MgrTag kind="Edited" />}
@@ -888,7 +888,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                   padding: active ? "8px 12px" : 0, marginLeft: active ? -12 : 0, marginRight: active ? -12 : 0 }}>
                   {/* skill header — same shape as the employee plan */}
                   <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", padding: "6px 0 14px" }}>
-                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
+                    <h3 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{skill.name}</h3>
                     {stars}
                     {skill.edited && <MgrTag kind="Edited" />}
                     <div style={{ flex: 1 }} />
@@ -908,16 +908,16 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div className="ed-plan-sample-chip" style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
           {sampleMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, maxHeight: 420, overflowY: "auto", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
               {SAMPLES.map((sm) => { const on = sample === sm.id; return (
                 <button key={sm.id} onClick={() => pickSample(sm.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{sm.label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{sm.desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{sm.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{sm.desc}</span></span>
                 </button>); })}
             </div>
           )}
           <button onClick={() => setSampleMenu((v) => !v)} title="Switch the plan card design"
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
             <I.layers size={14} /> Plan design · {sample}
           </button>
         </div>, document.body)}
@@ -927,16 +927,16 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div className="mgr-note-chip" style={{ position: "fixed", right: 200, bottom: 98, zIndex: 60, fontFamily: "var(--sans)" }}>
           {noteMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Decision note</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Decision note</div>
               {MGR_NOTE_DESIGNS.map((o) => { const on = noteDesign === o.id; return (
                 <button key={o.id} onClick={() => pickNote(o.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
                 </button>); })}
             </div>
           )}
           <button onClick={() => setNoteMenu((v) => !v)} title="Switch how the decision note is shown"
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
             <I.fileText size={14} /> Decision note · {noteDesign}
           </button>
         </div>, document.body)}
@@ -945,16 +945,16 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div className="ed-plan-usercard-chip" style={{ position: "fixed", right: 200, bottom: 56, zIndex: 60, fontFamily: "var(--sans)" }}>
           {userCardMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
               {[[2, "Minimal", "Just picture, name and email"], [1, "Divided", "Identity beside a metadata grid"], [3, "Hero panel", "Tinted identity column"], [5, "By skill", "Summary lists each skill with its actions & completion"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 14, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
                 </button>); })}
             </div>
           )}
           <button onClick={() => setUserCardMenu((v) => !v)} title="Switch the reportee card design"
-            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
             <I.user size={14} /> Reportee card · {userCard}
           </button>
         </div>, document.body)}
@@ -1127,18 +1127,18 @@ function LHManager() {
           <div style={{ display: "flex", alignItems: "center", gap: 16, minWidth: 0 }}>
             {route.page === "detail" ? (
               <button onClick={() => setRoute({ page: "list", person: null })} className="ed-topbar-back"
-                style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+                style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
                 <I.chevL size={17} /> Back
               </button>
             ) : topBack ? (
               <button onClick={topBack.onClick} className="ed-topbar-back"
-                style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+                style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", color: eMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
                 <I.chevL size={17} /> {topBack.label}
               </button>
             ) : null}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 8 }}>Manager view</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--ink)", background: "var(--status-neutral-bg)", padding: "4px 10px", borderRadius: 8 }}>Manager view</span>
           </div>
         </div>
         <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
@@ -1171,7 +1171,7 @@ function LHManager() {
       </main>
 
       {toast && (
-        <div style={{ position: "fixed", left: "50%", bottom: 28, transform: "translateX(-50%)", zIndex: 90, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, padding: "11px 18px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", display: "inline-flex", alignItems: "center", gap: 8 }}>
+        <div style={{ position: "fixed", left: "50%", bottom: 28, transform: "translateX(-50%)", zIndex: 90, background: eMID, color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "11px 18px", borderRadius: 10, boxShadow: "0 10px 30px rgba(0,15,71,.28)", display: "inline-flex", alignItems: "center", gap: 8 }}>
           <I.check size={16} /> {toast}
         </div>
       )}

@@ -441,7 +441,7 @@ function MdsAlert({ severity = "info", title, children, date, mt, mb, align = "f
     <div role={key === "success" || key === "info" ? "status" : "alert"}
       style={{ display: "flex", alignItems: align, gap: 10, background: s.fill, border: "1px solid " + s.accent, borderRadius: 8, padding: "14px 16px", boxShadow: "0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)", marginTop: mt || 0, marginBottom: mb != null ? mb : 0, ...(style || {}) }}>
       <span style={{ flexShrink: 0, width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", color: s.accent, marginTop: align === "flex-start" ? 1 : 0 }}><Ic size={18} /></span>
-      <div style={{ flex: "1 1 auto", fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.5, color: "#000F47", minWidth: 0 }}>
+      <div style={{ flex: "1 1 auto", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "#000F47", minWidth: 0 }}>
         {title ? <div style={{ fontWeight: 700, marginBottom: (children != null || date) ? 4 : 0 }}>{title}</div> : null}
         {children != null ? <div style={{ fontWeight: 400 }}>{children}</div> : null}
         {date ? <div style={{ fontWeight: 400, opacity: .8, marginTop: 8 }}>{date}</div> : null}

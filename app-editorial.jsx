@@ -65,7 +65,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
       padding: collapsed ? "11px 0" : "10px 14px", borderRadius: 9,
       background: active ? "var(--rail-active-bg)" : "transparent",
       color: active ? "var(--rail-active-fg)" : "var(--rail-fg)", cursor: "pointer",
-      fontFamily: "var(--sans)", fontSize: 14, fontWeight: active ? 600 : 400, position: "relative",
+      fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 400, position: "relative",
     }}>
       {active && !collapsed && <div style={{ position: "absolute", left: 0, top: 9, bottom: 9, width: 3, borderRadius: 3, background: SKY }} />}
       <span style={{ color: active ? "var(--rail-active-icon)" : "var(--rail-icon)", display: "flex" }}><Ic size={19} /></span>
@@ -82,7 +82,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
         display: "flex", alignItems: "center", gap: 10, padding: "8px 14px 8px 45px", borderRadius: 9,
         background: active ? "var(--rail-active-bg)" : "transparent",
         color: active ? "var(--rail-active-fg)" : "var(--rail-fg)", cursor: "pointer",
-        fontFamily: "var(--sans)", fontSize: 13.5, fontWeight: active ? 600 : 400, position: "relative",
+        fontFamily: "var(--sans)", fontSize: 13, fontWeight: active ? 700 : 400, position: "relative",
       }}>
       <span style={{ position: "absolute", left: 27, width: 5, height: 5, borderRadius: 5, background: active ? SKY : "var(--rail-icon)", opacity: active ? 1 : .55 }} />
       {item.label}
@@ -120,7 +120,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
           const inSection = kids.some((c) => c.id === activeId);
           return (
           <React.Fragment key={it.id}>
-            {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 14, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 600 }}>{it.group}</div>}
+            {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 15, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 700 }}>{it.group}</div>}
             {it.group && it.group !== "Growth" && collapsed && <div style={{ height: 1, background: "var(--rail-border)", margin: "12px 8px 8px" }} />}
             <Item item={it} active={it.id === activeId || inSection} />
             {/* sub-items belong to their section — they appear only while you're in it */}
@@ -140,7 +140,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
             {showProgress && <button onClick={() => onNav("profile")} title={t("profileCompletion") + " — " + LH.profile.pct + "%"} style={{ width: "100%", border: "none", background: "transparent", padding: 0, cursor: "pointer", display: "flex", justifyContent: "center", marginBottom: 4 }}>
               <div style={{ position: "relative", width: 40, height: 40, flexShrink: 0 }}>
                 <Ring pct={LH.profile.pct} size={40} stroke={3} color="var(--rail-active-icon)" />
-                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "var(--rail-fg)" }}>{LH.profile.pct}%</div>
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: "var(--rail-fg)" }}>{LH.profile.pct}%</div>
               </div>
             </button>}
             <EdUserMenuCollapsed onNav={onNav} user={user} />
@@ -148,17 +148,17 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
         ) : (
           <React.Fragment>
             {showProgress && <div style={{ borderTop: "1px solid var(--rail-border)", paddingTop: 12, marginBottom: 8 }}>
-              <div style={{ fontSize: 14, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 600, padding: "0 2px 12px" }}>{t("profileCompletion")}</div>
+              <div style={{ fontSize: 15, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 700, padding: "0 2px 12px" }}>{t("profileCompletion")}</div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "16px 12px", background: "var(--rail-active-bg)", borderRadius: 10 }}>
                 <div style={{ position: "relative", width: 60, height: 60, flexShrink: 0 }}>
                   <Ring pct={LH.profile.pct} size={60} stroke={4} color="var(--rail-active-icon)" />
-                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.pct}%</div>
+                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 21, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.pct}%</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.done} {t("of")} {LH.profile.total}</div>
-                  <div style={{ fontSize: 14, color: "var(--rail-active-fg)", opacity: 0.9 }}>{t("sectionsCompleted")}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.done} {t("of")} {LH.profile.total}</div>
+                  <div style={{ fontSize: 15, color: "var(--rail-active-fg)", opacity: 0.9 }}>{t("sectionsCompleted")}</div>
                 </div>
-                <button onClick={() => onNav("profile")} style={{ width: "100%", padding: "10px 14px", background: "rgba(255,255,255,.95)", color: "#0B1220", border: "none", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer", transition: "background .15s" }}
+                <button onClick={() => onNav("profile")} style={{ width: "100%", padding: "10px 14px", background: "rgba(255,255,255,.95)", color: "#0B1220", border: "none", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", transition: "background .15s" }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = "#E9EDF4"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.95)"; }}>
                   {t("completeProfile")}
@@ -205,20 +205,20 @@ function EdUserMenuCollapsed({ onNav, user }) {
   return (
     <div style={{ position: "relative" }}>
       <button ref={btnRef} onClick={toggle} title={`${U.first} ${U.last}`} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "1px solid var(--rail-border)", borderRadius: 10, padding: "8px", cursor: "pointer", color: "var(--rail-icon)" }}>
-        <span style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+        <span style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>{U.initials}</span>
       </button>
       {open && pos && (
         <React.Fragment>
           <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 1000 }} />
           <div style={{ position: "fixed", bottom: pos.bottom, left: pos.left, right: pos.right, width: 224, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 14px 40px rgba(0,15,71,.18)", zIndex: 1001, overflow: "hidden", fontFamily: "var(--sans)" }}>
             <div style={{ padding: "13px 15px", borderBottom: "1px solid var(--line)", display: "flex", alignItems: "center", gap: 11 }}>
-              <span style={{ width: 38, height: 38, borderRadius: "50%", background: MID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+              <span style={{ width: 38, height: 38, borderRadius: "50%", background: MID, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>{U.initials}</span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
               </div>
             </div>
             {items.map((m, i) => { const Ic = I[m.ic]; const danger = m.l === "Log out"; return (
-              <button key={i} onClick={() => { m.act(); setOpen(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 11, padding: "11px 15px", background: "none", border: "none", borderTop: i === items.length - 1 ? "1px solid var(--line)" : "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, color: danger ? "var(--danger)" : "var(--ink)", textAlign: "left" }}
+              <button key={i} onClick={() => { m.act(); setOpen(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 11, padding: "11px 15px", background: "none", border: "none", borderTop: i === items.length - 1 ? "1px solid var(--line)" : "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: danger ? "var(--danger)" : "var(--ink)", textAlign: "left" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.03)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "none"; }}>
                 <Ic size={16} style={{ color: danger ? "var(--danger)" : MUT }} /> {m.l}
@@ -240,15 +240,15 @@ function EdUserMenuExpanded({ onNav, user }) {
     <div style={{ marginTop: 4 }}>
       {/* User identity — no inline logout icon anymore */}
       <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "8px 4px 12px 8px" }}>
-        <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+        <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--rail-active-bg)", color: "var(--rail-active-fg)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>{U.initials}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--rail-active-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{U.first} {U.last}</div>
-          <div style={{ fontSize: 14, color: "var(--rail-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }}>{email}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--rail-active-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{U.first} {U.last}</div>
+          <div style={{ fontSize: 15, color: "var(--rail-fg)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }}>{email}</div>
         </div>
       </div>
       {/* Full-width Logout button at the bottom of the rail */}
       <button onClick={() => { window.location.href = "Login.html"; }} title="Log out" aria-label="Log out"
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "transparent", border: "1px solid color-mix(in srgb, var(--rail-active-fg) 28%, transparent)", borderRadius: 10, padding: "11px 16px", cursor: "pointer", color: "var(--rail-active-fg)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, transition: "background .15s, border-color .15s" }}
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "transparent", border: "1px solid color-mix(in srgb, var(--rail-active-fg) 28%, transparent)", borderRadius: 10, padding: "11px 16px", cursor: "pointer", color: "var(--rail-active-fg)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, transition: "background .15s, border-color .15s" }}
         onMouseEnter={(e) => { e.currentTarget.style.background = "var(--rail-active-bg)"; e.currentTarget.style.borderColor = "color-mix(in srgb, var(--rail-active-fg) 45%, transparent)"; }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "color-mix(in srgb, var(--rail-active-fg) 28%, transparent)"; }}>
         Logout <I.logout size={16} />
@@ -267,7 +267,7 @@ function EdUserMenu({ onNav }) {
   return (
     <div style={{ position: "relative" }}>
       <button onClick={() => setOpen((v) => !v)} title={`${U.first} ${U.last}`} style={{ display: "flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 10, padding: "4px 9px 4px 4px", cursor: "pointer" }}>
-        <span style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+        <span style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>{U.initials}</span>
         <I.chevD size={15} style={{ color: MUT, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
       </button>
       {open && (
@@ -275,14 +275,14 @@ function EdUserMenu({ onNav }) {
           <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
           <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 224, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 14px 40px rgba(0,15,71,.18)", zIndex: 41, overflow: "hidden", fontFamily: "var(--sans)" }}>
             <div style={{ padding: "13px 15px", borderBottom: "1px solid var(--line)", display: "flex", alignItems: "center", gap: 11 }}>
-              <span style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, flexShrink: 0 }}>{U.initials}</span>
+              <span style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>{U.initials}</span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
-                <div style={{ fontSize: 14, color: MUT }}>{U.role}</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: MID }}>{U.first} {U.last}</div>
+                <div style={{ fontSize: 15, color: MUT }}>{U.role}</div>
               </div>
             </div>
             {items.map((m, i) => { const Ic = I[m.ic]; const danger = m.l === "Log out"; return (
-              <button key={i} onClick={() => { m.act(); setOpen(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 11, padding: "11px 15px", background: "none", border: "none", borderTop: i === items.length - 1 ? "1px solid var(--line)" : "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, color: danger ? "var(--danger)" : "var(--ink)", textAlign: "left" }}
+              <button key={i} onClick={() => { m.act(); setOpen(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 11, padding: "11px 15px", background: "none", border: "none", borderTop: i === items.length - 1 ? "1px solid var(--line)" : "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: danger ? "var(--danger)" : "var(--ink)", textAlign: "left" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.03)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "none"; }}>
                 <Ic size={16} style={{ color: danger ? "var(--danger)" : MUT }} /> {m.l}
@@ -304,29 +304,29 @@ function EdSettings({ onBack }) {
     </button>
   );
   const select = (val, opts, onChange) => (
-    <select value={val} onChange={(e) => onChange(e.target.value)} style={{ border: "1.5px solid var(--line)", borderRadius: 9, padding: "8px 38px 8px 12px", fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink)", cursor: "pointer", outline: "none", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", background: "var(--card) url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238A94A6' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") no-repeat right 14px center" }}>
+    <select value={val} onChange={(e) => onChange(e.target.value)} style={{ border: "1.5px solid var(--line)", borderRadius: 9, padding: "8px 38px 8px 12px", fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", cursor: "pointer", outline: "none", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", background: "var(--card) url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238A94A6' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") no-repeat right 14px center" }}>
       {opts.map((o) => <option key={o} value={o}>{o}</option>)}
     </select>
   );
   const row = (title, desc, control, last) => (
     <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "15px 0", borderBottom: last ? "none" : "1px solid var(--line)" }}>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: MID }}>{title}</div>
-        {desc && <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 2 }}>{desc}</div>}
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{title}</div>
+        {desc && <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginTop: 2 }}>{desc}</div>}
       </div>
       {control}
     </div>
   );
   const card = (label, children) => (
     <div style={{ marginBottom: 22 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--accent)", marginBottom: 10 }}>{label}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--accent)", marginBottom: 10 }}>{label}</div>
       <div style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, padding: "4px 22px" }}>{children}</div>
     </div>
   );
-  const ghostBtn = { background: "transparent", color: MID, border: "1.5px solid " + MID, borderRadius: 10, padding: "9px 15px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", flexShrink: 0 };
+  const ghostBtn = { background: "transparent", color: MID, border: "1.5px solid " + MID, borderRadius: 10, padding: "9px 15px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", flexShrink: 0 };
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--accent)", marginBottom: 12 }}>Settings</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--accent)", marginBottom: 12 }}>Settings</div>
       <h1 className="serif" style={{ fontSize: 40, color: MID, lineHeight: 1.06, margin: "0 0 28px" }}>Settings</h1>
       {card("Notifications", <React.Fragment>
         {row("Assessment reminders", "Email me before upcoming deadlines.", sw(s.remind, () => set("remind", !s.remind)))}
@@ -343,13 +343,13 @@ function EdSettings({ onBack }) {
         {row("Password", "Last changed 3 months ago.", <button style={ghostBtn}>Change</button>, true)}
       </React.Fragment>)}
       <div style={{ marginBottom: 22 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--danger)", marginBottom: 10 }}>Danger zone</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--danger)", marginBottom: 10 }}>Danger zone</div>
         <div style={{ background: "var(--card)", border: "1px solid rgba(197,53,50,.28)", borderRadius: 16, padding: "16px 22px", display: "flex", alignItems: "center", gap: 16 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: MID }}>Delete account</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 2 }}>Permanently remove your account and all associated data.</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>Delete account</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginTop: 2 }}>Permanently remove your account and all associated data.</div>
           </div>
-          <button style={{ background: "transparent", color: "var(--danger)", border: "1.5px solid var(--danger)", borderRadius: 10, padding: "9px 15px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", flexShrink: 0 }}>Delete</button>
+          <button style={{ background: "transparent", color: "var(--danger)", border: "1.5px solid var(--danger)", borderRadius: 10, padding: "9px 15px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}>Delete</button>
         </div>
       </div>
     </div>
@@ -379,8 +379,8 @@ function EdProfile({ onBack, onNav }) {
   const save = (s) => { setData(draft); setSection(null); setSavedSection(s); };
   const initials = ((data.first[0] || "") + (data.last[0] || "")).toUpperCase();
 
-  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: MID, marginBottom: 7 };
-  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid var(--line)", borderRadius: 10, padding: "11px 13px", fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink)", outline: "none", background: "var(--card)" };
+  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID, marginBottom: 7 };
+  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid var(--line)", borderRadius: 10, padding: "11px 13px", fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", outline: "none", background: "var(--card)" };
   const reqMark = <span style={{ color: "var(--danger)" }}>* </span>;
   const field = (label, k, opts) => {
     opts = opts || {};
@@ -429,19 +429,19 @@ function EdProfile({ onBack, onNav }) {
   ];
   const avatarView = data.avatar
     ? <img src={data.avatar} alt="" style={{ width: 64, height: 64, borderRadius: "50%", objectFit: "cover", display: "block", flexShrink: 0 }} />
-    : <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 22, flexShrink: 0 }}>{initials}</div>;
+    : <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--sky-surface)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 21, flexShrink: 0 }}>{initials}</div>;
 
   // ── shared card chrome: each section is its own card with an inline edit toggle ──
   const cardSt = { background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, overflow: "hidden" };
-  const cancelBtnSt = { background: "transparent", color: MUT, border: "1px solid var(--line)", borderRadius: 10, padding: "11px 18px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" };
-  const saveBtnSt = { display: "inline-flex", alignItems: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "11px 22px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer" };
+  const cancelBtnSt = { background: "transparent", color: MUT, border: "1px solid var(--line)", borderRadius: 10, padding: "11px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" };
+  const saveBtnSt = { display: "inline-flex", alignItems: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "11px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" };
   const pencilSt = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, background: "transparent", color: MID, border: "1px solid var(--line)", borderRadius: 9, cursor: "pointer", flexShrink: 0 };
 
   const sectionHead = (s, title) => (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "16px 22px", borderBottom: "1px solid var(--line)" }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: MID }}>{title}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{title}</div>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {savedSection === s && section !== s && <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: "var(--success)" }}>Saved</span>}
+        {savedSection === s && section !== s && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--success)" }}>Saved</span>}
         {section !== s && <button onClick={() => startEdit(s)} title={"Edit " + title.toLowerCase()} style={pencilSt}><I.edit size={15} /></button>}
       </div>
     </div>
@@ -451,8 +451,8 @@ function EdProfile({ onBack, onNav }) {
     <div className="ed-profile-rows" style={{ padding: "6px 22px 16px" }}>
       {rows.map((r, i) => (
         <div key={i} className="ed-profile-row" style={{ display: "flex", flexDirection: "column", gap: 3, padding: "13px 0", borderBottom: i < rows.length - 1 ? "1px solid var(--line)" : "none" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: MUT }}>{r.label}</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: INK, overflowWrap: "anywhere" }}>{r.value}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MUT }}>{r.label}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: INK, overflowWrap: "anywhere" }}>{r.value}</div>
         </div>
       ))}
     </div>
@@ -480,11 +480,11 @@ function EdProfile({ onBack, onNav }) {
               <circle cx="23" cy="23" r="20" fill="none" stroke="var(--track)" strokeWidth="4" />
               <circle cx="23" cy="23" r="20" fill="none" stroke="var(--accent)" strokeWidth="4" strokeLinecap="round" strokeDasharray={2 * Math.PI * 20} strokeDashoffset={2 * Math.PI * 20 * (1 - LH.profile.pct / 100)} />
             </svg>
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: MID }}>{t("profileCompletion")}</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 2 }}>{LH.profile.done} {t("of")} {LH.profile.total} {t("sectionsCompleted")} — finish to unlock personalized insights.</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{t("profileCompletion")}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginTop: 2 }}>{LH.profile.done} {t("of")} {LH.profile.total} {t("sectionsCompleted")} — finish to unlock personalized insights.</div>
           </div>
         </div>
       </div>
@@ -495,16 +495,16 @@ function EdProfile({ onBack, onNav }) {
           {section === "personal" ? (
             <React.Fragment>
               <div style={{ padding: "18px 22px 0" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginBottom: 18 }}><span style={{ color: "var(--danger)" }}>*</span> Indicates mandatory fields</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginBottom: 18 }}><span style={{ color: "var(--danger)" }}>*</span> Indicates mandatory fields</div>
                 <div style={{ display: "flex", gap: 24, alignItems: "flex-start", flexWrap: "wrap" }}>
                   <div style={{ flexShrink: 0 }}>
                     <input ref={fileRef} type="file" accept="image/*" onChange={onFile} style={{ display: "none" }} />
                     <div onClick={() => fileRef.current && fileRef.current.click()} title="Add photo" style={{ width: 104, height: 104, borderRadius: "50%", border: draft.avatar ? "1px solid var(--line)" : "1.5px dashed var(--line)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer", color: MID, overflow: "hidden", background: draft.avatar ? "transparent" : "rgba(0,15,71,.02)" }}>
                       {draft.avatar
                         ? <img src={draft.avatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                        : <React.Fragment><I.plus size={24} /><span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>Add Photo</span></React.Fragment>}
+                        : <React.Fragment><I.plus size={24} /><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Add Photo</span></React.Fragment>}
                     </div>
-                    {draft.avatar && <button onClick={() => setD("avatar", null)} style={{ display: "block", margin: "10px auto 0", background: "none", border: "none", color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Remove</button>}
+                    {draft.avatar && <button onClick={() => setD("avatar", null)} style={{ display: "block", margin: "10px auto 0", background: "none", border: "none", color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Remove</button>}
                   </div>
                   <div style={{ flex: 1, minWidth: 240, display: "flex", flexWrap: "wrap", gap: 18 }}>
                     {field("First Name", "first", { required: true })}
@@ -523,8 +523,8 @@ function EdProfile({ onBack, onNav }) {
               <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 22px", borderBottom: "1px solid var(--line)" }}>
                 {avatarView}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: MID }}>{data.first} {data.last}</div>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 2 }}>{data.email}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: MID }}>{data.first} {data.last}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginTop: 2 }}>{data.email}</div>
                 </div>
               </div>
               {readRows(generalRows)}
@@ -569,9 +569,9 @@ function EdProfile({ onBack, onNav }) {
 function EdChangePassword({ onBack }) {
   const [show, setShow] = React.useState({ old: false, pw: false, conf: false });
   const [vals, setVals] = React.useState({ old: "", pw: "", conf: "" });
-  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: MID, marginBottom: 7 };
+  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID, marginBottom: 7 };
   const wrapSt = { position: "relative" };
-  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid var(--line)", borderRadius: 10, padding: "12px 44px 12px 13px", fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink)", outline: "none", background: "var(--card)" };
+  const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid var(--line)", borderRadius: 10, padding: "12px 44px 12px 13px", fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", outline: "none", background: "var(--card)" };
   const eyeBtn = (k) => (
     <button type="button" onClick={() => setShow((s) => ({ ...s, [k]: !s[k] }))} title={show[k] ? "Hide" : "Show"} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: "var(--accent)", cursor: "pointer" }}>
       {show[k]
@@ -597,7 +597,7 @@ function EdChangePassword({ onBack }) {
         {pwField("Password Confirmation", "conf")}
         <MdsAlert severity="warning" mb={24}><strong style={{ fontWeight: 700 }}>Important:</strong> Changing your password will log you out.</MdsAlert>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Update <I.arrow size={16} /></button>
+          <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Update <I.arrow size={16} /></button>
         </div>
       </div>
     </div>
@@ -607,8 +607,8 @@ function EdChangePassword({ onBack }) {
 function EdStat({ value, label, last }) {
   return (
     <div style={{ flex: 1, padding: "0 32px", borderRight: last ? "none" : "1px solid var(--line)" }}>
-      <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{value}</div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, marginTop: 8 }}>{label}</div>
+      <div className="serif" style={{ fontSize: 28, color: MID, lineHeight: 1 }}>{value}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginTop: 8 }}>{label}</div>
     </div>
   );
 }
@@ -640,19 +640,19 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
       {timer && timerPos === "top" && (
         <div style={{ display: "flex", alignItems: "center", gap: 9, margin: "-22px -22px 16px", padding: "9px 16px", background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: "var(--accent)", borderBottom: "1px solid color-mix(in srgb, var(--accent) 16%, transparent)", whiteSpace: "nowrap" }}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "currentColor", flexShrink: 0, animation: "ed-pulse 1.4s ease-in-out infinite" }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
-          <span style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}><I.clock size={13} />{cd}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}><I.clock size={13} />{cd}</span>
         </div>
       )}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 11 }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, letterSpacing: ".02em", color: tag.fg, background: tag.bg, padding: "4px 10px", borderRadius: 6 }}>{tag.label}</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: ".02em", color: tag.fg, background: tag.bg, padding: "4px 10px", borderRadius: 6 }}>{tag.label}</span>
         {timer && timerPos === "bottom" ? (
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: "var(--accent)", fontVariantNumeric: "tabular-nums", display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{cd}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--accent)", fontVariantNumeric: "tabular-nums", display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{cd}</span>
         ) : (
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{p.daysLeft} {t("daysLeft")}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{p.daysLeft} {t("daysLeft")}</span>
         )}
       </div>
-      <h3 className="serif" style={{ fontSize: 22, color: MID, lineHeight: 1.15, margin: "0 0 14px" }}>{t(p.nameKey || p.name)}</h3>
+      <h3 className="serif" style={{ fontSize: 21, color: MID, lineHeight: 1.15, margin: "0 0 14px" }}>{t(p.nameKey || p.name)}</h3>
 
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
         {/* MDS Linear Bar — same as the development plan (thin 4px, square ends, navy
@@ -671,7 +671,7 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
             { v: pending, l: "Active", icon: <I.clock size={16} />, c: p.accent },
             { v: completed, l: "Done", icon: <I.checkCircle size={16} />, c: "var(--success)" },
           ].map((m, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 9, fontFamily: "var(--sans)", fontSize: 14 }}>
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 9, fontFamily: "var(--sans)", fontSize: 15 }}>
               <span style={{ color: m.c, display: "flex" }}>{m.icon}</span>
               <span style={{ color: INK }}><span style={{ fontVariantNumeric: "tabular-nums" }}>{m.v}</span> {m.l}</span>
             </div>
@@ -680,7 +680,7 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
       ) : (
       <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
         {p.steps.map((s, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: 9, fontFamily: "var(--sans)", fontSize: 14 }}>
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 9, fontFamily: "var(--sans)", fontSize: 15 }}>
             <span style={{ color: stColor(s.status), display: "flex" }}>
               {s.status === "complete" ? <I.checkCircle size={16} /> : s.status === "locked" ? <I.lock size={15} /> : s.status === "notstarted" ? <I.alertCircle size={16} /> : <Ring pct={s.pct || 0} size={16} stroke={2.5} color={p.accent} />}
             </span>
@@ -693,16 +693,16 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
       {timer && timerPos === "bottom" && (
         <div style={{ display: "flex", alignItems: "center", gap: 9, marginTop: "auto", marginBottom: 12, padding: "9px 14px", borderRadius: 10, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: "var(--accent)", border: "1px solid color-mix(in srgb, var(--accent) 18%, transparent)", whiteSpace: "nowrap" }}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "currentColor", flexShrink: 0, animation: "ed-pulse 1.4s ease-in-out infinite" }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
         </div>
       )}
 
       <div className="ed-prog-actions" style={{ display: "flex", gap: 12, marginTop: timer && timerPos === "bottom" ? 0 : "auto", alignItems: "center", justifyContent: "space-between" }}>
-        <button onClick={() => onOpen(p.id)} className="ed-gold" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+        <button onClick={() => onOpen(p.id)} className="ed-gold" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
           {state === "notstarted" ? t("beginProgram") : t("continueProgram")} <I.arrow size={16} />
         </button>
         {p.id === "leadership" && (
-          <button onClick={() => onSystemCheck(p.id)} className="ed-syscheck" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "none", color: "var(--primary)", border: "1.5px solid var(--primary)", borderRadius: 10, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+          <button onClick={() => onSystemCheck(p.id)} className="ed-syscheck" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "none", color: "var(--primary)", border: "1.5px solid var(--primary)", borderRadius: 10, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
             {t("systemCheck")} <I.arrow size={16} />
           </button>
         )}
@@ -727,7 +727,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         {/* Hero row — greeting left, stats + profile right */}
         <div className="ed-c-hero" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 32, flexWrap: "wrap", paddingBottom: 24, borderBottom: "1px solid var(--line)", marginBottom: 28 }}>
           <div style={{ flex: "1 1 320px", minWidth: 280 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
             <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
               {t("goodAfternoon")} {LH.user.first}.
             </h1>
@@ -736,8 +736,8 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
             <div className="ed-stats" style={{ display: "flex" }}>
               {LH.stats.map((s, i) => (
                 <div key={i} style={{ paddingLeft: i === 0 ? 0 : 24, paddingRight: i < 1 ? 24 : 0, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-                  <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
+                  <div className="serif" style={{ fontSize: 28, color: MID, lineHeight: 1 }}>{s.value}</div>
+                  <div style={{ fontSize: 15, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
                 </div>
               ))}
             </div>
@@ -745,8 +745,8 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         </div>
 
         {/* Programs immediately below */}
-        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
+        <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}
         </div>
@@ -760,7 +760,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
       <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         {/* Hero */}
         <div style={{ marginBottom: 26 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
             {t("goodAfternoon")} {LH.user.first}.
           </h1>
@@ -777,8 +777,8 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
             const translatedLabel = t(labelMap[s.label] || s.label);
             return (
               <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-                <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{translatedLabel}</div>
+                <div className="serif" style={{ fontSize: 28, color: MID, lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 15, color: MUT, marginTop: 8 }}>{translatedLabel}</div>
               </div>
             );
           })}
@@ -788,18 +788,18 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         <div className="ed-m-wrap" style={{ display: "flex", alignItems: "center", gap: 18, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 14, padding: "18px 22px", marginBottom: 48 }}>
           <div style={{ position: "relative", width: 52, height: 52, flexShrink: 0 }}>
             <Ring pct={LH.profile.pct} size={52} stroke={4.5} color={BLUE} />
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: MID }}>Complete your profile</div>
-            <div style={{ fontSize: 14, color: MUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} done — finish to unlock personalized insights</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: MID }}>Complete your profile</div>
+            <div style={{ fontSize: 15, color: MUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} done — finish to unlock personalized insights</div>
           </div>
-          <button onClick={() => onOpen("profile")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: MID, border: "1.5px solid " + MID, borderRadius: 10, padding: "10px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Continue setup <I.arrow size={16} /></button>
+          <button onClick={() => onOpen("profile")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: MID, border: "1.5px solid " + MID, borderRadius: 10, padding: "10px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Continue setup <I.arrow size={16} /></button>
         </div>
 
         {/* Programs */}
-        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
+        <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}
         </div>
@@ -814,7 +814,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     return (
       <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         <div style={{ marginBottom: 26 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
             {t("goodAfternoon")} {LH.user.first}.
           </h1>
@@ -823,14 +823,14 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         <div className="ed-stats" style={{ display: "flex", borderTop: "1px solid var(--line)", padding: "22px 0 0", marginBottom: 34 }}>
           {LH.stats.map((s, i) => (
             <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-              <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
-              <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
+              <div className="serif" style={{ fontSize: 28, color: MID, lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontSize: 15, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
             </div>
           ))}
         </div>
 
-        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
+        <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <EdProgram key="timer-demo" p={LH.programs[0]} onOpen={onOpen} onSystemCheck={onSystemCheck} variant="summary" timer={{ seconds: 30 * 60, message: "Assessment window is closing" }} />
           {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} variant="summary" />)}
@@ -846,7 +846,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     return (
       <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         <div style={{ marginBottom: 26 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
             {t("goodAfternoon")} {LH.user.first}.
           </h1>
@@ -855,14 +855,14 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         <div className="ed-stats" style={{ display: "flex", borderTop: "1px solid var(--line)", padding: "22px 0 0", marginBottom: 34 }}>
           {LH.stats.map((s, i) => (
             <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-              <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
-              <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
+              <div className="serif" style={{ fontSize: 28, color: MID, lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontSize: 15, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
             </div>
           ))}
         </div>
 
-        <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
+        <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
         <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <EdProgram key="timer-demo" p={LH.programs[0]} onOpen={onOpen} onSystemCheck={onSystemCheck} variant="summary" timer={{ seconds: 30 * 60, message: "Assessment window is closing" }} timerPos="bottom" />
           {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} variant="summary" />)}
@@ -876,7 +876,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
       {/* Hero */}
       <div style={{ marginBottom: 26 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+        <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
         <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
           {t("goodAfternoon")} {LH.user.first}.
         </h1>
@@ -886,15 +886,15 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
       <div className="ed-stats" style={{ display: "flex", borderTop: "1px solid var(--line)", padding: "22px 0 0", marginBottom: 34 }}>
         {LH.stats.map((s, i) => (
           <div key={i} style={{ flex: 1, paddingLeft: i === 0 ? 0 : 32, paddingRight: 32, borderRight: i < 1 ? "1px solid var(--line)" : "none" }}>
-            <div className="serif" style={{ fontSize: 32, color: MID, lineHeight: 1 }}>{s.value}</div>
-            <div style={{ fontSize: 14, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
+            <div className="serif" style={{ fontSize: 28, color: MID, lineHeight: 1 }}>{s.value}</div>
+            <div style={{ fontSize: 15, color: MUT, marginTop: 8 }}>{(() => { const _t=(k)=>window.LangSwitcher?.get(k)||k; const _lm={"Active programs":"activePrograms","Reports ready":"reportsReady"}; return _t(_lm[s.label]||s.label); })()}</div>
           </div>
         ))}
       </div>
 
       {/* Programs - NO profile card in between */}
-      <h2 className="serif" style={{ fontSize: 32, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
+      <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{t("yourPrograms")}</h2>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, lineHeight: 1.55, margin: "0 0 22px" }}>{t("programsSubhead")}</p>
       <div className="ed-prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
         {LH.programs.map((p) => <EdProgram key={p.id} p={p} onOpen={onOpen} onSystemCheck={onSystemCheck} />)}
       </div>
@@ -921,9 +921,9 @@ function EdCountdown({ due }) {
     <div className="ed-cd" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 6, padding: "7px 15px" }}>
       <span className="ed-cd-date" style={{ display: "inline-flex", alignItems: "center", gap: 9, whiteSpace: "nowrap" }}>
         <span style={{ color: MID, display: "flex" }}><I.clock size={15} /></span>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: MID }}>Due {due}</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>Due {due}</span>
       </span>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, color: cdColor, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2, whiteSpace: "nowrap" }}>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: cdColor, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2, whiteSpace: "nowrap" }}>
         {parts.map(([v, l], i) => `${String(v).padStart(2, "0")}${l}`).join(" : ")}
       </span>
     </div>
@@ -938,10 +938,10 @@ function EdFooter() {
   ];
   return (
     <footer style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "22px 0 10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT }}>© 2026 Marsh. {t("allRightsReserved")}.</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT }}>© 2026 Marsh. {t("allRightsReserved")}.</span>
       <nav style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
         {links.map((l) => (
-          <a key={l.key} href="#" onClick={(e) => e.preventDefault()} style={{ fontFamily: "var(--sans)", fontSize: 14, color: MUT, textDecoration: "none", transition: "color .15s" }}
+          <a key={l.key} href="#" onClick={(e) => e.preventDefault()} style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, textDecoration: "none", transition: "color .15s" }}
             onMouseEnter={(e) => { e.currentTarget.style.color = MID; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = MUT; }}>{t(l.key)}</a>
         ))}
@@ -991,32 +991,32 @@ function AiAssistant() {
           <div style={{ background: "var(--surface-deep)", color: "#fff", padding: "15px 17px", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
             <div style={{ width: 38, height: 38, borderRadius: "50%", background: "rgba(206,236,255,.16)", color: SKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><ChatBubble size={20} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 700 }}>AI Assistant</div>
-              <div style={{ fontSize: 14, color: "rgba(255,255,255,.82)", display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 7, height: 7, borderRadius: 4, background: "var(--success)" }} /> Online</div>
+              <div style={{ fontSize: 15, fontWeight: 700 }}>AI Assistant</div>
+              <div style={{ fontSize: 15, color: "rgba(255,255,255,.82)", display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 7, height: 7, borderRadius: 4, background: "var(--success)" }} /> Online</div>
             </div>
             <button onClick={() => setOpen(false)} title="Close" style={{ background: "none", border: "none", color: "rgba(255,255,255,.82)", cursor: "pointer", display: "flex" }}><I.plus size={18} style={{ transform: "rotate(45deg)" }} /></button>
           </div>
           <div ref={bodyRef} style={{ flex: 1, overflowY: "auto", padding: 16, display: "flex", flexDirection: "column", gap: 10, background: CREAM }}>
             {msgs.map((m, i) => (
-              <div key={i} style={{ alignSelf: m.from === "bot" ? "flex-start" : "flex-end", maxWidth: "86%", background: m.from === "bot" ? "#fff" : MID, color: m.from === "bot" ? INK : "#fff", border: m.from === "bot" ? "1px solid var(--line)" : "none", padding: "10px 13px", borderRadius: m.from === "bot" ? "4px 14px 14px 14px" : "14px 14px 4px 14px", fontSize: 14, lineHeight: 1.5 }}>{m.text}</div>
+              <div key={i} style={{ alignSelf: m.from === "bot" ? "flex-start" : "flex-end", maxWidth: "86%", background: m.from === "bot" ? "#fff" : MID, color: m.from === "bot" ? INK : "#fff", border: m.from === "bot" ? "1px solid var(--line)" : "none", padding: "10px 13px", borderRadius: m.from === "bot" ? "4px 14px 14px 14px" : "14px 14px 4px 14px", fontSize: 15, lineHeight: 1.5 }}>{m.text}</div>
             ))}
             {msgs.length <= 1 && (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginTop: 4 }}>
                 {quick.map((q) => (
-                  <button key={q} onClick={() => { setMsgs((m) => [...m, { from: "me", text: q }, { from: "bot", text: "Great question — this is a demo assistant, but here's where I'd surface that answer for you." }]); }} style={{ fontFamily: "var(--sans)", fontSize: 14, color: BLUE, background: "color-mix(in srgb, var(--accent) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 25%, transparent)", borderRadius: 16, padding: "7px 12px", cursor: "pointer" }}>{q}</button>
+                  <button key={q} onClick={() => { setMsgs((m) => [...m, { from: "me", text: q }, { from: "bot", text: "Great question — this is a demo assistant, but here's where I'd surface that answer for you." }]); }} style={{ fontFamily: "var(--sans)", fontSize: 15, color: BLUE, background: "color-mix(in srgb, var(--accent) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 25%, transparent)", borderRadius: 16, padding: "7px 12px", cursor: "pointer" }}>{q}</button>
                 ))}
               </div>
             )}
           </div>
           <div style={{ borderTop: "1px solid var(--line)", padding: 12, display: "flex", gap: 8, background: "var(--card)", flexShrink: 0 }}>
-            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") send(); }} placeholder="Ask a question…" style={{ flex: 1, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 13px", fontFamily: "var(--sans)", fontSize: 14, color: INK, outline: "none" }} />
+            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") send(); }} placeholder="Ask a question…" style={{ flex: 1, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 13px", fontFamily: "var(--sans)", fontSize: 15, color: INK, outline: "none" }} />
             <button onClick={send} title="Send" style={{ width: 40, height: 40, borderRadius: "50%", background: GOLD, color: "var(--action-text)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.send size={17} /></button>
           </div>
         </div>
       )}
       <div className="ed-aifab" style={{ position: "fixed", right: 24, bottom: 60, zIndex: 72, display: "flex", alignItems: "center", gap: 10 }}>
         {!open && !tipClosed && (
-          <span style={{ position: "relative", display: "inline-flex", alignItems: "center", background: "var(--card)", color: MID, border: "1px solid var(--line)", boxShadow: "0 6px 20px rgba(0,15,71,.18)", borderRadius: 999, padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, whiteSpace: "nowrap", cursor: "pointer" }} onClick={() => setOpen(true)}>
+          <span style={{ position: "relative", display: "inline-flex", alignItems: "center", background: "var(--card)", color: MID, border: "1px solid var(--line)", boxShadow: "0 6px 20px rgba(0,15,71,.18)", borderRadius: 999, padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, whiteSpace: "nowrap", cursor: "pointer" }} onClick={() => setOpen(true)}>
             {t("reportTechnicalProblem")}
             <button onClick={(e) => { e.stopPropagation(); setTipClosed(true); }} title="Dismiss" style={{ position: "absolute", top: -8, left: -8, width: 22, height: 22, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "1px solid var(--line)", boxShadow: "0 2px 6px rgba(0,15,71,.2)", color: MUT, cursor: "pointer", zIndex: 1 }}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M5 5l14 14M19 5L5 19" /></svg>
@@ -1298,7 +1298,7 @@ function DashEditorial({ initialRoute } = {}) {
         </button>
         {a11yOpen && (
           <div style={{ position: "absolute", top: "calc(100% + 10px)", [language === "ar" ? "left" : "right"]: 0, zIndex: 998, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 14, boxShadow: "0 12px 38px rgba(0,15,71,.18)", padding: 10, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "2px 4px 8px" }}>Text size</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "2px 4px 8px" }}>Text size</div>
             <div style={{ display: "flex", border: "1px solid var(--line)", borderRadius: 10, overflow: "hidden" }}>
               <button title="Decrease text size" onClick={decFont} style={{ width: 52, height: 46, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", borderRight: "1px solid var(--line)", color: "var(--primary)", cursor: "pointer" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.04)"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}>
@@ -1306,7 +1306,7 @@ function DashEditorial({ initialRoute } = {}) {
               </button>
               <button title="Reset to default (100%)" onClick={resetFont} style={{ minWidth: 64, height: 46, padding: "0 10px", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", borderRight: "1px solid var(--line)", color: "var(--primary)", cursor: "pointer", fontVariantNumeric: "tabular-nums" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.04)"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}>
-                <span style={{ fontSize: 14, fontWeight: 700 }}>{Math.round(fontScale * 100)}%</span>
+                <span style={{ fontSize: 15, fontWeight: 700 }}>{Math.round(fontScale * 100)}%</span>
               </button>
               <button title="Increase text size" onClick={incFont} style={{ width: 52, height: 46, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", color: "var(--primary)", cursor: "pointer" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.04)"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}>
@@ -1314,7 +1314,7 @@ function DashEditorial({ initialRoute } = {}) {
               </button>
             </div>
             {fontScale !== 1 && (
-              <button onClick={resetFont} style={{ marginTop: 8, width: "100%", height: 32, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600 }}>
+              <button onClick={resetFont} style={{ marginTop: 8, width: "100%", height: 32, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
                 Reset to default
               </button>
@@ -1324,7 +1324,7 @@ function DashEditorial({ initialRoute } = {}) {
       </div>
       <div style={{ position: "relative" }}>
         <button onClick={() => setLangMenu((v) => !v)} title="Switch language"
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, height: 38, boxSizing: "border-box", background: "var(--card)", color: "var(--primary)", border: "1px solid var(--line)", borderRadius: 8, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "border-color .15s, background .15s" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, height: 38, boxSizing: "border-box", background: "var(--card)", color: "var(--primary)", border: "1px solid var(--line)", borderRadius: 8, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", transition: "border-color .15s, background .15s" }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--muted)"; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; }}>
           <span>{language === "en" ? "English" : "العربية"}</span>
@@ -1332,13 +1332,13 @@ function DashEditorial({ initialRoute } = {}) {
         </button>
         {langMenu && (
           <div style={{ position: "absolute", top: "calc(100% + 8px)", [language === "ar" ? "left" : "right"]: 0, zIndex: 998, width: 160, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Language</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Language</div>
             {["en", "ar"].map((lang) => {
               const active = language === lang;
               return (
                 <button key={lang} onClick={() => { window.LangSwitcher?.setLanguage(lang); setLangMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: active ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{active ? <I.check size={15} /> : null}</span>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: active ? "var(--primary)" : "var(--ink)" }}>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: active ? "var(--primary)" : "var(--ink)" }}>
                     {lang === "en" ? "English" : "العربية"}
                   </span>
                 </button>
@@ -1354,7 +1354,7 @@ function DashEditorial({ initialRoute } = {}) {
   const collapseRail = React.useCallback((v) => { setRailCollapsed(v); try { localStorage.setItem("ed-rail-collapsed", v ? "1" : "0"); } catch (e) {} }, []);
   const topBarCtx = React.useMemo(() => ({ setBack: setPageBack, collapseRail }), [collapseRail]);
   const renderTopBack = (label, onClick) => (
-    <button onClick={onClick} className="ed-topbar-back" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", margin: 0, color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", flexShrink: 0 }}>
+    <button onClick={onClick} className="ed-topbar-back" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "none", border: "none", padding: "4px 0", margin: 0, color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}>
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: document.documentElement.dir === "rtl" ? "scaleX(-1)" : "none" }}><path d="M15 18l-6-6 6-6" /></svg>
       Back
     </button>
@@ -1440,15 +1440,15 @@ function DashEditorial({ initialRoute } = {}) {
       <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
         {dashMenu && (
           <div style={{ position: "absolute", bottom: 42, right: 0, width: 244, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Dashboard sample</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Dashboard sample</div>
             {[{ id: "1", l: "Dashboard sample 1", d: "Profile on sidebar — clean center" }, { id: "2", l: "Dashboard sample 2", d: "Compact top — programs up front" }, { id: "3", l: "Dashboard sample 3", d: "Profile card in center — original" }, { id: "4", l: "Dashboard sample 4", d: "Cards show task & report counts" }, { id: "5", l: "Dashboard sample 5", d: "Alert bar above the buttons" }].map((o) => {
               const on = dashSample === o.id;
               return (
                 <button key={o.id} onClick={() => { setSample(o.id); setDashMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                   <span style={{ flex: 1 }}>
-                    <span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
-                    <span style={{ display: "block", fontSize: 14, color: "var(--muted)" }}>{o.d}</span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                   </span>
                 </button>
               );
@@ -1456,7 +1456,7 @@ function DashEditorial({ initialRoute } = {}) {
           </div>
         )}
         <button onClick={() => setDashMenu((v) => !v)} title="Switch dashboard sample"
-          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: dashMenu ? "#fff" : "rgba(255,255,255,.72)", color: dashMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: dashMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: dashMenu ? "#fff" : "rgba(255,255,255,.72)", color: dashMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: dashMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
           onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = "var(--primary)"; }}
           onMouseLeave={(e) => { if (!dashMenu) { e.currentTarget.style.opacity = 0.62; e.currentTarget.style.color = "var(--muted)"; } }}>
           <I.panel size={14} /> Sample {dashSample}
@@ -1467,15 +1467,15 @@ function DashEditorial({ initialRoute } = {}) {
       <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
         {scMenu && (
           <div style={{ position: "absolute", bottom: 42, right: 0, width: 252, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>System check design</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>System check design</div>
             {[{ id: "1", l: "System Check 1", d: "Current — stepped flow" }, { id: "2", l: "System Check 2", d: "New design (in progress)" }].map((o) => {
               const on = scVariant === o.id;
               return (
                 <button key={o.id} onClick={() => { setScV(o.id); setScMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                   <span style={{ flex: 1 }}>
-                    <span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
-                    <span style={{ display: "block", fontSize: 14, color: "var(--muted)" }}>{o.d}</span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                   </span>
                 </button>
               );
@@ -1483,7 +1483,7 @@ function DashEditorial({ initialRoute } = {}) {
           </div>
         )}
         <button onClick={() => setScMenu((v) => !v)} title="Switch system check design"
-          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: scMenu ? "#fff" : "rgba(255,255,255,.72)", color: scMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: scMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: scMenu ? "#fff" : "rgba(255,255,255,.72)", color: scMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: scMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
           onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = "var(--primary)"; }}
           onMouseLeave={(e) => { if (!scMenu) { e.currentTarget.style.opacity = 0.62; e.currentTarget.style.color = "var(--muted)"; } }}>
           <I.panel size={14} /> System check {scVariant}
@@ -1494,15 +1494,15 @@ function DashEditorial({ initialRoute } = {}) {
       <div style={{ position: "fixed", right: 300, bottom: 14, zIndex: 60 }}>
         {layoutMenu && (
           <div style={{ position: "absolute", bottom: 42, right: 0, width: 248, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Tasks layout</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Tasks layout</div>
             {[{ id: "standard", l: "Standard", d: "Centers, sequential & open sections" }, { id: "centers", l: "Multiple centers", d: "Standard layout, one card per center" }, { id: "gated", l: "Begin assessment", d: "Locked until you start, then unlocks" }, { id: "completed", l: "Completed", d: "Success — assessment submitted" }, { id: "error", l: "Error", d: "Something went wrong state" }, { id: "closed", l: "Closed", d: "Submission window has closed" }].map((o) => {
               const on = tasksLayout === o.id;
               return (
                 <button key={o.id} onClick={() => { setLayout(o.id); setLayoutMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                   <span style={{ flex: 1 }}>
-                    <span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
-                    <span style={{ display: "block", fontSize: 14, color: "var(--muted)" }}>{o.d}</span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                   </span>
                 </button>
               );
@@ -1510,7 +1510,7 @@ function DashEditorial({ initialRoute } = {}) {
           </div>
         )}
         <button onClick={() => setLayoutMenu((v) => !v)} title="Switch tasks layout"
-          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: layoutMenu ? "#fff" : "rgba(255,255,255,.72)", color: layoutMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: layoutMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: layoutMenu ? "#fff" : "rgba(255,255,255,.72)", color: layoutMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: layoutMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
           onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = "var(--primary)"; }}
           onMouseLeave={(e) => { if (!layoutMenu) { e.currentTarget.style.opacity = 0.62; e.currentTarget.style.color = "var(--muted)"; } }}>
           <I.layers size={14} /> Layout
@@ -1521,15 +1521,15 @@ function DashEditorial({ initialRoute } = {}) {
       <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
         {heroMenu && (
           <div style={{ position: "absolute", bottom: 42, right: 0, width: 230, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Card design</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Card design</div>
             {[{ id: "compact", l: "Compact", d: "Title, badge & chips" }, { id: "light", l: "Light card", d: "Clean white, airy" }, { id: "minimal", l: "Minimal", d: "No box, editorial rules" }, { id: "minimal2", l: "Minimal 2", d: "Compact — colored stats" }, { id: "ribbon", l: "Ribbon", d: "Slim band, gold ring & stats" }].map((o) => {
               const on = heroStyle === o.id;
               return (
                 <button key={o.id} onClick={() => { setHero(o.id); setHeroMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                   <span style={{ flex: 1 }}>
-                    <span style={{ display: "block", fontSize: 14, fontWeight: 600, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
-                    <span style={{ display: "block", fontSize: 14, color: "var(--muted)" }}>{o.d}</span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                   </span>
                 </button>
               );
@@ -1537,7 +1537,7 @@ function DashEditorial({ initialRoute } = {}) {
           </div>
         )}
         <button onClick={() => setHeroMenu((v) => !v)} title="Search for different card designs"
-          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: heroMenu ? "#fff" : "rgba(255,255,255,.72)", color: heroMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: heroMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, background: heroMenu ? "#fff" : "rgba(255,255,255,.72)", color: heroMenu ? "var(--primary)" : "var(--muted)", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 11px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,15,71,.06)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", opacity: heroMenu ? 1 : 0.62, transition: "opacity .15s, color .15s, background .15s" }}
           onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = "var(--primary)"; }}
           onMouseLeave={(e) => { if (!heroMenu) { e.currentTarget.style.opacity = 0.62; e.currentTarget.style.color = "var(--muted)"; } }}>
           <I.panel size={14} /> Card design

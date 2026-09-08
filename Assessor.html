@@ -33,16 +33,16 @@
 })();
 </script>
 <title>Marsh — Assessor Workspace</title>
-<link rel="stylesheet" href="brand.css?v=1788300601"/>
-<link rel="stylesheet" href="device-preview.css?v=1788633927"/>
-<link rel="stylesheet" href="assessor-responsive.css?v=1788300601"/>
-<link rel="stylesheet" href="mds-folio.css?v=1788300601"/>
+<link rel="stylesheet" href="brand.css"/>
+<link rel="stylesheet" href="device-preview.css"/>
+<link rel="stylesheet" href="assessor-responsive.css"/>
+<link rel="stylesheet" href="mds-folio.css"/>
 <style>
   html,body,#root{margin:0;height:100%;background:var(--canvas)}
   /* "All directions" chip — identical to Folio's, sits beside the Tweaks gear.
      The Assessor workspace has its own floating FAB at right:24/bottom:24 (52px,
      z-index 1200), so the chip + gear are shifted LEFT of it and lifted above it. */
-  .lh-back { position: fixed; right: 132px; bottom: 34px; z-index: 1201; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.72); color: #7B7974; text-decoration: none; font-family: var(--sans); font-size: 14px; font-weight: 500; letter-spacing: .01em; padding: 6px 11px; border-radius: 8px; border: 1px solid rgba(0,15,71,.12); box-shadow: 0 2px 8px rgba(0,15,71,.06); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: .5; transition: opacity .15s ease, color .15s ease, background .15s ease; }
+  .lh-back { position: fixed; right: 132px; bottom: 34px; z-index: 1201; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.72); color: #7B7974; text-decoration: none; font-family: var(--sans); font-size: 15px; font-weight: 700; letter-spacing: .01em; padding: 6px 11px; border-radius: 8px; border: 1px solid rgba(0,15,71,.12); box-shadow: 0 2px 8px rgba(0,15,71,.06); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: .5; transition: opacity .15s ease, color .15s ease, background .15s ease; }
   .lh-back:hover { opacity: 1; color: #000F47; background: #fff; }
   /* Override lh-tweaks.jsx's injected FAB position (right:14/bottom:14/z:61). */
   .lh-tweak-fab { right: 88px !important; bottom: 32px !important; z-index: 1201 !important; }
@@ -65,13 +65,13 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <!-- Shared tweaks machinery (same as Folio). Border-radius control needs LHRadius. -->
-<script src="radius-tweak.js?v=1788300601"></script>
-<script src="lh-route.js?v=1788300601"></script>
-<script type="text/babel" data-presets="env,react" src="lighthouse-assessor-editorial.jsx?v=1788760257"></script>
+<script src="radius-tweak.js"></script>
+<script src="lh-route.js"></script>
+<script type="text/babel" data-presets="env,react" src="lighthouse-assessor-editorial.jsx"></script>
 <!-- The "new experience" invitation. Loads before the tour so it can hold it back. -->
-<script type="text/babel" data-presets="env,react" src="app-new-experience.jsx?v=1788462247"></script>
-<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx?v=1788300601"></script>
-<script type="text/babel" data-presets="env,react" src="lh-tweaks.jsx?v=1788300601"></script>
+<script type="text/babel" data-presets="env,react" src="app-new-experience.jsx?v=1788860862"></script>
+<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="lh-tweaks.jsx"></script>
 <script type="text/babel" data-presets="env,react">
   setTimeout(()=>{
     const App = window.AssessorEditorial;
@@ -81,6 +81,6 @@
     root.render(<React.Fragment><App/>{NewExp ? <NewExp/> : null}{Tweaks ? <Tweaks/> : null}</React.Fragment>);
   }, 100);
 </script>
-<script src="lh-tour.js?v=1788300601"></script>
+<script src="lh-tour.js"></script>
 </body>
 </html>
