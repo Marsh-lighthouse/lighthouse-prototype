@@ -885,6 +885,7 @@ const SC_REQ_DL = 3, SC_REQ_UL = 8;
 const SC_STEPS = ["Browser", "Network", "Video and Audio", "Result"];
 const SC_AUTO_ADVANCE = false; // hidden for now — set true to restore the "Continue (3)" auto-advance countdown
 const scWrap = { maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 };
+const scWrapV = { margin: 0, padding: 0 }; // embedded (vertical single-page) — no page margins
 const scCard = { background: eCARD, border: "1px solid " + eLINE, borderRadius: 16 };
 const scTint = (c, a) => "color-mix(in srgb, " + c + " " + a + ", transparent)";
 
@@ -1165,7 +1166,65 @@ function ScScan2({ target, onBack, onLaunch, onStep }) {
   );
 }
 
-function ScBrowser({ result, setResult, onBack, onNext }) {
+// SC2 · vertical single-page stepper — identical checks to SC1, stacked on one screen
+const SC_VSTEPS = [
+  { k: "browser", icon: <I.monitor size={17} />, label: "Browser & Device" },
+  { k: "network", icon: <I.wifi size={17} />, label: "Internet Speed" },
+  { k: "video", icon: <I.cam size={17} />, label: "Video and Audio" },
+  { k: "result", icon: <I.checkCircle size={17} />, label: "Result" },
+];
+function ScVertical({ target, onBack, onLaunch, onStep }) {
+  const [phase, setPhase] = React.useState("browser");
+  const [results, setResults] = React.useState({ browser: "pending", network: "pending", video: "pending" });
+  const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
+  const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
+  const activeIndex = SC_VSTEPS.findIndex((s) => s.k === phase);
+  React.useEffect(() => { if (onStep) onStep("vertical/" + phase); }, [phase]);
+
+  const activeBody = (k) => {
+    if (k === "browser") return <ScBrowser vertical result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
+    if (k === "network") return <ScNetwork vertical setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
+    if (k === "video") return <ScVideo vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+    if (k === "result") return <ScResult vertical results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
+    return null;
+  };
+
+  return (
+    <div style={scWrap}>
+      <h1 className="serif" style={{ fontSize: 30, color: eMID, lineHeight: 1.15, margin: "0 0 6px" }}>System check</h1>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 26px", maxWidth: 620 }}>We'll take you through each check below, one at a time{target && target.name ? ", before you begin " + target.name : ""}. Your progress is shown on the left.</p>
+      {SC_VSTEPS.map((s, i) => {
+        const done = i < activeIndex;
+        const isActive = i === activeIndex;
+        const last = i === SC_VSTEPS.length - 1;
+        const nodeBg = isActive ? eMID : done ? eSUCCESS : scTint(eMID, "6%");
+        const nodeColor = isActive || done ? "#fff" : eMUT;
+        const badgeState = s.k === "result" ? "pass" : results[s.k];
+        return (
+          <div key={s.k} style={{ display: "flex", gap: 18, alignItems: "stretch" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 34, flexShrink: 0 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 17, background: nodeBg, color: nodeColor, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, flexShrink: 0, transition: "background .3s" }}>{done ? <I.check size={16} /> : i + 1}</div>
+              {!last && <div style={{ flex: 1, width: 2, minHeight: 22, background: done ? eSUCCESS : eLINE, margin: "6px 0" }} />}
+            </div>
+            <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 26 }}>
+              {isActive ? (
+                <div style={{ ...scCard, padding: "22px 24px" }}>{activeBody(s.k)}</div>
+              ) : (
+                <div style={{ display: "flex", alignItems: "center", gap: 12, minHeight: 34, opacity: done ? 1 : 0.5 }}>
+                  <span style={{ color: done ? eBLUE : eMUT, display: "flex" }}>{s.icon}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: done ? eMID : eMUT }}>{s.label}</span>
+                  {done && <ScBadge state={badgeState} />}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ScBrowser({ result, setResult, onBack, onNext, vertical }) {
   const [rows, setRows] = React.useState([]);
   React.useEffect(() => {
     let name = "your browser", ver = "";
@@ -1193,8 +1252,8 @@ function ScBrowser({ result, setResult, onBack, onNext }) {
   const finished = result !== "pending";
   const cd = useScCountdown(SC_AUTO_ADVANCE && finished && result === "pass", onNext);
   return (
-    <div style={scWrap}>
-      <ScStepper index={0} />
+    <div style={vertical ? scWrapV : scWrap}>
+      {!vertical && <ScStepper index={0} />}
       <ScHead icon={<I.globe size={22} />} title="Browser Compatibility Test" sub="Checking if your browser supports all required features" badge={finished ? result : "pending"} />
       <div style={{ ...scCard, padding: "6px 22px" }}>
         {rows.map((r, i) => (
@@ -1212,7 +1271,7 @@ function ScBrowser({ result, setResult, onBack, onNext }) {
 }
 
 // ═══ NETWORK ═══════════════════════════════════════════════════════════════
-function ScNetwork({ setResult, onBack, onNext }) {
+function ScNetwork({ setResult, onBack, onNext, vertical }) {
   const [runs, setRuns] = React.useState(0);
   const [stage, setStage] = React.useState("latency"); // latency|download|upload|done
   const [dl, setDl] = React.useState(0);
@@ -1246,8 +1305,8 @@ function ScNetwork({ setResult, onBack, onNext }) {
   const cd = useScCountdown(SC_AUTO_ADVANCE && outcome === "pass", onNext);
   const pending = stage !== "done";
   return (
-    <div style={scWrap}>
-      <ScStepper index={1} />
+    <div style={vertical ? scWrapV : scWrap}>
+      {!vertical && <ScStepper index={1} />}
       <ScHead icon={<I.wifi size={22} />} title="Internet Speed Test" sub="Testing the quality of your internet connection between our servers and your device." badge={pending ? "pending" : outcome} />
       {pending && (
         <div style={{ ...scCard, padding: "48px 22px", textAlign: "center" }}>
@@ -1347,7 +1406,7 @@ function ScPermissionPrompt({ host, onAllow, onDeny }) {
 // Simulated for the prototype: no real camera capture or recording. Every screen
 // (permission popup, preview, countdown, recording, review, checking, pass, fail,
 // denied) is mocked with a placeholder webcam thumbnail so the whole flow demos.
-function ScVideo({ setResult, onBack, onNext, onStep }) {
+function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
   const [vstate, setVstate] = React.useState("permission"); // permission|denied|preview|countdown|recording|reviewing|checking|pass|fail
   const [attempts, setAttempts] = React.useState(0);
   const [count, setCount] = React.useState(3);
@@ -1384,8 +1443,8 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
 
   if (vstate === "permission") {
     return (
-      <div style={scWrap}>
-        <ScStepper index={2} />
+      <div style={vertical ? scWrapV : scWrap}>
+        {!vertical && <ScStepper index={2} />}
         <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge="pending" />
         <div style={media}>{silhouette}<div style={overlayText}><span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "rgba(255,255,255,.75)" }}>Allow camera &amp; microphone access to continue.</span></div></div>
         <ScFoot onBackClick={onBack} right={<EdBtn onClick={() => setVstate("permission")}>Show permission prompt</EdBtn>} />
@@ -1396,8 +1455,8 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
 
   if (vstate === "denied") {
     return (
-      <div style={scWrap}>
-        <ScStepper index={2} />
+      <div style={vertical ? scWrapV : scWrap}>
+        {!vertical && <ScStepper index={2} />}
         <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge="fail" />
         <div style={{ background: scTint(eMID, "4%"), border: "1px solid " + eLINE, borderRadius: 14, padding: "60px 24px", textAlign: "center" }}>
           <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={44} /></span>
@@ -1413,8 +1472,8 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
   }
 
   return (
-    <div style={scWrap}>
-      <ScStepper index={2} />
+    <div style={vertical ? scWrapV : scWrap}>
+      {!vertical && <ScStepper index={2} />}
       <ScHead icon={<I.cam size={22} />} title="Camera and Microphone Test" sub="Verify your camera and microphone work properly, then play back your recording to confirm." badge={vstate === "pass" ? "pass" : vstate === "fail" ? "fail" : "pending"} />
 
       {(vstate === "preview" || vstate === "countdown" || vstate === "recording") && (
@@ -1502,7 +1561,7 @@ function ScVideo({ setResult, onBack, onNext, onStep }) {
 
 
 // ═══ RESULT ════════════════════════════════════════════════════════════════
-function ScResult({ results, onRerun, onBack, onLaunch }) {
+function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
   const [open, setOpen] = React.useState({});
   const CHECKS = [
     { k: "browser", icon: <I.globe size={20} />, label: "Browser Compatibility", passMsg: "Your browser is compatible with this campaign.", failMsg: "Your browser is missing one or more required features.", fix: { title: "Browser", items: ["Update your browser to the latest version", "Use a supported browser (Chrome, Edge, Firefox, Safari)", "Disable extensions that may block required features"] } },
@@ -1512,8 +1571,8 @@ function ScResult({ results, onRerun, onBack, onLaunch }) {
   const allPass = CHECKS.every((c) => results[c.k] === "pass");
   const failed = CHECKS.filter((c) => results[c.k] !== "pass");
   return (
-    <div style={scWrap}>
-      <ScStepper index={3} />
+    <div style={vertical ? scWrapV : scWrap}>
+      {!vertical && <ScStepper index={3} />}
       <div style={{ textAlign: "center", marginBottom: 8 }}>
         <span style={{ display: "inline-flex", color: allPass ? eSUCCESS : eWARN }}>{allPass ? <I.checkCircle size={64} /> : <I.alertCircle size={64} />}</span>
         <h1 style={{ fontFamily: "var(--sans)", fontSize: 26, fontWeight: 700, color: eMID, margin: "8px 0 6px" }}>{allPass ? "System Check Complete" : "System Check Warning"}</h1>
@@ -1562,15 +1621,15 @@ function ScResult({ results, onRerun, onBack, onLaunch }) {
 
 function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) {
   const v2 = variant === "2";
-  const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "scan", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
+  const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "vertical", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
   const [results, setResults] = edUseState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
   const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
   // reflect the current step in the URL (video reports its own sub-step)
-  React.useEffect(() => { if (onStep && phase !== "video") onStep(phase); }, [phase]);
+  React.useEffect(() => { if (onStep && phase !== "video" && phase !== "vertical") onStep(phase); }, [phase]);
 
-  if (phase === "welcome") return v2 ? <ScWelcome2 target={target} onStart={() => setPhase("scan")} /> : <ScWelcome target={target} onStart={() => setPhase("browser")} />;
-  if (phase === "scan") return <ScScan2 target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
+  if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase(v2 ? "vertical" : "browser")} />;
+  if (phase === "vertical") return <ScVertical target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
   if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
   if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
   if (phase === "video") return <ScVideo setResult={(v) => setResult("video", v)} onStep={onStep} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
