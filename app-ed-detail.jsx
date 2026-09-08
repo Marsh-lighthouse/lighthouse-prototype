@@ -1733,8 +1733,8 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
           {liveVideo}
           <div style={{ position: "absolute", left: 14, top: 14, display: "flex", gap: 8, zIndex: 3, flexWrap: "wrap" }}>{chip(<I.cam size={13} />, devices.cam)}{chip(<I.mic size={13} />, devices.mic)}</div>
 
-          {vstate === "preview" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.72))", padding: "40px 18px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "#fff", maxWidth: 360, textAlign: "left", lineHeight: 1.45 }}>When you're ready, start recording and read the sentence shown aloud.</span>
+          {vstate === "preview" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.72))", padding: panel ? "52px 18px 22px" : "40px 18px 16px", display: "flex", flexDirection: panel ? "column" : "row", alignItems: "center", justifyContent: panel ? "center" : "space-between", gap: panel ? 14 : 14, flexWrap: "wrap", textAlign: panel ? "center" : "left" }}>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "#fff", maxWidth: panel ? 440 : 360, textAlign: panel ? "center" : "left", lineHeight: 1.45 }}>When you're ready, start recording and read the sentence shown aloud.</span>
             <EdBtn primary dark onClick={() => setVstate("countdown")}>Start recording <I.arrow size={16} /></EdBtn>
           </div>}
 
