@@ -2176,12 +2176,12 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
             </div>
           )}
 
-          <div style={{ display: "flex", justifyContent: "center", gap: mob ? 10 : 12, marginTop: mob ? 20 : 24, flexWrap: "wrap" }}>
-            {vstate === "ready" && <EdBtn primary onClick={startRecording}><I.cam size={16} /> Start Recording</EdBtn>}
-            {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: mob ? "10px 16px" : "12px 20px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: "pointer" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop Recording</button>}
+          <div style={{ display: "flex", flexDirection: mob ? "column" : "row", justifyContent: "center", gap: mob ? 10 : 12, marginTop: mob ? 20 : 24, flexWrap: "wrap" }}>
+            {vstate === "ready" && <EdBtn primary full={mob} onClick={startRecording}><I.cam size={16} /> Start Recording</EdBtn>}
+            {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: mob ? "12px 16px" : "12px 20px", fontFamily: "var(--sans)", fontSize: mob ? 15 : 15, fontWeight: 700, cursor: "pointer", width: mob ? "100%" : "auto" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop Recording</button>}
             {vstate === "reviewing" && <React.Fragment>
-              <EdBtn onClick={retake}><I.sync size={15} /> No, I want to retake</EdBtn>
-              <EdBtn primary onClick={proceed}>Yes, Ok to proceed <I.arrow size={16} /></EdBtn>
+              <EdBtn full={mob} onClick={retake}><I.sync size={15} /> No, I want to retake</EdBtn>
+              <EdBtn primary full={mob} onClick={proceed}>Yes, Ok to proceed <I.arrow size={16} /></EdBtn>
             </React.Fragment>}
           </div>
         </div>
