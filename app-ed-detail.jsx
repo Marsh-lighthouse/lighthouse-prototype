@@ -901,10 +901,38 @@ function ScBadge({ state }) {
   return <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: m.col, background: m.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{m.ic} {m.l}</span>;
 }
 
+// Reads the prototype's device frame (Desktop / Mobile / iPad) and re-renders on change.
+function useScDevice() {
+  const [dev, setDev] = React.useState(() => (typeof document !== "undefined" && document.documentElement.getAttribute("data-device")) || "desktop");
+  React.useEffect(() => {
+    const read = () => setDev(document.documentElement.getAttribute("data-device") || "desktop");
+    read();
+    const obs = new MutationObserver(read);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-device"] });
+    return () => obs.disconnect();
+  }, []);
+  return dev;
+}
+
 function ScStepper({ index, audioOnly }) {
+  const dev = useScDevice();
+  const labels = audioOnly ? SC_STEPS_AUDIO : SC_STEPS;
+  if (dev === "mobile") {
+    // compact top progress bar for phones (like the development plan)
+    const pct = ((index + (index >= labels.length - 1 ? 1 : 0.5)) / labels.length) * 100;
+    return (
+      <div style={{ margin: "0 0 20px" }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID }}>{labels[index]}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {index + 1} of {labels.length}</span>
+        </div>
+        <div style={{ height: 6, borderRadius: 3, background: scTint(eMID, "10%"), overflow: "hidden" }}><div style={{ height: "100%", width: Math.min(100, pct) + "%", background: eBLUE, borderRadius: 3, transition: "width .3s ease" }} /></div>
+      </div>
+    );
+  }
   return (
     <div style={{ display: "flex", alignItems: "center", margin: "0 0 30px" }}>
-      {(audioOnly ? SC_STEPS_AUDIO : SC_STEPS).map((label, i) => {
+      {labels.map((label, i) => {
         const done = i < index, active = i === index;
         return (
           <React.Fragment key={i}>
@@ -912,9 +940,9 @@ function ScStepper({ index, audioOnly }) {
               <div style={{ width: 30, height: 30, borderRadius: 15, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, background: active ? eMID : done ? scTint(eMID, "8%") : scTint(eMID, "6%"), color: active ? "#fff" : done ? eMID : eMUT }}>
                 {done ? <I.check size={15} /> : i + 1}
               </div>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 700, color: active || done ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: dev === "ipad" ? 13 : 15, fontWeight: 700, color: active || done ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
             </div>
-            {i < SC_STEPS.length - 1 && <div style={{ flex: 1, height: 2, background: done ? eMID : eLINE, margin: "0 14px", minWidth: 18 }} />}
+            {i < labels.length - 1 && <div style={{ flex: 1, height: 2, background: done ? eMID : eLINE, margin: dev === "ipad" ? "0 8px" : "0 14px", minWidth: dev === "ipad" ? 8 : 18 }} />}
           </React.Fragment>
         );
       })}
@@ -1236,6 +1264,7 @@ function ScPanel({ target, onBack, onLaunch, onStep, audioOnly }) {
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
   const rerun = () => { setResults({ browser: "pending", network: "pending", video: "pending" }); setPhase("browser"); };
   const activeIndex = SC_VSTEPS.findIndex((s) => s.k === phase);
+  const dev = useScDevice();
   React.useEffect(() => { if (onStep) onStep("panel/" + phase); }, [phase]);
 
   const activeBody = (k) => {
@@ -1248,9 +1277,28 @@ function ScPanel({ target, onBack, onLaunch, onStep, audioOnly }) {
     return null;
   };
 
+  const stepLabel = (s) => (audioOnly && s.k === "video") ? "Audio" : s.label;
+
+  if (dev === "mobile") {
+    // phones: hide the side rail, show a compact top progress bar + the active step full width
+    const pct = ((activeIndex + (activeIndex >= SC_VSTEPS.length - 1 ? 1 : 0.5)) / SC_VSTEPS.length) * 100;
+    return (
+      <div style={scWrap}>
+        <div style={{ margin: "0 0 20px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID }}>{stepLabel(SC_VSTEPS[activeIndex])}</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {activeIndex + 1} of {SC_VSTEPS.length}</span>
+          </div>
+          <div style={{ height: 6, borderRadius: 3, background: scTint(eMID, "10%"), overflow: "hidden" }}><div style={{ height: "100%", width: Math.min(100, pct) + "%", background: eBLUE, borderRadius: 3, transition: "width .3s ease" }} /></div>
+        </div>
+        <div style={{ minWidth: 0 }}>{activeBody(phase)}</div>
+      </div>
+    );
+  }
+
   return (
     <div style={scWrap}>
-      <div style={{ display: "grid", gridTemplateColumns: "232px minmax(0,1fr)", gap: 32, alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: dev === "ipad" ? "190px minmax(0,1fr)" : "232px minmax(0,1fr)", gap: dev === "ipad" ? 22 : 32, alignItems: "start" }}>
         {/* LEFT · step navigation */}
         <div style={{ padding: "2px 8px 0 0", position: "sticky", top: 16 }}>
           <div style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 22 }}>
@@ -2155,7 +2203,7 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical, audioOnly }) {
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}><span style={{ color: eBLUE, display: "flex" }}><I.info size={20} /></span><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>Troubleshooting Guide</h3></div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "0 0 16px" }}>Follow these steps to resolve the issues detected during the system check</p>
           {failed.map((c, idx) => (
-            <div key={c.k} style={{ padding: "16px 0 2px", borderTop: idx > 0 ? "1px solid " + eLINE : "none" }}>
+            <div key={c.k} style={{ padding: idx > 0 ? "18px 0" : "0 0 18px", borderTop: idx > 0 ? "1px solid " + eLINE : "none" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 10 }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{c.fix.title}</h4></div>
               <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>{c.fix.items.map((t, j) => <li key={j} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t}</li>)}</ul>
             </div>
