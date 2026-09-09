@@ -74,6 +74,11 @@ html[data-device="ipad"] { --fol-px: 30px; }
 html[data-device="mobile"] .ed-topbar,
 html[data-device="mobile"] .bd-topbar { display: none !important; }
 
+/* Since .ed-topbar (which holds the page Back) is hidden on phones, the same Back
+   is rendered inline at the top of the content and revealed only on mobile. */
+.ed-content-back { display: none !important; }
+html[data-device="mobile"] .ed-content-back { display: inline-flex !important; }
+
 /* ════════════════════════════════════════════════
    2. MOBILE REFLOW  (phone frame, 390px)
    ════════════════════════════════════════════════ */

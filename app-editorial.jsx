@@ -1375,6 +1375,10 @@ function DashEditorial({ initialRoute } = {}) {
   const routeBack = (!onDash && !immersive && !isMainPage) ? renderTopBack(headerBackLabel, headerBack) : null;
   // A page's registered in-page sub-view back takes precedence when present.
   const topBackBtn = pageBack ? renderTopBack(pageBack.label, pageBack.onClick) : routeBack;
+  // Mobile hides the desktop .ed-topbar (which holds this Back), so the same target
+  // is rendered as an inline link at the top of the content on phones — via CSS the
+  // .ed-content-back below is display:none on desktop, shown on mobile.
+  const backInfo = pageBack ? pageBack : ((!onDash && !immersive && !isMainPage) ? { label: headerBackLabel, onClick: headerBack } : null);
 
   return (
     <React.Fragment>
@@ -1431,6 +1435,13 @@ function DashEditorial({ initialRoute } = {}) {
 
             <div className="ed-content" style={{ padding: "0 var(--fol-px, 56px)", flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
               <div>
+              {backInfo && (
+                <button className="ed-content-back" onClick={backInfo.onClick}
+                  style={{ display: "none", alignItems: "center", gap: 7, background: "none", border: "none", cursor: "pointer", color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "4px 0", margin: "16px 0 -14px" }}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: document.documentElement.dir === "rtl" ? "scaleX(-1)" : "none" }}><path d="M15 18l-6-6 6-6" /></svg>
+                  {backInfo.label || "Back"}
+                </button>
+              )}
               <LHTopBarContext.Provider value={topBarCtx}>{content}</LHTopBarContext.Provider>
               </div>
               <div style={{ marginTop: "auto" }}><EdFooter /></div>
