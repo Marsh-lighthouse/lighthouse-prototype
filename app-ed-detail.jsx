@@ -914,22 +914,25 @@ function useScDevice() {
   return dev;
 }
 
+// Segmented step progress bar for phones — discrete steps, filled up to the current one.
+function ScMobileSteps({ labels, index }) {
+  return (
+    <div style={{ margin: "0 0 20px" }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID }}>{labels[index]}</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {index + 1} of {labels.length}</span>
+      </div>
+      <div style={{ display: "flex", gap: 5 }}>
+        {labels.map((_, i) => <div key={i} style={{ flex: 1, height: 6, borderRadius: 3, background: i <= index ? eBLUE : scTint(eMID, "12%"), transition: "background .3s" }} />)}
+      </div>
+    </div>
+  );
+}
+
 function ScStepper({ index, audioOnly }) {
   const dev = useScDevice();
   const labels = audioOnly ? SC_STEPS_AUDIO : SC_STEPS;
-  if (dev === "mobile") {
-    // compact top progress bar for phones (like the development plan)
-    const pct = ((index + (index >= labels.length - 1 ? 1 : 0.5)) / labels.length) * 100;
-    return (
-      <div style={{ margin: "0 0 20px" }}>
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID }}>{labels[index]}</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {index + 1} of {labels.length}</span>
-        </div>
-        <div style={{ height: 6, borderRadius: 3, background: scTint(eMID, "10%"), overflow: "hidden" }}><div style={{ height: "100%", width: Math.min(100, pct) + "%", background: eBLUE, borderRadius: 3, transition: "width .3s ease" }} /></div>
-      </div>
-    );
-  }
+  if (dev === "mobile") return <ScMobileSteps labels={labels} index={index} />;
   return (
     <div style={{ display: "flex", alignItems: "center", margin: "0 0 30px" }}>
       {labels.map((label, i) => {
@@ -951,13 +954,14 @@ function ScStepper({ index, audioOnly }) {
 }
 
 function ScHead({ icon, title, sub, badge }) {
+  const mob = useScDevice() === "mobile";
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 22 }}>
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 13, minWidth: 0 }}>
-        {icon && <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: mob ? 10 : 16, marginBottom: mob ? 16 : 22 }}>
+      <div style={{ display: "flex", alignItems: mob ? "center" : "flex-start", gap: mob ? 10 : 13, minWidth: 0 }}>
+        {icon && <div style={{ width: mob ? 34 : 44, height: mob ? 34 : 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
         <div style={{ minWidth: 0 }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.2, margin: 0 }}>{title}</h1>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.5 }}>{sub}</p>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: mob ? 17 : 21, fontWeight: 700, color: eMID, lineHeight: 1.25, margin: 0 }}>{title}</h1>
+          {sub && <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.45 }}>{sub}</p>}
         </div>
       </div>
       {badge && <ScBadge state={badge} />}
@@ -1280,17 +1284,10 @@ function ScPanel({ target, onBack, onLaunch, onStep, audioOnly }) {
   const stepLabel = (s) => (audioOnly && s.k === "video") ? "Audio" : s.label;
 
   if (dev === "mobile") {
-    // phones: hide the side rail, show a compact top progress bar + the active step full width
-    const pct = ((activeIndex + (activeIndex >= SC_VSTEPS.length - 1 ? 1 : 0.5)) / SC_VSTEPS.length) * 100;
+    // phones: hide the side rail, show the segmented step progress + the active step full width
     return (
       <div style={scWrap}>
-        <div style={{ margin: "0 0 20px" }}>
-          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID }}>{stepLabel(SC_VSTEPS[activeIndex])}</span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {activeIndex + 1} of {SC_VSTEPS.length}</span>
-          </div>
-          <div style={{ height: 6, borderRadius: 3, background: scTint(eMID, "10%"), overflow: "hidden" }}><div style={{ height: "100%", width: Math.min(100, pct) + "%", background: eBLUE, borderRadius: 3, transition: "width .3s ease" }} /></div>
-        </div>
+        <ScMobileSteps labels={SC_VSTEPS.map(stepLabel)} index={activeIndex} />
         <div style={{ minWidth: 0 }}>{activeBody(phase)}</div>
       </div>
     );
