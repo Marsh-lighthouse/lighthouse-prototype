@@ -1815,7 +1815,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
               <div style={barRow}>
                 <div />
                 <button disabled={vstate === "countdown"} onClick={() => { setDevMenu(null); setVstate("countdown"); }}
-                  style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: 8, background: eBLUE, color: "#fff", border: "none", borderRadius: 8, padding: "9px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: vstate === "countdown" ? "default" : "pointer", opacity: vstate === "countdown" ? 0.55 : 1 }}>
+                  style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: 8, background: "#DCE6F5", color: eMID, border: "1.5px solid #DCE6F5", borderRadius: 8, padding: "9px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: vstate === "countdown" ? "default" : "pointer", opacity: vstate === "countdown" ? 0.55 : 1 }}>
                   <I.cam size={17} /> Record
                 </button>
                 {devControls}
