@@ -976,7 +976,7 @@ function ScWelcome({ target, onStart, audioOnly }) {
   const iconTile = (icon) => <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>;
   const cardHead = (icon, title, subtitle) => <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "center", gap: 13, marginBottom: 16 }}>{iconTile(icon)}<div><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.25 }}>{title}</h3>{subtitle && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "3px 0 0", lineHeight: 1.45 }}>{subtitle}</p>}</div></div>;
   const note = (t) => <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{t}</p>;
-  const kv = (k, v) => <div style={{ display: "flex", gap: 12, padding: "6px 0", alignItems: "baseline" }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, width: 100, flexShrink: 0 }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{v}</span></div>;
+  const kv = (k, v) => <div style={{ display: "flex", gap: 12, padding: "6px 0", alignItems: "baseline" }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, minWidth: 118, flexShrink: 0, whiteSpace: "nowrap" }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{v}</span></div>;
   const chk = (icon, label) => <div style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>{label}</span></div>;
   const li = (t, i) => <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
   const colTitle = (icon, title) => <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14 }}><span style={{ color: eMID, display: "flex" }}>{icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h4></div>;
@@ -2072,16 +2072,16 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
             {vstate !== "loading" && sentence}
             {vstate === "recording" && <canvas ref={canvasRef} width={640} height={70} style={{ width: "100%", maxWidth: 460, height: 70, margin: "20px auto 0", display: "block" }} />}
             {vstate === "reviewing" && (
-              <div style={{ marginTop: 22 }}>
+              <React.Fragment>
                 <audio ref={audioElRef} onPlay={() => setPbPlaying(true)} onPause={() => setPbPlaying(false)} onEnded={() => setPbPlaying(false)} onTimeUpdate={(e) => setPbTime(e.target.currentTime || 0)}
                   onLoadedMetadata={(e) => { const a = e.target; if (!isFinite(a.duration) || isNaN(a.duration)) { a.currentTime = 1e101; const onT = () => { a.removeEventListener("timeupdate", onT); a.currentTime = 0; setPbDur(isFinite(a.duration) ? a.duration : 0); }; a.addEventListener("timeupdate", onT); } else setPbDur(a.duration); }} style={{ display: "none" }} />
-                <div style={{ display: "flex", alignItems: "center", gap: 14, maxWidth: 620, margin: "0 auto" }}>
+                <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, borderTop: "1px solid " + eLINE, background: "#fff", borderBottomLeftRadius: 16, borderBottomRightRadius: 16, padding: "12px 22px", display: "flex", alignItems: "center", gap: 14 }}>
                   <button onClick={() => { const a = audioElRef.current; if (!a) return; if (a.paused) a.play(); else a.pause(); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2 }}>{pbPlaying ? <I.pause size={20} /> : <I.play size={20} />}</button>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eINK, flexShrink: 0, minWidth: 34 }}>{fmt(pbTime)}</span>
                   <div onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); const f = (e.clientX - r.left) / r.width; if (audioElRef.current && pbDur) audioElRef.current.currentTime = Math.max(0, Math.min(1, f)) * pbDur; }} style={{ flex: 1, height: 6, borderRadius: 3, background: scTint(eMID, "12%"), cursor: "pointer" }}><div style={{ height: "100%", width: (pbDur ? Math.min(100, (pbTime / pbDur) * 100) : 0) + "%", background: eBLUE, borderRadius: 3 }} /></div>
                   <button onClick={() => { const a = audioElRef.current; const nm = !pbMuted; setPbMuted(nm); if (a) a.muted = nm; }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2, opacity: pbMuted ? 0.5 : 1 }}><I.volume size={19} /></button>
                 </div>
-              </div>
+              </React.Fragment>
             )}
           </div>
 
