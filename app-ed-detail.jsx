@@ -972,10 +972,10 @@ function ScHead({ icon, title, sub, badge }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: mob ? 10 : 16, marginBottom: mob ? 16 : 22 }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: mob ? 10 : 13, minWidth: 0 }}>
-        {icon && <div style={{ width: mob ? 26 : 44, height: mob ? 26 : 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
+        {icon && <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
         <div style={{ minWidth: 0 }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 21, fontWeight: 700, color: eMID, lineHeight: 1.3, margin: 0 }}>{title}</h1>
-          {sub && <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 11.5 : 15, color: eMUT, margin: mob ? "3px 0 0" : "4px 0 0", lineHeight: 1.45 }}>{sub}</p>}
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.25, margin: 0 }}>{title}</h1>
+          {sub && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.45 }}>{sub}</p>}
         </div>
       </div>
       {badge && !mob && <ScBadge state={badge} />}
