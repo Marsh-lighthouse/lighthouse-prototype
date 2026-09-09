@@ -1830,9 +1830,13 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
   const ctrlBar = { position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 4 };
+  // Mobile uses flex with flex:1 side slots (grid misrenders on some devices); the
+  // center button (Record/Stop) stays truly centered and identical between states.
   const barRow = mob
-    ? { background: eMID, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "7px 9px" }
+    ? { background: eMID, display: "flex", alignItems: "center", gap: 8, padding: "7px 9px" }
     : { background: eMID, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 8, padding: "10px 12px", minHeight: 36 };
+  const slotL = { flex: mob ? 1 : undefined, minWidth: 0, display: "flex", alignItems: "center" };
+  const slotR = { flex: mob ? 1 : undefined, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "flex-end", gap: mob ? 6 : 8 };
   const devBtn = (kind) => (
     <button onClick={() => setDevMenu((m) => (m === kind ? null : kind))} title={kind === "cam" ? "Select camera" : "Select microphone"}
       style={{ display: "inline-flex", alignItems: "center", gap: 5, background: devMenu === kind ? "rgba(255,255,255,.14)" : "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.85)", borderRadius: 8, padding: mob ? "6px 7px" : "8px 10px", cursor: "pointer", flexShrink: 0 }}>
@@ -1899,12 +1903,12 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
           {(vstate === "preview" || vstate === "countdown") && (
             <div style={ctrlBar}>
               <div style={barRow}>
-                {mob ? <div style={{ justifySelf: "start" }}>{devBtn("mic")}</div> : <div />}
+                {mob ? <div style={slotL} /> : <div />}
                 <button disabled={vstate === "countdown"} onClick={() => { setDevMenu(null); setVstate("countdown"); }}
                   style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: mob ? 6 : 8, background: "#DCE6F5", color: eMID, border: "1.5px solid #DCE6F5", borderRadius: 8, padding: mob ? "8px 14px" : "9px 22px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: vstate === "countdown" ? "default" : "pointer", opacity: vstate === "countdown" ? 0.55 : 1, whiteSpace: "nowrap" }}>
                   <I.cam size={mob ? 15 : 17} /> Record
                 </button>
-                {mob ? <div style={{ justifySelf: "end" }}>{devBtn("cam")}</div> : devControls}
+                {mob ? <div style={slotR}>{devBtn("mic")}{devBtn("cam")}</div> : devControls}
               </div>
             </div>
           )}
@@ -1916,11 +1920,11 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
               </div>
               <div style={{ height: 4, background: "rgba(255,255,255,.2)" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eBLUE, transition: "width .9s linear" }} /></div>
               <div style={barRow}>
-                <span style={{ justifySelf: "start", display: "inline-flex", alignItems: "center", gap: mob ? 5 : 8, color: "#fff", fontFamily: "var(--sans)", fontSize: mob ? 11.5 : 13, fontWeight: 700, whiteSpace: "nowrap" }}>
+                <span style={{ ...(mob ? slotL : { justifySelf: "start" }), display: "inline-flex", alignItems: "center", gap: mob ? 5 : 8, color: "#fff", fontFamily: "var(--sans)", fontSize: mob ? 11.5 : 13, fontWeight: 700, whiteSpace: "nowrap" }}>
                   <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block", flexShrink: 0 }} /> {mob ? "" : "REC "}{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}{mob ? "" : " / 00:30"}
                 </span>
                 <button onClick={stopRecording} style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: mob ? 6 : 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: mob ? "8px 14px" : "9px 22px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
-                {devControls}
+                {mob ? <div style={slotR}>{devBtn("mic")}{devBtn("cam")}</div> : devControls}
               </div>
             </div>
           )}
