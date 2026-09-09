@@ -972,7 +972,7 @@ function ScHead({ icon, title, sub, badge }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: mob ? 10 : 16, marginBottom: mob ? 16 : 22 }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: mob ? 10 : 13, minWidth: 0 }}>
-        {icon && <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
+        {icon && <div style={{ width: mob ? 36 : 44, height: mob ? 36 : 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: mob ? 1 : 0 }}>{mob && React.isValidElement(icon) ? React.cloneElement(icon, { size: 18 }) : icon}</div>}
         <div style={{ minWidth: 0 }}>
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.25, margin: 0 }}>{title}</h1>
           {sub && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.45 }}>{sub}</p>}
@@ -1683,6 +1683,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
 // Falls back to clear "enable / denied / unsupported" states where the camera is
 // blocked (e.g. sandboxed preview panes); the live feed works on the deployed site.
 function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
+  const mob = useScDevice() === "mobile";
   const [vstate, setVstate] = React.useState("intro"); // intro|denied|unsupported|preview|countdown|recording|reviewing|checking|pass
   const [count, setCount] = React.useState(3);
   const [sec, setSec] = React.useState(0);
@@ -1811,20 +1812,20 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const confirm = () => { setVstate("checking"); setTimeout(() => { stopStream(); setResult("pass"); setVstate("pass"); }, 1300); };
   const reRecord = () => { setVstate("preview"); };
 
-  const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#0a1a55,#000f47)", borderRadius: 14, overflow: "hidden", aspectRatio: panel ? "3 / 2" : "16 / 9" };
-  const overlay = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, textAlign: "center", padding: 24, color: "#fff", zIndex: 2 };
+  const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#0a1a55,#000f47)", borderRadius: 14, overflow: "hidden", aspectRatio: panel ? "3 / 2" : mob ? "4 / 3" : "16 / 9" };
+  const overlay = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: mob ? 12 : 16, textAlign: "center", padding: mob ? 16 : 24, color: "#fff", zIndex: 2 };
   const chip = (icon, label) => <span title={label} style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 200, minWidth: 0 }}><span style={{ flexShrink: 0, display: "flex" }}>{icon}</span><span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{label}</span></span>;
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
   const ctrlBar = { position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 4 };
-  const barRow = { background: eMID, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 8, padding: "10px 12px", minHeight: 36 };
+  const barRow = { background: eMID, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: mob ? 5 : 8, padding: mob ? "8px 8px" : "10px 12px", minHeight: 36 };
   const devBtn = (kind) => (
     <button onClick={() => setDevMenu((m) => (m === kind ? null : kind))} title={kind === "cam" ? "Select camera" : "Select microphone"}
-      style={{ display: "inline-flex", alignItems: "center", gap: 5, background: devMenu === kind ? "rgba(255,255,255,.14)" : "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.85)", borderRadius: 8, padding: "8px 10px", cursor: "pointer", flexShrink: 0 }}>
-      {kind === "cam" ? <I.cam size={16} /> : <I.mic size={16} />} <I.chevD size={11} />
+      style={{ display: "inline-flex", alignItems: "center", gap: 5, background: devMenu === kind ? "rgba(255,255,255,.14)" : "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.85)", borderRadius: 8, padding: mob ? "6px 7px" : "8px 10px", cursor: "pointer", flexShrink: 0 }}>
+      {kind === "cam" ? <I.cam size={mob ? 14 : 16} /> : <I.mic size={mob ? 14 : 16} />} <I.chevD size={11} />
     </button>
   );
-  const devControls = <div style={{ justifySelf: "end", display: "inline-flex", alignItems: "center", gap: 8 }}>{devBtn("mic")}{devBtn("cam")}</div>;
+  const devControls = <div style={{ justifySelf: "end", display: "inline-flex", alignItems: "center", gap: mob ? 6 : 8 }}>{devBtn("mic")}{devBtn("cam")}</div>;
   const devPopover = devMenu && (
     <React.Fragment>
       <div onClick={() => setDevMenu(null)} style={{ position: "absolute", inset: 0, zIndex: 5 }} />
@@ -1860,8 +1861,8 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
       {(vstate === "intro" || vstate === "denied" || vstate === "unsupported") && (
         <div style={media}>
           <div style={overlay}>
-            <span style={{ color: vstate === "intro" ? "#CEECFF" : "#FFC9C7", display: "flex" }}>{vstate === "intro" ? <I.cam size={40} /> : <I.alertCircle size={40} />}</span>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.55, maxWidth: 480, margin: 0 }}>
+            <span style={{ color: vstate === "intro" ? "#CEECFF" : "#FFC9C7", display: "flex" }}>{vstate === "intro" ? <I.cam size={mob ? 30 : 40} /> : <I.alertCircle size={mob ? 30 : 40} />}</span>
+            <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, lineHeight: 1.5, maxWidth: 480, margin: 0 }}>
               {vstate === "intro" && "Select your microphone and camera, click Record, then read aloud and repeat the sentence appearing at the bottom 3 times."}
               {vstate === "denied" && "Camera and microphone access was blocked. Allow access in your browser's site settings (address-bar icon), then try again."}
               {vstate === "unsupported" && "Live camera capture isn't available in this browser or context. Open the check on the deployed site in Chrome, Edge, Safari or Firefox."}
@@ -1875,7 +1876,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
         <div style={media}>
           {liveVideo}
 
-          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(0,15,71,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 72, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
+          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(0,15,71,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: mob ? 54 : 72, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
 
           {vstate === "recording" && <div style={{ position: "absolute", top: 14, right: 14, zIndex: 4 }}>{audioMeter}</div>}
 
@@ -1886,8 +1887,8 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
               <div style={barRow}>
                 <div />
                 <button disabled={vstate === "countdown"} onClick={() => { setDevMenu(null); setVstate("countdown"); }}
-                  style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: 8, background: "#DCE6F5", color: eMID, border: "1.5px solid #DCE6F5", borderRadius: 8, padding: "9px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: vstate === "countdown" ? "default" : "pointer", opacity: vstate === "countdown" ? 0.55 : 1 }}>
-                  <I.cam size={17} /> Record
+                  style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: mob ? 6 : 8, background: "#DCE6F5", color: eMID, border: "1.5px solid #DCE6F5", borderRadius: 8, padding: mob ? "8px 14px" : "9px 22px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: vstate === "countdown" ? "default" : "pointer", opacity: vstate === "countdown" ? 0.55 : 1, whiteSpace: "nowrap" }}>
+                  <I.cam size={mob ? 15 : 17} /> Record
                 </button>
                 {devControls}
               </div>
@@ -1896,15 +1897,15 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
 
           {vstate === "recording" && (
             <div style={ctrlBar}>
-              <div style={{ background: "rgba(0,15,71,.82)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", padding: "12px 18px", textAlign: "center" }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#fff" }}>{SC_PHRASE}</span>
+              <div style={{ background: "rgba(0,15,71,.82)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", padding: mob ? "9px 12px" : "12px 18px", textAlign: "center" }}>
+                <span style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, color: "#fff", lineHeight: 1.45 }}>{SC_PHRASE}</span>
               </div>
               <div style={{ height: 4, background: "rgba(255,255,255,.2)" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eBLUE, transition: "width .9s linear" }} /></div>
               <div style={barRow}>
-                <span style={{ justifySelf: "start", display: "inline-flex", alignItems: "center", gap: 8, color: "#fff", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>
-                  <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30
+                <span style={{ justifySelf: "start", display: "inline-flex", alignItems: "center", gap: mob ? 5 : 8, color: "#fff", fontFamily: "var(--sans)", fontSize: mob ? 11.5 : 13, fontWeight: 700, whiteSpace: "nowrap" }}>
+                  <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block", flexShrink: 0 }} /> {mob ? "" : "REC "}{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}{mob ? "" : " / 00:30"}
                 </span>
-                <button onClick={stopRecording} style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
+                <button onClick={stopRecording} style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: mob ? 6 : 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: mob ? "8px 14px" : "9px 22px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
                 {devControls}
               </div>
             </div>
@@ -1921,23 +1922,23 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
               onTimeUpdate={(e) => setPbTime(e.target.currentTime || 0)}
               onLoadedMetadata={(e) => { const v = e.target; if (!isFinite(v.duration) || isNaN(v.duration)) { v.currentTime = 1e101; const onT = () => { v.removeEventListener("timeupdate", onT); v.currentTime = 0; setPbDur(isFinite(v.duration) ? v.duration : 0); }; v.addEventListener("timeupdate", onT); } else setPbDur(v.duration); }}
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 1, cursor: "pointer" }} />
-            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.65))", padding: "44px 16px 12px", display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.65))", padding: mob ? "38px 12px 10px" : "44px 16px 12px", display: "flex", alignItems: "center", gap: mob ? 10 : 14 }}>
               <button onClick={() => { const v = playbackRef.current; if (!v) return; if (v.paused) v.play(); else v.pause(); }} title={pbPlaying ? "Pause" : "Play"}
                 style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: "#fff", border: "none", cursor: "pointer", flexShrink: 0, padding: 2 }}>
-                {pbPlaying ? <I.pause size={20} /> : <I.play size={20} />}
+                {pbPlaying ? <I.pause size={mob ? 18 : 20} /> : <I.play size={mob ? 18 : 20} />}
               </button>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "#fff", flexShrink: 0, minWidth: 34 }}>{Math.floor((pbTime || 0) / 60)}:{String(Math.floor((pbTime || 0) % 60)).padStart(2, "0")}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: mob ? 11.5 : 13, fontWeight: 700, color: "#fff", flexShrink: 0, minWidth: 30 }}>{Math.floor((pbTime || 0) / 60)}:{String(Math.floor((pbTime || 0) % 60)).padStart(2, "0")}</span>
               <div onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); const f = (e.clientX - r.left) / r.width; if (playbackRef.current && pbDur) playbackRef.current.currentTime = Math.max(0, Math.min(1, f)) * pbDur; }}
                 style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.35)", cursor: "pointer", position: "relative" }}>
                 <div style={{ height: "100%", width: (pbDur ? Math.min(100, (pbTime / pbDur) * 100) : 0) + "%", background: "#fff", borderRadius: 3 }} />
               </div>
               <button onClick={() => { const v = playbackRef.current; const nm = !pbMuted; setPbMuted(nm); if (v) v.muted = nm; }} title={pbMuted ? "Unmute" : "Mute"}
                 style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: "#fff", border: "none", cursor: "pointer", flexShrink: 0, padding: 2, opacity: pbMuted ? 0.5 : 1 }}>
-                <I.volume size={19} />
+                <I.volume size={mob ? 17 : 19} />
               </button>
             </div>
           </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
         </div>
       )}
 
@@ -1964,6 +1965,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
 // live waveform, MediaRecorder, playback. Same placement as the client reference,
 // styled in MDS. Used when the campaign is flagged audioOnly.
 function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
+  const mob = useScDevice() === "mobile";
   const [vstate, setVstate] = React.useState("loading"); // loading|ready|denied|unsupported|recording|reviewing|pass
   const [sec, setSec] = React.useState(0);
   const [mics, setMics] = React.useState([]);
@@ -2099,9 +2101,9 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
   );
 
   const sentence = (
-    <div style={{ textAlign: "center", padding: "10px 10px 0" }}>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: "0 0 18px" }}>Please speak and repeat the following sentence 3 times.</p>
-      <p style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID, lineHeight: 1.35, margin: 0, maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}>&ldquo;{SC_PHRASE_AUDIO}&rdquo;</p>
+    <div style={{ textAlign: "center", padding: mob ? "6px 4px 0" : "10px 10px 0" }}>
+      <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, color: eINK, margin: mob ? "0 0 14px" : "0 0 18px" }}>Please speak and repeat the following sentence 3 times.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 21 : 28, fontWeight: 700, color: eMID, lineHeight: 1.35, margin: 0, maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}>&ldquo;{SC_PHRASE_AUDIO}&rdquo;</p>
     </div>
   );
 
@@ -2126,20 +2128,20 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
       {(vstate === "loading" || vstate === "ready" || vstate === "recording" || vstate === "reviewing") && (
         <div>
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8, minHeight: 24 }}>{(vstate === "ready" || vstate === "recording") && micChip}</div>
-          <div style={{ ...scCard, position: "relative", padding: "26px 24px 30px", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <div style={{ ...scCard, position: "relative", padding: mob ? "20px 16px 26px" : "26px 24px 30px", minHeight: mob ? 230 : 300, display: "flex", flexDirection: "column", justifyContent: "center" }}>
             {vstate === "recording" && <span style={{ position: "absolute", left: 18, top: 16, display: "inline-flex", alignItems: "center", gap: 8, background: scTint(eMID, "88%"), color: "#fff", borderRadius: 8, padding: "5px 11px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}><span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC &middot; {sec}s</span>}
             {vstate === "loading" && <div style={{ textAlign: "center" }}><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: 13, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "14px 0 0" }}>Requesting microphone access…</p></div>}
             {vstate !== "loading" && sentence}
-            {vstate === "recording" && <canvas ref={canvasRef} width={640} height={70} style={{ width: "100%", maxWidth: 460, height: 70, margin: "20px auto 0", display: "block" }} />}
+            {vstate === "recording" && <canvas ref={canvasRef} width={640} height={70} style={{ width: "100%", maxWidth: 460, height: mob ? 54 : 70, margin: mob ? "16px auto 0" : "20px auto 0", display: "block" }} />}
             {vstate === "reviewing" && (
               <React.Fragment>
                 <audio ref={audioElRef} onPlay={() => setPbPlaying(true)} onPause={() => setPbPlaying(false)} onEnded={() => setPbPlaying(false)} onTimeUpdate={(e) => setPbTime(e.target.currentTime || 0)}
                   onLoadedMetadata={(e) => { const a = e.target; if (!isFinite(a.duration) || isNaN(a.duration)) { a.currentTime = 1e101; const onT = () => { a.removeEventListener("timeupdate", onT); a.currentTime = 0; setPbDur(isFinite(a.duration) ? a.duration : 0); }; a.addEventListener("timeupdate", onT); } else setPbDur(a.duration); }} style={{ display: "none" }} />
-                <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, background: "#fff", borderBottomLeftRadius: 16, borderBottomRightRadius: 16, padding: "12px 22px", display: "flex", alignItems: "center", gap: 14 }}>
-                  <button onClick={() => { const a = audioElRef.current; if (!a) return; if (a.paused) a.play(); else a.pause(); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2 }}>{pbPlaying ? <I.pause size={20} /> : <I.play size={20} />}</button>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eINK, flexShrink: 0, minWidth: 34 }}>{fmt(pbTime)}</span>
+                <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, background: "#fff", borderBottomLeftRadius: 16, borderBottomRightRadius: 16, padding: mob ? "10px 14px" : "12px 22px", display: "flex", alignItems: "center", gap: mob ? 10 : 14 }}>
+                  <button onClick={() => { const a = audioElRef.current; if (!a) return; if (a.paused) a.play(); else a.pause(); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2 }}>{pbPlaying ? <I.pause size={mob ? 18 : 20} /> : <I.play size={mob ? 18 : 20} />}</button>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: mob ? 11.5 : 13, fontWeight: 700, color: eINK, flexShrink: 0, minWidth: 30 }}>{fmt(pbTime)}</span>
                   <div onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); const f = (e.clientX - r.left) / r.width; if (audioElRef.current && pbDur) audioElRef.current.currentTime = Math.max(0, Math.min(1, f)) * pbDur; }} style={{ flex: 1, height: 6, borderRadius: 3, background: scTint(eMID, "12%"), cursor: "pointer" }}><div style={{ height: "100%", width: (pbDur ? Math.min(100, (pbTime / pbDur) * 100) : 0) + "%", background: eBLUE, borderRadius: 3 }} /></div>
-                  <button onClick={() => { const a = audioElRef.current; const nm = !pbMuted; setPbMuted(nm); if (a) a.muted = nm; }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2, opacity: pbMuted ? 0.5 : 1 }}><I.volume size={19} /></button>
+                  <button onClick={() => { const a = audioElRef.current; const nm = !pbMuted; setPbMuted(nm); if (a) a.muted = nm; }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2, opacity: pbMuted ? 0.5 : 1 }}><I.volume size={mob ? 17 : 19} /></button>
                 </div>
               </React.Fragment>
             )}
@@ -2156,9 +2158,9 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
             </div>
           )}
 
-          <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 24 }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: mob ? 10 : 12, marginTop: mob ? 20 : 24, flexWrap: "wrap" }}>
             {vstate === "ready" && <EdBtn primary onClick={startRecording}><I.cam size={16} /> Start Recording</EdBtn>}
-            {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: "12px 20px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop Recording</button>}
+            {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: mob ? "10px 16px" : "12px 20px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: "pointer" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop Recording</button>}
             {vstate === "reviewing" && <React.Fragment>
               <EdBtn onClick={retake}><I.sync size={15} /> No, I want to retake</EdBtn>
               <EdBtn primary onClick={proceed}>Yes, Ok to proceed <I.arrow size={16} /></EdBtn>
