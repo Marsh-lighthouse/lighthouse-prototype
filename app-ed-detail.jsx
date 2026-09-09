@@ -291,6 +291,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
   let lockedFrom = false;
   const seq = d.sequential.map((ex) => {
     if (ex.status === "complete") return { ...ex, _status: "complete" };
+    if (ex.audioOnly) return { ...ex, _status: ex.status === "progress" ? "progress" : "notstarted" }; // audio proctored demo — always accessible
     if (!lockedFrom) {lockedFrom = true;return { ...ex, _status: ex.status === "progress" ? "progress" : "notstarted" };}
     return { ...ex, _status: "locked" };
   });
