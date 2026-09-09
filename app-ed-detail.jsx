@@ -2086,9 +2086,9 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
           </div>
 
           {vstate === "reviewing" && (
-            <div style={{ marginTop: 14 }}>
+            <div style={{ marginTop: 14, border: "1px solid " + eLINE, borderRadius: 12, overflow: "hidden", background: "#fff" }}>
               {[["Access"], ["Uploading"]].map((r, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 16px", background: scTint(eMID, "3%"), borderBottom: i === 0 ? "1px solid " + eLINE : "none" }}>
+                <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 16px", borderBottom: i === 0 ? "1px solid " + eLINE : "none" }}>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{r[0]}</span>
                   <span style={{ width: 22, height: 22, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.check size={13} /></span>
                 </div>
