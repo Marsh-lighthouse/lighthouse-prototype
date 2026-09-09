@@ -984,6 +984,17 @@ function ScHead({ icon, title, sub, badge }) {
 }
 
 function ScFoot({ onBackClick, right }) {
+  const mob = useScDevice() === "mobile";
+  if (mob) {
+    // Mobile: stack all actions as full-width buttons, primary (Continue) last/bottom.
+    const rightKids = React.Children.toArray(right && right.props ? right.props.children : right).filter(React.isValidElement);
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 22 }}>
+        <EdBtn full onClick={onBackClick}><I.arrowL size={16} /> Back</EdBtn>
+        {rightKids.map((c, i) => React.cloneElement(c, { key: i, full: true }))}
+      </div>
+    );
+  }
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginTop: 22, flexWrap: "wrap" }}>
       <EdBtn onClick={onBackClick}><I.arrowL size={16} /> Back</EdBtn>
@@ -1886,12 +1897,12 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
           {(vstate === "preview" || vstate === "countdown") && (
             <div style={ctrlBar}>
               <div style={barRow}>
-                <div />
+                {mob ? <div style={{ justifySelf: "start" }}>{devBtn("mic")}</div> : <div />}
                 <button disabled={vstate === "countdown"} onClick={() => { setDevMenu(null); setVstate("countdown"); }}
                   style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: mob ? 6 : 8, background: "#DCE6F5", color: eMID, border: "1.5px solid #DCE6F5", borderRadius: 8, padding: mob ? "8px 14px" : "9px 22px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: vstate === "countdown" ? "default" : "pointer", opacity: vstate === "countdown" ? 0.55 : 1, whiteSpace: "nowrap" }}>
                   <I.cam size={mob ? 15 : 17} /> Record
                 </button>
-                {devControls}
+                {mob ? <div style={{ justifySelf: "end" }}>{devBtn("cam")}</div> : devControls}
               </div>
             </div>
           )}
