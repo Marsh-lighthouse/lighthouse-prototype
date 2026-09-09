@@ -987,7 +987,9 @@ function ScFoot({ onBackClick, right }) {
   const mob = useScDevice() === "mobile";
   if (mob) {
     // Mobile: stack all actions as full-width buttons, primary (Continue) last/bottom.
-    const rightKids = React.Children.toArray(right && right.props ? right.props.children : right).filter(React.isValidElement);
+    // `right` may be a Fragment of buttons (unwrap its children) or a single button
+    // element (use it directly — unwrapping would strip it down to its icon/text).
+    const rightKids = React.Children.toArray((right && right.type === React.Fragment) ? right.props.children : right).filter(React.isValidElement);
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 22 }}>
         <EdBtn full onClick={onBackClick}><I.arrowL size={16} /> Back</EdBtn>
