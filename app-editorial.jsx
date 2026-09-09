@@ -701,7 +701,7 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
         <button onClick={() => onOpen(p.id)} className="ed-gold" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
           {state === "notstarted" ? t("beginProgram") : t("continueProgram")} <I.arrow size={16} />
         </button>
-        {p.id === "leadership" && (
+        {(p.id === "leadership" || p.id === "audio-only") && (
           <button onClick={() => onSystemCheck(p.id)} className="ed-syscheck" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "none", color: "var(--primary)", border: "1.5px solid var(--primary)", borderRadius: 10, padding: "8px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
             {t("systemCheck")} <I.arrow size={16} />
           </button>
