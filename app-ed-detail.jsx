@@ -1627,6 +1627,10 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const [selCam, setSelCam] = React.useState("");
   const [selMic, setSelMic] = React.useState("");
   const [devMenu, setDevMenu] = React.useState(null); // null | "cam" | "mic"
+  const [pbPlaying, setPbPlaying] = React.useState(false);
+  const [pbTime, setPbTime] = React.useState(0);
+  const [pbDur, setPbDur] = React.useState(0);
+  const [pbMuted, setPbMuted] = React.useState(false);
   const videoRef = React.useRef(null);
   const playbackRef = React.useRef(null);
   const streamRef = React.useRef(null);
@@ -1804,7 +1808,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
         <div style={media}>
           {liveVideo}
 
-          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(0,15,71,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
+          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(0,15,71,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 72, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
 
           {vstate === "recording" && <div style={{ position: "absolute", top: 14, right: 14, zIndex: 4 }}>{audioMeter}</div>}
 
@@ -1843,7 +1847,31 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
 
       {vstate === "reviewing" && (
         <div>
-          <div style={media}><video ref={playbackRef} controls playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 1 }} /></div>
+          <div style={media}>
+            <video ref={playbackRef} playsInline
+              onClick={() => { const v = playbackRef.current; if (!v) return; if (v.paused) v.play(); else v.pause(); }}
+              onPlay={() => setPbPlaying(true)} onPause={() => setPbPlaying(false)} onEnded={() => setPbPlaying(false)}
+              onTimeUpdate={(e) => setPbTime(e.target.currentTime || 0)}
+              onLoadedMetadata={(e) => { const v = e.target; if (!isFinite(v.duration) || isNaN(v.duration)) { v.currentTime = 1e101; const onT = () => { v.removeEventListener("timeupdate", onT); v.currentTime = 0; setPbDur(isFinite(v.duration) ? v.duration : 0); }; v.addEventListener("timeupdate", onT); } else setPbDur(v.duration); }}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 1, cursor: "pointer" }} />
+            <div style={ctrlBar}>
+              <div style={{ background: eMID, display: "flex", alignItems: "center", gap: 12, padding: "10px 16px" }}>
+                <button onClick={() => { const v = playbackRef.current; if (!v) return; if (v.paused) v.play(); else v.pause(); }} title={pbPlaying ? "Pause" : "Play"}
+                  style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: "50%", background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.85)", cursor: "pointer", flexShrink: 0, paddingLeft: pbPlaying ? 0 : 2 }}>
+                  {pbPlaying ? <I.pause size={15} /> : <I.play size={15} />}
+                </button>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "#fff", flexShrink: 0, minWidth: 34 }}>{Math.floor((pbTime || 0) / 60)}:{String(Math.floor((pbTime || 0) % 60)).padStart(2, "0")}</span>
+                <div onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); const f = (e.clientX - r.left) / r.width; if (playbackRef.current && pbDur) playbackRef.current.currentTime = Math.max(0, Math.min(1, f)) * pbDur; }}
+                  style={{ flex: 1, height: 6, borderRadius: 3, background: "rgba(255,255,255,.25)", cursor: "pointer", position: "relative" }}>
+                  <div style={{ height: "100%", width: (pbDur ? Math.min(100, (pbTime / pbDur) * 100) : 0) + "%", background: eBLUE, borderRadius: 3 }} />
+                </div>
+                <button onClick={() => { const v = playbackRef.current; const nm = !pbMuted; setPbMuted(nm); if (v) v.muted = nm; }} title={pbMuted ? "Unmute" : "Mute"}
+                  style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: 8, background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.85)", cursor: "pointer", flexShrink: 0, opacity: pbMuted ? 0.5 : 1 }}>
+                  <I.volume size={17} />
+                </button>
+              </div>
+            </div>
+          </div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "12px 0 0", textAlign: "center" }}>Play back your recording. If your video and audio are clear, confirm to continue.</p>
         </div>
       )}
