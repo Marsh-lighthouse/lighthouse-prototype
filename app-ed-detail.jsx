@@ -1622,6 +1622,11 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const [busy, setBusy] = React.useState(false);
   const [devices, setDevices] = React.useState({ cam: "Camera", mic: "Microphone" });
   const [level, setLevel] = React.useState(0);
+  const [cameras, setCameras] = React.useState([]);
+  const [mics, setMics] = React.useState([]);
+  const [selCam, setSelCam] = React.useState("");
+  const [selMic, setSelMic] = React.useState("");
+  const [devMenu, setDevMenu] = React.useState(null); // null | "cam" | "mic"
   const videoRef = React.useRef(null);
   const playbackRef = React.useRef(null);
   const streamRef = React.useRef(null);
@@ -1655,6 +1660,14 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
     } catch (e) {}
   };
 
+  const enumDevices = async () => {
+    try {
+      const list = await navigator.mediaDevices.enumerateDevices();
+      setCameras(list.filter((d) => d.kind === "videoinput"));
+      setMics(list.filter((d) => d.kind === "audioinput"));
+    } catch (e) {}
+  };
+
   const enable = async () => {
     if (!supported) { setVstate("unsupported"); setResult("fail"); return; }
     setBusy(true);
@@ -1663,9 +1676,32 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
       streamRef.current = stream;
       const vt = stream.getVideoTracks()[0], at = stream.getAudioTracks()[0];
       setDevices({ cam: (vt && vt.label) || "Camera", mic: (at && at.label) || "Microphone" });
+      try { setSelCam(vt && vt.getSettings ? vt.getSettings().deviceId || "" : ""); } catch (e) {}
+      try { setSelMic(at && at.getSettings ? at.getSettings().deviceId || "" : ""); } catch (e) {}
+      enumDevices();
       startMeter(stream);
       setBusy(false); setVstate("preview");
     } catch (err) { setBusy(false); setResult("fail"); setVstate("denied"); }
+  };
+
+  const switchDevice = async (kind, deviceId) => {
+    setDevMenu(null);
+    if (kind === "cam") setSelCam(deviceId); else setSelMic(deviceId);
+    try {
+      stopMeter();
+      if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop());
+      const camId = kind === "cam" ? deviceId : selCam;
+      const micId = kind === "mic" ? deviceId : selMic;
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: camId ? { deviceId: { exact: camId }, width: 1280, height: 720 } : { width: 1280, height: 720 },
+        audio: micId ? { deviceId: { exact: micId } } : true,
+      });
+      streamRef.current = stream;
+      const vt = stream.getVideoTracks()[0], at = stream.getAudioTracks()[0];
+      setDevices({ cam: (vt && vt.label) || "Camera", mic: (at && at.label) || "Microphone" });
+      startMeter(stream);
+      if (videoRef.current) { videoRef.current.srcObject = stream; const p = videoRef.current.play(); if (p && p.catch) p.catch(() => {}); }
+    } catch (e) {}
   };
 
   React.useEffect(() => {
@@ -1709,6 +1745,42 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const chip = (icon, label) => <span title={label} style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 200, minWidth: 0 }}><span style={{ flexShrink: 0, display: "flex" }}>{icon}</span><span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{label}</span></span>;
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
+  const ctrlBar = { position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 4 };
+  const barRow = { background: "#0b1020", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 8, padding: "10px 12px", minHeight: 36 };
+  const devBtn = (kind) => (
+    <button onClick={() => setDevMenu((m) => (m === kind ? null : kind))} title={kind === "cam" ? "Select camera" : "Select microphone"}
+      style={{ display: "inline-flex", alignItems: "center", gap: 5, background: devMenu === kind ? "rgba(255,255,255,.2)" : "rgba(255,255,255,.09)", color: "#fff", border: "1px solid rgba(255,255,255,.16)", borderRadius: 8, padding: "8px 10px", cursor: "pointer", flexShrink: 0 }}>
+      {kind === "cam" ? <I.cam size={16} /> : <I.mic size={16} />} <I.chevD size={11} />
+    </button>
+  );
+  const devControls = <div style={{ justifySelf: "end", display: "inline-flex", alignItems: "center", gap: 8 }}>{devBtn("mic")}{devBtn("cam")}</div>;
+  const devPopover = devMenu && (
+    <React.Fragment>
+      <div onClick={() => setDevMenu(null)} style={{ position: "absolute", inset: 0, zIndex: 5 }} />
+      <div style={{ position: "absolute", right: 12, bottom: 62, zIndex: 6, width: 280, background: "#fff", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 30px rgba(0,15,71,.22)", padding: 12 }}>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 8 }}>{devMenu === "cam" ? "Select a Camera" : "Select a Microphone"}</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 2, maxHeight: 190, overflowY: "auto" }}>
+          {(devMenu === "cam" ? cameras : mics).map((d, i) => {
+            const on = (devMenu === "cam" ? selCam : selMic) === d.deviceId;
+            return (
+              <button key={d.deviceId || i} onClick={() => switchDevice(devMenu, d.deviceId)}
+                style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left", background: on ? scTint(eBLUE, "8%") : "transparent", border: "none", borderRadius: 8, padding: "9px 10px", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: on ? 700 : 400, color: on ? eMID : eINK }}>
+                <span style={{ width: 15, color: eBLUE, display: "flex", flexShrink: 0 }}>{on ? <I.check size={14} /> : null}</span>
+                <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.label || ((devMenu === "cam" ? "Camera " : "Microphone ") + (i + 1))}</span>
+              </button>
+            );
+          })}
+          {(devMenu === "cam" ? cameras : mics).length === 0 && <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "6px 10px" }}>No devices found</div>}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+  const audioMeter = (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 26, background: "rgba(11,16,32,.5)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 11px" }}>
+      {[0, 1, 2, 3, 4].map((i) => { const h = Math.max(4, Math.min(18, 4 + level * 34 * (i === 2 ? 1 : i % 2 ? 0.7 : 0.45))); return <span key={i} style={{ width: 3, height: h, borderRadius: 2, background: "#fff", transition: "height .08s linear" }} />; })}
+    </span>
+  );
+
   return (
     <div style={vertical ? scWrapV : scWrap}>
       {!vertical && <ScStepper index={2} />}
@@ -1731,30 +1803,38 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
       {(vstate === "preview" || vstate === "countdown" || vstate === "recording") && (
         <div style={media}>
           {liveVideo}
-          <div style={{ position: "absolute", left: 14, top: 14, display: "flex", gap: 8, zIndex: 3, flexWrap: "wrap" }}>{chip(<I.cam size={13} />, devices.cam)}{chip(<I.mic size={13} />, devices.mic)}</div>
-
-          {vstate === "preview" && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.72))", padding: panel ? "52px 18px 22px" : "40px 18px 16px", display: "flex", flexDirection: panel ? "column" : "row", alignItems: "center", justifyContent: panel ? "center" : "space-between", gap: panel ? 14 : 14, flexWrap: "wrap", textAlign: panel ? "center" : "left" }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "#fff", maxWidth: panel ? 440 : 360, textAlign: panel ? "center" : "left", lineHeight: 1.45 }}>When you're ready, start recording and read the sentence shown aloud.</span>
-            <EdBtn primary dark onClick={() => setVstate("countdown")}>Start recording <I.arrow size={16} /></EdBtn>
-          </div>}
 
           {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(11,16,32,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
 
-          {vstate === "recording" && (
-            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55) 55%, rgba(0,0,0,.78))", padding: "50px 12px 11px", display: "flex", flexDirection: "column", gap: 9 }}>
-              <div style={{ alignSelf: "center", maxWidth: "100%", background: "rgba(11,16,32,.5)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "6px 14px", textAlign: "center", lineHeight: 1.4 }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(220,230,245,.72)", marginRight: 8 }}>Read aloud</span>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: "#fff", fontWeight: 700 }}>{SC_PHRASE}</span>
+          {vstate === "recording" && <div style={{ position: "absolute", top: 14, right: 14, zIndex: 4 }}>{audioMeter}</div>}
+
+          {devPopover}
+
+          {(vstate === "preview" || vstate === "countdown") && (
+            <div style={ctrlBar}>
+              <div style={barRow}>
+                <div />
+                <button disabled={vstate === "countdown"} onClick={() => { setDevMenu(null); setVstate("countdown"); }}
+                  style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: 8, background: eBLUE, color: "#fff", border: "none", borderRadius: 8, padding: "9px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: vstate === "countdown" ? "default" : "pointer", opacity: vstate === "countdown" ? 0.55 : 1 }}>
+                  <I.cam size={17} /> Record
+                </button>
+                {devControls}
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
+            </div>
+          )}
+
+          {vstate === "recording" && (
+            <div style={ctrlBar}>
+              <div style={{ background: "rgba(11,16,32,.82)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", padding: "12px 18px", textAlign: "center" }}>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#fff" }}>{SC_PHRASE}</span>
+              </div>
+              <div style={{ height: 4, background: "rgba(255,255,255,.2)" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eBLUE, transition: "width .9s linear" }} /></div>
+              <div style={barRow}>
+                <span style={{ justifySelf: "start", display: "inline-flex", alignItems: "center", gap: 8, color: "#fff", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>
                   <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")} / 00:30
                 </span>
-                <span title="Microphone level" style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 22, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 10px", flexShrink: 0 }}>
-                  {[0, 1, 2, 3, 4].map((i) => { const h = Math.max(4, Math.min(18, 4 + level * 34 * (i === 2 ? 1 : i % 2 ? 0.7 : 0.45))); return <span key={i} style={{ width: 3, height: h, borderRadius: 2, background: "#7fd0a0", transition: "height .08s linear" }} />; })}
-                </span>
-                <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.25)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
-                <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
+                <button onClick={stopRecording} style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: "9px 22px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
+                {devControls}
               </div>
             </div>
           )}
