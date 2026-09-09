@@ -60,7 +60,7 @@ const LH = {
         ],
         sequential: [
           { id: "cognitive", name: "Cognitive Ability Test", desc: "Verbal, numerical, and abstract reasoning.", time: "35 min", status: "notstarted", pct: 0, proctored: true },
-          { id: "hogan", name: "Hogan Assessment", desc: "Leadership personality profiling.", time: "40 min", status: "locked", pct: 0, proctored: false },
+          { id: "hogan", name: "Hogan Assessment", desc: "Leadership personality profiling.", time: "40 min", status: "notstarted", pct: 0, proctored: true, audioOnly: true },
           { id: "interview", name: "Video Interview", desc: "Structured behavioural interview with AI analysis.", time: "30 min", status: "locked", pct: 0, proctored: true },
         ],
         open: [
@@ -94,29 +94,6 @@ const LH = {
           { id: "self360", name: "Self Assessment", desc: "Rate yourself on leadership competencies.", time: "15 min", status: "notstarted", pct: 0, proctored: false },
           { id: "nominate", name: "Nominate Raters", desc: "Select manager, peers, and reports as raters.", time: "10 min", status: "locked", pct: 0, proctored: false },
           { id: "track", name: "Track Responses", desc: "Monitor rater completion (min 5 needed).", time: "—", status: "locked", pct: 0, proctored: false },
-        ],
-        open: [],
-      },
-    },
-    {
-      id: "audio-only", name: "Audio only campaign", tag: "Proctored", state: "notstarted",
-      desc: "A short proctored audio assessment. A system check — browser, network, and microphone — runs before you begin.",
-      due: "Aug 30, 2026", daysLeft: 73, pct: 0, done: 0, total: 1, reports: 0, notes: 0,
-      accent: "var(--accent)", tint: "var(--sky)",
-      steps: [
-        { name: "Microphone Test", status: "notstarted" },
-      ],
-      detail: {
-        videoLen: "2:30",
-        instructions: [
-          "This campaign includes a proctored audio exercise recorded via your microphone.",
-          "A system check (browser, network, and microphone) runs before launch.",
-          "Ensure a quiet, distraction-free environment with a working microphone.",
-          "Your responses are confidential. Only aggregated scores are shared with your program administrator.",
-        ],
-        centers: [],
-        sequential: [
-          { id: "audio-ex", name: "Audio Exercise", desc: "A short spoken assessment recorded via your microphone.", time: "20 min", status: "notstarted", pct: 0, proctored: true, audioOnly: true },
         ],
         open: [],
       },
