@@ -98,6 +98,29 @@ const LH = {
         open: [],
       },
     },
+    {
+      id: "audio-only", name: "Audio only campaign", tag: "Proctored", state: "notstarted",
+      desc: "A short proctored audio assessment. A system check — browser, network, and microphone — runs before you begin.",
+      due: "Aug 30, 2026", daysLeft: 73, pct: 0, done: 0, total: 1, reports: 0, notes: 0,
+      accent: "var(--accent)", tint: "var(--sky)",
+      steps: [
+        { name: "Microphone Test", status: "notstarted" },
+      ],
+      detail: {
+        videoLen: "2:30",
+        instructions: [
+          "This campaign includes a proctored audio exercise recorded via your microphone.",
+          "A system check (browser, network, and microphone) runs before launch.",
+          "Ensure a quiet, distraction-free environment with a working microphone.",
+          "Your responses are confidential. Only aggregated scores are shared with your program administrator.",
+        ],
+        centers: [],
+        sequential: [
+          { id: "audio-ex", name: "Audio Exercise", desc: "A short spoken assessment recorded via your microphone.", time: "20 min", status: "notstarted", pct: 0, proctored: true, audioOnly: true },
+        ],
+        open: [],
+      },
+    },
   ],
   reports: [
     { name: "Hogan Leadership Report", program: "Leadership 2026", pages: 12 },

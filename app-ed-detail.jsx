@@ -881,8 +881,10 @@ function EdCenter({ center, onBack, onProctored, onOpenAssess, onReserve }) {
 //  timers survive parent re-renders — nesting them inside EdPreCheck remounts them.
 // ═══════════════════════════════════════════════════════════════════════════
 const SC_PHRASE = "I am ready. This is a test recording to confirm that my video and microphone are working properly.";
+const SC_PHRASE_AUDIO = "I am ready. This is a test recording to confirm that my microphone is working properly.";
 const SC_REQ_DL = 3, SC_REQ_UL = 8;
 const SC_STEPS = ["Browser", "Network", "Video and Audio", "Result"];
+const SC_STEPS_AUDIO = ["Browser", "Network", "Audio", "Result"];
 const SC_AUTO_ADVANCE = true; // "Continue (4)" auto-advance countdown after a step passes (all three flows)
 const scWrap = { maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 };
 const scWrapV = { margin: 0, padding: 0 }; // embedded (vertical single-page) — no page margins
@@ -898,10 +900,10 @@ function ScBadge({ state }) {
   return <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: m.col, background: m.bg, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{m.ic} {m.l}</span>;
 }
 
-function ScStepper({ index }) {
+function ScStepper({ index, audioOnly }) {
   return (
     <div style={{ display: "flex", alignItems: "center", margin: "0 0 30px" }}>
-      {SC_STEPS.map((label, i) => {
+      {(audioOnly ? SC_STEPS_AUDIO : SC_STEPS).map((label, i) => {
         const done = i < index, active = i === index;
         return (
           <React.Fragment key={i}>
@@ -1173,7 +1175,7 @@ const SC_VSTEPS = [
   { k: "video", icon: <I.cam size={17} />, label: "Video and Audio", d: "We check your camera and microphone are working." },
   { k: "result", icon: <I.checkCircle size={17} />, label: "Result", d: "Review your results, then continue to the assessment." },
 ];
-function ScVertical({ target, onBack, onLaunch, onStep }) {
+function ScVertical({ target, onBack, onLaunch, onStep, audioOnly }) {
   const [phase, setPhase] = React.useState("browser");
   const [results, setResults] = React.useState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
@@ -1182,10 +1184,12 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
   React.useEffect(() => { if (onStep) onStep("vertical/" + phase); }, [phase]);
 
   const activeBody = (k) => {
-    if (k === "browser") return <ScBrowser vertical result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
-    if (k === "network") return <ScNetwork vertical setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-    if (k === "video") return <ScVideoLive vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
-    if (k === "result") return <ScResult vertical results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
+    if (k === "browser") return <ScBrowser vertical audioOnly={audioOnly} result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
+    if (k === "network") return <ScNetwork vertical audioOnly={audioOnly} setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
+    if (k === "video") return audioOnly
+      ? <ScAudioLive vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />
+      : <ScVideoLive vertical setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+    if (k === "result") return <ScResult vertical audioOnly={audioOnly} results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
     return null;
   };
 
@@ -1211,8 +1215,8 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
                 <div style={{ paddingTop: 2 }}>{activeBody(s.k)}</div>
               ) : (
                 <div style={{ display: "flex", alignItems: "center", gap: 12, minHeight: 34, opacity: done ? 1 : 0.5 }}>
-                  <span style={{ color: done ? eBLUE : eMUT, display: "flex" }}>{s.icon}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: done ? eMID : eMUT }}>{s.label}</span>
+                  <span style={{ color: done ? eBLUE : eMUT, display: "flex" }}>{audioOnly && s.k === "video" ? <I.mic size={17} /> : s.icon}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: done ? eMID : eMUT }}>{audioOnly && s.k === "video" ? "Audio" : s.label}</span>
                   {done && <ScBadge state={badgeState} />}
                 </div>
               )}
@@ -1225,7 +1229,7 @@ function ScVertical({ target, onBack, onLaunch, onStep }) {
 }
 
 // SC3 · split layout — left step-nav bar + current step content on the right (single view, no scroll)
-function ScPanel({ target, onBack, onLaunch, onStep }) {
+function ScPanel({ target, onBack, onLaunch, onStep, audioOnly }) {
   const [phase, setPhase] = React.useState("browser");
   const [results, setResults] = React.useState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
@@ -1234,10 +1238,12 @@ function ScPanel({ target, onBack, onLaunch, onStep }) {
   React.useEffect(() => { if (onStep) onStep("panel/" + phase); }, [phase]);
 
   const activeBody = (k) => {
-    if (k === "browser") return <ScBrowser vertical panel result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
-    if (k === "network") return <ScNetwork vertical panel setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-    if (k === "video") return <ScVideoLive vertical panel setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
-    if (k === "result") return <ScResult vertical results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
+    if (k === "browser") return <ScBrowser vertical panel audioOnly={audioOnly} result={results.browser} setResult={(v) => setResult("browser", v)} onBack={onBack} onNext={() => setPhase("network")} />;
+    if (k === "network") return <ScNetwork vertical panel audioOnly={audioOnly} setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
+    if (k === "video") return audioOnly
+      ? <ScAudioLive vertical panel setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />
+      : <ScVideoLive vertical panel setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+    if (k === "result") return <ScResult vertical audioOnly={audioOnly} results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
     return null;
   };
 
@@ -1256,12 +1262,12 @@ function ScPanel({ target, onBack, onLaunch, onStep }) {
             return (
               <div key={s.k} style={{ display: "flex", gap: 14, alignItems: "stretch" }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: dim ? scTint(eBLUE, "9%") : eBLUE, color: dim ? eMUT : "#fff", border: dim ? "1px solid " + scTint(eBLUE, "20%") : "none", boxShadow: active ? "0 0 0 4px " + scTint(eBLUE, "16%") : "none", transition: "background .2s, box-shadow .2s" }}>{done ? <I.check size={19} /> : s.icon}</div>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: dim ? scTint(eBLUE, "9%") : eBLUE, color: dim ? eMUT : "#fff", border: dim ? "1px solid " + scTint(eBLUE, "20%") : "none", boxShadow: active ? "0 0 0 4px " + scTint(eBLUE, "16%") : "none", transition: "background .2s, box-shadow .2s" }}>{done ? <I.check size={19} /> : (audioOnly && s.k === "video" ? <I.mic size={17} /> : s.icon)}</div>
                   {!last && <div style={{ flex: 1, width: 2, minHeight: 20, background: done ? eBLUE : scTint(eMID, "12%"), margin: "6px 0" }} />}
                 </div>
                 <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 20, opacity: dim ? 0.7 : 1 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: dim ? eMUT : eMID, marginTop: 9 }}>{s.label}</div>
-                  {active && <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.45, marginTop: 3 }}>{s.d}</div>}
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: dim ? eMUT : eMID, marginTop: 9 }}>{audioOnly && s.k === "video" ? "Audio" : s.label}</div>
+                  {active && <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, lineHeight: 1.45, marginTop: 3 }}>{audioOnly && s.k === "video" ? "We check your microphone is working." : s.d}</div>}
                 </div>
               </div>
             );
@@ -1274,7 +1280,7 @@ function ScPanel({ target, onBack, onLaunch, onStep }) {
   );
 }
 
-function ScBrowser({ result, setResult, onBack, onNext, vertical, panel }) {
+function ScBrowser({ result, setResult, onBack, onNext, vertical, panel, audioOnly }) {
   const [rows, setRows] = React.useState([]);
   React.useEffect(() => {
     let name = "your browser", ver = "";
@@ -1303,7 +1309,7 @@ function ScBrowser({ result, setResult, onBack, onNext, vertical, panel }) {
   const cd = useScCountdown(SC_AUTO_ADVANCE && finished && result === "pass", onNext);
   return (
     <div style={vertical ? scWrapV : scWrap}>
-      {!vertical && <ScStepper index={0} />}
+      {!vertical && <ScStepper index={0} audioOnly={audioOnly} />}
       <ScHead icon={panel ? null : <I.globe size={22} />} title="Browser Compatibility Test" sub="Checking if your browser supports all required features" badge={finished ? result : "pending"} />
       <div style={{ ...scCard, padding: "6px 22px" }}>
         {rows.map((r, i) => (
@@ -1321,7 +1327,7 @@ function ScBrowser({ result, setResult, onBack, onNext, vertical, panel }) {
 }
 
 // ═══ NETWORK ═══════════════════════════════════════════════════════════════
-function ScNetwork({ setResult, onBack, onNext, vertical, panel }) {
+function ScNetwork({ setResult, onBack, onNext, vertical, panel, audioOnly }) {
   const [runs, setRuns] = React.useState(0);
   const [stage, setStage] = React.useState("latency"); // latency|download|upload|done
   const [dl, setDl] = React.useState(0);
@@ -1357,7 +1363,7 @@ function ScNetwork({ setResult, onBack, onNext, vertical, panel }) {
   const statPad = vertical ? "12px 12px" : "18px 12px";
   return (
     <div style={vertical ? scWrapV : scWrap}>
-      {!vertical && <ScStepper index={1} />}
+      {!vertical && <ScStepper index={1} audioOnly={audioOnly} />}
       <ScHead icon={panel ? null : <I.wifi size={22} />} title="Internet Speed Test" sub="Testing the quality of your internet connection between our servers and your device." badge={pending ? "pending" : outcome} />
       {pending && (
         <div style={{ ...scCard, padding: "48px 22px", textAlign: "center" }}>
@@ -1892,19 +1898,217 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   );
 }
 
+// ═══ AUDIO ONLY (MICROPHONE TEST) ══════════════════════════════════════════
+// Audio-only variant of the proctored recording step: real getUserMedia(audio),
+// live waveform, MediaRecorder, playback. Same placement as the client reference,
+// styled in MDS. Used when the campaign is flagged audioOnly.
+function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
+  const [vstate, setVstate] = React.useState("loading"); // loading|ready|denied|unsupported|recording|reviewing|pass
+  const [sec, setSec] = React.useState(0);
+  const [mics, setMics] = React.useState([]);
+  const [selMic, setSelMic] = React.useState("");
+  const [micLabel, setMicLabel] = React.useState("Microphone");
+  const [devMenu, setDevMenu] = React.useState(false);
+  const [pbPlaying, setPbPlaying] = React.useState(false);
+  const [pbTime, setPbTime] = React.useState(0);
+  const [pbDur, setPbDur] = React.useState(0);
+  const [pbMuted, setPbMuted] = React.useState(false);
+  const streamRef = React.useRef(null);
+  const recorderRef = React.useRef(null);
+  const chunksRef = React.useRef([]);
+  const blobUrlRef = React.useRef(null);
+  const audioCtxRef = React.useRef(null);
+  const analyserRef = React.useRef(null);
+  const rafRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+  const audioElRef = React.useRef(null);
+
+  const supported = typeof navigator !== "undefined" && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof window.MediaRecorder !== "undefined";
+
+  const stopWave = () => { try { if (rafRef.current) cancelAnimationFrame(rafRef.current); } catch (e) {} rafRef.current = null; try { if (audioCtxRef.current) audioCtxRef.current.close(); } catch (e) {} audioCtxRef.current = null; analyserRef.current = null; };
+  const stopStream = () => { stopWave(); try { if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop()); } catch (e) {} streamRef.current = null; };
+  React.useEffect(() => () => { stopStream(); try { if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current); } catch (e) {} }, []);
+
+  const setupAnalyser = (stream) => {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      const ctx = new AC(); audioCtxRef.current = ctx;
+      const an = ctx.createAnalyser(); an.fftSize = 1024; analyserRef.current = an;
+      ctx.createMediaStreamSource(stream).connect(an);
+    } catch (e) {}
+  };
+
+  const enumMics = async () => { try { const list = await navigator.mediaDevices.enumerateDevices(); setMics(list.filter((d) => d.kind === "audioinput")); } catch (e) {} };
+
+  const acquire = async (deviceId) => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: deviceId ? { deviceId: { exact: deviceId } } : true });
+    streamRef.current = stream;
+    const at = stream.getAudioTracks()[0];
+    setMicLabel((at && at.label) || "Microphone");
+    try { setSelMic(at && at.getSettings ? at.getSettings().deviceId || "" : ""); } catch (e) {}
+    setupAnalyser(stream);
+  };
+
+  React.useEffect(() => {
+    if (!supported) { setVstate("unsupported"); setResult("fail"); return; }
+    (async () => { try { await acquire(); enumMics(); setVstate("ready"); } catch (e) { setResult("fail"); setVstate("denied"); } })();
+  }, []);
+
+  const switchMic = async (deviceId) => {
+    setDevMenu(false); setSelMic(deviceId);
+    try { stopWave(); if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop()); await acquire(deviceId); } catch (e) {}
+  };
+
+  // live waveform while recording
+  React.useEffect(() => {
+    if (vstate !== "recording" || !analyserRef.current || !canvasRef.current) return;
+    const an = analyserRef.current, canvas = canvasRef.current, ctx = canvas.getContext("2d");
+    const buf = new Uint8Array(an.fftSize);
+    const draw = () => {
+      rafRef.current = requestAnimationFrame(draw);
+      const w = canvas.width, h = canvas.height;
+      an.getByteTimeDomainData(buf);
+      ctx.clearRect(0, 0, w, h);
+      ctx.lineWidth = 2.5; ctx.strokeStyle = (getComputedStyle(canvas).getPropertyValue("--accent") || "").trim() || "#0B4BFF"; ctx.beginPath();
+      const slice = w / buf.length;
+      for (let i = 0; i < buf.length; i++) { const y = (buf[i] / 128) * (h / 2); const x = i * slice; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+      ctx.lineTo(w, h / 2); ctx.stroke();
+    };
+    draw();
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [vstate]);
+
+  const startRecording = () => {
+    if (!streamRef.current) return;
+    try {
+      chunksRef.current = [];
+      const cands = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg"];
+      let mime = ""; for (const m of cands) { try { if (window.MediaRecorder.isTypeSupported && window.MediaRecorder.isTypeSupported(m)) { mime = m; break; } } catch (e) {} }
+      const rec = mime ? new MediaRecorder(streamRef.current, { mimeType: mime }) : new MediaRecorder(streamRef.current);
+      recorderRef.current = rec;
+      rec.ondataavailable = (e) => { if (e.data && e.data.size) chunksRef.current.push(e.data); };
+      rec.onstop = () => { try { const blob = new Blob(chunksRef.current, { type: mime || "audio/webm" }); if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current); blobUrlRef.current = URL.createObjectURL(blob); if (audioElRef.current) audioElRef.current.src = blobUrlRef.current; } catch (e) {} setPbTime(0); setPbPlaying(false); setVstate("reviewing"); };
+      rec.start(); setVstate("recording");
+    } catch (e) {}
+  };
+  React.useEffect(() => {
+    if (vstate !== "recording") return;
+    setSec(0); let s = 0;
+    const iv = setInterval(() => { s += 1; setSec(s); if (s >= 30) { clearInterval(iv); stopRecording(); } }, 1000);
+    return () => clearInterval(iv);
+  }, [vstate]);
+  const stopRecording = () => { try { if (recorderRef.current && recorderRef.current.state !== "inactive") recorderRef.current.stop(); else setVstate("reviewing"); } catch (e) { setVstate("reviewing"); } };
+  const retake = () => { setVstate("ready"); };
+  const proceed = () => { stopStream(); setResult("pass"); onNext(); };
+  const fmt = (t) => Math.floor((t || 0) / 60) + ":" + String(Math.floor((t || 0) % 60)).padStart(2, "0");
+
+  const micChip = (
+    <div style={{ position: "relative", display: "inline-block" }}>
+      <button onClick={() => setDevMenu((v) => !v)} title="Select microphone" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: eINK, border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600 }}>
+        <span style={{ color: eMUT, display: "flex" }}><I.mic size={15} /></span>{micLabel}<I.chevD size={13} />
+      </button>
+      {devMenu && <React.Fragment>
+        <div onClick={() => setDevMenu(false)} style={{ position: "fixed", inset: 0, zIndex: 20 }} />
+        <div style={{ position: "absolute", right: 0, top: 30, zIndex: 21, width: 300, background: "#fff", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 30px rgba(0,15,71,.2)", padding: 8 }}>
+          {mics.map((d, i) => { const on = selMic === d.deviceId; return (
+            <button key={d.deviceId || i} onClick={() => switchMic(d.deviceId)} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", textAlign: "left", background: on ? scTint(eBLUE, "8%") : "transparent", border: "none", borderRadius: 8, padding: "9px 10px", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: on ? 700 : 400, color: on ? eMID : eINK }}>
+              <span style={{ width: 15, color: eBLUE, display: "flex", flexShrink: 0 }}>{on ? <I.check size={14} /> : null}</span>
+              <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.label || ("Microphone " + (i + 1))}</span>
+            </button>
+          ); })}
+          {mics.length === 0 && <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, padding: "6px 10px" }}>No microphones found</div>}
+        </div>
+      </React.Fragment>}
+    </div>
+  );
+
+  const sentence = (
+    <div style={{ textAlign: "center", padding: "10px 10px 0" }}>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: "0 0 18px" }}>Please speak and repeat the following sentence 3 times.</p>
+      <p style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID, lineHeight: 1.35, margin: 0, maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}>&ldquo;{SC_PHRASE_AUDIO}&rdquo;</p>
+    </div>
+  );
+
+  const badge = vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending";
+
+  return (
+    <div style={vertical ? scWrapV : scWrap}>
+      {!vertical && <ScStepper index={2} audioOnly />}
+      <ScHead icon={panel ? null : <I.mic size={22} />} title="Microphone Test" sub="Verify your microphone is working properly for recording" badge={badge} />
+
+      {(vstate === "denied" || vstate === "unsupported") && (
+        <div style={{ ...scCard, padding: "48px 24px", textAlign: "center" }}>
+          <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={40} /></span>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 600, maxWidth: 480, margin: "14px auto 0", lineHeight: 1.5 }}>{vstate === "denied" ? "Microphone access was blocked. Allow access in your browser's site settings, then try again." : "Microphone recording isn't available in this browser. Open the check on the deployed site in Chrome, Edge, Safari or Firefox."}</p>
+          <div style={{ marginTop: 18, display: "flex", justifyContent: "center", gap: 12 }}>
+            {vstate === "denied" && <EdBtn onClick={() => { setVstate("loading"); (async () => { try { await acquire(); enumMics(); setVstate("ready"); } catch (e) { setVstate("denied"); } })(); }}><I.sync size={15} /> Try again</EdBtn>}
+            <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>
+          </div>
+        </div>
+      )}
+
+      {(vstate === "loading" || vstate === "ready" || vstate === "recording" || vstate === "reviewing") && (
+        <div>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8, minHeight: 24 }}>{(vstate === "ready" || vstate === "recording") && micChip}</div>
+          <div style={{ ...scCard, position: "relative", padding: "26px 24px 30px", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            {vstate === "recording" && <span style={{ position: "absolute", left: 18, top: 16, display: "inline-flex", alignItems: "center", gap: 8, background: scTint(eMID, "88%"), color: "#fff", borderRadius: 8, padding: "5px 11px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}><span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC &middot; {sec}s</span>}
+            {vstate === "loading" && <div style={{ textAlign: "center" }}><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: 13, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "14px 0 0" }}>Requesting microphone access…</p></div>}
+            {vstate !== "loading" && sentence}
+            {vstate === "recording" && <canvas ref={canvasRef} width={640} height={70} style={{ width: "100%", maxWidth: 460, height: 70, margin: "20px auto 0", display: "block" }} />}
+            {vstate === "reviewing" && (
+              <div style={{ marginTop: 22 }}>
+                <audio ref={audioElRef} onPlay={() => setPbPlaying(true)} onPause={() => setPbPlaying(false)} onEnded={() => setPbPlaying(false)} onTimeUpdate={(e) => setPbTime(e.target.currentTime || 0)}
+                  onLoadedMetadata={(e) => { const a = e.target; if (!isFinite(a.duration) || isNaN(a.duration)) { a.currentTime = 1e101; const onT = () => { a.removeEventListener("timeupdate", onT); a.currentTime = 0; setPbDur(isFinite(a.duration) ? a.duration : 0); }; a.addEventListener("timeupdate", onT); } else setPbDur(a.duration); }} style={{ display: "none" }} />
+                <div style={{ display: "flex", alignItems: "center", gap: 14, maxWidth: 620, margin: "0 auto" }}>
+                  <button onClick={() => { const a = audioElRef.current; if (!a) return; if (a.paused) a.play(); else a.pause(); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2 }}>{pbPlaying ? <I.pause size={20} /> : <I.play size={20} />}</button>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eINK, flexShrink: 0, minWidth: 34 }}>{fmt(pbTime)}</span>
+                  <div onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); const f = (e.clientX - r.left) / r.width; if (audioElRef.current && pbDur) audioElRef.current.currentTime = Math.max(0, Math.min(1, f)) * pbDur; }} style={{ flex: 1, height: 6, borderRadius: 3, background: scTint(eMID, "12%"), cursor: "pointer" }}><div style={{ height: "100%", width: (pbDur ? Math.min(100, (pbTime / pbDur) * 100) : 0) + "%", background: eBLUE, borderRadius: 3 }} /></div>
+                  <button onClick={() => { const a = audioElRef.current; const nm = !pbMuted; setPbMuted(nm); if (a) a.muted = nm; }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", color: eMID, border: "none", cursor: "pointer", flexShrink: 0, padding: 2, opacity: pbMuted ? 0.5 : 1 }}><I.volume size={19} /></button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {vstate === "reviewing" && (
+            <div style={{ marginTop: 14 }}>
+              {[["Access"], ["Uploading"]].map((r, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 16px", background: scTint(eMID, "3%"), borderBottom: i === 0 ? "1px solid " + eLINE : "none" }}>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{r[0]}</span>
+                  <span style={{ width: 22, height: 22, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.check size={13} /></span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 24 }}>
+            {vstate === "ready" && <EdBtn primary onClick={startRecording}><I.cam size={16} /> Start Recording</EdBtn>}
+            {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: "12px 20px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}><I.alertCircle size={16} /> Stop Recording</button>}
+            {vstate === "reviewing" && <React.Fragment>
+              <EdBtn onClick={retake}><I.sync size={15} /> No, I want to retake</EdBtn>
+              <EdBtn primary onClick={proceed}>Yes, Ok to proceed <I.arrow size={16} /></EdBtn>
+            </React.Fragment>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ═══ RESULT ════════════════════════════════════════════════════════════════
-function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
+function ScResult({ results, onRerun, onBack, onLaunch, vertical, audioOnly }) {
   const [open, setOpen] = React.useState({});
   const CHECKS = [
     { k: "browser", icon: <I.globe size={20} />, label: "Browser Compatibility", passMsg: "Your browser is compatible with this campaign.", failMsg: "Your browser is missing one or more required features.", fix: { title: "Browser", items: ["Update your browser to the latest version", "Use a supported browser (Chrome, Edge, Firefox, Safari)", "Disable extensions that may block required features"] } },
     { k: "network", icon: <I.wifi size={20} />, label: "Internet Speed", passMsg: "Your Internet speed meets the minimum requirements for the campaign.", failMsg: "Your speed is slower than required (min " + SC_REQ_DL + " Mbps down / " + SC_REQ_UL + " Mbps up).", fix: { title: "Internet Speed", items: ["Close other applications using bandwidth", "Move closer to your Wi-Fi router or use an ethernet cable", "Restart your router/modem and re-run the check"] } },
-    { k: "video", icon: <I.cam size={20} />, label: "Video and Audio", passMsg: "Your camera and microphone are working correctly.", failMsg: "Your speech did not match the test phrase, or access was blocked.", fix: { title: "Video and Audio Recording", items: ["Click the lock/info icon in your browser's address bar to check camera and microphone permissions. If blocked, reset permissions in browser settings", "Find \"Camera\" and \"Microphone\" settings and set them to \"Allow\"", "Refresh the page after changing permissions", "On Windows: Check Privacy Settings > Camera/Microphone access", "On Mac: Check System Preferences > Security & Privacy > Camera/Microphone", "If permission is enabled and there was an upload issue, re-run the check and try uploading the video again"] } },
+    audioOnly
+      ? { k: "video", icon: <I.mic size={20} />, label: "Audio", passMsg: "Microphone check passed successfully.", failMsg: "Your microphone recording failed, or access was blocked.", fix: { title: "Microphone", items: ["Click the lock/info icon in your browser's address bar to check microphone permission. If blocked, reset it in browser settings", "Find \"Microphone\" settings and set it to \"Allow\"", "Refresh the page after changing permissions", "On Windows: Check Privacy Settings > Microphone access", "On Mac: Check System Preferences > Security & Privacy > Microphone", "If permission is enabled and there was an upload issue, re-run the check"] } }
+      : { k: "video", icon: <I.cam size={20} />, label: "Video and Audio", passMsg: "Your camera and microphone are working correctly.", failMsg: "Your speech did not match the test phrase, or access was blocked.", fix: { title: "Video and Audio Recording", items: ["Click the lock/info icon in your browser's address bar to check camera and microphone permissions. If blocked, reset permissions in browser settings", "Find \"Camera\" and \"Microphone\" settings and set them to \"Allow\"", "Refresh the page after changing permissions", "On Windows: Check Privacy Settings > Camera/Microphone access", "On Mac: Check System Preferences > Security & Privacy > Camera/Microphone", "If permission is enabled and there was an upload issue, re-run the check and try uploading the video again"] } },
   ];
   const allPass = CHECKS.every((c) => results[c.k] === "pass");
   const failed = CHECKS.filter((c) => results[c.k] !== "pass");
   return (
     <div style={vertical ? scWrapV : scWrap}>
-      {!vertical && <ScStepper index={3} />}
+      {!vertical && <ScStepper index={3} audioOnly={audioOnly} />}
       <div style={{ textAlign: "center", marginBottom: 8 }}>
         <span style={{ display: "inline-flex", color: allPass ? eSUCCESS : eWARN }}>{allPass ? <I.checkCircle size={64} /> : <I.alertCircle size={64} />}</span>
         <h1 style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID, margin: "8px 0 6px" }}>{allPass ? "System Check Complete" : "System Check Warning"}</h1>
@@ -1953,6 +2157,7 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical }) {
 function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) {
   const v2 = variant === "2";
   const v3 = variant === "3";
+  const audioOnly = !!(target && target.audioOnly);
   const [phase, setPhase] = edUseState(() => { const p = initialStep ? String(initialStep).split("/")[0] : "welcome"; return ["welcome", "vertical", "panel", "browser", "network", "video", "result"].indexOf(p) >= 0 ? p : "welcome"; });
   const [results, setResults] = edUseState({ browser: "pending", network: "pending", video: "pending" });
   const setResult = (k, v) => setResults((p) => (p[k] === v ? p : { ...p, [k]: v }));
@@ -1961,12 +2166,14 @@ function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) 
   React.useEffect(() => { if (onStep && phase !== "vertical" && phase !== "panel") onStep(phase); }, [phase]);
 
   if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase(v3 ? "panel" : v2 ? "vertical" : "browser")} />;
-  if (phase === "vertical") return <ScVertical target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
-  if (phase === "panel") return <ScPanel target={target} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
-  if (phase === "browser") return <ScBrowser result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
-  if (phase === "network") return <ScNetwork setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
-  if (phase === "video") return <ScVideoLive setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
-  if (phase === "result") return <ScResult results={results} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
+  if (phase === "vertical") return <ScVertical target={target} audioOnly={audioOnly} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
+  if (phase === "panel") return <ScPanel target={target} audioOnly={audioOnly} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
+  if (phase === "browser") return <ScBrowser audioOnly={audioOnly} result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
+  if (phase === "network") return <ScNetwork audioOnly={audioOnly} setResult={(v) => setResult("network", v)} onBack={() => setPhase("browser")} onNext={() => setPhase("video")} />;
+  if (phase === "video") return audioOnly
+    ? <ScAudioLive setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />
+    : <ScVideoLive setResult={(v) => setResult("video", v)} onBack={() => setPhase("network")} onNext={() => setPhase("result")} />;
+  if (phase === "result") return <ScResult results={results} audioOnly={audioOnly} onRerun={rerun} onBack={() => setPhase("video")} onLaunch={onLaunch} />;
   return null;
 }
 
