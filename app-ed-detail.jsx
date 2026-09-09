@@ -2146,7 +2146,7 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
       {(vstate === "loading" || vstate === "ready" || vstate === "recording" || vstate === "reviewing") && (
         <div>
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8, minHeight: 24 }}>{(vstate === "ready" || vstate === "recording") && micChip}</div>
-          <div style={{ ...scCard, position: "relative", padding: mob ? "20px 16px 26px" : "26px 24px 30px", minHeight: mob ? 230 : 300, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <div style={{ ...scCard, position: "relative", padding: vstate === "recording" ? (mob ? "58px 16px 26px" : "62px 24px 30px") : (mob ? "20px 16px 26px" : "26px 24px 30px"), minHeight: mob ? 230 : 300, display: "flex", flexDirection: "column", justifyContent: "center" }}>
             {vstate === "recording" && <span style={{ position: "absolute", left: 18, top: 16, display: "inline-flex", alignItems: "center", gap: 8, background: scTint(eMID, "88%"), color: "#fff", borderRadius: 8, padding: "5px 11px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}><span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC &middot; {sec}s</span>}
             {vstate === "loading" && <div style={{ textAlign: "center" }}><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: 13, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "14px 0 0" }}>Requesting microphone access…</p></div>}
             {vstate !== "loading" && sentence}
