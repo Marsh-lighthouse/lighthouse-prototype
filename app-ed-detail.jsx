@@ -2170,6 +2170,8 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical, audioOnly }) {
   ];
   const allPass = CHECKS.every((c) => results[c.k] === "pass");
   const failed = CHECKS.filter((c) => results[c.k] !== "pass");
+  const dev = useScDevice();
+  const mob = dev === "mobile";
   return (
     <div style={vertical ? scWrapV : scWrap}>
       {!vertical && <ScStepper index={3} audioOnly={audioOnly} />}
@@ -2179,19 +2181,28 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical, audioOnly }) {
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: 0 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
       </div>
       <div style={{ ...scCard, overflow: "hidden", marginTop: 22 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>
+        {!mob && <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>
           <span>Check</span><span style={{ textAlign: "center" }}>Result</span><span style={{ textAlign: "right" }}>Details</span>
-        </div>
+        </div>}
         {CHECKS.map((c, i) => {
           const st = results[c.k] === "pass" ? "pass" : "fail"; const isOpen = !!open[c.k];
+          const detailsBtn = <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", padding: 0 }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>;
+          const nameSpan = <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}><span style={{ color: eBLUE, display: "flex", flexShrink: 0 }}>{c.icon}</span>{c.label}</span>;
           return (
             <div key={c.k} style={{ borderBottom: i < CHECKS.length - 1 ? "1px solid " + eLINE : "none", background: isOpen ? scTint(eMID, "3%") : "transparent", transition: "background .2s" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 11, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}><span style={{ color: eBLUE, display: "flex" }}>{c.icon}</span>{c.label}</span>
-                <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
-                <button onClick={() => setOpen((p) => ({ ...p, [c.k]: !p[c.k] }))} style={{ justifySelf: "end", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>View Details <I.chevD size={16} style={{ transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></button>
-              </div>
-              {isOpen && <div style={{ margin: "0 22px", borderTop: "1px solid " + eLINE, padding: "14px 0 18px" }}>
+              {mob ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, padding: "16px 18px" }}>
+                  {nameSpan}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}><ScBadge state={st} />{detailsBtn}</div>
+                </div>
+              ) : (
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, alignItems: "center", padding: "16px 22px" }}>
+                  {nameSpan}
+                  <span style={{ justifySelf: "center" }}><ScBadge state={st} /></span>
+                  <span style={{ justifySelf: "end" }}>{detailsBtn}</span>
+                </div>
+              )}
+              {isOpen && <div style={{ margin: mob ? "0 18px" : "0 22px", borderTop: "1px solid " + eLINE, padding: "14px 0 18px" }}>
                 <div style={{ display: "flex", gap: 9, alignItems: "flex-start" }}><span style={{ color: st === "pass" ? eSUCCESS : eDANGER, flexShrink: 0, marginTop: 1, display: "flex" }}>{st === "pass" ? <I.checkCircle size={16} /> : <I.alertCircle size={16} />}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{st === "pass" ? c.passMsg : c.failMsg}</span></div>
               </div>}
             </div>
