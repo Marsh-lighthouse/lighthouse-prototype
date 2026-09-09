@@ -2098,7 +2098,7 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
 
           <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 24 }}>
             {vstate === "ready" && <EdBtn primary onClick={startRecording}><I.cam size={16} /> Start Recording</EdBtn>}
-            {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: "12px 20px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}><I.alertCircle size={16} /> Stop Recording</button>}
+            {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: "12px 20px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop Recording</button>}
             {vstate === "reviewing" && <React.Fragment>
               <EdBtn onClick={retake}><I.sync size={15} /> No, I want to retake</EdBtn>
               <EdBtn primary onClick={proceed}>Yes, Ok to proceed <I.arrow size={16} /></EdBtn>
