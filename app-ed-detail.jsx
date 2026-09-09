@@ -976,6 +976,7 @@ function ScHead({ icon, title, sub, badge }) {
         <div style={{ minWidth: 0 }}>
           <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.25, margin: 0 }}>{title}</h1>
           {sub && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.45 }}>{sub}</p>}
+          {badge && mob && <div style={{ marginTop: 12 }}><ScBadge state={badge} /></div>}
         </div>
       </div>
       {badge && !mob && <ScBadge state={badge} />}
