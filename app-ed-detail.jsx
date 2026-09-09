@@ -1749,7 +1749,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const barRow = { background: eMID, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 8, padding: "10px 12px", minHeight: 36 };
   const devBtn = (kind) => (
     <button onClick={() => setDevMenu((m) => (m === kind ? null : kind))} title={kind === "cam" ? "Select camera" : "Select microphone"}
-      style={{ display: "inline-flex", alignItems: "center", gap: 5, background: devMenu === kind ? "rgba(255,255,255,.2)" : "rgba(255,255,255,.09)", color: "#fff", border: "1px solid rgba(255,255,255,.16)", borderRadius: 8, padding: "8px 10px", cursor: "pointer", flexShrink: 0 }}>
+      style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#DCE6F5", color: eMID, border: "1.5px solid " + (devMenu === kind ? eBLUE : "#DCE6F5"), borderRadius: 8, padding: "8px 10px", cursor: "pointer", flexShrink: 0 }}>
       {kind === "cam" ? <I.cam size={16} /> : <I.mic size={16} />} <I.chevD size={11} />
     </button>
   );
