@@ -1923,6 +1923,7 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
   const rafRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const audioElRef = React.useRef(null);
+  const waveSmoothRef = React.useRef(null);
 
   const supported = typeof navigator !== "undefined" && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof window.MediaRecorder !== "undefined";
 
@@ -1965,15 +1966,29 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
     if (vstate !== "recording" || !analyserRef.current || !canvasRef.current) return;
     const an = analyserRef.current, canvas = canvasRef.current, ctx = canvas.getContext("2d");
     const buf = new Uint8Array(an.fftSize);
+    const COLS = 96;
     const draw = () => {
       rafRef.current = requestAnimationFrame(draw);
-      const w = canvas.width, h = canvas.height;
+      const w = canvas.width, h = canvas.height, mid = h / 2;
       an.getByteTimeDomainData(buf);
+      let sm = waveSmoothRef.current; if (!sm || sm.length !== COLS) { sm = new Array(COLS).fill(0); waveSmoothRef.current = sm; }
+      const step = Math.max(1, Math.floor(buf.length / COLS));
       ctx.clearRect(0, 0, w, h);
-      ctx.lineWidth = 2.5; ctx.strokeStyle = (getComputedStyle(canvas).getPropertyValue("--accent") || "").trim() || "#0B4BFF"; ctx.beginPath();
-      const slice = w / buf.length;
-      for (let i = 0; i < buf.length; i++) { const y = (buf[i] / 128) * (h / 2); const x = i * slice; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
-      ctx.lineTo(w, h / 2); ctx.stroke();
+      const grad = ctx.createLinearGradient(0, 0, w, 0);
+      grad.addColorStop(0, "#3B82F6"); grad.addColorStop(0.28, "#3B82F6"); grad.addColorStop(0.5, "#22C55E"); grad.addColorStop(0.72, "#22C55E"); grad.addColorStop(1, "#F43F5E");
+      ctx.fillStyle = grad;
+      const amps = [];
+      for (let c = 0; c < COLS; c++) {
+        let sum = 0; const base = c * step;
+        for (let k = 0; k < step; k++) { const v = (buf[base + k] - 128) / 128; sum += v * v; }
+        let a = Math.sqrt(sum / step) * Math.sin(Math.PI * c / (COLS - 1)); // rms, tapered at edges
+        sm[c] = sm[c] * 0.6 + a * 0.4; // ease for smooth motion
+        amps.push(Math.min(mid - 1.5, Math.max(1.1, sm[c] * mid * 5)));
+      }
+      ctx.beginPath();
+      for (let c = 0; c < COLS; c++) { const x = c / (COLS - 1) * w; c === 0 ? ctx.moveTo(x, mid - amps[c]) : ctx.lineTo(x, mid - amps[c]); }
+      for (let c = COLS - 1; c >= 0; c--) { const x = c / (COLS - 1) * w; ctx.lineTo(x, mid + amps[c]); }
+      ctx.closePath(); ctx.fill();
     };
     draw();
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
