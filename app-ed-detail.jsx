@@ -1019,6 +1019,7 @@ function useScCountdown(active, onDone) {
 // ═══ WELCOME ═══════════════════════════════════════════════════════════════
 function ScWelcome({ target, onStart, audioOnly }) {
   const [ack, setAck] = React.useState(false);
+  const mob = useScDevice() === "mobile";
   const iconTile = (icon) => <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>;
   const cardHead = (icon, title, subtitle) => <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "center", gap: 13, marginBottom: 16 }}>{iconTile(icon)}<div><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.25 }}>{title}</h3>{subtitle && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "3px 0 0", lineHeight: 1.45 }}>{subtitle}</p>}</div></div>;
   const note = (t) => <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{t}</p>;
@@ -1032,8 +1033,8 @@ function ScWelcome({ target, onStart, audioOnly }) {
   return (
     <div style={scWrap}>
       <div style={{ marginBottom: 22 }}>
-        <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 8px" }}>System check</h1>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0 }}>Confirm your device and connection are ready before you begin{target && target.name ? " " + target.name : ""}.</p>
+        <h1 className="serif" style={{ fontSize: mob ? 21 : 28, color: eMID, lineHeight: 1.15, margin: "0 0 8px" }}>System check</h1>
+        <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, color: eINK, lineHeight: 1.6, margin: 0 }}>Confirm your device and connection are ready before you begin{target && target.name ? " " + target.name : ""}.</p>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 20 }}>
@@ -2190,9 +2191,9 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical, audioOnly }) {
     <div style={vertical ? scWrapV : scWrap}>
       {!vertical && <ScStepper index={3} audioOnly={audioOnly} />}
       <div style={{ textAlign: "center", marginBottom: 8 }}>
-        <span style={{ display: "inline-flex", color: allPass ? eSUCCESS : eWARN }}>{allPass ? <I.checkCircle size={64} /> : <I.alertCircle size={64} />}</span>
-        <h1 style={{ fontFamily: "var(--sans)", fontSize: 28, fontWeight: 700, color: eMID, margin: "8px 0 6px" }}>{allPass ? "System Check Complete" : "System Check Warning"}</h1>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: 0 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
+        <span style={{ display: "inline-flex", color: allPass ? eSUCCESS : eWARN }}>{allPass ? <I.checkCircle size={mob ? 48 : 64} /> : <I.alertCircle size={mob ? 48 : 64} />}</span>
+        <h1 style={{ fontFamily: "var(--sans)", fontSize: mob ? 21 : 28, fontWeight: 700, color: eMID, margin: mob ? "6px 0 6px" : "8px 0 6px", lineHeight: 1.25 }}>{allPass ? "System Check Complete" : "System Check Warning"}</h1>
+        <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, color: eMUT, margin: 0, lineHeight: 1.45 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
       </div>
       <div style={{ ...scCard, overflow: "hidden", marginTop: 22 }}>
         {!mob && <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>
