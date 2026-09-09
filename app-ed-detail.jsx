@@ -970,7 +970,7 @@ function useScCountdown(active, onDone) {
 }
 
 // ═══ WELCOME ═══════════════════════════════════════════════════════════════
-function ScWelcome({ target, onStart }) {
+function ScWelcome({ target, onStart, audioOnly }) {
   const [ack, setAck] = React.useState(false);
   const iconTile = (icon) => <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>;
   const cardHead = (icon, title, subtitle) => <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "center", gap: 13, marginBottom: 16 }}>{iconTile(icon)}<div><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.25 }}>{title}</h3>{subtitle && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "3px 0 0", lineHeight: 1.45 }}>{subtitle}</p>}</div></div>;
@@ -998,7 +998,7 @@ function ScWelcome({ target, onStart }) {
         </div>
         <div style={{ ...box, flex: 1, minWidth: 260 }}>
           {cardHead(<I.monitor size={22} />, "System Checks")}
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{chk(<I.monitor size={16} />, "Browser & Device")}{chk(<I.wifi size={16} />, "Internet Speed")}{chk(<I.cam size={16} />, "Video & Audio")}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{chk(<I.monitor size={16} />, "Browser & Device")}{chk(<I.wifi size={16} />, "Internet Speed")}{chk(audioOnly ? <I.mic size={16} /> : <I.cam size={16} />, audioOnly ? "Audio" : "Video & Audio")}</div>
           {note("All checks must pass before you can proceed.")}
         </div>
       </div>
@@ -2165,7 +2165,7 @@ function EdPreCheck({ target, onBack, onLaunch, onStep, initialStep, variant }) 
   // reflect the current step in the URL (video reports its own sub-step; vertical/panel own their sub-URLs)
   React.useEffect(() => { if (onStep && phase !== "vertical" && phase !== "panel") onStep(phase); }, [phase]);
 
-  if (phase === "welcome") return <ScWelcome target={target} onStart={() => setPhase(v3 ? "panel" : v2 ? "vertical" : "browser")} />;
+  if (phase === "welcome") return <ScWelcome target={target} audioOnly={audioOnly} onStart={() => setPhase(v3 ? "panel" : v2 ? "vertical" : "browser")} />;
   if (phase === "vertical") return <ScVertical target={target} audioOnly={audioOnly} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
   if (phase === "panel") return <ScPanel target={target} audioOnly={audioOnly} onStep={onStep} onBack={() => setPhase("welcome")} onLaunch={onLaunch} />;
   if (phase === "browser") return <ScBrowser audioOnly={audioOnly} result={results.browser} setResult={(v) => setResult("browser", v)} onBack={() => setPhase("welcome")} onNext={() => setPhase("network")} />;
