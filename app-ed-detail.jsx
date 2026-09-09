@@ -1459,10 +1459,10 @@ function ScNetwork({ setResult, onBack, onNext, vertical, panel, audioOnly }) {
         <div style={{ ...scCard, padding: vertical ? "20px" : "30px 22px", textAlign: "center" }}>
           <div style={{ width: vertical ? 50 : 60, height: vertical ? 50 : 60, borderRadius: "50%", border: "3px solid " + eSUCCESS, color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: vertical ? "0 auto 8px" : "0 auto 12px" }}><I.check size={vertical ? 26 : 32} /></div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: vertical ? "0 0 16px" : "0 0 20px" }}>Your connection speed is optimal</p>
-          <div style={mob ? { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 0", maxWidth: 320, margin: "0 auto" } : { display: "flex", maxWidth: vertical ? 520 : 560, margin: "0 auto" }}>
+          <div style={mob ? { display: "flex", flexWrap: "wrap", rowGap: 16, maxWidth: 320, margin: "0 auto" } : { display: "flex", maxWidth: vertical ? 520 : 560, margin: "0 auto" }}>
             {[[dl.toFixed(2), "Download", "Mbps", eMID], [ul.toFixed(2), "Upload", "Mbps", eMID], [SC_REQ_DL, "Required", "download", eINK], [SC_REQ_UL, "Required", "upload", eINK]].map((s, i) => (
-              <div key={i} style={{ flex: mob ? undefined : 1, padding: "0 6px", borderLeft: mob ? (i % 2 === 1 ? "1px solid " + eLINE : "none") : (i > 0 ? "1px solid " + eLINE : "none") }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: vertical ? 21 : 28, fontWeight: 700, color: s[3] }}>{s[0]}</div>
+              <div key={i} style={{ flex: mob ? "0 0 50%" : 1, boxSizing: "border-box", padding: "0 6px", borderLeft: mob ? (i % 2 === 1 ? "1px solid " + eLINE : "none") : (i > 0 ? "1px solid " + eLINE : "none") }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: mob ? 21 : vertical ? 21 : 28, fontWeight: 700, color: s[3] }}>{s[0]}</div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 3, lineHeight: 1.35 }}>{s[1]}<br />{s[2]}</div>
               </div>
             ))}
@@ -1830,7 +1830,9 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
   const ctrlBar = { position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 4 };
-  const barRow = { background: eMID, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: mob ? 5 : 8, padding: mob ? "8px 8px" : "10px 12px", minHeight: 36 };
+  const barRow = mob
+    ? { background: eMID, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "7px 9px" }
+    : { background: eMID, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 8, padding: "10px 12px", minHeight: 36 };
   const devBtn = (kind) => (
     <button onClick={() => setDevMenu((m) => (m === kind ? null : kind))} title={kind === "cam" ? "Select camera" : "Select microphone"}
       style={{ display: "inline-flex", alignItems: "center", gap: 5, background: devMenu === kind ? "rgba(255,255,255,.14)" : "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.85)", borderRadius: 8, padding: mob ? "6px 7px" : "8px 10px", cursor: "pointer", flexShrink: 0 }}>
