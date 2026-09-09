@@ -1530,7 +1530,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
       {(vstate === "preview" || vstate === "countdown" || vstate === "recording") && (
         <div style={media}>
           {silhouette}
-          {vstate === "preview" && <div style={{ ...overlayText, background: "rgba(11,16,32,.5)" }}>
+          {vstate === "preview" && <div style={{ ...overlayText, background: "rgba(0,15,71,.5)" }}>
             <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, maxWidth: 460, margin: 0 }}>Select your microphone and camera, click <strong>Let's start</strong>, then read aloud and repeat the sentence appearing at the bottom 3 times.</p>
             <EdBtn primary dark onClick={() => setVstate("countdown")}>Let's start! <I.arrow size={16} /></EdBtn>
           </div>}
@@ -1538,18 +1538,18 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
           {vstate === "recording" && <React.Fragment>
             {/* top-left: REC pill + live audio meter */}
             <div style={{ position: "absolute", left: 14, top: 14, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".02em" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,15,71,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: "#fff", borderRadius: 8, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, letterSpacing: ".02em" }}>
                 <span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block", boxShadow: "0 0 0 4px rgba(203,17,17,.25)" }} />
                 REC {String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}
               </span>
-              <span title="Microphone level" style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 30, background: "rgba(11,16,32,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 12px" }}>
+              <span title="Microphone level" style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 30, background: "rgba(0,15,71,.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 12px" }}>
                 {[0, 1, 2, 3, 4].map((i) => <span key={i} className="ed-eq" style={{ width: 3, borderRadius: 2, background: "#7fd0a0", animationDelay: (i * 0.13) + "s" }} />)}
               </span>
             </div>
 
             {/* teleprompter caption */}
             <div style={{ position: "absolute", left: 16, right: 16, bottom: 82, zIndex: 3, display: "flex", justifyContent: "center" }}>
-              <div style={{ maxWidth: 620, background: "rgba(11,16,32,.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 14, padding: "14px 22px", textAlign: "center" }}>
+              <div style={{ maxWidth: 620, background: "rgba(0,15,71,.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 14, padding: "14px 22px", textAlign: "center" }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "rgba(220,230,245,.72)", marginBottom: 8 }}>Read aloud</div>
                 <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "#fff", margin: 0, fontWeight: 700 }}>{SC_PHRASE}</p>
               </div>
@@ -1740,13 +1740,13 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   const confirm = () => { setVstate("checking"); setTimeout(() => { stopStream(); setResult("pass"); setVstate("pass"); }, 1300); };
   const reRecord = () => { setVstate("preview"); };
 
-  const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#16264a,#0b1020)", borderRadius: 14, overflow: "hidden", aspectRatio: panel ? "3 / 2" : "16 / 9" };
+  const media = { position: "relative", width: "100%", background: "linear-gradient(160deg,#0a1a55,#000f47)", borderRadius: 14, overflow: "hidden", aspectRatio: panel ? "3 / 2" : "16 / 9" };
   const overlay = { position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, textAlign: "center", padding: 24, color: "#fff", zIndex: 2 };
   const chip = (icon, label) => <span title={label} style={{ background: "#DCE6F5", color: eMID, borderRadius: 8, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6, maxWidth: 200, minWidth: 0 }}><span style={{ flexShrink: 0, display: "flex" }}>{icon}</span><span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{label}</span></span>;
   const liveVideo = <video ref={videoRef} autoPlay muted playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: "scaleX(-1)", zIndex: 0 }} />;
 
   const ctrlBar = { position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 4 };
-  const barRow = { background: "#0b1020", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 8, padding: "10px 12px", minHeight: 36 };
+  const barRow = { background: eMID, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 8, padding: "10px 12px", minHeight: 36 };
   const devBtn = (kind) => (
     <button onClick={() => setDevMenu((m) => (m === kind ? null : kind))} title={kind === "cam" ? "Select camera" : "Select microphone"}
       style={{ display: "inline-flex", alignItems: "center", gap: 5, background: devMenu === kind ? "rgba(255,255,255,.2)" : "rgba(255,255,255,.09)", color: "#fff", border: "1px solid rgba(255,255,255,.16)", borderRadius: 8, padding: "8px 10px", cursor: "pointer", flexShrink: 0 }}>
@@ -1776,7 +1776,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
     </React.Fragment>
   );
   const audioMeter = (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 26, background: "rgba(11,16,32,.5)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 11px" }}>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 26, background: "rgba(0,15,71,.5)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderRadius: 8, padding: "0 11px" }}>
       {[0, 1, 2, 3, 4].map((i) => { const h = Math.max(4, Math.min(18, 4 + level * 34 * (i === 2 ? 1 : i % 2 ? 0.7 : 0.45))); return <span key={i} style={{ width: 3, height: h, borderRadius: 2, background: "#fff", transition: "height .08s linear" }} />; })}
     </span>
   );
@@ -1789,13 +1789,13 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
       {(vstate === "intro" || vstate === "denied" || vstate === "unsupported") && (
         <div style={media}>
           <div style={overlay}>
-            <span style={{ color: vstate === "intro" ? "rgba(207,224,255,.9)" : "#ffd7d0", display: "flex" }}>{vstate === "intro" ? <I.cam size={40} /> : <I.alertCircle size={40} />}</span>
+            <span style={{ color: vstate === "intro" ? "#CEECFF" : "#FFC9C7", display: "flex" }}>{vstate === "intro" ? <I.cam size={40} /> : <I.alertCircle size={40} />}</span>
             <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.55, maxWidth: 480, margin: 0 }}>
-              {vstate === "intro" && "We'll access your camera and microphone. Click below and choose “Allow” in your browser's permission prompt."}
+              {vstate === "intro" && "Select your microphone and camera, click Record, then read aloud and repeat the sentence appearing at the bottom 3 times."}
               {vstate === "denied" && "Camera and microphone access was blocked. Allow access in your browser's site settings (address-bar icon), then try again."}
               {vstate === "unsupported" && "Live camera capture isn't available in this browser or context. Open the check on the deployed site in Chrome, Edge, Safari or Firefox."}
             </p>
-            {vstate !== "unsupported" && <EdBtn primary dark disabled={busy} onClick={enable}>{busy ? "Requesting access…" : vstate === "denied" ? "Try again" : "Enable camera & microphone"} <I.arrow size={16} /></EdBtn>}
+            {vstate !== "unsupported" && <EdBtn primary dark disabled={busy} onClick={enable}>{busy ? "Requesting access…" : vstate === "denied" ? "Try again" : "Let's start!"} <I.arrow size={16} /></EdBtn>}
           </div>
         </div>
       )}
@@ -1804,7 +1804,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
         <div style={media}>
           {liveVideo}
 
-          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(11,16,32,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
+          {vstate === "countdown" && <div style={{ ...overlay, background: "rgba(0,15,71,.35)" }}><div style={{ fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{count > 0 ? count : ""}</div></div>}
 
           {vstate === "recording" && <div style={{ position: "absolute", top: 14, right: 14, zIndex: 4 }}>{audioMeter}</div>}
 
@@ -1825,7 +1825,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
 
           {vstate === "recording" && (
             <div style={ctrlBar}>
-              <div style={{ background: "rgba(11,16,32,.82)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", padding: "12px 18px", textAlign: "center" }}>
+              <div style={{ background: "rgba(0,15,71,.82)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", padding: "12px 18px", textAlign: "center" }}>
                 <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#fff" }}>{SC_PHRASE}</span>
               </div>
               <div style={{ height: 4, background: "rgba(255,255,255,.2)" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eBLUE, transition: "width .9s linear" }} /></div>
