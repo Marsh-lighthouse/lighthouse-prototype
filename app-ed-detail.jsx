@@ -915,16 +915,30 @@ function useScDevice() {
 }
 
 // Segmented step progress bar for phones — discrete steps, filled up to the current one.
+// Mobile step progress — numbered-circle rail, matching the development-plan
+// stepper (MnStepper design 1 in app-ed-manual.jsx): filled circle + label for
+// the active step, plain numbered circles for the rest, hairline connectors.
 function ScMobileSteps({ labels, index }) {
   return (
-    <div style={{ margin: "0 0 20px" }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID }}>{labels[index]}</span>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT }}>Step {index + 1} of {labels.length}</span>
-      </div>
-      <div style={{ display: "flex", gap: 5 }}>
-        {labels.map((_, i) => <div key={i} style={{ flex: 1, height: 6, borderRadius: 3, background: i <= index ? eBLUE : scTint(eMID, "12%"), transition: "background .3s" }} />)}
-      </div>
+    <div style={{ display: "flex", alignItems: "center", margin: "0 0 20px", flexWrap: "nowrap", overflowX: "auto", paddingBottom: 2 }}>
+      {labels.map((label, i) => {
+        const done = i < index, on = i === index;
+        return (
+          <React.Fragment key={label}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
+              <span style={{ width: 26, height: 26, borderRadius: 13, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+                background: done ? eSUCCESS : on ? eMID : "rgba(0,15,71,.06)",
+                color: done || on ? "#fff" : eMUT,
+                border: done ? "none" : "1px solid " + (on ? eMID : eLINE),
+                fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>
+                {done ? <I.check size={15} /> : i + 1}
+              </span>
+              {on && <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, whiteSpace: "nowrap" }}>{label}</span>}
+            </div>
+            {i < labels.length - 1 && <span style={{ flex: "1 1 12px", minWidth: 10, height: 1, background: done ? eSUCCESS : eLINE, margin: "0 8px" }} />}
+          </React.Fragment>
+        );
+      })}
     </div>
   );
 }
@@ -957,14 +971,14 @@ function ScHead({ icon, title, sub, badge }) {
   const mob = useScDevice() === "mobile";
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: mob ? 10 : 16, marginBottom: mob ? 16 : 22 }}>
-      <div style={{ display: "flex", alignItems: mob ? "center" : "flex-start", gap: mob ? 10 : 13, minWidth: 0 }}>
-        {icon && <div style={{ width: mob ? 34 : 44, height: mob ? 34 : 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: mob ? 10 : 13, minWidth: 0 }}>
+        {icon && <div style={{ width: mob ? 30 : 44, height: mob ? 30 : 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>}
         <div style={{ minWidth: 0 }}>
-          <h1 style={{ fontFamily: "var(--sans)", fontSize: mob ? 17 : 21, fontWeight: 700, color: eMID, lineHeight: 1.25, margin: 0 }}>{title}</h1>
+          <h1 style={{ fontFamily: "var(--sans)", fontSize: mob ? 15 : 21, fontWeight: 700, color: eMID, lineHeight: 1.25, margin: 0 }}>{title}</h1>
           {sub && <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, color: eMUT, margin: "4px 0 0", lineHeight: 1.45 }}>{sub}</p>}
         </div>
       </div>
-      {badge && <ScBadge state={badge} />}
+      {badge && !mob && <ScBadge state={badge} />}
     </div>
   );
 }
