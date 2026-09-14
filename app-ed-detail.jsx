@@ -167,10 +167,9 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
       <div style={{ padding: "14px 16px 15px", display: "flex", flexDirection: "column", flex: 1 }}>
         <h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: "0 0 10px", lineHeight: 1.25 }}>{item.name}</h3>
 
-        {/* progress */}
+        {/* progress — status only (label dropped), regular weight */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Progress</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: isError ? eDANGER : isComplete ? eSUCCESS : st === "notstarted" || locked ? eMUT : col }}>{progLabel}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: isError ? eDANGER : isComplete ? eSUCCESS : st === "notstarted" || locked ? eMUT : col }}>{progLabel}</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", height: 4, overflow: "hidden", marginBottom: 12 }}>
           <div style={{ width: `${barPct}%`, height: "100%", background: isError ? eDANGER : isComplete ? eSUCCESS : "var(--pl-fill)", flexShrink: 0 }} />
