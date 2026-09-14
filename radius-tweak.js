@@ -18,15 +18,18 @@
 // ════════════════════════════════════════════════
 (function () {
   var KEY = "lh-radius";
-  var DEFAULT = 2; // slider's starting position the first time it's touched — MDS radius-sm (2px) base
+  var DEFAULT = 2; // MDS baseline — every card/button/pill/badge is 2px unless the switch says otherwise.
 
   // Elements whose radius we drive. The attribute selector covers every
   // inline-styled rounded element in the React apps; the explicit element
   // and .lg-* selectors cover form controls + the class-based login chrome.
+  // The Tweaks panel itself (.twk-panel subtree) and its gear FAB are excluded
+  // so the control's own chrome keeps its native radii while it drives the page.
+  var NOTPANEL = ':not(.twk-panel *):not(.lh-tweak-fab)';
   var SEL = [
-    '[style*="border-radius"]:not([style*="50%"])',
-    'button:not([style*="50%"])', 'input:not([style*="50%"])',
-    'select:not([style*="50%"])', 'textarea:not([style*="50%"])',
+    '[style*="border-radius"]:not([style*="50%"])' + NOTPANEL,
+    'button:not([style*="50%"])' + NOTPANEL, 'input:not([style*="50%"])' + NOTPANEL,
+    'select:not([style*="50%"])' + NOTPANEL, 'textarea:not([style*="50%"])' + NOTPANEL,
     ".lg-btn", ".lg-input", ".lg-form-panel", ".lg-alert", ".lg-cobrand-box",
     ".lg-style-chip", ".lg-type-chip", ".lg-style-menu", ".lg-type-menu", ".lg-style-item",
     ".lh-back", ".lh-brand-switch",
@@ -34,23 +37,22 @@
     ".card:not([style*=\"50%\"])", ".s-card"
   ].join(",");
 
+  // Unset localStorage resolves to the MDS default (2px), not "no override":
+  // the whole platform is uniformly 2px out of the box, driven entirely by the
+  // Rounded-corners switch. Only an explicit stored number overrides that.
   function get() {
     try {
       var v = localStorage.getItem(KEY);
-      if (v === null || v === "") return null;
+      if (v === null || v === "") return DEFAULT;
       var n = parseInt(v, 10);
-      return isNaN(n) ? null : n;
-    } catch (e) { return null; }
+      return isNaN(n) ? DEFAULT : n;
+    } catch (e) { return DEFAULT; }
   }
 
   function apply() {
     var v = get();
     var el = document.getElementById("lh-radius-style");
-    if (v === null) {
-      if (el) el.parentNode.removeChild(el);
-      document.documentElement.removeAttribute("data-radius");
-      return;
-    }
+    if (v === null || isNaN(v)) v = DEFAULT;
     if (!el) {
       el = document.createElement("style");
       el.id = "lh-radius-style";
@@ -70,7 +72,8 @@
   function reset() {
     try { localStorage.removeItem(KEY); } catch (e) {}
     apply();
-    window.dispatchEvent(new CustomEvent("lh-radius-change", { detail: null }));
+    // Unset now means the MDS default (2px), so report DEFAULT, not null.
+    window.dispatchEvent(new CustomEvent("lh-radius-change", { detail: DEFAULT }));
   }
 
   window.LHRadius = { get: get, set: set, reset: reset, apply: apply, DEFAULT: DEFAULT };

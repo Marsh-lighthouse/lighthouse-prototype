@@ -108,7 +108,8 @@ function LighthouseTweaks() {
   // Re-run color effects when the client brand chip changes (client-brand.js)
   const [brandTick, setBrandTick] = React.useState(0);
 
-  // Border radius (shared global control via window.LHRadius). null = default.
+  // Border radius (shared global control via window.LHRadius). get() resolves an
+  // unset store to the MDS default (2px), so radius is normally a concrete number.
   const [radius, setRadius] = React.useState(() => {
     const v = (typeof window !== "undefined" && window.LHRadius) ? window.LHRadius.get() : null;
     return v == null ? null : v;
@@ -343,6 +344,19 @@ function LighthouseTweaks() {
       <TweakRadio label="Typeface" value={t.heading}
         options={["Serif", "Sans"]}
         onChange={(v) => setTweak("heading", v)} />
+      {/* Rounded corners — a segmented switch (like Side menu). 2px = MDS default.
+          Drives every card/inner card, button, pill, badge & checkbox platform-wide
+          via window.LHRadius; circular controls stay round (excluded in the SEL). */}
+      <TweakSection label="Rounded corners" />
+      <TweakRadio label="Corners" value={radiusVal}
+        options={[
+          { value: 0, label: "None" },
+          { value: 2, label: "Small" },
+          { value: 8, label: "Medium" },
+          { value: 16, label: "Large" },
+        ]}
+        onChange={(v) => { if (window.LHRadius) window.LHRadius.set(v); }} />
+      <div className="twk-note" style={{ fontSize: 11.5, color: "rgba(0,0,0,.5)", padding: "2px 2px 0", lineHeight: 1.4 }}>2px is the MDS default. Applies to cards &amp; inner cards, buttons, pills, badges &amp; checkboxes across every page. Circular controls (radios, round buttons, avatars) stay round.</div>
       {/* Swatch labels use the Marsh colour-guideline token names (scale 1000→250)
           so each Tweak maps 1:1 to a design token — the name shows on hover. */}
       <TweakSection label="Accent" />
@@ -394,17 +408,6 @@ function LighthouseTweaks() {
         </div>
         <DarkPaletteRef />
       </React.Fragment>}
-      <TweakSection label="Rounded corners" />
-      <TweakRadio label="Corners" value={radius == null ? -1 : radius}
-        options={[
-          { value: -1, label: "Default" },
-          { value: 0, label: "None" },
-          { value: 2, label: "Small" },
-          { value: 8, label: "Medium" },
-          { value: 16, label: "Large" },
-        ]}
-        onChange={(v) => { if (!window.LHRadius) return; if (v === -1) window.LHRadius.reset(); else window.LHRadius.set(v); }} />
-      <div className="twk-note" style={{ fontSize: 11.5, color: "rgba(0,0,0,.5)", padding: "2px 2px 0", lineHeight: 1.4 }}>Applies to cards, buttons, pills, badges &amp; checkboxes across every page. Circular controls (radios, round buttons, avatars) stay round.</div>
       </TweaksPanel>
       ), document.body)}
     </React.Fragment>

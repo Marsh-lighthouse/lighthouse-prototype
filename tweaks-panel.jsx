@@ -350,7 +350,7 @@ function TweakRadio({ label, value, options, onChange }) {
   // back to a dropdown rather than wrap.
   const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
   const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
-  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10, 4: 7 }[options.length] ?? 0);
   if (!fitsAsSegments) {
     // <select> emits strings — map back to the original option value so the
     // fallback stays type-preserving (numbers, booleans) like the segment path.

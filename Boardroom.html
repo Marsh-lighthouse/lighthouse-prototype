@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="device-preview.css?v=1788962210" />
 <script>try{if(!localStorage.getItem('lh-device-reset')){localStorage.removeItem('lh-device');localStorage.setItem('lh-device-reset','1');}var __d=localStorage.getItem('lh-device');if(__d&&__d!=='Desktop')document.documentElement.setAttribute('data-device',__d.toLowerCase());}catch(e){}</script>
 <script src="client-brand.js"></script>
-<script src="radius-tweak.js"></script>
+<script src="radius-tweak.js?v=1789389085"></script>
 <script src="language-switcher.js"></script>
 <style>
   /* Card-design chip lives at right:179 here; push the Brand chip left of it */
@@ -61,7 +61,7 @@
   /* Page-level "Back to programs/program/dashboard" buttons move to the utility-bar header — hide the inline ones (matches Folio) */
   .ed-pageback { display: none !important; }
   /* ── Dark mode is real per-brand tokens now (dark-theme.css + theme-aware
-     lh-tweaks.jsx / client-brand.js), replacing the old filter hack. ── */
+     lh-tweaks.jsx?v=1789389085 / client-brand.js), replacing the old filter hack. ── */
   /* reflective question cards deal in like a deck */
   /* the live question is dealt up off the deck; the cards behind it settle forward */
   @keyframes mn-deal { from { opacity: 0; transform: translateY(16px) translateX(var(--mn-from, 18px)) scale(.94); }
@@ -90,8 +90,8 @@
 <script type="text/babel" src="app-ed-manual.jsx?v=1789385550"></script>
 <script type="text/babel" src="app-ed-bookings.jsx?v=1789385550"></script>
 <script type="text/babel" src="app-boardroom.jsx?v=1788860862"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="lh-tweaks.jsx?v=1789385064"></script>
+<script type="text/babel" src="tweaks-panel.jsx?v=1789389085"></script>
+<script type="text/babel" src="lh-tweaks.jsx?v=1789389085"></script>
 <script type="text/babel" data-presets="react">
   function Page() {
     return (<React.Fragment><DashBoardroom /><LighthouseTweaks /></React.Fragment>);
