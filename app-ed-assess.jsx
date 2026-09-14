@@ -184,7 +184,7 @@ function OaCountdown({ end, label, danger, compact }) {
 }
 
 // single question rendered as a stacked card (question on top, options below) — used by the paged layout
-function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
+function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow }) {
   const [dragIdx, setDragIdx] = oaUseState(null);
   const [rankDrag, setRankDrag] = oaUseState(null); // { item, from:"pool"|"rank", idx? } for the rank question
   const [recording, setRecording] = oaUseState(false);
@@ -311,7 +311,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
         );
       })()}
 
-      {q.type === "matrix" && (compact ? (
+      {q.type === "matrix" && ((compact || (narrow && q.cols.length > 5)) ? (
       <div className="oa-matrix" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {q.rows.map((row, ri) => {
           const answered = a[ri] !== undefined;
@@ -1290,7 +1290,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
           {/* RIGHT: answer area */}
           <div className="oa-split-a" ref={splitARef} style={{ flex: 1, minWidth: 0, overflowY: "auto", background: eCREAM, padding: "48px 52px 120px" }}>
             <div style={{ maxWidth: 640, width: "100%", margin: align === "center" ? "0 auto" : 0 }}>
-              <OaQuestionCard key={curQ.id} q={curQ} number={qIdx + 1} value={ans[curQ.id]} onChange={(v) => setAnswer(curQ.id, v)} error={errors[curQ.id]} hidePrompt />
+              <OaQuestionCard key={curQ.id} q={curQ} number={qIdx + 1} value={ans[curQ.id]} onChange={(v) => setAnswer(curQ.id, v)} error={errors[curQ.id]} hidePrompt narrow />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginTop: 24 }}>
                 <div style={{ display: "flex", gap: 12 }}>
                   {qIdx > 0 &&
