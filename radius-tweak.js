@@ -29,7 +29,9 @@
     'select:not([style*="50%"])', 'textarea:not([style*="50%"])',
     ".lg-btn", ".lg-input", ".lg-form-panel", ".lg-alert", ".lg-cobrand-box",
     ".lg-style-chip", ".lg-type-chip", ".lg-style-menu", ".lg-type-menu", ".lg-style-item",
-    ".lh-back", ".lh-brand-switch"
+    ".lh-back", ".lh-brand-switch",
+    // directions page (Lighthouse.html) — the flow cards + their inner mock panels
+    ".card:not([style*=\"50%\"])", ".s-card"
   ].join(",");
 
   function get() {
