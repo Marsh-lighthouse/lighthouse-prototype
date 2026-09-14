@@ -592,7 +592,7 @@ function AssessorEditorial() {
           ) : (
           <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:newExp?gold:railActiveBg,border:`1px solid ${newExp?gold:railBorder}`,borderRadius:10,cursor:"pointer",textAlign:"left",transition:"all .18s ease"}}>
             <span style={{width:34,height:20,borderRadius:999,background:newExp?navy:"var(--rail-ring-track)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:14,height:14,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?17:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
-            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:newExp?"#3D3223":railActiveFg,lineHeight:1.3}}>New experience</span>
+            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:newExp?"#fff":railActiveFg,lineHeight:1.3}}>New experience</span>
           </button>
           )}
         </div>
