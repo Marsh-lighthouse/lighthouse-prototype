@@ -984,21 +984,21 @@ function ScHead({ icon, title, sub, badge }) {
 
 function ScFoot({ onBackClick, right }) {
   const mob = useScDevice() === "mobile";
+  // The footer Back button was removed across all 3 system-check samples — navigation
+  // back is handled by the top-bar / step nav. Only the forward actions remain.
   if (mob) {
-    // Mobile: stack all actions as full-width buttons, primary (Continue) last/bottom.
+    // Mobile: stack the actions as full-width buttons, primary (Continue) last/bottom.
     // `right` may be a Fragment of buttons (unwrap its children) or a single button
     // element (use it directly — unwrapping would strip it down to its icon/text).
     const rightKids = React.Children.toArray((right && right.type === React.Fragment) ? right.props.children : right).filter(React.isValidElement);
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 22 }}>
-        <EdBtn full onClick={onBackClick}><I.arrowL size={16} /> Back</EdBtn>
         {rightKids.map((c, i) => React.cloneElement(c, { key: i, full: true }))}
       </div>
     );
   }
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginTop: 22, flexWrap: "wrap" }}>
-      <EdBtn onClick={onBackClick}><I.arrowL size={16} /> Back</EdBtn>
+    <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 12, marginTop: 22, flexWrap: "wrap" }}>
       <div style={{ display: "flex", gap: 12, alignItems: "center" }}>{right}</div>
     </div>
   );
