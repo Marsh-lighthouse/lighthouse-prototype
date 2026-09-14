@@ -394,13 +394,17 @@ function LighthouseTweaks() {
         </div>
         <DarkPaletteRef />
       </React.Fragment>}
-      <TweakSection label="Border radius" />
-      <TweakSlider label="Corners" value={radiusVal} min={0} max={20} step={1} unit="px"
-        onChange={(v) => { if (window.LHRadius) window.LHRadius.set(v); }} />
-      {radius != null && (
-        <TweakButton label="Reset to default" secondary
-          onClick={() => { if (window.LHRadius) window.LHRadius.reset(); }} />
-      )}
+      <TweakSection label="Rounded corners" />
+      <TweakRadio label="Corners" value={radius == null ? -1 : radius}
+        options={[
+          { value: -1, label: "Default" },
+          { value: 0, label: "None" },
+          { value: 2, label: "Small" },
+          { value: 8, label: "Medium" },
+          { value: 16, label: "Large" },
+        ]}
+        onChange={(v) => { if (!window.LHRadius) return; if (v === -1) window.LHRadius.reset(); else window.LHRadius.set(v); }} />
+      <div className="twk-note" style={{ fontSize: 11.5, color: "rgba(0,0,0,.5)", padding: "2px 2px 0", lineHeight: 1.4 }}>Applies to cards, buttons, pills, badges &amp; checkboxes across every page. Circular controls (radios, round buttons, avatars) stay round.</div>
       </TweaksPanel>
       ), document.body)}
     </React.Fragment>
