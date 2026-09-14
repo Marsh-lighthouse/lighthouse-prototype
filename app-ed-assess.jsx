@@ -1338,7 +1338,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
 
       {/* stacked single column */}
       <div ref={pagedScrollRef} style={{ flex: 1, overflowY: "auto", padding: "32px 0 120px" }}>
-        <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 28px" }}>
+        <div style={{ maxWidth: "calc(var(--content-max) + 56px)", margin: "0 auto", padding: "0 28px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {pageItems.map((q) => {
               const num = Q.indexOf(q) + 1;
