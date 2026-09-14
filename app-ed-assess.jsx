@@ -215,7 +215,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   const lbl = { mcq: "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes" }[q.type];
   return (
     <div style={{ background: "var(--card)", border: "1px solid " + (error ? eDANGER : eLINE), borderRadius: 16, padding: "26px 28px", transition: "border-color .15s" }}>
-      {!hidePrompt && <p className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.2, margin: "0 0 18px" }}>{q.prompt}</p>}
+      {!hidePrompt && <p className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.3, margin: "0 0 18px" }}>{q.prompt}</p>}
       {lbl && <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, letterSpacing: 0.2, marginBottom: 10 }}>{lbl}</div>}
 
       {q.type === "mcq" &&
@@ -1286,7 +1286,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
           {/* LEFT: question prompt */}
           <div className="oa-split-q" ref={splitQRef} style={{ width: "42%", flexShrink: 0, overflowY: "auto", background: "var(--card)", borderRight: "1px solid " + eLINE, padding: "48px 52px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
             <div style={{ maxWidth: 560, width: "100%", margin: 0, textAlign: "left" }}>
-              <h2 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.16, margin: 0 }}>{curQ.prompt}</h2>
+              <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.3, margin: 0 }}>{curQ.prompt}</h2>
             </div>
           </div>
           {/* RIGHT: answer area */}
