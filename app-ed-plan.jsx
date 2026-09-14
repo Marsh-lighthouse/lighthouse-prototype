@@ -913,7 +913,7 @@ function PlAddSkills({ current, onClose, onSave }) {
           {cats.map((c, ci) => (
             <div key={ci} style={{ borderTop: ci ? "1px solid " + eLINE : "none", paddingTop: ci ? 26 : 18, marginTop: ci ? 26 : 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
+                <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
                 <div>
                   <div className="serif" style={{ fontSize: 21, color: eMID }}>{c.name}</div>
                   <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
@@ -1429,7 +1429,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
           {data.map((cat, ci) => (
             <div key={ci} style={{ marginTop: 26 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 18 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon], { size: 22 })}</div>
+                <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(0,15,71,.06)", border: "1px solid rgba(0,15,71,.12)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[cat.icon], { size: 22 })}</div>
                 <h2 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>{cat.cat}</h2>
               </div>
 
@@ -2134,7 +2134,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
     return (
       <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "13px 2px", borderBottom: last ? "none" : "1px solid " + eLINE, flexWrap: "wrap" }}>
         {/* status dot — leading marker, aligned to the top beside the heading */}
-        <span style={{ alignSelf: "flex-start", marginTop: 6, width: 8, height: 8, borderRadius: 4, background: m.color, flexShrink: 0 }} />
+        <span style={{ alignSelf: "flex-start", marginTop: 6, width: 8, height: 8, borderRadius: "50%", background: m.color, flexShrink: 0 }} />
         <div style={{ flex: "1 1 260px", minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
             {title}
@@ -2154,7 +2154,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
   if (sample === 6) {
     return (
       <div style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "14px 2px", borderBottom: last ? "none" : "1px solid " + eLINE, flexWrap: "wrap" }}>
-        <span style={{ marginTop: 6, width: 8, height: 8, borderRadius: 4, background: m.color, flexShrink: 0 }} />
+        <span style={{ marginTop: 6, width: 8, height: 8, borderRadius: "50%", background: m.color, flexShrink: 0 }} />
         <div style={{ flex: "1 1 240px", minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
             {title}

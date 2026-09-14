@@ -224,7 +224,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           const sel = value === oi;
           return (
             <button key={oi} onClick={() => onChange(oi)} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 16px", borderRadius: 12, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 5%, transparent)" : eCARD, cursor: "pointer", textAlign: "left", width: "100%", transition: "all .15s" }}>
-              <div style={{ width: 20, height: 20, borderRadius: 10, border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>{sel && <div style={{ width: 10, height: 10, borderRadius: 5, background: eBLUE }} />}</div>
+              <div style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>{sel && <div style={{ width: 10, height: 10, borderRadius: "50%", background: eBLUE }} />}</div>
               <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: sel ? eMID : eINK, fontWeight: sel ? 700 : 400, lineHeight: 1.45 }}>{opt}</span>
             </button>);
         })}
@@ -719,7 +719,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
 
       {q.type === "audio" && (value ?
         <div style={{ textAlign: "center", padding: 22, background: eCARD, border: "1px solid " + eLINE, borderRadius: 14 }}>
-          <div style={{ width: 56, height: 56, borderRadius: 28, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.check size={24} /></div>
+          <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.check size={24} /></div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>Audio recorded</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 4 }}>{recTime}s captured</div>
           <button onClick={() => { onChange(undefined); setRecTime(0); }} style={{ marginTop: 14, padding: "8px 18px", borderRadius: 9, border: "1px solid rgba(197,53,50,.3)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Re-record</button>
@@ -855,7 +855,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       const sel = v[si] && v[si][gi] === ci;
                       return (
                         <td key={gi + "-" + ci} style={{ textAlign: "center", padding: "10px 8px" }}>
-                          <button onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ width: 20, height: 20, borderRadius: 10, border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 5, background: eBLUE, display: "block" }} />}</button>
+                          <button onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 5, background: eBLUE, display: "block" }} />}</button>
                         </td>);
                     }))}
                   </tr>
@@ -919,7 +919,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                   {q.scale.map((e, si) => {
                     const sel = row.s === si;
                     return <div key={si} style={{ display: "flex", justifyContent: "center" }}>
-                      <button onClick={() => set(ci, { s: si })} style={{ width: 20, height: 20, borderRadius: 10, border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 5, background: eBLUE, display: "block" }} />}</button>
+                      <button onClick={() => set(ci, { s: si })} style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 5, background: eBLUE, display: "block" }} />}</button>
                     </div>;
                   })}
                   <span style={{ display: "flex", justifyContent: "center", color: eMUT }}><I.arrow size={14} /></span>
@@ -1021,7 +1021,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         return (
           <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
             <div style={{ width: 88, height: 88, borderRadius: "50%", background: "var(--surface-deep)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative" }}>
-              <div style={{ width: 14, height: 14, borderRadius: 7, background: "var(--card)", zIndex: 1 }} />
+              <div style={{ width: 14, height: 14, borderRadius: "50%", background: "var(--card)", zIndex: 1 }} />
               <div style={{ position: "absolute", width: 3, height: 32, background: "#fff", borderRadius: 2, transformOrigin: "bottom center", bottom: "50%", left: "calc(50% - 1.5px)", transform: `rotate(${-90 + val / 100 * 180}deg)` }} />
             </div>
             <div style={{ flex: 1, minWidth: 200 }}>
@@ -1036,7 +1036,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         <div style={{ position: "relative", width: "100%", paddingBottom: "50%", borderRadius: 14, overflow: "hidden", background: "linear-gradient(135deg, var(--primary), #001F8C)" }}>
           {q.spots.map((sp, i) => {
             const sel = value === i;
-            return <button key={i} onClick={() => onChange(i)} title={sp.label} style={{ position: "absolute", left: sp.x + "%", top: sp.y + "%", transform: "translate(-50%,-50%)", width: 34, height: 34, borderRadius: "50%", border: "2px solid #fff", background: sel ? eGOLD : "rgba(255,255,255,.25)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 12, height: 12, borderRadius: 6, background: "var(--card)" }} />}</button>;
+            return <button key={i} onClick={() => onChange(i)} title={sp.label} style={{ position: "absolute", left: sp.x + "%", top: sp.y + "%", transform: "translate(-50%,-50%)", width: 34, height: 34, borderRadius: "50%", border: "2px solid #fff", background: sel ? eGOLD : "rgba(255,255,255,.25)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--card)" }} />}</button>;
           })}
           {typeof value === "number" && <div style={{ position: "absolute", bottom: 10, left: 14, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#fff", background: "rgba(0,15,71,.5)", padding: "4px 10px", borderRadius: 6 }}>{q.spots[value].label}</div>}
         </div>)
@@ -1054,7 +1054,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
       {/* VIDEO RESPONSE */}
       {q.type === "video" && (value ?
         <div style={{ textAlign: "center", padding: 24, background: eCARD, border: "1px solid " + eLINE, borderRadius: 14 }}>
-          <div style={{ width: 60, height: 60, borderRadius: 30, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.check size={26} /></div>
+          <div style={{ width: 60, height: 60, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.check size={26} /></div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>Video recorded</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 4 }}>{recTime}s captured</div>
           <button onClick={() => { onChange(undefined); setRecTime(0); }} style={{ marginTop: 14, padding: "9px 18px", borderRadius: 9, border: "1px solid rgba(197,53,50,.3)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Re-record</button>
@@ -1062,7 +1062,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         <div>
           <div style={{ position: "relative", width: "100%", paddingBottom: "56%", borderRadius: 14, overflow: "hidden", background: "#0b0b14" }}>
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.35)" }}><I.cam size={44} /></div>
-            {recording && <div style={{ position: "absolute", top: 12, left: 12, display: "flex", alignItems: "center", gap: 7, background: "rgba(197,53,50,.9)", color: "#fff", padding: "4px 10px", borderRadius: 6, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><span style={{ width: 8, height: 8, borderRadius: 4, background: "var(--card)" }} /> REC {recTime}s</div>}
+            {recording && <div style={{ position: "absolute", top: 12, left: 12, display: "flex", alignItems: "center", gap: 7, background: "rgba(197,53,50,.9)", color: "#fff", padding: "4px 10px", borderRadius: 6, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--card)" }} /> REC {recTime}s</div>}
             <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: 12, background: "linear-gradient(transparent, rgba(0,0,0,.6))" }}>
               <button onClick={() => { if (recording) { setRecording(false); onChange(true); } else { setRecTime(0); setRecording(true); } }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: recording ? eDANGER : eMID, color: "var(--on-accent)", border: "none", borderRadius: 9, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{recording ? <React.Fragment><span style={{ width: 12, height: 12, borderRadius: 3, background: "var(--on-accent)" }} /> Stop</React.Fragment> : <React.Fragment><I.cam size={15} /> Record</React.Fragment>}</button>
             </div>
@@ -1084,7 +1084,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                     ? <img src={c.img} alt={c.alt || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                     : <div style={{ position: "absolute", inset: 0 }} dangerouslySetInnerHTML={{ __html: c.svg }} />}
                   {on &&
-                    <span style={{ position: "absolute", top: 10, right: 10, width: 26, height: 26, borderRadius: 13, background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,.25)" }}><I.check size={15} /></span>
+                    <span style={{ position: "absolute", top: 10, right: 10, width: 26, height: 26, borderRadius: "50%", background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,.25)" }}><I.check size={15} /></span>
                   }
                 </button>
               );
@@ -1233,7 +1233,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
   if (step === "complete") return (
     <div style={{ width: "100%", flex: "1 1 auto", minHeight: "100vh", background: eCREAM, display: "flex", alignItems: "center", justifyContent: "center", padding: 40 }}>
       <div style={{ textAlign: "center", maxWidth: 480, background: eCARD, border: "1px solid " + eLINE, borderRadius: 20, padding: "52px 44px", boxShadow: "0 12px 40px rgba(0,15,71,.08)" }}>
-        <div style={{ width: 72, height: 72, borderRadius: 36, background: "var(--success-fill)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", boxShadow: "0 8px 28px rgba(20,133,61,.3)", color: "#fff" }}><I.check size={34} /></div>
+        <div style={{ width: 72, height: 72, borderRadius: "50%", background: "var(--success-fill)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", boxShadow: "0 8px 28px rgba(20,133,61,.3)", color: "#fff" }}><I.check size={34} /></div>
         <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.08, margin: "0 0 10px" }}>Task complete</h1>
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 28px" }}>Your response has been saved.</p>
         {hasNext && nextEx ? (

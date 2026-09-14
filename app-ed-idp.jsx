@@ -1366,7 +1366,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
         <div style={{ display: "flex", gap: 18, alignItems: "stretch" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 14 }}>
-          <div style={{ width: 38, height: 38, borderRadius: 19, background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center" }}><I.bulb size={19} /></div>
+          <div style={{ width: 38, height: 38, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center" }}><I.bulb size={19} /></div>
           <div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>AI Coach</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Question {Math.min(q + 1, Q.length)} of {Q.length}{isFileStep ? " · File upload" : ""}</div>
@@ -1378,7 +1378,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
               <div style={{ background: m.from === "bot" ? "#fff" : eMID, color: m.from === "bot" ? eINK : "#fff", padding: "10px 14px", borderRadius: m.from === "bot" ? "4px 14px 14px 14px" : "14px 4px 14px 14px", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-line", border: m.from === "bot" ? "1px solid " + eLINE : "none" }}>{m.text}</div>
             </div>
           ))}
-          {typing && <div style={{ alignSelf: "flex-start" }}><div style={{ background: "var(--card)", border: "1px solid " + eLINE, padding: "12px 14px", borderRadius: "4px 14px 14px 14px", display: "flex", gap: 4 }}>{[0, 1, 2].map((i) => <span key={i} className="ed-spin" style={{ width: 6, height: 6, borderRadius: 3, background: eMUT, animation: "idp-blink 1s ease " + (i * 0.2) + "s infinite" }} />)}</div></div>}
+          {typing && <div style={{ alignSelf: "flex-start" }}><div style={{ background: "var(--card)", border: "1px solid " + eLINE, padding: "12px 14px", borderRadius: "4px 14px 14px 14px", display: "flex", gap: 4 }}>{[0, 1, 2].map((i) => <span key={i} className="ed-spin" style={{ width: 6, height: 6, borderRadius: "50%", background: eMUT, animation: "idp-blink 1s ease " + (i * 0.2) + "s infinite" }} />)}</div></div>}
           {!typing && !isFileStep && q < Q.length && (
             <div style={{ alignSelf: "flex-start", maxWidth: "92%", display: "flex", flexWrap: "wrap", gap: 7, marginTop: 2 }}>
               {Q[q].suggestions.map((s, i) => (
@@ -1840,7 +1840,7 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
               <span style={{ color: "#fff", display: "flex" }}><I.check size={17} /></span><span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Video watched</span>
             </div> :
           <React.Fragment>
-              <div style={{ width: 60, height: 60, borderRadius: 30, background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
+              <div style={{ width: 60, height: 60, borderRadius: "50%", background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
               <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Watch introduction (2 min)</span>
             </React.Fragment>
           }

@@ -155,9 +155,9 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
           {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#fff", background: "var(--surface-deep)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
         </div>
         <div style={{ position: "absolute", top: 12, right: 14 }}>
-          {isComplete ? <span style={{ width: 26, height: 26, borderRadius: 13, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={15} /></span> :
-          isError ? <span style={{ width: 26, height: 26, borderRadius: 13, background: "var(--danger-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.alertCircle size={15} /></span> :
-          locked ? <span style={{ width: 26, height: 26, borderRadius: 13, background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.lock size={13} /></span> :
+          {isComplete ? <span style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={15} /></span> :
+          isError ? <span style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--danger-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.alertCircle size={15} /></span> :
+          locked ? <span style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.lock size={13} /></span> :
           null}
         </div>
       </div>
@@ -217,7 +217,7 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
             </div> :
 
           <React.Fragment>
-              <div style={{ width: 60, height: 60, borderRadius: 30, background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
+              <div style={{ width: 60, height: 60, borderRadius: "50%", background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
               <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>{t("watchIntroductionVideo")} ({d.videoLen})</span>
             </React.Fragment>
           }
@@ -512,7 +512,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
   const statusBanner = bannerMeta ?
     <div style={eCOL}>
       <div style={{ display: "flex", gap: 15, alignItems: "flex-start", background: bannerMeta.tint, border: "1px solid " + bannerMeta.line, borderRadius: 16, padding: "20px 24px", marginBottom: 32 }}>
-        <div style={{ width: 46, height: 46, borderRadius: 23, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: bannerMeta.iconBg, color: bannerMeta.tone }}>{bannerMeta.icon}</div>
+        <div style={{ width: 46, height: 46, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: bannerMeta.iconBg, color: bannerMeta.tone }}>{bannerMeta.icon}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <h2 className={bannerMeta.big ? "serif" : undefined} style={{ fontFamily: bannerMeta.big ? undefined : "var(--sans)", fontSize: bannerMeta.big ? 28 : 15, fontWeight: 700, color: eMID, margin: bannerMeta.big ? "0 0 7px" : "0 0 4px", lineHeight: bannerMeta.big ? 1.12 : 1.3, letterSpacing: -0.1 }}>{bannerMeta.title}</h2>
           <p style={{ fontFamily: "var(--sans)", fontSize: bannerMeta.big ? 15 : 15, fontWeight: bannerMeta.big ? 700 : 400, color: eINK, lineHeight: 1.55, margin: 0, maxWidth: 660 }}>{bannerMeta.body}</p>
@@ -550,7 +550,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
       return (
         <div key={c.id} className="ed-center-card" style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "26px 28px", marginBottom: last ? 30 : 22, boxShadow: "0 1px 3px rgba(0,15,71,.04)" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 18 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 22, flexShrink: 0, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={22} /></div>
+            <div style={{ width: 44, height: 44, borderRadius: "50%", flexShrink: 0, background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={22} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 4 }}>
                 <h2 className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.15, margin: 0 }}>{c.name}</h2>
@@ -643,7 +643,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
   const statePanel = ({ icon, tint, tone, title, body, primaryLabel, onPrimary, secondaryLabel, onSecondary }) =>
     <div style={eCOL}>
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 20, padding: "60px 48px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ width: 76, height: 76, borderRadius: 38, display: "flex", alignItems: "center", justifyContent: "center", background: tint, color: tone, marginBottom: 24 }}>{icon}</div>
+        <div style={{ width: 76, height: 76, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: tint, color: tone, marginBottom: 24 }}>{icon}</div>
         <h1 className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.1, margin: "0 0 12px", maxWidth: 520 }}>{title}</h1>
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 480 }}>{body}</p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
@@ -679,7 +679,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
           <div style={{ position: "relative", width: "100%", paddingBottom: "50%", borderRadius: 16, overflow: "hidden", background: "var(--surface-deep)", marginBottom: 28 }}>
             <div style={{ position: "absolute", inset: 0, background: `radial-gradient(120% 120% at 20% 0%, rgba(206,236,255,.22), transparent 55%), linear-gradient(135deg, var(--surface-deep), #001F8C)` }} />
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
-              <div style={{ width: 60, height: 60, borderRadius: 30, background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
+              <div style={{ width: 60, height: 60, borderRadius: "50%", background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
               <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Watch introduction video ({d.videoLen})</span>
             </div>
           </div>
@@ -736,7 +736,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
                 <div key={ex.id} className="ed-seqcell" style={{ display: "flex", flexDirection: "column" }}>
                   {/* stepper header */}
                   <div className="ed-seqstep" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 14, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700,
+                    <span style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700,
                       background: sDone ? eSUCCESS : sLocked ? "var(--card)" : prog.accent,
                       color: sLocked ? eMUT : "var(--on-accent)", border: sLocked ? "1.5px solid " + eLINE : "none" }}>{sDone ? <I.check size={15} /> : i + 1}</span>
                     {i !== seq.length - 1 && <div className="ed-seqline" style={{ flex: 1, height: 2, borderRadius: 1, marginLeft: 4, background: sDone ? eSUCCESS : eLINE }} />}
@@ -851,7 +851,7 @@ function EdCenter({ center, onBack, onProctored, onOpenAssess, onReserve }) {
           {seqActs.map((a, i) => sequential ? (
             <div key={a.id} className="ed-seqcell" style={{ display: "flex", flexDirection: "column" }}>
               <div className="ed-seqstep" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                <span style={{ width: 28, height: 28, borderRadius: 14, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700,
+                <span style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700,
                   background: a._status === "complete" ? eSUCCESS : a._status === "locked" ? "var(--card)" : ePURP,
                   color: a._status === "locked" ? eMUT : a._status === "complete" ? "var(--on-accent)" : "#fff", border: a._status === "locked" ? "1.5px solid " + eLINE : "none" }}>{a._status === "complete" ? <I.check size={15} /> : i + 1}</span>
                 {i !== seqActs.length - 1 && <div className="ed-seqline" style={{ flex: 1, height: 2, borderRadius: 1, marginLeft: 4, background: a._status === "complete" ? eSUCCESS : eLINE }} />}
@@ -892,7 +892,7 @@ const scTint = (c, a) => "color-mix(in srgb, " + c + " " + a + ", transparent)";
 
 function ScBadge({ state }) {
   const m = {
-    pending: { bg: scTint(eBLUE, "12%"), col: eBLUE, ic: <span className="ed-spin" style={{ width: 12, height: 12, borderRadius: 6, border: "2px solid " + scTint(eBLUE, "40%"), borderTopColor: eBLUE, display: "block" }} />, l: "Pending" },
+    pending: { bg: scTint(eBLUE, "12%"), col: eBLUE, ic: <span className="ed-spin" style={{ width: 12, height: 12, borderRadius: "50%", border: "2px solid " + scTint(eBLUE, "40%"), borderTopColor: eBLUE, display: "block" }} />, l: "Pending" },
     pass: { bg: scTint(eSUCCESS, "14%"), col: eSUCCESS, ic: <I.checkCircle size={13} />, l: "Pass" },
     fail: { bg: scTint(eDANGER, "12%"), col: eDANGER, ic: <I.alertCircle size={13} />, l: "Fail" },
   }[state] || {};
@@ -924,7 +924,7 @@ function ScMobileSteps({ labels, index }) {
         return (
           <React.Fragment key={label}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
-              <span style={{ width: 26, height: 26, borderRadius: 13, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+              <span style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
                 background: done ? eSUCCESS : on ? eMID : "rgba(0,15,71,.06)",
                 color: done || on ? "#fff" : eMUT,
                 border: done ? "none" : "1px solid " + (on ? eMID : eLINE),
@@ -952,7 +952,7 @@ function ScStepper({ index, audioOnly }) {
         return (
           <React.Fragment key={i}>
             <div style={{ display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
-              <div style={{ width: 30, height: 30, borderRadius: 15, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, background: active ? eMID : done ? scTint(eMID, "8%") : scTint(eMID, "6%"), color: active ? "#fff" : done ? eMID : eMUT }}>
+              <div style={{ width: 30, height: 30, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, background: active ? eMID : done ? scTint(eMID, "8%") : scTint(eMID, "6%"), color: active ? "#fff" : done ? eMID : eMUT }}>
                 {done ? <I.check size={15} /> : i + 1}
               </div>
               <span style={{ fontFamily: "var(--sans)", fontSize: dev === "ipad" ? 13 : 15, fontWeight: 700, color: active || done ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
@@ -1267,7 +1267,7 @@ function ScVertical({ target, onBack, onLaunch, onStep, audioOnly }) {
         return (
           <div key={s.k} style={{ display: "flex", gap: 18, alignItems: "stretch" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 34, flexShrink: 0 }}>
-              <div style={{ width: 34, height: 34, borderRadius: 17, background: nodeBg, color: nodeColor, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, flexShrink: 0, transition: "background .3s" }}>{done ? <I.check size={16} /> : i + 1}</div>
+              <div style={{ width: 34, height: 34, borderRadius: "50%", background: nodeBg, color: nodeColor, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, flexShrink: 0, transition: "background .3s" }}>{done ? <I.check size={16} /> : i + 1}</div>
               {!last && <div style={{ flex: 1, width: 2, minHeight: 22, background: done ? eSUCCESS : eLINE, margin: "6px 0" }} />}
             </div>
             <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 26 }}>
@@ -1515,7 +1515,7 @@ function ScPermissionPrompt({ host, onAllow, onDeny }) {
         <div style={panel}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
             <span style={{ color: "#5f6368", display: "flex" }}><I.mic size={16} /></span>
-            <div style={{ flex: 1, height: 4, borderRadius: 2, background: "#dfe1e5", position: "relative" }}><span style={{ position: "absolute", left: 6, top: -4, width: 12, height: 12, borderRadius: 6, background: eBLUE }} /></div>
+            <div style={{ flex: 1, height: 4, borderRadius: 2, background: "#dfe1e5", position: "relative" }}><span style={{ position: "absolute", left: 6, top: -4, width: 12, height: 12, borderRadius: "50%", background: eBLUE }} /></div>
           </div>
           <div style={dd}><span>MacBook Pro Microphone</span><I.chevD size={16} /></div>
         </div>
@@ -1661,7 +1661,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
         </div>
       )}
 
-      {vstate === "checking" && <div style={{ ...scCard, padding: "60px 22px", textAlign: "center" }}><span className="ed-spin" style={{ width: 28, height: 28, borderRadius: 14, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, margin: "16px 0 0" }}>Verifying your recording…</p></div>}
+      {vstate === "checking" && <div style={{ ...scCard, padding: "60px 22px", textAlign: "center" }}><span className="ed-spin" style={{ width: 28, height: 28, borderRadius: "50%", border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, margin: "16px 0 0" }}>Verifying your recording…</p></div>}
 
       {vstate === "fail" && <div style={{ background: scTint(eMID, "4%"), border: "1px solid " + eLINE, borderRadius: 14, padding: "56px 24px", textAlign: "center" }}>
         <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={44} /></span>
@@ -1918,7 +1918,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
               <div style={{ height: 4, background: "rgba(255,255,255,.2)" }}><div style={{ height: "100%", width: (Math.min(sec, 30) / 30 * 100) + "%", background: eBLUE, transition: "width .9s linear" }} /></div>
               <div style={barRow}>
                 <span style={{ ...(mob ? slotL : { justifySelf: "start" }), display: "inline-flex", alignItems: "center", gap: mob ? 5 : 8, color: "#fff", fontFamily: "var(--sans)", fontSize: mob ? 11.5 : 13, fontWeight: 700, whiteSpace: "nowrap" }}>
-                  <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block", flexShrink: 0 }} /> {mob ? "" : "REC "}{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}{mob ? "" : " / 00:30"}
+                  <span className="ed-blink" style={{ width: 8, height: 8, borderRadius: "50%", background: eDANGER, display: "inline-block", flexShrink: 0 }} /> {mob ? "" : "REC "}{String(Math.floor(sec / 60)).padStart(2, "0")}:{String(sec % 60).padStart(2, "0")}{mob ? "" : " / 00:30"}
                 </span>
                 <button onClick={stopRecording} style={{ justifySelf: "center", display: "inline-flex", alignItems: "center", gap: mob ? 6 : 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 8, padding: mob ? "8px 14px" : "9px 22px", fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
                 {mob ? <div style={slotR}>{devBtn("mic")}{devBtn("cam")}</div> : devControls}
@@ -1957,7 +1957,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
         </div>
       )}
 
-      {vstate === "checking" && <div style={{ ...scCard, padding: "48px 22px", textAlign: "center" }}><span className="ed-spin" style={{ width: 28, height: 28, borderRadius: 14, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, margin: "16px 0 0" }}>Verifying your recording…</p></div>}
+      {vstate === "checking" && <div style={{ ...scCard, padding: "48px 22px", textAlign: "center" }}><span className="ed-spin" style={{ width: 28, height: 28, borderRadius: "50%", border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, margin: "16px 0 0" }}>Verifying your recording…</p></div>}
 
       {vstate === "pass" && <div style={{ ...scCard, padding: "34px 22px", textAlign: "center", background: scTint(eSUCCESS, "6%"), borderColor: scTint(eSUCCESS, "22%") }}>
         <div style={{ width: 56, height: 56, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}><I.check size={28} /></div>
@@ -2144,8 +2144,8 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
         <div>
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8, minHeight: 24 }}>{(vstate === "ready" || vstate === "recording") && micChip}</div>
           <div style={{ ...scCard, position: "relative", padding: vstate === "recording" ? (mob ? "58px 16px 26px" : "62px 24px 30px") : vstate === "reviewing" ? (mob ? "22px 16px 78px" : "26px 24px 86px") : (mob ? "20px 16px 26px" : "26px 24px 30px"), minHeight: mob ? 230 : 300, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            {vstate === "recording" && <span style={{ position: "absolute", left: 18, top: 16, display: "inline-flex", alignItems: "center", gap: 8, background: scTint(eMID, "88%"), color: "#fff", borderRadius: 8, padding: "5px 11px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}><span className="ed-blink" style={{ width: 8, height: 8, borderRadius: 4, background: eDANGER, display: "inline-block" }} /> REC &middot; {sec}s</span>}
-            {vstate === "loading" && <div style={{ textAlign: "center" }}><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: 13, border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "14px 0 0" }}>Requesting microphone access…</p></div>}
+            {vstate === "recording" && <span style={{ position: "absolute", left: 18, top: 16, display: "inline-flex", alignItems: "center", gap: 8, background: scTint(eMID, "88%"), color: "#fff", borderRadius: 8, padding: "5px 11px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}><span className="ed-blink" style={{ width: 8, height: 8, borderRadius: "50%", background: eDANGER, display: "inline-block" }} /> REC &middot; {sec}s</span>}
+            {vstate === "loading" && <div style={{ textAlign: "center" }}><span className="ed-spin" style={{ width: 26, height: 26, borderRadius: "50%", border: "3px solid " + eLINE, borderTopColor: eBLUE, display: "inline-block" }} /><p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "14px 0 0" }}>Requesting microphone access…</p></div>}
             {vstate !== "loading" && sentence}
             {vstate === "recording" && <canvas ref={canvasRef} width={640} height={70} style={{ width: "100%", maxWidth: 460, height: mob ? 54 : 70, margin: mob ? "16px auto 0" : "20px auto 0", display: "block" }} />}
             {vstate === "reviewing" && (

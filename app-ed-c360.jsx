@@ -108,7 +108,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
   // eyebrow chip
   const Eyebrow = ({ color, bg, dot, children }) => (
     <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "5px 12px", borderRadius: sr, background: bg, color, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, marginBottom: 16 }}>
-      {dot && <div style={{ width: 6, height: 6, borderRadius: 3, background: color }} />} {children}
+      {dot && <div style={{ width: 6, height: 6, borderRadius: "50%", background: color }} />} {children}
     </div>
   );
 
@@ -286,7 +286,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             const isSel = selected === opt.n;
             return (
               <button key={opt.n} onClick={() => setC360SelfAns(a => ({ ...a, [i]: opt.n }))} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", background: isSel ? qBLUE_BG : qCARD, border: "1px solid " + (isSel ? qBLUE : qLINE), borderRadius: cr, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", transition: "all .15s ease" }}>
-                <div className="serif" style={{ width: 32, height: 32, borderRadius: 16, background: isSel ? qBLUE : "rgba(0,15,71,.05)", color: isSel ? "#fff" : qINK, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{opt.n}</div>
+                <div className="serif" style={{ width: 32, height: 32, borderRadius: "50%", background: isSel ? qBLUE : "rgba(0,15,71,.05)", color: isSel ? "#fff" : qINK, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{opt.n}</div>
                 <div style={{ flex: 1, fontSize: 15, fontWeight: 700, color: qMID }}>{opt.l}</div>
                 {isSel && <span style={{ color: qBLUE }}><QI.Check s={16} /></span>}
               </button>
@@ -312,7 +312,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
   if (c360Step === "selfDone") return (
     <div style={{ ...wrap, maxWidth: 640, textAlign: "center", paddingTop: isMob ? 24 : 56 }}>
       <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: isMob ? "32px 22px" : "44px 40px", marginBottom: 24 }}>
-        <div style={{ width: 72, height: 72, margin: "0 auto 24px", borderRadius: 36, background: qGREEN, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}><QI.Check s={32} /></div>
+        <div style={{ width: 72, height: 72, margin: "0 auto 24px", borderRadius: "50%", background: qGREEN, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}><QI.Check s={32} /></div>
         <h1 className="serif" style={{ fontSize: isMob ? 28 : 40, color: qMID, lineHeight: 1.1, margin: "0 0 12px" }}>Self-evaluation submitted.</h1>
         <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 auto", maxWidth: 460 }}>Your {totalSelf} ratings are locked in. Next, nominate the people whose perspective will balance your view.</p>
       </div>
@@ -373,12 +373,12 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                     const picked = !!roster.find(r => r.id === cand.id || r.name === cand.name);
                     return (
                       <button key={cand.id} onClick={() => toggle(cand)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: picked ? qPURPLE_BG : qCARD, border: "1px solid " + (picked ? qPURPLE : qLINE), borderRadius: sr, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", transition: "all .15s ease" }}>
-                        <div className="serif" style={{ width: 36, height: 36, borderRadius: 18, background: picked ? qPURPLE : "rgba(0,15,71,.07)", color: picked ? "#fff" : qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{cand.avatar}</div>
+                        <div className="serif" style={{ width: 36, height: 36, borderRadius: "50%", background: picked ? qPURPLE : "rgba(0,15,71,.07)", color: picked ? "#fff" : qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{cand.avatar}</div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: 15, fontWeight: 700, color: qMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.name}</div>
                           <div style={{ fontSize: 15, color: qINK, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.role}</div>
                         </div>
-                        <div style={{ width: 20, height: 20, borderRadius: 10, border: "1px solid " + (picked ? qPURPLE : qLINE), background: picked ? qPURPLE : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
+                        <div style={{ width: 20, height: 20, borderRadius: "50%", border: "1px solid " + (picked ? qPURPLE : qLINE), background: picked ? qPURPLE : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
                           {picked && <QI.Check s={12} />}
                         </div>
                       </button>
@@ -446,7 +446,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             }[r.status];
             return (
               <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i > 0 ? "1px solid " + qLINE : "none" }}>
-                <div className="serif" style={{ width: 40, height: 40, borderRadius: 20, background: "rgba(0,15,71,.06)", color: qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{r.avatar}</div>
+                <div className="serif" style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(0,15,71,.06)", color: qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{r.avatar}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 15, fontWeight: 700, color: qMID, fontFamily: "var(--sans)", marginBottom: 2 }}>{r.name}</div>
                   <div style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)" }}>{r.role}</div>
@@ -483,7 +483,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
       return (
         <div style={{ ...wrap, textAlign: "center" }}>
           <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: isMob ? "32px 22px" : "48px 40px" }}>
-            <div style={{ width: 72, height: 72, margin: "0 auto 24px", borderRadius: 36, background: qPURPLE_BG, color: qPURPLE, display: "flex", alignItems: "center", justifyContent: "center" }}><QI.Lock s={32} /></div>
+            <div style={{ width: 72, height: 72, margin: "0 auto 24px", borderRadius: "50%", background: qPURPLE_BG, color: qPURPLE, display: "flex", alignItems: "center", justifyContent: "center" }}><QI.Lock s={32} /></div>
             <h1 className="serif" style={{ fontSize: isMob ? 28 : 28, color: qMID, lineHeight: 1.1, margin: "0 0 12px" }}>Your report isn't ready.</h1>
             <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 auto 24px", maxWidth: 460 }}>Reports unlock at <strong style={{ color: qMID }}>60% response rate</strong>. You're currently at <strong style={{ color: qGOLDINK }}>{responseRate}%</strong> ({doneCount} of {tot} complete).</p>
             <QBtn primary onClick={() => setC360Step("track")}>Open tracker</QBtn>
@@ -523,7 +523,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           ].map((g) => (
             <div key={g.l} style={{ padding: 20, background: qCARD, border: "1px solid " + qLINE, borderRadius: cr }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                <div style={{ width: 8, height: 8, borderRadius: 4, background: g.c }} />
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: g.c }} />
                 <div style={{ fontSize: 15, fontWeight: 700, color: g.c, fontFamily: "var(--sans)" }}>{g.l}</div>
               </div>
               {g.hint && <div style={{ fontSize: 15, color: qMUT, fontFamily: "var(--sans)", marginBottom: 10 }}>{g.hint}</div>}
@@ -563,9 +563,9 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                   <div style={{ position: "absolute", left: `${selfPos}%`, top: -18, transform: "translateX(-50%)", fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)", color: qMID, background: qCANVAS, padding: "1px 5px", borderRadius: 2, whiteSpace: "nowrap" }}>self</div>
                 </div>
                 <div style={{ display: "flex", gap: 16, marginTop: 12, fontSize: 15, fontFamily: "var(--sans)", color: qMUT, flexWrap: "wrap" }}>
-                  <div><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: qPURPLE, marginRight: 4, verticalAlign: "middle" }} />Manager {s.manager.toFixed(1)}</div>
-                  <div><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: qBLUE, marginRight: 4, verticalAlign: "middle" }} />Peers {s.peer.toFixed(1)}</div>
-                  <div><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: qGREEN, marginRight: 4, verticalAlign: "middle" }} />Directs {s.direct.toFixed(1)}</div>
+                  <div><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: qPURPLE, marginRight: 4, verticalAlign: "middle" }} />Manager {s.manager.toFixed(1)}</div>
+                  <div><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: qBLUE, marginRight: 4, verticalAlign: "middle" }} />Peers {s.peer.toFixed(1)}</div>
+                  <div><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: qGREEN, marginRight: 4, verticalAlign: "middle" }} />Directs {s.direct.toFixed(1)}</div>
                 </div>
               </div>
             );

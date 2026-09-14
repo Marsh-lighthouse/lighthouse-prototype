@@ -178,7 +178,7 @@ function EdBookings() {
         <div style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 16, padding: "40px 44px" }}>
           {/* hero */}
           <div style={{ textAlign: "center" }}>
-            <div style={{ width: 60, height: 60, borderRadius: 30, background: kSUCCESSFILL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", color: "#fff" }}><I.check size={28} /></div>
+            <div style={{ width: 60, height: 60, borderRadius: "50%", background: kSUCCESSFILL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", color: "#fff" }}><I.check size={28} /></div>
             <h1 className="serif" style={{ fontSize: 28, color: kINK, margin: "0 0 8px", lineHeight: 1.1 }}>You're all set</h1>
             <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, margin: "0 auto 4px", maxWidth: 440, lineHeight: 1.5 }}>Your session is booked. We've emailed you and the other attendees a calendar invitation with all the details.</p>
           </div>
@@ -403,7 +403,7 @@ function EdBookings() {
     const open = !!openCards[iv.id];
     return (
       <div key={iv.id} style={{ background: kCARD, border: "1px solid " + kLINE, borderRadius: 14, padding: "20px 24px", display: "flex", gap: 16 }}>
-        <div style={{ flexShrink: 0, width: 30, height: 30, borderRadius: 15, background: kACCENT, color: "var(--on-accent)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", marginTop: 3 }}>{i + 1}</div>
+        <div style={{ flexShrink: 0, width: 30, height: 30, borderRadius: "50%", background: kACCENT, color: "var(--on-accent)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", marginTop: 3 }}>{i + 1}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 14 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -565,7 +565,7 @@ function BkCancelDialog({ onNo, onYes }) {
 function BkEmpty({ msg }) {
   return (
     <div style={{ margin: 0, textAlign: "center", background: kCARD, border: "1px dashed " + kLINE, borderRadius: 14, padding: "56px 30px" }}>
-      <div style={{ width: 52, height: 52, borderRadius: 26, background: kSKY, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: kACCENT }}><I.cal size={24} /></div>
+      <div style={{ width: 52, height: 52, borderRadius: "50%", background: kSKY, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: kACCENT }}><I.cal size={24} /></div>
       <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, margin: 0, lineHeight: 1.5 }}>{msg}</p>
     </div>
   );

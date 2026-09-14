@@ -581,11 +581,11 @@ function AssessorEditorial() {
         <div style={{marginTop:"auto",padding:collapsed?"14px 12px 16px":"14px 16px 16px",minWidth:collapsed?72:256}}>
           {collapsed ? (
             <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} title="New experience" style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",padding:"11px 0",background:"transparent",border:"none",cursor:"pointer"}}>
-              <span style={{width:30,height:18,borderRadius:9,background:newExp?gold:"rgba(255,255,255,.22)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:12,height:12,borderRadius:6,background:"#fff",position:"absolute",top:3,left:newExp?15:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
+              <span style={{width:30,height:18,borderRadius:9,background:newExp?gold:"rgba(255,255,255,.22)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:12,height:12,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?15:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
             </button>
           ) : (
           <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:newExp?gold:"rgba(255,255,255,.04)",border:`1px solid ${newExp?gold:"rgba(255,255,255,.14)"}`,borderRadius:10,cursor:"pointer",textAlign:"left",transition:"all .18s ease"}}>
-            <span style={{width:34,height:20,borderRadius:999,background:newExp?navy:"rgba(255,255,255,.22)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:14,height:14,borderRadius:7,background:"#fff",position:"absolute",top:3,left:newExp?17:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
+            <span style={{width:34,height:20,borderRadius:999,background:newExp?navy:"rgba(255,255,255,.22)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:14,height:14,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?17:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
             <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:"#fff",lineHeight:1.3}}>New experience</span>
           </button>
           )}
@@ -701,8 +701,8 @@ function AssessorEditorial() {
     const c = ok ? green : red;
     return (
       <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textAlign:"center",padding:"72px 24px",minHeight:"100%",background:bg}}>
-        <div style={{width:86,height:86,borderRadius:43,background:`${c}14`,border:`1px solid ${c}40`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:24}}>
-          <div style={{width:58,height:58,borderRadius:29,background:c,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff"}}>
+        <div style={{width:86,height:86,borderRadius:"50%",background:`${c}14`,border:`1px solid ${c}40`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:24}}>
+          <div style={{width:58,height:58,borderRadius:"50%",background:c,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff"}}>
             {ok
               ? <I.Check s={30}/>
               : <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>}
@@ -879,7 +879,7 @@ function AssessorEditorial() {
                     </td>
                     <td style={{padding:"16px"}}>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
-                        <div style={{width:32,height:32,borderRadius:16,background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+                        <div style={{width:32,height:32,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                         <div style={{minWidth:0}}>
                           <div style={{fontWeight:600,color:tx}} className="elide">{c.name}</div>
                           <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
@@ -1057,7 +1057,7 @@ function AssessorEditorial() {
                   <tr key={c.id} className="rh" style={{cursor:"pointer",borderBottom:i===roster.length-1?"none":`1px solid ${bd}`}} onClick={()=>{ setEntryPath("campaign"); setSubjectId(c.id); setRoute("candidate"); setCandidateTab("assessments"); }}>
                     <td style={{padding:"16px"}}>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
-                        <div style={{width:32,height:32,borderRadius:16,background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+                        <div style={{width:32,height:32,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                         <div style={{minWidth:0}}>
                           <div style={{fontWeight:600,color:tx}} className="elide">{c.name}</div>
                           <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
@@ -1107,7 +1107,7 @@ function AssessorEditorial() {
 
         {/* Candidate header */}
         <div style={{display:"flex",alignItems:"flex-start",gap:24,marginBottom:28,flexWrap:"wrap"}}>
-          <div style={{width:72,height:72,borderRadius:36,background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+          <div style={{width:72,height:72,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
           <div style={{flex:1,minWidth:280}}>
             <h1 className="display" style={{fontSize:32,marginBottom:6}}>{c.name}</h1>
             <div style={{fontSize:14,color:ts}}>{c.email}</div>
@@ -1389,7 +1389,7 @@ function AssessorEditorial() {
     const update = React.useCallback(()=>{ const el=ref.current; if(!el) return; setOv({ left: el.scrollLeft>4, right: el.scrollLeft+el.clientWidth < el.scrollWidth-4 }); },[]);
     React.useEffect(()=>{ update(); const el=ref.current; if(!el) return; const id=requestAnimationFrame(update); el.addEventListener("scroll",update,{passive:true}); window.addEventListener("resize",update); return ()=>{cancelAnimationFrame(id); el.removeEventListener("scroll",update); window.removeEventListener("resize",update);}; },[update]);
     const nudge = (dx)=>{ const el=ref.current; if(el) el.scrollBy({left:dx,behavior:"smooth"}); };
-    const arrow = {position:"absolute",top:6,zIndex:3,width:26,height:26,borderRadius:13,background:card,border:`1px solid ${bdStrong}`,color:navy,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 1px 5px rgba(0,15,71,.16)",cursor:"pointer"};
+    const arrow = {position:"absolute",top:6,zIndex:3,width:26,height:26,borderRadius:"50%",background:card,border:`1px solid ${bdStrong}`,color:navy,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 1px 5px rgba(0,15,71,.16)",cursor:"pointer"};
     return (
       <div style={{position:"relative"}}>
         {ov.left && <div style={{position:"absolute",left:0,top:0,bottom:1,width:44,background:`linear-gradient(90deg, ${fade} 35%, ${fade}00)`,pointerEvents:"none",zIndex:2}}/>}
@@ -1586,7 +1586,7 @@ function AssessorEditorial() {
 
           {/* Divider drag handle */}
           <div onMouseDown={startSplitDrag} onTouchStart={startSplitDrag} style={{position:"absolute",left:`${evalSplit}%`,top:0,bottom:0,width:5,transform:"translateX(-50%)",background:bdStrong,cursor:"col-resize",zIndex:5}}>
-            <div style={{position:"absolute",left:"50%",top:"50%",transform:"translate(-50%,-50%)",width:34,height:34,borderRadius:17,background:card,border:`1px solid ${bd}`,display:"flex",alignItems:"center",justifyContent:"center",color:tm,boxShadow:"0 1px 4px rgba(0,15,71,.12)"}}>
+            <div style={{position:"absolute",left:"50%",top:"50%",transform:"translate(-50%,-50%)",width:34,height:34,borderRadius:"50%",background:card,border:`1px solid ${bd}`,display:"flex",alignItems:"center",justifyContent:"center",color:tm,boxShadow:"0 1px 4px rgba(0,15,71,.12)"}}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6 4 12l5 6M15 6l5 6-5 6"/></svg>
             </div>
           </div>
@@ -1621,7 +1621,7 @@ function AssessorEditorial() {
                   {/* Post-submit: thank you OR scores */}
                   {submitted && !showingScores && (
                     <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",padding:"36px 0"}}>
-                      <div style={{width:74,height:74,borderRadius:37,background:green,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:22}}><I.Check s={38} style={{color:"#fff",stroke:"#fff"}}/></div>
+                      <div style={{width:74,height:74,borderRadius:"50%",background:green,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:22}}><I.Check s={38} style={{color:"#fff",stroke:"#fff"}}/></div>
                       <h2 style={{fontSize:24,fontWeight:700,fontFamily:serif,color:navy,marginBottom:8}}>Thank you for your time.</h2>
                       <p style={{fontSize:14,color:tm,marginBottom:26}}>Your responses have now been recorded.</p>
                       <div style={{display:"flex",gap:12}}>
@@ -1662,7 +1662,7 @@ function AssessorEditorial() {
                       <div style={{border:`1px solid ${bd}`,borderRadius:br,borderLeft:`3px solid ${teal}`,padding:"18px 20px",marginBottom:24,background:card}}>
                         <p style={{fontSize:14,fontWeight:700,color:tx,lineHeight:1.65,marginBottom:16}}>{curItem.prompt}</p>
                         <label style={{display:"inline-flex",alignItems:"center",gap:9,cursor:"pointer"}}>
-                          <span style={{width:18,height:18,borderRadius:9,border:`1.6px solid ${evalAgreements[agreeKey(safeIdx)]?teal:bdStrong}`,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{evalAgreements[agreeKey(safeIdx)] && <span style={{width:9,height:9,borderRadius:5,background:teal}}/>}</span>
+                          <span style={{width:18,height:18,borderRadius:"50%",border:`1.6px solid ${evalAgreements[agreeKey(safeIdx)]?teal:bdStrong}`,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{evalAgreements[agreeKey(safeIdx)] && <span style={{width:9,height:9,borderRadius:5,background:teal}}/>}</span>
                           <input type="checkbox" checked={!!evalAgreements[agreeKey(safeIdx)]} onChange={e=>setEvalAgreements(p=>({...p,[agreeKey(safeIdx)]:e.target.checked}))} style={{display:"none"}}/>
                           <span style={{fontSize:14,color:tx}}>I Agree</span>
                         </label>
@@ -2066,7 +2066,7 @@ function AssessorEditorial() {
         <div style={{padding:"18px 32px 0",borderBottom:`1px solid ${bd}`,background:bg}}>
           <div style={{display:"flex",alignItems:"center",gap:20,flexWrap:"wrap",marginBottom:14}}>
             <div style={{flex:1,minWidth:200,display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
-              <div style={{width:34,height:34,borderRadius:17,background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+              <div style={{width:34,height:34,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
               <h1 className="h1" style={{fontSize:22,margin:0}}>{c.name}</h1>
               <span style={{fontSize:14,color:tm,alignSelf:"flex-end",paddingBottom:2}}>{c.email}</span>
             </div>
@@ -2290,7 +2290,7 @@ function AssessorEditorial() {
                                     <input type="number" min="1" max="5" step="0.1" value={finalVal} readOnly={isNA} onChange={e=>setFinal(ind.id, parseFloat(e.target.value)||0)} title={outOfRange?`Outside the assessor range (${fmtR(iRange[0])}–${fmtR(iRange[1])})`:undefined} style={{width:50,padding:"3px 6px",border:`1px solid ${outOfRange?red:(isNA?bd:"#6F6D68")}`,borderRadius:ir,fontSize:14,fontWeight:700,color:outOfRange?red:navy,background:isNA?bg2:card,fontFamily:f,outline:"none",fontVariantNumeric:"tabular-nums",textAlign:"center",cursor:isNA?"default":"text",boxShadow:outOfRange?`0 0 0 3px ${red}1F`:"none"}}/>
                                     <button onClick={()=>setNA(ind.id,!isNA)} title={isNA?"Not applicable — score locked":"Editable — click to mark not applicable"} aria-pressed={isNA} style={{display:"inline-block",boxSizing:"border-box",width:54,height:20,borderRadius:999,background:isNA?"#000F47":"transparent",border:isNA?"none":"1px solid #B9B6B1",cursor:"pointer",transition:"all .15s",position:"relative",verticalAlign:"middle"}}>
                                       <span style={{position:"absolute",top:0,bottom:0,display:"flex",alignItems:"center",left:isNA?8:"auto",right:isNA?"auto":8,fontFamily:f,fontSize:14,fontWeight:400,color:isNA?"#F7F3EE":"#878580"}}>N/A</span>
-                                      <span style={{position:"absolute",top:4,left:isNA?"auto":4,right:isNA?4:"auto",width:12,height:12,borderRadius:6,background:isNA?"#F7F3EE":"#878580"}}/>
+                                      <span style={{position:"absolute",top:4,left:isNA?"auto":4,right:isNA?4:"auto",width:12,height:12,borderRadius:"50%",background:isNA?"#F7F3EE":"#878580"}}/>
                                     </button>
                                   </div>
                                   {outOfRange && <div style={{fontSize:14,color:red,fontWeight:700,marginTop:5,display:"flex",alignItems:"center",justifyContent:"center",gap:4,lineHeight:1.3,whiteSpace:"nowrap"}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Outside {fmtR(iRange[0])}–{fmtR(iRange[1])}</div>}
@@ -2471,7 +2471,7 @@ function AssessorEditorial() {
         {drawerOpen && drawer.map((d) => (
           <React.Fragment key={d}>
             <div onMouseDown={modSplitDrag} onTouchStart={modSplitDrag} style={{position:"relative",width:5,flexShrink:0,background:bdStrong,cursor:"col-resize",zIndex:13}}>
-              <div style={{position:"absolute",left:"50%",top:"50%",transform:"translate(-50%,-50%)",width:34,height:34,borderRadius:17,background:card,border:`1px solid ${bd}`,display:"flex",alignItems:"center",justifyContent:"center",color:tm,boxShadow:"0 1px 5px rgba(0,15,71,.14)"}}>
+              <div style={{position:"absolute",left:"50%",top:"50%",transform:"translate(-50%,-50%)",width:34,height:34,borderRadius:"50%",background:card,border:`1px solid ${bd}`,display:"flex",alignItems:"center",justifyContent:"center",color:tm,boxShadow:"0 1px 5px rgba(0,15,71,.14)"}}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6 4 12l5 6M15 6l5 6-5 6"/></svg>
               </div>
             </div>
@@ -2977,7 +2977,7 @@ function AssessorEditorial() {
   const acPill = (text) => <StatusPill s={text}/>;
   const AttToggle = ({on:init}) => {
     const [on,setOn]=useState(init);
-    return <button onClick={()=>setOn(!on)} aria-pressed={on} style={{width:38,height:22,borderRadius:11,background:on?teal:"rgba(0,15,71,.18)",position:"relative",transition:"background .18s",flexShrink:0}}><span style={{width:16,height:16,borderRadius:8,background:"#fff",position:"absolute",top:3,left:on?19:3,transition:"left .18s",boxShadow:"0 1px 2px rgba(0,0,0,.25)"}}/></button>;
+    return <button onClick={()=>setOn(!on)} aria-pressed={on} style={{width:38,height:22,borderRadius:11,background:on?teal:"rgba(0,15,71,.18)",position:"relative",transition:"background .18s",flexShrink:0}}><span style={{width:16,height:16,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:on?19:3,transition:"left .18s",boxShadow:"0 1px 2px rgba(0,0,0,.25)"}}/></button>;
   };
   const JoinRoom = () => <button onClick={()=>showToast("Opening meeting room…")} style={{display:"inline-flex",alignItems:"center",gap:5,color:teal,fontSize:14,fontWeight:600}}><I.Video s={14}/> Join Room</button>;
   const acTh = (label,align) => <th style={{padding:"13px 16px",textAlign:align||"left",fontSize:14,fontWeight:700,color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap"}}>{label}</th>;
@@ -3288,7 +3288,7 @@ function AssessorEditorial() {
               <div style={{display:"flex",gap:28,padding:"0 22px 20px"}}>
                 {["Open","Closed"].map(o=>(
                   <label key={o} style={{display:"flex",alignItems:"center",gap:9,cursor:"pointer"}}>
-                    <span style={{width:18,height:18,borderRadius:9,border:`2px solid ${acStatus===o?teal:bdStrong}`,display:"flex",alignItems:"center",justifyContent:"center"}}>{acStatus===o&&<span style={{width:9,height:9,borderRadius:5,background:teal}}/>}</span>
+                    <span style={{width:18,height:18,borderRadius:"50%",border:`2px solid ${acStatus===o?teal:bdStrong}`,display:"flex",alignItems:"center",justifyContent:"center"}}>{acStatus===o&&<span style={{width:9,height:9,borderRadius:5,background:teal}}/>}</span>
                     <input type="radio" checked={acStatus===o} onChange={()=>setAcStatus(o)} style={{display:"none"}}/>
                     <span style={{fontSize:14,color:tx,fontWeight:600}}>{o}</span>
                   </label>
@@ -3354,7 +3354,7 @@ function AssessorEditorial() {
         <span style={{position:"absolute",right:11,top:12,color:tm,pointerEvents:"none"}}><svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" strokeLinecap="round"/></svg></span>
       </div>
     );
-    const rnd=(fn)=>({width:30,height:30,borderRadius:15,border:`1px solid ${bdStrong}`,background:card,color:tm,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0});
+    const rnd=(fn)=>({width:30,height:30,borderRadius:"50%",border:`1px solid ${bdStrong}`,background:card,color:tm,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0});
 
     // ── EDIT / ADD FORM (also shown when no availability exists yet) ──
     if((availMode==="edit" || emptyList) && d){
@@ -3393,7 +3393,7 @@ function AssessorEditorial() {
 
           <div data-tour="avail-days" style={{display:"flex",gap:10,marginBottom:24}}>
             {dayLabels.map((dl,i)=>(
-              <button key={i} onClick={()=>setActive(p=>p.map((v,j)=>j===i?!v:v))} style={{width:34,height:34,borderRadius:17,border:`1px solid ${d.active[i]?teal:bdStrong}`,background:d.active[i]?teal:card,color:d.active[i]?"#fff":tm,fontSize:14,fontWeight:700}}>{dl}</button>
+              <button key={i} onClick={()=>setActive(p=>p.map((v,j)=>j===i?!v:v))} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${d.active[i]?teal:bdStrong}`,background:d.active[i]?teal:card,color:d.active[i]?"#fff":tm,fontSize:14,fontWeight:700}}>{dl}</button>
             ))}
           </div>
 
@@ -3518,7 +3518,7 @@ function AssessorEditorial() {
     );
     const cardBox = {background:card,border:`1px solid ${bd}`,borderRadius:br,overflow:"hidden"};
     const cardEq = {...cardBox,display:"flex",flexDirection:"column",height:"100%"};
-    const s2Avatar = (bg,txt)=>(<div style={{width:32,height:32,borderRadius:16,background:bg,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{txt}</div>);
+    const s2Avatar = (bg,txt)=>(<div style={{width:32,height:32,borderRadius:"50%",background:bg,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{txt}</div>);
     const SampleFab = () => (
       <div style={{position:"fixed",right:24,top:"50%",transform:"translateY(-50%)",zIndex:120,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:10}}>
         {sampleMenuOpen && (
@@ -3531,7 +3531,7 @@ function AssessorEditorial() {
             ))}
           </div>
         )}
-        <button onClick={()=>setSampleMenuOpen(v=>!v)} title="Dashboard layouts" style={{width:52,height:52,borderRadius:26,background:navy,color:"#fff",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 10px 30px rgba(0,15,71,.30)"}}><I.Dash s={20}/></button>
+        <button onClick={()=>setSampleMenuOpen(v=>!v)} title="Dashboard layouts" style={{width:52,height:52,borderRadius:"50%",background:navy,color:"#fff",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 10px 30px rgba(0,15,71,.30)"}}><I.Dash s={20}/></button>
       </div>
     );
     const Sample2 = () => (
@@ -3674,7 +3674,7 @@ function AssessorEditorial() {
                       <tr key={c.id} className="rh" onClick={()=>openCandidate(c.id)} style={{cursor:"pointer"}}>
                         <td style={acTd}>
                           <div style={{display:"flex",alignItems:"center",gap:12,minWidth:0}}>
-                            <div style={{width:34,height:34,borderRadius:17,background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+                            <div style={{width:34,height:34,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                             <div style={{minWidth:0}}>
                               <div style={{fontWeight:600,color:tx,fontSize:14}} className="elide">{c.name}</div>
                               <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
@@ -3795,7 +3795,7 @@ function AssessorEditorial() {
                       <tr key={p.id} className="rh" onClick={()=>{setRoute("ac");setAcTab("participants");}} style={{cursor:"pointer"}}>
                         <td style={acTd}>
                           <div style={{display:"flex",alignItems:"center",gap:12,minWidth:0}}>
-                            <div style={{width:34,height:34,borderRadius:17,background:p.color,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{p.name.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase()}</div>
+                            <div style={{width:34,height:34,borderRadius:"50%",background:p.color,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{p.name.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase()}</div>
                             <div style={{minWidth:0}}>
                               <div style={{fontWeight:600,color:tx,fontSize:14}} className="elide">{p.name}</div>
                               <div style={{fontSize:14,color:tm}} className="elide">{p.email}</div>
@@ -3877,7 +3877,7 @@ function AssessorEditorial() {
             <div style={{width:96,flexShrink:0,borderRight:`1px solid ${bd}`,overflowY:"auto",padding:"12px 0",display:"flex",flexDirection:"column",gap:8,alignItems:"center",background:sbBg}}>
               {Array.from({length:pages}).map((_,i) => (
                 <button key={i} onClick={()=>setPage(i)} style={{width:56,height:74,borderRadius:5,border:i===page?`2px solid ${teal}`:`1px solid ${bd}`,background:card,cursor:"pointer",padding:6,flexShrink:0,position:"relative",overflow:"hidden"}}>
-                  <div style={{width:8,height:8,borderRadius:4,background:RPT_THUMB2[i%RPT_THUMB2.length],position:"absolute",top:4,left:4}}/>
+                  <div style={{width:8,height:8,borderRadius:"50%",background:RPT_THUMB2[i%RPT_THUMB2.length],position:"absolute",top:4,left:4}}/>
                   <span style={{position:"absolute",bottom:2,right:4,fontSize:14,color:tm}}>{i+1}</span>
                 </button>
               ))}
@@ -3904,7 +3904,7 @@ function AssessorEditorial() {
       <style>{css}</style>
       <div style={{flex:1,display:"flex",minHeight:0,position:"relative"}}>
         {!immersive && <Sidebar/>}
-        {!immersive && <button onClick={()=>setSidebarOpen(!sidebarOpen)} title={sidebarOpen?"Collapse menu":"Expand menu"} style={{position:"absolute",top:30,left:(sidebarOpen?256:72)-14,zIndex:30,width:28,height:28,borderRadius:14,background:card,border:`1px solid ${bdStrong}`,color:navy,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:"0 2px 8px rgba(0,15,71,.12)",transition:"left .2s ease"}}><I.Chev s={15} r={sidebarOpen?180:0}/></button>}
+        {!immersive && <button onClick={()=>setSidebarOpen(!sidebarOpen)} title={sidebarOpen?"Collapse menu":"Expand menu"} style={{position:"absolute",top:30,left:(sidebarOpen?256:72)-14,zIndex:30,width:28,height:28,borderRadius:"50%",background:card,border:`1px solid ${bdStrong}`,color:navy,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:"0 2px 8px rgba(0,15,71,.12)",transition:"left .2s ease"}}><I.Chev s={15} r={sidebarOpen?180:0}/></button>}
         <div style={{flex:1,display:"flex",flexDirection:"column",minWidth:0}}>
           {!immersive && <TopBar/>}
           <main className="no-sb" style={{flex:1,overflow:immersive?"hidden":"auto",background:bg}}>
@@ -3924,7 +3924,7 @@ function AssessorEditorial() {
               ))}
             </div>
           )}
-          <button onClick={()=>setSampleMenuOpen(v=>!v)} title="Dashboard layouts" style={{width:52,height:52,borderRadius:26,background:navy,color:"#fff",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 10px 30px rgba(0,15,71,.30)"}}><I.Dash s={20}/></button>
+          <button onClick={()=>setSampleMenuOpen(v=>!v)} title="Dashboard layouts" style={{width:52,height:52,borderRadius:"50%",background:navy,color:"#fff",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 10px 30px rgba(0,15,71,.30)"}}><I.Dash s={20}/></button>
         </div>
       )}
       {toast && (

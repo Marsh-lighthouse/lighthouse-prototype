@@ -115,7 +115,7 @@ function MnStepper({ step, design }) {
         return (
           <React.Fragment key={label}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-              <span style={{ width: 26, height: 26, borderRadius: 13, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+              <span style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
                 background: done ? eSUCCESS : on ? eMID : "rgba(0,15,71,.06)",
                 color: done || on ? "#fff" : eMUT,
                 border: done ? "none" : "1px solid " + (on ? eMID : eLINE),
@@ -153,7 +153,7 @@ function MnGettingStarted({ onNext }) {
             </div>
           ) : (
             <React.Fragment>
-              <div style={{ width: 60, height: 60, borderRadius: 30, background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
+              <div style={{ width: 60, height: 60, borderRadius: "50%", background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
               <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Watch introduction (2 min)</span>
             </React.Fragment>
           )}
@@ -206,7 +206,7 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
         <div key={ci} style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 8,
           padding: "20px 22px 24px", marginBottom: 16, boxShadow: "0 1px 3px rgba(0,15,71,.05)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
-            <div style={{ width: 46, height: 46, borderRadius: 23, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
+            <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[c.icon], { size: 22 })}</div>
             <div>
               <div className="serif" style={{ fontSize: 21, color: eMID }}>{c.name}</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
@@ -240,7 +240,7 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
           the thing you actually act on, so the ratings keep the attention. */}
       <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 22 }}>
         {/* a star, not the AI sparkle — this step is about self-rating */}
-        <div style={{ width: 46, height: 46, borderRadius: 23, background: "color-mix(in srgb, var(--action) 18%, transparent)", color: "var(--action)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+        <div style={{ width: 46, height: 46, borderRadius: "50%", background: "color-mix(in srgb, var(--action) 18%, transparent)", color: "var(--action)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.8.7-5.1 4.6 1.5 6.7L12 17.9 5.9 20.3l1.5-6.7L2.3 9l6.8-.7z" /></svg>
         </div>
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0 }}>
@@ -259,7 +259,7 @@ function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
           <div key={r.name} className="mn-rate-row" style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 20px", borderTop: i ? "1px solid " + eLINE : "none" }}>
             <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, color: eMID }}>{r.name}</div>
             <div style={{ width: 170, flexShrink: 0, display: "flex", alignItems: "center", gap: 9 }}>
-              <span style={{ width: 28, height: 28, borderRadius: 14, background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <span style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(0,15,71,.06)", color: eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 {React.createElement(I[r.cat === "Technical" ? "monitor" : "bulb"], { size: 15 })}
               </span>
               <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>{r.cat}</span>
