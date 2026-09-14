@@ -331,30 +331,36 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt }) {
             </div>);
         })}
       </div>
-      ) : (
-      <div className="oa-matrix">
-        {/* Scale columns are wide enough for the longest label ("Sometimes") with a gap,
-            so headers never touch; the circles centre within the same columns. */}
-        <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.cols.length}, 88px)`, columnGap: 10, marginBottom: 8, padding: "0 15px" }}>
-          <div />
-          {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, whiteSpace: "nowrap" }}>{col}</div>)}
+      ) : (() => {
+        // With ≤5 short-label columns keep the fixed 88px scale columns (unchanged).
+        // With more (e.g. a 7-point Likert) share the width via equal fluid columns and
+        // let headers wrap, so 7 points fit cleanly in both the single-page and split panes.
+        const many = q.cols.length > 5;
+        const gcols = many ? `minmax(140px, 1.4fr) repeat(${q.cols.length}, minmax(0, 1fr))` : `1fr repeat(${q.cols.length}, 88px)`;
+        const cgap = many ? 6 : 10;
+        return (
+        <div className="oa-matrix">
+          <div style={{ display: "grid", gridTemplateColumns: gcols, columnGap: cgap, marginBottom: 8, padding: "0 15px", alignItems: "end" }}>
+            <div />
+            {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: many ? 13 : 15, fontWeight: 700, color: eMUT, whiteSpace: many ? "normal" : "nowrap", lineHeight: 1.25 }}>{col}</div>)}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {q.rows.map((row, ri) => {
+              const answered = a[ri] !== undefined;
+              return (
+                <div key={ri} style={{ display: "grid", gridTemplateColumns: gcols, columnGap: cgap, alignItems: "center", padding: "12px 15px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.35, paddingRight: 8 }}>{row}</div>
+                  {q.cols.map((col, ci) =>
+                    <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
+                      <button onClick={() => onChange({ ...a, [ri]: ci })} style={{ width: 26, height: 26, borderRadius: "50%", border: "2px solid " + (a[ri] === ci ? eBLUE : "var(--control-line)"), background: a[ri] === ci ? eBLUE : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .15s" }}>{a[ri] === ci && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--card)" }} />}</button>
+                    </div>
+                  )}
+                </div>);
+            })}
+          </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {q.rows.map((row, ri) => {
-            const answered = a[ri] !== undefined;
-            return (
-              <div key={ri} style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.cols.length}, 88px)`, columnGap: 10, alignItems: "center", padding: "12px 15px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.35, paddingRight: 8 }}>{row}</div>
-                {q.cols.map((col, ci) =>
-                  <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
-                    <button onClick={() => onChange({ ...a, [ri]: ci })} style={{ width: 26, height: 26, borderRadius: "50%", border: "2px solid " + (a[ri] === ci ? eBLUE : "var(--control-line)"), background: a[ri] === ci ? eBLUE : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .15s" }}>{a[ri] === ci && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--card)" }} />}</button>
-                  </div>
-                )}
-              </div>);
-          })}
-        </div>
-      </div>
-      ))}
+        );
+      })())}
 
       {/* CHECK GRID — rows × scale-point columns with square checkboxes + Not Applicable */}
       {q.type === "checkgrid" && (() => {
