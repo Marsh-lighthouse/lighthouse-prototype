@@ -70,7 +70,7 @@ function AssessorEditorial() {
     .h1{font-family:${serif};font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.1;color:${navy}}
     .h2{font-family:${serif};font-size:20px;font-weight:700;letter-spacing:-.01em;color:${navy}}
     .h3{font-size:14px;font-weight:700;color:${tx}}
-    .tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:14px;font-weight:600;letter-spacing:0;border-radius:3px}
+    .tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:14px;font-weight:600;letter-spacing:0;border-radius:var(--lh-radius, 2px)}
     .dot{width:6px;height:6px;border-radius:3px;flex-shrink:0}
     .row-bb{border-bottom:1px solid ${bd}}
     .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:14px;font-weight:600;border-radius:${br}px;cursor:pointer;transition:all .15s}
