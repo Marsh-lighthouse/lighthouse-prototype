@@ -1084,7 +1084,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                     ? <img src={c.img} alt={c.alt || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                     : <div style={{ position: "absolute", inset: 0 }} dangerouslySetInnerHTML={{ __html: c.svg }} />}
                   {on &&
-                    <span style={{ position: "absolute", top: 10, right: 10, width: 26, height: 26, borderRadius: "50%", background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,.25)" }}><I.check size={15} /></span>
+                    <span style={{ position: "absolute", top: 10, right: 10, width: 26, height: 26, borderRadius: "var(--lh-radius, 2px)", background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,.25)" }}><I.check size={15} /></span>
                   }
                 </button>
               );
