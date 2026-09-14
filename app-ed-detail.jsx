@@ -1325,10 +1325,6 @@ function ScPanel({ target, onBack, onLaunch, onStep, audioOnly }) {
       <div style={{ display: "grid", gridTemplateColumns: dev === "ipad" ? "190px minmax(0,1fr)" : "232px minmax(0,1fr)", gap: dev === "ipad" ? 22 : 32, alignItems: "start" }}>
         {/* LEFT · step navigation */}
         <div style={{ padding: "2px 8px 0 0", position: "sticky", top: 16 }}>
-          <div style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 22 }}>
-            <span style={{ color: eBLUE, display: "flex", flexShrink: 0, marginTop: 1 }}><I.info size={17} /></span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.5 }}>Complete each step below to finish your system check.</span>
-          </div>
           {SC_VSTEPS.map((s, i) => {
             const done = i < activeIndex, active = i === activeIndex, last = i === SC_VSTEPS.length - 1;
             const dim = !done && !active;
