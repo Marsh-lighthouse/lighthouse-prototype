@@ -945,7 +945,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               const e = v[i] || {};
               return (
                 <div key={i}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, marginBottom: 8 }}>{sk}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, marginBottom: 8 }}>{sk}</div>
                   <select value={e.factor || ""} onChange={(ev) => onChange({ ...v, [i]: { ...e, factor: ev.target.value } })} style={{ width: "100%", padding: "10px 38px 10px 12px", borderRadius: 9, border: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, color: e.factor ? eINK : eMUT, background: eCARD + " url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>\") no-repeat right 14px center", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", marginBottom: 8, outline: "none" }}>
                     <option value="">Select skill factor…</option>
                     {q.factors.map((f) => <option key={f} value={f}>{f}</option>)}
