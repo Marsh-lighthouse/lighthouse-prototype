@@ -155,9 +155,9 @@ function EdCard({ item, accent, icon, image, segTotal, segDone, onClick }) {
           {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#fff", background: "var(--surface-deep)", padding: "3px 9px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
         </div>
         <div style={{ position: "absolute", top: 12, right: 14 }}>
-          {isComplete ? <span style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={15} /></span> :
-          isError ? <span style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--danger-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.alertCircle size={15} /></span> :
-          locked ? <span style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.lock size={13} /></span> :
+          {isComplete ? <span style={{ width: 26, height: 26, borderRadius: "var(--lh-radius, 2px)", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.check size={15} /></span> :
+          isError ? <span style={{ width: 26, height: 26, borderRadius: "var(--lh-radius, 2px)", background: "var(--danger-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.alertCircle size={15} /></span> :
+          locked ? <span style={{ width: 26, height: 26, borderRadius: "var(--lh-radius, 2px)", background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><I.lock size={13} /></span> :
           null}
         </div>
       </div>

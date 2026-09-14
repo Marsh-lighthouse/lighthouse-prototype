@@ -212,11 +212,11 @@ function LighthouseTweaks() {
       // icon takes a light tint of the brand accent. All values AA on the fill.
       const brand = (window.LHBrand && window.LHBrand.current()) || "marsh";
       const activeIcon = brand === "generali" ? "#FF8A85" : brand === "dge" ? "#9DBBD8" : "#A9C7F0";
-      set({ "--rail-bg": "#0B1526", "--rail-fg": "rgba(255,255,255,.82)", "--rail-icon": "rgba(255,255,255,.75)", "--rail-active-bg": "rgba(255,255,255,.14)", "--rail-active-fg": "#ffffff", "--rail-active-icon": activeIcon, "--rail-group": "rgba(255,255,255,.7)", "--rail-border": "rgba(255,255,255,.1)", "--rail-logo-white": "block", "--rail-logo-dark": "none" });
+      set({ "--rail-bg": "#0B1526", "--rail-fg": "rgba(255,255,255,.82)", "--rail-icon": "rgba(255,255,255,.75)", "--rail-active-bg": "rgba(255,255,255,.14)", "--rail-active-fg": "#ffffff", "--rail-active-icon": activeIcon, "--rail-group": "rgba(255,255,255,.7)", "--rail-border": "rgba(255,255,255,.1)", "--rail-ring-track": "rgba(255,255,255,.28)", "--rail-cta-bg": "rgba(255,255,255,.95)", "--rail-cta-fg": "#0B1220", "--rail-cta-border": "transparent", "--rail-active-line": "rgba(255,255,255,.10)", "--rail-logo-white": "block", "--rail-logo-dark": "none" });
       return;
     }
     if (t.sidebar === "White") {
-      set({ "--rail-bg": "#FFFFFF", "--rail-fg": "var(--primary)", "--rail-icon": "var(--primary)", "--rail-active-bg": "rgba(11,75,255,.08)", "--rail-active-fg": "#000F47", "--rail-active-icon": "#0B4BFF", "--rail-group": "#6B6A64", "--rail-border": "rgba(0,15,71,.14)", "--rail-logo-white": "none", "--rail-logo-dark": "block" });
+      set({ "--rail-bg": "#FFFFFF", "--rail-fg": "var(--primary)", "--rail-icon": "var(--primary)", "--rail-active-bg": "rgba(11,75,255,.08)", "--rail-active-fg": "#000F47", "--rail-active-icon": "#0B4BFF", "--rail-group": "#6B6A64", "--rail-border": "rgba(0,15,71,.14)", "--rail-ring-track": "rgba(0,15,71,.16)", "--rail-cta-bg": "#000F47", "--rail-cta-fg": "#ffffff", "--rail-cta-border": "transparent", "--rail-active-line": "rgba(0,15,71,.14)", "--rail-logo-white": "none", "--rail-logo-dark": "block" });
       return;
     }
     // Midnight preset: rail fill = --primary. Pick a foreground that passes AA on it.
@@ -227,12 +227,12 @@ function LighthouseTweaks() {
     // above it (DGE steel ≈0.335) white text fails, so use dark ink.
     if (relLum(toRGB(primary)) > 0.18) {
       // Light rail (DGE steel): dark ink foreground — AA on the light primary fill.
-      set({ "--rail-bg": "var(--primary)", "--rail-fg": "rgba(0,15,71,.86)", "--rail-icon": "rgba(0,15,71,.74)", "--rail-active-bg": "rgba(0,15,71,.14)", "--rail-active-fg": "#000F47", "--rail-active-icon": "#000F47", "--rail-group": "rgba(0,15,71,.86)", "--rail-border": "rgba(0,15,71,.20)", "--rail-logo-white": "none", "--rail-logo-dark": "block" });
+      set({ "--rail-bg": "var(--primary)", "--rail-fg": "rgba(0,15,71,.86)", "--rail-icon": "rgba(0,15,71,.74)", "--rail-active-bg": "rgba(0,15,71,.14)", "--rail-active-fg": "#000F47", "--rail-active-icon": "#000F47", "--rail-group": "rgba(0,15,71,.86)", "--rail-border": "rgba(0,15,71,.20)", "--rail-ring-track": "rgba(0,15,71,.16)", "--rail-cta-bg": "#000F47", "--rail-cta-fg": "#ffffff", "--rail-cta-border": "transparent", "--rail-active-line": "rgba(0,15,71,.14)", "--rail-logo-white": "none", "--rail-logo-dark": "block" });
     } else {
       // Dark rail (Marsh midnight / Generali red): white foreground, raised opacities.
       // Group opacity is set for the *lighter* dark brand (Generali red ≈0.095 luminance):
       // sky at .72 was only 3.6:1 on red, so it's raised to .9 (passes on red and midnight).
-      set({ "--rail-bg": "var(--primary)", "--rail-fg": "rgba(255,255,255,.8)", "--rail-icon": "rgba(255,255,255,.75)", "--rail-active-bg": "rgba(206,236,255,.16)", "--rail-active-fg": "#ffffff", "--rail-active-icon": "#CEECFF", "--rail-group": "rgba(206,236,255,.9)", "--rail-border": "rgba(255,255,255,.12)", "--rail-logo-white": "block", "--rail-logo-dark": "none" });
+      set({ "--rail-bg": "var(--primary)", "--rail-fg": "rgba(255,255,255,.8)", "--rail-icon": "rgba(255,255,255,.75)", "--rail-active-bg": "rgba(206,236,255,.16)", "--rail-active-fg": "#ffffff", "--rail-active-icon": "#CEECFF", "--rail-group": "rgba(206,236,255,.9)", "--rail-border": "rgba(255,255,255,.12)", "--rail-ring-track": "rgba(255,255,255,.28)", "--rail-cta-bg": "rgba(255,255,255,.95)", "--rail-cta-fg": "#0B1220", "--rail-cta-border": "transparent", "--rail-active-line": "rgba(255,255,255,.10)", "--rail-logo-white": "block", "--rail-logo-dark": "none" });
     }
   }, [t.sidebar, brandTick, themeMode]);
 

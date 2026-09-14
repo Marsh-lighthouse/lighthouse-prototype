@@ -139,7 +139,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
           <React.Fragment>
             {showProgress && <button onClick={() => onNav("profile")} title={t("profileCompletion") + " — " + LH.profile.pct + "%"} style={{ width: "100%", border: "none", background: "transparent", padding: 0, cursor: "pointer", display: "flex", justifyContent: "center", marginBottom: 4 }}>
               <div style={{ position: "relative", width: 40, height: 40, flexShrink: 0 }}>
-                <Ring pct={LH.profile.pct} size={40} stroke={3} color="var(--rail-active-icon)" />
+                <Ring pct={LH.profile.pct} size={40} stroke={3} color="var(--rail-active-icon)" track="var(--rail-ring-track)" />
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: "var(--rail-fg)" }}>{LH.profile.pct}%</div>
               </div>
             </button>}
@@ -149,18 +149,18 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
           <React.Fragment>
             {showProgress && <div style={{ borderTop: "1px solid var(--rail-border)", paddingTop: 12, marginBottom: 8 }}>
               <div style={{ fontSize: 15, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 700, padding: "0 2px 12px" }}>{t("profileCompletion")}</div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "16px 12px", background: "var(--rail-active-bg)", borderRadius: 10 }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "16px 12px", background: "var(--rail-active-bg)", border: "1px solid var(--rail-active-line)", boxSizing: "border-box", borderRadius: 10 }}>
                 <div style={{ position: "relative", width: 60, height: 60, flexShrink: 0 }}>
-                  <Ring pct={LH.profile.pct} size={60} stroke={4} color="var(--rail-active-icon)" />
+                  <Ring pct={LH.profile.pct} size={60} stroke={4} color="var(--rail-active-icon)" track="var(--rail-ring-track)" />
                   <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 21, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.pct}%</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: 15, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.done} {t("of")} {LH.profile.total}</div>
                   <div style={{ fontSize: 15, color: "var(--rail-active-fg)", opacity: 0.9 }}>{t("sectionsCompleted")}</div>
                 </div>
-                <button onClick={() => onNav("profile")} style={{ width: "100%", padding: "10px 14px", background: "rgba(255,255,255,.95)", color: "#0B1220", border: "none", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", transition: "background .15s" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = "#E9EDF4"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.95)"; }}>
+                <button onClick={() => onNav("profile")} style={{ width: "100%", padding: "10px 14px", background: "var(--rail-cta-bg)", color: "var(--rail-cta-fg)", border: "1px solid var(--rail-cta-border)", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", transition: "filter .15s" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.filter = "brightness(.94)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.filter = "none"; }}>
                   {t("completeProfile")}
                 </button>
               </div>

@@ -161,6 +161,14 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
   --rail-active-icon: #CEECFF;
   --rail-group: rgba(206,236,255,.9);    /* group headers — set for red (lighter) so both pass */
   --rail-border: rgba(255,255,255,.12);
+  /* Profile-completion card (in the rail): ring track, CTA button and card edge.
+     Defaults suit a DARK rail (midnight); the Tweaks "Side menu" control swaps
+     these to a light-rail set so the white sidebar stays WCAG-compliant. */
+  --rail-ring-track: rgba(255,255,255,.28); /* AA-visible track on the dark box */
+  --rail-cta-bg: rgba(255,255,255,.95);     /* white CTA reads on the dark box */
+  --rail-cta-fg: #0B1220;
+  --rail-cta-border: transparent;
+  --rail-active-line: rgba(255,255,255,.10);/* hairline edge on the card */
   --rail-logo-white: block;
   --rail-logo-dark: none;
 }
