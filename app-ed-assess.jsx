@@ -747,7 +747,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         const remaining = q.options.filter((o) => !sel.includes(o));
         return (
           <div ref={factorRef} style={{ position: "relative" }}>
-            <div onClick={() => setFactorOpen((v) => !v)} style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "10px 40px 10px 12px", border: "1px solid " + (factorOpen ? eBLUE : eLINE), borderRadius: 12, background: eCARD, minHeight: 46, cursor: "pointer", position: "relative" }}>
+            <div onClick={() => setFactorOpen((v) => !v)} style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "10px 40px 10px 12px", border: "1px solid " + (factorOpen ? eBLUE : "var(--field-line)"), borderRadius: 12, background: eCARD, minHeight: 46, cursor: "pointer", position: "relative" }}>
               {sel.length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Select factors…</span>}
               {sel.map((o) => <span key={o} onClick={(e) => { e.stopPropagation(); remove(o); }} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eINK, border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", borderRadius: 7, padding: "4px 9px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>{o} <span style={{ cursor: "pointer", color: eMUT, fontSize: 15, lineHeight: 1 }}>×</span></span>)}
               <span style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%) " + (factorOpen ? "rotate(180deg)" : ""), color: eMUT, display: "flex", transition: "transform .15s" }}><I.chevD size={16} /></span>
