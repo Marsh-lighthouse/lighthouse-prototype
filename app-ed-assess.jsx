@@ -215,8 +215,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   const lbl = { mcq: "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes" }[q.type];
   return (
     <div style={{ background: "var(--card)", border: "1px solid " + (error ? eDANGER : eLINE), borderRadius: 16, padding: "26px 28px", transition: "border-color .15s" }}>
-      {!hidePrompt && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 700, lineHeight: 1.5, margin: "0 0 18px" }}>{q.prompt}</p>}
-      {lbl && <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, letterSpacing: 0.2, marginBottom: 10 }}>{lbl}</div>}
+      {!hidePrompt && <p className="serif" style={{ fontSize: 28, color: eMID, lineHeight: 1.2, margin: "0 0 18px" }}>{q.prompt}</p>}
+      {lbl && <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, letterSpacing: 0.2, marginBottom: 10 }}>{lbl}</div>}
 
       {q.type === "mcq" &&
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -317,7 +317,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           const answered = a[ri] !== undefined;
           return (
             <div key={ri} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{row}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{row}</div>
               {(() => { const single = q.cols.length > 5; return (
               <div className="oa-mopts" style={{ display: "flex", flexDirection: single ? "column" : "row", flexWrap: single ? "nowrap" : "wrap", gap: 8 }}>
                 {q.cols.map((col, ci) => {
@@ -325,7 +325,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                   return (
                     <button key={ci} className="oa-mopt" onClick={() => onChange({ ...a, [ri]: ci })} style={{ flex: single ? "none" : "1 1 auto", width: single ? "100%" : "auto", minWidth: single ? "auto" : 72, display: "inline-flex", alignItems: "center", justifyContent: single ? "flex-start" : "center", gap: single ? 10 : 7, padding: single ? "12px 14px" : "9px 12px", borderRadius: 9, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer", transition: "all .15s" }}>
                       <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: sel ? eBLUE : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--card)" }} />}</span>
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: sel ? eMID : eINK }}>{col}</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: sel ? 700 : 400, color: sel ? eMID : eINK }}>{col}</span>
                     </button>);
                 })}
               </div>
@@ -351,7 +351,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               const answered = a[ri] !== undefined;
               return (
                 <div key={ri} style={{ display: "grid", gridTemplateColumns: gcols, columnGap: cgap, alignItems: "center", padding: "12px 15px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.35, paddingRight: 8 }}>{row}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMID, lineHeight: 1.35, paddingRight: 8 }}>{row}</div>
                   {q.cols.map((col, ci) =>
                     <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
                       <button onClick={() => onChange({ ...a, [ri]: ci })} style={{ width: 26, height: 26, borderRadius: "50%", border: "2px solid " + (a[ri] === ci ? eBLUE : "var(--control-line)"), background: a[ri] === ci ? eBLUE : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .15s" }}>{a[ri] === ci && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--card)" }} />}</button>
@@ -384,7 +384,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               const answered = cur.length > 0;
               return (
                 <div key={ri} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eMID : eLINE), transition: "border-color .15s" }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{row}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{row}</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {cols.map((col, ci) => {
                       const on = cur.includes(ci);
