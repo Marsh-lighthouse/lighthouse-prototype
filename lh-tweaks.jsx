@@ -356,7 +356,6 @@ function LighthouseTweaks() {
           { value: 16, label: "Large" },
         ]}
         onChange={(v) => { if (window.LHRadius) window.LHRadius.set(v); }} />
-      <div className="twk-note" style={{ fontSize: 11.5, color: "rgba(0,0,0,.5)", padding: "2px 2px 0", lineHeight: 1.4 }}>2px is the MDS default. Applies to cards &amp; inner cards, buttons, pills, badges &amp; checkboxes across every page. Circular controls (radios, round buttons, avatars) stay round.</div>
       {/* Swatch labels use the Marsh colour-guideline token names (scale 1000→250)
           so each Tweak maps 1:1 to a design token — the name shows on hover. */}
       <TweakSection label="Accent" />
