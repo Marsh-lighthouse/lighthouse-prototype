@@ -547,7 +547,10 @@ function AssessorEditorial() {
   );
 
   const Sidebar = () => {
-    const railBg = navy, railBorder = "rgba(255,255,255,.12)", railFg = "rgba(255,255,255,.8)", railIcon = "rgba(255,255,255,.75)", railActiveBg = "rgba(206,236,255,.16)", railActiveFg = "#ffffff", railActiveIcon = "#CEECFF", railGroup = "rgba(206,236,255,.9)";
+    // Rail colours are token-driven so the Tweaks "Side menu" Midnight⇄White control
+    // works here too. Defaults (brand.css) are these same midnight values, so the
+    // default Assessor rail is unchanged; White mode swaps them to the light set.
+    const railBg = "var(--rail-bg)", railBorder = "var(--rail-border)", railFg = "var(--rail-fg)", railIcon = "var(--rail-icon)", railActiveBg = "var(--rail-active-bg)", railActiveFg = "var(--rail-active-fg)", railActiveIcon = "var(--rail-active-icon)", railGroup = "var(--rail-group)";
     const items = [
       { k:"home", l:"Assessor Dashboard", I:I.Dash, count:null },
       { k:"dashboard", l:"Assessor Evaluation", I:I.Flag, count:null },
@@ -558,8 +561,11 @@ function AssessorEditorial() {
     return (
       <aside style={{width:collapsed?72:256,flexShrink:0,background:railBg,borderRight:`1px solid ${railBorder}`,color:railActiveFg,display:"flex",flexDirection:"column",overflow:"hidden",transition:"width .2s"}}>
         <div style={{padding:collapsed?"24px 0 18px":"24px 18px 18px",display:"flex",alignItems:"center",justifyContent:collapsed?"center":"flex-start",minWidth:collapsed?72:256}}>
-          {collapsed ? <MarshM s={26}/> : (
-          <img src={window.LHLogo.wordmarkWhite} alt="Marsh" style={{height:26,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto"}}/>
+          {collapsed ? <MarshM s={26} c="var(--rail-active-fg)"/> : (
+          <React.Fragment>
+          <img src={window.LHLogo.wordmarkWhite} alt="Marsh" style={{height:26,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto",display:"var(--rail-logo-white, block)"}}/>
+          <img src={window.LHLogo.wordmarkDark} alt="Marsh" style={{height:26,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto",display:"var(--rail-logo-dark, none)"}}/>
+          </React.Fragment>
           )}
         </div>
         <nav style={{padding:"0 12px",minWidth:collapsed?72:256}}>
@@ -568,7 +574,7 @@ function AssessorEditorial() {
             const disabled = false;
             return (
               <button key={it.k} data-tour={"nav-"+it.k} onClick={()=>{ setRoute(it.k); }} title={collapsed?it.l:undefined} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:collapsed?"center":"flex-start",gap:12,padding:collapsed?"11px 0":"10px 14px",borderRadius:4,background:active?railActiveBg:"transparent",color:active?railActiveFg:railFg,fontSize:14,fontWeight:active?600:400,marginBottom:2,textAlign:"left",position:"relative",transition:"all .15s"}}>
-                {active && <div style={{position:"absolute",left:0,top:9,bottom:9,width:3,borderRadius:3,background:"#CEECFF"}}/>}
+                {active && <div style={{position:"absolute",left:0,top:9,bottom:9,width:3,borderRadius:3,background:railActiveIcon}}/>}
                 <span style={{color:active?railActiveIcon:railIcon,display:"flex"}}><it.I s={18}/></span>
                 {!collapsed && <span style={{flex:1}}>{it.l}</span>}
                 {!collapsed && it.count !== null && !it.soon && <span style={{fontSize:14,color:railFg,fontWeight:600}}>{it.count}</span>}
@@ -581,12 +587,12 @@ function AssessorEditorial() {
         <div style={{marginTop:"auto",padding:collapsed?"14px 12px 16px":"14px 16px 16px",minWidth:collapsed?72:256}}>
           {collapsed ? (
             <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} title="New experience" style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",padding:"11px 0",background:"transparent",border:"none",cursor:"pointer"}}>
-              <span style={{width:30,height:18,borderRadius:9,background:newExp?gold:"rgba(255,255,255,.22)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:12,height:12,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?15:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
+              <span style={{width:30,height:18,borderRadius:9,background:newExp?gold:"var(--rail-ring-track)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:12,height:12,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?15:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
             </button>
           ) : (
-          <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:newExp?gold:"rgba(255,255,255,.04)",border:`1px solid ${newExp?gold:"rgba(255,255,255,.14)"}`,borderRadius:10,cursor:"pointer",textAlign:"left",transition:"all .18s ease"}}>
-            <span style={{width:34,height:20,borderRadius:999,background:newExp?navy:"rgba(255,255,255,.22)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:14,height:14,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?17:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
-            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:"#fff",lineHeight:1.3}}>New experience</span>
+          <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:newExp?gold:railActiveBg,border:`1px solid ${newExp?gold:railBorder}`,borderRadius:10,cursor:"pointer",textAlign:"left",transition:"all .18s ease"}}>
+            <span style={{width:34,height:20,borderRadius:999,background:newExp?navy:"var(--rail-ring-track)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:14,height:14,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?17:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
+            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:newExp?"#3D3223":railActiveFg,lineHeight:1.3}}>New experience</span>
           </button>
           )}
         </div>
