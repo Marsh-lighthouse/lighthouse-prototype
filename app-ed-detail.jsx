@@ -230,7 +230,7 @@ function EdInstructions({ prog, watched, onWatch, acked, onContinue, onBack }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
           {d.instructions.map((pt, i) =>
           <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-              <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid var(--accent)", boxSizing: "border-box", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
+              <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid color-mix(in srgb, var(--accent) 35%, transparent)", boxSizing: "border-box", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0, flex: 1 }}>{window.tInstruction ? window.tInstruction(pt) : pt}</p>
             </div>
           )}
@@ -688,7 +688,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
             <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
               {d.instructions.map((pt, i) =>
             <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid var(--accent)", boxSizing: "border-box", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
+                  <div className="serif" style={{ width: 30, height: 30, borderRadius: 8, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid color-mix(in srgb, var(--accent) 35%, transparent)", boxSizing: "border-box", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
                   <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0, flex: 1 }}>{pt}</p>
                 </div>
             )}
