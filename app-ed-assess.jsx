@@ -818,7 +818,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.4, marginBottom: 12 }}>{s}</div>
                 {q.groups.map((g, gi) => (
                   <div key={gi} style={{ marginBottom: gi < q.groups.length - 1 ? 12 : 0 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 500, color: eMUT, marginBottom: 6 }}>{g.label}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: eINK, marginBottom: 6 }}>{g.label}</div>
                     <div style={{ display: "flex", gap: 8 }}>
                       {g.cols.map((c, ci) => {
                         const sel = v[si] && v[si][gi] === ci;
@@ -840,7 +840,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               <thead>
                 <tr>
                   <th></th>
-                  {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
+                  {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
                 </tr>
                 <tr>
                   <th></th>
@@ -905,10 +905,10 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           ) : (
           <div>
             <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.scale.length}, 38px) 30px repeat(3, 40px)`, alignItems: "center", marginBottom: 6, paddingLeft: 4, columnGap: 8 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Categories</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>Categories</span>
               {q.scale.map((e, i) => <span key={i} style={{ textAlign: "center", fontSize: 21 }}>{e}</span>)}
               <span></span>
-              <span style={{ gridColumn: "span 3", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, textAlign: "center" }}>Tell Us Why</span>
+              <span style={{ gridColumn: "span 3", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, textAlign: "center" }}>Tell Us Why</span>
             </div>
             {q.categories.map((cat, ci) => {
               const row = v[ci] || {};
@@ -995,7 +995,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "170px 1fr", gap: 16 }}>
             <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, null)}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, marginBottom: 8 }}>Items</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, marginBottom: 8 }}>Items</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {pool.map((it) => <div key={it} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", it)} style={{ padding: "10px 12px", borderRadius: 2, border: "1px dashed " + eLINE, background: eCARD, fontFamily: "var(--sans)", fontSize: 15, color: eINK, cursor: "grab" }}>{it}</div>)}
                 {pool.length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>All items placed.</span>}
@@ -1004,7 +1004,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {q.groups.map((g, gi) =>
                 <div key={gi} onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, gi)} style={{ border: "1px solid " + eLINE, borderRadius: 12, overflow: "hidden" }}>
-                  <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, borderBottom: "1px solid " + eLINE }}>{g}</div>
+                  <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, borderBottom: "1px solid " + eLINE }}>{g}</div>
                   <div style={{ minHeight: 54, padding: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
                     {(v[gi] || []).map((it) => <span key={it} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", it)} style={{ padding: "7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 15, color: eMID, cursor: "grab" }}>{it}</span>)}
                     {(v[gi] || []).length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, alignSelf: "center" }}>Drop items here</span>}
@@ -1064,7 +1064,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.35)" }}><I.cam size={44} /></div>
             {recording && <div style={{ position: "absolute", top: 12, left: 12, display: "flex", alignItems: "center", gap: 7, background: "rgba(197,53,50,.9)", color: "#fff", padding: "4px 10px", borderRadius: 6, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--card)" }} /> REC {recTime}s</div>}
             <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: 12, background: "linear-gradient(transparent, rgba(0,0,0,.6))" }}>
-              <button onClick={() => { if (recording) { setRecording(false); onChange(true); } else { setRecTime(0); setRecording(true); } }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: recording ? eDANGER : eMID, color: "var(--on-accent)", border: "none", borderRadius: 9, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{recording ? <React.Fragment><span style={{ width: 12, height: 12, borderRadius: 3, background: "var(--on-accent)" }} /> Stop</React.Fragment> : <React.Fragment><I.cam size={15} /> Record</React.Fragment>}</button>
+              <button onClick={() => { if (recording) { setRecording(false); onChange(true); } else { setRecTime(0); setRecording(true); } }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: recording ? eDANGER : "#fff", color: recording ? "var(--on-accent)" : eMID, border: "none", borderRadius: 9, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{recording ? <React.Fragment><span style={{ width: 12, height: 12, borderRadius: 3, background: "var(--on-accent)" }} /> Stop</React.Fragment> : <React.Fragment><I.cam size={15} /> Record</React.Fragment>}</button>
             </div>
           </div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 10 }}>Max {q.maxDuration} seconds. Allow camera &amp; microphone access when prompted.</div>
@@ -1239,7 +1239,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
         {hasNext && nextEx ? (
           <React.Fragment>
             <div className="oa-upnext" style={{ textAlign: "left", background: "color-mix(in srgb, var(--accent) 5%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 18%, transparent)", borderRadius: 14, padding: "16px 18px", marginBottom: 16 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.3, color: eBLUE, marginBottom: 6 }}>Up next</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, letterSpacing: 0.3, color: eMUT, marginBottom: 6 }}>Up next</div>
               <div className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.2, marginBottom: 5 }}>{nextEx.name}</div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, margin: 0 }}>{nextEx.desc}</p>
               {nextEx.time && nextEx.time !== "\u2014" && <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 10, fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}><I.clock size={13} /> {nextEx.time}</div>}
@@ -1302,7 +1302,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
                 </div>
                 {qIdx < total - 1 ?
                   <EdBtn primary onClick={() => { if (validate([curQ])) setQIdx(qIdx + 1); }}>Next <I.arrow size={16} /></EdBtn> :
-                  <button onClick={() => { if (validate([curQ])) setStep("complete"); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "var(--success-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Submit <I.check size={16} /></button>
+                  <button onClick={() => { if (validate([curQ])) setStep("complete"); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "var(--primary)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Submit <I.check size={16} /></button>
                 }
               </div>
             </div>
@@ -1354,7 +1354,7 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
             </div>
             {page < pages - 1 ?
               <EdBtn primary onClick={() => { if (validate(pageItems)) setPage(page + 1); }}>Next <I.arrow size={16} /></EdBtn> :
-              <button onClick={() => { if (validate(pageItems)) setStep("complete"); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "var(--success-fill)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Submit <I.check size={16} /></button>
+              <button onClick={() => { if (validate(pageItems)) setStep("complete"); }} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "var(--primary)", color: "#fff", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Submit <I.check size={16} /></button>
             }
           </div>
         </div>
