@@ -1421,7 +1421,7 @@ function DashEditorial({ initialRoute } = {}) {
               </div>
             )}
             {/* Fixed desktop top header — back link (far left) + controls (right) */}
-            <div className="ed-topbar" style={{ position: "sticky", top: 0, zIndex: 40, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, minHeight: 58, boxSizing: "border-box", padding: "10px 32px", background: CREAM, borderBottom: "1px solid var(--line)" }}>
+            <div className="ed-topbar" style={{ position: "sticky", top: 0, zIndex: 40, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, minHeight: 58, boxSizing: "border-box", padding: "10px 24px", background: CREAM, borderBottom: "1px solid var(--line)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 16, minWidth: 0 }}>
                 {topBackBtn}
               </div>
