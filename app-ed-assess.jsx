@@ -344,7 +344,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         <div className="oa-matrix">
           <div style={{ display: "grid", gridTemplateColumns: gcols, columnGap: cgap, marginBottom: 8, padding: "0 15px", alignItems: "end" }}>
             <div />
-            {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: many ? 13 : 15, fontWeight: 500, color: eMUT, whiteSpace: many ? "normal" : "nowrap", lineHeight: 1.25 }}>{col}</div>)}
+            {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, whiteSpace: many ? "normal" : "nowrap", lineHeight: 1.25 }}>{col}</div>)}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {q.rows.map((row, ri) => {
@@ -707,7 +707,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         <div style={{ padding: 20, borderRadius: 14, border: "1px solid rgba(20,133,61,.3)", background: "rgba(20,133,61,.05)", textAlign: "center" }}>
           <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(20,133,61,.12)", border: "1px solid rgba(20,133,61,.24)", color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.fileText size={20} /></div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{value}</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eSUCCESS, fontWeight: 700, marginTop: 4 }}>✓ Uploaded</div>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, color: eSUCCESS, fontWeight: 500, marginTop: 4 }}><I.check size={15} /> Uploaded</div>
           <button onClick={() => onChange(undefined)} style={{ marginTop: 12, padding: "7px 18px", borderRadius: 9, border: "1px solid rgba(197,53,50,.3)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Remove</button>
         </div> :
         <div onClick={() => onChange("Leadership_Impact_Report.pdf")} style={{ padding: "36px 20px", borderRadius: 14, border: "2px dashed var(--line)", background: eCARD, textAlign: "center", cursor: "pointer" }}>
@@ -815,10 +815,10 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {q.statements.map((s, si) => (
               <div key={si} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + eLINE }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{s}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.4, marginBottom: 12 }}>{s}</div>
                 {q.groups.map((g, gi) => (
                   <div key={gi} style={{ marginBottom: gi < q.groups.length - 1 ? 12 : 0 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: eMUT, marginBottom: 6 }}>{g.label}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 500, color: eMUT, marginBottom: 6 }}>{g.label}</div>
                     <div style={{ display: "flex", gap: 8 }}>
                       {g.cols.map((c, ci) => {
                         const sel = v[si] && v[si][gi] === ci;
@@ -840,7 +840,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               <thead>
                 <tr>
                   <th></th>
-                  {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
+                  {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
                 </tr>
                 <tr>
                   <th></th>
@@ -855,7 +855,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       const sel = v[si] && v[si][gi] === ci;
                       return (
                         <td key={gi + "-" + ci} style={{ textAlign: "center", padding: "10px 8px" }}>
-                          <button onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 5, background: eBLUE, display: "block" }} />}</button>
+                          <button onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: "50%", background: eBLUE, display: "block" }} />}</button>
                         </td>);
                     }))}
                   </tr>
@@ -878,7 +878,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               const answered = row.s !== undefined;
               return (
                 <div key={ci} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + (answered ? eBLUE : eLINE), transition: "border-color .15s" }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.4, marginBottom: 12 }}>{cat}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.4, marginBottom: 12 }}>{cat}</div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
                     {q.scale.map((e, si) => {
                       const sel = row.s === si;
@@ -887,7 +887,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                     })}
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Tell us why</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Tell us why</span>
                     <div style={{ display: "flex", gap: 8 }}>
                       {[0, 1, 2].map((wi) => {
                         const on = !!why[wi];
@@ -905,10 +905,10 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           ) : (
           <div>
             <div style={{ display: "grid", gridTemplateColumns: `1fr repeat(${q.scale.length}, 38px) 30px repeat(3, 40px)`, alignItems: "center", marginBottom: 6, paddingLeft: 4, columnGap: 8 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Categories</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Categories</span>
               {q.scale.map((e, i) => <span key={i} style={{ textAlign: "center", fontSize: 21 }}>{e}</span>)}
               <span></span>
-              <span style={{ gridColumn: "span 3", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, textAlign: "center" }}>Tell Us Why</span>
+              <span style={{ gridColumn: "span 3", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, textAlign: "center" }}>Tell Us Why</span>
             </div>
             {q.categories.map((cat, ci) => {
               const row = v[ci] || {};
@@ -919,7 +919,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                   {q.scale.map((e, si) => {
                     const sel = row.s === si;
                     return <div key={si} style={{ display: "flex", justifyContent: "center" }}>
-                      <button onClick={() => set(ci, { s: si })} style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 5, background: eBLUE, display: "block" }} />}</button>
+                      <button onClick={() => set(ci, { s: si })} style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: "50%", background: eBLUE, display: "block" }} />}</button>
                     </div>;
                   })}
                   <span style={{ display: "flex", justifyContent: "center", color: eMUT }}><I.arrow size={14} /></span>
@@ -945,7 +945,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               const e = v[i] || {};
               return (
                 <div key={i}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 8 }}>{sk}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, marginBottom: 8 }}>{sk}</div>
                   <select value={e.factor || ""} onChange={(ev) => onChange({ ...v, [i]: { ...e, factor: ev.target.value } })} style={{ width: "100%", padding: "10px 38px 10px 12px", borderRadius: 9, border: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, color: e.factor ? eINK : eMUT, background: eCARD + " url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>\") no-repeat right 14px center", appearance: "none", WebkitAppearance: "none", MozAppearance: "none", marginBottom: 8, outline: "none" }}>
                     <option value="">Select skill factor…</option>
                     {q.factors.map((f) => <option key={f} value={f}>{f}</option>)}
@@ -995,7 +995,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "170px 1fr", gap: 16 }}>
             <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, null)}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, marginBottom: 8 }}>Items</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, marginBottom: 8 }}>Items</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {pool.map((it) => <div key={it} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", it)} style={{ padding: "10px 12px", borderRadius: 2, border: "1px dashed " + eLINE, background: eCARD, fontFamily: "var(--sans)", fontSize: 15, color: eINK, cursor: "grab" }}>{it}</div>)}
                 {pool.length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>All items placed.</span>}
@@ -1004,7 +1004,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {q.groups.map((g, gi) =>
                 <div key={gi} onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, gi)} style={{ border: "1px solid " + eLINE, borderRadius: 12, overflow: "hidden" }}>
-                  <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, borderBottom: "1px solid " + eLINE }}>{g}</div>
+                  <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, borderBottom: "1px solid " + eLINE }}>{g}</div>
                   <div style={{ minHeight: 54, padding: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
                     {(v[gi] || []).map((it) => <span key={it} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", it)} style={{ padding: "7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 15, color: eMID, cursor: "grab" }}>{it}</span>)}
                     {(v[gi] || []).length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, alignSelf: "center" }}>Drop items here</span>}
@@ -1108,7 +1108,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       ? <img src={c.img} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                       : <I.image size={22} style={{ color: eMUT }} />}
                   </span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{c.text}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 500 : 400, color: on ? eMID : eINK }}>{c.text}</span>
                 </button>
               );
             })}
