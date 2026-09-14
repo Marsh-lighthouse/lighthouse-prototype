@@ -815,7 +815,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {q.statements.map((s, si) => (
               <div key={si} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + eLINE }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.4, marginBottom: 12 }}>{s}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, lineHeight: 1.4, marginBottom: 12 }}>{s}</div>
                 {q.groups.map((g, gi) => (
                   <div key={gi} style={{ marginBottom: gi < q.groups.length - 1 ? 12 : 0 }}>
                     <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: eINK, marginBottom: 6 }}>{g.label}</div>
@@ -1006,7 +1006,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 <div key={gi} onDragOver={(e) => e.preventDefault()} onDrop={(e) => onDrop(e, gi)} style={{ border: "1px solid " + eLINE, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, borderBottom: "1px solid " + eLINE }}>{g}</div>
                   <div style={{ minHeight: 54, padding: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
-                    {(v[gi] || []).map((it) => <span key={it} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", it)} style={{ padding: "7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 15, color: eMID, cursor: "grab" }}>{it}</span>)}
+                    {(v[gi] || []).map((it) => <span key={it} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", it)} style={{ padding: "7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 15, color: eINK, cursor: "grab" }}>{it}</span>)}
                     {(v[gi] || []).length === 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, alignSelf: "center" }}>Drop items here</span>}
                   </div>
                 </div>
