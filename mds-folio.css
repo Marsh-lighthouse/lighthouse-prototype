@@ -54,15 +54,17 @@
 }
 
 /* ============================================================
-   RADIUS — remap inline radii to the MDS scale.
-   MDS: sm 2px (buttons), md 4px (inputs/controls), lg 8px (cards),
-        full/50% (pills & circles) — LEFT UNTOUCHED.
+   RADIUS — remap inline radii to a SINGLE platform corner value.
+   Every normalized element (cards, badges, chips, buttons, inputs, timers,
+   checkboxes) now resolves to var(--lh-radius, 2px): the "Rounded corners"
+   switch in the Tweaks panel sets --lh-radius on <html> via window.LHRadius,
+   so one control drives the whole platform. Default (unset) = MDS 2px.
    Each container rule EXCLUDES elements whose width == 2×radius: those are
    circles drawn with border-radius:half (radio dots, avatars, icon chips)
    and MUST stay round. !important is required to beat React inline styles.
    ============================================================ */
 
-/* Cards / panels / containers -> 8px (radius-lg), circles excluded */
+/* Cards / panels / containers -> var(--lh-radius, 2px), circles excluded */
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 8px"]:not([style*="width: 16px"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 9px"]:not([style*="width: 18px"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 10px"]:not([style*="width: 20px"]),
@@ -84,7 +86,7 @@
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 26px"]:not([style*="width: 52px"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 28px"]:not([style*="width: 56px"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 30px"]:not([style*="width: 60px"]) {
-  border-radius: 8px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* Popover / tooltip / dropdown ROOTS portaled straight to <body> (class-less
@@ -93,7 +95,7 @@
    own radius. Snap those cards to 8px. Circles/pills protected. #root and the
    inset:0 modal overlays have no radius, so they're unaffected. */
 body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]) {
-  border-radius: 8px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* Small inline radii (5-7px) -> 4px. Any element with a fixed inline width
@@ -102,7 +104,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 5px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 6px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 7px"]:not([style*="width:"]) {
-  border-radius: 4px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* Status chips / badges / tags -> 8px, matching the MDS Badge component (text
@@ -117,7 +119,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
-  border-radius: 8px !important;
+  border-radius: var(--lh-radius, 2px) !important;
   /* MDS badge label text is REGULAR (400), not bold — globalised here so every
      badge (incl. ones only in popups/tooltips/modals) is caught, not just the
      ones edited in source. */
@@ -130,14 +132,14 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    pill controls (toggles) and white-bg counters (e.g. "0 OF 6 RANKED") stay as
    pills. The MDS border rule below then gives them their semantic outline. */
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="border-radius: 999px"]:not([style*="width:"]) {
-  border-radius: 8px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* The white-bg outline COUNTER pill ("X OF Y RANKED") -> 2px square, per
    request. Identified by its 1px letter-spacing + 999px radius, so it doesn't
    affect the tinted status badges. */
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border-radius: 999px"][style*="letter-spacing: 1px"] {
-  border-radius: 2px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* MDS Badge border: per the MDS Figma, EVERY soft badge carries a 1px inset
@@ -171,7 +173,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    unaffected. .ed-cd is the task/program "Due …" countdown — same idea. */
 :is(#root,body>div:not([class]),.lh-net-overlay) div.oa-cd:not([hidden]),
 :is(#root,body>div:not([class]),.lh-net-overlay) div.ed-cd:not([hidden]) {
-  border-radius: 2px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
@@ -184,7 +186,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) .btn-primary,
 :is(#root,body>div:not([class]),.lh-net-overlay) .ed-btn,
 :is(#root,body>div:not([class]),.lh-net-overlay) .ed-gold {
-  border-radius: 2px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 /* Selection / option rows are <button>s for a11y but read as cards (left-aligned,
    contain a radio/checkbox, have a border) — keep them at the 8px card radius,
@@ -195,7 +197,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    the extra selectors raise specificity above the container 8px rule. */
 :is(#root,body>div:not([class]),.lh-net-overlay) .ed-rail nav [role="button"],
 :is(#root,body>div:not([class]),.lh-net-overlay) .ed-rail nav [role="button"] > * {
-  border-radius: 4px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* Form controls (text inputs, textarea, select) -> 2px (radius-sm, confirmed
@@ -205,7 +207,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) textarea[style]:not([hidden]),
 :is(#root,body>div:not([class]),.lh-net-overlay) input[style]:not([type="checkbox"]):not([type="radio"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) select[style]:not([hidden]) {
-  border-radius: 2px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* Input-WRAPPER divs (search fields, multi-select, combobox) — a <div> styled
@@ -213,7 +215,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
    is the reliable tell. -> 2px, same as real inputs. The extra attribute
    selectors raise specificity above the 8px container rule. */
 :is(#root,body>div:not([class]),.lh-net-overlay) div[style*="cursor: text"][style*="border-radius"] {
-  border-radius: 2px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* ── WCAG 2.1 SC 1.4.11 (non-text contrast) for FORM FIELDS ──────────────
@@ -241,7 +243,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
   -webkit-appearance: none; appearance: none;
   width: 22px !important; height: 22px !important;
   flex-shrink: 0; box-sizing: border-box;
-  border: 1.5px solid var(--control-line); border-radius: 2px !important;
+  border: 1.5px solid var(--control-line); border-radius: var(--lh-radius, 2px) !important;
   background-color: var(--card); cursor: pointer; vertical-align: middle;
   background-repeat: no-repeat; background-position: center; background-size: 14px 14px;
   transition: background-color .12s ease, border-color .12s ease;
@@ -265,7 +267,7 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border: 2px solid"][style*="border-radius: 6px"],
 /* image-select single-select corner badge: round 13px -> square 2px */
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 26px"][style*="height: 26px"][style*="border-radius: 13px"][style*="position: absolute"] {
-  border-radius: 2px !important;
+  border-radius: var(--lh-radius, 2px) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

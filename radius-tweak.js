@@ -26,9 +26,13 @@
   // The Tweaks panel itself (.twk-panel subtree) and its gear FAB are excluded
   // so the control's own chrome keeps its native radii while it drives the page.
   var NOTPANEL = ':not(.twk-panel *):not(.lh-tweak-fab)';
+  // Never touch true circles (50%) or true pills (999/99/9999px) — radio dots,
+  // avatars, toggle switches. Badges authored as pills are re-shaped by the
+  // normalization layer (mds-folio.css) instead, so they still follow the switch.
+  var NOTROUND = ':not([style*="50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"])';
   var SEL = [
-    '[style*="border-radius"]:not([style*="50%"])' + NOTPANEL,
-    'button:not([style*="50%"])' + NOTPANEL, 'input:not([style*="50%"])' + NOTPANEL,
+    '[style*="border-radius"]' + NOTROUND + NOTPANEL,
+    'button' + NOTROUND + NOTPANEL, 'input:not([style*="50%"])' + NOTPANEL,
     'select:not([style*="50%"])' + NOTPANEL, 'textarea:not([style*="50%"])' + NOTPANEL,
     ".lg-btn", ".lg-input", ".lg-form-panel", ".lg-alert", ".lg-cobrand-box",
     ".lg-style-chip", ".lg-type-chip", ".lg-style-menu", ".lg-type-menu", ".lg-style-item",
@@ -51,8 +55,15 @@
 
   function apply() {
     var v = get();
-    var el = document.getElementById("lh-radius-style");
     if (v === null || isNaN(v)) v = DEFAULT;
+    // (1) Drive the MDS normalization layer (mds-folio.css) — its high-specificity
+    //     !important rules resolve to var(--lh-radius, 2px), so setting this one
+    //     custom property retints every normalized card/badge/button/input on the
+    //     app pages (where the flat SEL rule below is outranked by that layer).
+    document.documentElement.style.setProperty("--lh-radius", v + "px");
+    // (2) Emit the flat !important rule for pages WITHOUT the normalization layer
+    //     (the static directions page's .card, the class-based login chrome).
+    var el = document.getElementById("lh-radius-style");
     if (!el) {
       el = document.createElement("style");
       el.id = "lh-radius-style";
