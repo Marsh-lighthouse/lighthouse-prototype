@@ -258,7 +258,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
             {/* YOUR RANKING — drop zone */}
             <div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, letterSpacing: 1, marginBottom: 10 }}>YOUR RANKING</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, letterSpacing: 0.2, marginBottom: 10 }}>Your ranking</div>
               <div
                 onDragOver={(e) => { if (draggingPool) e.preventDefault(); }}
                 onDrop={(e) => { e.preventDefault(); if (draggingPool) addItem(rankDrag.item); setRankDrag(null); }}
@@ -285,11 +285,11 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             </div>
             {/* counter */}
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 1, color: ranked.length === q.items.length ? eMID : eMUT, background: eCARD, border: "1px solid " + eLINE, borderRadius: 999, padding: "8px 18px" }}>{ranked.length} OF {q.items.length} RANKED</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, letterSpacing: 0.2, color: ranked.length === q.items.length ? eMID : eMUT, background: eCARD, border: "1px solid " + eLINE, borderRadius: "var(--lh-radius, 2px)", padding: "8px 18px" }}>{ranked.length} of {q.items.length} ranked</span>
             </div>
             {/* OPTIONS — pool */}
             <div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, letterSpacing: 1, marginBottom: 10 }}>OPTIONS</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, letterSpacing: 0.2, marginBottom: 10 }}>Options</div>
               {pool.length === 0
                 ? <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, fontStyle: "italic", padding: "8px 2px" }}>All options ranked.</div>
                 : <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
