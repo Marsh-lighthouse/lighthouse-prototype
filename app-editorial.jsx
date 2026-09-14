@@ -1386,7 +1386,7 @@ function DashEditorial({ initialRoute } = {}) {
       {!immersive && <EdRail activeId={activeId} onNav={openProgram} collapsed={railCollapsed} onToggle={toggleRail} items={railItems} />}
       {!immersive && (
         <button onClick={toggleRail} title={railCollapsed ? "Expand menu" : "Collapse menu"} className="ed-rail-toggle"
-          style={{ position: "absolute", top: 30, ...(document.documentElement.dir === "rtl" ? { right: (railCollapsed ? 74 : 256) - 14, transition: "right .2s ease" } : { left: (railCollapsed ? 74 : 256) - 14, transition: "left .2s ease" }), zIndex: 50, width: 28, height: 28, borderRadius: "50%", background: "var(--card)", border: "1px solid var(--line)", boxShadow: "0 2px 10px rgba(0,15,71,.16)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+          style={{ position: "absolute", top: 44, ...(document.documentElement.dir === "rtl" ? { right: (railCollapsed ? 74 : 256) - 14, transition: "right .2s ease" } : { left: (railCollapsed ? 74 : 256) - 14, transition: "left .2s ease" }), zIndex: 50, width: 28, height: 28, borderRadius: "50%", background: "var(--card)", border: "1px solid var(--line)", boxShadow: "0 2px 10px rgba(0,15,71,.16)", color: MID, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
           {railCollapsed ? (document.documentElement.dir === "rtl" ? <I.chevL size={16} /> : <I.chevR size={16} />) : (document.documentElement.dir === "rtl" ? <I.chevR size={16} /> : <I.chevL size={16} />)}
         </button>
       )}
