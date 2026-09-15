@@ -82,12 +82,23 @@
 
   // Static-content previews (Descriptive Text sub-types + the standalone Graphic).
   const renderStatic = (kind, cardWrap) => {
-    if (kind === "static-text") return (
-      <div style={cardWrap}>
-        <h3 className="serif" style={{ fontSize: 21, color: MID, margin: "0 0 10px" }}>Section heading</h3>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: INK, lineHeight: 1.65, margin: 0 }}>Descriptive text presents information to the candidate — instructions, context, or a transition between sections. No answer is collected.</p>
-      </div>
-    );
+    if (kind === "static-text") {
+      const body = { fontFamily: "var(--sans)", fontSize: 15, color: INK, lineHeight: 1.65, margin: "0 0 14px" };
+      return (
+        <div style={cardWrap}>
+          <h3 className="serif" style={{ fontSize: 21, color: MID, margin: "0 0 12px" }}>Welcome to your assessment</h3>
+          <p style={body}>Descriptive text presents information to the candidate — a welcome, context, or instructions — with no answer collected. This questionnaire explores your attitudes, preferences and working style. It has approximately 95 questions and takes an estimated 15–20 minutes to complete.</p>
+          <p style={body}>Some things to remember:</p>
+          <ul style={{ ...body, margin: "0 0 14px", paddingLeft: 20 }}>
+            <li style={{ marginBottom: 6 }}>Answer as honestly as you can — there are no right or wrong answers.</li>
+            <li style={{ marginBottom: 6 }}>Respond instinctively with the first response that comes to mind.</li>
+            <li>Try to complete the questionnaire in one go, without interruptions.</li>
+          </ul>
+          <p style={body}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
+          <p style={{ ...body, margin: 0, color: MUT }}>If you have any questions or require clarification regarding this questionnaire, please write to us at surveys@example.com.</p>
+        </div>
+      );
+    }
     if (kind === "static-graphic") return (
       <div style={cardWrap}>
         <div style={{ width: "100%", aspectRatio: "16 / 7", borderRadius: 12, background: "linear-gradient(135deg, var(--primary), #001F8C)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.85)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>Graphic / image block</div>
