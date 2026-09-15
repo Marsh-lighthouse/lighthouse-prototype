@@ -87,13 +87,16 @@
 
     const sel = byId(selId) || ALL[0];
     const q = qFor(sel);
-    const previewMax = device === "mobile" ? 390 : device === "ipad" ? 834 : "var(--content-max, 848px)";
+    // Match the assessment / Folio content width: card column = --content-max (848px),
+    // container adds 56px (28px each side) like the assessment's paged layout.
+    const previewMax = device === "mobile" ? 390 : device === "ipad" ? 834 : "calc(var(--content-max, 848px) + 56px)";
 
     const cardWrap = { background: "var(--card, #fff)", border: "1px solid " + LINE, borderRadius: 16, padding: "28px 30px" };
 
     let preview;
     if (q) {
-      preview = <div style={cardWrap}><OaQuestionCard q={q} number={1} value={answers[sel.id]} onChange={(v) => setAnswers((a) => ({ ...a, [sel.id]: v }))} /></div>;
+      // Render the shared card DIRECTLY (OaQuestionCard supplies its own card) — no extra box.
+      preview = <OaQuestionCard q={q} number={1} value={answers[sel.id]} onChange={(v) => setAnswers((a) => ({ ...a, [sel.id]: v }))} />;
     } else if (sel.kind === "static-text") {
       preview = (
         <div style={cardWrap}>
@@ -143,8 +146,8 @@
         </aside>
 
         {/* ── Live preview ── */}
-        <main style={{ flex: 1, minWidth: 0, overflowY: "auto", padding: "40px 44px 96px" }}>
-          <div style={{ maxWidth: previewMax, margin: device === "desktop" ? "0" : "0 auto", transition: "max-width .2s ease" }}>
+        <main style={{ flex: 1, minWidth: 0, overflowY: "auto", padding: "40px 0 96px" }}>
+          <div style={{ maxWidth: previewMax, margin: "0 auto", padding: device === "mobile" ? "0 16px" : "0 28px", boxSizing: "border-box", transition: "max-width .2s ease" }}>
             <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: ".3px", color: MUT, marginBottom: 6 }}>{catOf(sel.id)}</div>
             <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{sel.label}</h2>
             <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: "0 0 26px", lineHeight: 1.5 }}>
