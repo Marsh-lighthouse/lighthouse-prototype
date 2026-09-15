@@ -33,7 +33,7 @@
 })();
 </script>
 <title>Marsh — Dashboard directions</title>
-<link rel="stylesheet" href="brand.css?v=1789391621" />
+<link rel="stylesheet" href="brand.css?v=1789459320" />
 <style>
   html, body { margin: 0; background: #F7F3EE; color: #000F47; font-family: var(--sans); }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 48px 72px; }
@@ -275,6 +275,38 @@
         </div>
       </a>
 
+      <!-- Question Type — categorized library of every assessment question type -->
+      <a class="card" href="QuestionType.html">
+        <div class="prev">
+          <div class="s-pane" style="flex-direction:row; gap:10px; padding:12px 14px; align-items:stretch;">
+            <div style="width:40%; display:flex; flex-direction:column; gap:7px; padding-right:10px; border-right:1px solid rgba(0,15,71,.1);">
+              <div class="s-line" style="width:80%; background:rgba(0,15,71,.28)"></div>
+              <div class="s-active" style="width:96%; height:14px"></div>
+              <div class="s-line" style="width:66%"></div>
+              <div class="s-line" style="width:84%"></div>
+              <div class="s-line" style="width:58%"></div>
+            </div>
+            <div class="s-card" style="flex:1; display:flex; flex-direction:column; gap:7px; padding:10px 11px;">
+              <div class="s-line" style="width:82%; background:rgba(0,15,71,.4)"></div>
+              <div style="display:flex; gap:7px; align-items:center; margin-top:3px;">
+                <div style="width:14px; height:14px; border-radius:50%; border:2px solid #0065AC; flex-shrink:0;"></div>
+                <div class="s-line" style="width:64%"></div>
+              </div>
+              <div style="display:flex; gap:7px; align-items:center;">
+                <div style="width:14px; height:14px; border-radius:50%; border:2px solid rgba(0,15,71,.25); flex-shrink:0;"></div>
+                <div class="s-line" style="width:52%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Reference · library</div>
+          <h2>Question Type</h2>
+          <p>Browse every question type by category — Standard, Speciality, Static &amp; Advanced. Each opens a live, interactive preview built from the same components as the assessment, so what you see here is exactly what candidates get.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+
     </div>
 
     <div class="foot"><b>Tip:</b> each page stands alone — switch theme &amp; colors with Tweaks, and we iterate here without touching the original.</div>
@@ -286,12 +318,12 @@
   </svg>
 </template>
 <!-- Shared Tweaks panel (radius / brand / theme) — same control as every flow. -->
-<script src="radius-tweak.js?v=1789389731"></script>
+<script src="radius-tweak.js?v=1789459320"></script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="tweaks-panel.jsx?v=1789389085"></script>
-<script type="text/babel" src="lh-tweaks.jsx?v=1789394524"></script>
+<script type="text/babel" src="tweaks-panel.jsx?v=1789459320"></script>
+<script type="text/babel" src="lh-tweaks.jsx?v=1789459320"></script>
 <script type="text/babel" data-presets="react">
   const tweakRoot = document.createElement("div");
   document.body.appendChild(tweakRoot);
