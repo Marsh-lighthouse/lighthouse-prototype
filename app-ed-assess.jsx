@@ -183,84 +183,29 @@ function OaCountdown({ end, label, danger, compact }) {
   );
 }
 
-// Video / Audio response capture — mirrors the System Check camera/mic flow
-// (permission prompt → preview → countdown → live REC with mic meter → recorded review),
-// framed as a question answer. Reuses ScPermissionPrompt from the System Check.
-// Simulated (no real capture), like the System Check itself.
+// Video / Audio response capture — reuses the SAME real camera/mic capture as the
+// System Check (ScVideoLive / ScAudioLive, embed mode). Real getUserMedia live feed,
+// device pickers, browser permission prompt, Record, and playback — just without the
+// System Check stepper/header chrome. `onCapture` fires when the candidate accepts the
+// recording ("Use this recording"), which stores the answer; a truthy value shows the
+// recorded-confirmation card with a Re-record option.
 function OaMediaResponse({ audioOnly, maxDuration, value, onChange }) {
   const dur = maxDuration || 30;
-  const [st, setSt] = React.useState(value ? "recorded" : "idle"); // idle|preview|countdown|recording|recorded|denied
-  const [count, setCount] = React.useState(3);
-  const [sec, setSec] = React.useState(0);
-  const [prompt, setPrompt] = React.useState(false);
-  let host = "this site"; try { host = window.location.hostname || host; } catch (e) {}
-
-  React.useEffect(() => { if (st !== "countdown") return; setCount(3); let c = 3; const iv = setInterval(() => { c -= 1; setCount(c); if (c <= 0) { clearInterval(iv); setSt("recording"); } }, 800); return () => clearInterval(iv); }, [st]);
-  React.useEffect(() => { if (st !== "recording") return; setSec(0); let s = 0; const iv = setInterval(() => { s += 1; setSec(s); if (s >= dur) { clearInterval(iv); setSt("recorded"); onChange(true); } }, 1000); return () => clearInterval(iv); }, [st]);
-
   const mm = (n) => String(Math.floor(n / 60)).padStart(2, "0") + ":" + String(n % 60).padStart(2, "0");
-  const kicker = audioOnly ? "microphone" : "camera & microphone";
   const R = "var(--lh-radius, 2px)";
-  const box = { position: "relative", width: "100%", aspectRatio: audioOnly ? "16 / 6" : "16 / 9", borderRadius: R, overflow: "hidden", background: "linear-gradient(160deg,#16264a,#0b1020)", display: "flex", alignItems: "center", justifyContent: "center" };
-  const chip = (icon, label) => <span style={{ background: "#DCE6F5", color: eMID, borderRadius: R, padding: "5px 10px", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>{icon} {label}</span>;
-  const meter = <span style={{ display: "inline-flex", alignItems: "center", gap: 3, height: 30, background: "rgba(0,15,71,.55)", borderRadius: R, padding: "0 12px" }}>{[0, 1, 2, 3, 4].map((i) => <span key={i} className="ed-eq" style={{ width: 3, borderRadius: 2, background: "#7fd0a0", animationDelay: (i * 0.13) + "s" }} />)}</span>;
-  const silhouette = audioOnly
-    ? <span style={{ color: "rgba(207,224,255,.5)", display: "flex" }}><I.mic size={40} /></span>
-    : <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "flex-end", justifyContent: "center", overflow: "hidden" }}><svg viewBox="0 0 120 78" width="34%" style={{ opacity: .3 }} fill="#cfe0ff" aria-hidden="true"><circle cx="60" cy="30" r="19" /><path d="M18 78 C18 55 38 48 60 48 C82 48 102 55 102 78 Z" /></svg></div>;
 
-  if (st === "recorded") {
+  if (value) {
     return (
       <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: R, padding: 20, textAlign: "center" }}>
         <div style={{ width: 52, height: 52, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.check size={24} /></div>
         <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eMID }}>{audioOnly ? "Audio" : "Video"} response recorded</div>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 4 }}>{mm(sec || dur)} captured</div>
-        <button onClick={() => { onChange(undefined); setSec(0); setSt("idle"); }} style={{ marginTop: 14, display: "inline-flex", alignItems: "center", gap: 7, padding: "8px 18px", borderRadius: R, border: "1px solid rgba(197,53,50,.35)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600 }}><I.sync size={14} /> Re-record</button>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 4 }}>Your response has been captured.</div>
+        <button onClick={() => onChange(undefined)} style={{ marginTop: 14, display: "inline-flex", alignItems: "center", gap: 7, padding: "8px 18px", borderRadius: R, border: "1px solid rgba(197,53,50,.35)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600 }}><I.sync size={14} /> Re-record</button>
       </div>
     );
   }
-  if (st === "denied") {
-    return (
-      <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: R, padding: "36px 24px", textAlign: "center" }}>
-        <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={40} /></span>
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, maxWidth: 420, margin: "12px auto 0", lineHeight: 1.5 }}>{audioOnly ? "Microphone" : "Camera / microphone"} access was denied or blocked by your browser. Please allow access and try again.</p>
-        <button onClick={() => setSt("idle")} style={{ marginTop: 16, padding: "9px 18px", borderRadius: R, border: "none", background: "var(--primary)", color: "var(--on-accent)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600 }}>Try again</button>
-      </div>
-    );
-  }
-  return (
-    <div>
-      <div style={box}>
-        {silhouette}
-        {st === "idle" && <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: 24, textAlign: "center" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: "rgba(255,255,255,.8)", maxWidth: 380 }}>Allow {kicker} access to record your answer.</span>
-          <button onClick={() => setPrompt(true)} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#CEECFF", color: eMID, border: "none", borderRadius: R, padding: "10px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{audioOnly ? <I.mic size={15} /> : <I.cam size={15} />} Enable {audioOnly ? "microphone" : "camera & mic"}</button>
-        </div>}
-        {st === "preview" && <React.Fragment>
-          <div style={{ position: "absolute", left: 14, top: 14, display: "flex", gap: 8, zIndex: 2 }}>{!audioOnly && chip(<I.cam size={13} />, "FaceTime HD Camera")}{chip(<I.mic size={13} />, "MacBook Pro Microphone")}</div>
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: 24, textAlign: "center", background: "rgba(0,15,71,.45)" }}>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: "#fff", maxWidth: 420, margin: 0, lineHeight: 1.5 }}>When you're ready, start recording and answer the question aloud. You have up to {mm(dur)}.</p>
-            <button onClick={() => setSt("countdown")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--primary)", color: "var(--on-accent)", border: "none", borderRadius: R, padding: "10px 20px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Start recording <I.arrow size={16} /></button>
-          </div>
-        </React.Fragment>}
-        {st === "countdown" && <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontFamily: "var(--sans)", fontSize: 40, fontWeight: 700 }}>{count > 0 ? count : ""}</div>}
-        {st === "recording" && <React.Fragment>
-          <div style={{ position: "absolute", left: 14, top: 14, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,15,71,.55)", color: "#fff", borderRadius: R, padding: "6px 12px", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}><span className="ed-blink" style={{ width: 9, height: 9, borderRadius: 5, background: eDANGER, display: "inline-block", boxShadow: "0 0 0 4px rgba(203,17,17,.25)" }} /> REC {mm(sec)}</span>
-            {meter}
-          </div>
-          <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, background: "linear-gradient(transparent, rgba(0,0,0,.55))", padding: "44px 16px 14px", display: "flex", alignItems: "center", gap: 14 }}>
-            <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{ flex: 1, height: 5, borderRadius: 3, background: "rgba(255,255,255,.22)", overflow: "hidden" }}><div style={{ height: "100%", width: (Math.min(sec, dur) / dur * 100) + "%", background: eDANGER, borderRadius: 3, transition: "width .9s linear" }} /></div>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: "rgba(255,255,255,.82)", minWidth: 64 }}>{mm(sec)} / {mm(dur)}</span>
-            </div>
-            <button onClick={() => { setSt("recorded"); onChange(true); }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: R, padding: "9px 18px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop</button>
-          </div>
-        </React.Fragment>}
-      </div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 10 }}>Max {mm(dur)} · simulated capture for preview — allow {kicker} access when prompted.</div>
-      {prompt && <ScPermissionPrompt host={host} onAllow={() => { setPrompt(false); setSt("preview"); }} onDeny={() => { setPrompt(false); setSt("denied"); }} />}
-    </div>
-  );
+  const Live = audioOnly ? ScAudioLive : ScVideoLive;
+  return <Live embed onCapture={() => onChange(true)} setResult={() => {}} onBack={() => {}} onNext={() => {}} />;
 }
 
 // single question rendered as a stacked card (question on top, options below) — used by the paged layout

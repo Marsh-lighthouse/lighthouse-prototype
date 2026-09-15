@@ -1691,7 +1691,7 @@ function ScVideo({ setResult, onBack, onNext, onStep, vertical }) {
 // Real camera + microphone via getUserMedia + MediaRecorder. Used in SC2 (vertical).
 // Falls back to clear "enable / denied / unsupported" states where the camera is
 // blocked (e.g. sandboxed preview panes); the live feed works on the deployed site.
-function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
+function ScVideoLive({ setResult, onBack, onNext, vertical, panel, embed, onCapture }) {
   const mob = useScDevice() === "mobile";
   const [vstate, setVstate] = React.useState("intro"); // intro|denied|unsupported|preview|countdown|recording|reviewing|checking|pass
   const [count, setCount] = React.useState(3);
@@ -1869,9 +1869,9 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
   );
 
   return (
-    <div style={vertical ? scWrapV : scWrap}>
-      {!vertical && <ScStepper index={2} />}
-      <ScHead icon={panel ? null : <I.cam size={22} />} title="Camera and Microphone Test" sub="We'll use your real camera and microphone. Record a short clip, then play it back to confirm." badge={vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending"} />
+    <div style={embed ? {} : (vertical ? scWrapV : scWrap)}>
+      {!vertical && !embed && <ScStepper index={2} />}
+      {!embed && <ScHead icon={panel ? null : <I.cam size={22} />} title="Camera and Microphone Test" sub="We'll use your real camera and microphone. Record a short clip, then play it back to confirm." badge={vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending"} />}
 
       {(vstate === "intro" || vstate === "denied" || vstate === "unsupported") && (
         <div style={media}>
@@ -1965,12 +1965,12 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, margin: 0 }}>Your video and audio are working correctly.</p>
       </div>}
 
-      <ScFoot onBackClick={onBack} right={<React.Fragment>
+      {(!embed || vstate === "reviewing") && <ScFoot onBackClick={embed ? undefined : onBack} right={<React.Fragment>
         {vstate === "reviewing" && <EdBtn onClick={reRecord}><I.sync size={15} /> Retake</EdBtn>}
-        {vstate === "reviewing" && <EdBtn primary onClick={confirm}>Confirm recording <I.arrow size={16} /></EdBtn>}
-        {(vstate === "denied" || vstate === "unsupported") && <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>}
-        {vstate === "pass" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
-      </React.Fragment>} />
+        {vstate === "reviewing" && <EdBtn primary onClick={embed ? onCapture : confirm}>{embed ? "Use this recording" : "Confirm recording"} <I.arrow size={16} /></EdBtn>}
+        {!embed && (vstate === "denied" || vstate === "unsupported") && <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>}
+        {!embed && vstate === "pass" && <EdBtn primary onClick={onNext}>Continue <I.arrow size={16} /></EdBtn>}
+      </React.Fragment>} />}
     </div>
   );
 }
@@ -1979,7 +1979,7 @@ function ScVideoLive({ setResult, onBack, onNext, vertical, panel }) {
 // Audio-only variant of the proctored recording step: real getUserMedia(audio),
 // live waveform, MediaRecorder, playback. Same placement as the client reference,
 // styled in MDS. Used when the campaign is flagged audioOnly.
-function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
+function ScAudioLive({ setResult, onBack, onNext, vertical, panel, embed, onCapture }) {
   const mob = useScDevice() === "mobile";
   const [vstate, setVstate] = React.useState("loading"); // loading|ready|denied|unsupported|recording|reviewing|pass
   const [sec, setSec] = React.useState(0);
@@ -2125,9 +2125,9 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
   const badge = vstate === "pass" ? "pass" : (vstate === "denied" || vstate === "unsupported") ? "fail" : "pending";
 
   return (
-    <div style={vertical ? scWrapV : scWrap}>
-      {!vertical && <ScStepper index={2} audioOnly />}
-      <ScHead icon={panel ? null : <I.mic size={22} />} title="Microphone Test" sub="Verify your microphone is working properly for recording" badge={badge} />
+    <div style={embed ? {} : (vertical ? scWrapV : scWrap)}>
+      {!vertical && !embed && <ScStepper index={2} audioOnly />}
+      {!embed && <ScHead icon={panel ? null : <I.mic size={22} />} title="Microphone Test" sub="Verify your microphone is working properly for recording" badge={badge} />}
 
       {(vstate === "denied" || vstate === "unsupported") && (
         <div style={{ ...scCard, padding: "48px 24px", textAlign: "center" }}>
@@ -2135,7 +2135,7 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 600, maxWidth: 480, margin: "14px auto 0", lineHeight: 1.5 }}>{vstate === "denied" ? "Microphone access was blocked. Allow access in your browser's site settings, then try again." : "Microphone recording isn't available in this browser. Open the check on the deployed site in Chrome, Edge, Safari or Firefox."}</p>
           <div style={{ marginTop: 18, display: "flex", justifyContent: "center", gap: 12 }}>
             {vstate === "denied" && <EdBtn onClick={() => { setVstate("loading"); (async () => { try { await acquire(); enumMics(); setVstate("ready"); } catch (e) { setVstate("denied"); } })(); }}><I.sync size={15} /> Try again</EdBtn>}
-            <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>
+            {!embed && <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>}
           </div>
         </div>
       )}
@@ -2177,8 +2177,8 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel }) {
             {vstate === "ready" && <EdBtn primary full={mob} onClick={startRecording}><I.cam size={16} /> Start Recording</EdBtn>}
             {vstate === "recording" && <button onClick={stopRecording} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: eDANGER, color: "#fff", border: "none", borderRadius: 10, padding: mob ? "12px 16px" : "12px 20px", fontFamily: "var(--sans)", fontSize: mob ? 15 : 15, fontWeight: 700, cursor: "pointer", width: mob ? "100%" : "auto" }}><span style={{ width: 11, height: 11, borderRadius: 2, background: "#fff", display: "inline-block" }} /> Stop Recording</button>}
             {vstate === "reviewing" && <React.Fragment>
-              <EdBtn full={mob} onClick={retake}><I.sync size={15} /> No, I want to retake</EdBtn>
-              <EdBtn primary full={mob} onClick={proceed}>Yes, Ok to proceed <I.arrow size={16} /></EdBtn>
+              <EdBtn full={mob} onClick={retake}><I.sync size={15} /> {embed ? "Retake" : "No, I want to retake"}</EdBtn>
+              <EdBtn primary full={mob} onClick={embed ? onCapture : proceed}>{embed ? "Use this recording" : "Yes, Ok to proceed"} <I.arrow size={16} /></EdBtn>
             </React.Fragment>}
           </div>
         </div>
