@@ -101,7 +101,8 @@
     }
     if (kind === "static-graphic") return (
       <div style={cardWrap}>
-        <div style={{ width: "100%", aspectRatio: "16 / 7", borderRadius: 12, background: "linear-gradient(135deg, var(--primary), #001F8C)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.85)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>Graphic / image block</div>
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=525&fit=crop&q=75" alt="A team collaborating in an office"
+          style={{ width: "100%", aspectRatio: "16 / 7", objectFit: "cover", borderRadius: "var(--lh-radius, 2px)", display: "block", background: "linear-gradient(135deg, var(--primary), #001F8C)" }} />
       </div>
     );
     if (kind === "static-file") return (
