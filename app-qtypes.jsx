@@ -18,7 +18,13 @@
   // LH.openAssessQuestions; `kind:"soon"/"static-*"` renders a placeholder.
   const CATS = [
     { cat: "Static Content", items: [
-      { id: "descriptive", label: "Descriptive Text", kind: "static-text" },
+      // A type with named sub-types → rendered as sub-tabs above the preview
+      // (mirrors the tool's "Change Question Type" answer picker: Text / Graphic / File).
+      { id: "descriptive", label: "Descriptive Text", variants: [
+        { id: "text",    label: "Text",    kind: "static-text" },
+        { id: "graphic", label: "Graphic", kind: "static-graphic" },
+        { id: "file",    label: "File",    kind: "static-file" },
+      ]},
       { id: "graphic",     label: "Graphic",          kind: "static-graphic" },
     ]},
     { cat: "Standard Questions", items: [
@@ -68,7 +74,38 @@
   const qsFor = (item) => { const b = qFor(item); if (!b) return []; return (LH.openAssessQuestions || []).filter((q) => q.type === b.type); };
   const typeName = (q) => (q ? (typeof oaTypeLabel === "function" ? oaTypeLabel(q.type) : q.type) : "");
 
-  const readHash = () => { const m = (location.hash || "").match(/q=([a-z0-9_]+)/i); return m && byId(m[1]) ? m[1] : "mcq"; };
+  // Hash format: #q=<type>[.<sub-variant>]  e.g. #q=matrix  or  #q=descriptive.file
+  const parseHash = () => {
+    const m = (location.hash || "").match(/q=([a-z0-9_]+)(?:\.([a-z0-9_]+))?/i);
+    return { id: m && byId(m[1]) ? m[1] : "mcq", v: m && m[2] ? m[2] : null };
+  };
+
+  // Static-content previews (Descriptive Text sub-types + the standalone Graphic).
+  const renderStatic = (kind, cardWrap) => {
+    if (kind === "static-text") return (
+      <div style={cardWrap}>
+        <h3 className="serif" style={{ fontSize: 21, color: MID, margin: "0 0 10px" }}>Section heading</h3>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: INK, lineHeight: 1.65, margin: 0 }}>Descriptive text presents information to the candidate — instructions, context, or a transition between sections. No answer is collected.</p>
+      </div>
+    );
+    if (kind === "static-graphic") return (
+      <div style={cardWrap}>
+        <div style={{ width: "100%", aspectRatio: "16 / 7", borderRadius: 12, background: "linear-gradient(135deg, var(--primary), #001F8C)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.85)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>Graphic / image block</div>
+      </div>
+    );
+    if (kind === "static-file") return (
+      <div style={cardWrap}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, border: "1px solid " + LINE, borderRadius: "var(--lh-radius, 2px)", padding: "12px 16px", background: "var(--card,#fff)" }}>
+          <span style={{ width: 34, height: 34, borderRadius: "var(--lh-radius, 2px)", background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700 }}>PDF</span>
+          <div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: INK }}>Assessment_Brief.pdf</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: MUT }}>A downloadable file shown to the candidate.</div>
+          </div>
+        </div>
+      </div>
+    );
+    return null;
+  };
 
   // Colour tokens — fall back to CSS vars if the app-ed-detail consts are absent.
   const MID = (typeof eMID !== "undefined") ? eMID : "var(--primary)";
@@ -77,57 +114,67 @@
   const MUT = (typeof eMUT !== "undefined") ? eMUT : "var(--muted)";
 
   function QuestionTypeGallery() {
-    const [selId, setSelId] = useState(readHash);
+    const [state, setState] = useState(parseHash);
     const [answers, setAnswers] = useState({});
     const [device, setDevice] = useState(() => document.documentElement.getAttribute("data-device") || "desktop");
 
     useEffect(() => {
-      const onHash = () => setSelId(readHash());
+      const onHash = () => setState(parseHash());
       window.addEventListener("hashchange", onHash);
       const o = new MutationObserver(() => setDevice(document.documentElement.getAttribute("data-device") || "desktop"));
       o.observe(document.documentElement, { attributes: true, attributeFilter: ["data-device"] });
       return () => { window.removeEventListener("hashchange", onHash); o.disconnect(); };
     }, []);
 
-    const select = (id) => { setSelId(id); try { history.replaceState(null, "", "#q=" + id); } catch (e) { try { location.hash = "q=" + id; } catch (e2) {} } };
+    const select = (id, v) => {
+      setState({ id: id, v: v || null });
+      const h = "#q=" + id + (v ? "." + v : "");
+      try { history.replaceState(null, "", h); } catch (e) { try { location.hash = h.slice(1); } catch (e2) {} }
+    };
 
-    const sel = byId(selId) || ALL[0];
-    const qs = qsFor(sel);
-    // Match the assessment / Folio content width: card column = --content-max (848px),
-    // container adds 56px (28px each side) like the assessment's paged layout.
+    const sel = byId(state.id) || ALL[0];
+    const variants = sel.variants || null;
+    const activeV = variants ? (variants.find((x) => x.id === state.v) || variants[0]) : null;
+    const qs = variants ? [] : qsFor(sel);
+    // Match the assessment / Folio content width: card column = --content-max (848px).
     const previewMax = device === "mobile" ? 390 : device === "ipad" ? 834 : "calc(var(--content-max, 848px) + 56px)";
 
     const cardWrap = { background: "var(--card, #fff)", border: "1px solid " + LINE, borderRadius: 16, padding: "28px 30px" };
 
     let preview;
-    if (qs.length) {
-      // Render the shared card DIRECTLY (OaQuestionCard supplies its own card) — no extra box.
-      // Multiple samples of the same type stack, spaced like the assessment's paged layout.
+    if (variants) {                                   // a type with named sub-types (Descriptive Text)
+      preview = renderStatic(activeV.kind, cardWrap);
+    } else if (qs.length) {                           // one or more live sample questions of this type — stacked
       preview = (
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           {qs.map((qq) => <OaQuestionCard key={qq.id} q={qq} number={1} value={answers[qq.id]} onChange={(v) => setAnswers((a) => ({ ...a, [qq.id]: v }))} />)}
         </div>
       );
-    } else if (sel.kind === "static-text") {
-      preview = (
-        <div style={cardWrap}>
-          <h3 className="serif" style={{ fontSize: 21, color: MID, margin: "0 0 10px" }}>Section heading</h3>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: INK, lineHeight: 1.65, margin: 0 }}>Descriptive text presents information to the candidate — instructions, context, or a transition between sections. No answer is collected.</p>
-        </div>
-      );
-    } else if (sel.kind === "static-graphic") {
-      preview = (
-        <div style={cardWrap}>
-          <div style={{ width: "100%", aspectRatio: "16 / 7", borderRadius: 12, background: "linear-gradient(135deg, var(--primary), #001F8C)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.85)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>Graphic / image block</div>
-        </div>
-      );
-    } else {
+    } else if (sel.kind && sel.kind.indexOf("static") === 0) {  // a single static-content item (Graphic)
+      preview = renderStatic(sel.kind, cardWrap);
+    } else {                                          // no sample yet
       preview = (
         <div style={{ background: "var(--card, #fff)", border: "1px dashed " + LINE, borderRadius: 16, padding: "56px 30px", textAlign: "center" }}>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: 0 }}>The <b style={{ color: INK, fontWeight: 600 }}>{sel.label}</b> preview is coming soon.</p>
         </div>
       );
     }
+
+    // Sub-tabs (only for a type with named sub-types) — mirrors the tool's answer-type picker.
+    const subtabs = variants ? (
+      <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+        {variants.map((v) => {
+          const on = v.id === activeV.id;
+          return (
+            <button key={v.id} onClick={() => select(sel.id, v.id)} style={{ padding: "7px 15px", borderRadius: "var(--lh-radius, 2px)", border: "1px solid " + (on ? "var(--accent)" : LINE), background: on ? "color-mix(in srgb, var(--accent) 10%, var(--card))" : "var(--card, #fff)", color: on ? MID : INK, fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 600 : 500, cursor: "pointer" }}>{v.label}</button>
+          );
+        })}
+      </div>
+    ) : null;
+
+    const desc = variants
+      ? ("Sub-types of this content block — " + variants.map((v) => v.label).join(" · ") + ". Pick one to preview.")
+      : (qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? " Showing all " + qs.length + " variants of this type." : "")) : "Placeholder — full preview coming with the simulator.");
 
     return (
       <div style={{ display: "flex", minHeight: "100vh", background: "var(--canvas, #F7F3EE)", fontFamily: "var(--sans)" }}>
@@ -161,9 +208,8 @@
           <div style={{ maxWidth: previewMax, margin: "0 auto", padding: device === "mobile" ? "0 16px" : "0 28px", boxSizing: "border-box", transition: "max-width .2s ease" }}>
             <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: ".3px", color: MUT, marginBottom: 6 }}>{catOf(sel.id)}</div>
             <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{sel.label}</h2>
-            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: "0 0 26px", lineHeight: 1.5 }}>
-              {qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? " Showing all " + qs.length + " variants of this type." : "")) : "Placeholder — full preview coming with the simulator."}
-            </p>
+            <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: "0 0 22px", lineHeight: 1.5 }}>{desc}</p>
+            {subtabs}
             {preview}
           </div>
         </main>
