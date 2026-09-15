@@ -22,17 +22,19 @@
       { id: "graphic",     label: "Graphic",          kind: "static-graphic" },
     ]},
     { cat: "Standard Questions", items: [
+      // Screenshot order first…
       { id: "mcq",        label: "Multiple Choice",     qid: "oq1" },
       { id: "matrix",     label: "Matrix Table",        qid: "oq4" },
-      { id: "checkgrid",  label: "Check Grid",          qid: "oq_checkgrid" },
-      { id: "numgrid",    label: "Numeric Grid",        qid: "oq_numgrid" },
       { id: "text",       label: "Text Entry",          qid: "oq2" },
       { id: "slider",     label: "Slider",              qid: "oq_slider" },
+      { id: "rank",       label: "Rank Order",          qid: "oq3" },
+      { id: "sidebyside", label: "Side by Side",        qid: "oq_sbs" },
+      // …then the extra variants we already have built.
+      { id: "checkgrid",  label: "Check Grid",          qid: "oq_checkgrid" },
+      { id: "numgrid",    label: "Numeric Grid",        qid: "oq_numgrid" },
       { id: "slidergrid", label: "Slider Grid",         qid: "oq_slidergrid" },
       { id: "bargrid",    label: "Bar Rating",          qid: "oq_bargrid" },
       { id: "stargrid",   label: "Star Rating",         qid: "oq_stargrid" },
-      { id: "rank",       label: "Rank Order",          qid: "oq3" },
-      { id: "sidebyside", label: "Side by Side",        qid: "oq_sbs" },
       { id: "imgchoice",  label: "Image Choice",        qid: "oq_img" },
       { id: "imgmulti",   label: "Image Multi-select",  qid: "oq_imgmulti" },
     ]},
