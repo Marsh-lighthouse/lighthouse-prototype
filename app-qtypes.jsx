@@ -62,6 +62,10 @@
   const byId = (id) => ALL.find((x) => x.id === id);
   const catOf = (id) => { for (const c of CATS) { if (c.items.some((i) => i.id === id)) return c.cat; } return ""; };
   const qFor = (item) => (item && item.qid && window.LH && LH.openAssessQuestions ? LH.openAssessQuestions.find((q) => q.id === item.qid) : null);
+  // Every sample question of this item's type — so a type with multiple variants
+  // (e.g. Matrix Table's 4-point and 7-point) stacks them all, and new questions
+  // added to the assessment of that type appear here automatically.
+  const qsFor = (item) => { const b = qFor(item); if (!b) return []; return (LH.openAssessQuestions || []).filter((q) => q.type === b.type); };
   const typeName = (q) => (q ? (typeof oaTypeLabel === "function" ? oaTypeLabel(q.type) : q.type) : "");
 
   const readHash = () => { const m = (location.hash || "").match(/q=([a-z0-9_]+)/i); return m && byId(m[1]) ? m[1] : "mcq"; };
@@ -88,7 +92,7 @@
     const select = (id) => { setSelId(id); try { history.replaceState(null, "", "#q=" + id); } catch (e) { try { location.hash = "q=" + id; } catch (e2) {} } };
 
     const sel = byId(selId) || ALL[0];
-    const q = qFor(sel);
+    const qs = qsFor(sel);
     // Match the assessment / Folio content width: card column = --content-max (848px),
     // container adds 56px (28px each side) like the assessment's paged layout.
     const previewMax = device === "mobile" ? 390 : device === "ipad" ? 834 : "calc(var(--content-max, 848px) + 56px)";
@@ -96,9 +100,14 @@
     const cardWrap = { background: "var(--card, #fff)", border: "1px solid " + LINE, borderRadius: 16, padding: "28px 30px" };
 
     let preview;
-    if (q) {
+    if (qs.length) {
       // Render the shared card DIRECTLY (OaQuestionCard supplies its own card) — no extra box.
-      preview = <OaQuestionCard q={q} number={1} value={answers[sel.id]} onChange={(v) => setAnswers((a) => ({ ...a, [sel.id]: v }))} />;
+      // Multiple samples of the same type stack, spaced like the assessment's paged layout.
+      preview = (
+        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          {qs.map((qq) => <OaQuestionCard key={qq.id} q={qq} number={1} value={answers[qq.id]} onChange={(v) => setAnswers((a) => ({ ...a, [qq.id]: v }))} />)}
+        </div>
+      );
     } else if (sel.kind === "static-text") {
       preview = (
         <div style={cardWrap}>
@@ -153,7 +162,7 @@
             <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: ".3px", color: MUT, marginBottom: 6 }}>{catOf(sel.id)}</div>
             <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{sel.label}</h2>
             <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: "0 0 26px", lineHeight: 1.5 }}>
-              {q ? "Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." : "Placeholder — full preview coming with the simulator."}
+              {qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? " Showing all " + qs.length + " variants of this type." : "")) : "Placeholder — full preview coming with the simulator."}
             </p>
             {preview}
           </div>
