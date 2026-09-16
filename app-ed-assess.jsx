@@ -13,6 +13,12 @@ const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React
 
 const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
+// Native <select> styled MDS: hides the browser arrow and draws our own chevron with right spacing.
+const oaSelectStyle = {
+  appearance: "none", WebkitAppearance: "none", MozAppearance: "none",
+  backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%236F6D68' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+  backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", paddingRight: 34,
+};
 
 // validate one question's answer for the current value; returns an error string or null
 function oaError(q, v) {
@@ -270,7 +276,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   oaUseEffect(() => { if (!recording) return; const t = setInterval(() => setRecTime((p) => p + 1), 1000); return () => clearInterval(t); }, [recording]);
   const items = q.type === "rank" ? (Array.isArray(value) ? value : []) : null;
   const a = q.type === "matrix" ? (value || {}) : null;
-  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "Chat" }[q.type];
+  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "" }[q.type];
   return (
     <div style={{ background: "var(--card)", border: "1px solid " + (error ? eDANGER : eLINE), borderRadius: 16, padding: "26px 28px", transition: "border-color .15s" }}>
       {!hidePrompt && <p className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1.3, margin: "0 0 18px" }}>{q.prompt}</p>}
@@ -359,7 +365,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             {q.fields.map((f, i) => (
               <div key={i} style={{ display: compact ? "block" : "grid", gridTemplateColumns: compact ? undefined : "minmax(140px,1fr) 120px minmax(160px,1.4fr)", columnGap: 12, alignItems: "center", rowGap: 6 }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eINK, marginBottom: compact ? 6 : 0 }}>{f.label}</div>
-                <select defaultValue={f.type || "Input"} style={{ height: 44, padding: "0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", marginBottom: compact ? 6 : 0, width: compact ? "100%" : "auto" }}>
+                <select defaultValue={f.type || "Input"} style={{ ...oaSelectStyle, height: 44, padding: "0 34px 0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: "#fff", backgroundImage: oaSelectStyle.backgroundImage, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", marginBottom: compact ? 6 : 0, width: compact ? "100%" : "auto" }}>
                   {["Input", "Email", "Number", "Date"].map((o) => <option key={o}>{o}</option>)}
                 </select>
                 <input value={v[i] || ""} onChange={(e) => set(i, e.target.value)} placeholder={f.placeholder || "Type here…"}
@@ -393,57 +399,44 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         );
       })()}
 
-      {/* CHAT — conversational answer (Text Entry family): header with MDS avatar + name/role,
-         per-message avatars, a textarea composer with a dropdown and Send. */}
+      {/* CHAT — conversational answer (Text Entry family): grey circle avatar + name, a
+         separator, message rows with a grip handle, and a borderless composer bar
+         (input + inline dropdown + green circular send). */}
       {q.type === "chat" && (() => {
-        const msgs = Array.isArray(value) ? value : [];
-        const send = () => { const t = (chatDraft || "").trim(); if (!t) return; onChange(msgs.concat([{ from: "user", text: t }])); setChatDraft(""); };
-        const botName = q.botName || "Rupert Smith";
-        const botInit = q.botInitials || "RS";
-        const botRole = q.botRole || "Manager";
-        // MDS Avatar — circular initial badge (or an icon for the candidate).
-        const av = (content, size) => <span style={{ width: size, height: size, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 15%, var(--card))", color: eMID, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: Math.round(size * 0.4), fontWeight: 600, flexShrink: 0 }}>{content}</span>;
-        const nameLbl = { fontFamily: "var(--sans)", fontSize: 12, color: eMUT, margin: "0 0 3px 2px" };
+        const userMsgs = Array.isArray(value) ? value : [];
+        const all = (q.botIntro ? [{ from: "bot", text: q.botIntro }] : []).concat(userMsgs);
+        const send = () => { const t = (chatDraft || "").trim(); if (!t) return; onChange(userMsgs.concat([{ from: "user", text: t }])); setChatDraft(""); };
+        const green = "var(--success-fill, #14853D)";
+        const circle = (size, node) => <span style={{ width: size, height: size, borderRadius: "50%", background: "color-mix(in srgb, var(--ink) 8%, #fff)", color: eMUT, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{node}</span>;
         return (
           <div style={{ border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden", background: eCARD }}>
-            {/* header — who you're chatting with */}
-            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderBottom: "1px solid " + eLINE }}>
-              {av(botInit, 40)}
-              <div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{botName}</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{botRole}</div>
-              </div>
+            {q.subtitle && <div style={{ padding: "16px 18px 0", fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.5 }}>{q.subtitle}</div>}
+            {/* who you're chatting with */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px" }}>
+              {circle(52, <I.user size={24} />)}
+              <div style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 600, color: eINK }}>{q.botName || "Rupert Smith"}</div>
             </div>
+            <div style={{ borderTop: "1px solid " + eLINE }} />
             {/* conversation */}
-            <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 14, minHeight: 150, background: "color-mix(in srgb, var(--accent) 2%, #fff)" }}>
-              <div style={{ display: "flex", gap: 10, alignItems: "flex-end" }}>
-                {av(botInit, 30)}
-                <div style={{ minWidth: 0 }}>
-                  <div style={nameLbl}>{botName}</div>
-                  <div style={{ background: "#fff", border: "1px solid " + eLINE, borderRadius: "2px 12px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.45 }}>{q.botIntro || "Tell me about a recent project you're proud of."}</div>
-                </div>
-              </div>
-              {msgs.map((m, i) => (
-                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-end", flexDirection: "row-reverse" }}>
-                  {av(<I.user size={16} />, 30)}
-                  <div style={{ minWidth: 0, textAlign: "right" }}>
-                    <div style={{ ...nameLbl, margin: "0 2px 3px 0" }}>You</div>
-                    <div style={{ display: "inline-block", background: "var(--surface-deep, #0A5C3A)", color: "#fff", borderRadius: "12px 2px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, textAlign: "left" }}>{m.text}</div>
+            <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 16, minHeight: 150 }}>
+              {all.map((m, i) => {
+                const mine = m.from === "user";
+                return (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <span style={{ color: eMUT, display: "flex", flexShrink: 0 }} aria-hidden="true"><I.menu size={18} /></span>
+                    <div style={{ marginLeft: mine ? "auto" : 0, maxWidth: "75%", background: mine ? green : "color-mix(in srgb, var(--ink) 6%, #fff)", color: mine ? "#fff" : eINK, borderRadius: mine ? "14px 14px 4px 14px" : "14px 14px 14px 4px", padding: "12px 16px", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45 }}>{m.text}</div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
-            {/* composer — textarea + dropdown + Send */}
-            <div style={{ padding: 12, borderTop: "1px solid " + eLINE }}>
-              <textarea value={chatDraft} onChange={(e) => setChatDraft(e.target.value)} placeholder="Write your message"
-                onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
-                style={{ width: "100%", minHeight: 66, padding: "10px 14px", border: "1px solid var(--field-line)", borderRadius: 12, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, resize: "vertical", outline: "none", boxSizing: "border-box", display: "block" }} />
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 10 }}>
-                <select defaultValue="Mine" style={{ height: 40, padding: "0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none" }}>
-                  {["Mine", "Shared with team"].map((o) => <option key={o}>{o}</option>)}
-                </select>
-                <button onClick={send} style={{ display: "inline-flex", alignItems: "center", gap: 8, height: 40, padding: "0 18px", borderRadius: 10, border: "none", background: "var(--primary)", color: "var(--on-accent)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600 }}>Send <I.send size={16} /></button>
-              </div>
+            {/* composer bar — borderless input, inline dropdown, green circular send */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderTop: "1px solid " + eLINE, background: "color-mix(in srgb, var(--ink) 3%, #fff)" }}>
+              <input value={chatDraft} onChange={(e) => setChatDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); send(); } }} placeholder="Write your Message…"
+                style={{ flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK }} />
+              <select defaultValue="Mine" style={{ ...oaSelectStyle, height: 38, padding: "0 34px 0 12px", border: "1px solid var(--field-line)", borderRadius: 8, background: "#fff", backgroundImage: oaSelectStyle.backgroundImage, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", flexShrink: 0 }}>
+                {["Mine", "Shared with team"].map((o) => <option key={o}>{o}</option>)}
+              </select>
+              <button onClick={send} aria-label="Send" style={{ width: 40, height: 40, flexShrink: 0, borderRadius: "50%", border: "none", background: green, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.send size={16} /></button>
             </div>
           </div>
         );
