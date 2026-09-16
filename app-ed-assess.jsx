@@ -393,22 +393,57 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         );
       })()}
 
-      {/* CHAT — conversational answer (Text Entry family) */}
+      {/* CHAT — conversational answer (Text Entry family): header with MDS avatar + name/role,
+         per-message avatars, a textarea composer with a dropdown and Send. */}
       {q.type === "chat" && (() => {
         const msgs = Array.isArray(value) ? value : [];
         const send = () => { const t = (chatDraft || "").trim(); if (!t) return; onChange(msgs.concat([{ from: "user", text: t }])); setChatDraft(""); };
+        const botName = q.botName || "Rupert Smith";
+        const botInit = q.botInitials || "RS";
+        const botRole = q.botRole || "Manager";
+        // MDS Avatar — circular initial badge (or an icon for the candidate).
+        const av = (content, size) => <span style={{ width: size, height: size, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 15%, var(--card))", color: eMID, display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: Math.round(size * 0.4), fontWeight: 600, flexShrink: 0 }}>{content}</span>;
+        const nameLbl = { fontFamily: "var(--sans)", fontSize: 12, color: eMUT, margin: "0 0 3px 2px" };
         return (
           <div style={{ border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden", background: eCARD }}>
-            <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 10, minHeight: 150, background: "color-mix(in srgb, var(--accent) 2%, #fff)" }}>
-              <div style={{ alignSelf: "flex-start", maxWidth: "80%", background: "#fff", border: "1px solid " + eLINE, borderRadius: "2px 12px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.45 }}>{q.botIntro || "Tell me about a recent project you're proud of."}</div>
+            {/* header — who you're chatting with */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderBottom: "1px solid " + eLINE }}>
+              {av(botInit, 40)}
+              <div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{botName}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT }}>{botRole}</div>
+              </div>
+            </div>
+            {/* conversation */}
+            <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 14, minHeight: 150, background: "color-mix(in srgb, var(--accent) 2%, #fff)" }}>
+              <div style={{ display: "flex", gap: 10, alignItems: "flex-end" }}>
+                {av(botInit, 30)}
+                <div style={{ minWidth: 0 }}>
+                  <div style={nameLbl}>{botName}</div>
+                  <div style={{ background: "#fff", border: "1px solid " + eLINE, borderRadius: "2px 12px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.45 }}>{q.botIntro || "Tell me about a recent project you're proud of."}</div>
+                </div>
+              </div>
               {msgs.map((m, i) => (
-                <div key={i} style={{ alignSelf: "flex-end", maxWidth: "80%", background: "var(--surface-deep, #0A5C3A)", color: "#fff", borderRadius: "12px 2px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45 }}>{m.text}</div>
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-end", flexDirection: "row-reverse" }}>
+                  {av(<I.user size={16} />, 30)}
+                  <div style={{ minWidth: 0, textAlign: "right" }}>
+                    <div style={{ ...nameLbl, margin: "0 2px 3px 0" }}>You</div>
+                    <div style={{ display: "inline-block", background: "var(--surface-deep, #0A5C3A)", color: "#fff", borderRadius: "12px 2px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45, textAlign: "left" }}>{m.text}</div>
+                  </div>
+                </div>
               ))}
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, padding: 12, borderTop: "1px solid " + eLINE }}>
-              <input value={chatDraft} onChange={(e) => setChatDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); send(); } }} placeholder="Type your reply…"
-                style={{ flex: 1, height: 44, padding: "0 14px", border: "1px solid var(--field-line)", borderRadius: 999, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
-              <button onClick={send} aria-label="Send" style={{ width: 44, height: 44, flexShrink: 0, borderRadius: "50%", border: "none", background: "var(--primary)", color: "var(--on-accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.send size={18} /></button>
+            {/* composer — textarea + dropdown + Send */}
+            <div style={{ padding: 12, borderTop: "1px solid " + eLINE }}>
+              <textarea value={chatDraft} onChange={(e) => setChatDraft(e.target.value)} placeholder="Write your message"
+                onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
+                style={{ width: "100%", minHeight: 66, padding: "10px 14px", border: "1px solid var(--field-line)", borderRadius: 12, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, resize: "vertical", outline: "none", boxSizing: "border-box", display: "block" }} />
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 10 }}>
+                <select defaultValue="Mine" style={{ height: 40, padding: "0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none" }}>
+                  {["Mine", "Shared with team"].map((o) => <option key={o}>{o}</option>)}
+                </select>
+                <button onClick={send} style={{ display: "inline-flex", alignItems: "center", gap: 8, height: 40, padding: "0 18px", borderRadius: 10, border: "none", background: "var(--primary)", color: "var(--on-accent)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600 }}>Send <I.send size={16} /></button>
+              </div>
             </div>
           </div>
         );
