@@ -150,7 +150,7 @@ const LH = {
       competency: "Self-Awareness",
       rows: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
       cols: ["Agree", "Disagree", "Don't know"],
-      rowText: ["Right", "Right", "Right"],
+      rowText: ["I decide how my own work gets done day to day.", "My manager tells me quickly when something needs to change.", "Good work I do is noticed and acknowledged by the team."],
       tip: "A matrix table with a trailing static-text column (no heading, plain text)." },
     { id: "oq_mx_stacked", type: "matrix", page: 2, title: "Matrix (two options)", prompt: "For each statement, choose Agree or Disagree.",
       competency: "Self-Awareness",
