@@ -31,7 +31,10 @@
     ]},
     { cat: "Standard Questions", items: [
       // Screenshot order first…
-      { id: "mcq",        label: "Multiple Choice",     qid: "oq1" },
+      // Multiple Choice also carries Image Choice, Image Multi-select and Dropdown — they are all
+      // choose-an-option variants, so they render stacked inside the Multiple Choice view (and are
+      // no longer separate side-menu entries).
+      { id: "mcq",        label: "Multiple Choice",     qid: "oq1", also: ["imgchoice", "imgmulti", "dropdown"] },
       // Matrix Table also carries Check Grid, Numeric Grid and Side by Side — they are all part
       // of the matrix-table family, so they render stacked inside the Matrix Table view (and are
       // no longer separate side-menu entries).
@@ -43,9 +46,6 @@
       { id: "slidergrid", label: "Slider Grid",         qid: "oq_slidergrid" },
       { id: "bargrid",    label: "Bar Rating",          qid: "oq_bargrid" },
       { id: "stargrid",   label: "Star Rating",         qid: "oq_stargrid" },
-      { id: "imgchoice",  label: "Image Choice",        qid: "oq_img" },
-      { id: "imgmulti",   label: "Image Multi-select",  qid: "oq_imgmulti" },
-      { id: "dropdown",   label: "Dropdown",            qid: "oq_dropdown" },
     ]},
     { cat: "Speciality Questions", items: [
       { id: "constantsum",   label: "Constant Sum",             qid: "oq_csum" },
@@ -82,7 +82,7 @@
 
   // Hash format: #q=<type>[.<sub-variant>]  e.g. #q=matrix  or  #q=descriptive.file
   // Types folded into another menu entry redirect to their host (they're no longer separate items).
-  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix" };
+  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix", bipolar: "matrix", dropdowngrid: "matrix", imgchoice: "mcq", imgmulti: "mcq", dropdown: "mcq" };
   const parseHash = () => {
     const m = (location.hash || "").match(/q=([a-z0-9_]+)(?:\.([a-z0-9_]+))?/i);
     let id = m && m[1] ? (HASH_ALIAS[m[1]] || m[1]) : "mcq";
@@ -217,7 +217,7 @@
 
     const desc = variants
       ? ("Every kind of descriptive content block, shown one below another — " + variants.map((v) => v.label).join(" · ") + ".")
-      : (qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? (sel.also ? " Showing all " + qs.length + " examples in the matrix-table family." : " Showing all " + qs.length + " variants of this type.") : "")) : "Placeholder — full preview coming with the simulator.");
+      : (qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? (sel.also ? " Showing all " + qs.length + " examples in the " + sel.label + " family." : " Showing all " + qs.length + " variants of this type.") : "")) : "Placeholder — full preview coming with the simulator.");
 
     return (
       <div style={{ display: "flex", minHeight: "100vh", background: "var(--canvas, #F7F3EE)", fontFamily: "var(--sans)" }}>
