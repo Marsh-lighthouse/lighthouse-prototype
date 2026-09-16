@@ -11,7 +11,7 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
-const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)" }[t] || "Question");
+const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 
 // validate one question's answer for the current value; returns an error string or null
@@ -245,6 +245,16 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [emailField]);
+  // Dropdown-grid question — which row's dropdown is open (one at a time).
+  const [gridDropRow, setGridDropRow] = oaUseState(null);
+  const gridDropRef = oaUseRef(null);
+  oaUseEffect(() => {
+    if (gridDropRow === null) return;
+    const onDoc = (e) => { if (gridDropRef.current && !gridDropRef.current.contains(e.target)) setGridDropRow(null); };
+    const onKey = (e) => { if (e.key === "Escape") setGridDropRow(null); };
+    document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [gridDropRow]);
   // Selected item for the touch (tap-to-place) variant of the pick-&-group question.
   const [pickSel, setPickSel] = oaUseState(null);
   // compact = mobile/iPad device-preview → use the stacked-card layouts; desktop keeps the original grids
@@ -701,14 +711,16 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             })}
           </div>
           ) : (() => {
-            const gridCols = `1.2fr repeat(${q.cols.length}, 76px)` + (q.noNa ? "" : " 96px") + " 76px";
+            // totalRow = a single Total row at the bottom (column sums) instead of a per-row Total column.
+            const colTotal = (ci) => q.rows.reduce((s, _, ri) => { const rr = v[ri] || {}; if (rr.na) return s; return s + (Number((rr.vals || {})[ci]) || 0); }, 0);
+            const gridCols = `1.2fr repeat(${q.cols.length}, 76px)` + (q.noNa ? "" : " 96px") + (q.totalRow ? "" : " 76px");
             return (
               <div>
                 <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
                   <div />
                   {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.25, padding: "0 4px" }}>{col}</div>)}
                   {!q.noNa && <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Not Applicable</div>}
-                  <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Total</div>
+                  {!q.totalRow && <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Total</div>}
                 </div>
                 <div>
                   {q.rows.map((row, ri) => {
@@ -727,16 +739,64 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                         {!q.noNa && <div style={{ display: "flex", justifyContent: "center" }}>
                           <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ width: 26, height: 26, borderRadius: 6, border: "2px solid " + (na ? eMID : "var(--control-line)"), background: na ? eMID : "#fff", color: "var(--on-accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>{na && <I.check size={15} />}</button>
                         </div>}
-                        <div style={{ display: "flex", justifyContent: "center" }}>
+                        {!q.totalRow && <div style={{ display: "flex", justifyContent: "center" }}>
                           <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: na ? eMUT : eMID, background: eCARD }}>{na ? "—" : rowTotal(ri)}</div>
-                        </div>
+                        </div>}
                       </div>
                     );
                   })}
+                  {q.totalRow && (
+                    <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, alignItems: "center", padding: "12px 4px" }}>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eINK }}>Total</div>
+                      {q.cols.map((col, ci) => (
+                        <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
+                          <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: eCARD }}>{colTotal(ci)}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             );
           })()
+        );
+      })()}
+
+      {/* DROPDOWN GRID — one MDS dropdown per row (single select from the columns).
+         Part of the matrix-table family. */}
+      {q.type === "dropdowngrid" && (() => {
+        const a3 = value || {};
+        return (
+          <div ref={gridDropRef} style={{ display: "flex", flexDirection: "column", gap: compact ? 14 : 10 }}>
+            {q.rows.map((row, ri) => {
+              const open = gridDropRow === ri;
+              const chosen = typeof a3[ri] === "number" ? q.cols[a3[ri]] : null;
+              return (
+                <div key={ri} style={{ display: compact ? "block" : "grid", gridTemplateColumns: compact ? undefined : "minmax(150px, 1fr) minmax(220px, 1.3fr)", columnGap: 16, alignItems: "center" }}>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.4, marginBottom: compact ? 6 : 0 }}>{row}</div>
+                  <div style={{ position: "relative" }}>
+                    <div onClick={() => setGridDropRow(open ? null : ri)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setGridDropRow(open ? null : ri); } }}
+                      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "12px 14px", border: "1px solid " + (open ? eBLUE : "var(--field-line)"), borderRadius: 12, background: eCARD, minHeight: 46, cursor: "pointer" }}>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: chosen ? eINK : eMUT }}>{chosen || q.placeholder || "Select an option"}</span>
+                      <span style={{ color: eMUT, display: "flex", transform: open ? "rotate(180deg)" : "", transition: "transform .15s", flexShrink: 0 }}><I.chevD size={16} /></span>
+                    </div>
+                    {open &&
+                    <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, zIndex: 30, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 32px rgba(0,15,71,.14)", padding: 6, maxHeight: 240, overflowY: "auto" }}>
+                      {q.cols.map((col, ci) => {
+                        const s = a3[ri] === ci;
+                        return (
+                          <button key={ci} onClick={() => { onChange({ ...a3, [ri]: ci }); setGridDropRow(null); }}
+                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 8, border: "none", background: s ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, color: eINK, fontWeight: s ? 500 : 400 }}
+                            onMouseEnter={(e) => { if (!s) e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 5%, transparent)"; }} onMouseLeave={(e) => { if (!s) e.currentTarget.style.background = "transparent"; }}>
+                            {col}{s && <span style={{ color: eBLUE, display: "flex", flexShrink: 0 }}><I.check size={15} /></span>}
+                          </button>);
+                      })}
+                    </div>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         );
       })()}
 

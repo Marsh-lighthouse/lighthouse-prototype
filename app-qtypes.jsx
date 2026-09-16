@@ -33,7 +33,7 @@
       // Matrix Table also carries Check Grid, Numeric Grid and Side by Side — they are all part
       // of the matrix-table family, so they render stacked inside the Matrix Table view (and are
       // no longer separate side-menu entries).
-      { id: "matrix",     label: "Matrix Table",        qid: "oq4", also: ["checkgrid", "numgrid", "sidebyside", "bipolar"] },
+      { id: "matrix",     label: "Matrix Table",        qid: "oq4", also: ["checkgrid", "numgrid", "sidebyside", "bipolar", "dropdowngrid"] },
       { id: "text",       label: "Text Entry",          qid: "oq2" },
       { id: "slider",     label: "Slider",              qid: "oq_slider" },
       { id: "rank",       label: "Rank Order",          qid: "oq3" },
