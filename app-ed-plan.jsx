@@ -599,7 +599,7 @@ function PlNoActions({ editable }) {
         </svg>
       </span>
       <div>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>No development actions yet</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>No development actions yet</div>
         <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 2 }}>
           {editable ? "Add one from the options below to start building this skill." : "Edit the plan to add development actions for this skill."}
         </div>
