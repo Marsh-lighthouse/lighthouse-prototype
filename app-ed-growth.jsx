@@ -499,7 +499,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                   <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{slotTime(slot.time)}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{tzMeta.short}</span>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
                     {slot.cancelBefore ? (
                       <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Cancel OK ({slot.cancelBefore})</span>
                     ) : (
@@ -626,7 +626,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                             {isBooked ? (
                               <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 3 }}><I.check size={11} /> Booked</span>
                             ) : (
-                              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: e.slot.remaining <= 2 ? eDANGER : eMUT }}>{e.slot.remaining}/{e.slot.total} seats</span>
+                              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: e.slot.remaining <= 2 ? eDANGER : eMUT }}>{e.slot.remaining}/{e.slot.total} seats</span>
                             )}
                         </div>
                       </div>
@@ -660,7 +660,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                   <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.cal size={13} /> {slot.date} · {slot.day}</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.clock size={13} /> {slotTime(slot.time)} · {tzMeta.short}</span>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.globe size={13} /> {center.location}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: slot.remaining <= 2 ? eDANGER : eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.users size={13} /> {slot.remaining} of {slot.total} seats left</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: slot.remaining <= 2 ? eDANGER : eMUT, display: "inline-flex", alignItems: "center", gap: 6 }}><I.users size={13} /> {slot.remaining} of {slot.total} seats left</span>
                 </div>
                 {pop.booked ? (
                   <button onClick={() => { setBooked((b) => { const n = { ...b }; delete n[slot.id]; return n; }); setPop(null); }} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, background: "var(--danger-fill)", color: "#fff", border: "none", borderRadius: 9, padding: "10px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Cancel booking</button>
