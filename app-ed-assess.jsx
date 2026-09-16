@@ -514,7 +514,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 })}
               </div>
               ); })()}
-              {q.textCol && <div style={{ marginTop: 12 }}>
+              {q.rowText && <div style={{ marginTop: 12, fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.4 }}>{q.rowText[ri]}</div>}
+              {!q.rowText && q.textCol && <div style={{ marginTop: 12 }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, marginBottom: 6 }}>{q.textCol}</div>
                 <input value={a["t" + ri] || ""} onChange={(e) => onChange({ ...a, ["t" + ri]: e.target.value })} placeholder="Type your answer…"
                   onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
@@ -528,7 +529,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         // With more (e.g. a 7-point Likert) share the width via equal fluid columns and
         // let headers wrap, so 7 points fit cleanly in both the single-page and split panes.
         const many = q.cols.length > 5;
-        const gcols = (many ? `minmax(140px, 1.4fr) repeat(${q.cols.length}, minmax(0, 1fr))` : `1fr repeat(${q.cols.length}, 88px)`) + (q.textCol ? " minmax(120px, 1fr)" : "");
+        const hasTrail = q.textCol || q.rowText; // trailing column: q.rowText = static text (no header), q.textCol = input + header
+        const gcols = (many ? `minmax(140px, 1.4fr) repeat(${q.cols.length}, minmax(0, 1fr))` : `1fr repeat(${q.cols.length}, 88px)`) + (hasTrail ? " minmax(120px, 1.2fr)" : "");
         const cgap = many ? 6 : 10;
         return (
         <div className="oa-matrix">
@@ -536,6 +538,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             <div />
             {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, whiteSpace: many ? "normal" : "nowrap", lineHeight: 1.25 }}>{col}</div>)}
             {q.textCol && <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.25, paddingLeft: 4 }}>{q.textCol}</div>}
+            {q.rowText && <div />}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {q.rows.map((row, ri) => {
@@ -548,9 +551,11 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       <button onClick={() => onChange({ ...a, [ri]: ci })} style={{ width: 26, height: 26, borderRadius: "50%", border: "2px solid " + (a[ri] === ci ? eBLUE : "var(--control-line)"), background: a[ri] === ci ? eBLUE : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .15s" }}>{a[ri] === ci && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--card)" }} />}</button>
                     </div>
                   )}
-                  {q.textCol && <input value={a["t" + ri] || ""} onChange={(e) => onChange({ ...a, ["t" + ri]: e.target.value })} placeholder="Type…"
-                    onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
-                    style={{ width: "100%", height: 38, padding: "0 10px", border: "1px solid var(--field-line)", borderRadius: 8, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />}
+                  {q.rowText
+                    ? <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.4, paddingLeft: 4 }}>{q.rowText[ri]}</div>
+                    : q.textCol && <input value={a["t" + ri] || ""} onChange={(e) => onChange({ ...a, ["t" + ri]: e.target.value })} placeholder="Type…"
+                      onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
+                      style={{ width: "100%", height: 38, padding: "0 10px", border: "1px solid var(--field-line)", borderRadius: 8, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />}
                 </div>);
             })}
           </div>
