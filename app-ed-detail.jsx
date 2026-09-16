@@ -667,7 +667,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         {[{ id: "intro", l: "Intro" }, { id: "tasks", l: "Tasks" }, { id: "reports", l: "Reports" }].map((t) => {
           const on = tab === t.id;
           return (
-            <button key={t.id} onClick={() => setTab(t.id)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{t.l}</button>);
+            <button key={t.id} onClick={() => setTab(t.id)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{t.l}</button>);
 
         })}
       </div>

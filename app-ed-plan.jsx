@@ -1370,7 +1370,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         <div className="ed-tabbtns" style={{ display: "flex", alignItems: "flex-end", gap: 2, minWidth: 0, flexWrap: "wrap" }}>
         {[["plan", "Plan"], ["report", "Program Report"], ["reflect", "Reflective Questions"]].map(([k, l]) => {
           const on = tab === k;
-          return <button key={k} onClick={() => setTab(k)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{l}</button>;
+          return <button key={k} onClick={() => setTab(k)} className={"ed-tabbtn" + (on ? " ed-tabbtn-on" : "")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? eMID : eMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>{l}</button>;
         })}
         </div>
         {/* plan actions belong to the Plan tab, as in the manager */}
