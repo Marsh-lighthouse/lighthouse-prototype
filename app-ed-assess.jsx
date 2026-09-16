@@ -1532,15 +1532,16 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               </svg>
             );
           } else if (q.graphic === "trafficlight") {
-            // Housing uses brand primary; the lamps keep their signal colours so it still reads as a traffic light.
-            const active = val < 34 ? "red" : val < 67 ? "amber" : "green";
+            // Housing uses brand primary; the lit lamp tracks the slider — bottom (low) climbs to top (high),
+            // going red → amber → green as it rises.
+            const active = val < 34 ? "low" : val < 67 ? "mid" : "high";
             const lamp = (cy, on, onColor) => <circle cx="60" cy={cy} r="26" fill={on ? onColor : "#3A4A52"} opacity={on ? 1 : 0.55} />;
             graphic = (
               <svg viewBox="0 0 120 250" width="110" height="250">
                 <rect x="18" y="10" width="84" height="230" rx="18" fill={blue} />
-                {lamp(62, active === "red", "#E5484D")}
-                {lamp(125, active === "amber", "#F5C451")}
-                {lamp(188, active === "green", "#2FA36B")}
+                {lamp(62, active === "high", "#2FA36B")}
+                {lamp(125, active === "mid", "#F5C451")}
+                {lamp(188, active === "low", "#E5484D")}
               </svg>
             );
           } else if (q.graphic === "smiley") {
