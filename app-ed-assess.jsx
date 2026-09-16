@@ -877,17 +877,22 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         );
       })()}
 
+      {/* FILE UPLOAD — a small MDS "Select File" button; once chosen, the file shows as a
+         link with an MDS trash-icon remove control (mirrors the product). */}
       {q.type === "file" && (value ?
-        <div style={{ padding: 20, borderRadius: 14, border: "1px solid rgba(20,133,61,.3)", background: "rgba(20,133,61,.05)", textAlign: "center" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(20,133,61,.12)", border: "1px solid rgba(20,133,61,.24)", color: eSUCCESS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.fileText size={20} /></div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{value}</div>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, color: eSUCCESS, fontWeight: 500, marginTop: 4 }}><I.check size={15} /> Uploaded</div>
-          <button onClick={() => onChange(undefined)} style={{ marginTop: 12, padding: "7px 18px", borderRadius: 9, border: "1px solid rgba(197,53,50,.3)", background: "none", color: eDANGER, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Remove</button>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ color: eBLUE, display: "flex", flexShrink: 0 }}><I.doc size={18} /></span>
+          <a href="#" onClick={(e) => e.preventDefault()} style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, color: eBLUE, textDecoration: "none", wordBreak: "break-word", lineHeight: 1.4 }}>{value}</a>
+          <button onClick={() => onChange(undefined)} title="Remove file" aria-label="Remove file" style={{ flexShrink: 0, background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", alignItems: "center", padding: 4 }}
+            onMouseEnter={(e) => e.currentTarget.style.color = eDANGER} onMouseLeave={(e) => e.currentTarget.style.color = eMUT}><I.trash size={18} /></button>
         </div> :
-        <div onClick={() => onChange("Leadership_Impact_Report.pdf")} style={{ padding: "36px 20px", borderRadius: 14, border: "2px dashed var(--line)", background: eCARD, textAlign: "center", cursor: "pointer" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}><I.upload size={20} /></div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>Click to upload</div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{q.accepts} · Max {q.maxSize}</div>
+        <div>
+          <button onClick={() => onChange(q.sampleFile || "Leadership_Impact_Report.pdf")}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 16px", borderRadius: 10, border: "1px solid var(--field-line)", background: eCARD, color: eINK, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600 }}
+            onMouseEnter={(e) => e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 4%, transparent)"} onMouseLeave={(e) => e.currentTarget.style.background = eCARD}>
+            <I.upload size={16} /> Select File
+          </button>
+          {(q.accepts || q.maxSize) && <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 8 }}>{q.accepts}{q.accepts && q.maxSize ? " · " : ""}{q.maxSize ? "Max " + q.maxSize : ""}</div>}
         </div>)
       }
 
