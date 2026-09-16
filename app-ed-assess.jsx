@@ -11,7 +11,7 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
-const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat", rankgrid: "Rank grid", ranknum: "Rank (number)", ranklist: "Rank (reorder list)", sbs: "Side by side" }[t] || "Question");
+const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat", rankgrid: "Rank grid", ranknum: "Rank (number)", ranklist: "Rank (reorder list)", sbs: "Side by side", timing: "Timing", metainfo: "Meta info" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 // Native <select> styled MDS: hides the browser arrow and draws our own chevron with right spacing.
 const oaSelectStyle = {
@@ -278,7 +278,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   oaUseEffect(() => { if (!recording) return; const t = setInterval(() => setRecTime((p) => p + 1), 1000); return () => clearInterval(t); }, [recording]);
   const items = q.type === "rank" ? (Array.isArray(value) ? value : []) : null;
   const a = q.type === "matrix" ? (value || {}) : null;
-  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", sbs: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "", rankgrid: "Rank each item", ranknum: "Type a rank for each option", ranklist: "Select an item, then reorder" }[q.type];
+  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", sbs: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", timing: "", metainfo: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "", rankgrid: "Rank each item", ranknum: "Type a rank for each option", ranklist: "Select an item, then reorder" }[q.type];
   return (
     <div style={{ background: "var(--card)", border: "1px solid " + (error ? eDANGER : eLINE), borderRadius: 16, padding: "26px 28px", transition: "border-color .15s" }}>
       {!hidePrompt && <p className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1.3, margin: "0 0 18px" }}>{q.prompt}</p>}
@@ -1602,6 +1602,36 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           <span style={{ marginLeft: 14, display: "flex", flexDirection: "column", alignItems: "center", color: eMUT }}><I.shield size={20} /><span style={{ fontFamily: "var(--sans)", fontSize: 15, marginTop: 2 }}>reCAPTCHA</span></span>
         </div>
       }
+
+      {/* TIMING — hidden question: records time on page; admin sets submit/auto-advance timers */}
+      {q.type === "timing" && (() => {
+        const v = value || {};
+        const numField = (label, key) => (
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, marginBottom: 6 }}>{label}</div>
+            <input type="number" min="0" value={v[key] ?? 0} onChange={(e) => onChange({ ...v, [key]: e.target.value })}
+              onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
+              style={{ width: 110, height: 44, textAlign: "center", padding: "0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
+          </div>
+        );
+        return (
+          <div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "color-mix(in srgb, var(--ink) 5%, #fff)", color: eMUT, borderRadius: 999, padding: "4px 12px", fontFamily: "var(--sans)", fontSize: 13, marginBottom: 16 }}><I.info size={14} /> Not shown to the participant</div>
+            {numField("Enable submit after (seconds)", "submitAfter")}
+            {numField("Auto-advance after (seconds)", "autoAdvance")}
+          </div>
+        );
+      })()}
+
+      {/* META INFO — hidden question: records the recipient's browser/device metadata */}
+      {q.type === "metainfo" && (
+        <div>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "color-mix(in srgb, var(--ink) 5%, #fff)", color: eMUT, borderRadius: 999, padding: "4px 12px", fontFamily: "var(--sans)", fontSize: 13, marginBottom: 14 }}><I.info size={14} /> Not shown to the user</div>
+          <ul style={{ margin: 0, paddingLeft: 20, fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.9 }}>
+            {(q.fields || []).map((f, i) => <li key={i}>{f}</li>)}
+          </ul>
+        </div>
+      )}
 
       {/* VIDEO RESPONSE */}
       {q.type === "video" && <OaMediaResponse maxDuration={q.maxDuration} value={value} onChange={onChange} />}

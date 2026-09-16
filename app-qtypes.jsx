@@ -66,8 +66,8 @@
       { id: "hotspot",       label: "Hot Spot",                 qid: "oq_shapedraw" },
     ]},
     { cat: "Advanced", items: [
-      { id: "timing",  label: "Timing",               kind: "soon" },
-      { id: "meta",    label: "Meta Info Question",   kind: "soon" },
+      { id: "timing",  label: "Timing",               qid: "oq_timing" },
+      { id: "meta",    label: "Meta Info Question",   qid: "oq_metainfo" },
       { id: "captcha", label: "Captcha Verification", qid: "oq_captcha" },
     ]},
   ];
