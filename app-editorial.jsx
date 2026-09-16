@@ -476,10 +476,7 @@ function EdProfile({ onBack, onNav }) {
       <div style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, padding: "20px 22px", marginBottom: 20 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div style={{ position: "relative", width: 46, height: 46, flexShrink: 0 }}>
-            <svg width="46" height="46" viewBox="0 0 46 46" style={{ transform: "rotate(-90deg)" }}>
-              <circle cx="23" cy="23" r="20" fill="none" stroke="var(--track)" strokeWidth="4" />
-              <circle cx="23" cy="23" r="20" fill="none" stroke="var(--accent)" strokeWidth="4" strokeLinecap="round" strokeDasharray={2 * Math.PI * 20} strokeDashoffset={2 * Math.PI * 20 * (1 - LH.profile.pct / 100)} />
-            </svg>
+            <Ring pct={LH.profile.pct} size={46} stroke={4} color="var(--accent)" track="var(--track)" />
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
