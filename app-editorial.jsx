@@ -120,7 +120,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
           const inSection = kids.some((c) => c.id === activeId);
           return (
           <React.Fragment key={it.id}>
-            {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 15, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 700 }}>{it.group}</div>}
+            {it.group && it.group !== "Growth" && !collapsed && <div style={{ padding: "16px 14px 6px", fontSize: 15, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 400 }}>{it.group}</div>}
             {it.group && it.group !== "Growth" && collapsed && <div style={{ height: 1, background: "var(--rail-border)", margin: "12px 8px 8px" }} />}
             <Item item={it} active={it.id === activeId || inSection} />
             {/* sub-items belong to their section — they appear only while you're in it */}
@@ -148,7 +148,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
         ) : (
           <React.Fragment>
             {showProgress && <div style={{ borderTop: "1px solid var(--rail-border)", paddingTop: 12, marginBottom: 8 }}>
-              <div style={{ fontSize: 15, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 700, padding: "0 2px 12px" }}>{t("profileCompletion")}</div>
+              <div style={{ fontSize: 15, fontFamily: "var(--sans)", color: "var(--rail-group)", fontWeight: 400, padding: "0 2px 12px" }}>{t("profileCompletion")}</div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "16px 12px", background: "var(--rail-active-bg)", border: "1px solid var(--rail-active-line)", boxSizing: "border-box", borderRadius: 10 }}>
                 <div style={{ position: "relative", width: 60, height: 60, flexShrink: 0 }}>
                   <Ring pct={LH.profile.pct} size={60} stroke={4} color="var(--rail-active-icon)" track="var(--rail-ring-track)" />
@@ -319,14 +319,14 @@ function EdSettings({ onBack }) {
   );
   const card = (label, children) => (
     <div style={{ marginBottom: 22 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--accent)", marginBottom: 10 }}>{label}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--accent)", marginBottom: 10 }}>{label}</div>
       <div style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 16, padding: "4px 22px" }}>{children}</div>
     </div>
   );
   const ghostBtn = { background: "transparent", color: MID, border: "1.5px solid " + MID, borderRadius: 10, padding: "9px 15px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", flexShrink: 0 };
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--accent)", marginBottom: 12 }}>Settings</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--accent)", marginBottom: 12 }}>Settings</div>
       <h1 className="serif" style={{ fontSize: 40, color: MID, lineHeight: 1.06, margin: "0 0 28px" }}>Settings</h1>
       {card("Notifications", <React.Fragment>
         {row("Assessment reminders", "Email me before upcoming deadlines.", sw(s.remind, () => set("remind", !s.remind)))}
@@ -343,10 +343,10 @@ function EdSettings({ onBack }) {
         {row("Password", "Last changed 3 months ago.", <button style={ghostBtn}>Change</button>, true)}
       </React.Fragment>)}
       <div style={{ marginBottom: 22 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--danger)", marginBottom: 10 }}>Danger zone</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--danger)", marginBottom: 10 }}>Danger zone</div>
         <div style={{ background: "var(--card)", border: "1px solid rgba(197,53,50,.28)", borderRadius: 16, padding: "16px 22px", display: "flex", alignItems: "center", gap: 16 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>Delete account</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID }}>Delete account</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginTop: 2 }}>Permanently remove your account and all associated data.</div>
           </div>
           <button style={{ background: "transparent", color: "var(--danger)", border: "1.5px solid var(--danger)", borderRadius: 10, padding: "9px 15px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}>Delete</button>
@@ -379,7 +379,7 @@ function EdProfile({ onBack, onNav }) {
   const save = (s) => { setData(draft); setSection(null); setSavedSection(s); };
   const initials = ((data.first[0] || "") + (data.last[0] || "")).toUpperCase();
 
-  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID, marginBottom: 7 };
+  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID, marginBottom: 7 };
   const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid var(--line)", borderRadius: 10, padding: "11px 13px", fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", outline: "none", background: "var(--card)" };
   const reqMark = <span style={{ color: "var(--danger)" }}>* </span>;
   const field = (label, k, opts) => {
@@ -451,7 +451,7 @@ function EdProfile({ onBack, onNav }) {
     <div className="ed-profile-rows" style={{ padding: "6px 22px 16px" }}>
       {rows.map((r, i) => (
         <div key={i} className="ed-profile-row" style={{ display: "flex", flexDirection: "column", gap: 3, padding: "13px 0", borderBottom: i < rows.length - 1 ? "1px solid var(--line)" : "none" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MUT }}>{r.label}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MUT }}>{r.label}</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: INK, overflowWrap: "anywhere" }}>{r.value}</div>
         </div>
       ))}
@@ -483,7 +483,7 @@ function EdProfile({ onBack, onNav }) {
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{t("profileCompletion")}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID }}>{t("profileCompletion")}</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, marginTop: 2 }}>{LH.profile.done} {t("of")} {LH.profile.total} {t("sectionsCompleted")} — finish to unlock personalized insights.</div>
           </div>
         </div>
@@ -569,7 +569,7 @@ function EdProfile({ onBack, onNav }) {
 function EdChangePassword({ onBack }) {
   const [show, setShow] = React.useState({ old: false, pw: false, conf: false });
   const [vals, setVals] = React.useState({ old: "", pw: "", conf: "" });
-  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID, marginBottom: 7 };
+  const labelSt = { display: "block", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID, marginBottom: 7 };
   const wrapSt = { position: "relative" };
   const inputSt = { width: "100%", boxSizing: "border-box", border: "1.5px solid var(--line)", borderRadius: 10, padding: "12px 44px 12px 13px", fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", outline: "none", background: "var(--card)" };
   const eyeBtn = (k) => (
@@ -727,7 +727,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         {/* Hero row — greeting left, stats + profile right */}
         <div className="ed-c-hero" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 32, flexWrap: "wrap", paddingBottom: 24, borderBottom: "1px solid var(--line)", marginBottom: 28 }}>
           <div style={{ flex: "1 1 320px", minWidth: 280 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
             <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
               {t("goodAfternoon")} {LH.user.first}.
             </h1>
@@ -760,7 +760,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
       <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         {/* Hero */}
         <div style={{ marginBottom: 26 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+          <div style={{ fontSize: 15, fontWeight: 400, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
             {t("goodAfternoon")} {LH.user.first}.
           </h1>
@@ -814,7 +814,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     return (
       <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         <div style={{ marginBottom: 26 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+          <div style={{ fontSize: 15, fontWeight: 400, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
             {t("goodAfternoon")} {LH.user.first}.
           </h1>
@@ -846,7 +846,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     return (
       <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
         <div style={{ marginBottom: 26 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+          <div style={{ fontSize: 15, fontWeight: 400, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
           <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
             {t("goodAfternoon")} {LH.user.first}.
           </h1>
@@ -876,7 +876,7 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "0 var(--fol-mx)", padding: "28px 0 28px" }}>
       {/* Hero */}
       <div style={{ marginBottom: 26 }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
+        <div style={{ fontSize: 15, fontWeight: 400, color: MUT, marginBottom: 8 }}>{t("welcomeBack")}</div>
         <h1 className="serif ed-hero-h1" style={{ fontSize: 40, color: MID, lineHeight: 1.05, margin: "0 0 8px" }}>
           {t("goodAfternoon")} {LH.user.first}.
         </h1>
@@ -921,7 +921,7 @@ function EdCountdown({ due }) {
     <div className="ed-cd" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 6, padding: "7px 15px" }}>
       <span className="ed-cd-date" style={{ display: "inline-flex", alignItems: "center", gap: 9, whiteSpace: "nowrap" }}>
         <span style={{ color: MID, display: "flex" }}><I.clock size={15} /></span>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>Due {due}</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID }}>Due {due}</span>
       </span>
       <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: cdColor, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2, whiteSpace: "nowrap" }}>
         {parts.map(([v, l], i) => `${String(v).padStart(2, "0")}${l}`).join(" : ")}
@@ -1298,7 +1298,7 @@ function DashEditorial({ initialRoute } = {}) {
         </button>
         {a11yOpen && (
           <div style={{ position: "absolute", top: "calc(100% + 10px)", [language === "ar" ? "left" : "right"]: 0, zIndex: 998, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 14, boxShadow: "0 12px 38px rgba(0,15,71,.18)", padding: 10, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "2px 4px 8px" }}>Text size</div>
+            <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--muted)", padding: "2px 4px 8px" }}>Text size</div>
             <div style={{ display: "flex", border: "1px solid var(--line)", borderRadius: 10, overflow: "hidden" }}>
               <button title="Decrease text size" onClick={decFont} style={{ width: 52, height: 46, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", borderRight: "1px solid var(--line)", color: "var(--primary)", cursor: "pointer" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.04)"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}>
@@ -1332,7 +1332,7 @@ function DashEditorial({ initialRoute } = {}) {
         </button>
         {langMenu && (
           <div style={{ position: "absolute", top: "calc(100% + 8px)", [language === "ar" ? "left" : "right"]: 0, zIndex: 998, width: 160, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Language</div>
+            <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Language</div>
             {["en", "ar"].map((lang) => {
               const active = language === lang;
               return (
@@ -1463,7 +1463,7 @@ function DashEditorial({ initialRoute } = {}) {
       <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
         {dashMenu && (
           <div style={{ position: "absolute", bottom: 42, right: 0, width: 244, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Dashboard sample</div>
+            <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Dashboard sample</div>
             {[{ id: "1", l: "Dashboard sample 1", d: "Profile on sidebar — clean center" }, { id: "2", l: "Dashboard sample 2", d: "Compact top — programs up front" }, { id: "3", l: "Dashboard sample 3", d: "Profile card in center — original" }, { id: "4", l: "Dashboard sample 4", d: "Cards show task & report counts" }, { id: "5", l: "Dashboard sample 5", d: "Alert bar above the buttons" }].map((o) => {
               const on = dashSample === o.id;
               return (
@@ -1488,7 +1488,7 @@ function DashEditorial({ initialRoute } = {}) {
     ), document.body)}
     {route.page === "precheck" && ReactDOM.createPortal((
       <div style={{ position: "fixed", left: "calc(var(--rail-w, 256px) + 20px)", bottom: 14, zIndex: 60, display: "flex", alignItems: "center", gap: 8, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 10, padding: "7px 9px 7px 12px", boxShadow: "0 6px 20px rgba(0,15,71,.12)" }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--muted)" }}>System check</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--muted)" }}>System check</span>
         {["1", "2", "3"].map((d) => {
           const on = scVariant === d;
           return (
@@ -1502,7 +1502,7 @@ function DashEditorial({ initialRoute } = {}) {
       <div style={{ position: "fixed", right: 300, bottom: 14, zIndex: 60 }}>
         {layoutMenu && (
           <div style={{ position: "absolute", bottom: 42, right: 0, width: 248, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Tasks layout</div>
+            <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Tasks layout</div>
             {[{ id: "standard", l: "Standard", d: "Centers, sequential & open sections" }, { id: "centers", l: "Multiple centers", d: "Standard layout, one card per center" }, { id: "gated", l: "Begin assessment", d: "Locked until you start, then unlocks" }, { id: "completed", l: "Completed", d: "Success — assessment submitted" }, { id: "error", l: "Error", d: "Something went wrong state" }, { id: "closed", l: "Closed", d: "Submission window has closed" }].map((o) => {
               const on = tasksLayout === o.id;
               return (
@@ -1529,7 +1529,7 @@ function DashEditorial({ initialRoute } = {}) {
       <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
         {heroMenu && (
           <div style={{ position: "absolute", bottom: 42, right: 0, width: 230, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Card design</div>
+            <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Card design</div>
             {[{ id: "compact", l: "Compact", d: "Title, badge & chips" }, { id: "light", l: "Light card", d: "Clean white, airy" }, { id: "minimal", l: "Minimal", d: "No box, editorial rules" }, { id: "minimal2", l: "Minimal 2", d: "Compact — colored stats" }, { id: "ribbon", l: "Ribbon", d: "Slim band, gold ring & stats" }].map((o) => {
               const on = heroStyle === o.id;
               return (

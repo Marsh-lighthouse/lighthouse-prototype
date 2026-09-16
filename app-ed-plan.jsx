@@ -968,15 +968,15 @@ function PlUserInfo({ design }) {
     ["Grade", "1A"], ["Qualification", "Masters in Business"],
     ["Department", "Department A"], ["Date of Joining Entity", "2023-04-26"],
   ];
-  const lbl = { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: eMUT, marginBottom: 1 };
-  const val = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400, color: eMUT, marginBottom: 1 };
+  const val = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID };
   const avatar = (sz) => (
     <div style={{ width: sz, height: sz, borderRadius: "50%", background: "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: Math.round(sz / 3), fontWeight: 700, flexShrink: 0, boxShadow: "0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent)" }}>{u.initials}</div>
   );
   const identity = (
     <div style={{ lineHeight: 1.35 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{u.first} {u.last}</div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--accent)" }}>{u.role}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{u.first} {u.last}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: "var(--accent)" }}>{u.role}</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{email}</div>
     </div>
   );
@@ -1173,7 +1173,7 @@ function PlReportTab() {
         <div key={i} className="ed-report-page" style={{ ...a4, background: "radial-gradient(120% 120% at 15% 0%, rgba(206,236,255,.16), transparent 55%), linear-gradient(150deg, var(--surface-deep), #001F8C)", padding: 56, overflow: "hidden", justifyContent: "space-between" }}>
           <svg viewBox="0 0 43.17 44.26" width="36" height="37" aria-hidden="true"><polygon fill="#fff" points="42.49 0 21.65 30.43 22.2 30.43 35.07 24.39 35.07 44.26 43.17 44.26 43.17 0 42.49 0" /><polygon fill="#fff" points="0 0 0 44.26 8.1 44.26 8.1 24.4 20.9 30.43 21.52 30.43 .68 0 0 0" /></svg>
           <div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#CEECFF", marginBottom: 14 }}>Confidential · For internal use only</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase", color: "#CEECFF", marginBottom: 14 }}>Confidential · For internal use only</div>
             <h1 className="serif" style={{ fontSize: 40, color: "#fff", lineHeight: 1.06, margin: 0, maxWidth: 440 }}>Leadership Program Report</h1>
           </div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: "rgba(206,236,255,.7)" }}>Marsh · All rights reserved</div>
@@ -1637,7 +1637,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         <div ref={sampleRef} className="ed-plan-sample-chip" style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
           {sampleMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
               {PL_SAMPLES.map((s) => { const on = sample === s.id; return (
                 <button key={s.id} onClick={() => { setSample(s.id); try { localStorage.setItem("pl-plan-design", String(s.id)); } catch (e) {} setSampleMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
@@ -1655,7 +1655,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         <div ref={userCardRef} className="ed-plan-usercard-chip" style={{ position: "fixed", right: 200, bottom: 56, zIndex: 60, fontFamily: "var(--sans)" }}>
           {userCardMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>User card design</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>User card design</div>
               {[[4, "Name in title", "No info bar — name sits in the heading"], [1, "Divided", "Identity beside a metadata grid"], [2, "Pills", "Details as soft tinted chips"], [3, "Hero panel", "Tinted identity column"], [5, "By skill", "Summary lists each skill with its actions & completion"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
@@ -1673,7 +1673,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
         <div ref={reflectRef} className="ed-plan-usercard-chip" style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
           {reflectMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reflective questions</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Reflective questions</div>
               {[[false, "Normal", "Empty answer boxes"], [true, "Error", "Mandatory fields not filled"]].map(([val, label, desc]) => { const on = reflectErr === val; return (
                 <button key={label} onClick={() => { setReflectErr(val); setReflectMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
@@ -1800,7 +1800,7 @@ function PlBreakdownChip({ data }) {
   const T = rows.reduce((o, r) => ({ skills: o.skills + r.skills, actions: o.actions + r.actions, complete: o.complete + r.complete }), { skills: 0, actions: 0, complete: 0 });
   const catColor = { Behavioral: eBLUE, Technical: eSUCCESS };
   const num = { fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.1 };
-  const lbl = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT };
   return ReactDOM.createPortal(
     <div ref={ref} style={{ position: "fixed", right: 200, bottom: 58, zIndex: 60, fontFamily: "var(--sans)" }}>
       {open && (
@@ -1841,7 +1841,7 @@ function PlBreakdownChip({ data }) {
 
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
 function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }) {
-  const lbl = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, marginBottom: 6 };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   // Design 2 — totals with a Behavioral / Technical split under Skills and Development
@@ -1896,7 +1896,7 @@ function PlMonth({ base, sIso, eIso, hIso, onPick, onHover }) {
   return (
     <div style={{ flex: 1, minWidth: 0 }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", marginBottom: 3 }}>
-        {PL_DOW.map((w) => <div key={w} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: eMUT, padding: "3px 0" }}>{w}</div>)}
+        {PL_DOW.map((w) => <div key={w} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400, color: eMUT, padding: "3px 0" }}>{w}</div>)}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 3 }}>
         {cells.map((dt, i) => {
@@ -2059,7 +2059,7 @@ const PL_SAMPLES = [
   { id: 9, label: "Sample 9 · Two-up grid", desc: "Actions as cards, two per row instead of a single list" },
   { id: 10, label: "Sample 10 · Accordion", desc: "Skills collapse into an accordion (one open at a time); a summary bar under the tabs, and each action shows a stepped 0–100 completion with a full-width bar" },
 ];
-const plMetaLabel = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, margin: "0 0 6px" };
+const plMetaLabel = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT, margin: "0 0 6px" };
 
 // Linear completion bar + %.
 function PlBar({ pct }) {

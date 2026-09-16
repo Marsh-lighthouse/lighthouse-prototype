@@ -156,7 +156,7 @@ const MgrNoPlan = ({ name, what }) => (
         <circle className="mgr-empty-dot" style={{ animationDelay: ".36s" }} cx="108" cy="22" r="2" fill="rgba(0,15,71,.42)" />
       </g>
     </svg>
-    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, lineHeight: 1.5, maxWidth: 340 }}>
+    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, lineHeight: 1.5, maxWidth: 340 }}>
       {(name || "This reportee") + " has not " + (what || "added any skills") + " yet."}
     </div>
   </div>
@@ -268,12 +268,12 @@ function MgrPersonCard({ p, design }) {
     ["Grade", p.grade], ["Qualification", p.qual], ["Department", p.dept],
     ["Date of Joining Entity", p.joined], ["Program", p.plan],
   ].filter(([, v]) => !!v);
-  const lbl = { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: eMUT, marginBottom: 1 };
-  const val = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400, color: eMUT, marginBottom: 1 };
+  const val = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID };
   const identity = (
     <div style={{ lineHeight: 1.35 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--accent)" }}>{p.role}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{p.first} {p.last}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: "var(--accent)" }}>{p.role}</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{p.email}</div>
     </div>
   );
@@ -283,7 +283,7 @@ function MgrPersonCard({ p, design }) {
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 20px", marginBottom: 22, boxShadow: "0 1px 2px rgba(0,15,71,.04)", display: "flex", alignItems: "center", gap: 13 }}>
         <MgrAvatar p={p} size={46} />
         <div style={{ lineHeight: 1.35 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{p.first} {p.last}</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{p.email}</div>
         </div>
       </div>
@@ -318,7 +318,7 @@ function MgrPersonCard({ p, design }) {
 //  1 · DIRECT REPORTEES — the list
 // ════════════════════════════════════════════════
 function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
-  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID };
+  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID };
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "32px var(--fol-mx) 72px", padding: 0 }}>
       <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: "0 0 6px" }}>Direct Reportees</h1>
@@ -346,7 +346,7 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
                 <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
                   <MgrAvatar p={p} />
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
                     <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</div>
                   </div>
                 </div>
@@ -387,7 +387,7 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
   const scroll = total > 5;
   return (
     <div style={{ borderTop: "1px solid " + eLINE, background: "rgba(0,15,71,.02)", padding: "18px 22px 20px" }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMUT, marginBottom: 12 }}>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT, marginBottom: 12 }}>
         {total} {total === 1 ? "change" : "changes"}
       </div>
 
@@ -402,7 +402,7 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
       )}
       {Object.keys(groups).map((skill) => (
         <div key={skill} style={{ marginBottom: 14 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{skill}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 4 }}>{skill}</div>
           {/* same line format as the plan's "Change summary": kind + type, then the name as a tinted chip */}
           <ul style={{ margin: 0, paddingLeft: 18 }}>
             {groups[skill].map((c, i) => (
@@ -652,7 +652,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
   const showEmpty = !self && ((person.status === "notstarted" && !person.linked)
     || !data.some((c) => (c.skills || []).length));
 
-  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID };
+  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID };
 
   return (
     <div className="ed-plan-wrap" style={{ paddingRight: (comments != null || changesOpen) && pushRoom ? 344 : 0, transition: "padding .25s ease" }}>
@@ -729,7 +729,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
             <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
               <MgrAvatar p={person} size={46} />
               <div style={{ lineHeight: 1.35 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{person.first} {person.last}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{person.first} {person.last}</div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{person.email}</div>
               </div>
             </div>
@@ -908,7 +908,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div className="ed-plan-sample-chip" style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
           {sampleMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, maxHeight: 420, overflowY: "auto", background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Plan design</div>
               {SAMPLES.map((sm) => { const on = sample === sm.id; return (
                 <button key={sm.id} onClick={() => pickSample(sm.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
@@ -927,7 +927,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div className="mgr-note-chip" style={{ position: "fixed", right: 200, bottom: 98, zIndex: 60, fontFamily: "var(--sans)" }}>
           {noteMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 268, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Decision note</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Decision note</div>
               {MGR_NOTE_DESIGNS.map((o) => { const on = noteDesign === o.id; return (
                 <button key={o.id} onClick={() => pickNote(o.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
@@ -945,7 +945,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div className="ed-plan-usercard-chip" style={{ position: "fixed", right: 200, bottom: 56, zIndex: 60, fontFamily: "var(--sans)" }}>
           {userCardMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 250, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Reportee card</div>
               {[[2, "Minimal", "Just picture, name and email"], [1, "Divided", "Identity beside a metadata grid"], [3, "Hero panel", "Tinted identity column"], [5, "By skill", "Summary lists each skill with its actions & completion"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>

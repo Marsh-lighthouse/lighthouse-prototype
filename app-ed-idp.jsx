@@ -33,7 +33,7 @@ function IdpCompBars() {
     <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: 20 }}>
       {LH.competencies.map((c, i) => (
         <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: i < LH.competencies.length - 1 ? 14 : 0 }}>
-          <div style={{ width: 150, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eINK, flexShrink: 0, textAlign: "right" }}>{c.label}</div>
+          <div style={{ width: 150, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, flexShrink: 0, textAlign: "right" }}>{c.label}</div>
           <div style={{ flex: 1, height: 10, background: "var(--track)", borderRadius: 5, overflow: "hidden" }}>
             <div style={{ width: `${c.score}%`, height: "100%", background: barColor(c.score), borderRadius: 5, transition: "width .8s ease" }} />
           </div>
@@ -499,7 +499,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <textarea value={val || ""} onChange={(e) => setVal(e.target.value)} placeholder="Type your answer here…" rows={4} style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", borderRadius: 10, border: "1.5px solid " + eLINE, fontSize: 15, resize: "vertical", outline: "none", fontFamily: "var(--sans)", color: eINK, lineHeight: 1.6 }} />
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 9, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}><span style={{ color: eBLUE, display: "flex" }}><I.spark size={14} /></span> Suggested by AI</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 9, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT }}><span style={{ color: eBLUE, display: "flex" }}><I.spark size={14} /></span> Suggested by AI</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {q.chips.map((c) => { const on = (val || "").includes(c); return <IdpChip key={c} label={c} selected={on} onClick={() => setVal(val ? (on ? val : val + ", " + c) : c)} />; })}
             </div>
@@ -580,7 +580,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
   // Shared design switcher \u2014 a floating chip (like "All directions") to flip skins.
   const designSwitch = (
     <div className="ed-idp-designchip" style={{ position: "fixed", left: "calc(var(--rail-w, 256px) + 20px)", bottom: 16, zIndex: 45, display: "flex", alignItems: "center", gap: 8, background: eCARD, border: "1px solid " + eLINE, borderRadius: 10, padding: "7px 9px 7px 12px", boxShadow: "0 6px 20px rgba(0,15,71,.12)" }}>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Coach design</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT }}>Coach design</span>
       {[1, 2, 3].map((d) => (
         <button key={d} onClick={() => pickDesign(d)} title={d === 1 ? "Classic wizard" : d === 2 ? "Conversational coach" : "Chat only — Your Development Guide"}
           style={{ width: 30, height: 28, borderRadius: 7, border: "1px solid " + (design === d ? eBLUE : eLINE), background: design === d ? eBLUE : "#fff", color: design === d ? "#fff" : eMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{d}</button>
@@ -618,7 +618,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           </div>
           {/* progress bar */}
           <div style={{ marginBottom: 22 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT }}>
               <span>Question {qi + 1} of {total}</span><span>{pct}% complete</span>
             </div>
             <div style={{ height: 6, borderRadius: 3, background: "rgba(0,15,71,.08)", overflow: "hidden" }}>
@@ -629,14 +629,14 @@ function IdpWizard({ initial, onBack, onFinish }) {
           <div style={{ display: "flex", gap: 11, alignItems: "flex-start", marginBottom: 16 }}>
             <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={16} /></div>
             <div style={{ flex: 1, minWidth: 0, background: "#fff", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 18px" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eBLUE, marginBottom: 6 }}>Question {qi + 1}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eBLUE, marginBottom: 6 }}>Question {qi + 1}</div>
               <div className="serif" style={{ fontSize: 21, color: eMID, lineHeight: 1.25 }}>{q.q}</div>
             </div>
           </div>
           {/* reply dock */}
           <div style={{ marginLeft: 45 }}>
             <div style={{ background: error ? "color-mix(in srgb, var(--danger) 5%, var(--card))" : eCARD, border: error ? "1.5px solid " + eDANGER : "1px solid " + eLINE, borderRadius: 16, padding: "18px 18px 20px", transition: "border-color .2s, background .2s" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, marginBottom: 13 }}>Your reply</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, marginBottom: 13 }}>Your reply</div>
               {renderInput()}
             </div>
             {/* Only errors surface inline (you must see them). Positive coach responses
@@ -680,13 +680,13 @@ function IdpWizard({ initial, onBack, onFinish }) {
           <div ref={coachScrollRef} style={{ flex: 1, overflowY: "auto", padding: "16px 16px 70vh" }}>
             {themes.length > 0 && (
               <div style={{ marginBottom: 20 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, marginBottom: 10 }}>What we have learned</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, marginBottom: 10 }}>What we have learned</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
                   {themes.slice(0, 12).map((tg, ix) => <span key={ix} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eBLUE, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", borderRadius: 8, padding: "5px 10px" }}>{tg}</span>)}
                 </div>
               </div>
             )}
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, marginBottom: 10 }}>Questions</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, marginBottom: 10 }}>Questions</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {IDP_Q.map((qq, i) => {
                 const isCur = i === qi, isErr = isCur && !!error, done = i < qi;
@@ -878,7 +878,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           {G3_GAPS.gaps.map((g, i) => (
             <div key={i} style={{ marginBottom: 13 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, marginBottom: 5 }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{g.skill}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{g.skill}</span>
                 <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, whiteSpace: "nowrap" }}>{g.score.toFixed(1)} / {g.target.toFixed(1)} target</span>
               </div>
               <div style={{ position: "relative", height: 6, borderRadius: 3, background: "rgba(0,15,71,.10)" }}>
@@ -902,7 +902,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           </React.Fragment>
         )}
         <div style={{ borderTop: "1px solid " + eLINE, margin: "18px 0" }} />
-        <p style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.6, margin: "0 0 14px" }}>I can now create a tailored plan with practical actions to support your growth. You can also restart the chat to refine your inputs, if needed.</p>
+        <p style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, lineHeight: 1.6, margin: "0 0 14px" }}>I can now create a tailored plan with practical actions to support your growth. You can also restart the chat to refine your inputs, if needed.</p>
         <div className="ed-idp-g3actions" style={{ position: "relative", display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
           <button onClick={() => setG3Confirm(true)}
             style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--danger)", color: "#fff", border: "none", borderRadius: 8, padding: "11px 17px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
@@ -1268,16 +1268,16 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
                     <polygon fill="#fff" points="0 0 0 44.26 8.1 44.26 8.1 24.4 20.9 30.43 21.52 30.43 .68 0 0 0" />
                   </svg>
                   <div>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#CEECFF", marginBottom: 14 }}>Confidential · For internal use only</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase", color: "#CEECFF", marginBottom: 14 }}>Confidential · For internal use only</div>
                     <h1 className="serif" style={{ fontSize: 40, color: "#fff", lineHeight: 1.06, margin: "0 0 26px", maxWidth: 440 }}>Leadership Program Report</h1>
                     <div style={{ borderTop: "1px solid rgba(255,255,255,.22)", paddingTop: 18, display: "flex", gap: 48, flexWrap: "wrap" }}>
                       <div>
                         <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: "rgba(206,236,255,.75)", marginBottom: 5 }}>Report for</div>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#fff" }}>{LH.user.first} {LH.user.last}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#fff" }}>{LH.user.first} {LH.user.last}</div>
                       </div>
                       <div>
                         <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: "rgba(206,236,255,.75)", marginBottom: 5 }}>Based on</div>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#fff" }}>{rpt.based.join(", ")}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#fff" }}>{rpt.based.join(", ")}</div>
                       </div>
                     </div>
                   </div>
@@ -1430,7 +1430,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
               <div key={i} style={{ paddingBottom: 12, marginBottom: 12, borderBottom: i < noteEntries.length - 1 ? "1px solid " + eLINE : "none" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
                   <span style={{ color: eSUCCESS, display: "flex" }}><I.check size={13} /></span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: eBLUE }}>{n.label}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: eBLUE }}>{n.label}</span>
                 </div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{n.value}</div>
               </div>
@@ -1498,7 +1498,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
     const gapRow = (g, i) => (
       <div key={i} style={{ marginBottom: 13 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, marginBottom: 5 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{g.skill}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{g.skill}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, whiteSpace: "nowrap" }}>{g.score.toFixed(1)} / {g.target.toFixed(1)} target</span>
         </div>
         <div style={{ position: "relative", height: 6, borderRadius: 3, background: "rgba(0,15,71,.08)" }}>

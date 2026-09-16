@@ -35,11 +35,11 @@ function EdBack({ label, onClick }) {
 }
 
 function EdEyebrow({ children, color = eBLUE }) {
-  return <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color, marginBottom: 12 }}>{children}</div>;
+  return <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color, marginBottom: 12 }}>{children}</div>;
 }
 
 function EdSectionLabel({ children }) {
-  return <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: eMUT, marginBottom: 4 }}>{children}</div>;
+  return <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: eMUT, marginBottom: 4 }}>{children}</div>;
 }
 
 function EdBtn({ children, primary, small, disabled, onClick, full, dark }) {
@@ -89,7 +89,7 @@ function EdRow({ item, accent, onClick }) {
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{item.name}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{item.name}</span>
           {item.proctored && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: ePURP, background: "rgba(143,32,222,.10)", padding: "2px 8px", borderRadius: 5, display: "inline-flex", alignItems: "center", gap: 4 }}><I.shield size={12} /> Proctored</span>}
           {item.hasReport && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Report ready</span>}
         </div>
@@ -479,7 +479,7 @@ function EdTasks({ prog, onBack, onOpenCenter, onProctored, onOpenAssess, onSche
         {stats.map((m, i) =>
       <div key={i} style={{ textAlign: "center", padding: "0 18px", borderLeft: i ? "1px solid " + eLINE : "none" }}>
             <div className="serif" style={{ fontSize: 21, color: i === 1 ? eWARN : eMID, lineHeight: 1 }}>{m.v}</div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: eMUT, marginTop: 5 }}>{m.l}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: eMUT, marginTop: 5 }}>{m.l}</div>
           </div>
       )}
       </div>
@@ -1035,7 +1035,7 @@ function ScWelcome({ target, onStart, audioOnly }) {
   const iconTile = (icon) => <div style={{ width: 44, height: 44, borderRadius: "50%", background: scTint(eBLUE, "10%"), border: "1px solid " + scTint(eBLUE, "22%"), color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{icon}</div>;
   const cardHead = (icon, title, subtitle) => <div style={{ display: "flex", alignItems: subtitle ? "flex-start" : "center", gap: 13, marginBottom: 16 }}>{iconTile(icon)}<div><h3 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.25 }}>{title}</h3>{subtitle && <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, margin: "3px 0 0", lineHeight: 1.45 }}>{subtitle}</p>}</div></div>;
   const note = (t) => <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.55, margin: "14px 0 0" }}>{t}</p>;
-  const kv = (k, v) => <div style={{ display: "flex", gap: 12, padding: "6px 0", alignItems: "baseline" }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT, minWidth: 118, flexShrink: 0, whiteSpace: "nowrap" }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{v}</span></div>;
+  const kv = (k, v) => <div style={{ display: "flex", gap: 12, padding: "6px 0", alignItems: "baseline" }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, minWidth: 118, flexShrink: 0, whiteSpace: "nowrap" }}>{k}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{v}</span></div>;
   const chk = (icon, label) => <div style={{ display: "flex", alignItems: "center", gap: 9 }}><span style={{ color: eBLUE, display: "flex" }}>{icon}</span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>{label}</span></div>;
   const li = (t, i) => <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}><span style={{ color: eSUCCESS, display: "flex", flexShrink: 0, marginTop: 1 }}><I.check size={16} /></span><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t}</span></div>;
   const colTitle = (icon, title) => <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14 }}><span style={{ color: eMID, display: "flex" }}>{icon}</span><h4 style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: 0 }}>{title}</h4></div>;
@@ -2210,7 +2210,7 @@ function ScResult({ results, onRerun, onBack, onLaunch, vertical, audioOnly }) {
         <p style={{ fontFamily: "var(--sans)", fontSize: mob ? 13 : 15, color: eMUT, margin: 0, lineHeight: 1.45 }}>{allPass ? "All checks passed — you're ready to begin your assessment." : "Potential system failures may affect assessments — please proceed only after all checks pass."}</p>
       </div>
       <div style={{ ...scCard, overflow: "hidden", marginTop: 22 }}>
-        {!mob && <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>
+        {!mob && <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 148px", gap: 16, padding: "14px 22px", background: scTint(eMID, "3%"), borderBottom: "1px solid " + eLINE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>
           <span>Check</span><span style={{ textAlign: "center" }}>Result</span><span style={{ textAlign: "right" }}>Details</span>
         </div>}
         {CHECKS.map((c, i) => {

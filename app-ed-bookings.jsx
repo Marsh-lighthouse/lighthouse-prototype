@@ -233,7 +233,7 @@ function EdBookings() {
       <div style={wrap}>
         {/* ── heading + description live on the page (not trapped in a scrolling box) ── */}
         <h1 className="serif" style={{ fontSize: 28, color: kINK, lineHeight: 1.12, margin: "0 0 10px" }}>{f.invite.title}</h1>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, marginBottom: 14 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, marginBottom: 14 }}>
           <I.clock size={16} /> {f.invite.dur} session
         </div>
         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, lineHeight: 1.65, margin: "0 0 6px", maxWidth: 720, ...(descOpen ? {} : { display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }) }}>{f.invite.desc}</p>
@@ -263,7 +263,7 @@ function EdBookings() {
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6 }}>
                 {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) =>
-                  <div key={d} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kMUT, paddingBottom: 6 }}>{d}</div>)}
+                  <div key={d} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: kMUT, paddingBottom: 6 }}>{d}</div>)}
                 {BK_CELLS.map((n, i) => {
                   if (n == null) return <div key={i} />;
                   const avail = BK_AVAIL.includes(n);
@@ -352,7 +352,7 @@ function EdBookings() {
   // ── Invite-card layout SAMPLES (same content, different presentation). ──
   // Add a new object to BK_SAMPLES to extend the gallery; the bottom switcher cycles them.
   const inviteMeta = (iv, size) => (
-    <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}><I.clock size={size || 16} /> {iv.dur}</div>
+    <div style={{ display: "inline-flex", alignItems: "center", gap: 7, color: kMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}><I.clock size={size || 16} /> {iv.dur}</div>
   );
   // 1 · Editorial — the accordion card (current default)
   const inviteEditorial = (iv) => (
@@ -466,7 +466,7 @@ function EdBookings() {
               head={<React.Fragment>
                 <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{bk.title}</h2>
                 <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16, fontFamily: "var(--sans)", fontSize: 15 }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kMUT, fontWeight: 700 }}><I.clock size={15} /> {durLabel}</span>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kMUT, fontWeight: 400 }}><I.clock size={15} /> {durLabel}</span>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kINK }}><I.cal size={15} /> {bk.day}th August 2026 <b style={{ fontWeight: 700 }}>{bk.start}</b> - <b style={{ fontWeight: 700 }}>{bk.end}</b> <span style={{ color: kMUT }}>(GMT+2)</span></span>
                 </div>
               </React.Fragment>}
@@ -487,7 +487,7 @@ function EdBookings() {
         <div style={{ position: "fixed", right: 172, bottom: 14, zIndex: 190 }}>
           {sampleMenu &&
             <div style={{ position: "absolute", bottom: "calc(100% + 8px)", right: 0, minWidth: 220, background: kCARD, border: "1px solid " + kLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: 6 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: kMUT, padding: "8px 12px 6px" }}>Card style</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400, letterSpacing: ".05em", textTransform: "uppercase", color: kMUT, padding: "8px 12px 6px" }}>Card style</div>
               {BK_SAMPLES.map((s, i) => {
                 const on = i === sample;
                 return (

@@ -55,7 +55,7 @@ function MnStepper({ step, design }) {
     return (
       <div style={{ marginBottom: 30 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMUT }}>Step {step + 1} of {MN_STEPS.length}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT }}>Step {step + 1} of {MN_STEPS.length}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID }}>{MN_STEPS[step]}</span>
         </div>
         <div style={{ display: "flex", gap: 6 }}>
@@ -439,7 +439,7 @@ function MnManualFlow({ onExit, onDone }) {
         <div ref={stepRef} className="ed-plan-sample-chip" style={{ position: "fixed", right: 200, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
           {stepMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 276, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: eMUT, padding: "6px 9px 4px" }}>Step design</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Step design</div>
               {MN_STEPPER_DESIGNS.map((o) => { const on = stepDesign === o.id; return (
                 <button key={o.id} onClick={() => { setStepDesign(o.id); try { localStorage.setItem("mn-stepper-design", String(o.id)); } catch (e) {} setStepMenu(false); }}
                   style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>

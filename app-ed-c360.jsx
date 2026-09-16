@@ -141,7 +141,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           { k: "Report", v: responseRate >= 60 ? "Ready" : "Locked", hint: responseRate >= 60 ? "Review now" : "Needs 60%+", color: responseRate >= 60 ? qGREEN : qMUT },
         ].map((m) => (
           <div key={m.k} style={{ padding: "16px", background: qCARD, border: "1px solid " + qLINE, borderRadius: cr }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 8 }}>{m.k}</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)", marginBottom: 8 }}>{m.k}</div>
             <div className="serif" style={{ fontSize: 21, color: m.color, lineHeight: 1, marginBottom: 4 }}>{m.v}</div>
             <div style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)" }}>{m.hint}</div>
           </div>
@@ -155,7 +155,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
         <div onClick={() => setC360Step(c360SelfDone ? "selfDone" : "selfIntro")} style={{ cursor: "pointer", padding: 24, background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, transition: "border-color .2s, transform .2s", display: "flex", flexDirection: "column" }}
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = qMID; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = qLINE; }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)" }}>Step 01 · Self-evaluation</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)" }}>Step 01 · Self-evaluation</div>
             {c360SelfDone && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 99, background: "color-mix(in srgb, #14853D 15%, #ffffff)", color: "#14853D", fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)" }}><QI.Check s={11} /> Done</div>}
           </div>
           <h2 className="serif" style={{ fontSize: 21, color: qMID, lineHeight: 1.15, margin: "0 0 10px" }}>Rate yourself first.</h2>
@@ -174,7 +174,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
         <div onClick={() => setC360Step("nominate")} style={{ cursor: "pointer", padding: 24, background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, transition: "border-color .2s, transform .2s", display: "flex", flexDirection: "column" }}
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = qMID; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = qLINE; }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)" }}>Step 02 · Nominate</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)" }}>Step 02 · Nominate</div>
             {c360Invited && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 99, background: qPURPLE_BG, color: qPURPLE, fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)" }}>Invitations sent</div>}
           </div>
           <h2 className="serif" style={{ fontSize: 21, color: qMID, lineHeight: 1.15, margin: "0 0 10px" }}>Invite your raters.</h2>
@@ -199,7 +199,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
         <div onClick={() => setC360Step("track")} style={{ cursor: "pointer", padding: 24, background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, transition: "border-color .2s, transform .2s", display: "flex", flexDirection: "column" }}
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = qMID; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = qLINE; }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)" }}>Step 03 · Track</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)" }}>Step 03 · Track</div>
             <div style={{ fontSize: 15, fontFamily: "var(--sans)", color: qINK }}>{doneCount}/{tot} complete</div>
           </div>
           <h2 className="serif" style={{ fontSize: 21, color: qMID, lineHeight: 1.15, margin: "0 0 10px" }}>Watch responses come in.</h2>
@@ -218,7 +218,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
         <div onClick={() => setC360Step("report")} style={{ cursor: "pointer", padding: 24, background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, transition: "border-color .2s, transform .2s", display: "flex", flexDirection: "column", opacity: responseRate >= 60 ? 1 : .9 }}
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = qMID; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = qLINE; }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)" }}>Step 04 · Report</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)" }}>Step 04 · Report</div>
             {responseRate >= 60 ? (
               <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 99, background: "color-mix(in srgb, #002C77 15%, #ffffff)", color: "#002C77", fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)" }}>Ready</div>
             ) : (
@@ -246,7 +246,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
       <h1 className="serif" style={{ fontSize: isMob ? 28 : 40, color: qMID, lineHeight: 1.05, margin: "0 0 16px" }}>Before you ask others, rate yourself.</h1>
       <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.7, margin: "0 0 28px" }}>You'll rate yourself on {totalSelf} leadership competencies using a 5-point scale. About 6 minutes. Your answers are private — they anchor the gap analysis when raters respond.</p>
       <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, padding: 20, marginBottom: 28 }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 12 }}>Rating scale</div>
+        <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)", marginBottom: 12 }}>Rating scale</div>
         <div style={{ display: "grid", gridTemplateColumns: isMob ? "1fr" : "repeat(5,1fr)", gap: isMob ? 6 : 4 }}>
           {scale.map((x, xi) => (
             <div key={x.n} style={{ padding: 10, textAlign: isMob ? "left" : "center", borderLeft: isMob ? "2px solid " + qLINE : "none", borderRight: isMob ? "none" : (xi < 4 ? "1px solid " + qLINE : "none"), paddingLeft: isMob ? 12 : 10 }}>
@@ -272,7 +272,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
     return (
       <div style={{ ...wrap, maxWidth: 720 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", whiteSpace: "nowrap" }}>Question {i + 1} of {c360Comps.length}</div>
+          <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)", whiteSpace: "nowrap" }}>Question {i + 1} of {c360Comps.length}</div>
           <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
             <div style={{ height: "100%", width: `${((i + 1) / c360Comps.length) * 100}%`, background: "var(--pl-fill)", flexShrink: 0, transition: "width .3s ease" }} />
             {i + 1 < c360Comps.length && <div style={{ width: 2, flexShrink: 0 }} />}
@@ -375,7 +375,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                       <button key={cand.id} onClick={() => toggle(cand)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: picked ? qPURPLE_BG : qCARD, border: "1px solid " + (picked ? qPURPLE : qLINE), borderRadius: sr, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", transition: "all .15s ease" }}>
                         <div className="serif" style={{ width: 36, height: 36, borderRadius: "50%", background: picked ? qPURPLE : "rgba(0,15,71,.07)", color: picked ? "#fff" : qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{cand.avatar}</div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 15, fontWeight: 700, color: qMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.name}</div>
+                          <div style={{ fontSize: 15, fontWeight: 400, color: qMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.name}</div>
                           <div style={{ fontSize: 15, color: qINK, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.role}</div>
                         </div>
                         <div style={{ width: 20, height: 20, borderRadius: "50%", border: "1px solid " + (picked ? qPURPLE : qLINE), background: picked ? qPURPLE : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
@@ -394,7 +394,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             <div className="serif" style={{ fontSize: 21, color: qMID, marginBottom: 6 }}>Invitation</div>
             <div style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", marginBottom: 14 }}>Preview before sending</div>
             <textarea value={c360Msg} onChange={e => setC360Msg(e.target.value)} rows={5} style={{ width: "100%", padding: "10px 12px", borderRadius: ir, border: "1px solid " + qLINE, background: "var(--card)", color: qMID, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, resize: "vertical", boxSizing: "border-box", marginBottom: 14 }} />
-            <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 6 }}>Deadline</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)", marginBottom: 6 }}>Deadline</div>
             <input type="date" value={c360Deadline} onChange={e => setC360Deadline(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: ir, border: "1px solid " + qLINE, background: "var(--card)", color: qMID, fontFamily: "var(--sans)", fontSize: 15, boxSizing: "border-box", marginBottom: 18 }} />
             <div style={{ padding: "12px 14px", background: canSend ? "rgba(20,133,61,.08)" : "rgba(0,15,71,.03)", borderRadius: sr, fontSize: 15, color: canSend ? qGREEN : qINK, fontFamily: "var(--sans)", marginBottom: 14, lineHeight: 1.5, display: "flex", gap: 8 }}>
               <span style={{ color: canSend ? qGREEN : qMUT, flexShrink: 0, marginTop: 2 }}><QI.Check s={14} /></span>
@@ -428,7 +428,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             { l: "Response rate", n: `${responseRate}%`, c: responseRate >= 60 ? qGREEN : qGOLDINK },
           ].map((m) => (
             <div key={m.l}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: qMUT, fontFamily: "var(--sans)", marginBottom: 6 }}>{m.l}</div>
+              <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)", marginBottom: 6 }}>{m.l}</div>
               <div className="serif" style={{ fontSize: 28, color: m.c }}>{m.n}</div>
             </div>
           ))}
@@ -448,7 +448,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
               <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i > 0 ? "1px solid " + qLINE : "none" }}>
                 <div className="serif" style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(0,15,71,.06)", color: qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{r.avatar}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: qMID, fontFamily: "var(--sans)", marginBottom: 2 }}>{r.name}</div>
+                  <div style={{ fontSize: 15, fontWeight: 400, color: qMID, fontFamily: "var(--sans)", marginBottom: 2 }}>{r.name}</div>
                   <div style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)" }}>{r.role}</div>
                 </div>
                 {!isMob && <div style={{ width: 100, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
