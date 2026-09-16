@@ -11,7 +11,7 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
-const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat", rankgrid: "Rank grid", ranknum: "Rank (number)", ranklist: "Rank (reorder list)" }[t] || "Question");
+const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat", rankgrid: "Rank grid", ranknum: "Rank (number)", ranklist: "Rank (reorder list)", sbs: "Side by side" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 // Native <select> styled MDS: hides the browser arrow and draws our own chevron with right spacing.
 const oaSelectStyle = {
@@ -278,7 +278,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   oaUseEffect(() => { if (!recording) return; const t = setInterval(() => setRecTime((p) => p + 1), 1000); return () => clearInterval(t); }, [recording]);
   const items = q.type === "rank" ? (Array.isArray(value) ? value : []) : null;
   const a = q.type === "matrix" ? (value || {}) : null;
-  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "", rankgrid: "Rank each item", ranknum: "Type a rank for each option", ranklist: "Select an item, then reorder" }[q.type];
+  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", sbs: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "", rankgrid: "Rank each item", ranknum: "Type a rank for each option", ranklist: "Select an item, then reorder" }[q.type];
   return (
     <div style={{ background: "var(--card)", border: "1px solid " + (error ? eDANGER : eLINE), borderRadius: 16, padding: "26px 28px", transition: "border-color .15s" }}>
       {!hidePrompt && <p className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1.3, margin: "0 0 18px" }}>{q.prompt}</p>}
@@ -1290,7 +1290,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
       })()}
 
       {/* SIDE BY SIDE */}
-      {q.type === "sidebyside" && (() => {
+      {(q.type === "sidebyside" || q.type === "sbs") && (() => {
         const v = value || {};
         return compact ? (
           // Phone: the wide context table becomes one card per statement — each context
@@ -1317,35 +1317,48 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               </div>
             ))}
           </div>
-        ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 480 }}>
-              <thead>
-                <tr>
-                  <th></th>
-                  {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
-                </tr>
-                <tr>
-                  <th></th>
-                  {q.groups.map((g, gi) => g.cols.map((c, ci) => <th key={gi + "-" + ci} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, fontWeight: 500, padding: "4px 10px", textAlign: "center" }}>{c}</th>))}
-                </tr>
-              </thead>
-              <tbody>
-                {q.statements.map((s, si) =>
-                  <tr key={si} style={{ borderTop: "1px solid " + eLINE }}>
-                    <td style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, padding: "10px 8px" }}>{s}</td>
-                    {q.groups.map((g, gi) => g.cols.map((c, ci) => {
-                      const sel = v[si] && v[si][gi] === ci;
-                      return (
-                        <td key={gi + "-" + ci} style={{ textAlign: "center", padding: "10px 8px" }}>
-                          <button onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 9, height: 9, borderRadius: "50%", background: eBLUE, display: "block" }} />}</button>
-                        </td>);
-                    }))}
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>);
+        ) : (() => {
+          // `labels`: "top" (default) = group + answer headers at the top only.
+          // "topBottom" = also repeat the answer headers at the bottom.
+          // "repeat" = repeat the answer headers under every choice row.
+          const groupHeadRow = (k) => (
+            <tr key={k}>
+              <th></th>
+              {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
+            </tr>
+          );
+          const answerHeadRow = (k) => (
+            <tr key={k}>
+              <th></th>
+              {q.groups.map((g, gi) => g.cols.map((c, ci) => <th key={gi + "-" + ci} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, fontWeight: 500, padding: "8px 10px", textAlign: "center" }}>{c}</th>))}
+            </tr>
+          );
+          const rowEl = (s, si) => (
+            <tr key={"r" + si} style={{ borderTop: "1px solid " + eLINE }}>
+              <td style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, padding: "12px 8px" }}>{s}</td>
+              {q.groups.map((g, gi) => g.cols.map((c, ci) => {
+                const sel = v[si] && v[si][gi] === ci;
+                return (
+                  <td key={gi + "-" + ci} style={{ textAlign: "center", padding: "12px 8px" }}>
+                    <button onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ width: 22, height: 22, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: "transparent", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 0 }}>{sel && <span style={{ width: 10, height: 10, borderRadius: "50%", background: eBLUE, display: "block" }} />}</button>
+                  </td>);
+              }))}
+            </tr>
+          );
+          const body = [];
+          q.statements.forEach((s, si) => {
+            body.push(rowEl(s, si));
+            if (q.labels === "repeat") body.push(answerHeadRow("rep-" + si));
+          });
+          if (q.labels === "topBottom") body.push(answerHeadRow("bottom"));
+          return (
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 480 }}>
+                <thead>{groupHeadRow("gh")}{answerHeadRow("ah")}</thead>
+                <tbody>{body}</tbody>
+              </table>
+            </div>);
+        })();
       })()}
 
       {/* GAP ANALYSIS — face scale + Tell Us Why */}

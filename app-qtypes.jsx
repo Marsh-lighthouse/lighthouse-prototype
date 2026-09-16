@@ -47,6 +47,8 @@
       { id: "slider",     label: "Slider",              qid: "oq_slider", also: ["slidergrid", "bargrid", "stargrid"] },
       // Rank Order also carries the rank-grid, number-entry and reorder-list variants.
       { id: "rank",       label: "Rank Order",          qid: "oq3", also: ["rankgrid", "ranknum", "ranklist"] },
+      // Side by Side — its own tab with several label-placement views (top / top & bottom / per row).
+      { id: "sbs",        label: "Side by Side",        qid: "oq_sbs_top" },
     ]},
     { cat: "Speciality Questions", items: [
       { id: "constantsum",   label: "Constant Sum",             qid: "oq_csum" },
