@@ -1515,6 +1515,61 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
       {/* GRAPHIC SLIDER — gauge */}
       {q.type === "graphicslider" && (() => {
         const val = typeof value === "number" ? value : 0;
+        // `graphic`: thermometer | trafficlight | smiley | grade | gradeAD → big graphic + vertical slider.
+        if (q.graphic) {
+          const pick = (arr) => arr[Math.min(arr.length - 1, Math.max(0, Math.floor(val / 100 * arr.length)))];
+          const teal = "#0E5A6E", lime = "#9BC53D";
+          let graphic = null;
+          if (q.graphic === "thermometer") {
+            const top = 24, bot = 196; const fillTop = top + (1 - val / 100) * (bot - top);
+            graphic = (
+              <svg viewBox="0 0 90 280" width="90" height="260">
+                <rect x="34" y="14" width="22" height="188" rx="11" fill="#fff" stroke="#8A8A8A" strokeWidth="3" />
+                <circle cx="45" cy="228" r="34" fill="#fff" stroke="#8A8A8A" strokeWidth="3" />
+                <circle cx="45" cy="228" r="24" fill="#E02B27" />
+                <rect x="39" y={fillTop} width="12" height={232 - fillTop} rx="6" fill="#E02B27" />
+                {Array.from({ length: 8 }).map((_, i) => <line key={i} x1="58" x2={i % 2 ? 74 : 68} y1={30 + i * 22} y2={30 + i * 22} stroke="#4A4A4A" strokeWidth="2.5" strokeLinecap="round" />)}
+              </svg>
+            );
+          } else if (q.graphic === "trafficlight") {
+            const active = val < 34 ? "red" : val < 67 ? "amber" : "green";
+            const lamp = (cy, on, onColor) => <circle cx="60" cy={cy} r="26" fill={on ? onColor : "#3A4A52"} opacity={on ? 1 : 0.55} />;
+            graphic = (
+              <svg viewBox="0 0 120 250" width="110" height="250">
+                <rect x="18" y="10" width="84" height="230" rx="18" fill={teal} />
+                {lamp(62, active === "red", "#E5484D")}
+                {lamp(125, active === "amber", "#F5C451")}
+                {lamp(188, active === "green", "#2FA36B")}
+              </svg>
+            );
+          } else if (q.graphic === "smiley") {
+            const cy = 62 - (val / 100) * 26; // frown(high y) → smile(low y control): invert so up = happier
+            const ctrl = 50 + (val / 100) * 34; // 50 frown → 84 smile
+            graphic = (
+              <svg viewBox="0 0 100 100" width="220" height="220">
+                <circle cx="50" cy="50" r="45" fill="#F7D117" stroke="#111" strokeWidth="4" />
+                <circle cx="36" cy="42" r="5.5" fill="#111" />
+                <circle cx="64" cy="42" r="5.5" fill="#111" />
+                <path d={`M32,64 Q50,${ctrl} 68,64`} fill="none" stroke="#111" strokeWidth="5" strokeLinecap="round" />
+              </svg>
+            );
+          } else if (q.graphic === "grade" || q.graphic === "gradeAD") {
+            const scale = q.graphic === "gradeAD" ? ["D", "C", "B", "A"] : ["D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"];
+            const g = pick(scale);
+            graphic = (
+              <svg viewBox="0 0 200 200" width="220" height="220">
+                <circle cx="100" cy="100" r="95" fill={teal} />
+                <text x="100" y="100" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize={g.length > 1 ? 96 : 120} fill={lime} textAnchor="middle" dominantBaseline="central">{g}</text>
+              </svg>
+            );
+          }
+          return (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 44, padding: "6px 0", minHeight: 260 }}>
+              <div style={{ flexShrink: 0, display: "flex", alignItems: "center" }}>{graphic}</div>
+              <input type="range" min="0" max="100" value={val} onChange={(e) => onChange(Number(e.target.value))}
+                style={{ writingMode: "vertical-lr", WebkitAppearance: "slider-vertical", direction: "rtl", width: 24, height: 240, accentColor: "var(--primary)", cursor: "pointer" }} />
+            </div>);
+        }
         return (
           <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
             <div style={{ width: 88, height: 88, borderRadius: "50%", background: "var(--surface-deep)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative" }}>
