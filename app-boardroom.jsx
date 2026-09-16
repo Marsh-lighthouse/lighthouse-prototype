@@ -45,7 +45,7 @@ function BRail({ activeId, onNav, collapsed, onToggle, theme }) {
         justifyContent: collapsed ? "center" : "flex-start", borderRadius: 9,
         background: active ? "var(--sky-surface)" : "transparent",
         color: active ? bMID : bMID, cursor: "pointer",
-        fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 400, position: "relative",
+        fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, position: "relative",
       }}>
         {active && !collapsed && <div style={{ position: "absolute", left: 0, top: 9, bottom: 9, width: 3, borderRadius: 3, background: bSKY }} />}
         <span style={{ color: active ? bMID : bMID, display: "flex" }}><Ic size={19} /></span>

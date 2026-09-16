@@ -110,7 +110,7 @@
     return React.createElement("div", { style: { display: "flex", gap: 14, borderBottom: "1px solid " + BD, marginBottom: 9 } },
       items.map(function (t, i) {
         var on = i === active;
-        return React.createElement("span", { key: i, style: { paddingBottom: 6, fontFamily: SANS, fontSize: 11.5, fontWeight: on ? 700 : 700, color: on ? NAVY : TM, borderBottom: "2px solid " + (on ? NAVY : "transparent"), marginBottom: -1, whiteSpace: "nowrap" } }, t);
+        return React.createElement("span", { key: i, style: { paddingBottom: 6, fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: on ? NAVY : TM, borderBottom: "2px solid " + (on ? NAVY : "transparent"), marginBottom: -1, whiteSpace: "nowrap" } }, t);
       })
     );
   }

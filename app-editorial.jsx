@@ -65,7 +65,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
       padding: collapsed ? "11px 0" : "10px 14px", borderRadius: 9,
       background: active ? "var(--rail-active-bg)" : "transparent",
       color: active ? "var(--rail-active-fg)" : "var(--rail-fg)", cursor: "pointer",
-      fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 700 : 400, position: "relative",
+      fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, position: "relative",
     }}>
       {active && !collapsed && <div style={{ position: "absolute", left: 0, top: 9, bottom: 9, width: 3, borderRadius: 3, background: SKY }} />}
       <span style={{ color: active ? "var(--rail-active-icon)" : "var(--rail-icon)", display: "flex" }}><Ic size={19} /></span>
@@ -82,7 +82,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
         display: "flex", alignItems: "center", gap: 10, padding: "8px 14px 8px 45px", borderRadius: 9,
         background: active ? "var(--rail-active-bg)" : "transparent",
         color: active ? "var(--rail-active-fg)" : "var(--rail-fg)", cursor: "pointer",
-        fontFamily: "var(--sans)", fontSize: 13, fontWeight: active ? 700 : 400, position: "relative",
+        fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, position: "relative",
       }}>
       <span style={{ position: "absolute", left: 27, width: 5, height: 5, borderRadius: 5, background: active ? SKY : "var(--rail-icon)", opacity: active ? 1 : .55 }} />
       {item.label}

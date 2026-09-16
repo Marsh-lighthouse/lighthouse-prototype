@@ -326,8 +326,8 @@ function EdBookings() {
   const Tab = ({ id, label, count }) => {
     const on = tab === id;
     return (
-      <button onClick={() => setTab(id)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? kMID : kMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? kMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>
-        {label} <span style={{ color: kMUT, fontWeight: 700 }}>({count})</span>
+      <button onClick={() => setTab(id)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? kMID : kMUT, padding: "10px 18px", borderBottom: "2px solid " + (on ? kMID : "transparent"), marginBottom: -1, transition: "color .15s" }}>
+        {label} <span style={{ color: kMUT, fontWeight: 400 }}>({count})</span>
       </button>
     );
   };

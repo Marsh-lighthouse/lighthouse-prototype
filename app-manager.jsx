@@ -744,7 +744,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <div style={{ display: "flex", gap: 2 }}>
           {[["plan", "Plan"], ["gap", "Program Report"]].map(([k, l]) => {
             const on = tab === k;
-            return <button key={k} onClick={() => setTab(k)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? eMID : eMUT, padding: "10px 14px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1 }}>{l}</button>;
+            return <button key={k} onClick={() => setTab(k)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? eMID : eMUT, padding: "10px 14px", borderBottom: "2px solid " + (on ? eMID : "transparent"), marginBottom: -1 }}>{l}</button>;
           })}
         </div>
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, paddingBottom: 8 }}>
