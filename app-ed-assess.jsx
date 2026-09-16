@@ -887,11 +887,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             onMouseEnter={(e) => e.currentTarget.style.color = eDANGER} onMouseLeave={(e) => e.currentTarget.style.color = eMUT}><I.trash size={18} /></button>
         </div> :
         <div>
-          <button onClick={() => onChange(q.sampleFile || "Leadership_Impact_Report.pdf")}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 16px", borderRadius: 10, border: "1px solid var(--field-line)", background: eCARD, color: eINK, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600 }}
-            onMouseEnter={(e) => e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 4%, transparent)"} onMouseLeave={(e) => e.currentTarget.style.background = eCARD}>
-            <I.upload size={16} /> Select File
-          </button>
+          {/* MDS Secondary button (the shared EdBtn component: navy text + 1.5px navy border, radius-sm) */}
+          <EdBtn small onClick={() => onChange(q.sampleFile || "Leadership_Impact_Report.pdf")}><I.upload size={16} /> Select File</EdBtn>
           {(q.accepts || q.maxSize) && <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 8 }}>{q.accepts}{q.accepts && q.maxSize ? " · " : ""}{q.maxSize ? "Max " + q.maxSize : ""}</div>}
         </div>)
       }
