@@ -11,7 +11,7 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
-const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat" }[t] || "Question");
+const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat", rankgrid: "Rank grid", ranknum: "Rank (number)", ranklist: "Rank (reorder list)" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 // Native <select> styled MDS: hides the browser arrow and draws our own chevron with right spacing.
 const oaSelectStyle = {
@@ -263,6 +263,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   }, [gridDropRow]);
   // Draft text for the Chat answer type.
   const [chatDraft, setChatDraft] = oaUseState("");
+  // Selected item in the listbox (up/down reorder) rank variant.
+  const [rankListSel, setRankListSel] = oaUseState(null);
   // Selected item for the touch (tap-to-place) variant of the pick-&-group question.
   const [pickSel, setPickSel] = oaUseState(null);
   // compact = mobile/iPad device-preview → use the stacked-card layouts; desktop keeps the original grids
@@ -276,7 +278,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   oaUseEffect(() => { if (!recording) return; const t = setInterval(() => setRecTime((p) => p + 1), 1000); return () => clearInterval(t); }, [recording]);
   const items = q.type === "rank" ? (Array.isArray(value) ? value : []) : null;
   const a = q.type === "matrix" ? (value || {}) : null;
-  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "" }[q.type];
+  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "", rankgrid: "Rank each item", ranknum: "Type a rank for each option", ranklist: "Select an item, then reorder" }[q.type];
   return (
     <div style={{ background: "var(--card)", border: "1px solid " + (error ? eDANGER : eLINE), borderRadius: 16, padding: "26px 28px", transition: "border-color .15s" }}>
       {!hidePrompt && <p className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1.3, margin: "0 0 18px" }}>{q.prompt}</p>}
@@ -437,6 +439,72 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 {["Mine", "Shared with team"].map((o) => <option key={o}>{o}</option>)}
               </select>
               <button onClick={send} aria-label="Send" style={{ width: 40, height: 40, flexShrink: 0, borderRadius: "50%", border: "none", background: green, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.send size={16} /></button>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* RANK GRID — assign a rank to each item via a radio grid (items × rank columns) */}
+      {q.type === "rankgrid" && (() => {
+        const a2 = value || {};
+        const gcols = `minmax(140px,1fr) repeat(${q.cols.length}, 1fr)`;
+        return (
+          <div className="oa-matrix">
+            <div style={{ display: "grid", gridTemplateColumns: gcols, columnGap: 10, marginBottom: 8, padding: "0 15px", alignItems: "end" }}>
+              <div />
+              {q.cols.map((c, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{c}</div>)}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {q.items.map((it, ri) => (
+                <div key={ri} style={{ display: "grid", gridTemplateColumns: gcols, columnGap: 10, alignItems: "center", padding: "12px 15px", borderRadius: 12, background: eCARD, border: "1px solid " + (a2[ri] !== undefined ? eBLUE : eLINE), transition: "border-color .15s" }}>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.35, paddingRight: 8 }}>{it}</div>
+                  {q.cols.map((c, ci) => (
+                    <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
+                      <button onClick={() => onChange({ ...a2, [ri]: ci })} aria-label={it + " — " + c} style={{ width: 24, height: 24, borderRadius: "50%", border: "2px solid " + (a2[ri] === ci ? eBLUE : "var(--control-line)"), background: a2[ri] === ci ? eBLUE : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .15s" }}>{a2[ri] === ci && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--card)" }} />}</button>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* RANK (number entry) — type a rank number next to each option */}
+      {q.type === "ranknum" && (() => {
+        const v = value || {};
+        return (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {q.items.map((it, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <input type="number" inputMode="numeric" min={1} max={q.items.length} value={v[i] || ""} onChange={(e) => onChange({ ...v, [i]: e.target.value })}
+                  onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
+                  style={{ width: 48, height: 44, flexShrink: 0, textAlign: "center", border: "1px solid var(--field-line)", borderRadius: 10, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.4 }}>{it}</span>
+              </div>
+            ))}
+          </div>
+        );
+      })()}
+
+      {/* RANK (listbox) — select an item, then reorder it with the up / down arrows */}
+      {q.type === "ranklist" && (() => {
+        const order = (Array.isArray(value) && value.length) ? value : q.items;
+        const move = (dir) => { if (rankListSel == null) return; const i = order.indexOf(rankListSel); const j = i + dir; if (i < 0 || j < 0 || j >= order.length) return; const n = order.slice(); const t = n[i]; n[i] = n[j]; n[j] = t; onChange(n); };
+        const arrowBtn = (dir, label) => <button onClick={() => move(dir)} aria-label={label} style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, border: "none", background: "var(--primary)", color: "var(--on-accent)", cursor: "pointer" }}><I.chevD size={18} style={{ transform: dir < 0 ? "rotate(180deg)" : "none" }} /></button>;
+        return (
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+            <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--field-line)", borderRadius: 12, overflow: "hidden", background: eCARD }}>
+              {order.map((it) => {
+                const sel = it === rankListSel;
+                return (
+                  <div key={it} onClick={() => setRankListSel(it)} style={{ padding: "12px 16px", fontFamily: "var(--sans)", fontSize: 15, color: eINK, cursor: "pointer", background: sel ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "transparent", borderBottom: "1px solid " + eLINE }}>{it}</div>
+                );
+              })}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}>
+              {arrowBtn(-1, "Move up")}
+              {arrowBtn(1, "Move down")}
             </div>
           </div>
         );

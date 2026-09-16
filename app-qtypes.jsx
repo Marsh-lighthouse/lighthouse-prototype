@@ -45,7 +45,8 @@
       // Slider also carries Slider Grid, Bar Rating and Star Rating — all rating-scale variants —
       // stacked inside the Slider view (no longer separate side-menu entries).
       { id: "slider",     label: "Slider",              qid: "oq_slider", also: ["slidergrid", "bargrid", "stargrid"] },
-      { id: "rank",       label: "Rank Order",          qid: "oq3" },
+      // Rank Order also carries the rank-grid, number-entry and reorder-list variants.
+      { id: "rank",       label: "Rank Order",          qid: "oq3", also: ["rankgrid", "ranknum", "ranklist"] },
     ]},
     { cat: "Speciality Questions", items: [
       { id: "constantsum",   label: "Constant Sum",             qid: "oq_csum" },
@@ -81,7 +82,7 @@
 
   // Hash format: #q=<type>[.<sub-variant>]  e.g. #q=matrix  or  #q=descriptive.file
   // Types folded into another menu entry redirect to their host (they're no longer separate items).
-  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix", bipolar: "matrix", dropdowngrid: "matrix", imgchoice: "mcq", imgmulti: "mcq", dropdown: "mcq", richtext: "text", form: "text", datetime: "text", chat: "text", email: "text", slidergrid: "slider", bargrid: "slider", stargrid: "slider" };
+  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix", bipolar: "matrix", dropdowngrid: "matrix", imgchoice: "mcq", imgmulti: "mcq", dropdown: "mcq", richtext: "text", form: "text", datetime: "text", chat: "text", email: "text", slidergrid: "slider", bargrid: "slider", stargrid: "slider", rankgrid: "rank", ranknum: "rank", ranklist: "rank" };
   const parseHash = () => {
     const m = (location.hash || "").match(/q=([a-z0-9_]+)(?:\.([a-z0-9_]+))?/i);
     let id = m && m[1] ? (HASH_ALIAS[m[1]] || m[1]) : "mcq";
