@@ -198,3 +198,6 @@ a.lh-back { opacity: .92 !important; color: var(--muted) !important; }
    lets them drop below. */
 .ed-plan-head { flex-wrap: nowrap; }
 @media (max-width: 700px) { .ed-plan-head { flex-wrap: wrap; } }
+
+/* Rich Text (Text Entry) — placeholder for the empty contentEditable editor */
+[contenteditable][data-ph]:empty:before { content: attr(data-ph); color: var(--muted); pointer-events: none; }

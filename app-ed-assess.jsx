@@ -11,7 +11,7 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
-const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid" }[t] || "Question");
+const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 
 // validate one question's answer for the current value; returns an error string or null
@@ -255,6 +255,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [gridDropRow]);
+  // Draft text for the Chat answer type.
+  const [chatDraft, setChatDraft] = oaUseState("");
   // Selected item for the touch (tap-to-place) variant of the pick-&-group question.
   const [pickSel, setPickSel] = oaUseState(null);
   // compact = mobile/iPad device-preview → use the stacked-card layouts; desktop keeps the original grids
@@ -268,7 +270,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
   oaUseEffect(() => { if (!recording) return; const t = setInterval(() => setRecTime((p) => p + 1), 1000); return () => clearInterval(t); }, [recording]);
   const items = q.type === "rank" ? (Array.isArray(value) ? value : []) : null;
   const a = q.type === "matrix" ? (value || {}) : null;
-  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes" }[q.type];
+  const lbl = { mcq: q.multi ? "Select all that apply" : "Select one", text: "Your response", rank: "Tap to rank \u00b7 Drag to reorder \u00b7 Tap \u00d7 to return to options", matrix: "Rate each", file: "Upload file", audio: "Audio response", factor: "Factor selection", constantsum: "Distribute points", slider: "Set each level", sidebyside: "Choose per context", gap: "Rate each area", skillfeedback: "Map factor & add feedback", pickgrouprank: "Drag into groups", graphicslider: "Set your level", hotspot: "Click a region", captcha: "", video: "Record your answer", imgchoice: "Select an image", imgmulti: "Select all that apply", checkgrid: "Check all that apply per row", numgrid: "Enter a value per scale point", slidergrid: "Drag each slider", bargrid: "Click the track to set each bar", stargrid: "Tap to rate each row", fillgauge: "Drag the slider to fill the gauge", shapedraw: "Draw and edit shapes", richtext: "Your response", form: "Complete the form", datetime: q.dateOnly ? "Select a date" : "Select date & time", chat: "Chat" }[q.type];
   return (
     <div style={{ background: "var(--card)", border: "1px solid " + (error ? eDANGER : eLINE), borderRadius: 16, padding: "26px 28px", transition: "border-color .15s" }}>
       {!hidePrompt && <p className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1.3, margin: "0 0 18px" }}>{q.prompt}</p>}
@@ -296,26 +298,121 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           </div>);
       })()}
 
-      {q.type === "text" && (q.singleLine ? (
-        // single-line text field variant (one line, character-limited)
+      {q.type === "text" && ((q.singleLine || q.password) ? (
+        // single-line variants: plain single line, or a masked password field
         <div>
-          <input value={value || ""} onChange={(e) => onChange(e.target.value)} placeholder={q.placeholder} maxLength={q.maxChars || 120}
+          <input type={q.password ? "password" : "text"} value={value || ""} onChange={(e) => onChange(e.target.value)} placeholder={q.placeholder} maxLength={q.maxChars || (q.password ? 64 : 120)}
             onFocus={(e) => { e.currentTarget.style.borderColor = eBLUE; }} onBlur={(e) => { e.currentTarget.style.borderColor = "var(--field-line)"; }}
             style={{ width: "100%", height: 46, padding: "0 16px", borderRadius: 12, border: "1px solid var(--field-line)", background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 7 }}>
+          {!q.password && <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 7 }}>
             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{(value || "").length} / {q.maxChars || 120}</span>
-          </div>
+          </div>}
         </div>
       ) : (
+        // multi-line (default) or a taller essay box
         <div>
           <textarea value={value || ""} onChange={(e) => onChange(e.target.value)} placeholder={q.placeholder}
-            style={{ width: "100%", minHeight: 150, padding: "14px 16px", borderRadius: 12, border: "1px solid " + eLINE, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, resize: "vertical", outline: "none", boxSizing: "border-box" }} />
+            style={{ width: "100%", minHeight: q.essay ? 280 : 150, padding: "14px 16px", borderRadius: 12, border: "1px solid " + eLINE, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, resize: "vertical", outline: "none", boxSizing: "border-box" }} />
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 7 }}>
             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{(value || "").split(/\s+/).filter(Boolean).length} words</span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{q.minWords}–{q.maxWords}</span>
+            {(q.minWords || q.maxWords) && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{q.minWords}–{q.maxWords}</span>}
           </div>
         </div>
       ))}
+
+      {/* RICH TEXT — formatting toolbar + editable area (Text Entry family) */}
+      {q.type === "richtext" && (() => {
+        const v = value && typeof value === "object" ? value : { html: "", text: "" };
+        const cmd = (c) => { try { document.execCommand(c, false, null); } catch (e) {} };
+        const tbtn = (node, c, title) => <button key={title} title={title} onMouseDown={(e) => { e.preventDefault(); cmd(c); }} style={{ minWidth: 30, height: 30, padding: "0 6px", display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 6, background: "#fff", color: eINK, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14 }}>{node}</button>;
+        const words = (v.text || "").split(/\s+/).filter(Boolean).length;
+        return (
+          <div style={{ border: "1px solid var(--field-line)", borderRadius: 12, overflow: "hidden", background: eCARD }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, padding: 10, borderBottom: "1px solid " + eLINE, background: "color-mix(in srgb, var(--accent) 2%, #fff)" }}>
+              {tbtn(<b>B</b>, "bold", "Bold")}
+              {tbtn(<i>I</i>, "italic", "Italic")}
+              {tbtn(<u>U</u>, "underline", "Underline")}
+              {tbtn(<s>S</s>, "strikeThrough", "Strikethrough")}
+              {tbtn(<span>x<sub>2</sub></span>, "subscript", "Subscript")}
+              {tbtn(<span>x<sup>2</sup></span>, "superscript", "Superscript")}
+              {tbtn(<span>&#8226;&#8801;</span>, "insertUnorderedList", "Bulleted list")}
+              {tbtn(<span>1.&#8801;</span>, "insertOrderedList", "Numbered list")}
+            </div>
+            <div contentEditable suppressContentEditableWarning
+              onInput={(e) => onChange({ html: e.currentTarget.innerHTML, text: e.currentTarget.innerText })}
+              data-ph={q.placeholder || "Type something"}
+              style={{ minHeight: 140, padding: "14px 16px", outline: "none", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, color: eINK }} />
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 18, padding: "8px 16px", borderTop: "1px solid " + eLINE }}>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Words : {words}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Characters : {(v.text || "").length}</span>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* FORM — several labelled fields, each with a field-type selector (Text Entry family) */}
+      {q.type === "form" && (() => {
+        const v = value || {};
+        const set = (i, val) => onChange({ ...v, [i]: val });
+        return (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {q.fields.map((f, i) => (
+              <div key={i} style={{ display: compact ? "block" : "grid", gridTemplateColumns: compact ? undefined : "minmax(140px,1fr) 120px minmax(160px,1.4fr)", columnGap: 12, alignItems: "center", rowGap: 6 }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eINK, marginBottom: compact ? 6 : 0 }}>{f.label}</div>
+                <select defaultValue={f.type || "Input"} style={{ height: 44, padding: "0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", marginBottom: compact ? 6 : 0, width: compact ? "100%" : "auto" }}>
+                  {["Input", "Email", "Number", "Date"].map((o) => <option key={o}>{o}</option>)}
+                </select>
+                <input value={v[i] || ""} onChange={(e) => set(i, e.target.value)} placeholder={f.placeholder || "Type here…"}
+                  onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
+                  style={{ width: "100%", height: 44, padding: "0 14px", border: "1px solid var(--field-line)", borderRadius: 10, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
+              </div>
+            ))}
+          </div>
+        );
+      })()}
+
+      {/* DATE & TIME — date + time pickers with a format note (Text Entry family) */}
+      {q.type === "datetime" && (() => {
+        const v = value || {};
+        const set = (k, val) => onChange({ ...v, [k]: val });
+        const fld = { height: 46, padding: "0 14px", border: "1px solid var(--field-line)", borderRadius: 12, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" };
+        return (
+          <div>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+              <label style={{ display: "flex", flexDirection: "column", gap: 6, flex: "1 1 180px" }}>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eINK }}>Date</span>
+                <input type="date" value={v.date || ""} onChange={(e) => set("date", e.target.value)} style={{ ...fld, width: "100%" }} />
+              </label>
+              {!q.dateOnly && <label style={{ display: "flex", flexDirection: "column", gap: 6, flex: "1 1 140px" }}>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eINK }}>Time</span>
+                <input type="time" value={v.time || ""} onChange={(e) => set("time", e.target.value)} style={{ ...fld, width: "100%" }} />
+              </label>}
+            </div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 8 }}>Format: DD-MM-YYYY{q.dateOnly ? "" : " · 24-hour time"}</div>
+          </div>
+        );
+      })()}
+
+      {/* CHAT — conversational answer (Text Entry family) */}
+      {q.type === "chat" && (() => {
+        const msgs = Array.isArray(value) ? value : [];
+        const send = () => { const t = (chatDraft || "").trim(); if (!t) return; onChange(msgs.concat([{ from: "user", text: t }])); setChatDraft(""); };
+        return (
+          <div style={{ border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden", background: eCARD }}>
+            <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 10, minHeight: 150, background: "color-mix(in srgb, var(--accent) 2%, #fff)" }}>
+              <div style={{ alignSelf: "flex-start", maxWidth: "80%", background: "#fff", border: "1px solid " + eLINE, borderRadius: "2px 12px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.45 }}>{q.botIntro || "Tell me about a recent project you're proud of."}</div>
+              {msgs.map((m, i) => (
+                <div key={i} style={{ alignSelf: "flex-end", maxWidth: "80%", background: "var(--surface-deep, #0A5C3A)", color: "#fff", borderRadius: "12px 2px 12px 12px", padding: "10px 14px", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.45 }}>{m.text}</div>
+              ))}
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, padding: 12, borderTop: "1px solid " + eLINE }}>
+              <input value={chatDraft} onChange={(e) => setChatDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); send(); } }} placeholder="Type your reply…"
+                style={{ flex: 1, height: 44, padding: "0 14px", border: "1px solid var(--field-line)", borderRadius: 999, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
+              <button onClick={send} aria-label="Send" style={{ width: 44, height: 44, flexShrink: 0, borderRadius: "50%", border: "none", background: "var(--primary)", color: "var(--on-accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.send size={18} /></button>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* DROPDOWN — single select, MDS text-field border (--field-line) */}
       {q.type === "dropdown" && (() => {

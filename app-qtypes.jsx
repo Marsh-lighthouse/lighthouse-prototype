@@ -39,7 +39,9 @@
       // of the matrix-table family, so they render stacked inside the Matrix Table view (and are
       // no longer separate side-menu entries).
       { id: "matrix",     label: "Matrix Table",        qid: "oq4", also: ["checkgrid", "numgrid", "sidebyside", "bipolar", "dropdowngrid"] },
-      { id: "text",       label: "Text Entry",          qid: "oq2" },
+      // Text Entry also carries Rich Text, Form, Date & time, Chat and Email — all text-answer
+      // variants — stacked inside the Text Entry view (Email is no longer a separate menu entry).
+      { id: "text",       label: "Text Entry",          qid: "oq2", also: ["richtext", "form", "datetime", "chat", "email"] },
       { id: "slider",     label: "Slider",              qid: "oq_slider" },
       { id: "rank",       label: "Rank Order",          qid: "oq3" },
       // …then the extra variants we already have built.
@@ -60,7 +62,6 @@
       { id: "factor",        label: "Factor Selection",         qid: "oq_factor" },
       { id: "fillgauge",     label: "Fill Gauge",               qid: "oq_fillgauge" },
       { id: "shapedraw",     label: "Shape Annotation",         qid: "oq_shapedraw" },
-      { id: "email",         label: "Email",                    qid: "oq_email" },
     ]},
     { cat: "Advanced", items: [
       { id: "timing",  label: "Timing",               kind: "soon" },
@@ -82,7 +83,7 @@
 
   // Hash format: #q=<type>[.<sub-variant>]  e.g. #q=matrix  or  #q=descriptive.file
   // Types folded into another menu entry redirect to their host (they're no longer separate items).
-  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix", bipolar: "matrix", dropdowngrid: "matrix", imgchoice: "mcq", imgmulti: "mcq", dropdown: "mcq" };
+  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix", bipolar: "matrix", dropdowngrid: "matrix", imgchoice: "mcq", imgmulti: "mcq", dropdown: "mcq", richtext: "text", form: "text", datetime: "text", chat: "text", email: "text" };
   const parseHash = () => {
     const m = (location.hash || "").match(/q=([a-z0-9_]+)(?:\.([a-z0-9_]+))?/i);
     let id = m && m[1] ? (HASH_ALIAS[m[1]] || m[1]) : "mcq";
