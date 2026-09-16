@@ -234,6 +234,17 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [dropOpen]);
+  // Email question — which recipient field (to|cc|bcc) is open as a searchable picker, and its query.
+  const [emailField, setEmailField] = oaUseState(null);
+  const [emailQuery, setEmailQuery] = oaUseState("");
+  const emailRef = oaUseRef(null);
+  oaUseEffect(() => {
+    if (!emailField) return;
+    const onDoc = (e) => { if (emailRef.current && !emailRef.current.contains(e.target)) setEmailField(null); };
+    const onKey = (e) => { if (e.key === "Escape") setEmailField(null); };
+    document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [emailField]);
   // Selected item for the touch (tap-to-place) variant of the pick-&-group question.
   const [pickSel, setPickSel] = oaUseState(null);
   // compact = mobile/iPad device-preview → use the stacked-card layouts; desktop keeps the original grids
@@ -304,34 +315,77 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           </div>);
       })()}
 
-      {/* EMAIL COMPOSITION — To / Cc / Bcc header, Subject, Message body */}
+      {/* EMAIL COMPOSITION — stacked, individually-labelled fields, each in the MDS text-field style.
+         To / Cc / Bcc are searchable recipient pickers (click → search input + contact list). */}
       {q.type === "email" && (() => {
         const v = value && typeof value === "object" ? value : {};
         const set = (k, val) => onChange({ ...v, [k]: val });
-        const showCc = v.ccOpen || v.cc || v.bcc;
-        const row = { display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderBottom: "1px solid " + eLINE };
-        const rowLbl = { fontFamily: "var(--sans)", fontSize: 15, color: eMUT, width: 44, flexShrink: 0 };
-        const rowInput = { flex: 1, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK };
+        const CONTACTS = q.contacts || ["Rupert Smith", "Amelia Chen", "David Okafor", "Priya Nair", "Marcus Bell", "Sofia Rossi"];
+        const showCc = v.ccShown;
         const words = (v.body || "").split(/\s+/).filter(Boolean).length;
+        const labelStyle = { display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, margin: "0 0 7px" };
+        const fieldShell = (focused) => ({ display: "flex", alignItems: "center", gap: 8, padding: "0 14px", height: 46, border: "1px solid " + (focused ? eBLUE : "var(--field-line)"), borderRadius: 12, background: eCARD, boxSizing: "border-box" });
+        const bareInput = { flex: 1, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK, height: "100%" };
+        // one searchable recipient field (To / Cc / Bcc)
+        const recip = (key, label, withToggle) => {
+          const open = emailField === key;
+          const selected = key === "to" ? (v.to !== undefined ? v.to : (q.to || "")) : (v[key] || "");
+          const matches = CONTACTS.filter((c) => c.toLowerCase().includes(emailQuery.toLowerCase()));
+          return (
+            <div style={{ marginBottom: 16 }}>
+              <div style={labelStyle}>
+                <span>{label}</span>
+                {withToggle && !showCc && <button onClick={() => set("ccShown", true)} style={{ background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 0 }}>Cc / Bcc</button>}
+              </div>
+              <div style={{ position: "relative" }}>
+                {open ? (
+                  <div style={fieldShell(true)}>
+                    <input autoFocus value={emailQuery} onChange={(e) => setEmailQuery(e.target.value)} placeholder="Search for a person…" style={bareInput} />
+                    <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.search size={16} /></span>
+                  </div>
+                ) : (
+                  <div onClick={() => { setEmailField(key); setEmailQuery(""); }} style={{ ...fieldShell(false), cursor: "pointer" }}>
+                    {selected
+                      ? <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eINK, border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", borderRadius: 7, padding: "3px 9px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>{selected}<span onClick={(e) => { e.stopPropagation(); set(key, ""); }} style={{ cursor: "pointer", color: eMUT, fontSize: 15, lineHeight: 1 }}>×</span></span>
+                      : <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Search for a person…</span>}
+                    <span style={{ marginLeft: "auto", color: eMUT, display: "flex", flexShrink: 0, transition: "transform .15s" }}><I.chevD size={16} /></span>
+                  </div>
+                )}
+                {open &&
+                <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, zIndex: 20, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 32px rgba(0,15,71,.14)", padding: 6, maxHeight: 220, overflowY: "auto" }}>
+                  {matches.length === 0 && <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, padding: "10px 12px" }}>No people match “{emailQuery}”.</div>}
+                  {matches.map((c) => {
+                    const sel = selected === c;
+                    return (
+                      <button key={c} onClick={() => { set(key, c); setEmailField(null); }}
+                        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 8, border: "none", background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, color: eINK, fontWeight: sel ? 500 : 400 }}
+                        onMouseEnter={(e) => { if (!sel) e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 5%, transparent)"; }} onMouseLeave={(e) => { if (!sel) e.currentTarget.style.background = "transparent"; }}>
+                        {c}{sel && <span style={{ color: eBLUE, display: "flex", flexShrink: 0 }}><I.check size={15} /></span>}
+                      </button>);
+                  })}
+                </div>}
+              </div>
+            </div>);
+        };
+        const focusBlue = (e) => { e.currentTarget.style.borderColor = eBLUE; };
+        const blurLine = (e) => { e.currentTarget.style.borderColor = "var(--field-line)"; };
         return (
-          <div style={{ border: "1px solid var(--field-line)", borderRadius: 12, background: eCARD, overflow: "hidden" }}>
-            <div style={row}>
-              <span style={rowLbl}>To</span>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eINK, border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", borderRadius: 7, padding: "3px 9px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>{q.to || "Recipient"}</span>
-              {!showCc && <button onClick={() => set("ccOpen", true)} style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}>Cc / Bcc</button>}
+          <div ref={emailRef}>
+            {recip("to", "To", true)}
+            {showCc && recip("cc", "Cc")}
+            {showCc && recip("bcc", "Bcc")}
+            <div style={{ marginBottom: 16 }}>
+              <div style={labelStyle}><span>Subject</span></div>
+              <input value={v.subject || ""} onChange={(e) => set("subject", e.target.value)} onFocus={(e) => { setEmailField(null); focusBlue(e); }} onBlur={blurLine} placeholder="Add a subject"
+                style={{ width: "100%", height: 46, padding: "0 14px", border: "1px solid var(--field-line)", borderRadius: 12, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
             </div>
-            {showCc && <React.Fragment>
-              <div style={row}><span style={rowLbl}>Cc</span><input value={v.cc || ""} onChange={(e) => set("cc", e.target.value)} placeholder="name@company.com" style={rowInput} /></div>
-              <div style={row}><span style={rowLbl}>Bcc</span><input value={v.bcc || ""} onChange={(e) => set("bcc", e.target.value)} placeholder="name@company.com" style={rowInput} /></div>
-            </React.Fragment>}
-            <div style={row}>
-              <span style={rowLbl}>Subject</span>
-              <input value={v.subject || ""} onChange={(e) => set("subject", e.target.value)} placeholder="Add a subject" style={rowInput} />
-            </div>
-            <textarea value={v.body || ""} onChange={(e) => set("body", e.target.value)} placeholder={q.placeholder || "Write your message here…"}
-              style={{ width: "100%", minHeight: 160, padding: "14px 16px", border: "none", outline: "none", background: "transparent", color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, resize: "vertical", boxSizing: "border-box", display: "block" }} />
-            <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 16px 12px" }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{words}{q.maxWords ? " / " + q.maxWords : ""} words</span>
+            <div>
+              <div style={labelStyle}><span>Your Message</span></div>
+              <textarea value={v.body || ""} onChange={(e) => set("body", e.target.value)} onFocus={(e) => { setEmailField(null); focusBlue(e); }} onBlur={blurLine} placeholder={q.placeholder || "Write your message here…"}
+                style={{ width: "100%", minHeight: 160, padding: "12px 14px", border: "1px solid var(--field-line)", borderRadius: 12, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, resize: "vertical", outline: "none", boxSizing: "border-box", display: "block" }} />
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 7 }}>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{words}{q.maxWords ? " / " + q.maxWords : ""} words</span>
+              </div>
             </div>
           </div>);
       })()}
