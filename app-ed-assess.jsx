@@ -1188,6 +1188,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               {btn("Remove Shape", "danger", removeShape, sel < 0)}
             </div>
             <div ref={(el) => { canvasEl = el; }} style={{ position: "relative", width: "100%", aspectRatio: "16 / 9", background: "#ECECEC", border: "1px solid " + eLINE, borderRadius: 8, overflow: "hidden", userSelect: "none", touchAction: "none" }}>
+              {q.image && <img src={q.image} alt="" draggable="false" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none" }} />}
               <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
                 {shapes.map((sh, si) => (
                   <polygon key={si} points={sh.map((p) => p.x + "," + p.y).join(" ")} onPointerDown={(e) => startShapeDrag(canvasEl, si, e)}
