@@ -367,7 +367,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             {q.fields.map((f, i) => (
               <div key={i} style={{ display: compact ? "block" : "grid", gridTemplateColumns: compact ? undefined : "minmax(140px,1fr) 120px minmax(160px,1.4fr)", columnGap: 12, alignItems: "center", rowGap: 6 }}>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, marginBottom: compact ? 6 : 0 }}>{f.label}</div>
-                <select defaultValue={f.type || "Input"} style={{ ...oaSelectStyle, height: 44, padding: "0 34px 0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: "#fff", backgroundImage: oaSelectStyle.backgroundImage, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", marginBottom: compact ? 6 : 0, width: compact ? "100%" : "auto" }}>
+                <select defaultValue={f.type || "Input"} style={{ ...oaSelectStyle, height: 44, padding: "0 34px 0 12px", border: "1px solid var(--field-line)", borderRadius: 10, backgroundColor: "#fff", backgroundImage: oaSelectStyle.backgroundImage, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", marginBottom: compact ? 6 : 0, width: compact ? "100%" : "auto" }}>
                   {["Input", "Email", "Number", "Date"].map((o) => <option key={o}>{o}</option>)}
                 </select>
                 <input value={v[i] || ""} onChange={(e) => set(i, e.target.value)} placeholder={f.placeholder || "Type here…"}
@@ -408,7 +408,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         const userMsgs = Array.isArray(value) ? value : [];
         const all = (q.botIntro ? [{ from: "bot", text: q.botIntro }] : []).concat(userMsgs);
         const send = () => { const t = (chatDraft || "").trim(); if (!t) return; onChange(userMsgs.concat([{ from: "user", text: t }])); setChatDraft(""); };
-        const green = "var(--success-fill, #14853D)";
+        const green = "var(--primary)"; // brand primary blue for the candidate's bubbles + send
         const circle = (size, node) => <span style={{ width: size, height: size, borderRadius: "50%", background: "color-mix(in srgb, var(--ink) 8%, #fff)", color: eMUT, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{node}</span>;
         return (
           <div style={{ border: "1px solid " + eLINE, borderRadius: 14, overflow: "hidden", background: eCARD }}>
@@ -435,7 +435,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderTop: "1px solid " + eLINE, background: "color-mix(in srgb, var(--ink) 3%, #fff)" }}>
               <input value={chatDraft} onChange={(e) => setChatDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); send(); } }} placeholder="Write your Message…"
                 style={{ flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK }} />
-              <select defaultValue="Mine" style={{ ...oaSelectStyle, height: 38, padding: "0 34px 0 12px", border: "1px solid var(--field-line)", borderRadius: 8, background: "#fff", backgroundImage: oaSelectStyle.backgroundImage, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", flexShrink: 0 }}>
+              <select defaultValue="Mine" style={{ ...oaSelectStyle, height: 38, padding: "0 34px 0 12px", border: "1px solid var(--field-line)", borderRadius: 8, backgroundColor: "#fff", backgroundImage: oaSelectStyle.backgroundImage, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", flexShrink: 0 }}>
                 {["Mine", "Shared with team"].map((o) => <option key={o}>{o}</option>)}
               </select>
               <button onClick={send} aria-label="Send" style={{ width: 40, height: 40, flexShrink: 0, borderRadius: "50%", border: "none", background: green, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><I.send size={16} /></button>
@@ -1028,7 +1028,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                     <input type="range" min="0" max="100" step="10" value={set50 ?? 0} onChange={(e) => set(ri, Number(e.target.value))} className="oa-range" style={{ width: "100%", accentColor: eMID }} />
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
                       <div style={{ width: 56, height: 36, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: set50 == null ? eMUT : eMID, background: eCARD }}>{set50 == null ? "–" : set50}</div>
-                      <button onClick={() => { const n = { ...v }; delete n[ri]; onChange(n); }} style={{ background: "none", border: "none", color: eBLUE, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, padding: 0 }}>Clear</button>
+                      <button onClick={() => { const n = { ...v }; delete n[ri]; onChange(n); }} style={{ background: "none", border: "none", color: eBLUE, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 0 }}>Clear</button>
                     </div>
                   </div>
                 );
@@ -1282,7 +1282,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               <div key={i}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                   <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK }}>{c}</span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eBLUE }}>{v[i] == null ? 0 : v[i]}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--primary)" }}>{v[i] == null ? 0 : v[i]}</span>
                 </div>
                 <input type="range" min="0" max="100" value={v[i] == null ? 0 : v[i]} onChange={(e) => onChange({ ...v, [i]: Number(e.target.value) })} style={{ width: "100%", accentColor: "var(--primary)" }} />
               </div>
@@ -1470,7 +1470,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           // then tap a group; tap a placed item to send it back to the pool.
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: pickSel ? eBLUE : eMUT, marginBottom: 8 }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: pickSel ? eBLUE : eMUT, marginBottom: 8 }}>
                 {pool.length === 0 ? "All items placed" : pickSel ? "Now tap a group to place “" + pickSel + "”" : "Tap an item, then tap a group"}
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -1481,7 +1481,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             {q.groups.map((g, gi) => { const armed = pickSel != null; return (
               <div key={gi} onClick={() => { if (pickSel) { moveTo(pickSel, gi); setPickSel(null); } }} style={{ border: "1px solid " + (armed ? eBLUE : eLINE), borderRadius: 12, overflow: "hidden", cursor: armed ? "pointer" : "default", transition: "border-color .15s" }}>
                 <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, borderBottom: "1px solid " + eLINE, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span>{g}</span>{armed && <span style={{ fontSize: 11.5, fontWeight: 700, color: eBLUE }}>Tap to place</span>}
+                  <span>{g}</span>{armed && <span style={{ fontSize: 11.5, fontWeight: 400, color: eBLUE }}>Tap to place</span>}
                 </div>
                 <div style={{ minHeight: 48, padding: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
                   {(v[gi] || []).map((it) => <button key={it} onClick={(e) => { e.stopPropagation(); moveTo(it, null); }} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 8px 7px 11px", borderRadius: 8, background: "color-mix(in srgb, var(--accent) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontFamily: "var(--sans)", fontSize: 15, color: eMID, cursor: "pointer" }}>{it} <span style={{ color: eMUT, fontSize: 15, lineHeight: 1 }}>&times;</span></button>)}
@@ -1565,6 +1565,14 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 </text>
               </svg>
             );
+          } else if (q.graphic === "dial") {
+            const ang = -90 + val / 100 * 180;
+            graphic = (
+              <div style={{ width: 180, height: 180, borderRadius: "50%", background: "var(--surface-deep)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+                <div style={{ width: 22, height: 22, borderRadius: "50%", background: "var(--card)", zIndex: 1 }} />
+                <div style={{ position: "absolute", width: 5, height: 64, background: "#fff", borderRadius: 3, transformOrigin: "center bottom", bottom: "50%", left: "calc(50% - 2.5px)", transform: `rotate(${ang}deg)` }} />
+              </div>
+            );
           }
           return (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 44, padding: "6px 0", minHeight: 260 }}>
@@ -1581,7 +1589,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             </div>
             <div style={{ flex: 1, minWidth: 200 }}>
               <input type="range" min="0" max="100" value={val} onChange={(e) => onChange(Number(e.target.value))} style={{ width: "100%", accentColor: "var(--primary)" }} />
-              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 4 }}><span>Low</span><span style={{ fontWeight: 700, color: eBLUE }}>{val}</span><span>High</span></div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 4 }}><span>Low</span><span style={{ fontWeight: 400, color: "var(--primary)" }}>{val}</span><span>High</span></div>
             </div>
           </div>);
       })()}
