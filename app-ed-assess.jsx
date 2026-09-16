@@ -11,7 +11,7 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
-const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email" }[t] || "Question");
+const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 
 // validate one question's answer for the current value; returns an error string or null
@@ -485,7 +485,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         );
       })()}
 
-      {q.type === "matrix" && ((compact || (narrow && q.cols.length > 5)) ? (
+      {q.type === "matrix" && ((compact || q.stacked || (narrow && q.cols.length > 5)) ? (
       <div className="oa-matrix" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {q.rows.map((row, ri) => {
           const answered = a[ri] !== undefined;
@@ -504,6 +504,12 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 })}
               </div>
               ); })()}
+              {q.textCol && <div style={{ marginTop: 12 }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, marginBottom: 6 }}>{q.textCol}</div>
+                <input value={a["t" + ri] || ""} onChange={(e) => onChange({ ...a, ["t" + ri]: e.target.value })} placeholder="Type your answer…"
+                  onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
+                  style={{ width: "100%", height: 42, padding: "0 12px", border: "1px solid var(--field-line)", borderRadius: 10, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
+              </div>}
             </div>);
         })}
       </div>
@@ -512,13 +518,14 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         // With more (e.g. a 7-point Likert) share the width via equal fluid columns and
         // let headers wrap, so 7 points fit cleanly in both the single-page and split panes.
         const many = q.cols.length > 5;
-        const gcols = many ? `minmax(140px, 1.4fr) repeat(${q.cols.length}, minmax(0, 1fr))` : `1fr repeat(${q.cols.length}, 88px)`;
+        const gcols = (many ? `minmax(140px, 1.4fr) repeat(${q.cols.length}, minmax(0, 1fr))` : `1fr repeat(${q.cols.length}, 88px)`) + (q.textCol ? " minmax(120px, 1fr)" : "");
         const cgap = many ? 6 : 10;
         return (
         <div className="oa-matrix">
           <div style={{ display: "grid", gridTemplateColumns: gcols, columnGap: cgap, marginBottom: 8, padding: "0 15px", alignItems: "end" }}>
             <div />
             {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, whiteSpace: many ? "normal" : "nowrap", lineHeight: 1.25 }}>{col}</div>)}
+            {q.textCol && <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.25, paddingLeft: 4 }}>{q.textCol}</div>}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {q.rows.map((row, ri) => {
@@ -531,6 +538,9 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       <button onClick={() => onChange({ ...a, [ri]: ci })} style={{ width: 26, height: 26, borderRadius: "50%", border: "2px solid " + (a[ri] === ci ? eBLUE : "var(--control-line)"), background: a[ri] === ci ? eBLUE : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .15s" }}>{a[ri] === ci && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--card)" }} />}</button>
                     </div>
                   )}
+                  {q.textCol && <input value={a["t" + ri] || ""} onChange={(e) => onChange({ ...a, ["t" + ri]: e.target.value })} placeholder="Type…"
+                    onFocus={(e) => e.currentTarget.style.borderColor = eBLUE} onBlur={(e) => e.currentTarget.style.borderColor = "var(--field-line)"}
+                    style={{ width: "100%", height: 38, padding: "0 10px", border: "1px solid var(--field-line)", borderRadius: 8, background: "#fff", color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />}
                 </div>);
             })}
           </div>
@@ -538,11 +548,59 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         );
       })())}
 
+      {/* BIPOLAR (side-by-side) — statement centred, one option group flanking each side.
+         Part of the matrix-table family: pick left or right for each statement. */}
+      {q.type === "bipolar" && (() => {
+        const a2 = value || {};
+        const dot = (on) => <span style={{ width: 20, height: 20, flexShrink: 0, borderRadius: "50%", border: "2px solid " + (on ? eBLUE : "var(--control-line)"), background: on ? eBLUE : "transparent", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{on && <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--card)" }} />}</span>;
+        if (compact) {
+          return (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {q.statements.map((st, ri) => (
+                <div key={ri} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + (a2[ri] ? eBLUE : eLINE) }}>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.4, marginBottom: 12 }}>{st}</div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    {[["left", q.leftLabel], ["right", q.rightLabel]].map(([side, lbl]) => (
+                      <button key={side} onClick={() => onChange({ ...a2, [ri]: side })} style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "10px 12px", borderRadius: 9, border: "1.5px solid " + (a2[ri] === side ? eBLUE : eLINE), background: a2[ri] === side ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer" }}>
+                        {dot(a2[ri] === side)}<span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: a2[ri] === side ? 500 : 400, color: a2[ri] === side ? eMID : eINK }}>{lbl}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        }
+        const gcols = "minmax(90px, 1fr) minmax(160px, 2fr) minmax(90px, 1fr)";
+        return (
+          <div className="oa-matrix">
+            <div style={{ display: "grid", gridTemplateColumns: gcols, columnGap: 10, marginBottom: 8, padding: "0 15px", alignItems: "end" }}>
+              <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{q.leftLabel}</div>
+              <div />
+              <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{q.rightLabel}</div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {q.statements.map((st, ri) => (
+                <div key={ri} style={{ display: "grid", gridTemplateColumns: gcols, columnGap: 10, alignItems: "center", padding: "12px 15px", borderRadius: 12, background: eCARD, border: "1px solid " + (a2[ri] ? eBLUE : eLINE), transition: "border-color .15s" }}>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <button onClick={() => onChange({ ...a2, [ri]: "left" })} style={{ background: "none", border: "none", cursor: "pointer", padding: 3, display: "flex" }}>{dot(a2[ri] === "left")}</button>
+                  </div>
+                  <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.4 }}>{st}</div>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <button onClick={() => onChange({ ...a2, [ri]: "right" })} style={{ background: "none", border: "none", cursor: "pointer", padding: 3, display: "flex" }}>{dot(a2[ri] === "right")}</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
+
       {/* CHECK GRID — rows × scale-point columns with square checkboxes + Not Applicable */}
       {q.type === "checkgrid" && (() => {
         const v = value || {};
         const cols = q.cols;
-        const naIdx = cols.length - 1; // last column = Not Applicable (exclusive)
+        const naIdx = q.noNa ? -1 : cols.length - 1; // last column = Not Applicable (exclusive), unless noNa
         const toggle = (ri, ci) => {
           const cur = Array.isArray(v[ri]) ? v[ri] : [];
           let next;
@@ -574,10 +632,12 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             })}
           </div>
           ) : (() => {
-            const gridCols = `1fr repeat(${cols.length}, 116px)`;
+            // ≤4 columns keep fixed 116px; more (e.g. a 6-point grid) share the width fluidly so they fit.
+            const many = cols.length > 4;
+            const gridCols = many ? `minmax(140px, 1.4fr) repeat(${cols.length}, minmax(0, 1fr))` : `1fr repeat(${cols.length}, 116px)`;
             return (
               <div>
-                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
+                <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: many ? 8 : 14, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
                   <div />
                   {cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.25, padding: "0 6px" }}>{col}</div>)}
                 </div>
@@ -585,7 +645,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                   {q.rows.map((row, ri) => {
                     const cur = Array.isArray(v[ri]) ? v[ri] : [];
                     return (
-                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, alignItems: "center", padding: "14px 4px", borderBottom: "1px solid " + eLINE }}>
+                      <div key={ri} style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: many ? 8 : 14, alignItems: "center", padding: "14px 4px", borderBottom: "1px solid " + eLINE }}>
                         <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, lineHeight: 1.35, paddingRight: 10 }}>{row}</div>
                         {cols.map((col, ci) => {
                           const on = cur.includes(ci);
@@ -626,26 +686,28 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                     {q.cols.map((col, ci) => (
                       <label key={ci} style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", gap: 5 }}>
                         <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>{col}</span>
-                        <input type="number" inputMode="numeric" disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: "100%", boxSizing: "border-box", height: 40, textAlign: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }} />
+                        {q.cellSelect
+                          ? <select disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: "100%", boxSizing: "border-box", height: 40, border: "1px solid var(--field-line)", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none", padding: "0 10px" }}><option value="">Select…</option>{(q.selectOptions || [0, 1, 2, 3, 4, 5]).map((o) => <option key={o} value={o}>{o}</option>)}</select>
+                          : <input type="number" inputMode="numeric" disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: "100%", boxSizing: "border-box", height: 40, textAlign: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }} />}
                       </label>
                     ))}
-                    <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ flex: "0 0 auto", height: 40, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "0 12px", borderRadius: 8, border: "1.5px solid " + (na ? eMID : eLINE), background: na ? "var(--track)" : "#fff", cursor: "pointer", whiteSpace: "nowrap" }}>
+                    {!q.noNa && <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ flex: "0 0 auto", height: 40, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "0 12px", borderRadius: 8, border: "1.5px solid " + (na ? eMID : eLINE), background: na ? "var(--track)" : "#fff", cursor: "pointer", whiteSpace: "nowrap" }}>
                       <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: 5, border: "2px solid " + (na ? eMID : "var(--control-line)"), background: na ? eMID : "transparent", color: "var(--on-accent)", display: "flex", alignItems: "center", justifyContent: "center" }}>{na && <I.check size={11} />}</span>
                       <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, whiteSpace: "nowrap" }}>Not Applicable</span>
-                    </button>
+                    </button>}
                   </div>
                 </div>
               );
             })}
           </div>
           ) : (() => {
-            const gridCols = `1.2fr repeat(${q.cols.length}, 76px) 96px 76px`;
+            const gridCols = `1.2fr repeat(${q.cols.length}, 76px)` + (q.noNa ? "" : " 96px") + " 76px";
             return (
               <div>
                 <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, padding: "0 4px 10px", borderBottom: "1px solid " + eLINE, alignItems: "end" }}>
                   <div />
                   {q.cols.map((col, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, lineHeight: 1.25, padding: "0 4px" }}>{col}</div>)}
-                  <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Not Applicable</div>
+                  {!q.noNa && <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Not Applicable</div>}
                   <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT }}>Total</div>
                 </div>
                 <div>
@@ -657,12 +719,14 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                         <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, lineHeight: 1.35, paddingRight: 10 }}>{row}</div>
                         {q.cols.map((col, ci) => (
                           <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
-                            <input type="number" inputMode="numeric" disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: 56, height: 38, textAlign: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }} />
+                            {q.cellSelect
+                              ? <select disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: 64, height: 38, textAlign: "center", border: "1px solid var(--field-line)", borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }}><option value="">–</option>{(q.selectOptions || [0, 1, 2, 3, 4, 5]).map((o) => <option key={o} value={o}>{o}</option>)}</select>
+                              : <input type="number" inputMode="numeric" disabled={na} value={na ? "" : (((r.vals || {})[ci]) ?? "")} onChange={(e) => setRow(ri, { vals: { ...(r.vals || {}), [ci]: e.target.value } })} style={{ width: 56, height: 38, textAlign: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, color: eMID, background: na ? "rgba(0,15,71,.04)" : "#fff", outline: "none" }} />}
                           </div>
                         ))}
-                        <div style={{ display: "flex", justifyContent: "center" }}>
+                        {!q.noNa && <div style={{ display: "flex", justifyContent: "center" }}>
                           <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ width: 26, height: 26, borderRadius: 6, border: "2px solid " + (na ? eMID : "var(--control-line)"), background: na ? eMID : "#fff", color: "var(--on-accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>{na && <I.check size={15} />}</button>
-                        </div>
+                        </div>}
                         <div style={{ display: "flex", justifyContent: "center" }}>
                           <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: na ? eMUT : eMID, background: eCARD }}>{na ? "—" : rowTotal(ri)}</div>
                         </div>
