@@ -264,18 +264,21 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
       {!hidePrompt && <p className="serif" style={{ fontSize: 18, color: eMID, lineHeight: 1.3, margin: "0 0 18px" }}>{q.prompt}</p>}
       {lbl && <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, letterSpacing: 0.2, marginBottom: 10 }}>{lbl}</div>}
 
-      {q.type === "mcq" &&
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {q.options.map((opt, oi) => {
-          const sel = value === oi;
-          return (
-            <button key={oi} onClick={() => onChange(oi)} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 16px", borderRadius: 12, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 5%, transparent)" : eCARD, cursor: "pointer", textAlign: "left", width: "100%", transition: "all .15s" }}>
-              <div style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>{sel && <div style={{ width: 10, height: 10, borderRadius: "50%", background: eBLUE }} />}</div>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: sel ? eMID : eINK, fontWeight: sel ? 500 : 400, lineHeight: 1.45 }}>{opt}</span>
-            </button>);
-        })}
-      </div>
-      }
+      {q.type === "mcq" && (() => {
+        // `layout: "grid"` lays the options out horizontally, two per row (single column on mobile/iPad).
+        const grid = q.layout === "grid" && !compact;
+        return (
+          <div style={grid ? { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } : { display: "flex", flexDirection: "column", gap: 10 }}>
+            {q.options.map((opt, oi) => {
+              const sel = value === oi;
+              return (
+                <button key={oi} onClick={() => onChange(oi)} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 16px", borderRadius: 12, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 5%, transparent)" : eCARD, cursor: "pointer", textAlign: "left", width: "100%", transition: "all .15s" }}>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>{sel && <div style={{ width: 10, height: 10, borderRadius: "50%", background: eBLUE }} />}</div>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: sel ? eMID : eINK, fontWeight: sel ? 500 : 400, lineHeight: 1.45 }}>{opt}</span>
+                </button>);
+            })}
+          </div>);
+      })()}
 
       {q.type === "text" &&
       <div>
@@ -321,9 +324,9 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         const v = value && typeof value === "object" ? value : {};
         const set = (k, val) => onChange({ ...v, [k]: val });
         const CONTACTS = q.contacts || ["Rupert Smith", "Amelia Chen", "David Okafor", "Priya Nair", "Marcus Bell", "Sofia Rossi"];
-        const showCc = v.ccShown;
         const words = (v.body || "").split(/\s+/).filter(Boolean).length;
         const labelStyle = { display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, margin: "0 0 7px" };
+        const linkBtn = { background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 0 };
         const fieldShell = (focused) => ({ display: "flex", alignItems: "center", gap: 8, padding: "0 14px", height: 46, border: "1px solid " + (focused ? eBLUE : "var(--field-line)"), borderRadius: 12, background: eCARD, boxSizing: "border-box" });
         const bareInput = { flex: 1, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK, height: "100%" };
         // one searchable recipient field (To / Cc / Bcc)
@@ -335,13 +338,17 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             <div style={{ marginBottom: 16 }}>
               <div style={labelStyle}>
                 <span>{label}</span>
-                {withToggle && !showCc && <button onClick={() => set("ccShown", true)} style={{ background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 0 }}>Cc / Bcc</button>}
+                {withToggle && (!v.ccShown || !v.bccShown) &&
+                  <span style={{ display: "inline-flex", gap: 16 }}>
+                    {!v.ccShown && <button onClick={() => set("ccShown", true)} style={linkBtn}>Cc</button>}
+                    {!v.bccShown && <button onClick={() => set("bccShown", true)} style={linkBtn}>Bcc</button>}
+                  </span>}
               </div>
               <div style={{ position: "relative" }}>
                 {open ? (
                   <div style={fieldShell(true)}>
                     <input autoFocus value={emailQuery} onChange={(e) => setEmailQuery(e.target.value)} placeholder="Search for a person…" style={bareInput} />
-                    <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.search size={16} /></span>
+                    <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.searchGlass size={16} /></span>
                   </div>
                 ) : (
                   <div onClick={() => { setEmailField(key); setEmailQuery(""); }} style={{ ...fieldShell(false), cursor: "pointer" }}>
@@ -372,8 +379,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         return (
           <div ref={emailRef}>
             {recip("to", "To", true)}
-            {showCc && recip("cc", "Cc")}
-            {showCc && recip("bcc", "Bcc")}
+            {v.ccShown && recip("cc", "Cc")}
+            {v.bccShown && recip("bcc", "Bcc")}
             <div style={{ marginBottom: 16 }}>
               <div style={labelStyle}><span>Subject</span></div>
               <input value={v.subject || ""} onChange={(e) => set("subject", e.target.value)} onFocus={(e) => { setEmailField(null); focusBlue(e); }} onBlur={blurLine} placeholder="Add a subject"
