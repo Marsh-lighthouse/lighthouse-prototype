@@ -677,7 +677,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           {hasNote && noteDesign === 1 && showReason && (
             <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 288, zIndex: 60, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.20)", padding: "14px 16px", textAlign: "left" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: noteTone }}>{noteLabel}</span>
                 {when && <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{when}</span>}
               </div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{note}</div>
@@ -700,7 +700,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
           <span style={{ color: noteTone, display: "flex", flexShrink: 0, marginTop: 2 }}>{isReject ? <I.alertCircle size={18} /> : <I.checkCircle size={18} />}</span>
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: noteTone }}>{noteLabel}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: noteTone }}>{noteLabel}</span>
               {when && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{when}</span>}
             </div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55 }}>{note}</div>
@@ -844,7 +844,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                     )))}
                     {skillChanges.length > 0 && (
                       <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 7 }}>Change summary</div>
                         <ul style={{ margin: 0, paddingLeft: 18 }}>
                           {skillChanges.map((c, i) => (
                             <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.9 }}>
@@ -912,7 +912,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
               {SAMPLES.map((sm) => { const on = sample === sm.id; return (
                 <button key={sm.id} onClick={() => pickSample(sm.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{sm.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{sm.desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{sm.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{sm.desc}</span></span>
                 </button>); })}
             </div>
           )}
@@ -931,7 +931,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
               {MGR_NOTE_DESIGNS.map((o) => { const on = noteDesign === o.id; return (
                 <button key={o.id} onClick={() => pickNote(o.id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
                 </button>); })}
             </div>
           )}
@@ -949,7 +949,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
               {[[2, "Minimal", "Just picture, name and email"], [1, "Divided", "Identity beside a metadata grid"], [3, "Hero panel", "Tinted identity column"], [5, "By skill", "Summary lists each skill with its actions & completion"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
                 </button>); })}
             </div>
           )}

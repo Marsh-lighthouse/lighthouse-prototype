@@ -272,7 +272,7 @@ html[dir="rtl"] .lg-type-menu { right: auto; left: 0; }
 .lg-type-menu.active { display: block; }
 .lg-type-item { display: block; width: 100%; text-align: left; padding: 10px 14px; background: none; border: none; color: var(--primary); font-family: var(--sans); font-size: 14px; font-weight: 400; cursor: pointer; transition: background .15s ease; }
 .lg-type-item:hover { background: rgba(0,15,71,.05); }
-.lg-type-item.active { background: rgba(11,75,255,.08); color: var(--accent); font-weight: 600; }
+.lg-type-item.active { background: rgba(11,75,255,.08); color: var(--accent); font-weight: 400; }
 .lg-type-item .lg-check { display: none; margin-left: 8px; color: var(--accent); }
 .lg-type-item.active .lg-check { display: inline; }
 
@@ -299,7 +299,7 @@ html[dir="rtl"] .lg-type-menu { right: auto; left: 0; }
 }
 .lg-style-item:hover { background: rgba(0,15,71,.05); }
 .lg-style-item .lg-check { visibility: hidden; color: var(--accent); }
-.lg-style-item[aria-checked="true"] { color: #000F47; font-weight: 700; }
+.lg-style-item[aria-checked="true"] { color: #000F47; font-weight: 400; }
 .lg-style-item[aria-checked="true"] .lg-check { visibility: visible; }
 
 /* ── Sign up / Forgot password shared bits ── */
@@ -390,7 +390,7 @@ html[data-login-style="showcase"] .lg-desk {
 .lg-ph-top-actions { margin-left: auto; display: flex; gap: 8px; }
 .lg-ph-iconbtn { width: 34px; height: 34px; border-radius: 10px; background: #FFFFFF; border: 1px solid rgba(0,15,71,.08); display: flex; align-items: center; justify-content: center; color: #000F47; }
 .lg-ph-body { padding: 18px 22px 0; overflow: hidden; }
-.lg-ph-eyebrow { font-size: 14px; font-weight: 700; color: var(--accent); margin: 0 0 10px; }
+.lg-ph-eyebrow { font-size: 14px; font-weight: 400; color: var(--accent); margin: 0 0 10px; }
 .lg-ph-greet { font-family: var(--heading-family, var(--serif)); font-weight: var(--heading-weight, 400); letter-spacing: -0.01em; font-size: 32px; line-height: 1.12; color: #000F47; margin: 0 0 10px; }
 .lg-ph-intro { font-size: 14px; line-height: 1.55; color: var(--muted); margin: 0 0 16px; }
 .lg-ph-stats { display: flex; border-top: 1px solid rgba(0,15,71,.10); padding-top: 14px; }

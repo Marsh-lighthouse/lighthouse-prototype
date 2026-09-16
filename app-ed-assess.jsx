@@ -80,7 +80,7 @@ function EdAssessIntro({ exercise, onExit, onBegin }) {
           return (
             <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 13, padding: "15px 17px", background: eCARD, borderRadius: 14, border: "1px solid " + eLINE }}>
               <div style={{ width: 38, height: 38, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-2) 14%, transparent)", border: "1px solid color-mix(in srgb, var(--accent-2) 24%, transparent)", color: "var(--accent-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={18} /></div>
-              <div><div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{it.t}</div><div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{it.d}</div></div>
+              <div><div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{it.t}</div><div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{it.d}</div></div>
             </div>);
 
         })}
@@ -104,7 +104,7 @@ function EdPrivacyNotice({ onClose }) {
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,15,71,.45)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
       <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--card)", border: "1px solid var(--line)", borderRadius: 18, width: "min(820px, 100%)", maxHeight: "88vh", display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 24px 70px rgba(0,15,71,.3)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 22px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.4, color: eBLUE }}>MARSH · CONFIDENTIAL</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.4, color: eBLUE }}>MARSH · CONFIDENTIAL</span>
           <button onClick={onClose} aria-label="Close" style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid " + eLINE, background: "var(--card)", color: eMID, cursor: "pointer", fontSize: 21, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
         </div>
         <div style={{ overflowY: "auto", padding: "28px 32px" }}>
@@ -118,8 +118,8 @@ function EdPrivacyNotice({ onClose }) {
           <P>Our client directs us to collect certain information on their behalf. Based on the needs and direction of our client, we may collect the following categories of Personal Information:</P>
           <div style={{ border: "1px solid " + eLINE, borderRadius: 12, overflow: "hidden", marginTop: 4 }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1.6fr", background: eCARD, borderBottom: "1px solid " + eLINE }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, padding: "12px 16px" }}>Category</div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, padding: "12px 16px", borderLeft: "1px solid " + eLINE }}>Examples</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, padding: "12px 16px" }}>Category</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, padding: "12px 16px", borderLeft: "1px solid " + eLINE }}>Examples</div>
             </div>
             {rows.map((r, i) =>
               <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1.6fr", borderBottom: i < rows.length - 1 ? "1px solid " + eLINE : "none" }}>
@@ -139,7 +139,7 @@ function EdConsent({ exercise, onAccept, onExit }) {
   const [showPrivacy, setShowPrivacy] = oaUseState(false);
   return (
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.4, color: eBLUE, marginBottom: 12 }}>MARSH · CONFIDENTIAL</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.4, color: eBLUE, marginBottom: 12 }}>MARSH · CONFIDENTIAL</div>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px", maxWidth: 640 }}>Consent to Process and Transfer Personal Information</h1>
       <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginBottom: 24 }}>Version 4.0 · Updated on May 29, 2025</div>
       <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 16, padding: "30px 32px" }}>
@@ -149,7 +149,7 @@ function EdConsent({ exercise, onAccept, onExit }) {
         <label htmlFor="ed-consent-box" style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer", background: eCREAM, border: "1px solid " + eLINE, borderRadius: 12, padding: "16px 18px", marginBottom: 24 }}>
           <input id="ed-consent-box" type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} style={{ position: "absolute", opacity: 0, width: 1, height: 1 }} />
           <span style={{ width: 22, height: 22, flexShrink: 0, borderRadius: 2, border: "1.5px solid " + (agreed ? "var(--primary)" : "var(--control-line)"), background: agreed ? "var(--primary)" : "var(--card)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", marginTop: 1, transition: "background .12s, border-color .12s" }}>{agreed && <I.check size={14} />}</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.5 }}>By checking this box, you agree that you have read our privacy notice and consent to the collection and processing of your personal information as described therein, including the international transfer of your personal information.</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, lineHeight: 1.5 }}>By checking this box, you agree that you have read our privacy notice and consent to the collection and processing of your personal information as described therein, including the international transfer of your personal information.</span>
         </label>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <button onClick={agreed ? onAccept : undefined} disabled={!agreed} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: agreed ? eGOLD : "var(--track)", color: agreed ? "var(--action-text)" : eMUT, border: "none", borderRadius: 10, padding: "13px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: agreed ? "pointer" : "not-allowed", transition: "background .12s" }}>Accept &amp; continue <I.arrow size={16} /></button>
@@ -175,7 +175,7 @@ function OaCountdown({ end, label, danger, compact }) {
     <div className="oa-cd" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 9px", borderRadius: 7, background: bg, border: "1px solid " + bd, whiteSpace: "nowrap", flexShrink: 0 }}>
       <span style={{ color: tone, display: "flex" }}><I.clock size={12} /></span>
       <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT }}>{label}</span>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: tone, fontVariantNumeric: "tabular-nums" }}>{txt}</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: tone, fontVariantNumeric: "tabular-nums" }}>{txt}</span>
     </div>
   );
   return (
@@ -183,7 +183,7 @@ function OaCountdown({ end, label, danger, compact }) {
       <span style={{ color: tone, display: "flex" }}><I.clock size={14} /></span>
       <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.05 }}>
         <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT }}>{label}</span>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: tone, fontVariantNumeric: "tabular-nums" }}>{txt}</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: tone, fontVariantNumeric: "tabular-nums" }}>{txt}</span>
       </span>
     </div>
   );
@@ -300,7 +300,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               return (
                 <button key={oi} onClick={() => toggle(oi)} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 16px", borderRadius: 12, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 5%, transparent)" : eCARD, cursor: "pointer", textAlign: "left", width: "100%", transition: "all .15s" }}>
                   <div style={{ width: 20, height: 20, borderRadius: multi ? 5 : "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: multi && sel ? eBLUE : "transparent", color: "var(--on-accent)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>{multi ? (sel && <I.check size={13} />) : (sel && <div style={{ width: 10, height: 10, borderRadius: "50%", background: eBLUE }} />)}</div>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: sel ? eMID : eINK, fontWeight: sel ? 500 : 400, lineHeight: 1.45 }}>{opt}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: sel ? eMID : eINK, fontWeight: 400, lineHeight: 1.45 }}>{opt}</span>
                 </button>);
             })}
           </div>);
@@ -416,7 +416,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             {/* who you're chatting with */}
             <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px" }}>
               {circle(52, <I.user size={24} />)}
-              <div style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 600, color: eINK }}>{q.botName || "Rupert Smith"}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, color: eINK }}>{q.botName || "Rupert Smith"}</div>
             </div>
             <div style={{ borderTop: "1px solid " + eLINE }} />
             {/* conversation */}
@@ -707,7 +707,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                   return (
                     <button key={ci} className="oa-mopt" onClick={() => onChange({ ...a, [ri]: ci })} style={{ flex: single ? "none" : "1 1 auto", width: single ? "100%" : "auto", minWidth: single ? "auto" : 72, display: "inline-flex", alignItems: "center", justifyContent: single ? "flex-start" : "center", gap: single ? 10 : 7, padding: single ? "12px 14px" : "9px 12px", borderRadius: 9, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer", transition: "all .15s" }}>
                       <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: sel ? eBLUE : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--card)" }} />}</span>
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: sel ? 500 : 400, color: sel ? eMID : eINK }}>{col}</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: sel ? eMID : eINK }}>{col}</span>
                     </button>);
                 })}
               </div>
@@ -775,7 +775,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                   <div style={{ display: "flex", gap: 8 }}>
                     {[["left", q.leftLabel], ["right", q.rightLabel]].map(([side, lbl]) => (
                       <button key={side} onClick={() => onChange({ ...a2, [ri]: side })} style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "10px 12px", borderRadius: 9, border: "1.5px solid " + (a2[ri] === side ? eBLUE : eLINE), background: a2[ri] === side ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer" }}>
-                        {dot(a2[ri] === side)}<span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: a2[ri] === side ? 500 : 400, color: a2[ri] === side ? eMID : eINK }}>{lbl}</span>
+                        {dot(a2[ri] === side)}<span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: a2[ri] === side ? eMID : eINK }}>{lbl}</span>
                       </button>
                     ))}
                   </div>
@@ -836,7 +836,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       return (
                         <button key={ci} onClick={() => toggle(ri, ci)} aria-label={row + " — " + col} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "flex-start", gap: 10, padding: "10px 14px", borderRadius: 9, border: "1.5px solid " + (on ? eMID : eLINE), background: on ? "var(--track)" : "#fff", cursor: "pointer", textAlign: "left", transition: "all .15s" }}>
                           <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: 5, border: "2px solid " + (on ? eMID : "var(--control-line)"), background: on ? eMID : "transparent", color: "var(--on-accent)", display: "flex", alignItems: "center", justifyContent: "center" }}>{on && <I.check size={11} />}</span>
-                          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 500 : 400, color: on ? eMID : eINK }}>{col}</span>
+                          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{col}</span>
                         </button>);
                     })}
                   </div>
@@ -893,7 +893,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 <div key={ri} style={{ padding: "14px 16px", borderRadius: 12, background: eCARD, border: "1px solid " + eLINE }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, lineHeight: 1.4 }}>{row}</span>
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: na ? eMUT : eMID }}>Total: {na ? "—" : rowTotal(ri)}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: na ? eMUT : eMID }}>Total: {na ? "—" : rowTotal(ri)}</span>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "stretch" }}>
                     {q.cols.map((col, ci) => (
@@ -943,17 +943,17 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                           <button onClick={() => setRow(ri, { na: !na })} aria-label={row + " — Not Applicable"} style={{ width: 26, height: 26, borderRadius: 6, border: "2px solid " + (na ? eMID : "var(--control-line)"), background: na ? eMID : "#fff", color: "var(--on-accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>{na && <I.check size={15} />}</button>
                         </div>}
                         {!q.totalRow && <div style={{ display: "flex", justifyContent: "center" }}>
-                          <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: na ? eMUT : eMID, background: eCARD }}>{na ? "—" : rowTotal(ri)}</div>
+                          <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: na ? eMUT : eMID, background: eCARD }}>{na ? "—" : rowTotal(ri)}</div>
                         </div>}
                       </div>
                     );
                   })}
                   {q.totalRow && (
                     <div style={{ display: "grid", gridTemplateColumns: gridCols, columnGap: 14, alignItems: "center", padding: "12px 4px" }}>
-                      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eINK }}>Total</div>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>Total</div>
                       {q.cols.map((col, ci) => (
                         <div key={ci} style={{ display: "flex", justifyContent: "center" }}>
-                          <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: eCARD }}>{colTotal(ci)}</div>
+                          <div style={{ width: 56, height: 38, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 2, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, background: eCARD }}>{colTotal(ci)}</div>
                         </div>
                       ))}
                     </div>
@@ -1027,7 +1027,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                     <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{row}</div>
                     <input type="range" min="0" max="100" step="10" value={set50 ?? 0} onChange={(e) => set(ri, Number(e.target.value))} className="oa-range" style={{ width: "100%", accentColor: eMID }} />
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                      <div style={{ width: 56, height: 36, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: set50 == null ? eMUT : eMID, background: eCARD }}>{set50 == null ? "–" : set50}</div>
+                      <div style={{ width: 56, height: 36, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid " + eLINE, borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: set50 == null ? eMUT : eMID, background: eCARD }}>{set50 == null ? "–" : set50}</div>
                       <button onClick={() => { const n = { ...v }; delete n[ri]; onChange(n); }} style={{ background: "none", border: "none", color: eBLUE, cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 0 }}>Clear</button>
                     </div>
                   </div>
@@ -1067,7 +1067,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       {[10, 20, 30, 40, 50, 60, 70, 80, 90].map((n) => <div key={n} style={{ position: "absolute", top: 0, bottom: 0, left: n + "%", width: 1, background: "rgba(0,15,71,.07)" }} />)}
                       {val != null && <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: val + "%", background: "var(--accent)" }} />}
                     </div>
-                    <div style={{ textAlign: "right", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: val == null ? eMUT : eMID }}>{val == null ? "–" : val}</div>
+                    <div style={{ textAlign: "right", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: val == null ? eMUT : eMID }}>{val == null ? "–" : val}</div>
                   </div>
                 );
               })}
@@ -1096,7 +1096,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                         </button>
                       );
                     })}
-                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginLeft: 4 }}>{rating || "–"}</span>
+                    <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginLeft: 4 }}>{rating || "–"}</span>
                   </div>
                 </div>
               );
@@ -1121,7 +1121,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               })}
             </div>
             <input type="range" min="0" max="100" step={Math.round(100 / segs)} value={val} onChange={(e) => onChange(Number(e.target.value))} style={{ width: 320, maxWidth: "100%", accentColor: "var(--primary)" }} />
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{filled} / {segs}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{filled} / {segs}</div>
           </div>
         );
       })()}
@@ -1264,8 +1264,8 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               </div>
             )}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 14px" }}>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMID }}>Total</span>
-              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: ok ? eSUCCESS : eDANGER }}>{sum} / {q.target}</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>Total</span>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: ok ? eSUCCESS : eDANGER }}>{sum} / {q.target}</span>
             </div>
           </div>);
       })()}
@@ -1309,7 +1309,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                         return (
                           <button key={ci} onClick={() => onChange({ ...v, [si]: { ...(v[si] || {}), [gi]: ci } })} style={{ flex: "1 1 0", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "9px 10px", borderRadius: 9, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer" }}>
                             <span style={{ width: 16, height: 16, flexShrink: 0, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "var(--control-line)"), background: sel ? eBLUE : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--card)" }} />}</span>
-                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: sel ? 500 : 400, color: sel ? eMID : eINK }}>{c}</span>
+                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: sel ? eMID : eINK }}>{c}</span>
                           </button>);
                       })}
                     </div>
@@ -1391,7 +1391,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                         return (
                           <button key={wi} onClick={() => { const nw = [...why]; nw[wi] = !on; set(ci, { why: nw }); }} aria-label={cat + " — reason " + (wi + 1)} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 11px", borderRadius: 8, border: "1.5px solid " + (on ? eBLUE : eLINE), background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "#fff", cursor: "pointer" }}>
                             <span style={{ width: 15, height: 15, flexShrink: 0, borderRadius: 4, border: "1.5px solid " + (on ? "var(--primary)" : "var(--control-line)"), background: on ? "var(--primary)" : "transparent", color: "var(--on-accent)", display: "flex", alignItems: "center", justifyContent: "center" }}>{on && <I.check size={10} />}</span>
-                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{wi + 1}</span>
+                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{wi + 1}</span>
                           </button>);
                       })}
                     </div>
@@ -1480,7 +1480,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             </div>
             {q.groups.map((g, gi) => { const armed = pickSel != null; return (
               <div key={gi} onClick={() => { if (pickSel) { moveTo(pickSel, gi); setPickSel(null); } }} style={{ border: "1px solid " + (armed ? eBLUE : eLINE), borderRadius: 12, overflow: "hidden", cursor: armed ? "pointer" : "default", transition: "border-color .15s" }}>
-                <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, borderBottom: "1px solid " + eLINE, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ background: eCARD, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, borderBottom: "1px solid " + eLINE, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span>{g}</span>{armed && <span style={{ fontSize: 11.5, fontWeight: 400, color: eBLUE }}>Tap to place</span>}
                 </div>
                 <div style={{ minHeight: 48, padding: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -1684,7 +1684,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                       ? <img src={c.img} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                       : <I.image size={22} style={{ color: eMUT }} />}
                   </span>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 500 : 400, color: on ? eMID : eINK }}>{c.text}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{c.text}</span>
                 </button>
               );
             })}
@@ -1766,14 +1766,14 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
     <div style={{ position: "fixed", right: 179, bottom: 14, zIndex: 60 }}>
       {layoutMenu &&
         <div style={{ position: "absolute", bottom: 42, right: 0, width: 256, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 12, boxShadow: "0 10px 34px rgba(0,15,71,.16)", padding: 7, fontFamily: "var(--sans)" }}>
-          <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Survey layout</div>
+          <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Survey layout</div>
           {[{ id: "paged", l: "Single page", d: "Multiple questions per page" }, { id: "split", l: "Split screen", d: "One question \u2014 prompt left, answer right" }].map((o) => {
             const on = layout === o.id;
             return (
               <button key={o.id} onClick={() => chooseLayout(o.id)} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                 <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                 <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                  <span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
                   <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                 </span>
               </button>);
@@ -1781,14 +1781,14 @@ function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initi
           {layout === "split" &&
             <React.Fragment>
               <div style={{ height: 1, background: "var(--track)", margin: "5px 4px" }} />
-              <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Alignment</div>
+              <div style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: "var(--muted)", padding: "7px 9px 5px" }}>Alignment</div>
               {[{ id: "center", l: "Centered", d: "Prompt & answer centered" }, { id: "left", l: "Left", d: "Prompt & answer left-aligned" }].map((o) => {
                 const on = align === o.id;
                 return (
                   <button key={o.id} onClick={() => chooseAlign(o.id)} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                     <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                     <span style={{ flex: 1 }}>
-                      <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                      <span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
                       <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                     </span>
                   </button>);

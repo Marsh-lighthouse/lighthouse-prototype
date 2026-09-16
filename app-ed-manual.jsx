@@ -76,7 +76,7 @@ function MnStepper({ step, design }) {
           const done = i < step, on = i === step;
           return (
             <span key={l} style={{ display: "inline-flex", alignItems: "center", gap: 7, borderRadius: 999, padding: "7px 14px",
-              fontFamily: "var(--sans)", fontSize: 13, fontWeight: on ? 700 : 700, whiteSpace: "nowrap",
+              fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, whiteSpace: "nowrap",
               background: on ? eMID : done ? "rgba(20,133,61,.10)" : "var(--card)",
               color: on ? "#fff" : done ? eSUCCESS : eMUT,
               border: "1px solid " + (on ? eMID : done ? "transparent" : eLINE) }}>
@@ -96,7 +96,7 @@ function MnStepper({ step, design }) {
           const done = i < step, on = i === step;
           return (
             <span key={l} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "9px 14px", marginBottom: -1,
-              fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, whiteSpace: "nowrap",
+              fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, whiteSpace: "nowrap",
               color: on ? eMID : done ? eSUCCESS : eMUT,
               borderBottom: "3px solid " + (on ? eMID : done ? eSUCCESS : "transparent") }}>
               {done && <I.check size={14} />}{l}
@@ -119,10 +119,10 @@ function MnStepper({ step, design }) {
                 background: done ? eSUCCESS : on ? eMID : "rgba(0,15,71,.06)",
                 color: done || on ? "#fff" : eMUT,
                 border: done ? "none" : "1px solid " + (on ? eMID : eLINE),
-                fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>
+                fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}>
                 {done ? <I.check size={16} /> : i + 1}
               </span>
-              <span className={"mn-step-label" + (on ? " mn-step-label-on" : "")} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
+              <span className={"mn-step-label" + (on ? " mn-step-label-on" : "")} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? eMID : eMUT, whiteSpace: "nowrap" }}>{label}</span>
             </div>
             {i < MN_STEPS.length - 1 && <span style={{ flex: "1 1 14px", minWidth: 12, height: 1, background: i < step ? eSUCCESS : eLINE, margin: "0 9px" }} />}
           </React.Fragment>
@@ -149,12 +149,12 @@ function MnGettingStarted({ onNext }) {
           {watched ? (
             <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(20,133,61,.92)", padding: "9px 18px", borderRadius: 22 }}>
               <span style={{ color: "#fff", display: "flex" }}><I.check size={17} /></span>
-              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Video watched</span>
+              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}>Video watched</span>
             </div>
           ) : (
             <React.Fragment>
               <div style={{ width: 60, height: 60, borderRadius: "50%", background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
-              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Watch introduction (2 min)</span>
+              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}>Watch introduction (2 min)</span>
             </React.Fragment>
           )}
         </div>
@@ -168,7 +168,7 @@ function MnGettingStarted({ onNext }) {
           return (
             <div key={i} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 8, padding: 16 }}>
               <span style={{ color: eBLUE, display: "flex", marginBottom: 8 }}><Ic size={20} /></span>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{it.l}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 4 }}>{it.l}</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{it.d}</div>
             </div>
           );
@@ -176,7 +176,7 @@ function MnGettingStarted({ onNext }) {
       </div>
 
       <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 8, padding: 18, marginBottom: 28 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 12 }}>What to expect</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 12 }}>What to expect</div>
         {["Choose the behavioural and technical skills you want to develop",
           "Rate yourself honestly on each one — today's level, not your target",
           "Answer a few short reflective questions (you can leave these for later)",
@@ -212,7 +212,7 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
             </div>
           </div>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: "16px 0 10px" }}>Search your skills</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, margin: "16px 0 10px" }}>Search your skills</div>
           <IdpMultiSelect search options={c.options} selected={sel[ci]} onChange={(v) => setCat(ci, v)} placeholder="Search skills…" />
           {c.suggest.filter((s) => !sel[ci].includes(s)).length > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
@@ -231,7 +231,7 @@ function MnAddSkills({ sel, setSel, onBack, onNext }) {
 
 // ── step 3 · Rate Skills ──
 function MnRateSkills({ rows, ratings, setRatings, onBack, onNext }) {
-  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID };
+  const head = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID };
   return (
     <div>
       <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: "0 0 20px" }}>Rate Skills</h1>
@@ -444,7 +444,7 @@ function MnManualFlow({ onExit, onDone }) {
                 <button key={o.id} onClick={() => { setStepDesign(o.id); try { localStorage.setItem("mn-stepper-design", String(o.id)); } catch (e) {} setStepMenu(false); }}
                   style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{o.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{o.desc}</span></span>
                 </button>); })}
             </div>
           )}

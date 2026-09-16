@@ -577,7 +577,7 @@ function AssessorEditorial() {
                 {active && <div style={{position:"absolute",left:0,top:9,bottom:9,width:3,borderRadius:3,background:railActiveIcon}}/>}
                 <span style={{color:active?railActiveIcon:railIcon,display:"flex"}}><it.I s={18}/></span>
                 {!collapsed && <span style={{flex:1}}>{it.l}</span>}
-                {!collapsed && it.count !== null && !it.soon && <span style={{fontSize:14,color:railFg,fontWeight:600}}>{it.count}</span>}
+                {!collapsed && it.count !== null && !it.soon && <span style={{fontSize:14,color:railFg,fontWeight: 400}}>{it.count}</span>}
                 {!collapsed && it.soon && <span className="tag" style={{background:"transparent",color:railFg,padding:"1px 6px",fontSize:14,border:`1px solid ${railBorder}`}}>Soon</span>}
               </button>
             );
@@ -592,7 +592,7 @@ function AssessorEditorial() {
           ) : (
           <button onClick={()=>setNewExp(!newExp)} aria-pressed={newExp} style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:newExp?gold:railActiveBg,border:`1px solid ${newExp?gold:railBorder}`,borderRadius:10,cursor:"pointer",textAlign:"left",transition:"all .18s ease"}}>
             <span style={{width:34,height:20,borderRadius:999,background:newExp?navy:"var(--rail-ring-track)",flexShrink:0,position:"relative",transition:"background .18s ease"}}><span style={{width:14,height:14,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:newExp?17:3,boxShadow:"0 1px 3px rgba(0,0,0,.35)",transition:"left .18s ease"}}></span></span>
-            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight:700,color:newExp?"#fff":railActiveFg,lineHeight:1.3}}>New experience</span>
+            <span style={{flex:1,minWidth:0,fontSize:14,fontWeight: 400,color:newExp?"#fff":railActiveFg,lineHeight:1.3}}>New experience</span>
           </button>
           )}
         </div>
@@ -694,7 +694,7 @@ function AssessorEditorial() {
       <div className="serif" style={{fontSize:22,fontWeight:400,color:navy,margin:"22px 0 8px",letterSpacing:-.3}}>No {label} found</div>
       <div style={{fontSize:14,color:tm,maxWidth:380,lineHeight:1.6}}>
         {query
-          ? <>We couldn't find any {label} matching "<b style={{color:tx,fontWeight:600}}>{query}</b>". Try a different name, ID, or status.</>
+          ? <>We couldn't find any {label} matching "<b style={{color:tx,fontWeight: 400}}>{query}</b>". Try a different name, ID, or status.</>
           : <>No {label} match the current filters. Try adjusting or clearing them.</>}
       </div>
       {onClear && <button onClick={onClear} className="btn btn-secondary" style={{marginTop:22}}><I.Search s={13}/> {query?"Clear search":"Reset filters"}</button>}
@@ -766,7 +766,7 @@ function AssessorEditorial() {
       const open = openFilter === "nameSearch";
       const active = !!dashQ;
       return (
-      <th style={{padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"}}>
+      <th style={{padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"}}>
         <button onClick={(e)=>{e.stopPropagation();setOpenFilter(open?null:"nameSearch");}} style={{display:"inline-flex",alignItems:"center",gap:6,color:active?navy:tm,fontWeight:700,fontSize:14}}>
           {label}
           <span style={{display:"inline-flex",width:18,height:18,borderRadius:5,alignItems:"center",justifyContent:"center",background:active?navy:"transparent",color:active?"#fff":tm,border:active?"none":`1px solid ${bd}`}}><I.Search s={11}/></span>
@@ -788,7 +788,7 @@ function AssessorEditorial() {
       const active = colFilter[col] !== "all";
       const open = openFilter === col;
       return (
-      <th style={{padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"}}>
+      <th style={{padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"}}>
         <button onClick={(e)=>{e.stopPropagation();setOpenFilter(open?null:col);}} style={{display:"inline-flex",alignItems:"center",gap:6,color:active?navy:tm,fontWeight:700,fontSize:14}}>
           {label}
           <span style={{display:"inline-flex",width:18,height:18,borderRadius:5,alignItems:"center",justifyContent:"center",background:active?navy:"transparent",color:active?"#fff":tm,border:active?"none":`1px solid ${bd}`}}><I.Filter s={11}/></span>
@@ -812,7 +812,7 @@ function AssessorEditorial() {
           {kpis.map((k,i) => (
             <div key={i}>
               <div className="serif" style={{fontSize:32,fontWeight:400,color:k.c,lineHeight:1,marginBottom:10}}>{k.v}</div>
-              <div style={{fontSize:14,fontWeight:700,color:tx,marginBottom:2}}>{k.l}</div>
+              <div style={{fontSize:14,fontWeight: 400,color:tx,marginBottom:2}}>{k.l}</div>
               <div style={{fontSize:14,color:tm}}>{k.sub}</div>
             </div>
           ))}
@@ -849,7 +849,7 @@ function AssessorEditorial() {
                 <tr>
                   {sortHead("id","ID")}
                   {(()=>{ const open=openFilter==="campaign"; const active=dashProjFilter!=="all"; return (
-                  <th style={{padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"}}>
+                  <th style={{padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"}}>
                     <button onClick={(e)=>{e.stopPropagation();setOpenFilter(open?null:"campaign");}} style={{display:"inline-flex",alignItems:"center",gap:6,color:active?navy:tm,fontWeight:700,fontSize:14}}>
                       Campaign
                       <span style={{display:"inline-flex",width:18,height:18,borderRadius:5,alignItems:"center",justifyContent:"center",background:active?navy:"transparent",color:active?"#fff":tm,border:active?"none":`1px solid ${bd}`}}><I.Filter s={11}/></span>
@@ -878,7 +878,7 @@ function AssessorEditorial() {
                     <td style={{padding:"16px 12px",maxWidth:0}}>
                       {cCamp ? (
                         <div style={{minWidth:0,overflow:"hidden"}}>
-                          <div style={{fontWeight:700,color:navy,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{cCamp.project}</div>
+                          <div style={{fontWeight: 400,color:navy,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{cCamp.project}</div>
                           <div style={{fontSize:14,color:tm,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{cCamp.subtitle}</div>
                         </div>
                       ) : <span style={{color:tf}}>—</span>}
@@ -915,7 +915,7 @@ function AssessorEditorial() {
         {dashTab === "campaign" && (() => {
           const myCampaigns = campaigns.filter(cp => cp.status === "Active" && cp.candidateIds.length > 0);
           const splitWindow = (w) => { const parts = (w||"").split("–").map(s=>s.trim()); const yr = (parts[1]||"").match(/\d{4}/); const start = parts[0] && !/\d{4}/.test(parts[0]) && yr ? `${parts[0]} ${yr[0]}` : parts[0]; return { start: start||"—", end: parts[1]||"—" }; };
-          const cTh = {padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap"};
+          const cTh = {padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap"};
           const cThR = {...cTh, textAlign:"right"};
           return (
         <div>
@@ -942,14 +942,14 @@ function AssessorEditorial() {
                   return (
                   <tr key={cp.id} className="rh" style={{cursor:"pointer",background:"#fff",borderBottom:ci===myCampaigns.length-1?"none":`1px solid ${bd}`}} onClick={()=>{ setCampaignId(cp.id); setRoute("campaign"); }}>
                     <td style={{padding:"16px",minWidth:200}}>
-                      <div style={{fontWeight:700,color:navy}} className="elide">{cp.project}</div>
+                      <div style={{fontWeight: 400,color:navy}} className="elide">{cp.project}</div>
                       <div style={{fontSize:14,color:tm,marginTop:1}} className="elide">{cp.subtitle}</div>
                     </td>
                     <td style={{padding:"16px"}}>{cp.client}</td>
                     <td style={{padding:"16px",whiteSpace:"nowrap"}} className="tnum">{win.start} &ndash; {win.end}</td>
-                    <td style={{padding:"16px",textAlign:"right"}}><span className="tnum" style={{fontWeight:700,color:navy}}>{cohort.length}</span></td>
-                    <td style={{padding:"16px",textAlign:"right"}}><span className="tnum" style={{fontWeight:700,color:navy}}>{evalComplete}</span><span className="tnum" style={{color:tm,fontWeight:400}}>/{cohort.length}</span></td>
-                    <td style={{padding:"16px",textAlign:"right"}}><span className="tnum" style={{fontWeight:700,color:awaitingMod>0?warn:tm}}>{awaitingMod}</span></td>
+                    <td style={{padding:"16px",textAlign:"right"}}><span className="tnum" style={{fontWeight: 400,color:navy}}>{cohort.length}</span></td>
+                    <td style={{padding:"16px",textAlign:"right"}}><span className="tnum" style={{fontWeight: 400,color:navy}}>{evalComplete}</span><span className="tnum" style={{color:tm,fontWeight:400}}>/{cohort.length}</span></td>
+                    <td style={{padding:"16px",textAlign:"right"}}><span className="tnum" style={{fontWeight: 400,color:awaitingMod>0?warn:tm}}>{awaitingMod}</span></td>
                     <td style={{padding:"16px",position:"relative",paddingRight:32}}><span className="row-arrow"><I.Chev s={14}/></span></td>
                   </tr>
                   );
@@ -1021,7 +1021,7 @@ function AssessorEditorial() {
             if (cdColFilter.modStatus !== "all") roster = roster.filter(c => c.modStatus === cdColFilter.modStatus);
             const actAge = (s) => { s=(s||"").toLowerCase(); if(s.includes("yesterday")) return 24; const m=s.match(/(\d+)\s*([hd])/); if(m) return parseInt(m[1])*(m[2]==="d"?24:1); return 1e6; };
             if (cdActSort) roster.sort((a,b)=>(actAge(a.lastActivity)-actAge(b.lastActivity))*(cdActSort==="asc"?1:-1));
-            const cTh = {padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"};
+            const cTh = {padding:"14px 16px",textAlign:"left",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",position:"relative"};
             const searchHead = () => { const open=cdOpenFilter==="nameSearch", active=!!cdQ; return (
               <th style={cTh}>
                 <button onClick={(e)=>{e.stopPropagation();setCdOpenFilter(open?null:"nameSearch");}} style={{display:"inline-flex",alignItems:"center",gap:6,color:active?navy:tm,fontWeight:700,fontSize:14}}>Candidate
@@ -1144,7 +1144,7 @@ function AssessorEditorial() {
               <div style={{flex:1,height:6,background:bg2,borderRadius:3,overflow:"hidden"}}>
                 <div style={{width:`${evalPct}%`,height:"100%",background:evalPct===100?green:teal,transition:"width .4s"}}/>
               </div>
-              <span className="tnum" style={{fontSize:20,fontWeight:700,color:navy}}>{c.evalDone}<span style={{color:tm,fontSize:14,fontWeight:400}}>/{c.evalTotal}</span></span>
+              <span className="tnum" style={{fontSize:20,fontWeight: 400,color:navy}}>{c.evalDone}<span style={{color:tm,fontSize:14,fontWeight:400}}>/{c.evalTotal}</span></span>
             </div>
           </div>
           <div style={{textAlign:"right"}}>
@@ -1219,7 +1219,7 @@ function AssessorEditorial() {
     );
   };
 
-  const listTh = {padding:"13px 16px",textAlign:"left",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap"};
+  const listTh = {padding:"13px 16px",textAlign:"left",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap"};
   const AssessmentsList = () => (
     <div className="an" style={{background:"#fff",border:`1px solid ${bd}`,borderRadius:br,overflow:"hidden",overflowX:"auto"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:14,minWidth:640}}>
@@ -1286,7 +1286,7 @@ function AssessorEditorial() {
   );};
 
   const RecordingsGrid = () => {
-    const rTh = (l,w) => <th style={{padding:"13px 16px",textAlign:"left",fontSize:14,fontWeight:700,color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",width:w}}>{l}</th>;
+    const rTh = (l,w) => <th style={{padding:"13px 16px",textAlign:"left",fontSize:14,fontWeight: 400,color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap",width:w}}>{l}</th>;
     const rTd = {padding:"14px 16px",fontSize:14,color:tx,borderBottom:`1px solid ${bd}`,verticalAlign:"middle"};
     return (
     <div className="an" style={{background:card,border:`1px solid ${bd}`,borderRadius:br,overflow:"hidden"}}>
@@ -1499,7 +1499,7 @@ function AssessorEditorial() {
           <div style={{flex:1,height:6,background:bg2,borderRadius:3,overflow:"hidden"}}>
             <div style={{width:`${Math.round(pct*100)}%`,height:"100%",background:full?green:teal,transition:"width .3s"}}/>
           </div>
-          {full ? <I.CheckCircle s={16} style={{color:green}}/> : <span className="tnum" style={{fontSize:14,fontWeight:700,color:tm,minWidth:34,textAlign:"right"}}>{Math.round(pct*100)}%</span>}
+          {full ? <I.CheckCircle s={16} style={{color:green}}/> : <span className="tnum" style={{fontSize:14,fontWeight: 400,color:tm,minWidth:34,textAlign:"right"}}>{Math.round(pct*100)}%</span>}
         </div>
       );
     };
@@ -1514,7 +1514,7 @@ function AssessorEditorial() {
           <div style={{display:"flex",alignItems:"center",gap:14}}>
             <div>
               <span style={{fontSize:14,color:tm}}>Forms complete</span>
-              <div style={{fontSize:14,fontWeight:700,color:tx,textAlign:"right"}} className="tnum">{doneCount} / {totalCount}</div>
+              <div style={{fontSize:14,fontWeight: 400,color:tx,textAlign:"right"}} className="tnum">{doneCount} / {totalCount}</div>
             </div>
             <ProgressRing pct={doneCount/totalCount} size={44}/>
           </div>
@@ -1574,10 +1574,10 @@ function AssessorEditorial() {
                         <div style={{fontSize:14,color:tm,marginBottom:8}}>Response</div>
                         {Array.isArray(it.a) ? (
                           <ul style={{margin:"0 0 0 18px",padding:0}}>
-                            {it.a.map((li,li2)=><li key={li2} style={{fontSize:14,fontWeight:700,color:tx,lineHeight:1.7}}>{li}</li>)}
+                            {it.a.map((li,li2)=><li key={li2} style={{fontSize:14,fontWeight: 400,color:tx,lineHeight:1.7}}>{li}</li>)}
                           </ul>
                         ) : (
-                          <p style={{fontSize:14,fontWeight:700,color:tx,lineHeight:1.55}}>{it.a}</p>
+                          <p style={{fontSize:14,fontWeight: 400,color:tx,lineHeight:1.55}}>{it.a}</p>
                         )}
                         <div style={{fontSize:14,color:tm,marginTop:10}} className="tnum">Word: {it.words} Characters: {it.chars}</div>
                       </div>
@@ -1620,7 +1620,7 @@ function AssessorEditorial() {
               {rf && (
                 <div>
                   <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:22}}>
-                    <div style={{fontSize:16,fontWeight:700,color:navy,flex:1,minWidth:0}} className="elide">{typeof evalRightTab==="number"?evalRightTab+1:""}. {rf.name.replace(/^Generali — /,"")}</div>
+                    <div style={{fontSize:16,fontWeight: 400,color:navy,flex:1,minWidth:0}} className="elide">{typeof evalRightTab==="number"?evalRightTab+1:""}. {rf.name.replace(/^Generali — /,"")}</div>
                     <ProgressBar pct={submitted ? 1 : rProgress}/>
                   </div>
 
@@ -1644,14 +1644,14 @@ function AssessorEditorial() {
                         <button onClick={()=>showToast("Downloading CSV…")} className="link" style={{fontSize:14,fontWeight:600,display:"inline-flex",alignItems:"center",gap:6}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg> Download CSV</button>
                       </div>
                       <div style={{border:`1px solid ${bd}`,borderRadius:br,overflow:"hidden"}}>
-                        <div style={{display:"grid",gridTemplateColumns:"70px 1fr 64px",gap:12,padding:"11px 16px",background:sbBg,borderBottom:`1px solid ${bd}`,fontSize:14,fontWeight:700,color:tm}}>
+                        <div style={{display:"grid",gridTemplateColumns:"70px 1fr 64px",gap:12,padding:"11px 16px",background:sbBg,borderBottom:`1px solid ${bd}`,fontSize:14,fontWeight: 400,color:tm}}>
                           <div>ID</div><div>Competency</div><div style={{textAlign:"right"}}>Score</div>
                         </div>
                         {scoreRows.map((sr,i) => (
                           <div key={i} style={{display:"grid",gridTemplateColumns:"70px 1fr 64px",gap:12,padding:"11px 16px",borderBottom:i===scoreRows.length-1?"none":`1px solid ${bd}`,fontSize:14}}>
                             <div className="tnum" style={{color:tm}}>{sr.id}</div>
                             <div style={{color:tx}}>{sr.competency}</div>
-                            <div className="tnum" style={{textAlign:"right",fontWeight:700,color:tx}}>{sr.score}</div>
+                            <div className="tnum" style={{textAlign:"right",fontWeight: 400,color:tx}}>{sr.score}</div>
                           </div>
                         ))}
                       </div>
@@ -1666,7 +1666,7 @@ function AssessorEditorial() {
                   {!submitted && curItem && (
                     <div>
                       <div style={{border:`1px solid ${bd}`,borderRadius:br,borderLeft:`3px solid ${teal}`,padding:"18px 20px",marginBottom:24,background:card}}>
-                        <p style={{fontSize:14,fontWeight:700,color:tx,lineHeight:1.65,marginBottom:16}}>{curItem.prompt}</p>
+                        <p style={{fontSize:14,fontWeight: 400,color:tx,lineHeight:1.65,marginBottom:16}}>{curItem.prompt}</p>
                         <label style={{display:"inline-flex",alignItems:"center",gap:9,cursor:"pointer"}}>
                           <span style={{width:18,height:18,borderRadius:"50%",border:`1.6px solid ${evalAgreements[agreeKey(safeIdx)]?teal:bdStrong}`,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{evalAgreements[agreeKey(safeIdx)] && <span style={{width:9,height:9,borderRadius:5,background:teal}}/>}</span>
                           <input type="checkbox" checked={!!evalAgreements[agreeKey(safeIdx)]} onChange={e=>setEvalAgreements(p=>({...p,[agreeKey(safeIdx)]:e.target.checked}))} style={{display:"none"}}/>
@@ -1804,7 +1804,7 @@ function AssessorEditorial() {
       <svg width={size} height={size} style={{transform:"rotate(-90deg)"}}>
         <circle cx={size/2} cy={size/2} r={r} stroke={bd} strokeWidth="3" fill="none"/>
         <circle cx={size/2} cy={size/2} r={r} stroke={teal} strokeWidth="3" fill="none" strokeDasharray={c} strokeDashoffset={o} strokeLinecap="round" style={{transition:"stroke-dashoffset .4s"}}/>
-        <text x={size/2} y={size/2} textAnchor="middle" dominantBaseline="middle" style={{transform:`rotate(90deg)`,transformOrigin:`${size/2}px ${size/2}px`,fontSize:14,fontWeight:700,fill:navy,fontFamily:f}}>{Math.round(pct*100)}%</text>
+        <text x={size/2} y={size/2} textAnchor="middle" dominantBaseline="middle" style={{transform:`rotate(90deg)`,transformOrigin:`${size/2}px ${size/2}px`,fontSize:14,fontWeight: 400,fill:navy,fontFamily:f}}>{Math.round(pct*100)}%</text>
       </svg>
     );
   };
@@ -2106,12 +2106,12 @@ function AssessorEditorial() {
               {!previewOpen ? (
                 <button onClick={()=>setPreviewOpen(true)} title="Preview: assessors per exercise" style={{position:"fixed",right:railW+16,bottom:84,zIndex:60,background:navy,color:"#fff",border:"none",borderRadius:8,boxShadow:"0 6px 22px rgba(0,15,71,.26)",padding:"10px 14px",display:"flex",alignItems:"center",gap:8,cursor:"pointer"}}>
                   <I.Gear s={15}/>
-                  <span style={{fontSize:14,fontWeight:700,letterSpacing:.3}}>Preview · {numAssessors}</span>
+                  <span style={{fontSize:14,fontWeight: 400,letterSpacing:.3}}>Preview · {numAssessors}</span>
                 </button>
               ) : (
                 <div style={{position:"fixed",right:railW+16,bottom:84,zIndex:60,background:navy,color:"#fff",borderRadius:10,boxShadow:"0 8px 30px rgba(0,15,71,.28)",padding:"12px 14px 14px 16px",width:154}}>
                   <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}>
-                    <span style={{display:"flex",alignItems:"center",gap:6,fontSize:14,fontWeight:700,letterSpacing:0,opacity:.85}}><I.Gear s={12}/> Preview</span>
+                    <span style={{display:"flex",alignItems:"center",gap:6,fontSize:14,fontWeight: 400,letterSpacing:0,opacity:.85}}><I.Gear s={12}/> Preview</span>
                     <button onClick={()=>setPreviewOpen(false)} title="Hide" style={{marginLeft:"auto",color:"#fff",opacity:.7,padding:2,display:"inline-flex",cursor:"pointer"}}><I.X s={13}/></button>
                   </div>
                   <div style={{fontSize:14,opacity:.6,marginBottom:10,lineHeight:1.35}}>How the matrix looks with N assessors</div>
@@ -2124,7 +2124,7 @@ function AssessorEditorial() {
                     ))}
                   </div>
                   <div style={{height:1,background:"rgba(255,255,255,.14)",margin:"12px 0 10px"}}/>
-                  <div style={{fontSize:14,fontWeight:700,letterSpacing:0,opacity:.85,marginBottom:8}}>Number style</div>
+                  <div style={{fontSize:14,fontWeight: 400,letterSpacing:0,opacity:.85,marginBottom:8}}>Number style</div>
                   <button onClick={()=>setPlainNumbers(v=>!v)} style={{display:"flex",alignItems:"flex-start",gap:8,padding:"8px 10px",borderRadius:6,fontSize:14,fontWeight:plainNumbers?700:500,textAlign:"left",cursor:"pointer",color:"#fff",background:plainNumbers?gold:"rgba(255,255,255,.08)",border:`1px solid ${plainNumbers?gold:"rgba(255,255,255,.14)"}`,transition:"all .12s",lineHeight:1.3}}>
                     <span style={{width:14,display:"inline-flex",flexShrink:0,marginTop:1}}>{plainNumbers ? <I.Check s={13}/> : null}</span>
                     Numbers without background
@@ -2136,7 +2136,7 @@ function AssessorEditorial() {
               <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:14,flexWrap:"wrap"}}>
                 <div style={{display:"flex",alignItems:"center",gap:18,flexWrap:"wrap",flex:1,minWidth:200}}>
                   {activeAssessors.map((nm, i) => (
-                    <span key={i} style={{fontSize:14,color:ts}}><span style={{fontWeight:700,color:navy}}>Assessor {i+1}:</span> {nm}</span>
+                    <span key={i} style={{fontSize:14,color:ts}}><span style={{fontWeight: 400,color:navy}}>Assessor {i+1}:</span> {nm}</span>
                   ))}
                 </div>
                 <div style={{position:"relative"}}>
@@ -2145,7 +2145,7 @@ function AssessorEditorial() {
                   </button>
                   {filterMenu && (
                     <div style={{position:"absolute",top:"calc(100% + 6px)",right:0,zIndex:20,background:card,border:`1px solid ${bd}`,borderRadius:br,boxShadow:"0 8px 28px rgba(0,15,71,.14)",overflow:"hidden",width:280}}>
-                      <div style={{fontSize:14,fontWeight:700,color:tm,padding:"10px 14px 6px",letterSpacing:0}}>Assessor Forms</div>
+                      <div style={{fontSize:14,fontWeight: 400,color:tm,padding:"10px 14px 6px",letterSpacing:0}}>Assessor Forms</div>
                       {assessorForms.map((af, fi) => {
                         const on = !hiddenForms.has(fi);
                         return (
@@ -2176,12 +2176,12 @@ function AssessorEditorial() {
                   <thead>
                     <tr>
                       <th rowSpan={numAssessors>1?2:1} style={{position:"sticky",left:0,top:0,zIndex:5,background:sbBg,padding:"12px 18px",textAlign:"left",verticalAlign:"top",borderRight:`1px solid ${bd}`,borderBottom:`1px solid ${bd}`,width:firstColW,minWidth:firstColW}}>
-                        <div style={{fontSize:14,fontWeight:700,letterSpacing:0,color:navy}}>Competency / Indicator</div>
+                        <div style={{fontSize:14,fontWeight: 400,letterSpacing:0,color:navy}}>Competency / Indicator</div>
                         {numAssessors>1 && <div style={{fontSize:14,fontWeight:400,color:tm,marginTop:14}}>Assessors</div>}
                       </th>
                       {shownForms.map(({af, fi}) => (
                         <th key={af.short} colSpan={numAssessors} style={{position:"sticky",top:0,zIndex:3,background:sbBg,padding:"10px 8px 4px",textAlign:"left",borderLeft:`1px solid ${bd}`,width:cellW,minWidth:cellW}}>
-                          <div className="ex-head" onMouseEnter={e=>showTip(e,`${af.name} · ${af.exercise}`)} onMouseLeave={hideTip} style={{display:"flex",alignItems:"center",gap:5,fontSize:14,fontWeight:700,color:navy,letterSpacing:0}}>
+                          <div className="ex-head" onMouseEnter={e=>showTip(e,`${af.name} · ${af.exercise}`)} onMouseLeave={hideTip} style={{display:"flex",alignItems:"center",gap:5,fontSize:14,fontWeight: 400,color:navy,letterSpacing:0}}>
                             <span className="elide" style={{flex:1,minWidth:0}}>{af.name}</span>
                             <span style={{display:"inline-flex",alignItems:"center",gap:5,flexShrink:0}}>
                               <span style={{color:tm,display:"inline-flex"}}><I.Info s={12}/></span>
@@ -2190,13 +2190,13 @@ function AssessorEditorial() {
                           </div>
                         </th>
                       ))}
-                      <th rowSpan={numAssessors>1?2:1} style={{position:"sticky",right:finalColW+avgColW,top:0,zIndex:5,background:sbBg,color:navy,padding:"12px 10px",textAlign:"center",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",borderLeft:`2px solid ${navy}`,borderBottom:`1px solid ${bd}`,width:rangeColW,minWidth:rangeColW}}>
+                      <th rowSpan={numAssessors>1?2:1} style={{position:"sticky",right:finalColW+avgColW,top:0,zIndex:5,background:sbBg,color:navy,padding:"12px 10px",textAlign:"center",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",borderLeft:`2px solid ${navy}`,borderBottom:`1px solid ${bd}`,width:rangeColW,minWidth:rangeColW}}>
                         Score<br/>Range
                       </th>
-                      <th rowSpan={numAssessors>1?2:1} style={{position:"sticky",right:finalColW,top:0,zIndex:5,background:sbBg,color:navy,padding:"12px 10px",textAlign:"center",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",borderLeft:`1px solid ${bd}`,borderBottom:`1px solid ${bd}`,width:avgColW,minWidth:avgColW}}>
+                      <th rowSpan={numAssessors>1?2:1} style={{position:"sticky",right:finalColW,top:0,zIndex:5,background:sbBg,color:navy,padding:"12px 10px",textAlign:"center",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",borderLeft:`1px solid ${bd}`,borderBottom:`1px solid ${bd}`,width:avgColW,minWidth:avgColW}}>
                         Average
                       </th>
-                      <th rowSpan={numAssessors>1?2:1} style={{position:"sticky",right:0,top:0,zIndex:5,background:navy,color:"#fff",padding:"12px 10px",textAlign:"center",fontSize:14,fontWeight:700,letterSpacing:0,textTransform:"none",borderLeft:`2px solid ${navy}`,width:finalColW,minWidth:finalColW}}>
+                      <th rowSpan={numAssessors>1?2:1} style={{position:"sticky",right:0,top:0,zIndex:5,background:navy,color:"#fff",padding:"12px 10px",textAlign:"center",fontSize:14,fontWeight: 400,letterSpacing:0,textTransform:"none",borderLeft:`2px solid ${navy}`,width:finalColW,minWidth:finalColW}}>
                         Final
                       </th>
                     </tr>
@@ -2227,8 +2227,8 @@ function AssessorEditorial() {
                               <div style={{display:"flex",alignItems:"center",gap:10}}>
                                 <I.Chev s={12} r={open?90:0} style={{color:tm,flexShrink:0}}/>
                                 <div style={{minWidth:0,flex:1}}>
-                                  <div style={{fontSize:14,fontWeight:700,color:navy,letterSpacing:-.1,display:"flex",alignItems:"center",gap:6}}>{cc.name}{compHasError && <span title="One or more moderated final scores are out of range" style={{display:"inline-flex",color:red,flexShrink:0}}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>}</div>
-                                  {compHasError && <div style={{fontSize:14,color:red,marginTop:2,fontWeight:700}} className="tnum">{open?"Score out of range":"Expand — score out of range"}</div>}
+                                  <div style={{fontSize:14,fontWeight: 400,color:navy,letterSpacing:-.1,display:"flex",alignItems:"center",gap:6}}>{cc.name}{compHasError && <span title="One or more moderated final scores are out of range" style={{display:"inline-flex",color:red,flexShrink:0}}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>}</div>
+                                  {compHasError && <div style={{fontSize:14,color:red,marginTop:2,fontWeight: 400}} className="tnum">{open?"Score out of range":"Expand — score out of range"}</div>}
                                 </div>
                               </div>
                             </td>
@@ -2260,7 +2260,7 @@ function AssessorEditorial() {
                               <tr key={ind.id} style={{background:outOfRange?`${red}08`:card}}>
                                 <td style={{position:"sticky",left:0,zIndex:2,background:card,padding:"10px 18px 10px 44px",borderRight:`1px solid ${bd}`,borderBottom:`1px solid ${bd}`,width:firstColW,minWidth:firstColW}}>
                                   <div style={{display:"flex",alignItems:"center",gap:8}}>
-                                    <span className="tnum" style={{fontSize:14,color:tm,fontWeight:700,minWidth:32}}>{ind.id}</span>
+                                    <span className="tnum" style={{fontSize:14,color:tm,fontWeight: 400,minWidth:32}}>{ind.id}</span>
                                     <span style={{fontSize:14,color:tx}}>{ind.label}</span>
                                   </div>
                                 </td>
@@ -2288,7 +2288,7 @@ function AssessorEditorial() {
                                 </td>
                                 {/* Indicator AVERAGE (computed) */}
                                 <td style={{position:"sticky",right:finalColW,zIndex:1,background:outOfRange?"#FDF2F2":card,padding:"6px 10px",textAlign:"center",borderLeft:`1px solid ${bd}`,borderBottom:`1px solid ${bd}`,width:avgColW,minWidth:avgColW}}>
-                                  {typeof s.avg==="number" ? <span className="tnum" style={{fontSize:14,fontWeight:700,color:s.avg>=4?tx:red}}>{s.avg.toFixed(2)}</span> : <span style={{color:tf}}>—</span>}
+                                  {typeof s.avg==="number" ? <span className="tnum" style={{fontSize:14,fontWeight: 400,color:s.avg>=4?tx:red}}>{s.avg.toFixed(2)}</span> : <span style={{color:tf}}>—</span>}
                                 </td>
                                 {/* Indicator FINAL (editable) */}
                                 <td style={{position:"sticky",right:0,zIndex:1,background:outOfRange?"#FDF2F2":card,padding:"6px 10px",textAlign:"center",borderLeft:`2px solid ${outOfRange?red:navy}`,borderBottom:`1px solid ${bd}`,width:finalColW,minWidth:finalColW}}>
@@ -2299,7 +2299,7 @@ function AssessorEditorial() {
                                       <span style={{position:"absolute",top:4,left:isNA?"auto":4,right:isNA?4:"auto",width:12,height:12,borderRadius:"50%",background:isNA?"#F7F3EE":"#878580"}}/>
                                     </button>
                                   </div>
-                                  {outOfRange && <div style={{fontSize:14,color:red,fontWeight:700,marginTop:5,display:"flex",alignItems:"center",justifyContent:"center",gap:4,lineHeight:1.3,whiteSpace:"nowrap"}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Outside {fmtR(iRange[0])}–{fmtR(iRange[1])}</div>}
+                                  {outOfRange && <div style={{fontSize:14,color:red,fontWeight: 400,marginTop:5,display:"flex",alignItems:"center",justifyContent:"center",gap:4,lineHeight:1.3,whiteSpace:"nowrap"}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Outside {fmtR(iRange[0])}–{fmtR(iRange[1])}</div>}
                                 </td>
                               </tr>
                             );
@@ -2336,7 +2336,7 @@ function AssessorEditorial() {
                     </div>
                     <div style={{padding:"16px 20px",display:"grid",gridTemplateColumns:isNarrow?"1fr":"1fr 180px",gap:20}}>
                       <div>
-                        <div style={{fontSize:14,color:tm,fontWeight:700,letterSpacing:0,textTransform:"none",marginBottom:6}}>Assessor note</div>
+                        <div style={{fontSize:14,color:tm,fontWeight: 400,letterSpacing:0,textTransform:"none",marginBottom:6}}>Assessor note</div>
                         <div style={{fontSize:14,color:ts,lineHeight:1.7}}>{cellEvidence[af.short]}</div>
                         <div style={{marginTop:14,display:"flex",gap:8,flexWrap:"wrap"}}>
                           <button onClick={()=>{ toggleDrawer("evals"); }} className="btn btn-secondary" style={{fontSize:14}}><I.Clipboard s={12}/> Full assessor form</button>
@@ -2344,13 +2344,13 @@ function AssessorEditorial() {
                         </div>
                       </div>
                       <div style={{borderLeft:isNarrow?"none":`1px solid ${bd}`,paddingLeft:isNarrow?0:16,borderTop:isNarrow?`1px solid ${bd}`:"none",paddingTop:isNarrow?16:0}}>
-                        <div style={{fontSize:14,color:tm,fontWeight:700,letterSpacing:0,textTransform:"none",marginBottom:8}}>All assessors</div>
+                        <div style={{fontSize:14,color:tm,fontWeight: 400,letterSpacing:0,textTransform:"none",marginBottom:8}}>All assessors</div>
                         <div style={{display:"flex",flexDirection:"column",gap:4}}>
                           {assessorForms.map((aff, fi2) => {
                             const vv = s.vals[fi2];
                             return (
                               <button key={aff.short} onClick={()=>setActiveCell({...activeCell, formIdx:fi2})} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 8px",fontSize:14,background:fi2===activeCell.formIdx?navyBg:"transparent",borderRadius:3,textAlign:"left",cursor:"pointer"}}>
-                                <span style={{fontSize:14,color:tm,fontWeight:700,minWidth:36}}>{aff.short}</span>
+                                <span style={{fontSize:14,color:tm,fontWeight: 400,minWidth:36}}>{aff.short}</span>
                                 <span style={{flex:1,color:tx,fontSize:14}} className="elide">{aff.exercise}</span>
                                 <span className="tnum" style={{fontSize:14,fontWeight:400,color:typeof vv==="number"?scoreColor(vv):tm,minWidth:22,textAlign:"right"}}>{typeof vv==="number"?(Number.isInteger(vv)?vv:vv.toFixed(1)):"—"}</span>
                               </button>
@@ -2367,7 +2367,7 @@ function AssessorEditorial() {
               {scoreError && (
                 <div style={{display:"flex",alignItems:"flex-start",gap:10,padding:"12px 16px",marginTop:28,background:`${red}0D`,border:`1px solid ${red}55`,borderRadius:br}}>
                   <span style={{color:red,flexShrink:0,marginTop:1}}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
-                  <div><div style={{fontSize:14,fontWeight:700,color:red,marginBottom:2}}>{scoreError==="range"?"Some final scores are out of range":"Nothing to submit yet"}</div><div style={{fontSize:14,color:tx,lineHeight:1.55}}>{scoreError==="range"?"One or more moderated final scores fall outside the assessors' score range (highlighted in red). Bring them back within range before submitting.":"You haven't moderated any indicator. Set at least one moderated final score, or mark it N/A, before submitting."}</div></div>
+                  <div><div style={{fontSize:14,fontWeight: 400,color:red,marginBottom:2}}>{scoreError==="range"?"Some final scores are out of range":"Nothing to submit yet"}</div><div style={{fontSize:14,color:tx,lineHeight:1.55}}>{scoreError==="range"?"One or more moderated final scores fall outside the assessors' score range (highlighted in red). Bring them back within range before submitting.":"You haven't moderated any indicator. Set at least one moderated final score, or mark it N/A, before submitting."}</div></div>
                 </div>
               )}
 
@@ -2388,16 +2388,16 @@ function AssessorEditorial() {
                       return (
                         <div key={cc.id} style={{borderBottom:`1px solid ${bd}`}}>
                           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"11px 16px",background:navyBg}}>
-                            <span style={{fontSize:14,fontWeight:700,color:navy}}>{cc.name}</span>
+                            <span style={{fontSize:14,fontWeight: 400,color:navy}}>{cc.name}</span>
                           </div>
                           {cc.indicators.map(ind=>{
                             const s=statsFor(ind.id); const isNA=!!finalNA[ind.id];
                             const fv=getFinal(ind.id, s.avg!==null?+(s.avg.toFixed(2)):0);
                             return (
                               <div key={ind.id} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 16px 8px 20px"}}>
-                                <span className="tnum" style={{fontSize:14,color:tm,fontWeight:700,minWidth:34}}>{ind.id}</span>
+                                <span className="tnum" style={{fontSize:14,color:tm,fontWeight: 400,minWidth:34}}>{ind.id}</span>
                                 <span style={{flex:1,fontSize:14,color:tx}} className="elide">{ind.label}</span>
-                                <span className="tnum" style={{fontSize:14,fontWeight:700,color:isNA?tm:(fv>=4?green:(fv>=3?orange:tx)),minWidth:34,textAlign:"right"}}>{isNA?"N/A":(Number.isInteger(fv)?fv:fv.toFixed(2))}</span>
+                                <span className="tnum" style={{fontSize:14,fontWeight: 400,color:isNA?tm:(fv>=4?green:(fv>=3?orange:tx)),minWidth:34,textAlign:"right"}}>{isNA?"N/A":(Number.isInteger(fv)?fv:fv.toFixed(2))}</span>
                               </div>
                             );
                           })}
@@ -2423,7 +2423,7 @@ function AssessorEditorial() {
                 <h3 className="h2" style={{fontSize:22,marginBottom:16}}>Mission Critical</h3>
                 <ScaleLegend/>
               </div>
-              <div style={{fontSize:14,fontWeight:700,color:navy,marginBottom:20}}>Mission Critical Skills for Target Role</div>
+              <div style={{fontSize:14,fontWeight: 400,color:navy,marginBottom:20}}>Mission Critical Skills for Target Role</div>
               {narratives.missionCritical.map((v,i) => (
                 <CompetencyBlock key={i} num={i+1} value={v} onChange={nv=>setNarratives(p=>{ const a=[...p.missionCritical]; a[i]=nv; return {...p,missionCritical:a}; })}/>
               ))}
@@ -2433,7 +2433,7 @@ function AssessorEditorial() {
                 <h3 className="h2" style={{fontSize:22,marginBottom:16}}>Important</h3>
                 <ScaleLegend/>
               </div>
-              <div style={{fontSize:14,fontWeight:700,color:navy,marginBottom:20}}>Important Skills for Target Role</div>
+              <div style={{fontSize:14,fontWeight: 400,color:navy,marginBottom:20}}>Important Skills for Target Role</div>
               {narratives.important.map((v,i) => (
                 <CompetencyBlock key={i} num={i+1} value={v} onChange={nv=>setNarratives(p=>{ const a=[...p.important]; a[i]=nv; return {...p,important:a}; })}/>
               ))}
@@ -2445,7 +2445,7 @@ function AssessorEditorial() {
 
               {/* JOB DESCRIPTION FIELDS */}
               <div style={{marginTop:32,paddingTop:24,borderTop:`1px solid ${bd}`}}>
-                <p style={{fontSize:14,fontWeight:700,color:navy,lineHeight:1.5,marginBottom:20,maxWidth:600}}>Please enter the information below. This can be found in the Job Description that has been shared with you on Kiteworks.</p>
+                <p style={{fontSize:14,fontWeight: 400,color:navy,lineHeight:1.5,marginBottom:20,maxWidth:600}}>Please enter the information below. This can be found in the Job Description that has been shared with you on Kiteworks.</p>
                 <div style={{display:"flex",flexDirection:"column",gap:20}}>
                   <NarrativeText label="Years of Experience" value={narratives.yearsExp} onChange={v=>setNarratives(p=>({...p,yearsExp:v}))}/>
                   <NarrativeText label="Minimum Educational Qualification" value={narratives.minEdu} onChange={v=>setNarratives(p=>({...p,minEdu:v}))}/>
@@ -2539,7 +2539,7 @@ function AssessorEditorial() {
       <div>
         <div style={{display:"flex",alignItems:"baseline",gap:12,marginBottom:8}}>
           <div>
-            <div style={{fontSize:14,fontWeight:700,color:tx}}>{label}</div>
+            <div style={{fontSize:14,fontWeight: 400,color:tx}}>{label}</div>
             <div style={{fontSize:14,color:tm}}>{hint}</div>
           </div>
           <div style={{flex:1}}/>
@@ -2563,7 +2563,7 @@ function AssessorEditorial() {
     <div style={{display:"flex",flexDirection:"column",gap:6}}>
       {scaleLegend.map(([k,v],i) => (
         <div key={i} style={{fontSize:14,color:ts,lineHeight:1.55}}>
-          <span style={{fontWeight:700,color:navy}}>{k}</span> {v}
+          <span style={{fontWeight: 400,color:navy}}>{k}</span> {v}
         </div>
       ))}
     </div>
@@ -2573,7 +2573,7 @@ function AssessorEditorial() {
     const words = (value.fb||"").trim().split(/\s+/).filter(Boolean).length;
     return (
       <div style={{marginBottom:28}}>
-        <div style={{fontSize:14,fontWeight:700,color:navy,marginBottom:14}}>Behavioural Competency — {num}</div>
+        <div style={{fontSize:14,fontWeight: 400,color:navy,marginBottom:14}}>Behavioural Competency — {num}</div>
         <div style={{fontSize:14,color:tm,marginBottom:6}}>Select Competency</div>
         <div style={{position:"relative"}}>
           <select value={value.comp} onChange={e=>onChange({...value,comp:e.target.value})} style={{width:"100%",appearance:"none",WebkitAppearance:"none",padding:"10px 34px 10px 12px",border:`1px solid #6F6D68`,borderRadius:ir,fontSize:14,color:value.comp?navy:tf,background:card,outline:"none",fontFamily:f,cursor:"pointer"}}>
@@ -2629,7 +2629,7 @@ function AssessorEditorial() {
     return (
       <>
         <div style={{display:"flex",alignItems:"center",gap:10,padding:"18px 20px 14px",borderBottom:`1px solid ${bd}`,flexShrink:0}}>
-          <p className="eyebrow" style={{flex:1,fontSize:14,letterSpacing:"normal",textTransform:"none",fontWeight:700,color:navy}}>{titles[kind]}</p>
+          <p className="eyebrow" style={{flex:1,fontSize:14,letterSpacing:"normal",textTransform:"none",fontWeight: 400,color:navy}}>{titles[kind]}</p>
           {kind === "scoring" && (
             <div style={{position:"relative"}}>
               <button onClick={()=>setFilterOpen(o=>!o)} className="btn btn-secondary" style={{color:filterOpen?navy:tx}}><I.Filter s={13}/> Filters</button>
@@ -2637,7 +2637,7 @@ function AssessorEditorial() {
                 <>
                   <div onClick={()=>setFilterOpen(false)} style={{position:"fixed",inset:0,zIndex:70}}/>
                   <div style={{position:"absolute",right:0,top:"calc(100% + 6px)",zIndex:71,width:280,background:card,border:`1px solid ${bd}`,borderRadius:br,boxShadow:"0 12px 34px rgba(0,15,71,.18)",overflow:"hidden"}}>
-                    <div style={{fontSize:14,fontWeight:700,color:tm,padding:"10px 14px 6px",letterSpacing:0}}>Filters</div>
+                    <div style={{fontSize:14,fontWeight: 400,color:tm,padding:"10px 14px 6px",letterSpacing:0}}>Filters</div>
                     {scoringCols.map(col => {
                       const on = !hiddenCols[col.k];
                       return (
@@ -2693,7 +2693,7 @@ function AssessorEditorial() {
           {[["Target role",p.targetRole],["Current role",p.currentRole],["Target level",p.targetLevel]].map(([k,v]) => (
             <div key={k}>
               <div style={{fontSize:14,color:tm,marginBottom:5}}>{k}</div>
-              <div style={{fontSize:16,fontWeight:700,color:navy}}>{v}</div>
+              <div style={{fontSize:16,fontWeight: 400,color:navy}}>{v}</div>
             </div>
           ))}
         </div>
@@ -2728,7 +2728,7 @@ function AssessorEditorial() {
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={tm} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,cursor:"help"}}><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
         {tipKey===id && desc && (
           <span style={{position:"absolute",bottom:"calc(100% + 9px)",left:-10,zIndex:90,width:250,background:card,border:`1px solid ${bd}`,borderRadius:br,boxShadow:"0 12px 34px rgba(0,15,71,.20)",padding:"14px 16px",textAlign:"left"}}>
-            <span style={{display:"block",fontSize:14,fontWeight:700,color:navy,marginBottom:6}}>{title}</span>
+            <span style={{display:"block",fontSize:14,fontWeight: 400,color:navy,marginBottom:6}}>{title}</span>
             <span style={{display:"block",fontSize:14,color:ts,lineHeight:1.55}}>{desc}</span>
             <span style={{position:"absolute",top:"100%",left:14,width:12,height:12,background:card,borderRight:`1px solid ${bd}`,borderBottom:`1px solid ${bd}`,transform:"translateY(-50%) rotate(45deg)"}}/>
           </span>
@@ -2745,14 +2745,14 @@ function AssessorEditorial() {
               <div key={col.k} style={{border:`1px solid ${bd}`,borderRadius:br,background:card,alignSelf:"start"}}>
                 <button onClick={()=>toggle(col.k)} style={{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"12px 16px",background:bg,borderBottom:open?`1px solid ${bd}`:"none",borderRadius:open?`${br}px ${br}px 0 0`:br,cursor:"pointer"}}>
                   <I.Chev s={12} r={open?90:0} style={{color:tm,flexShrink:0}}/>
-                  <span style={{fontSize:14,fontWeight:700,color:navy,textAlign:"left"}}>{col.title}</span>
+                  <span style={{fontSize:14,fontWeight: 400,color:navy,textAlign:"left"}}>{col.title}</span>
                 </button>
                 {open && col.type==="scores" && (
                   <div>
                     {col.rows.map((r,i) => (
                       <div key={r.k} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 16px",borderTop:i===0?"none":`1px solid ${bd}`}}>
                         <span style={{flex:1,fontSize:14,color:tx,fontWeight:r.tot?700:400}}>{r.k}</span>
-                        <span className="tnum" style={{fontSize:14,fontWeight:700,color:navy}}>{r.v}</span>
+                        <span className="tnum" style={{fontSize:14,fontWeight: 400,color:navy}}>{r.v}</span>
                       </div>
                     ))}
                   </div>
@@ -2766,15 +2766,15 @@ function AssessorEditorial() {
                         <div key={i} style={{padding:"14px 16px",borderTop:i===0?"none":`1px solid ${bd}`}}>
                           <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:6}}>
                             <span style={{flex:1,fontSize:14,color:tm}}>{it.label}</span>
-                            <span className="tnum" style={{fontSize:14,fontWeight:700,color:navy}}>{it.score}</span>
+                            <span className="tnum" style={{fontSize:14,fontWeight: 400,color:navy}}>{it.score}</span>
                           </div>
                           <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:it.desc?8:10}}>
                             <InfoDot id={ek} title={it.name} desc={it.def}/>
-                            <span style={{fontSize:14,fontWeight:700,color:navy}}>{it.name}</span>
+                            <span style={{fontSize:14,fontWeight: 400,color:navy}}>{it.name}</span>
                           </div>
                           {it.desc && <p style={{fontSize:14,color:ts,lineHeight:1.55,margin:"0 0 10px"}}>{it.desc}</p>}
                           <div style={{fontSize:14,color:tm,marginBottom:4}}>Feedback</div>
-                          <p style={{fontSize:14,fontWeight:700,color:tx,lineHeight:1.55,margin:0}}>
+                          <p style={{fontSize:14,fontWeight: 400,color:tx,lineHeight:1.55,margin:0}}>
                             {isOpen ? it.full : it.feedback}
                             {" "}
                             <span onClick={()=>setExpanded(p=>({...p,[ek]:!isOpen}))} style={{color:teal,fontWeight:700,textDecoration:"underline",cursor:"pointer"}}>{isOpen?"Show less":(it.link||"Read more")}</span>
@@ -2786,7 +2786,7 @@ function AssessorEditorial() {
                       <div style={{display:"flex",alignItems:"center",gap:8,padding:"12px 16px",borderTop:`1px solid ${bd}`,background:bg,borderRadius:`0 0 ${br}px ${br}px`}}>
                         <InfoDot id={col.k+"-foot"} title={col.footer.label} desc={"Aggregate fit score across all competencies in this section."}/>
                         <span style={{flex:1,fontSize:14,color:tx}}>{col.footer.label}</span>
-                        <span className="tnum" style={{fontSize:14,fontWeight:700,color:navy}}>{col.footer.score}</span>
+                        <span className="tnum" style={{fontSize:14,fontWeight: 400,color:navy}}>{col.footer.score}</span>
                       </div>
                     )}
                   </div>
@@ -2819,7 +2819,7 @@ function AssessorEditorial() {
               <LighthouseLogo s={24} c="#fff"/>
             </div>
             <div style={{flex:1,minWidth:0}}>
-              <div style={{fontSize:16,fontWeight:600,color:tx}}>{r.name}</div>
+              <div style={{fontSize:16,fontWeight:700,color:tx}}>{r.name}</div>
               <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"flex-start",marginTop:12}}>
                 <button onClick={()=>setOpenReport(r)} className="btn btn-secondary"><I.Eye s={14}/> View</button>
                 <button onClick={()=>showToast(`Downloading ${r.name}`)} className="btn btn-secondary"><I.Download s={14}/> Download</button>
@@ -2986,7 +2986,7 @@ function AssessorEditorial() {
     return <button onClick={()=>setOn(!on)} aria-pressed={on} style={{width:38,height:22,borderRadius:11,background:on?teal:"rgba(0,15,71,.18)",position:"relative",transition:"background .18s",flexShrink:0}}><span style={{width:16,height:16,borderRadius:"50%",background:"#fff",position:"absolute",top:3,left:on?19:3,transition:"left .18s",boxShadow:"0 1px 2px rgba(0,0,0,.25)"}}/></button>;
   };
   const JoinRoom = () => <button onClick={()=>showToast("Opening meeting room…")} style={{display:"inline-flex",alignItems:"center",gap:5,color:teal,fontSize:14,fontWeight:600}}><I.Video s={14}/> Join Room</button>;
-  const acTh = (label,align) => <th style={{padding:"13px 16px",textAlign:align||"left",fontSize:14,fontWeight:700,color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap"}}>{label}</th>;
+  const acTh = (label,align) => <th style={{padding:"13px 16px",textAlign:align||"left",fontSize:14,fontWeight: 400,color:tm,borderBottom:`1px solid ${bd}`,background:"#fff",whiteSpace:"nowrap"}}>{label}</th>;
   const acTd = {padding:"14px 16px",fontSize:14,color:tx,borderBottom:`1px solid ${bd}`,verticalAlign:"middle"};
   const Pager = () => (
     <div style={{display:"flex",justifyContent:"center",padding:"18px 0 0"}}>
@@ -3206,7 +3206,7 @@ function AssessorEditorial() {
               <thead><tr>{acTh("ID")}{acTh("Participants")}{acTh("Prework")}{acTh("Activity")}{acTh("Attendance")}{acTh("Attendance status")}{acTh("Scheduling status")}{acTh("")}</tr></thead>
               <tbody>{(()=>{const list=acSubjects.filter(s=>!acDetailQ||s.name.toLowerCase().includes(acDetailQ.toLowerCase())||s.id.toLowerCase().includes(acDetailQ.toLowerCase())||(s.activity||"").toLowerCase().includes(acDetailQ.toLowerCase())); return list.length===0 ? <tr><td colSpan={8} style={{padding:0}}><NoResults query={acDetailQ} label="subjects" onClear={()=>setAcDetailQ("")}/></td></tr> : list.map(s=>(
                 <tr key={s.id} className="rh" onClick={()=>showToast("Viewing subject")} style={{cursor:"pointer"}}>
-                  <td style={acTd}><span className="link" style={{fontWeight:600,fontVariantNumeric:"tabular-nums"}}>{s.id}</span></td>
+                  <td style={acTd}><span className="link" style={{fontWeight: 400,fontVariantNumeric:"tabular-nums"}}>{s.id}</span></td>
                   <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10}}><Av name={s.name} color={s.color}/><div><div style={{fontWeight:700,color:navy}}>{s.name}</div><div style={{fontSize:14,color:tm}}>{s.email}</div></div></div></td>
                   <td style={acTd}>{s.prework}</td>
                   <td style={acTd}>{s.activity}</td>
@@ -3225,7 +3225,7 @@ function AssessorEditorial() {
               <thead><tr>{acTh("ID")}{acTh("Subject")}{acTh("Assessor")}{acTh("Activity")}{acTh("Schedule Time")}{acTh("Meeting Link")}{acTh("Status")}{acTh("")}</tr></thead>
               <tbody>{(()=>{const list=acActivities.filter(a=>!acDetailQ||a.subj.toLowerCase().includes(acDetailQ.toLowerCase())||a.id.toLowerCase().includes(acDetailQ.toLowerCase())||(a.activity||"").toLowerCase().includes(acDetailQ.toLowerCase())); return list.length===0 ? <tr><td colSpan={8} style={{padding:0}}><NoResults query={acDetailQ} label="activities" onClear={()=>setAcDetailQ("")}/></td></tr> : list.map(a=>(
                 <tr key={a.id} className="rh" onClick={()=>{setEntryPath("participant");setSubjectId(candidates[0].id);setCandidateTab("assessments");setRoute("candidate");}} style={{cursor:"pointer"}}>
-                  <td style={acTd}><span className="link" style={{fontWeight:600,fontVariantNumeric:"tabular-nums"}}>{a.id}</span></td>
+                  <td style={acTd}><span className="link" style={{fontWeight: 400,fontVariantNumeric:"tabular-nums"}}>{a.id}</span></td>
                   <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:9}}><Av name={a.subj} color={a.color} s={26}/><div><div style={{fontWeight:700,color:navy,fontSize:14}}>{a.subj}</div><div style={{fontSize:14,color:tm}}>{a.email}</div></div></div></td>
                   <td style={acTd}><Av name={a.assessor} color={red} s={26}/></td>
                   <td style={acTd}>{a.activity}</td>
@@ -3269,7 +3269,7 @@ function AssessorEditorial() {
                   {acRecordings.length===0 && <tr><td colSpan={6} style={{...acTd,textAlign:"center",color:tm,padding:"48px 16px"}}>No data</td></tr>}
                   {acRecordings.map((r,i)=>(
                     <tr key={r.id} className="rh">
-                      <td style={acTd}><span className="link" style={{fontWeight:600,fontVariantNumeric:"tabular-nums"}}>{i+1}</span></td>
+                      <td style={acTd}><span className="link" style={{fontWeight: 400,fontVariantNumeric:"tabular-nums"}}>{i+1}</span></td>
                       <td style={acTd}>{r.date}</td>
                       <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:8}}><Av name={r.assessor} color={red} s={24}/><span>{r.assessor}</span></div></td>
                       <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:8}}><Av name={r.participant} color={navy} s={24}/><span>{r.participant}</span></div></td>
@@ -3438,7 +3438,7 @@ function AssessorEditorial() {
         {avails.length===0 && (
           <div style={{background:card,border:`1px dashed ${bdStrong}`,borderRadius:br,padding:"48px 24px",textAlign:"center"}}>
             <div style={{color:tm,marginBottom:6}}><I.Cal s={26}/></div>
-            <div style={{fontSize:16,fontWeight:700,color:navy,marginBottom:4}}>No availability yet</div>
+            <div style={{fontSize:16,fontWeight: 400,color:navy,marginBottom:4}}>No availability yet</div>
             <div style={{fontSize:14,color:tm,marginBottom:18}}>Add a schedule so campaigns know when you can assess.</div>
             <button onClick={()=>startEdit(null)} className="btn btn-primary">+ Add new availability</button>
           </div>
@@ -3452,7 +3452,7 @@ function AssessorEditorial() {
               <div style={{display:"flex",alignItems:"center",gap:14,padding:"18px 24px",borderBottom:open?`1px solid ${bd}`:"none"}}>
                 <div style={{width:40,height:40,borderRadius:"50%",background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={18}/></div>
                 <div style={{flex:1,minWidth:0,cursor:"pointer"}} onClick={()=>setAvailOpen(open?null:a.id)}>
-                  <div style={{fontSize:16,fontWeight:700,color:navy}}>{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div>
+                  <div style={{fontSize:16,fontWeight: 400,color:navy}}>{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div>
                   <div style={{fontSize:14,color:tm,marginTop:2}}>{daySummary(a.active)} · {a.tz}</div>
                 </div>
                 <button onClick={()=>startEdit(a)} className="btn btn-secondary" style={{padding:"7px 14px"}}><I.Edit s={13}/> Edit</button>
@@ -3508,7 +3508,7 @@ function AssessorEditorial() {
 
     const SectionHead = ({title, count, action, onAction, accent, icon:Ic}) => (
       <div style={{display:"flex",alignItems:"center",gap:10,padding:"16px 20px",borderBottom:`1px solid ${bd}`}}>
-        <div style={{fontFamily:f,fontSize:14,fontWeight:700,color:navy,letterSpacing:-.1,flex:1,minWidth:0,display:"inline-flex",alignItems:"center",gap:10}}>
+        <div style={{fontFamily:f,fontSize:14,fontWeight: 400,color:navy,letterSpacing:-.1,flex:1,minWidth:0,display:"inline-flex",alignItems:"center",gap:10}}>
           {Ic && <span style={{width:30,height:30,borderRadius:"50%",background:`${accent||navy}14`,color:accent||navy,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Ic s={16}/></span>}
           <span style={{minWidth:0}} className="elide">{title}</span>
 
@@ -3572,8 +3572,8 @@ function AssessorEditorial() {
                     const cohort = cp.candidateIds.map(id=>candidates.find(c=>c.id===id)).filter(Boolean);
                     return (
                       <tr key={cp.id} className="rh" onClick={()=>{setCampaignId(cp.id);setRoute("campaign");}} style={{cursor:"pointer"}}>
-                        <td style={acTd}><div style={{minWidth:0}}><div style={{fontSize:14,fontWeight:700,color:navy}} className="elide">{cp.project}</div><div style={{fontSize:14,color:tm}} className="elide">{cp.client}</div></div></td>
-                        <td style={{...acTd,textAlign:"right"}}><span className="tnum" style={{fontWeight:700,color:navy}}>{cohort.length}</span></td>
+                        <td style={acTd}><div style={{minWidth:0}}><div style={{fontSize:14,fontWeight: 400,color:navy}} className="elide">{cp.project}</div><div style={{fontSize:14,color:tm}} className="elide">{cp.client}</div></div></td>
+                        <td style={{...acTd,textAlign:"right"}}><span className="tnum" style={{fontWeight: 400,color:navy}}>{cohort.length}</span></td>
                         <td style={{...acTd,position:"relative",paddingRight:26,width:34}}><span className="row-arrow"><I.Chev s={14}/></span></td>
                       </tr>
                     );
@@ -3629,7 +3629,7 @@ function AssessorEditorial() {
               {avails.length===0 ? (
                 <div style={{padding:"26px 20px",textAlign:"center"}}>
                   <div style={{color:tm,marginBottom:8}}><I.Cal s={24}/></div>
-                  <div style={{fontSize:14,fontWeight:700,color:navy,marginBottom:3}}>No availability set</div>
+                  <div style={{fontSize:14,fontWeight: 400,color:navy,marginBottom:3}}>No availability set</div>
                   <div style={{fontSize:14,color:tm,marginBottom:16,lineHeight:1.55}}>Add a schedule so campaigns know when you can assess.</div>
                   <button onClick={()=>setRoute("avail")} className="btn btn-primary" style={{padding:"8px 18px"}}>+ Add availability</button>
                 </div>
@@ -3638,7 +3638,7 @@ function AssessorEditorial() {
                   {avails.map((a,i)=>(
                     <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"13px 20px",borderTop:i===0?"none":`1px solid ${bd}`}}>
                       <div style={{width:32,height:32,borderRadius:"50%",background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={15}/></div>
-                      <div style={{minWidth:0}}><div style={{fontSize:14,fontWeight:700,color:navy}} className="elide">{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div><div style={{fontSize:14,color:tm,marginTop:1}} className="elide">{daySummary(a.active)} · {a.tz}</div></div>
+                      <div style={{minWidth:0}}><div style={{fontSize:14,fontWeight: 400,color:navy}} className="elide">{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div><div style={{fontSize:14,color:tm,marginTop:1}} className="elide">{daySummary(a.active)} · {a.tz}</div></div>
                     </div>
                   ))}
                 </div>
@@ -3660,7 +3660,7 @@ function AssessorEditorial() {
               <span style={{width:46,height:46,borderRadius:12,background:`${k.c}14`,color:k.c,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><k.ic s={21}/></span>
               <div style={{minWidth:0}}>
                 <div className="serif" style={{fontSize:32,fontWeight:400,color:k.c,lineHeight:1,marginBottom:3}}>{k.v}</div>
-                <div style={{fontSize:14,fontWeight:700,color:tx,marginBottom:3}}>{k.l}</div>
+                <div style={{fontSize:14,fontWeight: 400,color:tx,marginBottom:3}}>{k.l}</div>
                 <div style={{fontSize:14,color:tm}}>{k.sub}</div>
               </div>
             </div>
@@ -3716,12 +3716,12 @@ function AssessorEditorial() {
                         <tr key={cp.id} className="rh" onClick={()=>{setCampaignId(cp.id);setRoute("campaign");}} style={{cursor:"pointer"}}>
                           <td style={acTd}>
                             <div style={{minWidth:0}}>
-                              <div style={{fontSize:14,fontWeight:700,color:navy,letterSpacing:-.2}} className="elide">{cp.project}</div>
+                              <div style={{fontSize:14,fontWeight: 400,color:navy,letterSpacing:-.2}} className="elide">{cp.project}</div>
                               <div style={{fontSize:14,color:tm,marginTop:2}} className="elide">{cp.client} · {cp.window}</div>
                             </div>
                           </td>
-                          <td style={{...acTd,textAlign:"right"}}><span className="tnum" style={{fontWeight:700,color:navy}}>{cohort.length}</span></td>
-                          <td style={{...acTd,textAlign:"right"}}><span className="tnum" style={{fontWeight:700,color:navy}}>{evalComplete}</span><span className="tnum" style={{color:tm,fontWeight:400}}>/{cohort.length}</span></td>
+                          <td style={{...acTd,textAlign:"right"}}><span className="tnum" style={{fontWeight: 400,color:navy}}>{cohort.length}</span></td>
+                          <td style={{...acTd,textAlign:"right"}}><span className="tnum" style={{fontWeight: 400,color:navy}}>{evalComplete}</span><span className="tnum" style={{color:tm,fontWeight:400}}>/{cohort.length}</span></td>
                           <td style={{...acTd,position:"relative",paddingRight:32}}><span className="row-arrow"><I.Chev s={14}/></span></td>
                         </tr>
                       );
@@ -3770,7 +3770,7 @@ function AssessorEditorial() {
               {avails.length===0 ? (
                 <div style={{padding:"26px 20px",textAlign:"center"}}>
                   <div style={{color:tm,marginBottom:8}}><I.Cal s={24}/></div>
-                  <div style={{fontSize:14,fontWeight:700,color:navy,marginBottom:3}}>No availability set</div>
+                  <div style={{fontSize:14,fontWeight: 400,color:navy,marginBottom:3}}>No availability set</div>
                   <div style={{fontSize:14,color:tm,marginBottom:16,lineHeight:1.55}}>Add a schedule so campaigns know when you can assess.</div>
                   <button onClick={()=>setRoute("avail")} className="btn btn-primary" style={{padding:"8px 18px"}}>+ Add availability</button>
                 </div>
@@ -3780,7 +3780,7 @@ function AssessorEditorial() {
                     <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 20px",borderTop:i===0?"none":`1px solid ${bd}`}}>
                       <div style={{width:34,height:34,borderRadius:"50%",background:navyBg,color:navy,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.Cal s={16}/></div>
                       <div style={{minWidth:0}}>
-                        <div style={{fontSize:14,fontWeight:700,color:navy}} className="elide">{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div>
+                        <div style={{fontSize:14,fontWeight: 400,color:navy}} className="elide">{fmtDate(a.start)||"—"} – {fmtDate(a.end)||"—"}</div>
                         <div style={{fontSize:14,color:tm,marginTop:1}} className="elide">{daySummary(a.active)} · {a.tz}</div>
                       </div>
                     </div>
@@ -3847,7 +3847,7 @@ function AssessorEditorial() {
     const PageBody = ({i}) => i===0 ? (
       <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
         <div style={{width:64,height:64,borderRadius:br,background:RPT_THUMB2[0],display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",marginBottom:32}}><LighthouseLogo s={30} c="#fff"/></div>
-        <div style={{fontSize:14,color:teal,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",marginBottom:14}}>{report.type}</div>
+        <div style={{fontSize:14,color:teal,fontWeight: 400,letterSpacing:".08em",textTransform:"uppercase",marginBottom:14}}>{report.type}</div>
         <h1 style={{fontSize:32,fontWeight:700,fontFamily:serif,color:navy,lineHeight:1.2,marginBottom:16}}>{report.name}</h1>
         <div style={{fontSize:14,color:tm}}>Prepared for {candidates.find(x=>x.id===subjectId)?.name || "Candidate"}</div>
         <div style={{marginTop:"auto",fontSize:14,color:tm}}>Marsh · Confidential</div>

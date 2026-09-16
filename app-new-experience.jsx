@@ -143,11 +143,11 @@
       React.createElement(Row, { i: 2 }, tabs(["Assessments", "Timeline", "Documents"], 0)),
       card(
         [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 10px", borderBottom: "1px solid " + BD, animationDelay: ".16s" } },
-          React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM } }, "Assessment"),
-          React.createElement("span", { style: { width: 74, textAlign: "center", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM } }, "Status"))].concat(
+          React.createElement("span", { style: { flex: 1, fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TM } }, "Assessment"),
+          React.createElement("span", { style: { width: 74, textAlign: "center", fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TM } }, "Status"))].concat(
         rows.map(function (r, i) {
           return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "8px 10px", borderBottom: i === rows.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.22 + i * 0.055 + "s" } },
-            React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r[0]),
+            React.createElement("span", { style: { flex: 1, minWidth: 0, fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r[0]),
             React.createElement("span", { style: { width: 74, display: "flex", justifyContent: "center" } }, pill(r[1], r[2])));
         }))
       ),
@@ -164,25 +164,25 @@
           React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, color: TM, marginLeft: 5 } }, "· l.weber@tte.email")),
         React.createElement("div", { style: { textAlign: "right" } },
           React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, color: TM } }, "Forms complete"),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX } }, "3 / 5")),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TX } }, "3 / 5")),
         React.createElement("div", { style: { width: 22, height: 22, borderRadius: 999, border: "2.5px solid " + TEAL, borderRightColor: "rgba(0,15,71,.12)", borderBottomColor: "rgba(0,15,71,.12)", flexShrink: 0 } })),
       React.createElement("div", { style: { flex: 1, display: "flex", minHeight: 0 } },
         // left · Assessor Brief (read only)
         React.createElement(Row, { i: 1, style: { width: "44%", borderRight: "1px solid rgba(0,15,71,.18)", padding: "9px 11px", background: "rgba(0,15,71,.02)", minWidth: 0 } },
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, marginBottom: 7 } }, "Assessor Brief"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: NAVY, marginBottom: 7 } }, "Assessor Brief"),
           tabs(["Overview", "Role play"], 0),
           React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, color: TM, lineHeight: 1.65 } },
             "The participant presents a turnaround plan to the board. Observe how they read the market and commit to a direction under challenge.")),
         // right · Your Response (editable)
         React.createElement(Row, { i: 2, style: { flex: 1, padding: "9px 11px", background: "#fff", minWidth: 0 } },
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, marginBottom: 7 } }, "Your Response"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: NAVY, marginBottom: 7 } }, "Your Response"),
           React.createElement("div", { style: { display: "flex", gap: 10, borderBottom: "1px solid " + BD, marginBottom: 9 } },
             [["1. Leadership", true], ["2. Strategy", false]].map(function (t, i) {
-              return React.createElement("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 4, paddingBottom: 6, borderBottom: "2px solid " + (i === 0 ? NAVY : "transparent"), marginBottom: -1, fontFamily: SANS, fontSize: 11.5, fontWeight: i === 0 ? 700 : 700, color: i === 0 ? NAVY : TM, whiteSpace: "nowrap" } },
+              return React.createElement("span", { key: i, style: { display: "inline-flex", alignItems: "center", gap: 4, paddingBottom: 6, borderBottom: "2px solid " + (i === 0 ? NAVY : "transparent"), marginBottom: -1, fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: i === 0 ? NAVY : TM, whiteSpace: "nowrap" } },
                 React.createElement("span", { style: { width: 9, height: 9, borderRadius: 999, background: t[1] ? GREEN : GOLD, flexShrink: 0 } }), t[0]);
             })),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TEAL } }, "ST1"),
-          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX, marginTop: 2 } }, "Reads market signals"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TEAL } }, "ST1"),
+          React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TX, marginTop: 2 } }, "Reads market signals"),
           React.createElement("div", { style: { display: "flex", gap: 4, marginTop: 8 } },
             [1, 2, 3, 4, 5].map(function (n) {
               var on = n === 4;
@@ -217,19 +217,19 @@
         card([
           React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", animationDelay: ".15s" } },
             head.map(function (h, i) {
-              return React.createElement("div", { key: i, style: { flex: col[i], padding: "6px 5px", background: i === 5 ? NAVY : "rgba(0,15,71,.04)", color: i === 5 ? "#fff" : TM, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, textAlign: i === 0 ? "left" : "center", whiteSpace: "nowrap", overflow: "hidden" } }, h);
+              return React.createElement("div", { key: i, style: { flex: col[i], padding: "6px 5px", background: i === 5 ? NAVY : "rgba(0,15,71,.04)", color: i === 5 ? "#fff" : TM, fontFamily: SANS, fontSize: 11.5, fontWeight: 400, textAlign: i === 0 ? "left" : "center", whiteSpace: "nowrap", overflow: "hidden" } }, h);
             })),
           rows.map(function (r, i) {
             if (r.group) {
               return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", borderTop: "1px solid " + BD, background: "rgba(0,15,71,.035)", animationDelay: 0.16 + i * 0.045 + "s" } },
-                React.createElement("div", { style: { flex: 1, padding: "5px 8px", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY } }, "⌄  " + r.group));
+                React.createElement("div", { style: { flex: 1, padding: "5px 8px", fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: NAVY } }, "⌄  " + r.group));
             }
             return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", borderTop: "1px solid " + BD, animationDelay: 0.16 + i * 0.045 + "s" } },
               React.createElement("div", { style: { flex: col[0], padding: "5px 8px", display: "flex", gap: 5, alignItems: "center", minWidth: 0 } },
-                React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TEAL, flexShrink: 0 } }, r.code),
+                React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TEAL, flexShrink: 0 } }, r.code),
                 React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, color: TX, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r.name)),
               r.v.map(function (v, k) {
-                return React.createElement("div", { key: k, style: { flex: col[k + 1], padding: "5px 3px", textAlign: "center", fontFamily: SANS, fontSize: 11.5, fontWeight: k === 3 ? 700 : 700, color: r.hot ? RED : TX, whiteSpace: "nowrap" } }, v);
+                return React.createElement("div", { key: k, style: { flex: col[k + 1], padding: "5px 3px", textAlign: "center", fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: r.hot ? RED : TX, whiteSpace: "nowrap" } }, v);
               }),
               React.createElement("div", { style: { flex: col[5], padding: "3px 5px", display: "flex", justifyContent: "center" } },
                 React.createElement("span", { style: { minWidth: 28, padding: "3px 5px", borderRadius: 5, border: "1px solid " + (r.hot ? TEAL : BD), background: r.hot ? "rgba(11,75,255,.08)" : "#fff", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, textAlign: "center" } }, r.fin)));
@@ -256,18 +256,18 @@
           return React.createElement("div", { key: i, style: { background: "#fff", padding: "6px 8px" } },
             React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, color: TM } }, c[0]),
             i === 2 ? React.createElement("div", { style: { marginTop: 3 } }, pill("Open", "green"))
-              : React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: NAVY, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c[1]));
+              : React.createElement("div", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: NAVY, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c[1]));
         })),
       React.createElement(Row, { i: 2, style: { marginBottom: 7 } }, tabs(["Subjects", "Resources", "Activities", "Recordings"], 0)),
       card(
         [React.createElement("div", { key: "h", className: "ne-row", style: { display: "flex", padding: "6px 9px", borderBottom: "1px solid " + BD, animationDelay: ".16s" } },
           ["Participants", "Prework", "Activity", "Attendance"].map(function (h, i) {
-            return React.createElement("span", { key: i, style: { flex: i === 0 ? 2 : 1, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TM, textAlign: i === 0 ? "left" : "center" } }, h);
+            return React.createElement("span", { key: i, style: { flex: i === 0 ? 2 : 1, fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TM, textAlign: i === 0 ? "left" : "center" } }, h);
           }))].concat(
         subs.map(function (s, i) {
           return React.createElement("div", { key: i, className: "ne-row", style: { display: "flex", alignItems: "center", padding: "7px 9px", borderBottom: i === subs.length - 1 ? "none" : "1px solid " + BD, animationDelay: 0.2 + i * 0.05 + "s" } },
             React.createElement("span", { style: { flex: 2, display: "flex", alignItems: "center", gap: 6, minWidth: 0 } }, avatar(s[0], s[6], 17),
-              React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 700, color: TX } }, s[1])),
+              React.createElement("span", { style: { fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: TX } }, s[1])),
             React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 11.5, color: TX } }, s[2]),
             React.createElement("span", { style: { flex: 1, textAlign: "center", fontFamily: SANS, fontSize: 11.5, color: TX } }, s[3]),
             React.createElement("span", { style: { flex: 1, display: "flex", justifyContent: "center" } }, pill(s[4], s[5])));
@@ -356,7 +356,7 @@
             React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: dark ? GOLD : TEAL, strokeWidth: "2.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0, marginTop: 3 } },
               React.createElement("path", { d: "M20 6L9 17l-5-5" })),
             React.createElement("span", null,
-              React.createElement("b", { style: { fontWeight: 700, color: dark ? "#fff" : NAVY } }, t[0]),
+              React.createElement("b", { style: { fontWeight: 400, color: dark ? "#fff" : NAVY } }, t[0]),
               React.createElement("span", { style: { color: dark ? "rgba(255,255,255,.66)" : TM } }, " — " + t[1])));
         }))
     );
@@ -514,7 +514,7 @@
            ["Motion", [1, 2, 3], motion, function (v) { setMotion(v); try { localStorage.setItem(MOTION_KEY, String(v)); } catch (e) {} }, ["Slide", "Fade", "Deck"]]
           ].map(function (grp) {
             return React.createElement("div", { key: grp[0], style: { display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,.94)", border: "1px solid " + BD, borderRadius: 10, boxShadow: "0 6px 20px rgba(0,15,71,.18)", padding: "6px 9px" } },
-              React.createElement("span", { style: { fontSize: 11.5, fontWeight: 700, color: TM } }, grp[0]),
+              React.createElement("span", { style: { fontSize: 11.5, fontWeight: 400, color: TM } }, grp[0]),
               // named, not numbered — a bare "2" says nothing about what you're comparing
               grp[1].map(function (v, i) {
                 var on = grp[2] === v;

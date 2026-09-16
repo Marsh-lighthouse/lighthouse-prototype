@@ -191,14 +191,14 @@ function EdBookings() {
             </div>
             <Row label="When">
               Tuesday, August 0{f.date}, 2026<br />
-              <span style={{ fontWeight: 700 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} – {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
+              <span style={{ fontWeight: 400 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} – {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
             </Row>
             {f.langPref === "yes" && <Row label="Language">{f.lang}</Row>}
           </div>
 
           {/* add to calendar — real provider marks */}
           <div style={{ marginTop: 26 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kINK, marginBottom: 12 }}>Add to your calendar</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: kINK, marginBottom: 12 }}>Add to your calendar</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               {BK_CAL_PROVIDERS.map((c) =>
                 <button key={c} onClick={() => showToast("Added to " + c)} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kINK, background: kCARD, border: "1px solid " + kLINE, borderRadius: 10, padding: "9px 14px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8, transition: "border-color .15s, background .15s" }}
@@ -272,7 +272,7 @@ function EdBookings() {
                     <button key={i} disabled={!avail} onClick={() => set({ date: n, time: null })}
                       style={{
                         aspectRatio: "1", borderRadius: 10, border: "none", cursor: avail ? "pointer" : "default",
-                        fontFamily: "var(--sans)", fontSize: 15, fontWeight: sel ? 700 : 700,
+                        fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400,
                         background: sel ? kACCENT : avail ? kSKY : "transparent",
                         color: sel ? "var(--on-accent)" : avail ? kINK : kMUT,
                       }}>{n}</button>
@@ -285,7 +285,7 @@ function EdBookings() {
               {!f.date &&
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT, lineHeight: 1.5 }}>Select an available date to see open times.</div>}
               {f.date && !f.time && <React.Fragment>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 700, marginBottom: 14 }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, fontWeight: 400, marginBottom: 14 }}><span style={{ fontWeight: 400 }}>Tue,</span> {f.date}th Aug</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {BK_SLOTS.map((s) =>
                     <button key={s} onClick={() => set({ time: s })} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: kMID, background: kCARD, border: "1px solid " + kLINE, borderRadius: 10, padding: "12px", cursor: "pointer" }}>{s}</button>)}
@@ -294,7 +294,7 @@ function EdBookings() {
               {f.date && f.time && <React.Fragment>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
                   <button onClick={() => set({ time: null })} style={{ background: "none", border: "none", cursor: "pointer", color: kMUT, display: "flex", padding: 0 }}><I.chevL size={16} /></button>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}><span style={{ fontWeight: 700 }}>Tue,</span> {f.date}th Aug, <span style={{ fontWeight: 700 }}>{f.time}</span></span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}><span style={{ fontWeight: 400 }}>Tue,</span> {f.date}th Aug, <span style={{ fontWeight: 400 }}>{f.time}</span></span>
                 </div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK, marginBottom: 12 }}>Do you have a language preference?</div>
                 <div style={{ display: "flex", gap: 22, marginBottom: 16 }}>
@@ -467,7 +467,7 @@ function EdBookings() {
                 <h2 className="serif" style={{ fontSize: 21, color: kINK, margin: "0 0 10px", lineHeight: 1.15 }}>{bk.title}</h2>
                 <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16, fontFamily: "var(--sans)", fontSize: 15 }}>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kMUT, fontWeight: 400 }}><I.clock size={15} /> {durLabel}</span>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kINK }}><I.cal size={15} /> {bk.day}th August 2026 <b style={{ fontWeight: 700 }}>{bk.start}</b> - <b style={{ fontWeight: 700 }}>{bk.end}</b> <span style={{ color: kMUT }}>(GMT+2)</span></span>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: kINK }}><I.cal size={15} /> {bk.day}th August 2026 <b style={{ fontWeight: 400 }}>{bk.start}</b> - <b style={{ fontWeight: 400 }}>{bk.end}</b> <span style={{ color: kMUT }}>(GMT+2)</span></span>
                 </div>
               </React.Fragment>}
               body={bk.desc}
@@ -528,7 +528,7 @@ function BkConfirmDialog({ f, end, onClose, onConfirm }) {
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>When</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kINK }}>
             Tuesday, August 0{f.date}, 2026<br />
-            <span style={{ fontWeight: 700 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} - {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
+            <span style={{ fontWeight: 400 }}>{f.time.replace(/\s*(am|pm)/i, (x) => x.trim().toUpperCase())} - {end}</span> <span style={{ color: kMUT }}>(GMT+2)</span>
           </div>
           {f.langPref === "yes" && <React.Fragment>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: kMUT }}>Language</div>

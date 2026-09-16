@@ -67,10 +67,10 @@ function EdDevelopment({ onBack }) {
                     <div key={ti} style={{ display: "flex", gap: 14, alignItems: "flex-start", paddingTop: ti === 0 ? 0 : 12, borderTop: ti === 0 ? "none" : "1px solid " + eLINE }}>
                       <div style={{ flexShrink: 0, width: 52, textAlign: "center" }}>
                         <div className="serif" style={{ fontSize: 21, color: m.color, lineHeight: 1 }}>{t.type}</div>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: m.color, marginTop: 2 }}>{m.label}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: 0.2, color: m.color, marginTop: 2 }}>{m.label}</div>
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{t.title}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{t.title}</div>
                         <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: "3px 0 7px" }}>{t.desc}</p>
                         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
                           <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.cal size={13} /> {t.start} – {t.end}</span>
@@ -173,7 +173,7 @@ function ReportPage({ report, page }) {
       <Para>This report synthesises {LH.user.first}'s results across the assessment battery into an integrated view of leadership capability, motivation, and growth potential. Findings are benchmarked against a global norm group of senior managers.</Para>
       <Para>Overall, the profile indicates a capable, resilient leader with clear strengths in strategic thinking and personal drive, alongside development opportunities in how influence and team development are exercised day to day.</Para>
       <div style={{ background: "color-mix(in srgb, var(--accent) 5%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 18%, transparent)", borderRadius: 12, padding: "16px 18px", marginTop: 6 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 10 }}>Key themes</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 10 }}>Key themes</div>
         {["Drives clarity and direction under ambiguity", "Builds trust quickly but delegates selectively", "Highly resilient; sustains performance under pressure", "Growth edge: scaling influence beyond direct authority"].map((x, i) => (
           <div key={i} style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: i < 3 ? 8 : 0 }}>
             <span style={{ color: eBLUE, display: "flex", marginTop: 2 }}><I.check size={13} /></span>
@@ -209,11 +209,11 @@ function ReportPage({ report, page }) {
       <H>Strengths & development areas</H>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 18 }}>
         <div style={{ background: "rgba(20,133,61,.06)", border: "1px solid rgba(20,133,61,.2)", borderRadius: 12, padding: "16px 18px" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eSUCCESS, marginBottom: 10 }}>Strengths</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eSUCCESS, marginBottom: 10 }}>Strengths</div>
           {["Strategic, big-picture orientation", "Composure and resilience under stress", "Bias for action and follow-through"].map((x, i) => <div key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, marginBottom: 8 }}>• {x}</div>)}
         </div>
         <div style={{ background: "rgba(203,126,3,.06)", border: "1px solid rgba(203,126,3,.2)", borderRadius: 12, padding: "16px 18px" }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eWARN, marginBottom: 10 }}>Development areas</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eWARN, marginBottom: 10 }}>Development areas</div>
           {["Influencing without formal authority", "Coaching and developing others", "Inviting dissent before deciding"].map((x, i) => <div key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, marginBottom: 8 }}>• {x}</div>)}
         </div>
       </div>
@@ -264,12 +264,12 @@ function EdReportReader({ report, onClose }) {
         <div className="ed-reader-head" style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
           <div style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--surface-deep)", color: eSKY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.fileText size={18} /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{report.name}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{report.name}</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Page {page + 1} of {pages}</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 2, border: "1px solid " + eLINE, borderRadius: 9, padding: 3, flexShrink: 0 }}>
             <button onClick={() => setZoom((z) => Math.max(0.5, Math.round((z - 0.25) * 100) / 100))} disabled={zoom <= 0.5} title="Zoom out" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom <= 0.5 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom <= 0.5 ? "default" : "pointer", fontSize: 21, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, minWidth: 44, textAlign: "center" }}>{Math.round(zoom * 100)}%</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, minWidth: 44, textAlign: "center" }}>{Math.round(zoom * 100)}%</span>
             <button onClick={() => setZoom((z) => Math.min(2, Math.round((z + 0.25) * 100) / 100))} disabled={zoom >= 2} title="Zoom in" style={{ width: 28, height: 28, borderRadius: 7, border: "none", background: "transparent", color: zoom >= 2 ? "rgba(0,15,71,.25)" : eMID, cursor: zoom >= 2 ? "default" : "pointer", fontSize: 21, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
           </div>
           <EdBtn small><I.download size={15} /> <span className="ed-reader-pdf-lbl">Download PDF</span></EdBtn>
@@ -496,7 +496,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                   <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{slot.date.split(" ")[0]}</div>
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{slotTime(slot.time)}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 4 }}>{slotTime(slot.time)}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{tzMeta.short}</span>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
@@ -587,7 +587,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
             <div />
             {dayCols.map((d, i) => (
               <div key={i} style={{ padding: "12px 10px", textAlign: "center", borderLeft: "1px solid " + eLINE }}>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{String(d.getDate()).padStart(2, "0")} </span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{String(d.getDate()).padStart(2, "0")} </span>
                 <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, letterSpacing: 0.5 }}>{wdNames[i]}</span>
               </div>
             ))}
@@ -621,7 +621,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                         style={{ position: "absolute", top: top + 2, left: 4, right: 4, height, background: "color-mix(in srgb, " + tint + " 9%, #fff)", borderLeft: "3px solid " + tint, borderRadius: 8, padding: "7px 9px", cursor: "pointer", overflow: "hidden", transition: "background .15s" }}
                         onMouseEnter={(ev) => ev.currentTarget.style.background = "color-mix(in srgb, " + tint + " 16%, #fff)"}
                         onMouseLeave={(ev) => ev.currentTarget.style.background = "color-mix(in srgb, " + tint + " 9%, #fff)"}>
-                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.2, marginBottom: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{slotTime(e.slot.time)}</div>
+                        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, lineHeight: 1.2, marginBottom: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{slotTime(e.slot.time)}</div>
                         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                             {isBooked ? (
                               <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#14853D", display: "inline-flex", alignItems: "center", gap: 3 }}><I.check size={11} /> Booked</span>
@@ -653,7 +653,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
               <div onClick={() => setPop(null)} style={{ position: "fixed", inset: 0, zIndex: 79 }} />
               <div className="ed-cal-pop" style={{ position: "absolute", top, left, width: W, zIndex: 80, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 14, boxShadow: "0 16px 44px rgba(0,15,71,.22)", padding: 16, fontFamily: "var(--sans)" }}>
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, lineHeight: 1.2 }}>Book this slot</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, lineHeight: 1.2 }}>Book this slot</div>
                   <button onClick={() => setPop(null)} title="Close" style={{ background: "none", border: "none", color: eMUT, cursor: "pointer", display: "flex", flexShrink: 0, padding: 0 }}><I.plus size={16} style={{ transform: "rotate(45deg)" }} /></button>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 13 }}>
@@ -790,7 +790,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
               <div style={{ width: 110, flexShrink: 0, fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Session</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 400 }}>{center.name}</div>
             </div>
-            {row("When", <React.Fragment>{slot.date} · {slot.day}<br /><span style={{ fontWeight: 700 }}>{slotTime(slot.time)}</span> <span style={{ fontWeight: 400, color: eMUT }}>({tzMeta.short})</span></React.Fragment>)}
+            {row("When", <React.Fragment>{slot.date} · {slot.day}<br /><span style={{ fontWeight: 400 }}>{slotTime(slot.time)}</span> <span style={{ fontWeight: 400, color: eMUT }}>({tzMeta.short})</span></React.Fragment>)}
             {row("Location", center.location)}
             {doneSlot.langPref === "yes" && row("Language", doneSlot.lang)}
             {slot.cancelBefore && row("Cancellation", "Up to " + slot.cancelBefore + " before the session")}
@@ -799,7 +799,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
           {/* what the session actually is — so this page works as the booking's detail view */}
           {center.desc && (
             <div style={{ marginBottom: 26 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 8 }}>About this session</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 8 }}>About this session</div>
               <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: 0 }}>{center.desc}</p>
               <button onClick={() => { setDoneSlot(null); setView(center.id); }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>
@@ -807,7 +807,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
               </button>
             </div>
           )}
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 12 }}>Add to your calendar</div>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {providers.map((c) => (
               <button key={c} onClick={() => showSchedToast("Added to " + c)}
@@ -855,7 +855,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                     onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(20,133,61,.05)"; }}>
                     <div style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--success-fill)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.checkCircle size={19} /></div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{b.center.name}</div>
+                      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{b.center.name}</div>
                       <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{b.slot.date} · {slotTime(b.slot.time)} · {b.center.location}</div>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
@@ -891,7 +891,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, marginBottom: 12 }}>
                         <div style={{ width: 40, height: 40, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={19} /></div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{c.name}</div>
+                          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 4 }}>{c.name}</div>
                           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
                             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.globe size={13} /> {c.location}</span>
                             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={13} /> {c.duration}</span>
@@ -902,7 +902,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                       {/* footer sits on the card's bottom edge, so every card in the row lines up */}
                       <div className="ed-sched-foot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: "auto", paddingTop: 12, borderTop: "1px solid " + eLINE }}>
                         <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: totalRemaining <= 5 ? eWARN : eMUT, minWidth: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.slots.length} slots · {totalRemaining} open{!bookedInCenter && nextSlot ? ` · next ${nextSlot.date}` : ""}</span>
-                        <span className="ed-sched-view" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 5, color: eMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0 }}>View slots <I.chevR size={15} /></span>
+                        <span className="ed-sched-view" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 5, color: eMID, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, whiteSpace: "nowrap", flexShrink: 0 }}>View slots <I.chevR size={15} /></span>
                       </div>
                     </div>
                   );

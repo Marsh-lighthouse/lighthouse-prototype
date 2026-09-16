@@ -140,7 +140,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
             {showProgress && <button onClick={() => onNav("profile")} title={t("profileCompletion") + " — " + LH.profile.pct + "%"} style={{ width: "100%", border: "none", background: "transparent", padding: 0, cursor: "pointer", display: "flex", justifyContent: "center", marginBottom: 4 }}>
               <div style={{ position: "relative", width: 40, height: 40, flexShrink: 0 }}>
                 <Ring pct={LH.profile.pct} size={40} stroke={3} color="var(--rail-active-icon)" track="var(--rail-ring-track)" />
-                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: "var(--rail-fg)" }}>{LH.profile.pct}%</div>
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 400, color: "var(--rail-fg)" }}>{LH.profile.pct}%</div>
               </div>
             </button>}
             <EdUserMenuCollapsed onNav={onNav} user={user} />
@@ -152,10 +152,10 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "16px 12px", background: "var(--rail-active-bg)", border: "1px solid var(--rail-active-line)", boxSizing: "border-box", borderRadius: 10 }}>
                 <div style={{ position: "relative", width: 60, height: 60, flexShrink: 0 }}>
                   <Ring pct={LH.profile.pct} size={60} stroke={4} color="var(--rail-active-icon)" track="var(--rail-ring-track)" />
-                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 21, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.pct}%</div>
+                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 21, fontWeight: 400, color: "var(--rail-active-fg)" }}>{LH.profile.pct}%</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--rail-active-fg)" }}>{LH.profile.done} {t("of")} {LH.profile.total}</div>
+                  <div style={{ fontSize: 15, fontWeight: 400, color: "var(--rail-active-fg)" }}>{LH.profile.done} {t("of")} {LH.profile.total}</div>
                   <div style={{ fontSize: 15, color: "var(--rail-active-fg)", opacity: 0.9 }}>{t("sectionsCompleted")}</div>
                 </div>
                 <button onClick={() => onNav("profile")} style={{ width: "100%", padding: "10px 14px", background: "var(--rail-cta-bg)", color: "var(--rail-cta-fg)", border: "1px solid var(--rail-cta-border)", borderRadius: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer", transition: "filter .15s" }}
@@ -441,7 +441,7 @@ function EdProfile({ onBack, onNav }) {
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "16px 22px", borderBottom: "1px solid var(--line)" }}>
       <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{title}</div>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {savedSection === s && section !== s && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--success)" }}>Saved</span>}
+        {savedSection === s && section !== s && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--success)" }}>Saved</span>}
         {section !== s && <button onClick={() => startEdit(s)} title={"Edit " + title.toLowerCase()} style={pencilSt}><I.edit size={15} /></button>}
       </div>
     </div>
@@ -477,7 +477,7 @@ function EdProfile({ onBack, onNav }) {
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div style={{ position: "relative", width: 46, height: 46, flexShrink: 0 }}>
             <Ring pct={LH.profile.pct} size={46} stroke={4} color="var(--accent)" track="var(--track)" />
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID }}>{t("profileCompletion")}</div>
@@ -592,7 +592,7 @@ function EdChangePassword({ onBack }) {
         {pwField("Old Password", "old")}
         {pwField("Password", "pw")}
         {pwField("Password Confirmation", "conf")}
-        <MdsAlert severity="warning" mb={24}><strong style={{ fontWeight: 700 }}>Important:</strong> Changing your password will log you out.</MdsAlert>
+        <MdsAlert severity="warning" mb={24}><strong style={{ fontWeight: 400 }}>Important:</strong> Changing your password will log you out.</MdsAlert>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <button onClick={() => { window.location.href = "Login.html"; }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: GOLD, color: "var(--action-text)", border: "none", borderRadius: 10, padding: "12px 26px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Update <I.arrow size={16} /></button>
         </div>
@@ -637,14 +637,14 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
       {timer && timerPos === "top" && (
         <div style={{ display: "flex", alignItems: "center", gap: 9, margin: "-22px -22px 16px", padding: "9px 16px", background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: "var(--accent)", borderBottom: "1px solid color-mix(in srgb, var(--accent) 16%, transparent)", whiteSpace: "nowrap" }}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "currentColor", flexShrink: 0, animation: "ed-pulse 1.4s ease-in-out infinite" }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
-          <span style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}><I.clock size={13} />{cd}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}><I.clock size={13} />{cd}</span>
         </div>
       )}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 11 }}>
         <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, letterSpacing: ".02em", color: tag.fg, background: tag.bg, padding: "4px 10px", borderRadius: 6 }}>{tag.label}</span>
         {timer && timerPos === "bottom" ? (
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--accent)", fontVariantNumeric: "tabular-nums", display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{cd}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--accent)", fontVariantNumeric: "tabular-nums", display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{cd}</span>
         ) : (
           <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, display: "flex", alignItems: "center", gap: 6 }}><I.clock size={14} />{p.daysLeft} {t("daysLeft")}</span>
         )}
@@ -690,7 +690,7 @@ function EdProgram({ p, onOpen, onSystemCheck, variant, timer, timerPos = "top" 
       {timer && timerPos === "bottom" && (
         <div style={{ display: "flex", alignItems: "center", gap: 9, marginTop: "auto", marginBottom: 12, padding: "9px 14px", borderRadius: 10, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: "var(--accent)", border: "1px solid color-mix(in srgb, var(--accent) 18%, transparent)", whiteSpace: "nowrap" }}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "currentColor", flexShrink: 0, animation: "ed-pulse 1.4s ease-in-out infinite" }} />
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{timer.message}</span>
         </div>
       )}
 
@@ -785,10 +785,10 @@ function EdDashboardContent({ onOpen, onSystemCheck, sample }) {
         <div className="ed-m-wrap" style={{ display: "flex", alignItems: "center", gap: 18, background: "var(--card)", border: "1px solid var(--line)", borderRadius: 14, padding: "18px 22px", marginBottom: 48 }}>
           <div style={{ position: "relative", width: 52, height: 52, flexShrink: 0 }}>
             <Ring pct={LH.profile.pct} size={52} stroke={4.5} color={BLUE} />
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: MID }}>{LH.profile.pct}%</div>
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 400, color: MID }}>{LH.profile.pct}%</div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: MID }}>Complete your profile</div>
+            <div style={{ fontSize: 15, fontWeight: 400, color: MID }}>Complete your profile</div>
             <div style={{ fontSize: 15, color: MUT, marginTop: 2 }}>{LH.profile.done} of {LH.profile.total} done — finish to unlock personalized insights</div>
           </div>
           <button onClick={() => onOpen("profile")} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: MID, border: "1.5px solid " + MID, borderRadius: 10, padding: "10px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Continue setup <I.arrow size={16} /></button>
@@ -920,7 +920,7 @@ function EdCountdown({ due }) {
         <span style={{ color: MID, display: "flex" }}><I.clock size={15} /></span>
         <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: MID }}>Due {due}</span>
       </span>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: cdColor, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2, whiteSpace: "nowrap" }}>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: cdColor, fontVariantNumeric: "tabular-nums", letterSpacing: 0.2, whiteSpace: "nowrap" }}>
         {parts.map(([v, l], i) => `${String(v).padStart(2, "0")}${l}`).join(" : ")}
       </span>
     </div>
@@ -1303,7 +1303,7 @@ function DashEditorial({ initialRoute } = {}) {
               </button>
               <button title="Reset to default (100%)" onClick={resetFont} style={{ minWidth: 64, height: 46, padding: "0 10px", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", borderRight: "1px solid var(--line)", color: "var(--primary)", cursor: "pointer", fontVariantNumeric: "tabular-nums" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.04)"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}>
-                <span style={{ fontSize: 15, fontWeight: 700 }}>{Math.round(fontScale * 100)}%</span>
+                <span style={{ fontSize: 15, fontWeight: 400 }}>{Math.round(fontScale * 100)}%</span>
               </button>
               <button title="Increase text size" onClick={incFont} style={{ width: 52, height: 46, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "none", color: "var(--primary)", cursor: "pointer" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,15,71,.04)"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}>
@@ -1335,7 +1335,7 @@ function DashEditorial({ initialRoute } = {}) {
               return (
                 <button key={lang} onClick={() => { window.LangSwitcher?.setLanguage(lang); setLangMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: active ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{active ? <I.check size={15} /> : null}</span>
-                  <span style={{ fontSize: 15, fontWeight: 700, color: active ? "var(--primary)" : "var(--ink)" }}>
+                  <span style={{ fontSize: 15, fontWeight: 400, color: active ? "var(--primary)" : "var(--ink)" }}>
                     {lang === "en" ? "English" : "العربية"}
                   </span>
                 </button>
@@ -1467,7 +1467,7 @@ function DashEditorial({ initialRoute } = {}) {
                 <button key={o.id} onClick={() => { setSample(o.id); setDashMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                   <span style={{ flex: 1 }}>
-                    <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
                     <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                   </span>
                 </button>
@@ -1506,7 +1506,7 @@ function DashEditorial({ initialRoute } = {}) {
                 <button key={o.id} onClick={() => { setLayout(o.id); setLayoutMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                   <span style={{ flex: 1 }}>
-                    <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
                     <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                   </span>
                 </button>
@@ -1533,7 +1533,7 @@ function DashEditorial({ initialRoute } = {}) {
                 <button key={o.id} onClick={() => { setHero(o.id); setHeroMenu(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "9px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, display: "flex", justifyContent: "center", color: "var(--accent)" }}>{on ? <I.check size={15} /> : null}</span>
                   <span style={{ flex: 1 }}>
-                    <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? "var(--primary)" : "var(--ink)" }}>{o.l}</span>
                     <span style={{ display: "block", fontSize: 15, color: "var(--muted)" }}>{o.d}</span>
                   </span>
                 </button>

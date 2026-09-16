@@ -186,7 +186,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
               { l: "Directs", c: byRel("direct").length, mx: "2+" },
             ].map(x => (
               <div key={x.l} style={{ padding: "4px 10px", borderRadius: sr, background: "rgba(0,15,71,.04)", fontSize: 15, fontFamily: "var(--sans)", color: qINK, display: "flex", alignItems: "center", gap: 6 }}>
-                <strong style={{ color: qMID, fontWeight: 700 }}>{x.c}</strong> {x.l} <span style={{ color: qMUT }}>· {x.mx}</span>
+                <strong style={{ color: qMID, fontWeight: 400 }}>{x.c}</strong> {x.l} <span style={{ color: qMUT }}>· {x.mx}</span>
               </div>
             ))}
           </div>
@@ -287,7 +287,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             return (
               <button key={opt.n} onClick={() => setC360SelfAns(a => ({ ...a, [i]: opt.n }))} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", background: isSel ? qBLUE_BG : qCARD, border: "1px solid " + (isSel ? qBLUE : qLINE), borderRadius: cr, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", transition: "all .15s ease" }}>
                 <div className="serif" style={{ width: 32, height: 32, borderRadius: "50%", background: isSel ? qBLUE : "rgba(0,15,71,.05)", color: isSel ? "#fff" : qINK, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{opt.n}</div>
-                <div style={{ flex: 1, fontSize: 15, fontWeight: 700, color: qMID }}>{opt.l}</div>
+                <div style={{ flex: 1, fontSize: 15, fontWeight: 400, color: qMID }}>{opt.l}</div>
                 {isSel && <span style={{ color: qBLUE }}><QI.Check s={16} /></span>}
               </button>
             );
@@ -364,7 +364,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
               <div key={grp.rel} style={{ marginBottom: 24 }}>
                 <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12, paddingBottom: 10, borderBottom: "1px solid " + qLINE }}>
                   <div className="serif" style={{ fontSize: 21, color: qMID }}>{grp.l}</div>
-                  <div style={{ fontSize: 15, fontFamily: "var(--sans)", color: grp.ok ? qGREEN : qMUT, fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
+                  <div style={{ fontSize: 15, fontFamily: "var(--sans)", color: grp.ok ? qGREEN : qMUT, fontWeight: 400, display: "flex", alignItems: "center", gap: 4 }}>
                     {byRel(grp.rel).length} selected · {grp.min} {grp.ok && <QI.Check s={11} />}
                   </div>
                 </div>
@@ -524,7 +524,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
             <div key={g.l} style={{ padding: 20, background: qCARD, border: "1px solid " + qLINE, borderRadius: cr }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
                 <div style={{ width: 8, height: 8, borderRadius: "50%", background: g.c }} />
-                <div style={{ fontSize: 15, fontWeight: 700, color: g.c, fontFamily: "var(--sans)" }}>{g.l}</div>
+                <div style={{ fontSize: 15, fontWeight: 400, color: g.c, fontFamily: "var(--sans)" }}>{g.l}</div>
               </div>
               {g.hint && <div style={{ fontSize: 15, color: qMUT, fontFamily: "var(--sans)", marginBottom: 10 }}>{g.hint}</div>}
               {g.items.length === 0 ? (

@@ -71,7 +71,7 @@ function PlMix({ mix }) {
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
       <span style={{ width: 26, height: 26, borderRadius: 7, background: m.color, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={14} /></span>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: m.color, fontWeight: 700 }}>{mix}%</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: m.color, fontWeight: 400 }}>{mix}%</span>
       <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{m.label}</span>
     </span>
   );
@@ -338,7 +338,7 @@ function PlAiModal({ skillName, onAdd, onClose }) {
       {loading && items.length === 0 ? (
         <div style={{ padding: "40px 24px 48px", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
           <div style={{ display: "flex", gap: 6 }}>{[0, 1, 2].map((i) => <span key={i} style={{ width: 9, height: 9, borderRadius: 5, background: eBLUE, animation: "idp-blink 1s ease " + (i * 0.2) + "s infinite" }} />)}</div>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eBLUE }}>Generating development actions…</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eBLUE }}>Generating development actions…</span>
         </div>
       ) : (
         <React.Fragment>
@@ -783,7 +783,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
       {/* header */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 16px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
         {inThread && <button onClick={() => onOpen("")} title="All conversations" style={{ background: "none", border: "none", cursor: "pointer", color: eMID, display: "flex", flexShrink: 0, padding: 2 }}><I.arrowL size={18} /></button>}
-        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inThread ? chip : "Comments"}</div>
+        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inThread ? chip : "Comments"}</div>
         <div ref={filterRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
           <button onClick={() => setFilterMenu((v) => !v)} title={filter === "open" ? "Filter comments" : "Showing " + filter}
             style={{ background: "none", border: "none", cursor: "pointer", color: filter === "open" ? eMUT : eBLUE, display: "flex", padding: 2 }}>
@@ -799,7 +799,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                     style={{ width: "100%", display: "flex", alignItems: "center", gap: 9, padding: "8px 9px", borderRadius: 8, border: "none", cursor: "pointer", textAlign: "left",
                       background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent" }}>
                     <span style={{ width: 15, flexShrink: 0, color: eBLUE, display: "flex" }}>{on ? <I.check size={14} /> : null}</span>
-                    <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, fontWeight: on ? 700 : 700, color: on ? eMID : eINK }}>{label}</span>
+                    <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{label}</span>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{n}</span>
                   </button>
                 );
@@ -844,11 +844,11 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                 <span style={{ width: 36, height: 36, borderRadius: "50%", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, flexShrink: 0 }}>{r.last ? plInitials(lastName) : <I.chat size={16} />}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
+                    <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
                     {r.unread && <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--danger)", flexShrink: 0 }} />}
                   </div>
                   <span style={{ display: "inline-block", marginTop: 5, padding: "3px 9px", borderRadius: 8, background: tag.bg, color: tag.fg, border: tag.border, boxSizing: "border-box", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400 }}>{tag.label}</span>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 700 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.4, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.last ? <React.Fragment><b style={{ color: eMID, fontWeight: 400 }}>{mine ? "You" : lastName.split(" ")[0]}:</b> {r.last.text}</React.Fragment> : "No messages yet — start the conversation."}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 4 }}>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{r.last ? r.last.time + " · " + r.count + " " + (r.count === 1 ? "message" : "messages") : "Plan-level conversation"}</span>
                     {/* Skill threads can jump to the skill itself without opening the thread.
@@ -919,7 +919,7 @@ function PlAddSkills({ current, onClose, onSave }) {
                   <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>Choose the skills you want to develop further as part of your development plan.</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, margin: "16px 0 10px" }}>Search your skills</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, margin: "16px 0 10px" }}>Search your skills</div>
               <IdpMultiSelect search options={c.options} selected={sel[ci]} onChange={(v) => setCat(ci, v)} placeholder="Search skills…" />
               {c.suggest.filter((s) => !sel[ci].includes(s)).length > 0 && (
                 <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
@@ -1112,7 +1112,7 @@ function PlReflectTab({ forceError, showToast }) {
   return (
     <div style={{ maxWidth: 820 }}>
       {showErr && !allReq && (
-        <MdsAlert severity="critical" align="center" mb={22}>Please answer all required questions (marked <span style={{ color: "var(--danger)", fontWeight: 700 }}>*</span>) before saving.</MdsAlert>
+        <MdsAlert severity="critical" align="center" mb={22}>Please answer all required questions (marked <span style={{ color: "var(--danger)", fontWeight: 400 }}>*</span>) before saving.</MdsAlert>
       )}
       {QS.map((it, i) => {
         const err = showErr && missing(i);
@@ -1151,7 +1151,7 @@ function PlReflectTab({ forceError, showToast }) {
       })}
       <div style={{ borderTop: "1px solid " + eLINE, marginTop: 8, paddingTop: 20, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, color: eMUT, fontFamily: "var(--sans)", fontSize: 15 }}>
-          <span style={{ color: "var(--danger)", fontWeight: 700 }}>*</span> Required — answer all starred questions before saving.
+          <span style={{ color: "var(--danger)", fontWeight: 400 }}>*</span> Required — answer all starred questions before saving.
         </div>
         <EdBtn primary onClick={() => { if (allReq) setSavedState(true); else setTried(true); }}>Save Reflections</EdBtn>
       </div>
@@ -1511,7 +1511,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                 // per-skill change summary — the same block the manager reads, under each skill
                 const changesNode = skillChanges.length > 0 ? (
                   <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 7 }}>Change summary</div>
                     <ul style={{ margin: 0, paddingLeft: 18 }}>
                       {skillChanges.map((c, i) => (
                         <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.9 }}>
@@ -1641,7 +1641,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
               {PL_SAMPLES.map((s) => { const on = sample === s.id; return (
                 <button key={s.id} onClick={() => { setSample(s.id); try { localStorage.setItem("pl-plan-design", String(s.id)); } catch (e) {} setSampleMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{s.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{s.desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{s.label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{s.desc}</span></span>
                 </button>); })}
             </div>
           )}
@@ -1659,7 +1659,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
               {[[4, "Name in title", "No info bar — name sits in the heading"], [1, "Divided", "Identity beside a metadata grid"], [2, "Pills", "Details as soft tinted chips"], [3, "Hero panel", "Tinted identity column"], [5, "By skill", "Summary lists each skill with its actions & completion"]].map(([id, label, desc]) => { const on = userCard === id; return (
                 <button key={id} onClick={() => pickUserCard(id)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
                 </button>); })}
             </div>
           )}
@@ -1677,7 +1677,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
               {[[false, "Normal", "Empty answer boxes"], [true, "Error", "Mandatory fields not filled"]].map(([val, label, desc]) => { const on = reflectErr === val; return (
                 <button key={label} onClick={() => { setReflectErr(val); setReflectMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
-                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 700, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
                 </button>); })}
             </div>
           )}
@@ -1799,13 +1799,13 @@ function PlBreakdownChip({ data }) {
   });
   const T = rows.reduce((o, r) => ({ skills: o.skills + r.skills, actions: o.actions + r.actions, complete: o.complete + r.complete }), { skills: 0, actions: 0, complete: 0 });
   const catColor = { Behavioral: eBLUE, Technical: eSUCCESS };
-  const num = { fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.1 };
+  const num = { fontFamily: "var(--sans)", fontSize: 21, fontWeight: 400, color: eMID, lineHeight: 1.1 };
   const lbl = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT };
   return ReactDOM.createPortal(
     <div ref={ref} style={{ position: "fixed", right: 200, bottom: 58, zIndex: 60, fontFamily: "var(--sans)" }}>
       {open && (
         <div style={{ position: "absolute", bottom: 44, right: 0, width: 320, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: "14px 16px" }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: eMID }}>Breakdown by category</div>
+          <div style={{ fontSize: 15, fontWeight: 400, color: eMID }}>Breakdown by category</div>
           <div style={{ fontSize: 13, color: eMUT, marginTop: 2, marginBottom: 12 }}>{T.skills} skills · {T.actions} actions · {T.complete} complete</div>
           {rows.map((r, i) => {
             const col = catColor[r.cat] || eMID;
@@ -1814,7 +1814,7 @@ function PlBreakdownChip({ data }) {
               <div key={i} style={{ padding: "11px 0", borderTop: "1px solid " + eLINE }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 9 }}>
                   <span style={{ width: 24, height: 24, borderRadius: 7, background: col, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{React.createElement(I[r.icon] || I.bulb, { size: 14 })}</span>
-                  <span style={{ fontSize: 15, fontWeight: 700, color: eMID }}>{r.cat}</span>
+                  <span style={{ fontSize: 15, fontWeight: 400, color: eMID }}>{r.cat}</span>
                 </div>
                 <div style={{ display: "flex", gap: 22 }}>
                   <div><div style={lbl}>Skills</div><div style={num}>{r.skills}</div></div>
@@ -1825,7 +1825,7 @@ function PlBreakdownChip({ data }) {
                   <div style={{ flex: 1, height: 5, borderRadius: 3, overflow: "hidden", background: "rgba(0,15,71,.08)" }}>
                     <div style={{ width: pct + "%", height: "100%", background: col }} />
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: eMUT, minWidth: 30, textAlign: "right" }}>{pct}%</span>
+                  <span style={{ fontSize: 13, fontWeight: 400, color: eMUT, minWidth: 30, textAlign: "right" }}>{pct}%</span>
                 </div>
               </div>
             );
@@ -1842,7 +1842,7 @@ function PlBreakdownChip({ data }) {
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
 function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }) {
   const lbl = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, marginBottom: 6 };
-  const big = { fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, lineHeight: 1.1 };
+  const big = { fontFamily: "var(--sans)", fontSize: 21, fontWeight: 400, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   // Design 2 — totals with a Behavioral / Technical split under Skills and Development
   // actions, plus the overall completion %. No progress bars. (Design 1 = plain totals.)
@@ -1854,7 +1854,7 @@ function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }
     });
     const sub = { fontFamily: "var(--sans)", fontSize: 13, color: eMUT, marginTop: 7, lineHeight: 1.6 };
     const splitLines = (key) => cats.map((c, i) => (
-      <div key={i}><span style={{ color: eMID, fontWeight: 700 }}>{c[key]}</span> {c.cat}</div>
+      <div key={i}><span style={{ color: eMID, fontWeight: 400 }}>{c[key]}</span> {c.cat}</div>
     ));
     return (
       <div style={{ marginTop: mt || 0, marginBottom: mb != null ? mb : 8 }}>
@@ -1971,7 +1971,7 @@ function PlDateRange({ start, end, onChange, invalid }) {
     <React.Fragment>
       <button ref={btnRef} onClick={() => open ? setOpen(false) : openPop()} title="Set start & end dates"
         style={{ width: "100%", boxSizing: "border-box", display: "flex", alignItems: "center", gap: 6, border: "1px solid " + (invalid ? "var(--danger)" : open ? eBLUE : "var(--field-line)"), borderRadius: 2, padding: "8px 10px", background: invalid ? "color-mix(in srgb, var(--danger) 4%, transparent)" : "var(--card)", cursor: "pointer" }}>
-        <span style={{ flex: 1, textAlign: "left", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: label ? 700 : 400, color: label ? eMID : eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label || "Start date  →  End date"}</span>
+        <span style={{ flex: 1, textAlign: "left", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400, color: label ? eMID : eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label || "Start date  →  End date"}</span>
         <I.cal size={14} style={{ color: eMUT, flexShrink: 0 }} />
       </button>
       {open && pos && ReactDOM.createPortal(
@@ -2026,8 +2026,8 @@ function PlCompletionEdit({ value, onSave }) {
       {open && pos && ReactDOM.createPortal(
         <div ref={popRef} style={{ position: "fixed", top: pos.top, left: pos.left, width: pos.width, boxSizing: "border-box", zIndex: 4000, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 16px 44px rgba(0,15,71,.22)", padding: 16 }}>
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10 }}>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>Completion</span>
-            <span style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eSUCCESS }}>{val}%</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>Completion</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 400, color: eSUCCESS }}>{val}%</span>
           </div>
           <input type="range" min={0} max={100} step={5} value={val} onChange={(e) => setVal(Number(e.target.value))} style={{ width: "100%", accentColor: eSUCCESS, cursor: "pointer" }} />
           <div style={{ display: "flex", gap: 6, marginTop: 12 }}>
@@ -2066,7 +2066,7 @@ function PlBar({ pct }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
       <div style={{ flex: 1, height: 6, borderRadius: 3, background: "rgba(0,15,71,.08)", overflow: "hidden" }}><div style={{ width: (pct || 0) + "%", height: "100%", background: eSUCCESS, borderRadius: 3 }} /></div>
-      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, minWidth: 32, textAlign: "right" }}>{pct || 0}%</span>
+      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, minWidth: 32, textAlign: "right" }}>{pct || 0}%</span>
     </div>
   );
 }
@@ -2077,7 +2077,7 @@ function PlRing({ pct, size = 46 }) {
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ flexShrink: 0 }}>
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(0,15,71,.1)" strokeWidth="4" />
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={eSUCCESS} strokeWidth="4" strokeLinecap="round" strokeDasharray={`${((pct || 0) / 100) * c} ${c}`} transform={`rotate(-90 ${size / 2} ${size / 2})`} style={{ transition: "stroke-dasharray .3s" }} />
-      <text x="50%" y="52%" textAnchor="middle" dominantBaseline="middle" style={{ fontFamily: "var(--sans)", fontSize: size * 0.28, fontWeight: 700, fill: eMID }}>{pct || 0}%</text>
+      <text x="50%" y="52%" textAnchor="middle" dominantBaseline="middle" style={{ fontFamily: "var(--sans)", fontSize: size * 0.28, fontWeight: 400, fill: eMID }}>{pct || 0}%</text>
     </svg>
   );
 }
@@ -2092,7 +2092,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         <PlDateRange start={action.start || ""} end={action.end || ""} onChange={onDate} invalid={dateErr} />
         {dateErr && <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 5, color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 13 }}><I.alertCircle size={12} /> Required</div>}
       </React.Fragment>
-    : <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: action.start ? eMID : eMUT }}>{action.start ? plFmt(action.start) + " – " + (action.end ? plFmt(action.end) : "…") : "Not set"}</span>;
+    : <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: action.start ? eMID : eMUT }}>{action.start ? plFmt(action.start) + " – " + (action.end ? plFmt(action.end) : "…") : "Not set"}</span>;
   const del = editable ? <button onClick={onDelete} title="Remove development action" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--danger)", display: "flex", padding: 4 }}><PlTrash size={16} /></button> : null;
   const pencil = editable ? <PlCompletionEdit value={action.completion || 0} onSave={onComplete} /> : null;
 
@@ -2271,7 +2271,7 @@ function PlActionCard({ action, editable, sample, onDate, onComplete, onDelete, 
         <div style={plMetaLabel}>Completion</div>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
           {editable ? <PlSeg value={action.completion || 0} onChange={onComplete} /> : <PlLinearBar pct={action.completion || 0} />}
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, minWidth: 40, textAlign: "right" }}>{action.completion || 0}%</span>
         </div>
       </div>
     );

@@ -144,7 +144,7 @@
         <div style={cardWrap}>
           <p style={body}>A descriptive block can include a link to more information. Selecting it opens that page in a new tab, rather than navigating away from the assessment.</p>
           <a href="https://marsh-lighthouse.github.io/lighthouse-prototype/Lighthouse.html" target="_blank" rel="noopener noreferrer"
-            style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: "var(--accent)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+            style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--accent)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
             Read the full assessment guide <span aria-hidden="true">&#8599;</span>
           </a>
         </div>
@@ -210,7 +210,7 @@
     } else {                                          // no sample yet
       preview = (
         <div style={{ background: "var(--card, #fff)", border: "1px dashed " + LINE, borderRadius: 16, padding: "56px 30px", textAlign: "center" }}>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: 0 }}>The <b style={{ color: INK, fontWeight: 600 }}>{sel.label}</b> preview is coming soon.</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: 0 }}>The <b style={{ color: INK, fontWeight: 400 }}>{sel.label}</b> preview is coming soon.</p>
         </div>
       );
     }
@@ -238,7 +238,7 @@
                 {c.items.map((it) => {
                   const active = it.id === sel.id;
                   return (
-                    <button key={it.id} onClick={() => select(it.id)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textAlign: "left", padding: "9px 10px", marginBottom: 2, border: "none", borderRadius: 8, background: active ? "color-mix(in srgb, var(--accent) 8%, transparent)" : "transparent", color: active ? MID : INK, fontFamily: "var(--sans)", fontSize: 15, fontWeight: active ? 600 : 400, cursor: "pointer" }}>
+                    <button key={it.id} onClick={() => select(it.id)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textAlign: "left", padding: "9px 10px", marginBottom: 2, border: "none", borderRadius: 8, background: active ? "color-mix(in srgb, var(--accent) 8%, transparent)" : "transparent", color: active ? MID : INK, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, cursor: "pointer" }}>
                       <span>{it.label}</span>
                       {it.kind === "soon" && <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 500, color: MUT, border: "1px solid " + LINE, borderRadius: 999, padding: "1px 7px" }}>soon</span>}
                     </button>

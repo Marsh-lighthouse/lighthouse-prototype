@@ -277,7 +277,7 @@ function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
         </div>
         ) : (
         <div onClick={() => setOpen(!open)} style={{ border: "1.5px solid " + (open ? eBLUE : eLINE), borderRadius: 10, padding: "12px 14px", minHeight: 46, boxSizing: "border-box", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, background: "var(--card)" }}>
-          <span style={{ flex: 1, minWidth: 0, color: selected.length ? eMID : eMUT, fontSize: 15, fontWeight: selected.length ? 700 : 400, fontFamily: "var(--sans)" }}>{selected.length ? selected.length + " selected" : placeholder}</span>
+          <span style={{ flex: 1, minWidth: 0, color: selected.length ? eMID : eMUT, fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)" }}>{selected.length ? selected.length + " selected" : placeholder}</span>
           <span style={{ color: eMUT, display: "flex", flexShrink: 0 }}><I.chevD size={15} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} /></span>
         </div>
         )}
@@ -288,7 +288,7 @@ function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
                 {matches.map((opt) => (
                   <div key={opt} onClick={() => add(opt)}
                     onMouseDown={(e) => e.preventDefault()}
-                    style={{ ...rowStyle, cursor: "pointer", color: eINK, fontWeight: 700 }}
+                    style={{ ...rowStyle, cursor: "pointer", color: eINK, fontWeight: 400 }}
                     onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 6%, transparent)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}>
                     {opt}
@@ -344,7 +344,7 @@ function IdpStep({ n, label, status, note, noteKind, last, stepRef }) {
         {!last && <div style={{ flex: 1, width: 2, background: eLINE, marginTop: 2, minHeight: 10 }} />}
       </div>
       <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 2 : 16 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: status === "pending" ? eMUT : status === "error" ? eDANGER : eMID, marginTop: 3 }}>Question {n} · {label}</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400, color: status === "pending" ? eMUT : status === "error" ? eDANGER : eMID, marginTop: 3 }}>Question {n} · {label}</div>
         {note && <div style={{ marginTop: 6, background: nb.bg, border: "1px solid " + nb.bd, borderRadius: 10, padding: "8px 11px", fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{note}</div>}
       </div>
     </div>
@@ -513,7 +513,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
             <div key={o.value} onClick={() => setVal(o.value)} style={{ padding: "14px 16px", borderRadius: 12, border: "1.5px solid " + (sel ? eBLUE : eLINE), background: sel ? "color-mix(in srgb, var(--accent) 5%, transparent)" : "#fff", cursor: "pointer", display: "flex", alignItems: "center", gap: 13, transition: "border-color .15s, background .15s" }}>
               <span style={{ width: 38, height: 38, borderRadius: "50%", background: sel ? eBLUE : "rgba(0,15,71,.05)", color: sel ? "#fff" : eMID, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={18} /></span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{o.label}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{o.label}</div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 2 }}>{o.desc}</div>
               </div>
               <span style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid " + (sel ? eBLUE : "rgba(0,15,71,.2)"), background: sel ? eBLUE : "#fff", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>{sel && <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--card)" }} />}</span>
@@ -550,13 +550,13 @@ function IdpWizard({ initial, onBack, onFinish }) {
           {val ? (
             <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", borderRadius: 10, background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE }}>
               <span style={{ color: eBLUE, display: "flex" }}><I.fileText size={17} /></span>
-              <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{val}</span>
+              <span style={{ flex: 1, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{val}</span>
               <button onClick={() => { setVal(null); setUploadStatus(null); setError(null); }} aria-label="Remove" style={{ background: "none", border: "none", color: eMUT, cursor: "pointer", display: "flex" }}><I.plus size={16} style={{ transform: "rotate(45deg)" }} /></button>
             </div>
           ) : (
             <button onClick={doUpload} style={{ border: "1.5px dashed var(--line)", borderRadius: 12, padding: "30px 20px", textAlign: "center", cursor: "pointer", background: "rgba(0,15,71,.02)", width: "100%" }}>
               <span style={{ color: eBLUE, display: "flex", justifyContent: "center", marginBottom: 8 }}><I.upload size={24} /></span>
-              <div style={{ color: eMID, fontWeight: 700, fontSize: 15, fontFamily: "var(--sans)" }}>Click to upload a document</div>
+              <div style={{ color: eMID, fontWeight: 400, fontSize: 15, fontFamily: "var(--sans)" }}>Click to upload a document</div>
               <div style={{ color: eMUT, fontSize: 15, fontFamily: "var(--sans)", marginTop: 4 }}>PDF, DOC, DOCX up to 10MB</div>
             </button>
           )}
@@ -646,7 +646,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
               <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 12, background: "color-mix(in srgb, var(--danger) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--danger) 30%, transparent)", borderRadius: 12, padding: "12px 14px" }}>
                 <span style={{ color: eDANGER, display: "flex", flexShrink: 0, marginTop: 1 }}><I.alertCircle size={17} /></span>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>
-                  <span style={{ fontWeight: 700, color: eDANGER }}>{error.kind === "doc" ? "This isn't a relevant document." : error.kind === "offtopic" ? "This answer doesn't match the question." : error.kind === "nonsense" ? "That doesn't look like a valid answer." : "Your answer needs a little more."}</span> {error.guide} <span style={{ color: eMUT }}>You can't continue until this is resolved.</span>
+                  <span style={{ fontWeight: 400, color: eDANGER }}>{error.kind === "doc" ? "This isn't a relevant document." : error.kind === "offtopic" ? "This answer doesn't match the question." : error.kind === "nonsense" ? "That doesn't look like a valid answer." : "Your answer needs a little more."}</span> {error.guide} <span style={{ color: eMUT }}>You can't continue until this is resolved.</span>
                 </div>
               </div>
             )}
@@ -669,10 +669,10 @@ function IdpWizard({ initial, onBack, onFinish }) {
                   <circle cx="32" cy="32" r={rC} fill="none" stroke="rgba(0,15,71,.09)" strokeWidth="6" />
                   <circle cx="32" cy="32" r={rC} fill="none" stroke={error ? eDANGER : eBLUE} strokeWidth="6" strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={circ * (1 - qi / total)} transform="rotate(-90 32 32)" style={{ transition: "stroke-dashoffset .4s" }} />
                 </svg>
-                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{qi}/{total}</div>
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{qi}/{total}</div>
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{qi} of {total} captured</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{qi} of {total} captured</div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, lineHeight: 1.45, marginTop: 3 }}>{error ? "One answer needs a quick fix." : qi === 0 ? "Answer to start building your profile." : qi === total ? "All done — great work!" : "Nice progress — keep going."}</div>
               </div>
             </div>
@@ -697,7 +697,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
                     <span style={{ marginTop: 1, flexShrink: 0, width: 20, height: 20, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: isErr ? eDANGER : done ? eSUCCESS : isCur ? eBLUE : "rgba(0,15,71,.10)", color: (done || isCur || isErr) ? "#fff" : eMUT, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>{isErr ? "!" : done ? <I.check size={12} /> : (i + 1)}</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: (isCur || done) ? eMID : eMUT }}>{qq.short}</span>
+                        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: (isCur || done) ? eMID : eMUT }}>{qq.short}</span>
                         {revised[i] && <span title="This answer was revised" style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, color: eMUT, background: "rgba(0,15,71,.06)", borderRadius: 5, padding: "1px 6px" }}>Revised</span>}
                       </div>
                       {isErr ? <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eDANGER, lineHeight: 1.45, marginTop: 3 }}>{error.reason}</div>
@@ -813,8 +813,8 @@ function IdpWizard({ initial, onBack, onFinish }) {
     <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 10, background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, maxWidth: 380 }}>
       <span style={{ width: 34, height: 40, borderRadius: 5, background: "#E4453A", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".04em" }}>PDF</span>
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{name}</div>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eSUCCESS, fontWeight: 700 }}>Analysed{size ? " · " + size : ""}</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{name}</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eSUCCESS, fontWeight: 400 }}>Analysed{size ? " · " + size : ""}</div>
       </div>
       {onRemove && (
         <button onClick={onRemove} title="Remove document" style={{ background: "none", border: "none", cursor: "pointer", color: eMUT, display: "flex", padding: 3, flexShrink: 0 }}>
@@ -834,7 +834,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
       <div style={{ color: eMID, display: "flex", justifyContent: "center", marginBottom: 10 }}>
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.5 1.5A3.75 3.75 0 0 1 17.5 18" /><path d="M12 21v-8" /><path d="M9 15l3-3 3 3" /></svg>
       </div>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>Click or drop file here</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>Click or drop file here</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, marginTop: 4 }}>Supported file type: PDF documents up to 5MB</div>
     </div>
   );
@@ -1052,7 +1052,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 14, background: "color-mix(in srgb, var(--danger) 7%, transparent)", border: "1px solid color-mix(in srgb, var(--danger) 30%, transparent)", borderRadius: 12, padding: "12px 14px" }}>
             <span style={{ color: eDANGER, display: "flex", flexShrink: 0, marginTop: 1 }}><I.alertCircle size={17} /></span>
             <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>
-              <span style={{ fontWeight: 700, color: eDANGER }}>{error.kind === "doc" ? "This isn't a relevant document." : error.kind === "offtopic" ? "This answer doesn't match the question." : error.kind === "nonsense" ? "That doesn't look like a valid answer." : "Your answer needs a little more."}</span> {error.guide} <span style={{ color: eMUT }}>You can't continue until this is resolved.</span>
+              <span style={{ fontWeight: 400, color: eDANGER }}>{error.kind === "doc" ? "This isn't a relevant document." : error.kind === "offtopic" ? "This answer doesn't match the question." : error.kind === "nonsense" ? "That doesn't look like a valid answer." : "Your answer needs a little more."}</span> {error.guide} <span style={{ color: eMUT }}>You can't continue until this is resolved.</span>
             </div>
           </div>
         )}
@@ -1393,7 +1393,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
                   {files.map((f, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 9, background: "rgba(20,133,61,.08)", border: "1px solid rgba(20,133,61,.2)" }}>
                       <span style={{ color: eSUCCESS, display: "flex" }}><I.fileText size={15} /></span>
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eSUCCESS }}>{f}</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eSUCCESS }}>{f}</span>
                       <span style={{ color: eSUCCESS, display: "flex", marginLeft: "auto" }}><I.check size={15} /></span>
                     </div>
                   ))}
@@ -1418,7 +1418,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
           <div style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: 12, borderBottom: "1px solid " + eLINE }}>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.spark size={17} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>AI notes</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>AI notes</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{noteEntries.length} captured from your answers</div>
             </div>
           </div>
@@ -1559,7 +1559,7 @@ function EdIdpFlow({ onExit, onDone, initialStep, onStep }) {
             <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 10, background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, maxWidth: 360 }}>
               <span style={{ width: 34, height: 40, borderRadius: 5, background: "#E4453A", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700, letterSpacing: ".04em" }}>PDF</span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{uploadedFile}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{uploadedFile}</div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eSUCCESS, fontWeight: 700 }}>Analysed</div>
               </div>
             </div>
@@ -1696,11 +1696,11 @@ function EdPlanView({ onBack, onRestart }) {
                             <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, letterSpacing: 0.2, color: m.color, background: m.bg, padding: "3px 9px", borderRadius: 5 }}>{m.label}</span>
                             {t.provider && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{t.provider} · {t.duration}</span>}
                           </div>
-                          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, textDecoration: isDone ? "line-through" : "none" }}>{t.title}</div>
+                          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, textDecoration: isDone ? "line-through" : "none" }}>{t.title}</div>
                           <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.55, margin: "4px 0 8px" }}>{t.desc}</p>
                           <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}><span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 5 }}><I.cal size={13} /> {t.start} – {t.end}</span></div>
                           <div style={{ background: "rgba(20,133,61,.06)", borderRadius: 9, padding: "9px 12px", marginBottom: 7 }}>
-                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eSUCCESS }}>Success looks like </span>
+                            <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eSUCCESS }}>Success looks like </span>
                             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{t.success}</span>
                           </div>
                           <div style={{ background: "color-mix(in srgb, var(--accent) 5%, transparent)", borderRadius: 9, padding: "9px 12px", marginBottom: 10, display: "flex", gap: 8 }}>
@@ -1727,7 +1727,7 @@ function EdPlanView({ onBack, onRestart }) {
         <EdBtn onClick={onRestart}>Regenerate plan</EdBtn>
         <div style={{ flex: 1 }} />
         {status === "draft" && <EdBtn primary onClick={() => setStatus("under-review")}><I.send size={15} /> Submit for approval</EdBtn>}
-        {status === "under-review" && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eWARN, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 7 }}><I.clock size={16} /> Sent to Sarah Chen for review</span>}
+        {status === "under-review" && <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eWARN, fontWeight: 400, display: "inline-flex", alignItems: "center", gap: 7 }}><I.clock size={16} /> Sent to Sarah Chen for review</span>}
       </div>
     </div>
   );
@@ -1837,11 +1837,11 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
           {watched ?
           <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(20,133,61,.92)", padding: "9px 18px", borderRadius: 22 }}>
-              <span style={{ color: "#fff", display: "flex" }}><I.check size={17} /></span><span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Video watched</span>
+              <span style={{ color: "#fff", display: "flex" }}><I.check size={17} /></span><span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}>Video watched</span>
             </div> :
           <React.Fragment>
               <div style={{ width: 60, height: 60, borderRadius: "50%", background: eSKY, color: "#0B1220", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 28px rgba(0,0,0,.3)" }}><I.play size={24} /></div>
-              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700 }}>Watch introduction (2 min)</span>
+              <span style={{ color: "#fff", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}>Watch introduction (2 min)</span>
             </React.Fragment>
           }
         </div>
@@ -1856,14 +1856,14 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
           return (
             <div key={i} style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 14, padding: 16 }}>
               <span style={{ color: eBLUE, display: "flex", marginBottom: 8 }}><Ic size={20} /></span>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{it.l}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 4 }}>{it.l}</div>
               <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5 }}>{it.d}</div>
             </div>
           );
         })}
       </div>
       <div style={{ background: eCARD, border: "1px solid " + eLINE, borderRadius: 14, padding: 18, marginBottom: 28 }}>
-        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 12 }}>What to expect</div>
+        <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 12 }}>What to expect</div>
         {["Review your program report from your assessment", "Answer a few questions about your goals and preferences", "Optionally upload manager feedback or self-assessments", "Get an AI-generated plan tailored to you"].map((t, i) => (
           <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < 3 ? 10 : 0 }}>
             <div className="serif" style={{ width: 22, height: 22, borderRadius: 7, background: "color-mix(in srgb, var(--accent) 8%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15 }}>{i + 1}</div>
