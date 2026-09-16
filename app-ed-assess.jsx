@@ -327,7 +327,15 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         const CONTACTS = q.contacts || ["Rupert Smith", "Amelia Chen", "David Okafor", "Priya Nair", "Marcus Bell", "Sofia Rossi"];
         const words = (v.body || "").split(/\s+/).filter(Boolean).length;
         const labelStyle = { display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, margin: "0 0 7px" };
-        const linkBtn = { background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 0 };
+        const linkBtn = { background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: "2px 8px", borderRadius: 6 };
+        const linkOn = { background: "color-mix(in srgb, var(--accent) 10%, transparent)", fontWeight: 600 };
+        // The Cc / Bcc links stay put permanently and toggle their field: add on click, remove on click again
+        // (removing also clears any recipient chosen in that field).
+        const toggleField = (k) => {
+          const shownKey = k + "Shown";
+          if (v[shownKey]) { onChange({ ...v, [shownKey]: false, [k]: "" }); if (emailField === k) setEmailField(null); }
+          else set(shownKey, true);
+        };
         const fieldShell = (focused) => ({ display: "flex", alignItems: "center", gap: 8, padding: "0 14px", height: 46, border: "1px solid " + (focused ? eBLUE : "var(--field-line)"), borderRadius: 12, background: eCARD, boxSizing: "border-box" });
         const bareInput = { flex: 1, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK, height: "100%" };
         // one searchable recipient field (To / Cc / Bcc)
@@ -339,10 +347,10 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             <div style={{ marginBottom: 16 }}>
               <div style={labelStyle}>
                 <span>{label}</span>
-                {withToggle && (!v.ccShown || !v.bccShown) &&
-                  <span style={{ display: "inline-flex", gap: 16 }}>
-                    {!v.ccShown && <button onClick={() => set("ccShown", true)} style={linkBtn}>Cc</button>}
-                    {!v.bccShown && <button onClick={() => set("bccShown", true)} style={linkBtn}>Bcc</button>}
+                {withToggle &&
+                  <span style={{ display: "inline-flex", gap: 8 }}>
+                    <button onClick={() => toggleField("cc")} style={{ ...linkBtn, ...(v.ccShown ? linkOn : null) }}>Cc</button>
+                    <button onClick={() => toggleField("bcc")} style={{ ...linkBtn, ...(v.bccShown ? linkOn : null) }}>Bcc</button>
                   </span>}
               </div>
               <div style={{ position: "relative" }}>
