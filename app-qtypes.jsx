@@ -18,12 +18,14 @@
   // LH.openAssessQuestions; `kind:"soon"/"static-*"` renders a placeholder.
   const CATS = [
     { cat: "Static Content", items: [
-      // A type with named sub-types → rendered as sub-tabs above the preview
-      // (mirrors the tool's "Change Question Type" answer picker: Text / Graphic / File).
+      // A type with named sub-types → every kind is shown stacked one below another
+      // (like the Matrix Table family), not as tabs.
       { id: "descriptive", label: "Descriptive Text", variants: [
-        { id: "text",    label: "Text",    kind: "static-text" },
-        { id: "graphic", label: "Graphic", kind: "static-graphic" },
-        { id: "file",    label: "File",    kind: "static-file" },
+        { id: "text",     label: "Text",     kind: "static-text" },
+        { id: "graphic",  label: "Graphic",  kind: "static-graphic" },
+        { id: "file",     label: "File",     kind: "static-file" },
+        { id: "question", label: "Question", kind: "static-question" },
+        { id: "link",     label: "Link",     kind: "static-link" },
       ]},
       { id: "graphic",     label: "Graphic",          kind: "static-graphic" },
     ]},
@@ -124,6 +126,27 @@
         </div>
       </div>
     );
+    if (kind === "static-question") {
+      const body = { fontFamily: "var(--sans)", fontSize: 15, color: INK, lineHeight: 1.65, margin: "0 0 14px" };
+      return (
+        <div style={cardWrap}>
+          <p style={body}>A descriptive block can also pose a question for the candidate to reflect on before continuing. It collects no answer — it simply frames what comes next.</p>
+          <p className="serif" style={{ fontSize: 18, color: MID, lineHeight: 1.3, margin: 0 }}>As you work through this section, what do you want to be true about how you lead a year from now?</p>
+        </div>
+      );
+    }
+    if (kind === "static-link") {
+      const body = { fontFamily: "var(--sans)", fontSize: 15, color: INK, lineHeight: 1.65, margin: "0 0 14px" };
+      return (
+        <div style={cardWrap}>
+          <p style={body}>A descriptive block can include a link to more information. Selecting it opens that page in a new tab, rather than navigating away from the assessment.</p>
+          <a href="https://marsh-lighthouse.github.io/lighthouse-prototype/Lighthouse.html" target="_blank" rel="noopener noreferrer"
+            style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: "var(--accent)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+            Read the full assessment guide <span aria-hidden="true">&#8599;</span>
+          </a>
+        </div>
+      );
+    }
     return null;
   };
 
@@ -162,8 +185,17 @@
     const cardWrap = { background: "var(--card, #fff)", border: "1px solid " + LINE, borderRadius: 16, padding: "28px 30px" };
 
     let preview;
-    if (variants) {                                   // a type with named sub-types (Descriptive Text)
-      preview = renderStatic(activeV.kind, cardWrap);
+    if (variants) {                                   // Descriptive Text — every kind stacked one below another
+      preview = (
+        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          {variants.map((v) => (
+            <div key={v.id}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: ".2px", color: MUT, margin: "0 0 8px" }}>{v.label}</div>
+              {renderStatic(v.kind, cardWrap)}
+            </div>
+          ))}
+        </div>
+      );
     } else if (qs.length) {                           // one or more live sample questions of this type — stacked
       preview = (
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -180,20 +212,11 @@
       );
     }
 
-    // Sub-tabs (only for a type with named sub-types) — mirrors the tool's answer-type picker.
-    const subtabs = variants ? (
-      <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
-        {variants.map((v) => {
-          const on = v.id === activeV.id;
-          return (
-            <button key={v.id} onClick={() => select(sel.id, v.id)} style={{ padding: "7px 15px", borderRadius: "var(--lh-radius, 2px)", border: "1px solid " + (on ? "var(--accent)" : LINE), background: on ? "color-mix(in srgb, var(--accent) 10%, var(--card))" : "var(--card, #fff)", color: on ? MID : INK, fontFamily: "var(--sans)", fontSize: 14, fontWeight: on ? 600 : 500, cursor: "pointer" }}>{v.label}</button>
-          );
-        })}
-      </div>
-    ) : null;
+    // Descriptive Text is now stacked (no tabs).
+    const subtabs = null;
 
     const desc = variants
-      ? ("Sub-types of this content block — " + variants.map((v) => v.label).join(" · ") + ". Pick one to preview.")
+      ? ("Every kind of descriptive content block, shown one below another — " + variants.map((v) => v.label).join(" · ") + ".")
       : (qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? (sel.also ? " Showing all " + qs.length + " examples in the matrix-table family." : " Showing all " + qs.length + " variants of this type.") : "")) : "Placeholder — full preview coming with the simulator.");
 
     return (
