@@ -941,7 +941,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
           <div className="ed-idp-g3head" style={{ display: "flex", alignItems: "center", gap: 12, padding: "0 0 16px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
             <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>Your Development Guide</h1>
             <button onClick={g3Reset} title="Start the conversation again"
-              style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: 2 }}>Reset Chat</button>
+              style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "var(--danger)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 2 }}>Reset Chat</button>
           </div>
 
           {/* transcript */}
@@ -983,7 +983,7 @@ function IdpWizard({ initial, onBack, onFinish }) {
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
                 {chips.map((c) => (
                   <button key={c} onClick={() => g3Send(c)}
-                    style={{ background: "var(--card)", border: "1px solid color-mix(in srgb, var(--accent) 45%, transparent)", color: eBLUE, borderRadius: 6, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>{c}</button>
+                    style={{ background: "var(--card)", border: "1px solid color-mix(in srgb, var(--accent) 45%, transparent)", color: eBLUE, borderRadius: 6, padding: "8px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, cursor: "pointer" }}>{c}</button>
                 ))}
               </div>
             )}
