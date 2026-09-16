@@ -265,8 +265,9 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
       {lbl && <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: eMUT, letterSpacing: 0.2, marginBottom: 10 }}>{lbl}</div>}
 
       {q.type === "mcq" && (() => {
-        // `layout: "grid"` lays the options out horizontally, two per row (single column on mobile/iPad).
-        const grid = q.layout === "grid" && !compact;
+        // `layout: "grid"` lays the options out horizontally, two per row. iPad/desktop keep two
+        // columns; only a phone (mobile) collapses to a single column.
+        const grid = q.layout === "grid" && document.documentElement.getAttribute("data-device") !== "mobile";
         return (
           <div style={grid ? { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } : { display: "flex", flexDirection: "column", gap: 10 }}>
             {q.options.map((opt, oi) => {
