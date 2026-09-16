@@ -2132,7 +2132,7 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel, embed, onCapt
       {(vstate === "denied" || vstate === "unsupported") && (
         <div style={{ ...scCard, padding: "48px 24px", textAlign: "center" }}>
           <span style={{ color: eDANGER, display: "inline-flex" }}><I.alertCircle size={40} /></span>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 600, maxWidth: 480, margin: "14px auto 0", lineHeight: 1.5 }}>{vstate === "denied" ? "Microphone access was blocked. Allow access in your browser's site settings, then try again." : "Microphone recording isn't available in this browser. Open the check on the deployed site in Chrome, Edge, Safari or Firefox."}</p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMID, fontWeight: 400, maxWidth: 480, margin: "14px auto 0", lineHeight: 1.5 }}>{vstate === "denied" ? "Microphone access was blocked. Allow access in your browser's site settings, then try again." : "Microphone recording isn't available in this browser. Open the check on the deployed site in Chrome, Edge, Safari or Firefox."}</p>
           <div style={{ marginTop: 18, display: "flex", justifyContent: "center", gap: 12 }}>
             {vstate === "denied" && <EdBtn onClick={() => { setVstate("loading"); (async () => { try { await acquire(); enumMics(); setVstate("ready"); } catch (e) { setVstate("denied"); } })(); }}><I.sync size={15} /> Try again</EdBtn>}
             {!embed && <EdBtn primary onClick={() => { setResult("fail"); onNext(); }}>Continue <I.arrow size={16} /></EdBtn>}
@@ -2166,7 +2166,7 @@ function ScAudioLive({ setResult, onBack, onNext, vertical, panel, embed, onCapt
             <div style={{ marginTop: 14, border: "1px solid " + eLINE, borderRadius: 12, overflow: "hidden", background: "#fff" }}>
               {[["Access"], ["Uploading"]].map((r, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 16px", borderBottom: i === 0 ? "1px solid " + eLINE : "none" }}>
-                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{r[0]}</span>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{r[0]}</span>
                   <span style={{ width: 22, height: 22, borderRadius: "50%", background: eSUCCESS, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I.check size={13} /></span>
                 </div>
               ))}

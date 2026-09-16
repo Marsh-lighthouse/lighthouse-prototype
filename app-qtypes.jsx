@@ -123,7 +123,7 @@
         <div style={{ display: "inline-flex", alignItems: "center", gap: 12, border: "1px solid " + LINE, borderRadius: "var(--lh-radius, 2px)", padding: "12px 16px", background: "var(--card,#fff)" }}>
           <span style={{ width: 34, height: 34, borderRadius: "var(--lh-radius, 2px)", background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700 }}>PDF</span>
           <div>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500, color: INK }}>Assessment_Brief.pdf</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: INK }}>Assessment_Brief.pdf</div>
             <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: MUT }}>A downloadable file shown to the candidate.</div>
           </div>
         </div>
@@ -193,7 +193,7 @@
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           {variants.map((v) => (
             <div key={v.id}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: ".2px", color: MUT, margin: "0 0 8px" }}>{v.label}</div>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, letterSpacing: ".2px", color: MUT, margin: "0 0 8px" }}>{v.label}</div>
               {renderStatic(v.kind, cardWrap)}
             </div>
           ))}
@@ -227,14 +227,14 @@
         {/* ── Category side menu ── */}
         <aside style={{ width: 300, minWidth: 300, flexShrink: 0, background: "var(--card, #fff)", borderRight: "1px solid " + LINE, height: "100vh", overflowY: "auto", position: "sticky", top: 0, boxSizing: "border-box" }}>
           <div style={{ padding: "22px 22px 12px" }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: ".3px", color: MUT, marginBottom: 4 }}>Assessment</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, letterSpacing: ".3px", color: MUT, marginBottom: 4 }}>Assessment</div>
             <h1 className="serif" style={{ fontSize: 21, color: MID, margin: 0 }}>Question Types</h1>
             <p style={{ fontFamily: "var(--sans)", fontSize: 13, color: MUT, margin: "6px 0 0", lineHeight: 1.4 }}>Live previews — the same components the assessment uses.</p>
           </div>
           <nav style={{ padding: "4px 12px 28px" }}>
             {CATS.map((c) => (
               <div key={c.cat} style={{ marginBottom: 8 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, color: MUT, padding: "10px 10px 6px" }}>{c.cat}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: MUT, padding: "10px 10px 6px" }}>{c.cat}</div>
                 {c.items.map((it) => {
                   const active = it.id === sel.id;
                   return (
@@ -252,7 +252,7 @@
         {/* ── Live preview ── */}
         <main style={{ flex: 1, minWidth: 0, overflowY: "auto", padding: "40px 0 96px" }}>
           <div style={{ maxWidth: previewMax, margin: "0 auto", padding: device === "mobile" ? "0 16px" : "0 28px", boxSizing: "border-box", transition: "max-width .2s ease" }}>
-            <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: ".3px", color: MUT, marginBottom: 6 }}>{catOf(sel.id)}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, letterSpacing: ".3px", color: MUT, marginBottom: 6 }}>{catOf(sel.id)}</div>
             <h2 className="serif" style={{ fontSize: 28, color: MID, margin: "0 0 6px" }}>{sel.label}</h2>
             <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: MUT, margin: "0 0 22px", lineHeight: 1.5 }}>{desc}</p>
             {subtabs}
