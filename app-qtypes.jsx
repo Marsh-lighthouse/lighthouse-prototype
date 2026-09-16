@@ -43,6 +43,7 @@
       { id: "stargrid",   label: "Star Rating",         qid: "oq_stargrid" },
       { id: "imgchoice",  label: "Image Choice",        qid: "oq_img" },
       { id: "imgmulti",   label: "Image Multi-select",  qid: "oq_imgmulti" },
+      { id: "dropdown",   label: "Dropdown",            qid: "oq_dropdown" },
     ]},
     { cat: "Speciality Questions", items: [
       { id: "constantsum",   label: "Constant Sum",             qid: "oq_csum" },
@@ -57,6 +58,7 @@
       { id: "factor",        label: "Factor Selection",         qid: "oq_factor" },
       { id: "fillgauge",     label: "Fill Gauge",               qid: "oq_fillgauge" },
       { id: "shapedraw",     label: "Shape Annotation",         qid: "oq_shapedraw" },
+      { id: "email",         label: "Email",                    qid: "oq_email" },
     ]},
     { cat: "Advanced", items: [
       { id: "timing",  label: "Timing",               kind: "soon" },

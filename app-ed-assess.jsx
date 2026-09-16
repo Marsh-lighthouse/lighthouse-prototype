@@ -11,7 +11,7 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
-const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation" }[t] || "Question");
+const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 
 // validate one question's answer for the current value; returns an error string or null
@@ -224,6 +224,16 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [factorOpen]);
+  // Single-select Dropdown question — same outside-click/Escape close behaviour as the factor field.
+  const [dropOpen, setDropOpen] = oaUseState(false);
+  const dropRef = oaUseRef(null);
+  oaUseEffect(() => {
+    if (!dropOpen) return;
+    const onDoc = (e) => { if (dropRef.current && !dropRef.current.contains(e.target)) setDropOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setDropOpen(false); };
+    document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [dropOpen]);
   // Selected item for the touch (tap-to-place) variant of the pick-&-group question.
   const [pickSel, setPickSel] = oaUseState(null);
   // compact = mobile/iPad device-preview → use the stacked-card layouts; desktop keeps the original grids
@@ -266,6 +276,65 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         </div>
       </div>
       }
+
+      {/* DROPDOWN — single select, MDS text-field border (--field-line) */}
+      {q.type === "dropdown" && (() => {
+        const chosen = typeof value === "number" ? q.options[value] : null;
+        return (
+          <div ref={dropRef} style={{ position: "relative", maxWidth: 440 }}>
+            <div onClick={() => setDropOpen((v) => !v)} role="button" tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setDropOpen((v) => !v); } }}
+              style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "12px 14px", border: "1px solid " + (dropOpen ? eBLUE : "var(--field-line)"), borderRadius: 12, background: eCARD, minHeight: 46, cursor: "pointer" }}>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: chosen ? eINK : eMUT }}>{chosen || q.placeholder || "Select an option"}</span>
+              <span style={{ color: eMUT, display: "flex", transform: dropOpen ? "rotate(180deg)" : "", transition: "transform .15s", flexShrink: 0 }}><I.chevD size={16} /></span>
+            </div>
+            {dropOpen &&
+            <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, zIndex: 20, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 32px rgba(0,15,71,.14)", padding: 6, maxHeight: 260, overflowY: "auto" }}>
+              {q.options.map((opt, oi) => {
+                const sel = value === oi;
+                return (
+                  <button key={oi} onClick={() => { onChange(oi); setDropOpen(false); }}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 8, border: "none", background: sel ? "color-mix(in srgb, var(--accent) 6%, transparent)" : "transparent", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 15, color: eINK, fontWeight: sel ? 500 : 400 }}
+                    onMouseEnter={(e) => { if (!sel) e.currentTarget.style.background = "color-mix(in srgb, var(--accent) 5%, transparent)"; }} onMouseLeave={(e) => { if (!sel) e.currentTarget.style.background = "transparent"; }}>
+                    {opt}{sel && <span style={{ color: eBLUE, display: "flex", flexShrink: 0 }}><I.check size={15} /></span>}
+                  </button>);
+              })}
+            </div>
+            }
+          </div>);
+      })()}
+
+      {/* EMAIL COMPOSITION — To / Cc / Bcc header, Subject, Message body */}
+      {q.type === "email" && (() => {
+        const v = value && typeof value === "object" ? value : {};
+        const set = (k, val) => onChange({ ...v, [k]: val });
+        const showCc = v.ccOpen || v.cc || v.bcc;
+        const row = { display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderBottom: "1px solid " + eLINE };
+        const rowLbl = { fontFamily: "var(--sans)", fontSize: 15, color: eMUT, width: 44, flexShrink: 0 };
+        const rowInput = { flex: 1, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 15, color: eINK };
+        const words = (v.body || "").split(/\s+/).filter(Boolean).length;
+        return (
+          <div style={{ border: "1px solid var(--field-line)", borderRadius: 12, background: eCARD, overflow: "hidden" }}>
+            <div style={row}>
+              <span style={rowLbl}>To</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 7%, transparent)", color: eINK, border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", borderRadius: 7, padding: "3px 9px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 500 }}>{q.to || "Recipient"}</span>
+              {!showCc && <button onClick={() => set("ccOpen", true)} style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400 }}>Cc / Bcc</button>}
+            </div>
+            {showCc && <React.Fragment>
+              <div style={row}><span style={rowLbl}>Cc</span><input value={v.cc || ""} onChange={(e) => set("cc", e.target.value)} placeholder="name@company.com" style={rowInput} /></div>
+              <div style={row}><span style={rowLbl}>Bcc</span><input value={v.bcc || ""} onChange={(e) => set("bcc", e.target.value)} placeholder="name@company.com" style={rowInput} /></div>
+            </React.Fragment>}
+            <div style={row}>
+              <span style={rowLbl}>Subject</span>
+              <input value={v.subject || ""} onChange={(e) => set("subject", e.target.value)} placeholder="Add a subject" style={rowInput} />
+            </div>
+            <textarea value={v.body || ""} onChange={(e) => set("body", e.target.value)} placeholder={q.placeholder || "Write your message here…"}
+              style={{ width: "100%", minHeight: 160, padding: "14px 16px", border: "none", outline: "none", background: "transparent", color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, resize: "vertical", boxSizing: "border-box", display: "block" }} />
+            <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 16px 12px" }}>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{words}{q.maxWords ? " / " + q.maxWords : ""} words</span>
+            </div>
+          </div>);
+      })()}
 
       {q.type === "rank" && (() => {
         const ranked = items; // ordered subset the user has placed
