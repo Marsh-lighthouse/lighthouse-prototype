@@ -51,7 +51,8 @@
       { id: "sbs",        label: "Side by Side",        qid: "oq_sbs_top" },
     ]},
     { cat: "Speciality Questions", items: [
-      { id: "constantsum",   label: "Constant Sum",             qid: "oq_csum" },
+      // Constant Sum also shows the Slider Grid and Bar Rating examples (they stay under Slider too).
+      { id: "constantsum",   label: "Constant Sum",             qid: "oq_csum", also: ["slidergrid", "bargrid"] },
       { id: "pickgrouprank", label: "Pick, Group and Rank",     qid: "oq_pgr" },
       { id: "hotspot",       label: "Hot Spot",                 kind: "soon" },
       { id: "graphicslider", label: "Graphic Slider",           qid: "oq_gslider" },
