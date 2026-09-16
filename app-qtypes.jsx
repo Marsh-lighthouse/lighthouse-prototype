@@ -30,14 +30,14 @@
     { cat: "Standard Questions", items: [
       // Screenshot order first…
       { id: "mcq",        label: "Multiple Choice",     qid: "oq1" },
-      { id: "matrix",     label: "Matrix Table",        qid: "oq4" },
+      // Matrix Table also carries Check Grid, Numeric Grid and Side by Side — they are all part
+      // of the matrix-table family, so they render stacked inside the Matrix Table view (and are
+      // no longer separate side-menu entries).
+      { id: "matrix",     label: "Matrix Table",        qid: "oq4", also: ["checkgrid", "numgrid", "sidebyside"] },
       { id: "text",       label: "Text Entry",          qid: "oq2" },
       { id: "slider",     label: "Slider",              qid: "oq_slider" },
       { id: "rank",       label: "Rank Order",          qid: "oq3" },
-      { id: "sidebyside", label: "Side by Side",        qid: "oq_sbs" },
       // …then the extra variants we already have built.
-      { id: "checkgrid",  label: "Check Grid",          qid: "oq_checkgrid" },
-      { id: "numgrid",    label: "Numeric Grid",        qid: "oq_numgrid" },
       { id: "slidergrid", label: "Slider Grid",         qid: "oq_slidergrid" },
       { id: "bargrid",    label: "Bar Rating",          qid: "oq_bargrid" },
       { id: "stargrid",   label: "Star Rating",         qid: "oq_stargrid" },
@@ -73,13 +73,19 @@
   // Every sample question of this item's type — so a type with multiple variants
   // (e.g. Matrix Table's 4-point and 7-point) stacks them all, and new questions
   // added to the assessment of that type appear here automatically.
-  const qsFor = (item) => { const b = qFor(item); if (!b) return []; return (LH.openAssessQuestions || []).filter((q) => q.type === b.type); };
+  // `item.also` folds other related types into this one's view (e.g. Matrix Table also shows
+  // Check Grid and Side by Side, which are part of the same matrix-table family).
+  const qsFor = (item) => { const b = qFor(item); if (!b) return []; const types = [b.type].concat(item.also || []); return (LH.openAssessQuestions || []).filter((q) => types.includes(q.type)); };
   const typeName = (q) => (q ? (typeof oaTypeLabel === "function" ? oaTypeLabel(q.type) : q.type) : "");
 
   // Hash format: #q=<type>[.<sub-variant>]  e.g. #q=matrix  or  #q=descriptive.file
+  // Types folded into another menu entry redirect to their host (they're no longer separate items).
+  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix" };
   const parseHash = () => {
     const m = (location.hash || "").match(/q=([a-z0-9_]+)(?:\.([a-z0-9_]+))?/i);
-    return { id: m && byId(m[1]) ? m[1] : "mcq", v: m && m[2] ? m[2] : null };
+    let id = m && m[1] ? (HASH_ALIAS[m[1]] || m[1]) : "mcq";
+    if (!byId(id)) id = "mcq";
+    return { id: id, v: m && m[2] ? m[2] : null };
   };
 
   // Static-content previews (Descriptive Text sub-types + the standalone Graphic).
@@ -188,7 +194,7 @@
 
     const desc = variants
       ? ("Sub-types of this content block — " + variants.map((v) => v.label).join(" · ") + ". Pick one to preview.")
-      : (qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? " Showing all " + qs.length + " variants of this type." : "")) : "Placeholder — full preview coming with the simulator.");
+      : (qs.length ? ("Interactive preview — rendered with the same component as the assessment, so any change is reflected in both." + (qs.length > 1 ? (sel.also ? " Showing all " + qs.length + " examples in the matrix-table family." : " Showing all " + qs.length + " variants of this type.") : "")) : "Placeholder — full preview coming with the simulator.");
 
     return (
       <div style={{ display: "flex", minHeight: "100vh", background: "var(--canvas, #F7F3EE)", fontFamily: "var(--sans)" }}>
