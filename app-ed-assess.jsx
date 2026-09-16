@@ -1560,7 +1560,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
             graphic = (
               <svg viewBox="0 0 200 200" width="220" height="220">
                 <circle cx="100" cy="100" r="95" fill={blue} />
-                <text x="100" y="100" fontFamily="var(--sans)" fontWeight="700" fontSize="120" fill="#fff" textAnchor="middle" dominantBaseline="central">
+                <text x="100" y="100" fontFamily="var(--sans)" fontWeight="400" fontSize="120" fill="#fff" textAnchor="middle" dominantBaseline="central">
                   {letter}{sign && <tspan fontSize="52" baselineShift="super">{sign}</tspan>}
                 </text>
               </svg>
