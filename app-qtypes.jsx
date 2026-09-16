@@ -54,14 +54,14 @@
       // Constant Sum also shows the Slider Grid and Bar Rating examples (they stay under Slider too).
       { id: "constantsum",   label: "Constant Sum",             qid: "oq_csum", also: ["slidergrid", "bargrid"] },
       { id: "pickgrouprank", label: "Pick, Group and Rank",     qid: "oq_pgr" },
-      { id: "graphicslider", label: "Graphic Slider",           qid: "oq_gslider" },
+      // Graphic Slider carries its graphic variants (thermometer/traffic light/smiley/grade) and Fill Gauge.
+      { id: "graphicslider", label: "Graphic Slider",           qid: "oq_gslider", also: ["fillgauge"] },
       { id: "gap",           label: "Gap Analysis",             qid: "oq_gap" },
       { id: "video",         label: "Video Response",           qid: "oq_video" },
       { id: "file",          label: "File Upload",              qid: "oq5" },
       { id: "audio",         label: "Audio Response",           qid: "oq6" },
       { id: "skillfeedback", label: "Campaign Factor Feedback", qid: "oq_skill" },
       { id: "factor",        label: "Factor Selection",         qid: "oq_factor" },
-      { id: "fillgauge",     label: "Fill Gauge",               qid: "oq_fillgauge" },
       // Hot Spot carries Shape Annotation (blank canvas + on-image variants); kept at the bottom.
       { id: "hotspot",       label: "Hot Spot",                 qid: "oq_shapedraw" },
     ]},
@@ -85,7 +85,7 @@
 
   // Hash format: #q=<type>[.<sub-variant>]  e.g. #q=matrix  or  #q=descriptive.file
   // Types folded into another menu entry redirect to their host (they're no longer separate items).
-  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix", bipolar: "matrix", dropdowngrid: "matrix", imgchoice: "mcq", imgmulti: "mcq", dropdown: "mcq", richtext: "text", form: "text", datetime: "text", chat: "text", email: "text", slidergrid: "slider", bargrid: "slider", stargrid: "slider", rankgrid: "rank", ranknum: "rank", ranklist: "rank", shapedraw: "hotspot" };
+  const HASH_ALIAS = { sidebyside: "matrix", checkgrid: "matrix", numgrid: "matrix", bipolar: "matrix", dropdowngrid: "matrix", imgchoice: "mcq", imgmulti: "mcq", dropdown: "mcq", richtext: "text", form: "text", datetime: "text", chat: "text", email: "text", slidergrid: "slider", bargrid: "slider", stargrid: "slider", rankgrid: "rank", ranknum: "rank", ranklist: "rank", shapedraw: "hotspot", fillgauge: "graphicslider" };
   const parseHash = () => {
     const m = (location.hash || "").match(/q=([a-z0-9_]+)(?:\.([a-z0-9_]+))?/i);
     let id = m && m[1] ? (HASH_ALIAS[m[1]] || m[1]) : "mcq";
