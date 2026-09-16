@@ -634,7 +634,7 @@ function plUsePushRoom(dep) {
   return room;
 }
 
-const plCLink = { display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, cursor: "pointer" };
+const plCLink = { display: "inline-flex", alignItems: "center", gap: 5, background: "none", border: "none", padding: 0, color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, cursor: "pointer" };
 const PlReplyIcon = ({ size = 13 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M9 14 4 9l5-5" /><path d="M4 9h11a5 5 0 0 1 5 5v3" /></svg>;
 
 // One threaded comment — avatar · name · time · text · Reply — with nested replies.
@@ -975,7 +975,7 @@ function PlUserInfo({ design }) {
   );
   const identity = (
     <div style={{ lineHeight: 1.35 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{u.first} {u.last}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{u.first} {u.last}</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: "var(--accent)" }}>{u.role}</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{email}</div>
     </div>
@@ -1690,7 +1690,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   );
 }
 
-const plLink = { display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: 0 };
+const plLink = { display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: 0 };
 
 // ── Custom two-month date-range picker (replaces the native date inputs) ──
 const PL_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];

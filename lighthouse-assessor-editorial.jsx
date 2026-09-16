@@ -874,7 +874,7 @@ function AssessorEditorial() {
                   const cCamp = campaigns.find(x=>x.candidateIds.includes(c.id));
                   return (
                   <tr key={c.id} className="rh" style={{cursor:"pointer",background:"#fff",borderBottom:i===rows.length-1?"none":`1px solid ${bd}`}} onClick={()=>{setEntryPath("participant"); setSubjectId(c.id); setRoute("candidate"); setCandidateTab("assessments");}}>
-                    <td style={{padding:"16px"}}><span className="link" style={{fontWeight:600,fontVariantNumeric:"tabular-nums"}}>{c.id}</span></td>
+                    <td style={{padding:"16px"}}><span className="link" style={{fontWeight:400,fontVariantNumeric:"tabular-nums"}}>{c.id}</span></td>
                     <td style={{padding:"16px 12px",maxWidth:0}}>
                       {cCamp ? (
                         <div style={{minWidth:0,overflow:"hidden"}}>
@@ -887,7 +887,7 @@ function AssessorEditorial() {
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
                         <div style={{width:32,height:32,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                         <div style={{minWidth:0}}>
-                          <div style={{fontWeight:400,color:tx}} className="elide">{c.name}</div>
+                          <div style={{fontWeight:700,color:tx}} className="elide">{c.name}</div>
                           <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
                         </div>
                       </div>
@@ -1065,7 +1065,7 @@ function AssessorEditorial() {
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
                         <div style={{width:32,height:32,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                         <div style={{minWidth:0}}>
-                          <div style={{fontWeight:400,color:tx}} className="elide">{c.name}</div>
+                          <div style={{fontWeight:700,color:tx}} className="elide">{c.name}</div>
                           <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
                         </div>
                       </div>
@@ -3075,7 +3075,7 @@ function AssessorEditorial() {
               <tbody>
                 {camps.map(c=>(
                   <tr key={c.id} className="rh" style={{cursor:"pointer"}} onClick={()=>openCampaign(c.id)}>
-                    <td style={acTd}><span className="link" style={{fontWeight:600,fontVariantNumeric:"tabular-nums"}}>{c.id}</span></td>
+                    <td style={acTd}><span className="link" style={{fontWeight:400,fontVariantNumeric:"tabular-nums"}}>{c.id}</span></td>
                     <td style={acTd}>{c.dt.split(" (")[0]} <span style={{color:tm}}>(GMT{c.dt.split("(GMT")[1]}</span></td>
                     <td style={acTd}>{c.slot}</td>
                     <td style={acTd}>{c.name}</td>
@@ -3098,7 +3098,7 @@ function AssessorEditorial() {
                   return (<React.Fragment key={p.id}>
                     <tr className="rh" style={{cursor:"pointer"}} onClick={()=>setExpanded(isOpen?null:p.id)}>
                       <td style={{...acTd,width:36,color:tm}}><span style={{display:"inline-flex",transform:isOpen?"rotate(90deg)":"none",transition:"transform .15s"}}><I.Chev s={14}/></span></td>
-                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10}}><Av name={p.name} color={p.color}/><div><div style={{fontWeight:400,color:navy}}>{p.name}</div><div style={{fontSize:14,color:tm}}>{p.email}</div></div></div></td>
+                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10}}><Av name={p.name} color={p.color}/><div><div style={{fontWeight:700,color:navy}}>{p.name}</div><div style={{fontSize:14,color:tm}}>{p.email}</div></div></div></td>
                       <td style={acTd}>{p.slot}</td>
                       <td style={acTd}>{p.campaign}</td>
                       <td style={acTd} onClick={e=>e.stopPropagation()}><AttToggle on={p.att}/></td>
@@ -3207,7 +3207,7 @@ function AssessorEditorial() {
               <tbody>{(()=>{const list=acSubjects.filter(s=>!acDetailQ||s.name.toLowerCase().includes(acDetailQ.toLowerCase())||s.id.toLowerCase().includes(acDetailQ.toLowerCase())||(s.activity||"").toLowerCase().includes(acDetailQ.toLowerCase())); return list.length===0 ? <tr><td colSpan={8} style={{padding:0}}><NoResults query={acDetailQ} label="subjects" onClear={()=>setAcDetailQ("")}/></td></tr> : list.map(s=>(
                 <tr key={s.id} className="rh" onClick={()=>showToast("Viewing subject")} style={{cursor:"pointer"}}>
                   <td style={acTd}><span className="link" style={{fontWeight:600,fontVariantNumeric:"tabular-nums"}}>{s.id}</span></td>
-                  <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10}}><Av name={s.name} color={s.color}/><div><div style={{fontWeight:400,color:navy}}>{s.name}</div><div style={{fontSize:14,color:tm}}>{s.email}</div></div></div></td>
+                  <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10}}><Av name={s.name} color={s.color}/><div><div style={{fontWeight:700,color:navy}}>{s.name}</div><div style={{fontSize:14,color:tm}}>{s.email}</div></div></div></td>
                   <td style={acTd}>{s.prework}</td>
                   <td style={acTd}>{s.activity}</td>
                   <td style={acTd}><AttToggle on={s.att}/></td>
@@ -3226,7 +3226,7 @@ function AssessorEditorial() {
               <tbody>{(()=>{const list=acActivities.filter(a=>!acDetailQ||a.subj.toLowerCase().includes(acDetailQ.toLowerCase())||a.id.toLowerCase().includes(acDetailQ.toLowerCase())||(a.activity||"").toLowerCase().includes(acDetailQ.toLowerCase())); return list.length===0 ? <tr><td colSpan={8} style={{padding:0}}><NoResults query={acDetailQ} label="activities" onClear={()=>setAcDetailQ("")}/></td></tr> : list.map(a=>(
                 <tr key={a.id} className="rh" onClick={()=>{setEntryPath("participant");setSubjectId(candidates[0].id);setCandidateTab("assessments");setRoute("candidate");}} style={{cursor:"pointer"}}>
                   <td style={acTd}><span className="link" style={{fontWeight:600,fontVariantNumeric:"tabular-nums"}}>{a.id}</span></td>
-                  <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:9}}><Av name={a.subj} color={a.color} s={26}/><div><div style={{fontWeight:400,color:navy,fontSize:14}}>{a.subj}</div><div style={{fontSize:14,color:tm}}>{a.email}</div></div></div></td>
+                  <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:9}}><Av name={a.subj} color={a.color} s={26}/><div><div style={{fontWeight:700,color:navy,fontSize:14}}>{a.subj}</div><div style={{fontSize:14,color:tm}}>{a.email}</div></div></div></td>
                   <td style={acTd}><Av name={a.assessor} color={red} s={26}/></td>
                   <td style={acTd}>{a.activity}</td>
                   <td style={acTd}>{a.time}</td>
@@ -3249,7 +3249,7 @@ function AssessorEditorial() {
                     const t=RES_TYPES[r.type]||RES_TYPES.doc;
                     return (
                     <tr key={r.id} className="rh" onClick={()=>{window.open(r.url,"_blank","noopener,noreferrer");showToast(`Opening ${r.name}`);}} style={{cursor:"pointer"}}>
-                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:12}}><div style={{width:34,height:34,borderRadius:8,background:`${t.color}14`,color:t.color,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{t.icon(16)}</div><div><div style={{fontWeight:400,color:navy}}>{r.name}</div><div style={{fontSize:14,color:tm}}>{t.label}</div></div></div></td>
+                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:12}}><div style={{width:34,height:34,borderRadius:8,background:`${t.color}14`,color:t.color,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{t.icon(16)}</div><div><div style={{fontWeight:700,color:navy}}>{r.name}</div><div style={{fontSize:14,color:tm}}>{t.label}</div></div></div></td>
                       <td style={acTd}><a href={r.url} target="_blank" rel="noopener noreferrer" className="link" style={{color:teal,fontSize:14}}>{r.url}</a></td>
                       <td style={{...acTd,position:"relative",paddingRight:32}}><span className="row-arrow"><I.Chev s={14}/></span></td>
                     </tr>
@@ -3552,7 +3552,7 @@ function AssessorEditorial() {
                 <tbody>
                   {queue.map((c)=>(
                     <tr key={c.id} className="rh" onClick={()=>openCandidate(c.id)} style={{cursor:"pointer"}}>
-                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>{s2Avatar(`${teal}`,c.name.split(" ").map(n=>n[0]).slice(0,2).join(""))}<div style={{minWidth:0}}><div style={{fontWeight:400,color:tx,fontSize:14}} className="elide">{c.name}</div></div></div></td>
+                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>{s2Avatar(`${teal}`,c.name.split(" ").map(n=>n[0]).slice(0,2).join(""))}<div style={{minWidth:0}}><div style={{fontWeight:700,color:tx,fontSize:14}} className="elide">{c.name}</div></div></div></td>
                       <td style={acTd}><StatusPill s={c.evalStatus}/></td>
                       <td style={{...acTd,position:"relative",paddingRight:26,width:34}}><span className="row-arrow"><I.Chev s={14}/></span></td>
                     </tr>
@@ -3611,7 +3611,7 @@ function AssessorEditorial() {
                 <tbody>
                   {acParticipants.map((p)=>(
                     <tr key={p.id} className="rh" onClick={()=>{setRoute("ac");setAcTab("participants");}} style={{cursor:"pointer"}}>
-                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>{s2Avatar(p.color,p.name.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase())}<div style={{minWidth:0}}><div style={{fontWeight:400,color:tx,fontSize:14}} className="elide">{p.name}</div></div></div></td>
+                      <td style={acTd}><div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>{s2Avatar(p.color,p.name.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase())}<div style={{minWidth:0}}><div style={{fontWeight:700,color:tx,fontSize:14}} className="elide">{p.name}</div></div></div></td>
                       <td style={acTd}><span className="elide" style={{display:"block",color:tm,textTransform:"capitalize"}}>{p.campaign}</span></td>
                       <td style={{...acTd,textAlign:"right"}}>{p.slot}</td>
                       <td style={{...acTd,textAlign:"right"}}>{p.attStatus==="On Time" ? <span className="tag" style={{background:`${green}14`,color:green}}>{p.attStatus}</span> : <span className="tag" style={{background:navyBg,color:tm}}>{p.attStatus}</span>}</td>
@@ -3682,7 +3682,7 @@ function AssessorEditorial() {
                           <div style={{display:"flex",alignItems:"center",gap:12,minWidth:0}}>
                             <div style={{width:34,height:34,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                             <div style={{minWidth:0}}>
-                              <div style={{fontWeight:400,color:tx,fontSize:14}} className="elide">{c.name}</div>
+                              <div style={{fontWeight:700,color:tx,fontSize:14}} className="elide">{c.name}</div>
                               <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
                             </div>
                           </div>
@@ -3803,7 +3803,7 @@ function AssessorEditorial() {
                           <div style={{display:"flex",alignItems:"center",gap:12,minWidth:0}}>
                             <div style={{width:34,height:34,borderRadius:"50%",background:p.color,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{p.name.split(" ").map(n=>n[0]).slice(0,2).join("").toUpperCase()}</div>
                             <div style={{minWidth:0}}>
-                              <div style={{fontWeight:400,color:tx,fontSize:14}} className="elide">{p.name}</div>
+                              <div style={{fontWeight:700,color:tx,fontSize:14}} className="elide">{p.name}</div>
                               <div style={{fontSize:14,color:tm}} className="elide">{p.email}</div>
                             </div>
                           </div>

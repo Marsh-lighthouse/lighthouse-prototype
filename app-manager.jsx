@@ -272,7 +272,7 @@ function MgrPersonCard({ p, design }) {
   const val = { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMID };
   const identity = (
     <div style={{ lineHeight: 1.35 }}>
-      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{p.first} {p.last}</div>
+      <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: "var(--accent)" }}>{p.role}</div>
       <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{p.email}</div>
     </div>
@@ -283,7 +283,7 @@ function MgrPersonCard({ p, design }) {
       <div style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 16, padding: "16px 20px", marginBottom: 22, boxShadow: "0 1px 2px rgba(0,15,71,.04)", display: "flex", alignItems: "center", gap: 13 }}>
         <MgrAvatar p={p} size={46} />
         <div style={{ lineHeight: 1.35 }}>
-          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{p.first} {p.last}</div>
+          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{p.first} {p.last}</div>
           <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{p.email}</div>
         </div>
       </div>
@@ -346,7 +346,7 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
                 <div style={{ display: "flex", alignItems: "center", gap: 14, flex: 1, minWidth: 0 }}>
                   <MgrAvatar p={p} />
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.first} {p.last}</div>
                     <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: eMUT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</div>
                   </div>
                 </div>
@@ -356,7 +356,7 @@ function MgrList({ team, onOpen, openId, onToggleSummary, onDecide }) {
                       reportee altered is worth reading while reviewing and after deciding. */}
                   {hasChanges ? (
                     <button onClick={(e) => { e.stopPropagation(); onToggleSummary(p); }} className="mgr-link" aria-expanded={expanded}
-                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 5 }}>
+                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "var(--accent)", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, display: "inline-flex", alignItems: "center", gap: 5 }}>
                       Summary
                       <span style={{ display: "flex", transition: "transform .15s", transform: expanded ? "rotate(180deg)" : "none" }}><I.chevD size={15} /></span>
                     </button>
@@ -729,7 +729,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
             <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
               <MgrAvatar p={person} size={46} />
               <div style={{ lineHeight: 1.35 }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID }}>{person.first} {person.last}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{person.first} {person.last}</div>
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{person.email}</div>
               </div>
             </div>

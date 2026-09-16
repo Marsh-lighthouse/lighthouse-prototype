@@ -375,7 +375,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                       <button key={cand.id} onClick={() => toggle(cand)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: picked ? qPURPLE_BG : qCARD, border: "1px solid " + (picked ? qPURPLE : qLINE), borderRadius: sr, cursor: "pointer", textAlign: "left", fontFamily: "var(--sans)", transition: "all .15s ease" }}>
                         <div className="serif" style={{ width: 36, height: 36, borderRadius: "50%", background: picked ? qPURPLE : "rgba(0,15,71,.07)", color: picked ? "#fff" : qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{cand.avatar}</div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 15, fontWeight: 400, color: qMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.name}</div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: qMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.name}</div>
                           <div style={{ fontSize: 15, color: qINK, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cand.role}</div>
                         </div>
                         <div style={{ width: 20, height: 20, borderRadius: "50%", border: "1px solid " + (picked ? qPURPLE : qLINE), background: picked ? qPURPLE : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
@@ -448,7 +448,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
               <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i > 0 ? "1px solid " + qLINE : "none" }}>
                 <div className="serif" style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(0,15,71,.06)", color: qMID, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{r.avatar}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 15, fontWeight: 400, color: qMID, fontFamily: "var(--sans)", marginBottom: 2 }}>{r.name}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: qMID, fontFamily: "var(--sans)", marginBottom: 2 }}>{r.name}</div>
                   <div style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)" }}>{r.role}</div>
                 </div>
                 {!isMob && <div style={{ width: 100, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
