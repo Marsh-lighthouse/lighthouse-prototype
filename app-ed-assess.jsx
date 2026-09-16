@@ -281,16 +281,26 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           </div>);
       })()}
 
-      {q.type === "text" &&
-      <div>
-        <textarea value={value || ""} onChange={(e) => onChange(e.target.value)} placeholder={q.placeholder}
-          style={{ width: "100%", minHeight: 150, padding: "14px 16px", borderRadius: 12, border: "1px solid " + eLINE, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, resize: "vertical", outline: "none", boxSizing: "border-box" }} />
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 7 }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{(value || "").split(/\s+/).filter(Boolean).length} words</span>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{q.minWords}–{q.maxWords}</span>
+      {q.type === "text" && (q.singleLine ? (
+        // single-line text field variant (one line, character-limited)
+        <div>
+          <input value={value || ""} onChange={(e) => onChange(e.target.value)} placeholder={q.placeholder} maxLength={q.maxChars || 120}
+            onFocus={(e) => { e.currentTarget.style.borderColor = eBLUE; }} onBlur={(e) => { e.currentTarget.style.borderColor = "var(--field-line)"; }}
+            style={{ width: "100%", height: 46, padding: "0 16px", borderRadius: 12, border: "1px solid var(--field-line)", background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, outline: "none", boxSizing: "border-box" }} />
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 7 }}>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{(value || "").length} / {q.maxChars || 120}</span>
+          </div>
         </div>
-      </div>
-      }
+      ) : (
+        <div>
+          <textarea value={value || ""} onChange={(e) => onChange(e.target.value)} placeholder={q.placeholder}
+            style={{ width: "100%", minHeight: 150, padding: "14px 16px", borderRadius: 12, border: "1px solid " + eLINE, background: eCARD, color: eINK, fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.6, resize: "vertical", outline: "none", boxSizing: "border-box" }} />
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 7 }}>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{(value || "").split(/\s+/).filter(Boolean).length} words</span>
+            <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{q.minWords}–{q.maxWords}</span>
+          </div>
+        </div>
+      ))}
 
       {/* DROPDOWN — single select, MDS text-field border (--field-line) */}
       {q.type === "dropdown" && (() => {
