@@ -452,7 +452,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           <div className="oa-matrix">
             <div style={{ display: "grid", gridTemplateColumns: gcols, columnGap: 10, marginBottom: 8, padding: "0 15px", alignItems: "end" }}>
               <div />
-              {q.cols.map((c, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{c}</div>)}
+              {q.cols.map((c, ci) => <div key={ci} style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{c}</div>)}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {q.items.map((it, ri) => (
@@ -788,9 +788,9 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         return (
           <div className="oa-matrix">
             <div style={{ display: "grid", gridTemplateColumns: gcols, columnGap: 10, marginBottom: 8, padding: "0 15px", alignItems: "end" }}>
-              <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{q.leftLabel}</div>
+              <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{q.leftLabel}</div>
               <div />
-              <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{q.rightLabel}</div>
+              <div style={{ textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{q.rightLabel}</div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {q.statements.map((st, ri) => (
@@ -1014,7 +1014,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               <div>
                 {q.labels &&
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    {q.labels.map((l, li) => <div key={li} style={{ flex: 1, textAlign: li === 0 ? "left" : li === q.labels.length - 1 ? "right" : "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{l}</div>)}
+                    {q.labels.map((l, li) => <div key={li} style={{ flex: 1, textAlign: li === 0 ? "left" : li === q.labels.length - 1 ? "right" : "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{l}</div>)}
                   </div>}
               </div>
               <div />
@@ -1049,7 +1049,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
               <div>
                 {q.labels &&
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                    {q.labels.map((l, li) => <div key={li} style={{ flex: 1, textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{l}</div>)}
+                    {q.labels.map((l, li) => <div key={li} style={{ flex: 1, textAlign: "center", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{l}</div>)}
                   </div>}
                 <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>
                   {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((n) => <span key={n}>{n}</span>)}
@@ -1275,7 +1275,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
         return (
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {q.labels.map((l, i) => <span key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK }}>{l}</span>)}
+              {q.labels.map((l, i) => <span key={i} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK }}>{l}</span>)}
             </div>
             {q.choices.map((c, i) =>
               <div key={i}>
@@ -1301,7 +1301,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
                 <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, lineHeight: 1.4, marginBottom: 12 }}>{s}</div>
                 {q.groups.map((g, gi) => (
                   <div key={gi} style={{ marginBottom: gi < q.groups.length - 1 ? 12 : 0 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 600, color: eINK, marginBottom: 6 }}>{g.label}</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400, color: eINK, marginBottom: 6 }}>{g.label}</div>
                     <div style={{ display: "flex", gap: 8 }}>
                       {g.cols.map((c, ci) => {
                         const sel = v[si] && v[si][gi] === ci;
@@ -1324,7 +1324,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
           const groupHeadRow = (k) => (
             <tr key={k}>
               <th></th>
-              {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: eINK, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
+              {q.groups.map((g, gi) => <th key={gi} colSpan={g.cols.length} style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eINK, padding: "6px 8px", textAlign: "center", borderBottom: "1px solid " + eLINE }}>{g.label}</th>)}
             </tr>
           );
           const answerHeadRow = (k) => (
