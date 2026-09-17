@@ -1578,7 +1578,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
                 // per-skill change summary — the same block the manager reads, under each skill
                 const changesNode = skillChanges.length > 0 ? (
                   <div style={{ background: "rgba(0,15,71,.03)", border: "1px solid " + eLINE, borderRadius: 10, padding: "13px 16px", marginTop: 4 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 7 }}>Change summary</div>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 7 }}>Change summary</div>
                     <ul style={{ margin: 0, paddingLeft: 18 }}>
                       {skillChanges.map((c, i) => (
                         <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.9 }}>
