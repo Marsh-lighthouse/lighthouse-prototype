@@ -774,6 +774,8 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
   }, [filterMenu]);
   const setResolved = (ci) => (val) => write(thread.map((c, i) => (i === ci ? { ...c, resolved: val } : c)));
   const visible = thread.map((c, i) => ({ c, i })).filter((x) => filter === "all" || !!x.c.resolved === (filter === "resolved"));
+  // Total comments across all threads (respecting the filter) — shown in the header as "Comments (N)".
+  const totalComments = Object.keys(store).reduce((n, name) => n + (store[name] || []).filter((c) => filter === "all" || !!c.resolved === (filter === "resolved")).length, 0);
   const hasOpen = (name) => (store[name] || []).some((c) => !c.resolved);
   const hasDone = (name) => (store[name] || []).some((c) => !!c.resolved);
 
@@ -801,7 +803,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
       {/* header */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 16px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
         {inThread && <button onClick={() => onOpen("")} title="All conversations" style={{ background: "none", border: "none", cursor: "pointer", color: eMID, display: "flex", flexShrink: 0, padding: 2 }}><I.arrowL size={18} /></button>}
-        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inThread ? chip : "Comments"}</div>
+        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inThread ? chip : ("Comments" + (expanded ? " (" + totalComments + ")" : ""))}</div>
         <div ref={filterRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
           <button onClick={() => setFilterMenu((v) => !v)} title={filter === "open" ? "Filter comments" : "Showing " + filter}
             style={{ background: "none", border: "none", cursor: "pointer", color: filter === "open" ? eMUT : eBLUE, display: "flex", padding: 2 }}>
@@ -840,12 +842,10 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
             items: (store[name] || []).map((c, i) => ({ c, i })).filter((x) => pass(x.c)),
           })).filter((g) => g.items.length);
           const total = groups.reduce((n, g) => n + g.items.length, 0);
-          const goFor = (name) => (name !== PL_OVERALL && inPlan(name)) ? (() => plGoToSkill(name)) : undefined;
+          // Every skill-related comment gets a "Go to skill" link (never the plan-level thread).
+          const goFor = (name) => (name !== PL_OVERALL) ? (() => plGoToSkill(name)) : undefined;
           return (
             <div style={{ flex: 1, overflowY: "auto", padding: "14px 16px 8px" }}>
-              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, padding: "0 0 12px" }}>
-                {total} {total === 1 ? "comment" : "comments"} · {design === 3 ? "grouped by skill" : "all on one view"}
-              </div>
               {total === 0 && <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, textAlign: "center", padding: "26px 0" }}>{filter === "resolved" ? "Nothing resolved yet." : "No open comments."}</div>}
               {design === 3
                 ? groups.map((g) => (
