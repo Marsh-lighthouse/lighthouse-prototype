@@ -312,7 +312,7 @@ function IdpMultiSelect({ options, selected, onChange, placeholder, search }) {
       {selected.length > 0 && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
           {selected.map((s) => (
-            <span key={s} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", borderRadius: 8, padding: "5px 8px 5px 12px", fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)" }}>
+            <span key={s} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "color-mix(in srgb, var(--accent) 10%, var(--card))", color: eBLUE, border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", borderRadius: 8, padding: "5px 8px 5px 12px", fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)" }}>
               {s}
               <button onClick={() => remove(s)} aria-label={"Remove " + s} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 18, height: 18, borderRadius: 6, border: "none", background: "none", color: eBLUE, cursor: "pointer", flexShrink: 0, padding: 0 }}><I.plus size={13} style={{ transform: "rotate(45deg)" }} /></button>
             </span>
