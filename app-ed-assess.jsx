@@ -11,6 +11,19 @@
 
 const { useState: oaUseState, useEffect: oaUseEffect, useRef: oaUseRef } = React;
 
+// The open assessment shows a reduced, representative set (the SAME as the Generali/DGE
+// builds) — the original oq1..oqN + video, PLUS the additional question types — not the
+// full ~60-item type-sample bank (that still powers the Question Types gallery). Pages
+// are renumbered contiguously after filtering.
+function oaInitialQuestions() {
+  const EXTRA = ["oq_factor", "oq_csum", "oq_slider", "oq_sbs", "oq_imgmulti", "oq_img", "oq_gslider", "oq_bargrid", "oq_stargrid", "oq_gap", "oq_skill", "oq_pgr", "oq_fillgauge", "oq_shapedraw", "oq_captcha"];
+  const list = ((typeof window !== "undefined" && window.LH && LH.openAssessQuestions) || []).filter((q) => /^oq\d+$/.test(q.id) || q.id === "oq_video" || EXTRA.indexOf(q.id) >= 0);
+  const pages = [];
+  list.forEach((q) => { if (pages.indexOf(q.page) < 0) pages.push(q.page); });
+  pages.sort((a, b) => a - b);
+  return list.map((q) => Object.assign({}, q, { page: pages.indexOf(q.page) + 1 }));
+}
+
 const oaTypeLabel = (t) => ({ mcq: "Multiple choice", text: "Open text", rank: "Rank order", matrix: "Matrix rating", file: "File upload", audio: "Audio recording", factor: "Multi-select", constantsum: "Constant sum", slider: "Slider", sidebyside: "Side by side", gap: "Gap analysis", skillfeedback: "Factor feedback", pickgrouprank: "Pick & group", graphicslider: "Graphic slider", hotspot: "Hot spot", captcha: "Verification", video: "Video response", imgchoice: "Image choice", imgmulti: "Image multi-select", checkgrid: "Grid select", numgrid: "Numeric grid", slidergrid: "Slider grid", bargrid: "Bar rating", stargrid: "Star rating", fillgauge: "Fill gauge", shapedraw: "Shape annotation", dropdown: "Dropdown", email: "Email", bipolar: "Side by side (bipolar)", dropdowngrid: "Dropdown grid", richtext: "Rich text", form: "Form", datetime: "Date & time", chat: "Chat", rankgrid: "Rank grid", ranknum: "Rank (number)", ranklist: "Rank (reorder list)", sbs: "Side by side", timing: "Timing", metainfo: "Meta info" }[t] || "Question");
 const oaTypeIcon = { mcq: "checkCircle", text: "fileText", rank: "filter", matrix: "panel", file: "upload", audio: "mic" };
 // Native <select> styled MDS: hides the browser arrow and draws our own chevron with right spacing.
@@ -63,7 +76,7 @@ function oaError(q, v) {
 }
 
 function EdAssessIntro({ exercise, onExit, onBegin }) {
-  const Q = LH.openAssessQuestions;
+  const Q = oaInitialQuestions();
   const total = Q.length;
   const title = exercise ? exercise.name : "Work Style Preferences";
   return (
@@ -72,8 +85,8 @@ function EdAssessIntro({ exercise, onExit, onBegin }) {
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>{title}</h1>
       <p style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.6, margin: "0 0 30px", maxWidth: 560 }}>This task includes {total} questions across different formats. Take your time — there are no time limits.</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
-        {[{ ic: "fileText", t: `${total} questions`, d: "MCQ, text, ranking, matrix, file upload, audio" },
-        { ic: "clock", t: "~15 minutes", d: "No time limit — go at your own pace" },
+        {[{ ic: "fileText", t: `${total} questions`, d: "MCQ, text, ranking, matrix, sliders, grids, image choice, drawing, and more" },
+        { ic: "clock", t: "~25 minutes", d: "No time limit — go at your own pace" },
         { ic: "checkCircle", t: "Auto-save", d: "Answers saved as you go — resume anytime" },
         { ic: "lock", t: "Confidential", d: "Responses visible only to authorized assessors" }].map((it, i) => {
           const Ic = I[it.ic];
@@ -1700,7 +1713,7 @@ function OaQuestionCard({ q, number, value, onChange, error, hidePrompt, narrow 
 }
 
 function EdOpenAssess({ exercise, onExit, onBack, onNext, hasNext, nextEx, initialStep, initialLayout, initialQIdx, onPos }) {
-  const Q = LH.openAssessQuestions;
+  const Q = oaInitialQuestions();
   const [step, setStep] = oaUseState(initialStep || "question"); // question | complete
   const taskMin = parseInt((exercise && exercise.time) || "20", 10) || 20;
   const [taskEnd] = oaUseState(() => Date.now() + taskMin * 60000);
