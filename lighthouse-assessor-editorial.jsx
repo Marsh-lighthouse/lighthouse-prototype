@@ -13,12 +13,16 @@ function AssessorEditorial() {
   useEffect(() => { const f = () => setLHBrandTick((n) => n + 1); window.addEventListener("lh-brand-change", f); return () => window.removeEventListener("lh-brand-change", f); }, []);
 
   // ═══════ TOKENS (Folio · Accessor Flow 2026) ═══════
-  const navy = "#000F47";               // midnight — primary brand
-  const teal = "#0065AC";               // MDS accent (brand-primary-alt) — active, rings, progress; matches Folio --accent
-  const gold = "#0065AC";               // accent blue — rail active, toggles, badges, section accents (was gold #FFBF00). CTA fill is `navy` (Blue-1000) below.
-  const goldDark = "#0A3FD6";           // (accent-hover, retained for accent uses)
-  const tealBg = `${teal}14`;
-  const navyBg = `${navy}0D`;
+  // Brand roles are CSS vars so the whole flow — headings, CTAs, rings, badges,
+  // tooltips, drawers, dialogs — re-themes with the client brand (Marsh / General /
+  // DG) exactly like Folio. Defaults come from brand.css: --primary/--action #000F47,
+  // --accent #0065AC. Body inks + surfaces below stay neutral (never rebranded).
+  const navy = "var(--primary)";        // midnight — primary brand (fills, headings, rail)
+  const teal = "var(--accent)";         // MDS accent — active, rings, progress
+  const gold = "var(--accent)";         // accent — rail active, toggles, badges, section accents
+  const goldDark = "color-mix(in srgb, var(--accent) 80%, #000)"; // accent-hover
+  const tealBg = "color-mix(in srgb, var(--accent) 8%, transparent)";
+  const navyBg = "color-mix(in srgb, var(--primary) 5%, transparent)";
   const bg = "#F7F3EE";                  // cream canvas
   const bg2 = "#EDE7DE";
   const sbBg = "#F1EBE3";
@@ -59,7 +63,7 @@ function AssessorEditorial() {
     .slin{animation:slIn .28s cubic-bezier(.2,.8,.2,1) both}
     ::-webkit-scrollbar{width:6px;height:6px}
     ::-webkit-scrollbar-track{background:transparent}
-    ::-webkit-scrollbar-thumb{background:${navy}14;border-radius:3px}
+    ::-webkit-scrollbar-thumb{background:color-mix(in srgb, var(--primary) 8%, transparent);border-radius:3px}
     *:focus-visible{outline:2px solid ${teal};outline-offset:2px;border-radius:${ir}px}
     button{font-family:${f};border:none;background:none;cursor:pointer;color:inherit}
     input,textarea,select{font-family:${f}}
@@ -899,7 +903,7 @@ function AssessorEditorial() {
                     </td>
                     <td style={{padding:"16px"}}>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
-                        <div style={{width:32,height:32,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+                        <div style={{width:32,height:32,borderRadius:"50%",background:`color-mix(in srgb, var(--accent) 10%, transparent)`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                         <div style={{minWidth:0}}>
                           <div style={{fontWeight:700,color:tx}} className="elide">{c.name}</div>
                           <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
@@ -1077,7 +1081,7 @@ function AssessorEditorial() {
                   <tr key={c.id} className="rh" style={{cursor:"pointer",borderBottom:i===roster.length-1?"none":`1px solid ${bd}`}} onClick={()=>{ setEntryPath("campaign"); setSubjectId(c.id); setRoute("candidate"); setCandidateTab("assessments"); }}>
                     <td style={{padding:"16px"}}>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
-                        <div style={{width:32,height:32,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+                        <div style={{width:32,height:32,borderRadius:"50%",background:`color-mix(in srgb, var(--accent) 10%, transparent)`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                         <div style={{minWidth:0}}>
                           <div style={{fontWeight:700,color:tx}} className="elide">{c.name}</div>
                           <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
@@ -1127,7 +1131,7 @@ function AssessorEditorial() {
 
         {/* Candidate header */}
         <div style={{display:"flex",alignItems:"flex-start",gap:24,marginBottom:28,flexWrap:"wrap"}}>
-          <div style={{width:72,height:72,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+          <div style={{width:72,height:72,borderRadius:"50%",background:`color-mix(in srgb, var(--accent) 10%, transparent)`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
           <div style={{flex:1,minWidth:280}}>
             <h1 className="display" style={{fontSize:32,marginBottom:6}}>{c.name}</h1>
             <div style={{fontSize:14,color:ts}}>{c.email}</div>
@@ -2086,7 +2090,7 @@ function AssessorEditorial() {
         <div style={{padding:"18px 32px 0",borderBottom:`1px solid ${bd}`,background:bg}}>
           <div style={{display:"flex",alignItems:"center",gap:20,flexWrap:"wrap",marginBottom:14}}>
             <div style={{flex:1,minWidth:200,display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
-              <div style={{width:34,height:34,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+              <div style={{width:34,height:34,borderRadius:"50%",background:`color-mix(in srgb, var(--accent) 10%, transparent)`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
               <h1 className="h1" style={{fontSize:22,margin:0}}>{c.name}</h1>
               <span style={{fontSize:14,color:tm,alignSelf:"flex-end",paddingBottom:2}}>{c.email}</span>
             </div>
@@ -2236,7 +2240,7 @@ function AssessorEditorial() {
                       return (
                         <React.Fragment key={cc.id}>
                           {/* PARENT (competency) row */}
-                          <tr style={{background:compHasError?`${red}08`:(open?`${navy}06`:"#fff"),borderTop:ccIdx>0?`1px solid ${bd}`:"none"}}>
+                          <tr style={{background:compHasError?`${red}08`:(open?`color-mix(in srgb, var(--primary) 2.5%, transparent)`:"#fff"),borderTop:ccIdx>0?`1px solid ${bd}`:"none"}}>
                             <td style={{position:"sticky",left:0,zIndex:2,background:compHasError?"#FDF2F2":(open?"#F4F6FB":"#fff"),padding:"8px 18px",borderRight:`1px solid ${bd}`,borderBottom:`1px solid ${bd}`,cursor:"pointer",width:firstColW,minWidth:firstColW}} onClick={()=>toggleComp(cc.id)}>
                               <div style={{display:"flex",alignItems:"center",gap:10}}>
                                 <I.Chev s={12} r={open?90:0} style={{color:tm,flexShrink:0}}/>
@@ -2308,7 +2312,7 @@ function AssessorEditorial() {
                                 <td style={{position:"sticky",right:0,zIndex:1,background:outOfRange?"#FDF2F2":card,padding:"6px 10px",textAlign:"center",borderLeft:`2px solid ${outOfRange?red:navy}`,borderBottom:`1px solid ${bd}`,width:finalColW,minWidth:finalColW}}>
                                   <div style={{display:"inline-flex",alignItems:"center",gap:8}}>
                                     <input type="number" min="1" max="5" step="0.1" value={finalVal} readOnly={isNA} onChange={e=>setFinal(ind.id, parseFloat(e.target.value)||0)} title={outOfRange?`Outside the assessor range (${fmtR(iRange[0])}–${fmtR(iRange[1])})`:undefined} style={{width:50,padding:"3px 6px",border:`1px solid ${outOfRange?red:(isNA?bd:"#6F6D68")}`,borderRadius:ir,fontSize:14,fontWeight:700,color:outOfRange?red:navy,background:isNA?bg2:card,fontFamily:f,outline:"none",fontVariantNumeric:"tabular-nums",textAlign:"center",cursor:isNA?"default":"text",boxShadow:outOfRange?`0 0 0 3px ${red}1F`:"none"}}/>
-                                    <button onClick={()=>setNA(ind.id,!isNA)} title={isNA?"Not applicable — score locked":"Editable — click to mark not applicable"} aria-pressed={isNA} style={{display:"inline-block",boxSizing:"border-box",width:54,height:20,borderRadius:999,background:isNA?"#000F47":"transparent",border:isNA?"none":"1px solid #B9B6B1",cursor:"pointer",transition:"all .15s",position:"relative",verticalAlign:"middle"}}>
+                                    <button onClick={()=>setNA(ind.id,!isNA)} title={isNA?"Not applicable — score locked":"Editable — click to mark not applicable"} aria-pressed={isNA} style={{display:"inline-block",boxSizing:"border-box",width:54,height:20,borderRadius:999,background:isNA?"var(--primary)":"transparent",border:isNA?"none":"1px solid #B9B6B1",cursor:"pointer",transition:"all .15s",position:"relative",verticalAlign:"middle"}}>
                                       <span style={{position:"absolute",top:0,bottom:0,display:"flex",alignItems:"center",left:isNA?8:"auto",right:isNA?"auto":8,fontFamily:f,fontSize:14,fontWeight:400,color:isNA?"#F7F3EE":"#878580"}}>N/A</span>
                                       <span style={{position:"absolute",top:4,left:isNA?"auto":4,right:isNA?4:"auto",width:12,height:12,borderRadius:"50%",background:isNA?"#F7F3EE":"#878580"}}/>
                                     </button>
@@ -2344,7 +2348,7 @@ function AssessorEditorial() {
                         <span style={{fontSize:14,color:tm}}>· {compOfInd?.name} / {ind?.label}</span>
                       </div>
                       <div style={{flex:1}}/>
-                      <span className="tag" style={{background:`${navy}14`,color:navy}}>{assessorRoster[activeCell.aIdx] || `Assessor ${activeCell.aIdx+1}`} · {af.exercise}</span>
+                      <span className="tag" style={{background:`color-mix(in srgb, var(--primary) 8%, transparent)`,color:navy}}>{assessorRoster[activeCell.aIdx] || `Assessor ${activeCell.aIdx+1}`} · {af.exercise}</span>
                       <div className="tnum" style={{padding:"4px 10px",fontSize:14,fontWeight:700,color:scoreColor(v),background:scoreBg(v),borderRadius:br}}>{typeof v === "number" ? (Number.isInteger(v)?v:v.toFixed(1)) : "—"}</div>
                       <button onClick={()=>setActiveCell(null)} className="btn btn-ghost" style={{padding:4}}><I.X s={14}/></button>
                     </div>
@@ -2534,7 +2538,7 @@ function AssessorEditorial() {
           ].map(b => {
             const open = drawer.includes(b.k);
             return (
-              <button key={b.k} onClick={()=>toggleDrawer(b.k)} title={b.l} style={{display:"flex",alignItems:"center",justifyContent:"center",width:railW-12,height:railW-16,borderRadius:br,background:open?`${teal}18`:"transparent",color:open?teal:ts,cursor:"pointer",border:`1px solid ${open?teal:"transparent"}`,transition:"all .15s"}}>
+              <button key={b.k} onClick={()=>toggleDrawer(b.k)} title={b.l} style={{display:"flex",alignItems:"center",justifyContent:"center",width:railW-12,height:railW-16,borderRadius:br,background:open?`color-mix(in srgb, var(--accent) 9%, transparent)`:"transparent",color:open?teal:ts,cursor:"pointer",border:`1px solid ${open?teal:"transparent"}`,transition:"all .15s"}}>
                 <b.I s={19}/>
               </button>
             );
@@ -2887,7 +2891,7 @@ function AssessorEditorial() {
           <p className="eyebrow" style={{marginTop:18,marginBottom:8}}>Competencies Touched</p>
           <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
             {competencies.slice(0, selected===0?4:selected===1?3:2).map(cc => (
-              <span key={cc.id} className="tag" style={{background:`${teal}12`,color:teal}}>{cc.id} · {cc.name}</span>
+              <span key={cc.id} className="tag" style={{background:`color-mix(in srgb, var(--accent) 7%, transparent)`,color:teal}}>{cc.id} · {cc.name}</span>
             ))}
           </div>
         </div>
@@ -3694,7 +3698,7 @@ function AssessorEditorial() {
                       <tr key={c.id} className="rh" onClick={()=>openCandidate(c.id)} style={{cursor:"pointer"}}>
                         <td style={acTd}>
                           <div style={{display:"flex",alignItems:"center",gap:12,minWidth:0}}>
-                            <div style={{width:34,height:34,borderRadius:"50%",background:`${teal}1A`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
+                            <div style={{width:34,height:34,borderRadius:"50%",background:`color-mix(in srgb, var(--accent) 10%, transparent)`,color:teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0,fontFamily:f}}>{c.name.split(" ").map(n=>n[0]).slice(0,2).join("")}</div>
                             <div style={{minWidth:0}}>
                               <div style={{fontWeight:700,color:tx,fontSize:14}} className="elide">{c.name}</div>
                               <div style={{fontSize:14,color:tm}} className="elide">{c.email}</div>
@@ -3823,7 +3827,7 @@ function AssessorEditorial() {
                           </div>
                         </td>
                         <td style={{...acTd,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{p.slot}</td>
-                        <td style={acTd}><span className="tag" style={{background:`${teal}14`,color:teal}}>{p.schStatus}</span></td>
+                        <td style={acTd}><span className="tag" style={{background:`color-mix(in srgb, var(--accent) 8%, transparent)`,color:teal}}>{p.schStatus}</span></td>
                         <td style={{...acTd,position:"relative",paddingRight:26}}><span className="row-arrow"><I.Chev s={14}/></span></td>
                       </tr>
                     ))}

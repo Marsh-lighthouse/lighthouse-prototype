@@ -16,8 +16,10 @@
 //  Holds the tour back while open (window.__LH_TOUR_HOLD); hands over on opt-in.
 // ══════════════════════════════════════════════════════════════════════════
 (function () {
-  var NAVY = "#000F47";
-  var TEAL = "#0B4BFF";
+  // Brand roles as CSS vars so this dialog re-themes with the client brand
+  // (Marsh / General / DG). Defaults from brand.css: --primary #000F47, --accent #0065AC.
+  var NAVY = "var(--primary)";
+  var TEAL = "var(--accent)";
   var TX = "#1B2856";
   var TM = "#47527B";
   var BD = "rgba(0,15,71,.11)";
@@ -76,7 +78,7 @@
       // Visible keyboard focus on everything interactive. The buttons carry no border,
       // so without this the focus ring would be the browser's default on a borderless
       // element — easy to lose against the panel.
-      ".ne-mask :focus-visible, .ne-chip :focus-visible{outline:3px solid #0B4BFF;outline-offset:2px;border-radius:8px}",
+      ".ne-mask :focus-visible, .ne-chip :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}",
       ".ne-mask [tabindex=\"-1\"]:focus{outline:none}",
       ".ne-dark :focus-visible{outline-color:#FFBF00}",
       // Dots stay 7px tall visually but keep a 24px pointer/touch target (WCAG 2.5.8).
@@ -341,8 +343,8 @@
   function Copy(p) {
     var dark = p.onDark;
     return React.createElement(React.Fragment, null,
-      p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 8, background: dark ? "rgba(255,255,255,.14)" : "color-mix(in srgb, #002C77 15%, #ffffff)", color: dark ? "#fff" : "#002C77", border: dark ? "none" : "1px solid #002C77", boxSizing: "border-box", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase" } },
-        React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : "#002C77", display: "inline-block" } }), "New experience"),
+      p.badge === false ? null : React.createElement("div", { style: { display: "inline-flex", alignSelf: "flex-start", alignItems: "center", gap: 7, padding: "5px 11px", borderRadius: 8, background: dark ? "rgba(255,255,255,.14)" : "color-mix(in srgb, var(--primary) 15%, #ffffff)", color: dark ? "#fff" : "var(--primary)", border: dark ? "none" : "1px solid var(--primary)", boxSizing: "border-box", fontFamily: SANS, fontSize: 11.5, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase" } },
+        React.createElement("span", { className: "ne-pulse", style: { width: 7, height: 7, borderRadius: 999, background: dark ? GOLD : "var(--primary)", display: "inline-block" } }), "New experience"),
       React.createElement("h2", { id: "ne-title", style: { fontFamily: SERIF, fontSize: p.big ? 28 : 28, lineHeight: 1.14, color: dark ? "#fff" : NAVY, margin: p.badge === false ? "0" : "16px 0 0", fontWeight: 700 } }, "One flow, from first review to final sign-off."),
       React.createElement("p", { style: { fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: dark ? "rgba(255,255,255,.82)" : TX, margin: "11px 0 0", maxWidth: 470 } },
         "Candidate, evaluation, moderation and the assessment centre now work as one connected view — not five screens you hold together yourself."),
@@ -370,7 +372,7 @@
         React.createElement("button", { className: "ne-ghost", onClick: p.later,
           style: { padding: "13px 20px", borderRadius: 2, border: "1px solid " + (dark ? "rgba(255,255,255,.3)" : BD), background: dark ? "transparent" : "#fff", color: dark ? "#fff" : TX, fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Maybe later"),
         React.createElement("button", { className: "ne-cta", onClick: p.tryIt,
-          style: { padding: "13px 24px", borderRadius: 2, border: "none", background: dark ? "#fff" : NAVY, color: dark ? NAVY : "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
+          style: { padding: "13px 24px", borderRadius: 2, border: "none", background: dark ? "#fff" : "var(--action)", color: dark ? NAVY : "var(--action-text)", fontFamily: SANS, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", flexShrink: 0 } },
           "Try new experience",
           React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", style: { flexShrink: 0 } },
             React.createElement("path", { d: "M5 12h13" }), React.createElement("path", { d: "M12 5l7 7-7 7" })))),
