@@ -94,7 +94,11 @@
       // the dark canvas (running text is neutralised to light ink by dark-theme.css).
       var dark = r.getAttribute("data-theme") === "dark";
       var vars = (dark && b.varsDark) ? b.varsDark : b.vars;
-      Object.keys(vars).forEach(function (k) { r.style.setProperty(k, vars[k]); });
+      // Set with !important so the brand accent/primary win over the stylesheet
+      // !important locks (mds-folio.css and login-styles.css pin --accent:#0065AC).
+      // An important inline declaration beats an important author-stylesheet rule,
+      // so accents re-theme everywhere; Marsh clears these and falls back to the CSS.
+      Object.keys(vars).forEach(function (k) { r.style.setProperty(k, vars[k], "important"); });
     }
   }
 
