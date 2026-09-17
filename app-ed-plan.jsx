@@ -1251,7 +1251,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   const [sampleMenu, setSampleMenu] = plUseState(false);
   // Comments-panel design: 1 = inbox (tap to open a thread), 2 = flat feed (every
   // comment on first view), 3 = grouped by skill. Sticks like the other switchers.
-  const [commentsDesign, setCommentsDesign] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-comments-design"), 10); return v >= 1 && v <= 3 ? v : 1; });
+  const [commentsDesign, setCommentsDesign] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-comments-design"), 10); return v >= 1 && v <= 3 ? v : 2; });
   const [commentsMenu, setCommentsMenu] = plUseState(false);
   const commentsChipRef = plUseRef(null);
   // Sample 10 (accordion) — the key "ci-si" of the one open skill; "" means all closed.
