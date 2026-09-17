@@ -1013,7 +1013,7 @@ function AiAssistant() {
       )}
       <div className="ed-aifab" style={{ position: "fixed", right: 24, bottom: 60, zIndex: 72, display: "flex", alignItems: "center", gap: 10 }}>
         {!open && !tipClosed && (
-          <span style={{ position: "relative", display: "inline-flex", alignItems: "center", background: "var(--card)", color: MID, border: "1px solid var(--line)", boxShadow: "0 6px 20px rgba(0,15,71,.18)", borderRadius: "var(--lh-radius, 2px)", padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, whiteSpace: "nowrap", cursor: "pointer" }} onClick={() => setOpen(true)}>
+          <span style={{ position: "relative", display: "inline-flex", alignItems: "center", background: "var(--card)", color: MID, border: "1px solid var(--line)", boxShadow: "0 6px 20px rgba(0,15,71,.18)", borderRadius: "var(--lh-radius, 2px)", padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, whiteSpace: "nowrap", cursor: "pointer" }} onClick={() => setOpen(true)}>
             {t("reportTechnicalProblem")}
             <button onClick={(e) => { e.stopPropagation(); setTipClosed(true); }} title="Dismiss" style={{ position: "absolute", top: -8, left: -8, width: 22, height: 22, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "var(--card)", border: "1px solid var(--line)", boxShadow: "0 2px 6px rgba(0,15,71,.2)", color: MUT, cursor: "pointer", zIndex: 1 }}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M5 5l14 14M19 5L5 19" /></svg>
