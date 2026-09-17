@@ -354,30 +354,30 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
               : "Must be between " + min + " and " + max + " words"}
           </div>
         )}
+      </div>
+      </div> ); })()}
 
-        <div className="mn-q-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 20 }}>
-          {i > 0
-            ? <button onClick={() => go(i - 1)}
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
-                <I.arrowL size={15} /> Previous question
-              </button>
-            : <span />}
+      {/* Outside the card: footer nav — Back to the previous step on the left,
+          the question-level Previous / Next controls on the right. */}
+      <div className="mn-q-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 18 }}>
+        <button onClick={onBack}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID,
+            background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
+          <I.arrowL size={15} /> Back
+        </button>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+          {i > 0 && (
+            <button onClick={() => go(i - 1)}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 18px", cursor: "pointer" }}>
+              <I.arrowL size={15} /> Previous question
+            </button>
+          )}
           <EdBtn primary small onClick={next}>
             {i === QS.length - 1
               ? <React.Fragment><I.spark size={15} /> Create Development Plan</React.Fragment>
               : <React.Fragment>Next <I.arrow size={15} /></React.Fragment>}
           </EdBtn>
         </div>
-      </div>
-      </div> ); })()}
-
-      {/* Outside the card: one hop back to the previous step, from any question. */}
-      <div style={{ marginTop: 18 }}>
-        <button onClick={onBack}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID,
-            background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
-          <I.arrowL size={15} /> Back
-        </button>
       </div>
     </div>
   );
