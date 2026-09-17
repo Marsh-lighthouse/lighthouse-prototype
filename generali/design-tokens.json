@@ -1,0 +1,133 @@
+{
+  "$description": "Mercer Lighthouse design tokens (W3C DTCG format). Machine-readable source of truth for colours, typography, spacing, radius, device/phone frames, and breakpoints. Consumable by Style Dictionary, Figma Tokens, Tailwind generators, etc. Human-readable reference: DESIGN.md. Runtime CSS variables: brand.css / tokens.css.",
+  "color": {
+    "$type": "color",
+    "core": {
+      "midnight": { "$value": "#000F47", "$description": "Primary brand — authority, rails, headings" },
+      "sky":      { "$value": "#CEECFF", "$description": "Sky Blue — freshness, highlights on dark" },
+      "white":    { "$value": "#FFFFFF" }
+    },
+    "blue":   { "1000": { "$value": "#000F47" }, "750": { "$value": "#0B4BFF", "$description": "Active blue — links, data viz" }, "500": { "$value": "#82BAFF" }, "250": { "$value": "#CEECFF" } },
+    "gold":   { "1000": { "$value": "#CB7E03", "$description": "Readable gold text" }, "750": { "$value": "#FFBF00", "$description": "Primary CTA fill — ACTION only" }, "500": { "$value": "#FFD98A" }, "250": { "$value": "#FFF3DA" } },
+    "green":  { "1000": { "$value": "#2F7500" }, "750": { "$value": "#6ABF30" }, "500": { "$value": "#B0DC92" }, "250": { "$value": "#DFECD7" } },
+    "purple": { "1000": { "$value": "#5E017F" }, "750": { "$value": "#8F20DE", "$description": "360° Perspective program accent" }, "500": { "$value": "#DEB1FF" }, "250": { "$value": "#F5E8FF" } },
+    "neutral": {
+      "1000": { "$value": "#3D3C37", "$description": "Near-black warm text" },
+      "750":  { "$value": "#7B7974", "$description": "Muted text" },
+      "500":  { "$value": "#B9B6B1", "$description": "Borders / dividers" },
+      "250":  { "$value": "#F7F3EE", "$description": "Warm cream page canvas" }
+    },
+    "status": {
+      "success": { "$value": "#14853D" },
+      "danger":  { "$value": "#C53532" },
+      "warning": { "$value": "#FFBE00" }
+    },
+    "semantic": {
+      "$description": "The knobs the Tweaks panel + brand switcher rewrite live on :root. Neutrals ink/muted/line are derived from primary via color-mix at runtime (see tokens.css).",
+      "primary":    { "$value": "{color.core.midnight}", "$description": "Rails, headings, solid fills, source of derived neutrals" },
+      "accent":     { "$value": "{color.blue.750}", "$description": "Links, active nav, rings, eyebrows" },
+      "action":     { "$value": "{color.gold.750}", "$description": "Primary CTA fill" },
+      "actionText": { "$value": "{color.core.midnight}", "$description": "Text on action fills (white for client brands)" },
+      "canvas":     { "$value": "{color.neutral.250}", "$description": "Page background tone" },
+      "ink":        { "$value": "#0B1A54", "$description": "Body text — runtime: color-mix(primary 88%, white)" },
+      "muted":      { "$value": "#3A4A7B", "$description": "Secondary text — runtime: color-mix(primary 72%, white)" },
+      "line":       { "$value": "#CCD1E2", "$description": "Borders — runtime: color-mix(primary 18%, white)" }
+    },
+    "brand": {
+      "$description": "Client-brand overrides applied via html[data-client-brand]. Marsh is the default (= semantic tokens above).",
+      "marsh":    { "primary": { "$value": "#000F47" }, "accent": { "$value": "#0B4BFF" }, "action": { "$value": "#FFBF00" }, "actionText": { "$value": "#000F47" } },
+      "dge":      { "primary": { "$value": "#81A0BD" }, "accent": { "$value": "#54779B" }, "action": { "$value": "#81A0BD" }, "actionText": { "$value": "#FFFFFF" } },
+      "generali": { "primary": { "$value": "#AA1B17" }, "accent": { "$value": "#AA1B17" }, "action": { "$value": "#AA1B17" }, "actionText": { "$value": "#FFFFFF" } }
+    },
+    "rail": {
+      "$description": "Side-menu theme. Toggled by Tweaks → Side menu (Midnight | White).",
+      "midnight": {
+        "bg": { "$value": "{color.semantic.primary}" },
+        "fg": { "$value": "rgba(255,255,255,0.62)" },
+        "icon": { "$value": "rgba(255,255,255,0.5)" },
+        "activeBg": { "$value": "rgba(206,236,255,0.14)" },
+        "activeFg": { "$value": "#FFFFFF" },
+        "activeIcon": { "$value": "#CEECFF" },
+        "border": { "$value": "rgba(255,255,255,0.08)" }
+      },
+      "white": {
+        "bg": { "$value": "#FFFFFF" },
+        "fg": { "$value": "{color.semantic.primary}" },
+        "icon": { "$value": "{color.semantic.primary}" },
+        "activeBg": { "$value": "rgba(11,75,255,0.08)" },
+        "activeFg": { "$value": "#000F47" },
+        "activeIcon": { "$value": "#0B4BFF" },
+        "border": { "$value": "rgba(0,15,71,0.10)" }
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "serif": { "$value": ["Marsh Serif", "Georgia", "Times New Roman", "serif"], "$description": "Display — headlines, section heads, big numerals. Weight 400 only." },
+      "sans":  { "$value": ["Noto Sans", "system-ui", "-apple-system", "sans-serif"], "$description": "Body / UI." }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "serifDisplay": { "$value": 400, "$description": "Marsh Serif is ALWAYS 400 — never bold" },
+      "body":         { "$value": 400 },
+      "subheadStrong":{ "$value": 700 },
+      "label":        { "$value": 700 }
+    },
+    "scale": {
+      "$type": "dimension",
+      "display": { "$value": "40px", "$description": "Hero / page H1 (serif)" },
+      "h1":      { "$value": "28px", "$description": "Section heading (serif)" },
+      "h2":      { "$value": "21px", "$description": "Card title (serif)" },
+      "body":    { "$value": "15px", "$description": "Body copy (sans)" },
+      "small":   { "$value": "13px", "$description": "Secondary (sans)" },
+      "label":   { "$value": "11.5px", "$description": "Labels / eyebrows / captions (sans, 700)" }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "pagePaddingX":     { "$value": "56px", "$description": "Desktop page wrapper horizontal padding" },
+    "pagePaddingXTablet": { "$value": "30px" },
+    "pagePaddingXMobile": { "$value": "18px" },
+    "contentMax":       { "$value": "848px", "$description": "Max content column width so all routed pages align" },
+    "railWidthExpanded":{ "$value": "256px" },
+    "railWidthCollapsed": { "$value": "74px" }
+  },
+  "radius": {
+    "$type": "dimension",
+    "default": { "$value": "8px", "$description": "Global border-radius slider default (Tweaks). Range 0–20px." },
+    "min":     { "$value": "0px" },
+    "max":     { "$value": "20px" }
+  },
+  "device": {
+    "$description": "Phone / tablet preview frames. Driven by html[data-device] (mobile | ipad); desktop = no attribute. Values live in device-preview.css and, tokenized, in tokens.css.",
+    "stageBg": { "$type": "color", "$value": "#000F47", "$description": "Dark stage the framed device sits on" },
+    "bezelColor": { "$type": "color", "$value": "#060A18" },
+    "desktop": {
+      "width": { "$type": "dimension", "$value": "100%" },
+      "hasBezel": { "$type": "boolean", "$value": false }
+    },
+    "mobile": {
+      "$description": "Phone frame",
+      "width":  { "$type": "dimension", "$value": "390px" },
+      "height": { "$type": "dimension", "$value": "844px" },
+      "bezel":  { "$type": "dimension", "$value": "11px" },
+      "radius": { "$type": "dimension", "$value": "44px" },
+      "gutterX":{ "$type": "dimension", "$value": "18px" }
+    },
+    "tablet": {
+      "$description": "iPad frame",
+      "width":  { "$type": "dimension", "$value": "1024px" },
+      "height": { "$type": "dimension", "$value": "1366px" },
+      "bezel":  { "$type": "dimension", "$value": "13px" },
+      "radius": { "$type": "dimension", "$value": "28px" },
+      "gutterX":{ "$type": "dimension", "$value": "30px" }
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "CSS max-width breakpoints (not the device frame). Below each, layout reflows.",
+    "landingTwoCol": { "$value": "980px", "$description": "Landing grid 3 → 2 columns" },
+    "stack":         { "$value": "920px", "$description": "Landing 1 col; login hides feature panel; hero shrinks" }
+  }
+}

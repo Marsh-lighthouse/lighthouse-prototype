@@ -1,0 +1,357 @@
+/* ============================================================
+   MDS V3 — Folio-only test overrides
+   Loaded ONLY by Folio.html. Delete that <link> to fully revert.
+   Values read directly from the Marsh MDS V3 design system.
+   Only radius, colours, and font tokens change — nothing structural.
+   ============================================================ */
+
+/* ── Colours: LIGHT mode only (dark mode keeps the prototype's dark theme).
+   !important so these beat lh-tweaks' runtime inline vars on <html>. ── */
+:root:not([data-theme="dark"]) {
+  --accent: #0065AC !important;              /* MDS brand-primary-alt: links, active, rings, eyebrows */
+  --ink:    #0F0C08 !important;              /* body text — warm near-black (MDS text-icon-secondary) */
+  --muted:  rgba(15,12,8,.62) !important;    /* secondary text / captions */
+  --line:   #DEDBD6 !important;              /* CONTAINER borders / dividers — EXACT MDS soft divider, verified in the MDS Figma: Divider Soft=Yes = #DEDBD6 (rgb 222,219,214) = --v3-border-container. (Was #E4E1DC, a slightly lighter approximation.) */
+  --field-line: #6F6D68 !important;          /* FORM-FIELD borders — EXACT MDS Input-field token, verified in the MDS Figma: --v3-border-input → --v3-base-neutral-clear → --neutral-gray-800-2 = rgb(111,109,104). Spec is 1px, radius 2px. ~4.9:1 on white → passes WCAG 2.1 SC 1.4.11. NOTE: this is the true MDS input border and is darker than neutral-500/750; if the team wants a lighter field edge that is a deliberate deviation from the MDS Input component. */
+  /* --action #000F47 (Midnight/Blue-1000), --primary #000F47,
+     --canvas #F7F3EE (canvas-warm) already match — left as-is. */
+}
+
+/* ── Type: nudged to MDS steps ── */
+:root {
+  --text-body:  16px;   /* MDS md (was 15) */
+  --text-small: 14px;   /* MDS sm */
+  --text-label: 14px;   /* MDS sm */
+  --text-h2:    22px;   /* MDS 2xl (was 21) */
+}
+
+/* ── Links: MDS hyperlink token ──
+   --v3-interaction-text-icon-border-navigation-hyperlink = var(--accent) (Blue-750).
+   Read from the MDS Figma variables — this is the real hyperlink colour, not
+   the muted #0065AC body-text-link value. Content <a> links are underlined. */
+.ed-content a[href]:not([class*="btn"]),
+.ed-content a:not([href]):not([class*="btn"]) {
+  color: var(--accent) !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ed-content a:hover { color: color-mix(in srgb, var(--accent) 82%, #000) !important; }
+
+/* EXCEPTION — footer legal links (Privacy Notice / Cookie Notice / Manage
+   Cookies) are SECONDARY. The MDS hyperlink blue is too loud for legal footer
+   links, so keep them the muted secondary-text colour (as authored) and give a
+   subtle underline on hover/focus for link affordance (WCAG-friendly). */
+.ed-content footer a[href]:not([class*="btn"]) { color: var(--muted) !important; text-decoration: none !important; }
+.ed-content footer a[href]:not([class*="btn"]):hover,
+.ed-content footer a[href]:not([class*="btn"]):focus-visible { color: var(--ink) !important; text-decoration: underline !important; text-underline-offset: 2px; }
+
+/* Action / inline links rendered as borderless <button>s ("+ Create my own",
+   "Pick from our development library", "Create with AI", "Export", etc.) carry
+   an inline color:var(--accent). Recolour them to the MDS hyperlink var(--accent)
+   (their icons use currentColor, so they follow). */
+:is(#root,body>div:not([class]),.lh-net-overlay) button[style*="color: var(--accent)"] {
+  color: var(--accent) !important;
+}
+
+/* ============================================================
+   RADIUS — remap inline radii to a SINGLE platform corner value.
+   Every normalized element (cards, badges, chips, buttons, inputs, timers,
+   checkboxes) now resolves to var(--lh-radius, 2px): the "Rounded corners"
+   switch in the Tweaks panel sets --lh-radius on <html> via window.LHRadius,
+   so one control drives the whole platform. Default (unset) = MDS 2px.
+   Each container rule EXCLUDES elements whose width == 2×radius: those are
+   circles drawn with border-radius:half (radio dots, avatars, icon chips)
+   and MUST stay round. !important is required to beat React inline styles.
+   ============================================================ */
+
+/* Cards / panels / containers -> var(--lh-radius, 2px), circles excluded */
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 8px"]:not([style*="width: 16px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 9px"]:not([style*="width: 18px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 10px"]:not([style*="width: 20px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 11px"]:not([style*="width: 22px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 12px"]:not([style*="width: 24px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 13px"]:not([style*="width: 26px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 14px"]:not([style*="width: 28px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 15px"]:not([style*="width: 30px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 16px"]:not([style*="width: 32px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 17px"]:not([style*="width: 34px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 18px"]:not([style*="width: 36px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 19px"]:not([style*="width: 38px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 20px"]:not([style*="width: 40px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 21px"]:not([style*="width: 42px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 22px"]:not([style*="width: 44px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 23px"]:not([style*="width: 46px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 24px"]:not([style*="width: 48px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 25px"]:not([style*="width: 50px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 26px"]:not([style*="width: 52px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 28px"]:not([style*="width: 56px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 30px"]:not([style*="width: 60px"]) {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* Popover / tooltip / dropdown ROOTS portaled straight to <body> (class-less
+   fixed divs — e.g. the completion editor, date pickers, tooltips) are the
+   scope element itself, not a descendant, so the rule above can't reach their
+   own radius. Snap those cards to 8px. Circles/pills protected. #root and the
+   inset:0 modal overlays have no radius, so they're unaffected. */
+body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]) {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* Small inline radii (5-7px) -> 4px. Any element with a fixed inline width
+   is a control (checkbox/radio indicator, icon dot) — left untouched so its
+   original design/shape is preserved. */
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 5px"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 6px"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) [style*="border-radius: 7px"]:not([style*="width:"]) {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* Status chips / badges / tags -> 8px, matching the MDS Badge component (text
+   badges use radius-lg = 8px in the Figma; verified in the MDS style guide).
+   MDS status badges use a soft semantic background + 1px semantic border, types:
+   Informative #0065AC / Positive #14853D / Negative #C53532 / Notice(Warning) #CB7E03
+   / Neutral outline #94918C. Folio tags are small FILLED <span>s (status chips,
+   "Available"/"Locked", counts, etc.); they already carry the soft colours. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 3px"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 4px"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 5px"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 6px"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background"][style*="border-radius: 7px"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="letter-spacing: 0.02em"][style*="border-radius: 6px"]:not([style*="width:"]) {
+  border-radius: var(--lh-radius, 2px) !important;
+  /* MDS badge label text is REGULAR (400), not bold — globalised here so every
+     badge (incl. ones only in popups/tooltips/modals) is caught, not just the
+     ones edited in source. */
+  font-weight: 400 !important;
+}
+
+/* Some badges were authored as PILLS (border-radius: 999px) rather than 3-8px —
+   e.g. the "Whole plan" scope chip in the comments panel. They're still status
+   badges, so snap them to 4px too. Scoped to tinted color-mix() spans, so real
+   pill controls (toggles) and white-bg counters (e.g. "0 OF 6 RANKED") stay as
+   pills. The MDS border rule below then gives them their semantic outline. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="border-radius: 999px"]:not([style*="width:"]) {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* The white-bg outline COUNTER pill ("X OF Y RANKED") -> 2px square, per
+   request. Identified by its 1px letter-spacing + 999px radius, so it doesn't
+   affect the tinted status badges. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border-radius: 999px"][style*="letter-spacing: 1px"] {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* MDS Badge border: per the MDS Figma, EVERY soft badge carries a 1px inset
+   border in its semantic hue. Two tint authorings exist in Folio — color-mix()
+   (In progress, Not started, counts) and rgba() (e.g. "✓ Hogan Assessment",
+   success/danger/warning source chips). Both get a 1px currentColor border so
+   the outline matches the semantic text colour. SOLID badges (Available/Locked,
+   white text on a full-strength fill) are left as-is: MDS borders them in the
+   SAME hue as the fill, which is visually identical to no outline. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="border-radius"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--success)"][style*="border-radius"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--danger)"][style*="border-radius"]:not([style*="width:"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--warn"][style*="border-radius"]:not([style*="width:"]) {
+  border: 1px solid currentColor !important;
+  box-sizing: border-box !important;
+}
+
+/* MDS "Neutral" badge (Soft background = No): the neutral status chips
+   ("Not started", etc.) map to the OUTLINED neutral tag in the MDS Badge
+   component — 1px --v3-border-neutral (#94918C) border, NO fill. Folio authors
+   them with a --status-neutral-bg tint and no border, so swap to the outline. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: var(--status-neutral-bg)"] {
+  border: 1px solid #94918C !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+/* Timers (immersive "THIS TASK" / "PROGRAM" countdowns = .oa-cd) -> 2px,
+   like buttons. These are timers, NOT status tags, so they are sharp — not
+   pills. Targeted by class so notices/alerts (which also use nowrap) are
+   unaffected. .ed-cd is the task/program "Due …" countdown — same idea. */
+:is(#root,body>div:not([class]),.lh-net-overlay) div.oa-cd:not([hidden]),
+:is(#root,body>div:not([class]),.lh-net-overlay) div.ed-cd:not([hidden]) {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* Buttons -> 2px (MDS radius-sm, confirmed in Claude Design).
+   Higher specificity beats the 8px rule; circles/pills excluded.
+   The width+radius :not() pairs below preserve CIRCULAR icon/radio buttons
+   (border-radius == half the width, e.g. matrix Likert radios at 20px/10px) —
+   a radio is a round MDS component, not a squared button. */
+:is(#root,body>div:not([class]),.lh-net-overlay) button:not(.pl-seg-btn):not([style*="border-radius: 50%"]):not([style*="border-radius: 999"]):not([style*="border-radius: 99px"]):not([style*="border-radius: 9999"]):not([style*="text-align: left"]):not([style*="width: 14px"][style*="border-radius: 7px"]):not([style*="width: 16px"][style*="border-radius: 8px"]):not([style*="width: 18px"][style*="border-radius: 9px"]):not([style*="width: 20px"][style*="border-radius: 10px"]):not([style*="width: 22px"][style*="border-radius: 11px"]):not([style*="width: 24px"][style*="border-radius: 12px"]):not([style*="width: 26px"][style*="border-radius: 13px"]):not([style*="width: 28px"][style*="border-radius: 14px"]):not([style*="width: 30px"][style*="border-radius: 15px"]):not([style*="width: 32px"][style*="border-radius: 16px"]):not([style*="width: 34px"][style*="border-radius: 17px"]):not([style*="width: 36px"][style*="border-radius: 18px"]):not([style*="width: 40px"][style*="border-radius: 20px"]):not([style*="width: 44px"][style*="border-radius: 22px"]):not([style*="width: 48px"][style*="border-radius: 24px"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) .btn,
+:is(#root,body>div:not([class]),.lh-net-overlay) .btn-primary,
+:is(#root,body>div:not([class]),.lh-net-overlay) .ed-btn,
+:is(#root,body>div:not([class]),.lh-net-overlay) .ed-gold {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+/* Selection / option rows are <button>s for a11y but read as cards (left-aligned,
+   contain a radio/checkbox, have a border) — keep them at the 8px card radius,
+   not the 2px CTA radius. They fall through to the 8px container rule above. */
+
+/* Side-menu (rail) nav items -> 4px (MDS SideNavigation active item).
+   These are <div role="button">, so the 2px button rule doesn't reach them;
+   the extra selectors raise specificity above the container 8px rule. */
+:is(#root,body>div:not([class]),.lh-net-overlay) .ed-rail nav [role="button"],
+:is(#root,body>div:not([class]),.lh-net-overlay) .ed-rail nav [role="button"] > * {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* Form controls (text inputs, textarea, select) -> 2px (radius-sm, confirmed
+   in Figma — same as buttons). [style] raises specificity above the container
+   rule so they aren't pulled to 8px. Checkboxes/radios are excluded (they stay
+   as drawn). */
+:is(#root,body>div:not([class]),.lh-net-overlay) textarea[style]:not([hidden]),
+:is(#root,body>div:not([class]),.lh-net-overlay) input[style]:not([type="checkbox"]):not([type="radio"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) select[style]:not([hidden]) {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* Input-WRAPPER divs (search fields, multi-select, combobox) — a <div> styled
+   as a text field around a borderless <input>. They carry cursor:text, which
+   is the reliable tell. -> 2px, same as real inputs. The extra attribute
+   selectors raise specificity above the 8px container rule. */
+:is(#root,body>div:not([class]),.lh-net-overlay) div[style*="cursor: text"][style*="border-radius"] {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* ── WCAG 2.1 SC 1.4.11 (non-text contrast) for FORM FIELDS ──────────────
+   Input boundaries must reach 3:1 against their background to be identifiable.
+   The soft container --line (#E4E1DC, ~1.3:1) fails that, so form controls get
+   the MDS neutral-750 token (--field-line #7B7974, 4.35:1) instead. Scoped to
+   fields whose inline border is the DEFAULT var(--line) — error/focus borders
+   (red/accent) contain a different colour token and are left untouched.
+   Containers (cards, dividers, badges) keep the light --line: they're
+   non-interactive, so 1.4.11 doesn't apply to them. */
+:is(#root,body>div:not([class]),.lh-net-overlay) input[style*="var(--line)"]:not([type="checkbox"]):not([type="radio"]),
+:is(#root,body>div:not([class]),.lh-net-overlay) textarea[style*="var(--line)"],
+:is(#root,body>div:not([class]),.lh-net-overlay) select[style*="var(--line)"],
+:is(#root,body>div:not([class]),.lh-net-overlay) div[style*="cursor: text"][style*="var(--line)"] {
+  border-color: var(--field-line) !important;
+}
+
+/* ── Checkbox unification ──────────────────────────────────────────────
+   Visible native <input type="checkbox"> (Instructions, Development planning)
+   restyled to match the assessment's custom checkbox: a rounded square with a
+   hairline border that fills with the accent and shows a white tick when
+   checked — so every checkbox in Folio looks identical. The hidden consent
+   input (opacity:0, already backed by its own custom box) is excluded. */
+:is(#root,body>div:not([class]),.lh-net-overlay) input[type="checkbox"]:not([style*="opacity: 0"]) {
+  -webkit-appearance: none; appearance: none;
+  width: 22px !important; height: 22px !important;
+  flex-shrink: 0; box-sizing: border-box;
+  border: 1.5px solid var(--control-line); border-radius: var(--lh-radius, 2px) !important;
+  background-color: var(--card); cursor: pointer; vertical-align: middle;
+  background-repeat: no-repeat; background-position: center; background-size: 14px 14px;
+  transition: background-color .12s ease, border-color .12s ease;
+}
+/* Checked: primary fill + the SAME white tick SVG the consent checkbox draws
+   (path "M20 6 9 17l-5-5"), so every checkbox is identical to the consent one. */
+:is(#root,body>div:not([class]),.lh-net-overlay) input[type="checkbox"]:not([style*="opacity: 0"]):checked {
+  background-color: var(--primary); border-color: var(--primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+}
+
+/* Custom checkbox tick boxes are <span>s (not <input>), authored at 5-6px radius
+   across SEVERAL sizes — 16px (checkgrid/NA-row ticks), 22px (image multi-select),
+   24px (captcha), etc. Target them by SIGNATURE (a 2px solid border + 5px/6px
+   radius) rather than by exact pixel size, so every variant squares to 2px on
+   every device — no size can slip through. Radio dots (background only, no
+   border) and status badges (color-mix fill, 1px currentColor border) don't have
+   a "2px solid" border, so they're unaffected. The 26px/6px checkbox BUTTONS
+   (checkgrid + "Not Applicable") are already squared to 2px by the button rule. */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border: 2px solid"][style*="border-radius: 5px"],
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="border: 2px solid"][style*="border-radius: 6px"],
+/* image-select single-select corner badge: round 13px -> square 2px */
+:is(#root,body>div:not([class]),.lh-net-overlay) span[style*="width: 26px"][style*="height: 26px"][style*="border-radius: 13px"][style*="position: absolute"] {
+  border-radius: var(--lh-radius, 2px) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DARK VIEW — MDS dark-surface alignment.
+   Radii / weights / geometry are theme-agnostic (already applied above). This
+   block handles the two things that ARE colour-dependent in dark mode:
+   (1) the form-field border token (light block above is scoped to :not(dark)),
+   (2) the semantic soft badges — the light-mode hexes would render as bright
+       light chips on the dark card, so give them a dark-surface variant.
+   ═══════════════════════════════════════════════════════════════════════ */
+/* Plan controls (Sample-10 completion: linear bar, slider, segmented button).
+   Light = navy #000F47 fill with sky color-mix(in srgb, var(--primary) 9%, #ffffff) content, per the MDS light spec. */
+:root { --pl-fill: var(--primary); --pl-fill-on: #ffffff; --pl-fill-empty: rgba(0,15,71,.18); }
+:root[data-theme="dark"] {
+  /* EXACT MDS dark-surface Input-field border, verified in the MDS Figma:
+     --v3-border-input → --v3-base-neutral-clear → --neutral-gray-500-2 = #B9B6B1,
+     1px inset, radius 2px. (Light mode resolves the same token to neutral-800/#6F6D68.) */
+  --field-line: #B9B6B1 !important;
+  /* Plan controls: navy #000F47 ≈ the dark surface (rgb 21,30,48) → the fill is
+     invisible on dark. Flip to Blue-500 #82BAFF; content on the filled segment
+     becomes dark ink. Track #94918C already reads on both surfaces. */
+  --pl-fill: var(--accent); --pl-fill-on: #ffffff; --pl-fill-empty: rgba(130,186,255,.30);
+}
+/* Dark-surface semantic badges — EXACT MDS values pulled from the Figma file.
+   MDS defines Badge with only Type × Soft-background axes (no separate dark
+   artboard); under the file's dark mode the soft-badge TEXT and BORDER resolve
+   to the full-strength semantic hue (border = text), radius 8px, 1px:
+     Neutral #94918C · Informative #5E9AFF · Positive #57C67A · Negative #EF4E45 · Notice #FFAB4A.
+   The soft FILL in the file is a hard-coded 85%-white layer that does NOT
+   retheme (a genuine gap in the .fig, flagged to the design owner) — so on the
+   dark surface we substitute a low-opacity tint of the same hue rather than the
+   near-white light fill. Targeted by the hue the light badge renders as (the
+   browser normalises the authored hex to rgb()); only the soft color-mix()
+   badges carry the hue in their fill, so plain hue text/headings are unaffected. */
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(0, 44, 119)"] {      /* Informative var(--accent) */
+  color: #5E9AFF !important; background: color-mix(in srgb, #5E9AFF 20%, transparent) !important; border-color: #5E9AFF !important;
+}
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(20, 133, 61)"] {      /* Positive #14853D */
+  color: #57C67A !important; background: color-mix(in srgb, #57C67A 20%, transparent) !important; border-color: #57C67A !important;
+}
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(197, 53, 50)"] {      /* Negative #C53532 */
+  color: #EF4E45 !important; background: color-mix(in srgb, #EF4E45 20%, transparent) !important; border-color: #EF4E45 !important;
+}
+:root[data-theme="dark"] :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="color-mix"][style*="rgb(203, 126, 3)"] {      /* Notice #CB7E03 */
+  color: #FFAB4A !important; background: color-mix(in srgb, #FFAB4A 20%, transparent) !important; border-color: #FFAB4A !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MDS Slider — used for the Sample-10 action-card completion control.
+   Exact MDS values (verified in the Figma Slider component): 2px track,
+   filled #000F47 (navy) / unfilled #94918C (neutral gray); 12×12 navy
+   circular thumb, no border/shadow at rest; hover halo rgba(170,27,23,.1).
+   The filled portion comes from the --pct custom property set inline.
+   ═══════════════════════════════════════════════════════════════════════ */
+.pl-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 16px; background: transparent; cursor: pointer; outline: none; margin: 0; }
+/* Filled (#000F47) + a transparent gap around the thumb + unfilled (#94918C) —
+   the thumb is 12px, so the navy line ends 8px before its centre and the gray
+   starts 8px after, leaving a ~2px gap on each side of the circle (MDS look). */
+.pl-slider::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: linear-gradient(to right, var(--pl-fill) 0, var(--pl-fill) calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) - 8px), transparent calc(var(--pct, 0%) + 8px), #94918C calc(var(--pct, 0%) + 8px), #94918C 100%); }
+.pl-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--pl-fill); border: none; margin-top: -5px; cursor: pointer; transition: box-shadow .15s ease; }
+.pl-slider:hover::-webkit-slider-thumb, .pl-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 10px rgba(170,27,23,.1); }
+.pl-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--pl-fill); border: none; cursor: pointer; }
+.pl-slider::-moz-range-track { height: 2px; border-radius: 2px; background: #94918C; }
+.pl-slider::-moz-range-progress { height: 2px; border-radius: 2px; background: #000F47; }
+.pl-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #000F47; border: none; cursor: pointer; }
+.pl-slider:hover::-moz-range-thumb, .pl-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 10px rgba(170,27,23,.1); }
+
+/* MDS Segmented Button (Small) — hover on an unselected segment. Exact MDS
+   hover: rgba(0,15,71,.08). Selected segments (aria-pressed=true) don't tint. */
+.pl-seg-btn:not([aria-pressed="true"]):hover { background: rgba(0,15,71,.08); }
+/* Outer corners only (2px) on the segmented button — inner segments stay square
+   for the connected look. Overrides the generic 2px button-radius rule above. */
+.pl-seg-btn { border-radius: 0 !important; }
+.pl-seg-btn:first-child { border-radius: 2px 0 0 2px !important; }
+.pl-seg-btn:last-child { border-radius: 0 2px 2px 0 !important; }
+
+/* MDS scrollbar — thin, neutral, rounded (thumb = --v3-border-disabled #B9B6B1,
+   hover = neutral #94918C). Used by the manager's inline change-summary list when
+   it has more than 5 changes and needs to scroll. */
+.mgr-scrolly { scrollbar-width: thin; scrollbar-color: #B9B6B1 transparent; }
+.mgr-scrolly::-webkit-scrollbar { width: 10px; }
+.mgr-scrolly::-webkit-scrollbar-track { background: transparent; }
+.mgr-scrolly::-webkit-scrollbar-thumb { background: #B9B6B1; border-radius: 999px; border: 3px solid transparent; background-clip: content-box; }
+.mgr-scrolly::-webkit-scrollbar-thumb:hover { background: #94918C; border: 3px solid transparent; background-clip: content-box; }
+:root[data-theme="dark"] .mgr-scrolly { scrollbar-color: #56544F transparent; }
+:root[data-theme="dark"] .mgr-scrolly::-webkit-scrollbar-thumb { background: #56544F; }
+:root[data-theme="dark"] .mgr-scrolly::-webkit-scrollbar-thumb:hover { background: #6F6D68; }

@@ -1,0 +1,50 @@
+/* ════════════════════════════════════════════════
+   Assessor workspace — responsive reflow for the Tweaks
+   Device-preview frames (iPad / Mobile).
+
+   The assessor editorial (lighthouse-assessor-editorial.jsx) ships
+   NO @media rules of its own and lays out as a fixed 256px <aside>
+   rail + fluid content, with dashboard data in real <table>s.
+   The shared device-preview.css targets Folio's ed- / lh- chrome
+   classes, which the assessor doesn't use — so these rules cover it.
+
+   Loaded AFTER device-preview.css so the stat-strip override wins over
+   the generic "every inline grid → single column" mobile rule.
+   ════════════════════════════════════════════════ */
+
+/* ───────────────────────── MOBILE (390px frame) ───────────────────────── */
+
+/* The 256px navy rail + its collapse toggle would eat 2/3 of a 390px phone —
+   drop them so the content fills the frame. (Nav lives only in the rail on the
+   assessor; on phones the workspace goes content-first, matching how Folio
+   drops its own rail on mobile.) */
+html[data-device="mobile"] #root aside,
+html[data-device="mobile"] #root aside + button { display: none !important; }
+
+/* Content gutters tighten to phone widths (desktop is 36px/40px). */
+html[data-device="mobile"] #root main > div { padding: 22px 18px 64px !important; }
+html[data-device="mobile"] #root header { padding-left: 16px !important; padding-right: 16px !important; }
+
+/* Stat strip: 4-up → 2×2 (the generic rule would stack all four in a tall column). */
+html[data-device="mobile"] #root [style*="repeat(4, 1fr)"] {
+  grid-template-columns: 1fr 1fr !important; gap: 14px !important;
+}
+
+/* Dashboard tables: the 3–4 column campaign / participant tables can't stay
+   readable at ~350px, so each scrolls horizontally inside its card while
+   keeping sensible column widths. Two of the three cards already wrap the
+   table in an overflow-x:auto div; :has() gives the third the same wrapper. */
+html[data-device="mobile"] #root main div:has(> table) {
+  overflow-x: auto !important; -webkit-overflow-scrolling: touch;
+}
+html[data-device="mobile"] #root main table { min-width: 480px; }
+
+/* ───────────────────────── iPad (1024px frame) ──────────────────────────── */
+
+/* Rail (256px) + content fit fine at ~998px; ease the content gutters so the
+   cards aren't jammed against the bezel. */
+html[data-device="ipad"] #root main > div { padding-left: 32px !important; padding-right: 32px !important; }
+
+/* Stack the 2-up dashboard card grid so each table gets the FULL content width
+   (~680px) instead of a cramped ~360px half-column — tables then need no scroll. */
+html[data-device="ipad"] #root main [style*="1fr 1fr"] { grid-template-columns: 1fr !important; }

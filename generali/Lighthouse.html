@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<!-- Build freshness guard. GitHub Pages serves HTML with max-age=600, so a visitor can
+     hold a stale page shell that still points at the previous build's scripts. This
+     compares the stamp baked into this page against the one that is deployed and
+     refreshes once if they differ. Fails silent: any error leaves the page as it is. -->
+<meta name="lh-build" content="dev" />
+<script>
+(function () {
+  try {
+    var el = document.querySelector('meta[name="lh-build"]');
+    var mine = el && el.content;
+    if (!mine || mine === "dev") return;              // local dev - nothing is stamped
+    var KEY = "lh-build-refresh";
+    fetch("version.txt?t=" + Date.now(), { cache: "no-store" }).then(function (r) {
+      return r.ok ? r.text() : null;
+    }).then(function (body) {
+      if (!body) return;
+      var live = body.trim();
+      if (!live) return;
+      if (live === mine) { try { sessionStorage.removeItem(KEY); } catch (e) {} return; }
+      // Refresh at most once per deployed build, so a lagging CDN edge can never loop us.
+      try {
+        if (sessionStorage.getItem(KEY) === live) return;
+        sessionStorage.setItem(KEY, live);
+      } catch (e) { return; }
+      fetch(location.href, { cache: "reload" }).catch(function () {}).then(function () { location.reload(); });
+    }).catch(function () {});
+  } catch (e) {}
+})();
+</script>
+<title>Marsh — Dashboard directions</title>
+<link rel="stylesheet" href="brand.css?v=1789648515" />
+<link rel="stylesheet" href="client-brand.css?v=1789648515" />
+<script src="client-brand.js?v=1789648515"></script>
+<style>
+  html, body { margin: 0; background: #F7F3EE; color: #000F47; font-family: var(--sans); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 48px 72px; }
+  .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 72px; }
+  .top .ws { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #7B7974; }
+  .top .ws .dot { width: 7px; height: 7px; border-radius: 4px; background: #0065AC; }
+  .hero { max-width: 700px; margin-bottom: 56px; }
+  .hero .ey { font-size: 15px; font-weight: 700; color: #0065AC; margin-bottom: 16px; }
+  .hero h1 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.025em; font-size: 40px; line-height: 1.02; margin: 0 0 20px; color: #000F47; }
+  .hero p { font-size: 21px; line-height: 1.6; color: #3D3C37; margin: 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } .hero h1 { font-size: 40px; } }
+
+  .card { display: flex; flex-direction: column; background: #fff; border: 1px solid #DEDBD6; border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0,15,71,.12); border-color: rgba(0,15,71,.18); }
+
+  .prev { height: 168px; border-bottom: 1px solid rgba(0,15,71,.08); display: flex; overflow: hidden; }
+  /* shared light shell in every preview */
+  .s-side { width: 26%; background: #fff; border-right: 1px solid rgba(0,15,71,.10); padding: 12px 9px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+  .s-logo { height: 6px; width: 78%; border-radius: 3px; background: #000F47; margin-bottom: 6px; }
+  .s-active { height: 13px; border-radius: 5px; background: #CEECFF; }
+  .s-nav { height: 5px; width: 70%; border-radius: 3px; background: rgba(0,15,71,.16); }
+  .s-pane { flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .s-serif { font-family: var(--serif); font-weight: 700; color: #000F47; line-height: 1; }
+  .s-line { height: 6px; border-radius: 3px; background: rgba(0,15,71,.14); }
+  .s-card { background: #fff; border: 1px solid rgba(0,15,71,.12); border-radius: 7px; }
+
+  .pbody { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+  .pbody .lbl { font-size: 15px; font-weight: 700; color: #7B7974; margin-bottom: 8px; }
+  .pbody h2 { font-family: var(--serif); font-weight: 700; font-size: 21px; margin: 0 0 8px; color: #000F47; }
+  .pbody p { font-size: 15px; line-height: 1.55; color: #3D3C37; margin: 0 0 18px; }
+  .open { margin-top: auto; display: inline-flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 700; color: #000F47; }
+  .card:hover .open .arr { transform: translateX(3px); }
+  .arr { transition: transform .16s ease; }
+
+  .foot { margin-top: 48px; font-size: 15px; color: #7B7974; }
+  .foot b { color: #000F47; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <svg viewBox="0 0 208 45" style="height:26px;width:auto;display:block" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Marsh"><path fill="#000F47" d="M21.645 30.43h.556l12.868-6.04v19.874h8.101V0h-.676zM0 0v44.264h8.099V24.396l12.805 6.034h.619L.679 0zm68.962.37L48.24 44.263h8.167l3.622-8.112h17.659l3.648 8.112H90.3L69.519.37zm-6.078 29.385 5.943-13.311 5.985 13.311zm56.83-3.413c2.244-1.086 4.02-2.613 5.317-4.582q1.948-2.954 1.948-6.763c0-2.745-.663-5.14-1.981-7.19q-1.986-3.072-5.445-4.825-3.463-1.751-7.854-1.75H95.371v43.032h8.413V8.484h6.992q3.334-.001 5.595 1.75c1.508 1.168 2.259 2.76 2.259 4.765s-.756 3.618-2.259 4.825-3.372 1.814-5.595 1.814h-5.752l13.606 22.623h9.464l-10.605-17.062a15.6 15.6 0 0 0 2.225-.858m40.017-3.532a17.6 17.6 0 0 0-4.298-2.06 55 55 0 0 0-4.732-1.323 38 38 0 0 1-4.331-1.261c-1.303-.47-2.351-1.106-3.157-1.905q-1.208-1.2-1.206-3.23.001-2.456 2.194-4.088c1.464-1.086 3.263-1.628 5.411-1.628 2.428 0 4.688.41 6.77 1.232q3.123 1.229 5.101 3.259v-8.73a21.6 21.6 0 0 0-5.629-1.935 32.5 32.5 0 0 0-6.247-.582q-4.456 0-8.011 1.628-3.558 1.63-5.658 4.61c-1.398 1.988-2.103 4.316-2.103 6.978q-.001 3.44 1.204 5.655 1.21 2.21 3.156 3.563a17.2 17.2 0 0 0 4.332 2.153 61 61 0 0 0 4.732 1.383c1.565.392 3 .809 4.298 1.26 1.302.45 2.35 1.047 3.156 1.784l.01-.005c.806.741 1.207 1.72 1.207 2.953 0 1.639-.757 3-2.26 4.089-1.508 1.085-3.39 1.628-5.657 1.628-2.761 0-5.343-.491-7.733-1.473q-3.585-1.47-6-3.933v9.158a23.4 23.4 0 0 0 6.463 2.303c2.332.47 4.75.708 7.27.708q4.574 0 8.195-1.628 3.614-1.63 5.751-4.61c1.42-1.988 2.132-4.311 2.132-6.978q.001-3.379-1.204-5.533-1.21-2.15-3.156-3.442M199.589 1.23v17.767h-19.36V1.23h-8.411v43.034h8.411V26.25h19.36v18.013H208V1.23z"/></svg>
+    </div>
+
+    <div class="hero">
+      <div class="ey">Platform preview</div>
+      <h1>Explore the platform.</h1>
+      <p>The Marsh direction we're taking forward — one brand, one system across every flow. Start from the login screen for the full journey, or open any flow to explore it full-screen, then use <b style="color:#000F47">Tweaks</b> to switch accent, action and canvas colors.</p>
+    </div>
+
+    <div class="grid">
+      <!-- Login screen -->
+      <a class="card" href="Login.html">
+        <div class="prev" style="background:#fff;">
+          <div style="width:42%; padding:16px 14px; display:flex; flex-direction:column; gap:7px; justify-content:center;">
+            <div style="width:34px;height:6px;border-radius:3px;background:#000F47;margin-bottom:5px;"></div>
+            <div class="s-serif" style="font-size: 21px">Aa</div>
+            <div class="s-card" style="height:14px"></div>
+            <div class="s-card" style="height:14px"></div>
+            <div style="height:15px;border-radius:8px;background:#FFBF00;margin-top:3px;"></div>
+          </div>
+          <div style="flex:1; background:#000F47; display:flex; align-items:flex-end; padding:12px;">
+            <div style="width:70%;">
+              <div style="height:5px;border-radius:3px;background:rgba(255,255,255,.75);margin-bottom:6px;"></div>
+              <div style="height:5px;width:60%;border-radius:3px;background:rgba(255,255,255,.35);"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Entry point</div>
+          <h2>Login</h2>
+          <p>The sign-in experience — log in to land on the dashboard, with sign-up and password recovery alongside.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+
+      <!-- A · Folio -->
+      <a class="card" href="Folio.html">
+        <div class="prev">
+          <div class="s-side" style="background:#000F47; border-right:none;">
+            <div class="s-logo" style="background:rgba(255,255,255,.85)"></div>
+            <div class="s-active" style="background:rgba(206,236,255,.18)"></div>
+            <div class="s-nav" style="background:rgba(255,255,255,.28)"></div>
+            <div class="s-nav" style="background:rgba(255,255,255,.28)"></div>
+            <div class="s-nav" style="width:55%; background:rgba(255,255,255,.28)"></div>
+          </div>
+          <div class="s-pane" style="justify-content:center; background:#F7F3EE;">
+            <div class="s-serif" style="font-size: 28px">Aa</div>
+            <div class="s-line" style="width:72%"></div>
+            <div style="display:flex; gap:20px; margin-top:8px; border-top:1px solid rgba(0,15,71,.14); padding-top:10px;">
+              <div class="s-serif" style="font-size: 21px">2</div>
+              <div class="s-serif" style="font-size: 21px">2</div>
+              <div class="s-serif" style="font-size: 21px">1</div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Direction A</div>
+          <h2>Folio</h2>
+          <p>Branded midnight rail, oversized greeting, and editorial stat figures in one spacious column.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+
+      <!-- B · Peekaboo — HIDDEN (going ahead with Direction A only; restore this block to bring it back) -->
+      <!-- HIDDEN-PEEKABOO-START
+      <a class="card" href="Boardroom.html">
+        <div class="prev" style="flex-direction:column; background:#F7F3EE;">
+          <div style="display:flex; height:100%;">
+            <div style="width:11%; background:#000F47; display:flex; flex-direction:column; align-items:center; padding-top:10px;">
+              <div style="width:14px;height:14px;border-radius:3px;background:#CEECFF"></div>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column;">
+              <div style="height:22px; background:#fff; border-bottom:1px solid rgba(0,15,71,.10); display:flex; align-items:center; gap:6px; padding:0 10px;">
+                <div style="width:30px;height:5px;border-radius:3px;background:#CEECFF"></div>
+                <div style="width:22px;height:4px;border-radius:2px;background:rgba(0,15,71,.18)"></div>
+                <div style="width:22px;height:4px;border-radius:2px;background:rgba(0,15,71,.18)"></div>
+              </div>
+              <div style="flex:1; padding:10px; display:flex; flex-direction:column; gap:8px;">
+                <div style="display:flex; gap:8px; height:46px;">
+                  <div style="flex:1.5; background:#CEECFF; border-radius:7px; display:flex; align-items:center; padding-left:10px;"><div class="s-serif" style="font-size: 15px">Aa</div></div>
+                  <div style="flex:1; background:#000F47; border-radius:7px; display:flex; align-items:center; padding-left:10px;"><div class="s-serif" style="font-size: 21px;color:#fff">30</div></div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <div class="s-card" style="flex:1.7;height:22px"></div>
+                  <div class="s-card" style="flex:1;height:22px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Direction B</div>
+          <h2>Peekaboo</h2>
+          <p>A collapsible midnight sidebar that snaps down to icons, paired with a clean top bar of search, alerts and profile.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+      HIDDEN-PEEKABOO-END -->
+
+      <!-- Assessor workspace -->
+      <a class="card" href="Assessor.html">
+        <div class="prev">
+          <div class="s-side" style="background:#000F47; border-right:none;">
+            <div class="s-logo" style="background:rgba(255,255,255,.85)"></div>
+            <div class="s-active" style="background:rgba(206,236,255,.18)"></div>
+            <div class="s-nav" style="background:rgba(255,255,255,.28)"></div>
+            <div class="s-nav" style="background:rgba(255,255,255,.28)"></div>
+            <div class="s-nav" style="width:55%; background:rgba(255,255,255,.28)"></div>
+          </div>
+          <div class="s-pane" style="background:#F7F3EE; padding:0; flex-direction:row; gap:0; align-items:stretch;">
+            <div style="flex:1; padding:12px; display:flex; flex-direction:column; gap:6px; border-right:2px solid rgba(0,15,71,.16);">
+              <div class="s-line" style="width:60%"></div>
+              <div class="s-card" style="height:11px"></div>
+              <div class="s-card" style="height:11px; width:82%"></div>
+              <div class="s-card" style="height:11px; width:68%"></div>
+            </div>
+            <div style="flex:1; padding:12px; display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <div class="s-serif" style="font-size:15px; color:#0065AC">4</div>
+                <div class="s-card" style="flex:1; height:8px"></div>
+              </div>
+              <div class="s-card" style="height:10px"></div>
+              <div class="s-card" style="height:10px; width:85%"></div>
+              <div style="height:14px;border-radius:7px;background:#FFBF00;margin-top:4px; width:62%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Assessor side</div>
+          <h2>Assessor Flow</h2>
+          <p>The assessor workspace — review assigned candidates, evaluate responses against the competency framework in a split view, then moderate the final scores.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+
+      <!-- Manager workspace -->
+      <a class="card" href="Manager.html">
+        <div class="prev">
+          <div class="s-side" style="background:#000F47; border-right:none;">
+            <div class="s-logo" style="background:rgba(255,255,255,.85)"></div>
+            <div class="s-active" style="background:rgba(206,236,255,.18)"></div>
+            <div class="s-nav" style="background:rgba(255,255,255,.28)"></div>
+            <div class="s-nav" style="width:55%; background:rgba(255,255,255,.28)"></div>
+          </div>
+          <div class="s-pane" style="background:#F7F3EE; gap:7px;">
+            <div class="s-serif" style="font-size:21px">Aa</div>
+            <div style="display:flex; gap:6px; margin-bottom:2px;">
+              <div class="s-card" style="flex:1; height:20px"></div>
+              <div class="s-card" style="flex:1; height:20px"></div>
+              <div class="s-card" style="flex:1; height:20px"></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div style="width:12px;height:12px;border-radius:50%;background:#000F47;"></div>
+              <div class="s-card" style="flex:1; height:9px"></div>
+              <div style="width:38px;height:9px;border-radius:5px;background:rgba(255,191,0,.55);"></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div style="width:12px;height:12px;border-radius:50%;background:#000F47;"></div>
+              <div class="s-card" style="flex:1; height:9px"></div>
+              <div style="width:38px;height:9px;border-radius:5px;background:rgba(20,133,61,.45);"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Manager side</div>
+          <h2>Manager Flow</h2>
+          <p>The other side of the development plan — see what the team submitted, open a plan with the employee's details on top, then approve it or send it back. Managers can also start a plan for someone.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+
+      <!-- Interactive Questioning — standalone concept, opens in its own app -->
+      <a class="card" href="iq/index.html">
+        <div class="prev">
+          <div class="s-pane" style="background:#F7F3EE; gap:8px; padding:14px 16px;">
+            <div class="s-serif" style="font-size:19px">A new kind of question</div>
+            <div class="s-card" style="align-self:flex-start; max-width:78%; padding:7px 9px; background:#000F47; border:none; border-radius:9px 9px 9px 3px;">
+              <div class="s-line" style="width:120px; background:rgba(255,255,255,.5)"></div>
+              <div class="s-line" style="width:78px; background:rgba(255,255,255,.5); margin-top:5px"></div>
+            </div>
+            <div class="s-card" style="align-self:flex-end; max-width:66%; padding:7px 9px; background:#CEECFF; border:none; border-radius:9px 9px 3px 9px;">
+              <div class="s-line" style="width:92px; background:rgba(0,15,71,.35)"></div>
+            </div>
+            <div style="display:flex; gap:6px; margin-top:2px;">
+              <div class="s-card" style="flex:1; height:22px; display:flex; align-items:center; justify-content:center;"><div class="s-line" style="width:60%"></div></div>
+              <div style="width:32px; height:22px; border-radius:6px; background:rgba(255,191,0,.6);"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Concept · standalone</div>
+          <h2>Interactive Questioning</h2>
+          <p>A different way to ask — questions that play out as a chat, a call, an email or an interview, with follow-up probes that adapt to the answer. Its own self-contained app, separate from the flows above.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+
+      <!-- Question Type — categorized library of every assessment question type -->
+      <a class="card" href="QuestionType.html">
+        <div class="prev">
+          <div class="s-pane" style="flex-direction:row; gap:10px; padding:12px 14px; align-items:stretch;">
+            <div style="width:40%; display:flex; flex-direction:column; gap:7px; padding-right:10px; border-right:1px solid rgba(0,15,71,.1);">
+              <div class="s-line" style="width:80%; background:rgba(0,15,71,.28)"></div>
+              <div class="s-active" style="width:96%; height:14px"></div>
+              <div class="s-line" style="width:66%"></div>
+              <div class="s-line" style="width:84%"></div>
+              <div class="s-line" style="width:58%"></div>
+            </div>
+            <div class="s-card" style="flex:1; display:flex; flex-direction:column; gap:7px; padding:10px 11px;">
+              <div class="s-line" style="width:82%; background:rgba(0,15,71,.4)"></div>
+              <div style="display:flex; gap:7px; align-items:center; margin-top:3px;">
+                <div style="width:14px; height:14px; border-radius:50%; border:2px solid #0065AC; flex-shrink:0;"></div>
+                <div class="s-line" style="width:64%"></div>
+              </div>
+              <div style="display:flex; gap:7px; align-items:center;">
+                <div style="width:14px; height:14px; border-radius:50%; border:2px solid rgba(0,15,71,.25); flex-shrink:0;"></div>
+                <div class="s-line" style="width:52%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pbody">
+          <div class="lbl">Reference · library</div>
+          <h2>Question Type</h2>
+          <p>Browse every question type by category — Standard, Speciality, Static &amp; Advanced. Each opens a live, interactive preview built from the same components as the assessment, so what you see here is exactly what candidates get.</p>
+          <span class="open">Open <span class="arr">&#8594;</span></span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="foot"><b>Tip:</b> each page stands alone — switch theme &amp; colors with Tweaks, and we iterate here without touching the original.</div>
+  </div>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#000F47"/>
+    <path d="M28 72V36l22 19 22-19v36" fill="none" stroke="#CEECFF" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+</template>
+<!-- Shared Tweaks panel (radius / brand / theme) — same control as every flow. -->
+<script src="radius-tweak.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="lh-tweaks.jsx"></script>
+<script type="text/babel" data-presets="react">
+  const tweakRoot = document.createElement("div");
+  document.body.appendChild(tweakRoot);
+  ReactDOM.createRoot(tweakRoot).render(<LighthouseTweaks />);
+</script>
+</body>
+</html>

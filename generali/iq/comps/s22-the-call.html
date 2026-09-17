@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S22 Phase 0 — The Call (comps for sign-off)</title>
+<style>
+/* ══════════════════════════════════════════════════════════════════════
+   S22 PHASE 0 — STATIC COMPS. No wiring, no JS. Real palette (Marsh
+   tokens), real copy (the interview-apex seed). The grammar: a CALL.
+   ══════════════════════════════════════════════════════════════════════ */
+:root{
+  --midnight:#000B33; --midnight-2:#0B1533; --ink:#000F47;
+  --sky:#82BAFF; --sky-pale:#CEECFF; --blue:#0B4BFF; --blue-deep:#001F8C;
+  --cream:#F7F3EE; --white:#FFFFFF; --gold:#FFBF00; --gold-deep:#F0A500;
+  --danger:#C53532;
+  --serif:"Marsh Serif",Georgia,"Times New Roman",serif;
+  --sans:"Noto Sans",system-ui,-apple-system,sans-serif;
+}
+@font-face{font-family:"Marsh Serif";src:url(/src/theme/fonts/MarshSerif-Regular.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Noto Sans";src:url(/src/theme/fonts/NotoSans.ttf);font-display:swap}
+*{box-sizing:border-box;margin:0}
+body{background:var(--cream);font-family:var(--sans);color:var(--ink);padding:48px 24px 96px}
+.doc{max-width:1240px;margin:0 auto}
+.doc h1{font-family:var(--serif);font-size:34px;font-weight:400}
+.doc>p{max-width:72ch;margin-top:10px;line-height:1.6;color:#3A4573}
+.rule{margin:40px 0 8px;font-size:12px;font-weight:700;letter-spacing:.08em;color:#9A5F02;text-transform:uppercase}
+.comp-head{margin:56px 0 6px;display:flex;align-items:baseline;gap:16px}
+.comp-head h2{font-family:var(--serif);font-size:22px;font-weight:400}
+.comp-head .pl{font-size:11.5px;font-weight:700;color:#0B4BFF}
+.comp-note{font-size:13px;color:#47527B;max-width:88ch;line-height:1.55;margin-bottom:14px}
+
+/* ── the frame: a full-canvas call, edge to edge ── */
+.frame{position:relative;width:1152px;max-width:100%;height:680px;border-radius:14px;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 40%, #0E1A45 0%, var(--midnight-2) 46%, var(--midnight) 100%);
+  box-shadow:0 18px 44px rgba(0,15,71,.18)}
+.frame *{font-family:var(--sans)}
+
+/* ── REGION 1 · status (top-left, reserved) ── */
+.status{position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:8px;
+  background:rgba(0,11,51,.55);border-radius:999px;padding:6px 14px;color:var(--white);
+  font-size:13px;font-variant-numeric:tabular-nums}
+.rec{width:10px;height:10px;border-radius:50%;background:var(--danger)}
+.status .cap{color:var(--sky-pale)}
+
+/* ── REGION 2 · pinned question (top-centre, single region) ── */
+.pin{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:min(66%,760px);
+  display:flex;align-items:center;gap:16px;background:linear-gradient(180deg,rgba(0,11,51,.72),rgba(0,11,51,.5));
+  border-radius:14px;padding:12px 20px;color:var(--white)}
+.pin p{font-family:var(--serif);font-size:16.5px;line-height:1.45;flex:1}
+.pill{flex:none;border:1px solid rgba(206,236,255,.4);border-radius:999px;background:rgba(0,11,51,.4);
+  color:var(--sky-pale);font-size:11.5px;padding:5px 12px;white-space:nowrap}
+.pin--collapsed{width:auto}
+
+/* ── REGION 3 · captions (bottom-centre, above the bar) ── */
+.captions{position:absolute;left:50%;bottom:104px;transform:translateX(-50%);
+  width:min(72%,780px);text-align:center;color:var(--white);
+  background:rgba(0,11,51,.6);border-radius:12px;padding:12px 22px;
+  font-size:17px;line-height:1.5}
+.captions .who{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);margin-bottom:4px}
+
+/* ── the call bar (bottom, persistent, the ONLY control surface) ── */
+.bar{position:absolute;left:0;right:0;bottom:0;height:88px;display:flex;align-items:center;gap:12px;
+  padding:0 20px;background:linear-gradient(180deg,rgba(0,11,51,0),rgba(0,11,51,.82) 42%,rgba(0,11,51,.94))}
+.bar--quiet{opacity:.55}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;
+  border:1px solid rgba(122,131,166,.7);color:var(--sky-pale);font-size:13.5px;font-weight:600;background:rgba(0,11,51,.35)}
+.chip .glyph{font-size:14px}
+.chip--primary{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:700}
+.chip--danger .glyph{color:var(--danger)}
+.chip--spent{border-style:dashed;color:#8E9AC0;font-weight:400}
+.meter{display:flex;align-items:flex-end;gap:2.5px;height:26px;min-width:64px}
+.meter i{width:4px;border-radius:2px;background:var(--sky)}
+.bar .grow{flex:1}
+.bar .time{color:var(--white);font-size:13.5px;font-variant-numeric:tabular-nums}
+.bar .time .cap{color:var(--sky-pale)}
+.scrub{flex:1;max-width:420px;height:4px;border-radius:2px;background:rgba(206,236,255,.25);position:relative}
+.scrub i{position:absolute;left:0;top:0;bottom:0;width:34%;border-radius:2px;background:var(--sky)}
+.scrub b{position:absolute;left:34%;top:50%;width:14px;height:14px;border-radius:50%;background:var(--white);transform:translate(-50%,-50%)}
+
+/* ── the interviewer: a luminous PARTICIPANT, no disc, no edge ── */
+.orb{position:absolute;pointer-events:none;filter:blur(.2px)}
+.orb i{position:absolute;inset:0;border-radius:53% 47% 56% 44%/49% 55% 45% 51%}
+.orb i:nth-child(1){background:radial-gradient(circle at 48% 46%, rgba(247,243,238,.95) 0%, rgba(206,236,255,.55) 17%, rgba(11,75,255,.42) 42%, rgba(0,31,140,.18) 66%, rgba(0,31,140,0) 78%)}
+.orb i:nth-child(2){transform:rotate(24deg) scale(1.12);border-radius:47% 53% 44% 56%/55% 45% 57% 43%;
+  background:radial-gradient(circle at 52% 55%, rgba(130,186,255,.34) 8%, rgba(11,75,255,.20) 48%, rgba(0,31,140,0) 74%)}
+.orb i:nth-child(3){transform:rotate(-31deg) scale(1.28);border-radius:56% 44% 51% 49%/46% 56% 44% 54%;
+  background:radial-gradient(circle at 46% 50%, rgba(130,186,255,.16) 12%, rgba(0,31,140,.10) 52%, rgba(0,31,140,0) 76%)}
+.orb--main{width:260px;height:260px;left:50%;top:44%;transform:translate(-50%,-50%)}
+.orb--corner{width:88px;height:88px;top:64px;right:26px;transform:none}
+.orb--dim i{opacity:.75}
+.orb-label{position:absolute;color:var(--sky-pale);font-size:12px;text-align:center}
+.orb-label--main{left:50%;top:calc(44% + 148px);transform:translateX(-50%)}
+.orb-label--corner{top:156px;right:26px;width:88px}
+
+/* ── the self-view (video config): full-canvas mirrored feed ── */
+.selfview{position:absolute;inset:0;
+  background:linear-gradient(200deg,#2A3247 0%,#1C2337 38%,#141A2C 100%)}
+.selfview::after{content:"";position:absolute;left:50%;top:58%;transform:translateX(-50%);
+  width:340px;height:420px;border-radius:50% 50% 42% 42%/62% 62% 38% 38%;
+  background:radial-gradient(circle at 50% 30%, rgba(160,148,140,.5) 0%, rgba(120,112,110,.35) 42%, rgba(70,72,86,0) 75%)}
+.selfview .mirrored{position:absolute;right:16px;bottom:104px;color:rgba(206,236,255,.55);font-size:11px}
+
+/* ── audio turn centre: waveform + growing transcript ── */
+.audio-centre{position:absolute;left:50%;top:41%;transform:translate(-50%,-50%);width:min(70%,720px);text-align:center}
+.wave{display:flex;align-items:center;justify-content:center;gap:4px;height:56px;margin-bottom:26px}
+.wave i{width:5px;border-radius:3px;background:var(--sky)}
+.transcript-live{font-size:19px;line-height:1.65;color:rgba(206,236,255,.78)}
+.transcript-live b{color:var(--white);font-weight:400}
+.transcript-live .hint{display:block;margin-top:14px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#8E9AC0}
+
+/* ── green room bits ── */
+.echo{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(64%,640px);
+  background:rgba(0,11,51,.55);border:1px solid rgba(122,131,166,.5);border-radius:16px;padding:26px 30px;color:var(--white)}
+.echo .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);margin-bottom:10px}
+.echo blockquote{font-family:var(--serif);font-size:21px;line-height:1.5;color:var(--cream)}
+.echo .p{margin-top:14px;font-size:13px;color:var(--sky-pale)}
+.verdict{position:absolute;top:16px;right:16px;background:rgba(16,122,56,.25);border:1px solid rgba(92,201,110,.6);
+  color:#B7EBC0;border-radius:999px;padding:6px 14px;font-size:12.5px}
+
+/* ── event toast (alternative acknowledged) ── */
+.toast{position:absolute;left:50%;top:96px;transform:translateX(-50%);
+  color:#8E9AC0;font-size:12.5px;letter-spacing:.02em}
+
+/* ── prep centre ── */
+.prep{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);text-align:center;color:var(--white)}
+.prep .big{font-family:var(--serif);font-size:26px}
+.prep .sub{margin-top:10px;font-size:14px;color:var(--sky-pale);font-variant-numeric:tabular-nums}
+
+/* ── transcript layer handle ── */
+.layer-tab{position:absolute;right:-2px;top:44%;transform:rotate(-90deg) translateY(-100%);transform-origin:top right;
+  background:rgba(0,11,51,.55);border:1px solid rgba(122,131,166,.5);border-bottom:none;
+  color:var(--sky-pale);font-size:11.5px;padding:6px 16px;border-radius:8px 8px 0 0}
+
+/* ── phone frame ── */
+.frame--phone{width:390px;height:760px;border-radius:28px}
+.frame--phone .pin{width:88%;top:12px;padding:10px 14px}
+.frame--phone .pin p{font-size:13.5px}
+.frame--phone .status{top:auto;bottom:170px;left:12px;padding:5px 10px;font-size:12px}
+.frame--phone .bar{height:120px;flex-wrap:wrap;padding:10px 14px;gap:10px}
+.frame--phone .captions{bottom:136px;width:92%;font-size:14px;padding:10px 14px}
+.frame--phone .selfview::after{width:250px;height:330px}
+
+.regions{font-size:12px;color:#47527B;margin-top:10px}
+.regions b{color:#000F47}
+.swatches{display:flex;gap:10px;margin-top:18px}
+.sw{width:84px;height:56px;border-radius:8px;display:flex;align-items:flex-end;padding:6px;font-size:10px;color:#fff;border:1px solid rgba(0,15,71,.15)}
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>S22 · Phase 0 — The Call</h1>
+  <p><strong>Static comps for sign-off. No wiring exists behind these.</strong> The grammar is a real-time call:
+  the interviewer is the other participant, questions are spoken with live captions, the candidate's turn takes
+  speaker focus, and every control lives on one persistent call bar. Marsh palette throughout; copy is the real
+  seed content. Approve, annotate, or reject — implementation begins only after sign-off.</p>
+  <div class="swatches">
+    <div class="sw" style="background:#000B33">midnight</div>
+    <div class="sw" style="background:#0B1533">stage</div>
+    <div class="sw" style="background:#0B4BFF">accent</div>
+    <div class="sw" style="background:#82BAFF;color:#000F47">sky</div>
+    <div class="sw" style="background:#F7F3EE;color:#000F47">cream</div>
+    <div class="sw" style="background:#FFBF00;color:#000F47">gold</div>
+  </div>
+
+  <div class="rule">Comp 1 · the interviewer speaking (question delivery)</div>
+  <div class="comp-head"><h2>The other participant asks the question</h2><span class="pl">PL-09 · PL-14</span></div>
+  <p class="comp-note">Full-canvas midnight stage — no rail, no cream column. The luminous participant holds centre
+  while speaking; the question pins at top as its own region; live captions stream bottom-centre where captions live
+  on every call; the bar is quiet because it is not the candidate's turn.</p>
+  <div class="frame">
+    <div class="pin"><p>Tell me about a decision you made when two important things collided and you could not do both properly. What did you choose, and how did it play out?</p><span class="pill">Hide</span></div>
+    <div class="orb orb--main"><i></i><i></i><i></i></div>
+    <div class="orb-label orb-label--main">The interviewer</div>
+    <div class="captions"><span class="who">The interviewer</span>…when two important things collided and you could not do both properly. What did you choose,</div>
+    <div class="layer-tab">Transcript</div>
+    <div class="bar bar--quiet">
+      <span class="chip"><span class="glyph">‖</span> Moment</span>
+      <span class="chip"><span class="glyph">⇄</span> Different question</span>
+      <span class="grow"></span>
+      <span class="chip"><span class="glyph">✳</span> Settings</span>
+    </div>
+  </div>
+  <p class="regions"><b>Regions:</b> status (unused — not recording) · pinned question (top-centre) · captions (bottom-centre) · call bar (persistent). The transcript layer is the right-edge tab.</p>
+
+  <div class="rule">Comp 2 · candidate's turn — video</div>
+  <div class="comp-head"><h2>Speaker focus: the candidate's mirrored feed</h2><span class="pl">PL-07 · PL-08 · PL-09 · PL-10</span></div>
+  <p class="comp-note">The candidate's turn takes the stage exactly as on Meet/Zoom: their mirrored camera is the
+  main tile, the interviewer recedes to a corner participant. Status, pinned question and captions are three
+  separate fixed regions; top and bottom are gradient scrims over the video, never slabs.</p>
+  <div class="frame">
+    <div class="selfview"><span class="mirrored">mirrored</span></div>
+    <div class="status"><span class="rec"></span><span>0:42</span><span class="cap">· up to 2:00</span></div>
+    <div class="pin"><p>Tell me about a decision you made when two important things collided and you could not do both properly.</p><span class="pill">Hide</span></div>
+    <div class="orb orb--corner orb--dim"><i></i><i></i><i></i></div>
+    <div class="orb-label orb-label--corner">Listening…</div>
+    <div class="layer-tab">Transcript</div>
+    <div class="bar">
+      <span class="meter"><i style="height:8px"></i><i style="height:16px"></i><i style="height:24px"></i><i style="height:12px"></i><i style="height:20px"></i><i style="height:9px"></i></span>
+      <span class="time">0:42 <span class="cap">/ 2:00</span></span>
+      <span class="grow"></span>
+      <span class="chip chip--primary">■ Stop</span>
+      <span class="grow"></span>
+      <span class="chip"><span class="glyph">‖</span> Moment</span>
+      <span class="chip"><span class="glyph">⇄</span> Different question</span>
+      <span class="chip"><span class="glyph">✳</span> Settings</span>
+    </div>
+  </div>
+  <p class="regions"><b>Regions:</b> status top-left · pinned question top-centre · captions region reserved (empty — the interviewer is not speaking) · call bar with mic level, elapsed/cap, Stop primary, supports right.</p>
+
+  <div class="rule">Comp 3 · candidate's turn — audio</div>
+  <div class="comp-head"><h2>Audio turn: live waveform + growing transcript</h2><span class="pl">PL-13 · PL-15</span></div>
+  <p class="comp-note">With the camera off, the candidate's "tile" is their voice: the live waveform and the
+  transcript growing as they speak — the transcript-only pipeline made visible in the centre of the call.</p>
+  <div class="frame">
+    <div class="status"><span class="rec"></span><span>0:27</span><span class="cap">· up to 2:00</span></div>
+    <div class="pin"><p>Tell me about a decision you made when two important things collided and you could not do both properly.</p><span class="pill">Hide</span></div>
+    <div class="orb orb--corner orb--dim"><i></i><i></i><i></i></div>
+    <div class="orb-label orb-label--corner">Listening…</div>
+    <div class="audio-centre">
+      <div class="wave"><i style="height:12px"></i><i style="height:26px"></i><i style="height:44px"></i><i style="height:30px"></i><i style="height:50px"></i><i style="height:22px"></i><i style="height:38px"></i><i style="height:14px"></i><i style="height:28px"></i><i style="height:46px"></i><i style="height:18px"></i><i style="height:34px"></i></div>
+      <p class="transcript-live">There was a fortnight where the Apex work and the quarter-end reporting landed on the same week and my team could not do both properly. <b>I moved people around so the Apex deliverable kept its strongest pair…</b>
+      <span class="hint">transcribed as you speak — this text is all the AI will read</span></p>
+    </div>
+    <div class="layer-tab">Transcript</div>
+    <div class="bar">
+      <span class="meter"><i style="height:10px"></i><i style="height:22px"></i><i style="height:16px"></i><i style="height:26px"></i><i style="height:12px"></i><i style="height:19px"></i></span>
+      <span class="time">0:27 <span class="cap">/ 2:00</span></span>
+      <span class="grow"></span>
+      <span class="chip chip--primary">■ Stop</span>
+      <span class="grow"></span>
+      <span class="chip"><span class="glyph">‖</span> Moment</span>
+      <span class="chip"><span class="glyph">⇄</span> Different question</span>
+      <span class="chip"><span class="glyph">✳</span> Settings</span>
+    </div>
+  </div>
+  <p class="regions"><b>Regions:</b> same three fixed regions; the centre belongs to the candidate's voice. The last-spoken words render brighter than the settled ones.</p>
+
+  <div class="rule">Comp 4 · review</div>
+  <div class="comp-head"><h2>Review the take before it counts</h2><span class="pl">PL-11</span></div>
+  <p class="comp-note">Full-size playback of the take with scrub and elapsed/total on the bar; re-record with the
+  count visible; Use this take as the single gold action. The final-take warning belongs BEFORE the next
+  recording, on the prep state — never a surprise here.</p>
+  <div class="frame">
+    <div class="selfview" style="filter:saturate(.8) brightness(.92)"><span class="mirrored">your take</span></div>
+    <div class="pin pin--collapsed"><span class="pill">Show the question</span></div>
+    <div class="captions" style="bottom:120px;background:none;font-size:13px;color:#8E9AC0">Your take · 0:42</div>
+    <div class="bar">
+      <span class="chip">▶ Play back</span>
+      <span class="scrub"><i></i><b></b></span>
+      <span class="time">0:14 <span class="cap">/ 0:42</span></span>
+      <span class="grow"></span>
+      <span class="chip">↺ Re-record (1 left)</span>
+      <span class="chip chip--primary">Use this take</span>
+    </div>
+  </div>
+  <p class="regions"><b>Bar contents:</b> play, scrub with handle, elapsed/total, re-record with count, gold commit. Supports hide during review — the decision is the take.</p>
+
+  <div class="rule">Comp 5 · the green room</div>
+  <div class="comp-head"><h2>The green room: checks conducted by the interviewer</h2><span class="pl">PL-01</span></div>
+  <p class="comp-note">Before anything counts: the interviewer speaks, the candidate confirms; the mic echo test
+  shows the live transcript of their own sentence — the transcript-only principle taught by demonstration.
+  Sound and caption preferences live here. Verdicts are spoken and shown.</p>
+  <div class="frame">
+    <div class="verdict">✓ Connection: good to go</div>
+    <div class="orb orb--main" style="top:19%;width:180px;height:180px"><i></i><i></i><i></i></div>
+    <div class="echo">
+      <div class="k">Here is what we heard</div>
+      <blockquote>“The quick brown fox jumps over the lazy dog — and I am ready to start.”</blockquote>
+      <div class="p">This is exactly how the assessment works: what you say becomes text, and the AI reads that text — it never hears your voice or sees you.</div>
+    </div>
+    <div class="captions"><span class="who">The interviewer</span>You’re coming through clearly — here is what I heard.</div>
+    <div class="bar">
+      <span class="chip chip--primary">That’s about right</span>
+      <span class="chip">Not what I said — try again</span>
+      <span class="grow"></span>
+      <span class="chip">Tones: on</span>
+      <span class="chip">Captions: on</span>
+      <span class="chip">Voice: on</span>
+    </div>
+  </div>
+  <p class="regions"><b>Moment shown:</b> the mic echo step. The same stage carries "Can you hear me?", the camera preview, and the connection verdict as sequential moments in identical grammar.</p>
+
+  <div class="rule">Comp 6 · practice hand-off</div>
+  <div class="comp-head"><h2>The warm-up call: the hand-off, made visible</h2><span class="pl">PL-02 · PL-15</span></div>
+  <p class="comp-note">The practice probe has just been asked; the interviewer recedes to the corner and the bar
+  wakes — the layout shift IS the turn signal, exactly as on any call. Everything is labelled unscored.</p>
+  <div class="frame">
+    <div class="toast">Practice call — nothing here is scored or kept</div>
+    <div class="pin"><p>To warm up: what did you have for breakfast today, and why that?</p><span class="pill">Hide</span></div>
+    <div class="orb orb--corner"><i></i><i></i><i></i></div>
+    <div class="orb-label orb-label--corner">Listening…</div>
+    <div class="captions"><span class="who">The interviewer</span>That’s useful — what made you pick that one over anything else?</div>
+    <div class="audio-centre" style="top:47%">
+      <div class="wave" style="opacity:.5"><i style="height:8px"></i><i style="height:12px"></i><i style="height:9px"></i><i style="height:14px"></i><i style="height:8px"></i><i style="height:11px"></i></div>
+      <p class="transcript-live" style="font-size:16px;color:#8E9AC0">your reply joins here as you speak</p>
+    </div>
+    <div class="bar">
+      <span class="meter"><i style="height:6px"></i><i style="height:10px"></i><i style="height:7px"></i><i style="height:12px"></i></span>
+      <span class="grow"></span>
+      <span class="chip chip--primary">■ Stop</span>
+      <span class="grow"></span>
+      <span class="chip"><span class="glyph">✳</span> Settings</span>
+    </div>
+  </div>
+  <p class="regions"><b>Moment shown:</b> a follow-up mid-practice — captions carry the probe, the corner tile listens, the bar is awake for the reply.</p>
+
+  <div class="rule">Comp 7 · prep countdown</div>
+  <div class="comp-head"><h2>Pre-turn: recording starts when you do</h2><span class="pl">PL-03</span></div>
+  <p class="comp-note">The question is pinned and has been spoken; the stage holds the prep state in the centre
+  with the cap and prep time in one calm line. Start early is always the primary action. Nothing overlaps the
+  pinned question or the (empty) caption region.</p>
+  <div class="frame">
+    <div class="selfview" style="opacity:.85"><span class="mirrored">mirrored</span></div>
+    <div class="pin"><p>Tell me about a decision you made when two important things collided and you could not do both properly.</p><span class="pill">Hide</span></div>
+    <div class="orb orb--corner orb--dim"><i></i><i></i><i></i></div>
+    <div class="orb-label orb-label--corner">With you</div>
+    <div class="prep">
+      <div class="big">Recording starts when you do</div>
+      <div class="sub">up to 2:00 · prep 0:30 · you can re-record once</div>
+    </div>
+    <div class="bar">
+      <span class="grow"></span>
+      <span class="chip chip--primary">● Start recording</span>
+      <span class="grow"></span>
+      <span class="chip"><span class="glyph">‖</span> Moment</span>
+      <span class="chip"><span class="glyph">⇄</span> Different question</span>
+      <span class="chip"><span class="glyph">✳</span> Settings</span>
+    </div>
+  </div>
+  <p class="regions"><b>Note:</b> the retake policy ("you can re-record once") is stated here, before take 1 — and "This is your final take" would appear in this same line after a retake is spent.</p>
+
+  <div class="rule">Comp 8 · the alternative question, acknowledged aloud</div>
+  <div class="comp-head"><h2>The interviewer changes the question — audibly</h2><span class="pl">PL-05</span></div>
+  <p class="comp-note">After the inline confirm, the interviewer responds in voice; captions carry it; the new
+  question arrives with full ceremony and pins; the control shows its spent state. The transcript layer records
+  the event line.</p>
+  <div class="frame">
+    <div class="toast">You asked for a different question — once, not penalised</div>
+    <div class="pin"><p>Describe a time you had to choose which of two commitments would slip, and how you told the people counting on it.</p><span class="pill">Hide</span></div>
+    <div class="orb orb--main"><i></i><i></i><i></i></div>
+    <div class="orb-label orb-label--main">The interviewer</div>
+    <div class="captions"><span class="who">The interviewer</span>No problem — let me ask you something different.</div>
+    <div class="layer-tab">Transcript</div>
+    <div class="bar bar--quiet">
+      <span class="chip"><span class="glyph">‖</span> Moment</span>
+      <span class="chip chip--spent">✓ On your alternative question</span>
+      <span class="grow"></span>
+      <span class="chip"><span class="glyph">✳</span> Settings</span>
+    </div>
+  </div>
+  <p class="regions"><b>Sequence this freezes:</b> confirm on the bar → spoken acknowledgment (captioned) → new question spoken + pinned → spent state on the bar.</p>
+
+  <div class="rule">Comp 9 · phone — the candidate's video turn (360–430px class)</div>
+  <div class="comp-head"><h2>Phone: same grammar, thumb reach</h2><span class="pl">PL-08 · PL-16</span></div>
+  <p class="comp-note">Portrait full-screen capture; the three regions keep their posts; the bar wraps with the
+  Stop primary full-width in thumb reach. Nothing overlaps at 390px.</p>
+  <div class="frame frame--phone">
+    <div class="selfview"><span class="mirrored" style="bottom:186px">mirrored</span></div>
+    <div class="pin"><p>Tell me about a decision you made when two important things collided…</p><span class="pill">Hide</span></div>
+    <div class="orb orb--corner orb--dim" style="top:70px;right:14px;width:64px;height:64px"><i></i><i></i><i></i></div>
+    <div class="status"><span class="rec"></span><span>0:42</span><span class="cap">· 2:00</span></div>
+    <div class="bar">
+      <span class="meter"><i style="height:8px"></i><i style="height:14px"></i><i style="height:10px"></i><i style="height:16px"></i></span>
+      <span class="time">0:42 <span class="cap">/ 2:00</span></span>
+      <span class="grow"></span>
+      <span class="chip"><span class="glyph">‖</span></span>
+      <span class="chip chip--primary" style="flex:1 1 100%;justify-content:center">■ Stop</span>
+    </div>
+  </div>
+  <p class="regions"><b>Phone deltas:</b> status moves above the bar (clear of the notch region); supports compress to icons; Stop is full-width in thumb reach.</p>
+
+  <div class="rule">Sign-off</div>
+  <p style="max-width:72ch;font-size:14px;line-height:1.6;color:#3A4573">These nine frames are the whole
+  direction: <b>a call, not a document</b>. Approving them approves — the full-canvas stage, the three fixed
+  regions, the participant-orb roles, the single call bar, the transcript layer as a slide-over, and the
+  spoken support acknowledgments. Implementation (PL-12/13 first, then A → B → C) begins on your word.</p>
+</div>
+</body>
+</html>

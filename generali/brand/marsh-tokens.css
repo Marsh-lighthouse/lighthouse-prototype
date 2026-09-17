@@ -1,0 +1,48 @@
+/* ───────────────────────────────────────────────
+   MARSH BRAND TOKENS — from Color Guidelines PDF
+   Core: led by Sky Blue + Midnight Blue + White.
+   Gold = action/accent, used sparingly.
+   Principles: lead with core colors, limited palette,
+   generous whitespace, NO gradients/transparency/effects.
+─────────────────────────────────────────────── */
+:root {
+  /* Core */
+  --midnight: #000F47;   /* Midnight Blue 1000 — primary, authority */
+  --sky:      #CEECFF;   /* Sky Blue 250 — freshness, openness */
+  --white:    #FFFFFF;
+
+  /* Blue scale */
+  --blue-1000: #000F47;
+  --blue-750:  #0B4BFF;  /* Active blue — data viz, links */
+  --blue-500:  #82BAFF;
+  --blue-250:  #CEECFF;
+
+  /* Gold — ACTION color, use sparingly */
+  --gold-1000: #CB7E03;
+  --gold-750:  #FFBF00;  /* primary action / CTA */
+  --gold-500:  #FFD98A;
+  --gold-250:  #FFF3DA;
+
+  /* Green */
+  --green-1000: #2F7500;
+  --green-750:  #6ABF30;
+  --green-500:  #B0DC92;
+  --green-250:  #DFECD7;
+
+  /* Purple */
+  --purple-1000: #5E017F;
+  --purple-750:  #8F20DE;
+  --purple-500:  #DEB1FF;
+  --purple-250:  #F5E8FF;
+
+  /* Neutral — warm */
+  --neutral-1000: #3D3C37;  /* near-black text */
+  --neutral-750:  #7B7974;  /* muted text */
+  --neutral-500:  #B9B6B1;  /* borders / dividers */
+  --neutral-250:  #F7F3EE;  /* warm cream page background */
+
+  /* Traffic / status */
+  --success: #0E7A38;
+  --danger:  #C53532;
+  --warning: #FFBE00;
+}

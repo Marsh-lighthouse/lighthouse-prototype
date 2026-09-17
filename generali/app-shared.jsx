@@ -1,0 +1,720 @@
+// ════════════════════════════════════════════════
+//  Shared content model + icons for the Dashboard redesign
+//  Real data lifted from lighthouse-v5.jsx so comps are authentic.
+//  Exports to window: LH (data), I (icons)
+// ════════════════════════════════════════════════
+
+const LH = {
+  org: "Acme Corp",
+  product: "Lighthouse",
+  user: { first: "John", last: "Doe", role: "Product Management", initials: "JD" },
+  greeting: "Good afternoon,",
+  stats: [
+    { label: "Active programs", value: "2" },
+    { label: "Reports ready", value: "4" },
+  ],
+  profile: { pct: 30, done: 3, total: 10 },
+  nav: [
+    { id: "dash", label: "Dashboard", icon: "home" },
+    { id: "leadership", label: "Leadership 2026", icon: "chart", group: "Programs" },
+    { id: "360", label: "360° Perspective", icon: "users" },
+    { id: "development", label: "Development", icon: "book", group: "Growth" },
+    { id: "scheduling", label: "Scheduling", icon: "cal" },
+    { id: "insights", label: "Insights", icon: "bars" },
+    { id: "bookings", label: "Bookings", icon: "calCheck" },
+  ],
+  programs: [
+    {
+      id: "leadership", name: "Leadership Assessment 2026", nameKey: "leadershipAssessment2026", tag: "Assessment", state: "progress",
+      desc: "Comprehensive leadership evaluation across strategic thinking, influence, and team development competencies.",
+      due: "Jul 24, 2026", daysLeft: 36, pct: 35, done: 2, total: 6, reports: 2, notes: 2,
+      accent: "var(--accent)", tint: "var(--sky)",
+      steps: [
+        { name: "Hogan Assessment", nameKey: "hoganAssessment", status: "complete" },
+        { name: "Cognitive Ability Test", nameKey: "cognitiveAbilityTest", status: "progress", pct: 30 },
+        { name: "Video Interview", nameKey: "videoInterview", status: "locked" },
+      ],
+      detail: {
+        videoLen: "2:30",
+        instructions: [
+          "This program includes individual exercises and Assessment Centers (live, multi-phase simulations with assessors).",
+          "Some exercises must be completed in order (sequential). Others can be taken at any time.",
+          "Timed exercises cannot be paused once started. Ensure a quiet, distraction-free environment.",
+          "Proctored exercises will require a system check before launch — your camera, microphone, and internet will be tested.",
+          "Your responses are confidential. Only aggregated scores are shared with your program administrator.",
+          "You may retake the Thriving Index once. All other exercises are single-attempt.",
+        ],
+        centers: [
+          { id: "sim", name: "Business Simulation Center", desc: "Strategic decision-making: market analysis, presentation, and crisis response.", time: "90 min", status: "notstarted", proctored: true, sequential: true, needsReserve: true, schedId: "sim-sched", lockActivities: true,
+            activities: [
+              { id: "pre", name: "Pre-work: Case Brief", desc: "Read the scenario document before the simulation.", time: "15 min", status: "complete", pct: 100 },
+              { id: "s1", name: "Phase 1: Market Analysis", desc: "Analyze market data and identify opportunities.", time: "20 min", status: "progress", pct: 60 },
+              { id: "s2", name: "Phase 2: Strategy Presentation", desc: "Present strategic recommendations to the panel.", time: "20 min", status: "locked", pct: 0 },
+            ] },
+          { id: "lac", name: "Leadership Assessment Center", desc: "Group exercises, role plays, and case study presentations with live observers.", time: "120 min", status: "notstarted", proctored: true, sequential: false, schedId: "lac-sched",
+            activities: [
+              { id: "brief", name: "Participant Briefing", desc: "Welcome and orientation.", time: "10 min", status: "complete", pct: 100 },
+              { id: "group", name: "Group Discussion", desc: "Collaborate on a business challenge.", time: "30 min", status: "notstarted", pct: 0 },
+              { id: "roleplay", name: "Role Play", desc: "Navigate a stakeholder interaction.", time: "20 min", status: "notstarted", pct: 0 },
+            ] },
+        ],
+        sequential: [
+          { id: "cognitive", name: "Cognitive Ability Test", desc: "Verbal, numerical, and abstract reasoning.", time: "35 min", status: "notstarted", pct: 0, proctored: true },
+          { id: "hogan", name: "Hogan Assessment", desc: "Leadership personality profiling.", time: "40 min", status: "notstarted", pct: 0, proctored: true, audioOnly: true },
+          { id: "interview", name: "Video Interview", desc: "Structured behavioural interview with AI analysis.", time: "30 min", status: "locked", pct: 0, proctored: true },
+        ],
+        open: [
+          { id: "thriving", name: "Thriving Index", desc: "Measure wellbeing, resilience, and engagement.", time: "25 min", status: "complete", pct: 100, proctored: false, hasReport: true },
+          { id: "self", name: "Self-Assessment Survey", desc: "Rate yourself on leadership competencies.", time: "15 min", status: "progress", pct: 45, proctored: false },
+          { id: "sjt", name: "Situational Judgement Test", desc: "Respond to realistic workplace scenarios.", time: "20 min", status: "notstarted", pct: 0, proctored: false },
+        ],
+      },
+    },
+    {
+      id: "360", name: "360° Perspective Feedback", nameKey: "perspective360Feedback", tag: "Multi-rater", state: "notstarted",
+      desc: "Multi-rater feedback from peers, direct reports, and managers for a complete picture of your leadership impact.",
+      due: "Aug 14, 2026", daysLeft: 57, pct: 0, done: 0, total: 3, reports: 0, notes: 0,
+      accent: "var(--purple-750)", tint: "var(--purple-250)",
+      steps: [
+        { name: "Self Assessment", nameKey: "selfAssessment", status: "notstarted" },
+        { name: "Nominate Raters", nameKey: "nominateRaters", status: "locked" },
+        { name: "Track Responses", nameKey: "trackResponses", status: "locked" },
+      ],
+      detail: {
+        videoLen: "2:30",
+        instructions: [
+          "You will first complete a self-assessment rating yourself on leadership competencies.",
+          "Then nominate raters — your manager, 3–5 peers, and 2–3 direct reports.",
+          "Raters receive an anonymous survey. You can track response progress but not individual answers.",
+          "A consolidated feedback report is generated once minimum responses are collected.",
+          "Individual rater responses are never revealed — only aggregated category scores.",
+        ],
+        centers: [],
+        sequential: [
+          { id: "self360", name: "Self Assessment", desc: "Rate yourself on leadership competencies.", time: "15 min", status: "notstarted", pct: 0, proctored: false },
+          { id: "nominate", name: "Nominate Raters", desc: "Select manager, peers, and reports as raters.", time: "10 min", status: "locked", pct: 0, proctored: false },
+          { id: "track", name: "Track Responses", desc: "Monitor rater completion (min 5 needed).", time: "—", status: "locked", pct: 0, proctored: false },
+        ],
+        open: [],
+      },
+    },
+  ],
+  reports: [
+    { name: "Hogan Leadership Report", program: "Leadership 2026", pages: 12 },
+    { name: "Thriving Index Report", program: "Leadership 2026", pages: 8 },
+  ],
+  deadline: { program: "Leadership Assessment 2026", due: "Jul 24, 2026", daysLeft: 36 },
+
+  // ── Growth pages: Development, Insights, Scheduling ──
+  competencies: [
+    { label: "Strategic Thinking", score: 85, type: "behavioral" },
+    { label: "Influence & Communication", score: 72, type: "behavioral" },
+    { label: "Team Development", score: 68, type: "behavioral" },
+    { label: "Resilience", score: 91, type: "behavioral" },
+    { label: "Decision Making", score: 76, type: "behavioral" },
+    { label: "Data & Analytics", score: 64, type: "technical" },
+    { label: "Product & Platform Fluency", score: 70, type: "technical" },
+  ],
+  openAssessQuestions: [
+    { id: "oq1", type: "mcq", page: 1, title: "Work Style Preference", prompt: "When faced with a complex problem at work, which approach best describes your typical first reaction?",
+      competency: "Problem Solving",
+      options: ["Break it down into smaller parts and tackle each systematically", "Brainstorm with colleagues to explore multiple angles", "Research similar problems and apply proven solutions", "Trust my intuition and start with the most promising path", "Step back and think about the big picture before acting", "Not applicable"],
+      tip: "Choose the option that best reflects your natural tendency, not what you think is the ideal answer." },
+    { id: "oq_mcq_grid", type: "mcq", page: 1, layout: "grid", title: "Preferred Work Setting", prompt: "Which working style suits you best? (options shown two per row)",
+      competency: "Self-Awareness",
+      options: ["Independent focus", "A small close-knit team", "A large cross-functional team", "Client- and stakeholder-facing", "A mix depending on the task", "Not applicable"],
+      tip: "This is the same Multiple Choice component with a horizontal two-column layout." },
+    { id: "oq_mcq_multi", type: "mcq", page: 1, multi: true, title: "Multiple Choice (multi-select)", prompt: "Which of these do you enjoy most in your role? Select all that apply.",
+      competency: "Self-Awareness",
+      options: ["Solving complex problems", "Coaching and developing others", "Building stakeholder relationships", "Driving change and innovation", "Delivering to a deadline", "Not applicable"],
+      tip: "The same Multiple Choice component with checkboxes — choose more than one." },
+    { id: "oq_mcq_multi_grid", type: "mcq", page: 1, multi: true, layout: "grid", title: "Multiple Choice (multi-select, two per row)", prompt: "Which working settings help you do your best work? Select all that apply.",
+      competency: "Self-Awareness",
+      options: ["Independent focus", "A small close-knit team", "A large cross-functional team", "Client- and stakeholder-facing", "A mix depending on the task", "Not applicable"],
+      tip: "Multi-select checkboxes in the horizontal two-column layout." },
+    { id: "oq2", type: "text", page: 1, title: "Leadership Reflection", prompt: "Describe a situation where you had to influence a group of people without having formal authority over them. What was your approach and what was the outcome?",
+      competency: "Influence & Communication",
+      placeholder: "Write your response here... (minimum 50 words recommended)", minWords: 50, maxWords: 500,
+      tip: "Be specific about the situation, your actions, and the result. Use the STAR method if helpful." },
+    { id: "oq_text_single", type: "text", page: 1, singleLine: true, title: "Job Title", prompt: "What is your current job title?",
+      competency: "Background",
+      placeholder: "e.g. Senior Project Manager", maxChars: 80,
+      tip: "This is the same Text Entry component in its single-line variant (one line, character-limited)." },
+    { id: "oq_text_essay", type: "text", page: 1, essay: true, title: "Essay text box", prompt: "In your own words, describe your leadership philosophy.",
+      competency: "Self-Awareness",
+      placeholder: "Write as much as you need…",
+      tip: "The Text Entry component as a taller essay box for longer answers." },
+    { id: "oq_text_password", type: "text", page: 1, password: true, title: "Password", prompt: "Create a password to secure your submission.",
+      competency: "Security",
+      placeholder: "Enter a password",
+      tip: "A single-line Text Entry field with masked input." },
+    { id: "oq_richtext", type: "richtext", page: 1, title: "Rich text", prompt: "Write a short note about your recent project.",
+      competency: "Written Communication",
+      placeholder: "Type something",
+      tip: "A rich-text editor with a formatting toolbar and a word / character count." },
+    { id: "oq_form", type: "form", page: 1, title: "Form", prompt: "Complete your details.",
+      competency: "Background",
+      fields: [{ label: "Full name", type: "Input", placeholder: "Jane Doe" }, { label: "Work email", type: "Email", placeholder: "jane@company.com" }, { label: "Years in role", type: "Number", placeholder: "e.g. 3" }],
+      tip: "A form-style Text Entry: several labelled fields, each with a field-type selector." },
+    { id: "oq_datetime", type: "datetime", page: 1, title: "Date & time", prompt: "When did you start your current role?",
+      competency: "Background",
+      tip: "A date and time picker (Text Entry answer type)." },
+    { id: "oq_date", type: "datetime", page: 1, dateOnly: true, title: "Date", prompt: "What is your date of joining?",
+      competency: "Background",
+      tip: "A date-only picker." },
+    { id: "oq_chat", type: "chat", page: 1, title: "Chat", prompt: "Chat With Manager",
+      competency: "Communication",
+      subtitle: "Chat with your manager to discuss the feedback on the recent project.",
+      botName: "Rupert Smith", botRole: "Manager", botInitials: "RS",
+      botIntro: "Hi, James",
+      tip: "A conversational Text Entry answer — manager avatar and name, message bubbles, and a composer bar with a dropdown and send." },
+    { id: "oq3", type: "rank", page: 1, title: "Priority Ranking", prompt: "Rank the following leadership competencies from most important to least important for your current role.",
+      competency: "Self-Awareness",
+      items: ["Strategic Thinking", "People Development", "Results Orientation", "Innovation & Adaptability", "Stakeholder Management", "Ethical Decision Making"],
+      tip: "Drag items up or down to reorder. There are no right answers — this reflects your personal leadership priorities." },
+    { id: "oq_rankgrid", type: "rankgrid", page: 1, title: "Rank grid", prompt: "Give each statement a rank from 1 to 3.",
+      competency: "Self-Awareness",
+      items: ["Do you like your job?", "Do you like your home?", "Do you like your city?"],
+      cols: ["1", "2", "3"],
+      tip: "Assign a rank to each item with a radio grid." },
+    { id: "oq_ranknum", type: "ranknum", page: 1, title: "Rank (number entry)", prompt: "Type a rank number next to each option (1 = highest).",
+      competency: "Prioritisation",
+      items: ["Strategic Thinking", "People Development", "Results Orientation"],
+      tip: "Type a rank number into the box beside each option." },
+    { id: "oq_ranklist", type: "ranklist", page: 1, title: "Rank (reorder list)", prompt: "Select an option and use the arrows to move it up or down.",
+      competency: "Prioritisation",
+      items: ["Strategic Thinking", "People Development", "Results Orientation"],
+      tip: "A listbox with up / down controls to reorder the options." },
+    { id: "oq_sbs_top", type: "sbs", page: 1, labels: "top", title: "Side by side — labels on top", prompt: "For each statement, choose an answer under each group.",
+      competency: "Comparative Judgement",
+      groups: [{ label: "In my current role", cols: ["Agree", "Disagree"] }, { label: "In my ideal role", cols: ["Agree", "Disagree"] }],
+      statements: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      tip: "Group and answer labels shown once at the top." },
+    { id: "oq_sbs_tb", type: "sbs", page: 1, labels: "topBottom", title: "Side by side — labels top & bottom", prompt: "For each statement, choose an answer under each group.",
+      competency: "Comparative Judgement",
+      groups: [{ label: "In my current role", cols: ["Agree", "Disagree"] }, { label: "In my ideal role", cols: ["Agree", "Disagree"] }],
+      statements: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      tip: "Answer labels repeated at the top and the bottom for long tables." },
+    { id: "oq_sbs_repeat", type: "sbs", page: 1, labels: "repeat", title: "Side by side — labels on each row", prompt: "For each statement, choose an answer under each group.",
+      competency: "Comparative Judgement",
+      groups: [{ label: "In my current role", cols: ["Agree", "Disagree"] }, { label: "In my ideal role", cols: ["Agree", "Disagree"] }],
+      statements: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      tip: "Answer labels repeated under every row." },
+    { id: "oq4", type: "matrix", page: 2, title: "Behaviour Frequency", prompt: "How frequently do you demonstrate each of the following behaviours in your day-to-day work?",
+      competency: "Team Development",
+      rows: ["I actively seek feedback from my team", "I delegate tasks based on team members' strengths", "I celebrate team wins publicly", "I address underperformance promptly", "I invest time in mentoring junior colleagues"],
+      cols: ["Rarely", "Sometimes", "Often", "Always"],
+      tip: "Rate each behaviour honestly based on your actual frequency, not your aspirations." },
+    { id: "oq_matrix7", type: "matrix", page: 2, title: "Leadership Mindset", prompt: "How strongly do you agree with each statement about the way you lead?",
+      competency: "Self-Awareness",
+      rows: ["I stay calm when priorities suddenly change", "I give difficult feedback without delay", "I change my mind when the evidence changes", "I make space for quieter voices in the room", "I own a decision even when it proves wrong"],
+      cols: ["Strongly disagree", "Disagree", "Slightly disagree", "Neutral", "Slightly agree", "Agree", "Strongly agree"],
+      tip: "There are no right answers — pick the point that best matches how you actually lead." },
+    { id: "oq_mx_textcol", type: "matrix", page: 2, title: "Matrix with a text column", prompt: "For each statement, choose an option.",
+      competency: "Self-Awareness",
+      rows: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      cols: ["Agree", "Disagree", "Don't know"],
+      rowText: ["I decide how my own work gets done day to day.", "My manager tells me quickly when something needs to change.", "Good work I do is noticed and acknowledged by the team."],
+      tip: "A matrix table with a trailing static-text column (no heading, plain text)." },
+    { id: "oq_mx_stacked", type: "matrix", page: 2, title: "Matrix (two options)", prompt: "For each statement, choose Agree or Disagree.",
+      competency: "Self-Awareness",
+      rows: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      cols: ["Agree", "Disagree"],
+      tip: "A two-option matrix table shown in the desktop grid layout." },
+    { id: "oq_bipolar", type: "bipolar", page: 2, title: "Side by side (bipolar)", prompt: "For each statement, choose the side that best applies.",
+      competency: "Comparative Judgement",
+      leftLabel: "Always right", rightLabel: "Always wrong",
+      statements: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      tip: "A bipolar side-by-side: the statement sits between two option groups." },
+    { id: "oq_checkgrid_wide", type: "checkgrid", page: 2, noNa: true, title: "Check grid (six columns)", prompt: "Select every option that applies for each statement.",
+      competency: "Self-Awareness",
+      rows: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      cols: ["Agree", "Disagree", "Don't know", "Okay", "Not Okay", "It's alright"],
+      tip: "A check grid with six independent columns — tick any that apply." },
+    { id: "oq_numgrid_scale", type: "numgrid", page: 2, noNa: true, totalRow: true, title: "Numeric grid (scale points)", prompt: "Enter a value for each choice across the scale points.",
+      competency: "Prioritisation",
+      rows: ["Choice 1", "Choice 2", "Choice 3"],
+      cols: ["Scale point 1", "Scale point 2", "Scale point 3"],
+      tip: "A numeric grid with a Total row at the bottom (column sums)." },
+    { id: "oq_dropdowngrid", type: "dropdowngrid", page: 2, title: "Dropdown grid", prompt: "For each item, pick the option that applies.",
+      competency: "Self-Awareness",
+      rows: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      cols: ["Agree", "Disagree", "Don't know"], placeholder: "Select an option",
+      tip: "One MDS dropdown per row — choose a single option from the list." },
+    { id: "oq_factor", type: "factor", page: 2, title: "Factor Selection", prompt: "Select the factors most relevant to your development focus this cycle.",
+      competency: "Capability Mix",
+      options: ["Grit", "Saville Abstract Numerical Aptitude", "Strategic Thinking", "Resilience", "Influence", "Curiosity", "Decision Quality", "Collaboration"],
+      tip: "Pick all that apply — remove a selection with the ×." },
+    { id: "oq_csum", type: "constantsum", page: 2, title: "Constant Sum", prompt: "Distribute 100 points across the following priorities based on where you focus your energy.",
+      competency: "Prioritisation",
+      choices: ["Delivering results", "Developing people", "Driving innovation"], target: 100,
+      tip: "The values must add up to 100." },
+    { id: "oq_checkgrid", type: "checkgrid", page: 2, title: "Capability Review", prompt: "For each capability, indicate which statements apply.",
+      competency: "Self-Awareness",
+      rows: ["Strategic planning", "Coaching others", "Stakeholder management"],
+      cols: ["A current strength", "A development area", "Not Applicable"],
+      tip: "Check all that apply for each row. Selecting Not Applicable clears the others." },
+    { id: "oq_numgrid", type: "numgrid", page: 2, title: "Time Allocation", prompt: "Estimate the hours per week you spend on each activity across the two project phases.",
+      competency: "Prioritisation",
+      rows: ["Planning & strategy", "Hands-on delivery", "Coaching the team"],
+      cols: ["Phase 1 hrs", "Phase 2 hrs"],
+      tip: "Enter a number for each phase, or tick Not Applicable. The Total updates automatically." },
+    { id: "oq_slider", type: "slider", page: 3, title: "Confidence Slider", prompt: "Rate your current confidence level for each capability.",
+      competency: "Self-Awareness",
+      choices: ["Strategic planning", "Coaching others", "Data-driven decisions"], labels: ["Developing", "Capable", "Expert"],
+      tip: "Slide each from 0 to 100." },
+    { id: "oq_sbs", type: "sidebyside", page: 3, title: "Side by Side", prompt: "For each statement, choose the answer that applies under each context.",
+      competency: "Comparative Judgement",
+      groups: [{ label: "In my current role", cols: ["Agree", "Disagree"] }, { label: "In my ideal role", cols: ["Agree", "Disagree"] }],
+      statements: ["I have enough autonomy", "I get timely feedback", "My contribution is recognised"],
+      tip: "Pick one answer per group, per statement." },
+    { id: "oq_imgmulti", type: "imgmulti", page: 3, title: "Work Environment", prompt: "Which of the following work settings help you do your best work? Select all that apply.",
+      competency: "Self-Awareness",
+      tip: "Choose any that apply — each option shows an example setting.",
+      choices: [
+        { text: "A quiet, focused individual space", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&q=72" },
+        { text: "A collaborative open team area", img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=120&h=120&fit=crop&q=72" },
+        { text: "Working remotely from home", img: "https://images.unsplash.com/photo-1456406644174-8ddd4cd52a06?w=120&h=120&fit=crop&q=72" },
+        { text: "On-site, in meetings with stakeholders", img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=120&h=120&fit=crop&q=72" },
+      ] },
+    { id: "oq_img", type: "imgchoice", page: 3, title: "Scenario Recognition", prompt: "Which image best represents effective team collaboration?",
+      competency: "Workplace Conduct",
+      tip: "Select the scene that shows a team working together. Click an image to choose.",
+      choices: [
+        { alt: "An individual professional headshot", img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=480&h=360&fit=crop&q=72" },
+        { alt: "A formal presentation to a seated audience", img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=480&h=360&fit=crop&q=72" },
+        { alt: "A team collaborating around a whiteboard", img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=480&h=360&fit=crop&q=72" },
+        { alt: "A person working alone at a desk", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=480&h=360&fit=crop&q=72" },
+      ] },
+    { id: "oq_slidergrid", type: "slidergrid", page: 4, title: "Capability Sliders", prompt: "Rate your current proficiency for each capability from 0 to 100.",
+      competency: "Self-Awareness",
+      rows: ["Strategic planning", "Coaching others", "Data-driven decisions"], labels: ["Developing", "Capable", "Expert"],
+      tip: "Drag each slider; the value shows on the right. Use Clear to reset a row." },
+    { id: "oq_bargrid", type: "bargrid", page: 4, title: "Effort Distribution", prompt: "Click the track to indicate how much effort each area takes today.",
+      competency: "Prioritisation",
+      rows: ["Planning", "Delivery", "Coaching"], labels: ["Low", "Moderate", "High"],
+      tip: "Click anywhere on a row's track to set its bar." },
+    { id: "oq_stargrid", type: "stargrid", page: 4, title: "Confidence Rating", prompt: "Rate your confidence in each leadership area.",
+      competency: "Reflection", max: 5,
+      rows: ["Giving feedback", "Leading change", "Resolving conflict"],
+      tip: "Tap a star to set the rating; tap it again to clear." },
+    { id: "oq_gap", type: "gap", page: 4, title: "Gap Analysis", prompt: "Rate your satisfaction in each area on the scale below.",
+      competency: "Reflection",
+      categories: ["Career growth", "Work-life balance", "Recognition"], scale: ["😣", "🙁", "😐", "🙂", "😀"],
+      tip: "Tap the face that best reflects how you feel about each area." },
+    { id: "oq_skill", type: "skillfeedback", page: 4, title: "Campaign Factor Feedback", prompt: "For each skill, choose the factor it maps to and add brief feedback.",
+      competency: "Development Planning",
+      skills: ["Skill 1", "Skill 2", "Skill 3"], factors: ["Communication", "Strategic Thinking", "Execution", "Influence", "Resilience"],
+      tip: "Select a factor and write a short note for each skill." },
+    { id: "oq_pgr", type: "pickgrouprank", page: 5, title: "Pick, Group and Rank", prompt: "Drag each item into the group where it best belongs.",
+      competency: "Categorisation",
+      items: ["Mentoring", "Forecasting", "Prototyping", "Negotiation", "Roadmapping"], groups: ["People", "Strategy", "Execution"],
+      tip: "Drag items from the list into a group." },
+    { id: "oq_gslider", type: "graphicslider", page: 5, title: "Graphic Slider", prompt: "Where is your energy level for taking on a stretch assignment right now?",
+      competency: "Drive",
+      tip: "Slide to set your level from low to high." },
+    { id: "oq_gslider_dial", type: "graphicslider", page: 5, graphic: "dial", title: "Graphic Slider — dial (vertical)", prompt: "Where is your energy level for taking on a stretch assignment right now?",
+      competency: "Drive",
+      tip: "The same dial with a large gauge and a vertical slider." },
+    { id: "oq_gslider_thermo", type: "graphicslider", page: 5, graphic: "thermometer", title: "Graphic Slider — thermometer", prompt: "Slide up to show how strongly you feel about this.",
+      competency: "Drive",
+      tip: "The slider fills the thermometer — higher slider, higher temperature." },
+    { id: "oq_gslider_traffic", type: "graphicslider", page: 5, graphic: "trafficlight", title: "Graphic Slider — traffic light", prompt: "How ready are you to start? Slide to red, amber or green.",
+      competency: "Readiness",
+      tip: "The slider lights red (low), amber (mid) or green (high)." },
+    { id: "oq_gslider_smiley", type: "graphicslider", page: 5, graphic: "smiley", title: "Graphic Slider — smiley", prompt: "How do you feel about your current workload?",
+      competency: "Wellbeing",
+      tip: "The slider morphs the mouth from a frown, to flat, to a smile." },
+    { id: "oq_gslider_grade", type: "graphicslider", page: 5, graphic: "grade", title: "Graphic Slider — grade (D− to A+)", prompt: "Grade your confidence for this capability.",
+      competency: "Self-Awareness",
+      tip: "The slider steps the grade from D− up to A+." },
+    { id: "oq_gslider_gradead", type: "graphicslider", page: 5, graphic: "gradeAD", title: "Graphic Slider — grade (D to A)", prompt: "Grade your confidence for this capability.",
+      competency: "Self-Awareness",
+      tip: "The slider steps the grade from D up to A (no plus/minus)." },
+    { id: "oq_fillgauge", type: "fillgauge", page: 5, title: "Overall Readiness", prompt: "Drag the slider to indicate your overall readiness for your next role.",
+      competency: "Self-Awareness", segments: 9,
+      tip: "The gauge fills from the bottom as you move the slider." },
+    { id: "oq_shapedraw", type: "shapedraw", page: 5, title: "Shape Annotation", prompt: "Outline the areas of the workspace that need attention. Add a shape, then drag its points to fit.",
+      competency: "Spatial Reasoning",
+      tip: "Use the toolbar to add, clone, edit or remove shapes. Drag the handles to reshape." },
+    { id: "oq_shapedraw_img", type: "shapedraw", page: 5, title: "Shape Annotation (on an image)", prompt: "Mark the areas of this workspace that need attention. Add a shape, then drag its points over the image.",
+      competency: "Spatial Reasoning",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=675&fit=crop&q=75",
+      tip: "Same annotation tool, drawn on top of an uploaded image instead of a blank canvas." },
+    { id: "oq5", type: "file", page: 6, title: "Portfolio Evidence", prompt: "Upload a document that demonstrates your leadership impact — a project summary, a presentation you led, or a stakeholder communication you're proud of.",
+      competency: "Strategic Thinking",
+      accepts: ".pdf,.docx,.pptx,.png,.jpg", maxSize: "10 MB",
+      tip: "Choose something recent (within the last 12 months) that shows both your thinking and your impact." },
+    { id: "oq6", type: "audio", page: 6, title: "Verbal Reflection", prompt: "In 60-90 seconds, describe your biggest professional achievement in the past year and what it taught you about your leadership style.",
+      competency: "Self-Awareness",
+      maxDuration: 90,
+      tip: "Speak naturally as if explaining to a colleague: what happened, what you did, what you learned." },
+    { id: "oq_captcha", type: "captcha", page: 6, title: "Verification", prompt: "Confirm you're human before continuing.",
+      competency: "Security",
+      tip: "" },
+    { id: "oq_timing", type: "timing", page: 6, title: "Timing", prompt: "This question lets you record and manage how long a participant spends on this page. This question will not be displayed to the participant.",
+      competency: "Metadata",
+      tip: "A hidden Timing question — records page duration and can gate submit / auto-advance." },
+    { id: "oq_metainfo", type: "metainfo", page: 6, title: "Meta Info Question", prompt: "This question will record the recipient's browser information. It will not be displayed to the user.",
+      competency: "Metadata",
+      fields: ["Browser Type", "Browser Version", "Operating System", "Screen Resolution", "User Agent"],
+      tip: "A hidden Meta Info question — captures the recipient's browser and device details." },
+    { id: "oq_video", type: "video", page: 7, title: "Video Response", prompt: "Record a 60–90 second response: introduce yourself and describe a leadership moment you're proud of.",
+      competency: "Presence & Communication", maxDuration: 90,
+      tip: "Find a quiet, well-lit space. You can re-record before submitting." },
+    { id: "oq_dropdown", type: "dropdown", page: 7, title: "Highest Qualification", prompt: "Select your highest qualification.",
+      competency: "Background",
+      placeholder: "Select an option",
+      options: ["High school diploma", "Bachelor's Degree", "Master's Degree", "Doctorate (PhD)", "Professional certification"],
+      tip: "Choose the qualification that best represents your highest completed level of study." },
+    { id: "oq_email", type: "email", page: 7, title: "Email Composition", prompt: "Write an email to your manager requesting leave for one day.",
+      competency: "Written Communication",
+      to: "Rupert Smith", subject: "", maxWords: 200,
+      placeholder: "Write your message here…",
+      tip: "Keep it clear and professional. State your request, the date, and any handover details." },
+  ],
+  chatQuestions: [
+    { q: "What do you enjoy most about your current role?", short: "Enjoys", suggestions: ["Strategic planning and big-picture thinking", "Leading and mentoring my team", "Solving complex problems", "Cross-functional collaboration", "Building stakeholder relationships"] },
+    { q: "What aspects of your role do you find most challenging or less enjoyable?", short: "Challenges", suggestions: ["Navigating organizational politics", "Managing conflicting priorities", "Difficult conversations with direct reports", "Data-heavy reporting and analysis", "Keeping up with rapid change"] },
+    { q: "Are you looking to grow in your current role, or considering a transition?", short: "Direction", suggestions: ["Deepen expertise in my current role", "Grow into a more senior leadership position", "Transition to a different function", "Explore a broader cross-functional scope", "I'm open — help me figure it out"] },
+    { q: "What skills do you feel are your strongest and most transferable?", short: "Strengths", suggestions: ["Analytical thinking and problem solving", "Communication and storytelling", "People management and coaching", "Strategic planning", "Data analysis and technical tools"] },
+    { q: "What skills would you most like to develop or improve?", short: "Develop", suggestions: ["Executive presence and influence", "Coaching and developing others", "Decision making under ambiguity", "Data analytics and dashboards", "Technical platform knowledge"] },
+    { q: "What's your ideal timeline for this development plan?", short: "Timeline", suggestions: ["3 months — focused sprint", "6 months — steady progress", "12 months — comprehensive growth", "Flexible — I'll go at my own pace"] },
+    { q: "How do you prefer to learn?", short: "Learning", suggestions: ["Online courses and videos", "Reading books and articles", "Hands-on practice and stretch assignments", "Coaching and mentoring", "Peer learning and group workshops"] },
+  ],
+  plan: [
+    { name: "Influence & Communication", skillType: "behavioral",
+      desc: "Strengthen ability to persuade, align stakeholders, and communicate with impact across organizational levels.",
+      tips: [
+        { type: "70", category: "experience", title: "Lead a Cross-Functional Initiative", desc: "Volunteer to lead a project spanning 2+ departments. Practice influencing without direct authority by building coalitions and aligning competing priorities.", start: "Mar 2026", end: "Jun 2026", success: "Successfully deliver cross-functional project with measurable stakeholder satisfaction improvement.", insight: "Your assessment showed strong analytical skills but lower scores in lateral influence. This experiential assignment directly targets that gap." },
+        { type: "20", category: "social", title: "Executive Mentoring Program", desc: "Pair with a senior leader known for stakeholder management excellence. Shadow their key meetings and debrief on influence strategies used.", start: "Mar 2026", end: "Aug 2026", success: "Complete 6 mentoring sessions with documented learnings and at least 2 strategies applied in own work.", insight: "You mentioned wanting to grow into a more senior role. Learning from executives who've mastered influence accelerates this path." },
+        { type: "10", category: "course", title: "Stakeholder Influence Masterclass", desc: "Build techniques for persuading and aligning diverse stakeholders across organizational levels.", start: "Apr 2026", end: "Apr 2026", provider: "Coursera", duration: "4 hrs", success: "Complete course and apply RACI framework to at least one active project.", insight: "Based on your preference for structured learning and online courses, this highly-rated program fits your style." },
+      ] },
+    { name: "Team Development", skillType: "behavioral",
+      desc: "Build capability in coaching, delegating, and developing team members to reach their full potential.",
+      tips: [
+        { type: "70", category: "experience", title: "Delegate a High-Visibility Deliverable", desc: "Identify a key deliverable you normally own and delegate it fully to a direct report. Provide coaching support but resist taking it back.", start: "Mar 2026", end: "May 2026", success: "Direct report delivers the project independently with quality meeting or exceeding standards.", insight: "Deliberate delegation builds the team while freeing your capacity for strategic work. Your chat preferences indicated a desire to grow coaching skills." },
+        { type: "20", category: "course", title: "Coaching Skills for Leaders", desc: "Structured coaching program with Internal L&D focused on active listening, powerful questions, and development conversations.", start: "Apr 2026", end: "Jul 2026", provider: "Internal L&D", duration: "6 sessions", success: "Complete all 6 coaching sessions and demonstrate measurable improvement in 360° feedback on coaching behaviors.", insight: "This internal program was selected because you indicated interest in hands-on practice and peer learning formats." },
+        { type: "10", category: "reading", title: "Radical Candor — Kim Scott", desc: "Framework for caring personally while challenging directly. Learn the practical methodology for giving feedback that drives growth.", start: "Apr 2026", end: "May 2026", success: "Read and apply the SBI feedback model in at least 3 development conversations with direct reports.", insight: "Reading complements your experiential learning. This book directly addresses the feedback skills gap identified in your assessment." },
+      ] },
+    { name: "Decision Making", skillType: "behavioral",
+      desc: "Improve speed and quality of decisions under ambiguity, and strengthen stakeholder buy-in on tough calls.",
+      tips: [
+        { type: "70", category: "experience", title: "Decision Journal Practice", desc: "Document key decisions weekly: the context, options considered, reasoning, assumptions, and expected outcomes. Review monthly to identify patterns.", start: "Mar 2026", end: "Aug 2026", success: "Maintain journal for 6 months with monthly review entries showing bias pattern identification.", insight: "Journaling builds metacognition. Your analytical strengths make you well-suited for this reflective practice." },
+        { type: "20", category: "social", title: "Peer Decision Review Circle", desc: "Form a small group of 3–4 peers to present real decisions monthly. Get diverse perspectives before committing to major calls.", start: "Apr 2026", end: "Aug 2026", success: "Participate in 5 peer review sessions and apply feedback to at least 2 real decisions.", insight: "You indicated enjoying cross-functional collaboration. This social learning format leverages that preference." },
+        { type: "10", category: "course", title: "Data-Driven Decision Making", desc: "Frameworks for combining quantitative analysis with qualitative judgment in complex situations. Case-study intensive.", start: "May 2026", end: "Jun 2026", provider: "HBS Online", duration: "6 hrs", success: "Complete certification and present a case study application to your team.", insight: "This HBS program matches your analytical strengths and preference for structured online learning." },
+      ] },
+    { name: "Data & Analytics", skillType: "technical",
+      desc: "Develop proficiency in data visualization, dashboard design, and using analytics platforms to drive product and business decisions.",
+      tips: [
+        { type: "70", category: "experience", title: "Build a Live Product Dashboard", desc: "Design and ship a real-time dashboard tracking key product metrics (adoption, engagement, NPS) using your team's analytics stack. Present insights to leadership monthly.", start: "Mar 2026", end: "Jun 2026", success: "Dashboard adopted by team with 3+ stakeholders using it weekly for decision-making.", insight: "Your assessment showed strong strategic thinking but a gap in translating data into actionable visuals. Hands-on dashboard building closes this gap fast." },
+        { type: "20", category: "social", title: "Analytics Community of Practice", desc: "Join or start a cross-team analytics CoP. Share techniques, review each other's dashboards, and learn advanced SQL/visualization patterns from data engineers.", start: "Apr 2026", end: "Aug 2026", success: "Attend 6 sessions and contribute at least 2 dashboard templates or analysis frameworks to the group.", insight: "Social learning with data practitioners accelerates technical fluency faster than solo study." },
+        { type: "10", category: "course", title: "Google Analytics & Looker Certification", desc: "Structured certification covering data collection, reporting, and dashboard creation in Google's analytics ecosystem.", start: "Apr 2026", end: "May 2026", provider: "Google", duration: "8 hrs", success: "Pass certification exam and apply learnings to at least one product analytics workflow.", insight: "Certification provides structured foundations. Your preference for online learning makes this a natural fit." },
+      ] },
+    { name: "Product & Platform Architecture", skillType: "technical",
+      desc: "Deepen understanding of platform architecture, API design patterns, and technical trade-offs to bridge PM-engineering communication and make better technical decisions.",
+      tips: [
+        { type: "70", category: "experience", title: "Co-Design a Technical Spec", desc: "Partner with a senior engineer to co-author a technical design document for an upcoming feature. Attend architecture reviews and contribute to trade-off discussions.", start: "Mar 2026", end: "May 2026", success: "Co-authored spec approved by architecture review board with your contributions cited in trade-off analysis.", insight: "Your platform management role requires stronger technical fluency. Co-authoring specs builds this while strengthening engineering relationships." },
+        { type: "20", category: "social", title: "Engineering Pair Sessions", desc: "Schedule bi-weekly pair sessions with engineers working on your platform. Observe code reviews, deployment processes, and debugging workflows to build technical empathy.", start: "Apr 2026", end: "Jul 2026", success: "Complete 8 pair sessions covering frontend, backend, and infrastructure. Document key learnings in a PM technical playbook.", insight: "Pairing sessions build the shared language needed for your GTM & AI Solutions PM role bridging product and engineering." },
+        { type: "10", category: "course", title: "System Design for Product Managers", desc: "Intensive course covering APIs, microservices, databases, and scalability patterns — tailored for non-engineers making technical product decisions.", start: "May 2026", end: "Jun 2026", provider: "Educative", duration: "10 hrs", success: "Complete course and apply system design framework to evaluate one platform architecture decision.", insight: "This fills the technical vocabulary gap identified in your assessment, enabling more effective platform management conversations." },
+      ] },
+  ],
+  reportsFull: [
+    { id: "hogan", name: "Hogan Leadership Profile", program: "Leadership 2026", available: true, pages: 12, based: ["Hogan Assessment"], doneCount: 1,
+      desc: "Comprehensive personality profiling covering ambition, sociability, interpersonal sensitivity, prudence, and learning approach scales." },
+    { id: "thriving", name: "Thriving Index Report", program: "Leadership 2026", available: true, pages: 8, based: ["Thriving Index"], doneCount: 1,
+      desc: "Personal wellbeing, resilience, and engagement scores with benchmarks against your industry and role level." },
+    { id: "cognitive", name: "Cognitive Ability Summary", program: "Leadership 2026", available: false, pages: 6, based: ["Cognitive Ability Test"], doneCount: 0,
+      desc: "Verbal, numerical, and abstract reasoning scores with percentile rankings and development recommendations." },
+    { id: "integrated", name: "Integrated Leadership Report", program: "Leadership 2026", available: false, pages: 24, based: ["Hogan Assessment", "Cognitive Ability Test", "Video Interview"], doneCount: 1,
+      desc: "Holistic view combining Hogan personality, cognitive ability, and video interview data into a single leadership potential score." },
+    { id: "sim", name: "Business Simulation Debrief", program: "Leadership 2026", available: false, pages: 10, based: ["Business Simulation Center"], doneCount: 0,
+      desc: "Detailed assessor feedback on strategic thinking, communication, and crisis management performance during the simulation." },
+    { id: "360", name: "360° Feedback Report", program: "360° Perspective", available: false, pages: 18, based: ["Self Assessment", "Nominate Raters", "Track Responses"], doneCount: 1,
+      desc: "Consolidated multi-rater feedback with self-other comparison, blind spots, and strengths across leadership competencies." },
+  ],
+  scheduling: [
+    { program: "Leadership Potential Assessment 2026", accentVar: "var(--accent)",
+      centers: [
+        { id: "sim-sched", name: "Business Simulation Center", icon: "monitor", color: "var(--accent)",
+          desc: "Strategic decision-making: market analysis, presentation, and crisis response. Live facilitators and observers present.",
+          location: "Virtual — Zoom", duration: "90 min",
+          slots: [
+            { id: "sl1", date: "Mar 10, 2026", day: "Monday", time: "9:00 AM – 10:30 AM", tz: "GST (UTC+4)", total: 12, remaining: 4, cancelBefore: "48 hours" },
+            { id: "sl2", date: "Mar 10, 2026", day: "Monday", time: "2:00 PM – 3:30 PM", tz: "GST (UTC+4)", total: 12, remaining: 8, cancelBefore: "48 hours" },
+            { id: "sl3", date: "Mar 12, 2026", day: "Wednesday", time: "9:00 AM – 10:30 AM", tz: "GST (UTC+4)", total: 12, remaining: 1, cancelBefore: null },
+            { id: "sl4", date: "Mar 14, 2026", day: "Friday", time: "11:00 AM – 12:30 PM", tz: "GST (UTC+4)", total: 15, remaining: 15, cancelBefore: "24 hours" },
+            { id: "sl5", date: "Mar 18, 2026", day: "Tuesday", time: "9:00 AM – 10:30 AM", tz: "GST (UTC+4)", total: 12, remaining: 6, cancelBefore: "48 hours" },
+          ] },
+        { id: "lac-sched", name: "Leadership Assessment Center", icon: "users", color: "var(--accent)",
+          desc: "Full-day group assessment: group exercises, role plays, and case study presentations with trained observers.",
+          location: "In-Person — Marsh Dubai Office, DIFC", duration: "4 hours",
+          slots: [
+            { id: "sl6", date: "Mar 15, 2026", day: "Saturday", time: "9:00 AM – 1:00 PM", tz: "GST (UTC+4)", total: 8, remaining: 2, cancelBefore: null },
+            { id: "sl7", date: "Mar 22, 2026", day: "Saturday", time: "9:00 AM – 1:00 PM", tz: "GST (UTC+4)", total: 8, remaining: 5, cancelBefore: "72 hours" },
+            { id: "sl8", date: "Mar 29, 2026", day: "Saturday", time: "9:00 AM – 1:00 PM", tz: "GST (UTC+4)", total: 8, remaining: 8, cancelBefore: "72 hours" },
+          ] },
+      ] },
+    { program: "360° Perspective Feedback", accentVar: "var(--purple-750)",
+      centers: [
+        { id: "cal-sched", name: "Calibration Session", icon: "users", color: "#CB7E03",
+          desc: "Live calibration session with your manager and HR to discuss 360° feedback results and development priorities.",
+          location: "Virtual — Microsoft Teams", duration: "60 min",
+          slots: [
+            { id: "sl9", date: "Apr 2, 2026", day: "Wednesday", time: "10:00 AM – 11:00 AM", tz: "GST (UTC+4)", total: 6, remaining: 3, cancelBefore: "24 hours" },
+            { id: "sl10", date: "Apr 5, 2026", day: "Saturday", time: "11:00 AM – 12:00 PM", tz: "GST (UTC+4)", total: 6, remaining: 6, cancelBefore: "24 hours" },
+          ] },
+      ] },
+  ],
+};
+
+// ── Icons — clean 1.6 stroke, 20×20, inherit color ──
+const mk = (paths, fill) => (p = {}) => {
+  const { size = 20, stroke = 1.6, ...rest } = p;
+  return React.createElement("svg", {
+    width: size, height: size, viewBox: "0 0 24 24",
+    fill: fill ? "currentColor" : "none", stroke: fill ? "none" : "currentColor",
+    strokeWidth: stroke, strokeLinecap: "round", strokeLinejoin: "round", ...rest,
+  }, paths.map((d, i) => React.createElement("path", { key: i, d })));
+};
+
+// Authentic MDS icons are FILLED glyphs (fill=currentColor, evenodd, with a transform).
+// mkMds renders one from its raw inner <path> markup (pulled from the MDS icon library).
+const mkMds = (inner) => ({ size = 20, ...rest }) => React.createElement("svg", {
+  width: size, height: size, viewBox: "0 0 24 24", fill: "currentColor",
+  dangerouslySetInnerHTML: { __html: inner }, ...rest,
+});
+
+const I = {
+  home: mkMds(`<path d="M 1.5 15.394 L 4.846 15.394 L 4.846 9.452 L 10.154 9.452 L 10.154 15.394 L 13.5 15.394 L 13.5 6.394 L 7.5 1.875 L 1.5 6.394 L 1.5 15.394 Z M 0 16.894 L 0 5.644 L 7.5 0 L 15 5.644 L 15 16.894 L 8.654 16.894 L 8.654 10.952 L 6.346 10.952 L 6.346 16.894 L 0 16.894 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.500 1.610)"/>`),
+  sync: mkMds(`<path d="M 0.917 14.281 C 0.615 13.718 0.386 13.137 0.232 12.538 C 0.077 11.938 0 11.327 0 10.704 C 0 8.541 0.753 6.7 2.258 5.182 C 3.763 3.663 5.594 2.904 7.75 2.904 L 8.531 2.904 L 6.681 1.054 L 7.735 0 L 11.388 3.654 L 7.735 7.308 L 6.681 6.254 L 8.531 4.404 L 7.75 4.404 C 6.013 4.404 4.537 5.015 3.322 6.238 C 2.107 7.461 1.5 8.95 1.5 10.704 C 1.5 11.118 1.545 11.532 1.635 11.945 C 1.726 12.359 1.862 12.762 2.042 13.156 L 0.917 14.281 Z M 7.766 21.308 L 4.111 17.654 L 7.766 14 L 8.819 15.054 L 6.969 16.904 L 7.75 16.904 C 9.487 16.904 10.963 16.292 12.178 15.069 C 13.393 13.846 14 12.358 14 10.604 C 14 10.19 13.955 9.776 13.865 9.363 C 13.774 8.949 13.638 8.545 13.458 8.152 L 14.583 7.027 C 14.885 7.59 15.114 8.171 15.268 8.77 C 15.423 9.37 15.5 9.981 15.5 10.604 C 15.5 12.767 14.747 14.607 13.242 16.126 C 11.737 17.644 9.906 18.404 7.75 18.404 L 6.969 18.404 L 8.819 20.254 L 7.766 21.308 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 4.250 1.350)"/>`),
+  chart: mkMds(`<path d="M 11.5 15 L 11.5 9.096 L 15 9.096 L 15 15 L 11.5 15 Z M 5.75 15 L 5.75 0 L 9.25 0 L 9.25 15 L 5.75 15 Z M 0 15 L 0 4.904 L 3.5 4.904 L 3.5 15 L 0 15 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 4.500 4.500)"/>`),
+  users: mkMds(`<path d="M 0 10.481 L 0 9.262 C 0 8.596 0.347 8.05 1.042 7.622 C 1.737 7.195 2.643 6.981 3.76 6.981 C 3.944 6.981 4.13 6.987 4.317 6.998 C 4.504 7.01 4.693 7.032 4.883 7.065 C 4.688 7.377 4.543 7.7 4.449 8.036 C 4.355 8.371 4.308 8.715 4.308 9.067 L 4.308 10.481 L 0 10.481 Z M 6 10.481 L 6 9.106 C 6 8.638 6.131 8.21 6.394 7.822 C 6.657 7.434 7.036 7.096 7.531 6.808 C 8.026 6.519 8.61 6.303 9.285 6.159 C 9.959 6.014 10.696 5.942 11.496 5.942 C 12.312 5.942 13.056 6.014 13.731 6.159 C 14.405 6.303 14.99 6.519 15.484 6.808 C 15.979 7.096 16.356 7.434 16.614 7.822 C 16.871 8.21 17 8.638 17 9.106 L 17 10.481 L 6 10.481 Z M 18.692 10.481 L 18.692 9.07 C 18.692 8.694 18.648 8.34 18.559 8.007 C 18.47 7.674 18.336 7.36 18.158 7.065 C 18.354 7.032 18.541 7.01 18.72 6.998 C 18.899 6.987 19.076 6.981 19.25 6.981 C 20.367 6.981 21.271 7.192 21.962 7.615 C 22.654 8.037 23 8.586 23 9.262 L 23 10.481 L 18.692 10.481 Z M 7.577 8.981 L 15.438 8.981 L 15.438 8.875 C 15.336 8.471 14.91 8.131 14.162 7.856 C 13.413 7.58 12.526 7.442 11.5 7.442 C 10.474 7.442 9.587 7.58 8.839 7.856 C 8.09 8.131 7.669 8.471 7.577 8.875 L 7.577 8.981 Z M 3.757 6.01 C 3.286 6.01 2.883 5.842 2.549 5.507 C 2.215 5.172 2.048 4.769 2.048 4.298 C 2.048 3.821 2.216 3.418 2.551 3.09 C 2.886 2.761 3.289 2.596 3.76 2.596 C 4.237 2.596 4.641 2.761 4.973 3.09 C 5.305 3.418 5.471 3.822 5.471 4.301 C 5.471 4.766 5.307 5.167 4.978 5.504 C 4.65 5.841 4.243 6.01 3.757 6.01 Z M 19.25 6.01 C 18.783 6.01 18.381 5.841 18.044 5.504 C 17.707 5.167 17.538 4.766 17.538 4.301 C 17.538 3.822 17.707 3.418 18.044 3.09 C 18.381 2.761 18.784 2.596 19.252 2.596 C 19.734 2.596 20.139 2.761 20.468 3.09 C 20.797 3.418 20.962 3.821 20.962 4.298 C 20.962 4.769 20.798 5.172 20.47 5.507 C 20.142 5.842 19.735 6.01 19.25 6.01 Z M 11.504 5.192 C 10.783 5.192 10.17 4.94 9.664 4.435 C 9.157 3.93 8.904 3.317 8.904 2.596 C 8.904 1.861 9.156 1.244 9.661 0.746 C 10.166 0.249 10.779 0 11.5 0 C 12.236 0 12.852 0.249 13.35 0.746 C 13.847 1.242 14.096 1.858 14.096 2.593 C 14.096 3.313 13.848 3.926 13.351 4.433 C 12.854 4.939 12.238 5.192 11.504 5.192 Z M 11.505 3.692 C 11.811 3.692 12.069 3.585 12.28 3.371 C 12.491 3.157 12.596 2.897 12.596 2.591 C 12.596 2.286 12.491 2.027 12.281 1.816 C 12.071 1.605 11.81 1.5 11.5 1.5 C 11.197 1.5 10.939 1.605 10.725 1.815 C 10.511 2.025 10.404 2.286 10.404 2.596 C 10.404 2.899 10.511 3.157 10.725 3.371 C 10.939 3.585 11.199 3.692 11.505 3.692 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 0.500 7.307)"/>`),
+  cal: mkMds(`<path d="M 1.808 19.115 C 1.303 19.115 0.875 18.94 0.525 18.59 C 0.175 18.24 0 17.813 0 17.308 L 0 3.923 C 0 3.418 0.175 2.99 0.525 2.64 C 0.875 2.29 1.303 2.115 1.808 2.115 L 3.192 2.115 L 3.192 0 L 4.731 0 L 4.731 2.115 L 12.308 2.115 L 12.308 0 L 13.808 0 L 13.808 2.115 L 15.192 2.115 C 15.697 2.115 16.125 2.29 16.475 2.64 C 16.825 2.99 17 3.418 17 3.923 L 17 17.308 C 17 17.813 16.825 18.24 16.475 18.59 C 16.125 18.94 15.697 19.115 15.192 19.115 L 1.808 19.115 Z M 1.808 17.615 L 15.192 17.615 C 15.269 17.615 15.34 17.583 15.404 17.519 C 15.468 17.455 15.5 17.385 15.5 17.308 L 15.5 7.923 L 1.5 7.923 L 1.5 17.308 C 1.5 17.385 1.532 17.455 1.596 17.519 C 1.66 17.583 1.731 17.615 1.808 17.615 Z M 1.5 6.423 L 15.5 6.423 L 15.5 3.923 C 15.5 3.846 15.468 3.775 15.404 3.711 C 15.34 3.647 15.269 3.615 15.192 3.615 L 1.808 3.615 C 1.731 3.615 1.66 3.647 1.596 3.711 C 1.532 3.775 1.5 3.846 1.5 3.923 L 1.5 6.423 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 1.500 0.380)"/>`),
+  calCheck: mkMds(`<path d="M 7.45 15.6 L 4.246 12.396 L 5.331 11.311 L 7.45 13.431 L 11.669 9.212 L 12.754 10.296 L 7.45 15.6 Z M 1.808 19.115 C 1.303 19.115 0.875 18.94 0.525 18.59 C 0.175 18.24 0 17.813 0 17.308 L 0 3.923 C 0 3.418 0.175 2.99 0.525 2.64 C 0.875 2.29 1.303 2.115 1.808 2.115 L 3.192 2.115 L 3.192 0 L 4.731 0 L 4.731 2.115 L 12.308 2.115 L 12.308 0 L 13.808 0 L 13.808 2.115 L 15.192 2.115 C 15.697 2.115 16.125 2.29 16.475 2.64 C 16.825 2.99 17 3.418 17 3.923 L 17 17.308 C 17 17.813 16.825 18.24 16.475 18.59 C 16.125 18.94 15.697 19.115 15.192 19.115 L 1.808 19.115 Z M 1.808 17.615 L 15.192 17.615 C 15.269 17.615 15.34 17.583 15.404 17.519 C 15.468 17.455 15.5 17.385 15.5 17.308 L 15.5 7.923 L 1.5 7.923 L 1.5 17.308 C 1.5 17.385 1.532 17.455 1.596 17.519 C 1.66 17.583 1.731 17.615 1.808 17.615 Z M 1.5 6.423 L 15.5 6.423 L 15.5 3.923 C 15.5 3.846 15.468 3.775 15.404 3.711 C 15.34 3.647 15.269 3.615 15.192 3.615 L 1.808 3.615 C 1.731 3.615 1.66 3.647 1.596 3.711 C 1.532 3.775 1.5 3.846 1.5 3.923 L 1.5 6.423 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 3.500 2.385)"/>`),
+  bars: mkMds(`<path d="M 1.808 17 C 1.303 17 0.875 16.825 0.525 16.475 C 0.175 16.125 0 15.697 0 15.192 L 0 1.808 C 0 1.303 0.175 0.875 0.525 0.525 C 0.875 0.175 1.303 0 1.808 0 L 15.192 0 C 15.697 0 16.125 0.175 16.475 0.525 C 16.825 0.875 17 1.303 17 1.808 L 17 15.192 C 17 15.697 16.825 16.125 16.475 16.475 C 16.125 16.825 15.697 17 15.192 17 L 1.808 17 Z M 1.5 13.085 L 1.5 15.192 C 1.5 15.269 1.532 15.34 1.596 15.404 C 1.66 15.468 1.731 15.5 1.808 15.5 L 15.192 15.5 C 15.269 15.5 15.34 15.468 15.404 15.404 C 15.468 15.34 15.5 15.269 15.5 15.192 L 15.5 6.423 L 9.646 13 L 5.615 8.969 L 1.5 13.085 Z M 1.5 10.946 L 5.615 6.831 L 9.585 10.8 L 15.5 4.173 L 15.5 1.808 C 15.5 1.731 15.468 1.66 15.404 1.596 C 15.34 1.532 15.269 1.5 15.192 1.5 L 1.808 1.5 C 1.731 1.5 1.66 1.532 1.596 1.596 C 1.532 1.66 1.5 1.731 1.5 1.808 L 1.5 10.946 Z M 1.5 6.423 L 1.5 4.173 L 1.5 10.8 L 1.5 6.831 L 1.5 13.085 L 1.5 8.969 L 1.5 13 L 1.5 6.423 Z M 1.5 10.946 L 1.5 1.5 L 1.5 10.8 L 1.5 6.831 L 1.5 10.946 Z M 1.5 13.085 L 1.5 8.969 L 1.5 13 L 1.5 6.423 L 1.5 15.5 L 1.5 13.085 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 3.500 3.500)"/>`),
+  bell: mkMds(`<path d="M 0 16.385 L 0 14.885 L 1.808 14.885 L 1.808 7.423 C 1.808 6.078 2.223 4.889 3.053 3.856 C 3.883 2.822 4.949 2.161 6.25 1.873 L 6.25 1.25 C 6.25 0.903 6.371 0.608 6.614 0.365 C 6.857 0.122 7.152 0 7.499 0 C 7.846 0 8.141 0.122 8.385 0.365 C 8.628 0.608 8.75 0.903 8.75 1.25 L 8.75 1.873 C 10.051 2.161 11.117 2.822 11.947 3.856 C 12.777 4.889 13.192 6.078 13.192 7.423 L 13.192 14.885 L 15 14.885 L 15 16.385 L 0 16.385 Z M 7.498 19.192 C 7.001 19.192 6.575 19.015 6.222 18.661 C 5.869 18.307 5.692 17.882 5.692 17.385 L 9.308 17.385 C 9.308 17.883 9.131 18.309 8.776 18.663 C 8.422 19.016 7.996 19.192 7.498 19.192 Z M 3.308 14.885 L 11.692 14.885 L 11.692 7.423 C 11.692 6.265 11.283 5.277 10.465 4.459 C 9.646 3.64 8.658 3.231 7.5 3.231 C 6.342 3.231 5.354 3.64 4.536 4.459 C 3.717 5.277 3.308 6.265 3.308 7.423 L 3.308 14.885 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 2.500) matrix(1 0 0 1 2 0)"/>`),
+  search: mkMds(`<path d="M 5.797 18.251 C 4.641 17.752 3.636 17.074 2.781 16.219 C 1.926 15.364 1.248 14.359 0.749 13.203 C 0.25 12.047 0 10.813 0 9.5 C 0 8.187 0.25 6.953 0.749 5.797 C 1.248 4.641 1.926 3.636 2.781 2.781 C 3.636 1.926 4.641 1.248 5.797 0.749 C 6.953 0.25 8.187 0 9.5 0 C 10.813 0 12.047 0.25 13.203 0.749 C 14.359 1.248 15.364 1.926 16.219 2.781 C 17.074 3.636 17.752 4.641 18.251 5.797 C 18.75 6.953 19 8.187 19 9.5 C 19 10.813 18.75 12.047 18.251 13.203 C 17.752 14.359 17.074 15.364 16.219 16.219 C 15.364 17.074 14.359 17.752 13.203 18.251 C 12.047 18.75 10.813 19 9.5 19 C 8.187 19 6.953 18.75 5.797 18.251 Z M 8.75 17.419 L 8.75 13.939 C 7.808 13.745 7.006 13.317 6.344 12.656 C 5.683 11.994 5.255 11.192 5.062 10.25 L 1.581 10.25 C 1.742 12.163 2.499 13.785 3.852 15.116 C 5.205 16.446 6.837 17.214 8.75 17.419 Z M 10.25 17.419 C 12.163 17.245 13.795 16.485 15.148 15.139 C 16.501 13.792 17.258 12.163 17.419 10.25 L 13.938 10.25 C 13.745 11.192 13.317 11.994 12.656 12.656 C 11.994 13.317 11.192 13.745 10.25 13.939 L 10.25 17.419 Z M 1.581 8.75 L 5 8.75 L 7.712 6 L 11.288 6 L 14 8.75 L 17.419 8.75 C 17.227 6.682 16.374 4.957 14.861 3.574 C 13.349 2.191 11.562 1.5 9.5 1.5 C 7.438 1.5 5.651 2.191 4.139 3.574 C 2.626 4.957 1.773 6.682 1.581 8.75 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 2.500)"/>`),
+  arrow: mkMds(`<path d="M 12.127 8.25 L 0 8.25 L 0 6.75 L 12.127 6.75 L 6.431 1.054 L 7.5 0 L 15 7.5 L 7.5 15 L 6.431 13.946 L 12.127 8.25 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.500 2.500)"/>`),
+  // Proper magnifying-glass search glyph (Material Symbols style). The `search` entry above
+  // is actually the MDS globe/explore icon, so recipient pickers use this one instead.
+  searchGlass: mkMds(`<path d="M 18.031 16.617 L 22.314 20.899 L 20.899 22.314 L 16.617 18.031 C 15.025 19.309 13.008 20.001 10.906 20 C 5.86 20 1.766 15.906 1.766 10.86 C 1.766 5.814 5.86 1.72 10.906 1.72 C 15.952 1.72 20.046 5.814 20.046 10.86 C 20.048 12.962 19.356 14.98 18.078 16.571 L 18.031 16.617 Z M 16.025 15.875 C 17.288 14.578 18.048 12.831 18.046 10.86 C 18.046 6.914 14.851 3.72 10.906 3.72 C 6.96 3.72 3.766 6.914 3.766 10.86 C 3.766 14.805 6.96 18 10.906 18 C 12.877 18.002 14.624 17.242 15.921 15.979 L 16.025 15.875 Z" fill="currentColor" fill-rule="evenodd"/>`),
+  // Outline trash / delete (Material Symbols style) — used by the file-upload remove control.
+  trash: mkMds(`<path d="M 9 3 L 9 4 L 4 4 L 4 6 L 5 6 L 5 19 C 5 19.552 5.196 20.024 5.588 20.413 C 5.979 20.804 6.451 21 7 21 L 17 21 C 17.552 21 18.024 20.804 18.413 20.413 C 18.804 20.024 19 19.552 19 19 L 19 6 L 20 6 L 20 4 L 15 4 L 15 3 L 9 3 Z M 7 6 L 17 6 L 17 19 L 7 19 L 7 6 Z M 9 8 L 9 17 L 11 17 L 11 8 L 9 8 Z M 13 8 L 13 17 L 15 17 L 15 8 L 13 8 Z" fill="currentColor" fill-rule="evenodd"/>`),
+  clock: mkMds(`<path d="M 12.973 14.027 L 14.027 12.973 L 10.25 9.196 L 10.25 4.5 L 8.75 4.5 L 8.75 9.804 L 12.973 14.027 Z M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.78 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.78 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z M 9.5 17.5 C 11.717 17.5 13.604 16.721 15.163 15.163 C 16.721 13.604 17.5 11.717 17.5 9.5 C 17.5 7.283 16.721 5.396 15.163 3.838 C 13.604 2.279 11.717 1.5 9.5 1.5 C 7.283 1.5 5.396 2.279 3.838 3.838 C 2.279 5.396 1.5 7.283 1.5 9.5 C 1.5 11.717 2.279 13.604 3.838 15.163 C 5.396 16.721 7.283 17.5 9.5 17.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 0.500 0.500)"/>`),
+  checkCircle: mkMds(`<path d="M 8.081 13.754 L 14.804 7.031 L 13.75 5.977 L 8.081 11.646 L 5.231 8.796 L 4.177 9.85 L 8.081 13.754 Z M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.779 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.779 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z M 9.5 17.5 C 11.733 17.5 13.625 16.725 15.175 15.175 C 16.725 13.625 17.5 11.733 17.5 9.5 C 17.5 7.267 16.725 5.375 15.175 3.825 C 13.625 2.275 11.733 1.5 9.5 1.5 C 7.267 1.5 5.375 2.275 3.825 3.825 C 2.275 5.375 1.5 7.267 1.5 9.5 C 1.5 11.733 2.275 13.625 3.825 15.175 C 5.375 16.725 7.267 17.5 9.5 17.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 2.500)"/>`),
+  lock: mkMds(`<path d="M 1.808 19.5 C 1.309 19.5 0.883 19.323 0.53 18.97 C 0.177 18.617 0 18.191 0 17.692 L 0 8.308 C 0 7.809 0.177 7.383 0.53 7.03 C 0.883 6.677 1.309 6.5 1.808 6.5 L 3 6.5 L 3 4.5 C 3 3.251 3.438 2.189 4.313 1.313 C 5.189 0.438 6.251 0 7.5 0 C 8.749 0 9.811 0.438 10.687 1.313 C 11.562 2.189 12 3.251 12 4.5 L 12 6.5 L 13.192 6.5 C 13.691 6.5 14.117 6.677 14.47 7.03 C 14.823 7.383 15 7.809 15 8.308 L 15 17.692 C 15 18.191 14.823 18.617 14.47 18.97 C 14.117 19.323 13.691 19.5 13.192 19.5 L 1.808 19.5 Z M 1.808 18 L 13.192 18 C 13.282 18 13.356 17.971 13.413 17.913 C 13.471 17.856 13.5 17.782 13.5 17.692 L 13.5 8.308 C 13.5 8.218 13.471 8.144 13.413 8.087 C 13.356 8.029 13.282 8 13.192 8 L 1.808 8 C 1.718 8 1.644 8.029 1.587 8.087 C 1.529 8.144 1.5 8.218 1.5 8.308 L 1.5 17.692 C 1.5 17.782 1.529 17.856 1.587 17.913 C 1.644 17.971 1.718 18 1.808 18 Z M 8.74 14.239 C 9.08 13.899 9.25 13.486 9.25 13 C 9.25 12.514 9.08 12.101 8.74 11.761 C 8.399 11.42 7.986 11.25 7.5 11.25 C 7.014 11.25 6.601 11.42 6.26 11.761 C 5.92 12.101 5.75 12.514 5.75 13 C 5.75 13.486 5.92 13.899 6.26 14.239 C 6.601 14.58 7.014 14.75 7.5 14.75 C 7.986 14.75 8.399 14.58 8.74 14.239 Z M 4.5 6.5 L 10.5 6.5 L 10.5 4.5 C 10.5 3.667 10.208 2.958 9.625 2.375 C 9.042 1.792 8.333 1.5 7.5 1.5 C 6.667 1.5 5.958 1.792 5.375 2.375 C 4.792 2.958 4.5 3.667 4.5 4.5 L 4.5 6.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.500 0)"/>`),
+  gear: mkMds(`<path d="M 7.088 19 L 6.708 15.954 C 6.44 15.864 6.165 15.738 5.884 15.577 C 5.602 15.415 5.351 15.242 5.129 15.058 L 2.307 16.25 L 0 12.25 L 2.44 10.406 C 2.417 10.257 2.401 10.108 2.391 9.958 C 2.382 9.808 2.377 9.658 2.377 9.51 C 2.377 9.367 2.382 9.223 2.391 9.076 C 2.401 8.929 2.417 8.769 2.44 8.594 L 0 6.75 L 2.307 2.769 L 5.119 3.952 C 5.36 3.761 5.618 3.586 5.891 3.428 C 6.165 3.27 6.434 3.142 6.698 3.046 L 7.088 0 L 11.704 0 L 12.084 3.056 C 12.384 3.165 12.656 3.292 12.899 3.438 C 13.142 3.583 13.387 3.755 13.635 3.952 L 16.485 2.769 L 18.792 6.75 L 16.313 8.623 C 16.349 8.785 16.369 8.936 16.372 9.076 C 16.375 9.216 16.377 9.358 16.377 9.5 C 16.377 9.636 16.374 9.774 16.367 9.915 C 16.361 10.055 16.338 10.215 16.298 10.396 L 18.758 12.25 L 16.45 16.25 L 13.635 15.048 C 13.387 15.246 13.134 15.42 12.877 15.572 C 12.619 15.724 12.355 15.848 12.084 15.944 L 11.704 19 L 7.088 19 Z M 8.396 17.5 L 10.361 17.5 L 10.721 14.821 C 11.231 14.688 11.698 14.499 12.12 14.253 C 12.543 14.007 12.95 13.692 13.342 13.306 L 15.827 14.35 L 16.811 12.65 L 14.642 11.016 C 14.726 10.757 14.782 10.503 14.812 10.254 C 14.842 10.005 14.858 9.754 14.858 9.5 C 14.858 9.24 14.842 8.988 14.812 8.746 C 14.782 8.504 14.726 8.256 14.642 8.004 L 16.83 6.35 L 15.846 4.65 L 13.333 5.71 C 12.998 5.352 12.597 5.036 12.13 4.762 C 11.662 4.487 11.19 4.293 10.712 4.179 L 10.396 1.5 L 8.411 1.5 L 8.081 4.169 C 7.57 4.29 7.099 4.474 6.667 4.723 C 6.235 4.972 5.823 5.292 5.431 5.684 L 2.946 4.65 L 1.961 6.35 L 4.121 7.96 C 4.038 8.197 3.979 8.444 3.946 8.7 C 3.913 8.956 3.896 9.226 3.896 9.51 C 3.896 9.77 3.913 10.025 3.946 10.275 C 3.979 10.525 4.034 10.772 4.111 11.016 L 1.961 12.65 L 2.946 14.35 L 5.421 13.3 C 5.8 13.69 6.206 14.009 6.638 14.258 C 7.07 14.506 7.548 14.697 8.071 14.831 L 8.396 17.5 Z M 9.408 12.5 C 10.24 12.5 10.947 12.208 11.531 11.624 C 12.115 11.04 12.408 10.332 12.408 9.5 C 12.408 8.668 12.115 7.96 11.531 7.376 C 10.947 6.792 10.24 6.5 9.408 6.5 C 8.565 6.5 7.855 6.792 7.276 7.376 C 6.697 7.96 6.407 8.668 6.407 9.5 C 6.407 10.332 6.697 11.04 7.276 11.624 C 7.855 12.208 8.565 12.5 9.408 12.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 0.600 0.500)"/>`),
+  chevR: mkMds(`<path d="M 5.654 4.6 L 10.254 0 L 11.308 1.054 L 5.654 6.708 L 0 1.054 L 1.054 0 L 5.654 4.6 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(0 -1 1 0 6.350 15.658)"/>`),
+  chevL: mkMds(`<path d="M 11.308 1.054 L 5.654 6.708 L 0 1.054 L 1.054 0 L 5.654 4.6 L 10.254 0 L 11.308 1.054 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(0 1 -1 0 13.058 4.350)"/>`),
+  chevD: mkMds(`<path d="M 5.654 6.708 L 0 1.054 L 1.054 0 L 5.654 4.6 L 10.254 0 L 11.308 1.054 L 5.654 6.708 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 4.350 6.350)"/>`),
+  menu: mkMds(`<path d="M 0 11.269 L 0 9.769 L 17 9.769 L 17 11.269 L 0 11.269 Z M 0 6.385 L 0 4.885 L 17 4.885 L 17 6.385 L 0 6.385 Z M 0 1.5 L 0 0 L 17 0 L 17 1.5 L 0 1.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 1.500 4.370)"/>`),
+  panel: mkMds(`<path d="M 1.808 17 C 1.309 17 0.883 16.823 0.53 16.47 C 0.177 16.117 0 15.691 0 15.192 L 0 1.808 C 0 1.309 0.177 0.883 0.53 0.53 C 0.883 0.177 1.309 0 1.808 0 L 15.192 0 C 15.691 0 16.117 0.177 16.47 0.53 C 16.823 0.883 17 1.309 17 1.808 L 17 15.192 C 17 15.691 16.823 16.117 16.47 16.47 C 16.117 16.823 15.691 17 15.192 17 L 1.808 17 Z M 12.5 15.5 L 15.5 15.5 L 15.5 1.808 C 15.5 1.731 15.468 1.66 15.404 1.596 C 15.34 1.532 15.269 1.5 15.192 1.5 L 12.5 1.5 L 12.5 15.5 Z M 11 15.5 L 11 1.5 L 1.808 1.5 C 1.731 1.5 1.66 1.532 1.596 1.596 C 1.532 1.66 1.5 1.731 1.5 1.808 L 1.5 15.192 C 1.5 15.269 1.532 15.34 1.596 15.404 C 1.66 15.468 1.731 15.5 1.808 15.5 L 11 15.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 3.500 3.500)"/>`),
+  image: mkMds(`<path d="M 1.808 17 C 1.303 17 0.875 16.825 0.525 16.475 C 0.175 16.125 0 15.697 0 15.192 L 0 1.808 C 0 1.303 0.175 0.875 0.525 0.525 C 0.875 0.175 1.303 0 1.808 0 L 15.192 0 C 15.697 0 16.125 0.175 16.475 0.525 C 16.825 0.875 17 1.303 17 1.808 L 17 15.192 C 17 15.697 16.825 16.125 16.475 16.475 C 16.125 16.825 15.697 17 15.192 17 L 1.808 17 Z M 1.808 15.5 L 15.192 15.5 C 15.269 15.5 15.34 15.468 15.404 15.404 C 15.468 15.34 15.5 15.269 15.5 15.192 L 15.5 1.808 C 15.5 1.731 15.468 1.66 15.404 1.596 C 15.34 1.532 15.269 1.5 15.192 1.5 L 1.808 1.5 C 1.731 1.5 1.66 1.532 1.596 1.596 C 1.532 1.66 1.5 1.731 1.5 1.808 L 1.5 15.192 C 1.5 15.269 1.532 15.34 1.596 15.404 C 1.66 15.468 1.731 15.5 1.808 15.5 Z M 3.25 13.25 L 13.827 13.25 L 10.538 8.866 L 7.731 12.519 L 5.731 9.962 L 3.25 13.25 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 3.500 3.500)"/>`),
+  layers: mkMds(`<path d="M 8.192 17.165 L 0 10.8 L 1.227 9.858 L 8.192 15.25 L 15.158 9.858 L 16.385 10.8 L 8.192 17.165 Z M 8.192 12.731 L 0 6.366 L 8.192 0 L 16.385 6.366 L 8.192 12.731 Z M 8.192 10.816 L 13.942 6.366 L 8.192 1.916 L 2.442 6.366 L 8.192 10.816 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 1.810 0.730)"/>`),
+  doc: mkMds(`<path d="M 3.75 3.75 L 11.25 3.75 L 11.25 5.25 L 3.75 5.25 L 3.75 3.75 Z M 3.75 7.75 L 11.25 7.75 L 11.25 9.25 L 3.75 9.25 L 3.75 7.75 Z M 1.808 0 C 1.303 0 0.875 0.175 0.525 0.525 C 0.175 0.875 0 1.303 0 1.808 L 0 17.192 C 0 17.697 0.175 18.125 0.525 18.475 C 0.875 18.825 1.303 19 1.808 19 L 9.75 19 L 15 13.75 L 15 1.808 C 15 1.303 14.825 0.875 14.475 0.525 C 14.125 0.175 13.697 0 13.192 0 L 1.808 0 Z M 9 13 L 9 17.5 L 1.808 17.5 C 1.731 17.5 1.66 17.468 1.596 17.404 C 1.532 17.34 1.5 17.269 1.5 17.192 L 1.5 1.808 C 1.5 1.731 1.532 1.66 1.596 1.596 C 1.66 1.532 1.731 1.5 1.808 1.5 L 13.192 1.5 C 13.269 1.5 13.34 1.532 13.404 1.596 C 13.468 1.66 13.5 1.731 13.5 1.808 L 13.5 13 L 9 13 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 -1 4.500 21.500)"/>`),
+  globe: mkMds(`<path d="M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.779 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.779 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z M 9.5 17.5 C 11.733 17.5 13.625 16.725 15.175 15.175 C 16.725 13.625 17.5 11.733 17.5 9.5 C 17.5 9.383 17.497 9.264 17.492 9.142 C 17.487 9.02 17.481 8.911 17.475 8.815 C 17.411 9.279 17.21 9.663 16.872 9.967 C 16.534 10.271 16.128 10.423 15.654 10.423 L 13.385 10.423 C 12.877 10.423 12.442 10.242 12.081 9.881 C 11.719 9.52 11.538 9.086 11.538 8.578 L 11.538 7.656 L 7.846 7.656 L 7.846 5.811 C 7.846 5.304 8.027 4.869 8.389 4.506 C 8.75 4.143 9.185 3.962 9.692 3.962 L 10.615 3.962 L 10.615 3.577 C 10.615 3.142 10.747 2.782 11.01 2.497 C 11.272 2.212 11.589 2.013 11.96 1.9 C 11.569 1.772 11.17 1.673 10.763 1.604 C 10.357 1.535 9.936 1.5 9.5 1.5 C 7.267 1.5 5.375 2.275 3.825 3.825 C 2.275 5.375 1.5 7.267 1.5 9.5 L 1.5 9.644 C 1.5 9.689 1.503 9.737 1.51 9.789 L 6.25 9.789 C 7.273 9.789 8.144 10.148 8.864 10.867 C 9.583 11.587 9.942 12.456 9.942 13.476 L 9.942 14.404 L 7.173 14.404 L 7.173 17.144 C 7.545 17.26 7.924 17.348 8.31 17.409 C 8.696 17.47 9.092 17.5 9.5 17.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 2.500) matrix(1 0 0 1 0 0)"/>`),
+  plus: mkMds(`<path d="M 5.75 7.25 L 0 7.25 L 0 5.75 L 5.75 5.75 L 5.75 0 L 7.25 0 L 7.25 5.75 L 13 5.75 L 13 7.25 L 7.25 7.25 L 7.25 13 L 5.75 13 L 5.75 7.25 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 3.500 3.500)"/>`),
+  eye: mkMds(`<path d="M 13.351 9.887 C 14.143 9.094 14.539 8.131 14.539 6.998 C 14.539 5.865 14.142 4.902 13.349 4.11 C 12.556 3.319 11.592 2.923 10.459 2.923 C 9.326 2.923 8.364 3.32 7.572 4.113 C 6.78 4.906 6.385 5.869 6.385 7.002 C 6.385 8.135 6.781 9.098 7.574 9.889 C 8.367 10.681 9.331 11.077 10.464 11.077 C 11.597 11.077 12.559 10.68 13.351 9.887 Z M 8.549 8.913 C 8.024 8.388 7.762 7.75 7.762 7 C 7.762 6.25 8.024 5.613 8.549 5.088 C 9.074 4.563 9.712 4.3 10.462 4.3 C 11.212 4.3 11.849 4.563 12.374 5.088 C 12.899 5.613 13.162 6.25 13.162 7 C 13.162 7.75 12.899 8.388 12.374 8.913 C 11.849 9.438 11.212 9.7 10.462 9.7 C 9.712 9.7 9.074 9.438 8.549 8.913 Z M 4.177 12.097 C 2.286 10.829 0.894 9.13 0 7 C 0.894 4.87 2.285 3.171 4.175 1.903 C 6.066 0.634 8.161 0 10.46 0 C 12.76 0 14.855 0.634 16.746 1.903 C 18.637 3.171 20.029 4.87 20.923 7 C 20.029 9.13 18.638 10.829 16.748 12.097 C 14.857 13.366 12.762 14 10.463 14 C 8.163 14 6.068 13.366 4.177 12.097 Z M 15.649 11.012 C 17.224 10.021 18.428 8.683 19.262 7 C 18.428 5.317 17.224 3.979 15.649 2.988 C 14.074 1.996 12.345 1.5 10.462 1.5 C 8.578 1.5 6.849 1.996 5.274 2.988 C 3.699 3.979 2.495 5.317 1.661 7 C 2.495 8.683 3.699 10.021 5.274 11.012 C 6.849 12.004 8.578 12.5 10.462 12.5 C 12.345 12.5 14.074 12.004 15.649 11.012 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1 2) matrix(1 0 0 1 0.540 2.500)"/>`),
+  filter: mkMds(`<path d="M 6.651 15 C 6.4 15 6.19 14.915 6.021 14.746 C 5.851 14.577 5.767 14.367 5.767 14.115 L 5.767 8.327 L 0.169 1.215 C -0.024 0.959 -0.052 0.692 0.085 0.415 C 0.222 0.138 0.452 0 0.776 0 L 13.757 0 C 14.081 0 14.312 0.138 14.448 0.415 C 14.585 0.692 14.557 0.959 14.365 1.215 L 8.767 8.327 L 8.767 14.115 C 8.767 14.367 8.682 14.577 8.513 14.746 C 8.344 14.915 8.133 15 7.882 15 L 6.651 15 Z M 7.267 7.8 L 12.217 1.5 L 2.317 1.5 L 7.267 7.8 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.730 2.500)"/>`),
+  sun: mkMds(`<path d="M 9.731 3.692 L 9.731 0 L 11.231 0 L 11.231 3.692 L 9.731 3.692 Z M 15.804 6.211 L 14.775 5.183 L 17.354 2.519 L 18.417 3.598 L 15.804 6.211 Z M 17.269 11.231 L 17.269 9.731 L 20.962 9.731 L 20.962 11.231 L 17.269 11.231 Z M 9.731 20.962 L 9.731 17.279 L 11.231 17.279 L 11.231 20.962 L 9.731 20.962 Z M 5.177 6.171 L 2.519 3.608 L 3.608 2.554 L 6.221 5.158 L 5.177 6.171 Z M 17.339 18.442 L 14.775 15.779 L 15.789 14.775 L 18.408 17.323 L 17.339 18.442 Z M 0 11.231 L 0 9.731 L 3.692 9.731 L 3.692 11.231 L 0 11.231 Z M 3.598 18.442 L 2.554 17.354 L 5.133 14.775 L 5.675 15.286 L 6.227 15.813 L 3.598 18.442 Z M 6.587 14.375 C 5.516 13.305 4.981 12.006 4.981 10.481 C 4.981 8.955 5.516 7.657 6.587 6.586 C 7.657 5.516 8.955 4.981 10.481 4.981 C 12.006 4.981 13.305 5.516 14.375 6.586 C 15.446 7.657 15.981 8.955 15.981 10.481 C 15.981 12.006 15.446 13.305 14.375 14.375 C 13.305 15.446 12.006 15.981 10.481 15.981 C 8.955 15.981 7.657 15.446 6.587 14.375 Z M 13.306 13.306 C 14.089 12.522 14.481 11.581 14.481 10.481 C 14.481 9.381 14.089 8.439 13.306 7.656 C 12.522 6.872 11.581 6.481 10.481 6.481 C 9.381 6.481 8.439 6.872 7.656 7.656 C 6.872 8.439 6.481 9.381 6.481 10.481 C 6.481 11.581 6.872 12.522 7.656 13.306 C 8.439 14.089 9.381 14.481 10.481 14.481 C 11.581 14.481 12.522 14.089 13.306 13.306 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1.519 1.519)"/>`),
+  play: mkMds(`<path d="M 0 12.192 L 0 0 L 9.577 6.096 L 0 12.192 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 6.500 3.900)"/>`),
+  pause: mkMds(`<path d="M 7.75 13 L 7.75 0 L 11.5 0 L 11.5 13 L 7.75 13 Z M 0 13 L 0 0 L 3.75 0 L 3.75 13 L 0 13 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 6.250 5.500)"/>`),
+  volume: mkMds(`<path d="M 10.384 16.269 L 10.384 14.719 C 11.827 14.26 12.989 13.427 13.87 12.219 C 14.752 11.011 15.192 9.65 15.192 8.135 C 15.192 6.619 14.752 5.258 13.87 4.05 C 12.989 2.842 11.827 2.009 10.384 1.55 L 10.384 0 C 12.246 0.499 13.763 1.498 14.935 2.998 C 16.106 4.498 16.692 6.21 16.692 8.135 C 16.692 10.059 16.106 11.771 14.935 13.271 C 13.763 14.771 12.246 15.77 10.384 16.269 Z M 0 10.66 L 0 5.66 L 3.711 5.66 L 8 1.371 L 8 14.948 L 3.711 10.66 L 0 10.66 Z M 10.384 11.813 L 10.384 4.456 C 11.059 4.822 11.58 5.339 11.948 6.005 C 12.316 6.671 12.5 7.389 12.5 8.16 C 12.5 8.92 12.314 9.627 11.943 10.282 C 11.572 10.936 11.052 11.447 10.384 11.813 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 3.654 3.841)"/>`),
+  shield: mkMds(`<path d="M 6.45 12.665 L 11.754 7.362 L 10.685 6.292 L 6.45 10.527 L 4.331 8.408 L 3.261 9.477 L 6.45 12.665 Z M 7.5 18.942 C 5.337 18.352 3.547 17.079 2.128 15.123 C 0.709 13.167 0 10.98 0 8.562 L 0 2.808 L 7.5 0 L 15 2.808 L 15 8.562 C 15 10.98 14.291 13.167 12.872 15.123 C 11.454 17.079 9.663 18.352 7.5 18.942 Z M 7.5 17.362 C 9.233 16.812 10.667 15.712 11.8 14.062 C 12.933 12.412 13.5 10.578 13.5 8.562 L 13.5 3.837 L 7.5 1.596 L 1.5 3.837 L 1.5 8.562 C 1.5 10.578 2.067 12.412 3.2 14.062 C 4.333 15.712 5.767 16.812 7.5 17.362 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.500 0.540)"/>`),
+  monitor: mkMds(`<path d="M 0 16.5 L 0 15 L 21.23 15 L 21.23 16.5 L 0 16.5 Z M 2.923 14 C 2.418 14 1.99 13.825 1.64 13.475 C 1.29 13.125 1.115 12.697 1.115 12.192 L 1.115 1.808 C 1.115 1.303 1.29 0.875 1.64 0.525 C 1.99 0.175 2.418 0 2.923 0 L 18.308 0 C 18.813 0 19.24 0.175 19.59 0.525 C 19.94 0.875 20.115 1.303 20.115 1.808 L 20.115 12.192 C 20.115 12.697 19.94 13.125 19.59 13.475 C 19.24 13.825 18.813 14 18.308 14 L 2.923 14 Z M 2.923 12.5 L 18.308 12.5 C 18.385 12.5 18.455 12.468 18.519 12.404 C 18.583 12.34 18.615 12.269 18.615 12.192 L 18.615 1.808 C 18.615 1.731 18.583 1.66 18.519 1.596 C 18.455 1.532 18.385 1.5 18.308 1.5 L 2.923 1.5 C 2.846 1.5 2.776 1.532 2.712 1.596 C 2.647 1.66 2.615 1.731 2.615 1.808 L 2.615 12.192 C 2.615 12.269 2.647 12.34 2.712 12.404 C 2.776 12.468 2.846 12.5 2.923 12.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1.385 3.731)"/>`),
+  wifi: mkMds(`<path d="M 1.769 6.1 L 0 4.331 C 1.463 2.937 3.125 1.867 4.986 1.12 C 6.847 0.373 8.789 0 10.814 0 C 12.838 0 14.78 0.373 16.641 1.12 C 18.502 1.867 20.164 2.937 21.627 4.331 L 19.858 6.1 C 18.633 4.938 17.242 4.048 15.684 3.429 C 14.125 2.81 12.502 2.5 10.814 2.5 C 9.125 2.5 7.502 2.81 5.943 3.429 C 4.385 4.048 2.994 4.938 1.769 6.1 Z M 5.889 10.2 L 4.135 8.446 C 5.048 7.581 6.076 6.917 7.221 6.454 C 8.366 5.991 9.564 5.76 10.814 5.76 C 12.07 5.76 13.274 5.993 14.425 6.459 C 15.576 6.925 16.608 7.594 17.521 8.465 L 15.748 10.21 C 15.074 9.576 14.315 9.093 13.473 8.76 C 12.631 8.426 11.744 8.26 10.814 8.26 C 9.883 8.26 8.998 8.426 8.159 8.76 C 7.32 9.093 6.563 9.573 5.889 10.2 Z M 9.574 14.49 C 9.234 14.149 9.064 13.736 9.064 13.25 C 9.064 12.764 9.234 12.351 9.574 12.011 C 9.915 11.67 10.328 11.5 10.814 11.5 C 11.299 11.5 11.713 11.67 12.053 12.011 C 12.393 12.351 12.564 12.764 12.564 13.25 C 12.564 13.736 12.393 14.149 12.053 14.49 C 11.713 14.83 11.299 15 10.814 15 C 10.328 15 9.915 14.83 9.574 14.49 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1.186 4.500)"/>`),
+  cam: mkMds(`<path d="M 1.807 15 C 1.302 15 0.875 14.825 0.525 14.475 C 0.175 14.125 0 13.697 0 13.192 L 0 1.808 C 0 1.303 0.175 0.875 0.525 0.525 C 0.875 0.175 1.302 0 1.807 0 L 13.192 0 C 13.697 0 14.125 0.175 14.475 0.525 C 14.825 0.875 15 1.303 15 1.808 L 15 6.385 L 18.519 2.865 L 18.519 12.135 L 15 8.615 L 15 13.192 C 15 13.697 14.825 14.125 14.475 14.475 C 14.125 14.825 13.697 15 13.192 15 L 1.807 15 Z M 1.807 13.5 L 13.192 13.5 C 13.282 13.5 13.356 13.471 13.413 13.413 C 13.471 13.356 13.5 13.282 13.5 13.192 L 13.5 1.808 C 13.5 1.718 13.471 1.644 13.413 1.587 C 13.356 1.529 13.282 1.5 13.192 1.5 L 1.807 1.5 C 1.718 1.5 1.644 1.529 1.587 1.587 C 1.529 1.644 1.5 1.718 1.5 1.808 L 1.5 13.192 C 1.5 13.282 1.529 13.356 1.587 13.413 C 1.644 13.471 1.718 13.5 1.807 13.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.740 4.500)"/>`),
+  mic: mkMds(`<path d="M 4.726 10.274 C 4.242 9.79 4 9.199 4 8.5 L 4 2.5 C 4 1.801 4.242 1.21 4.726 0.726 C 5.21 0.242 5.801 0 6.5 0 C 7.199 0 7.79 0.242 8.274 0.726 C 8.758 1.21 9 1.801 9 2.5 L 9 8.5 C 9 9.199 8.758 9.79 8.274 10.274 C 7.79 10.758 7.199 11 6.5 11 C 5.801 11 5.21 10.758 4.726 10.274 Z M 5.75 18.25 L 5.75 14.954 C 4.1 14.765 2.729 14.058 1.637 12.831 C 0.546 11.604 0 10.16 0 8.5 L 1.5 8.5 C 1.5 9.883 1.988 11.063 2.963 12.038 C 3.938 13.013 5.117 13.5 6.5 13.5 C 7.883 13.5 9.063 13.013 10.038 12.038 C 11.013 11.063 11.5 9.883 11.5 8.5 L 13 8.5 C 13 10.16 12.454 11.604 11.363 12.831 C 10.271 14.058 8.9 14.765 7.25 14.954 L 7.25 18.25 L 5.75 18.25 Z M 7.212 9.213 C 7.404 9.021 7.5 8.783 7.5 8.5 L 7.5 2.5 C 7.5 2.217 7.404 1.979 7.212 1.787 C 7.021 1.596 6.783 1.5 6.5 1.5 C 6.217 1.5 5.979 1.596 5.788 1.787 C 5.596 1.979 5.5 2.217 5.5 2.5 L 5.5 8.5 C 5.5 8.783 5.596 9.021 5.788 9.213 C 5.979 9.404 6.217 9.5 6.5 9.5 C 6.783 9.5 7.021 9.404 7.212 9.213 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 5.500 2.500)"/>`),
+  upload: mkMds(`<path d="M 6.75 11.289 L 6.75 2.888 L 4.285 5.354 L 3.231 4.269 L 7.5 0 L 11.769 4.269 L 10.715 5.354 L 8.25 2.888 L 8.25 11.289 L 6.75 11.289 Z M 1.808 15 C 1.303 15 0.875 14.825 0.525 14.475 C 0.175 14.125 0 13.697 0 13.192 L 0 10.481 L 1.5 10.481 L 1.5 13.192 C 1.5 13.269 1.532 13.34 1.596 13.404 C 1.66 13.468 1.731 13.5 1.808 13.5 L 13.192 13.5 C 13.269 13.5 13.34 13.468 13.404 13.404 C 13.468 13.34 13.5 13.269 13.5 13.192 L 13.5 10.481 L 15 10.481 L 15 13.192 C 15 13.697 14.825 14.125 14.475 14.475 C 14.125 14.825 13.697 15 13.192 15 L 1.808 15 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.500 2.500)"/>`),
+  download: mkMds(`<path d="M 7.5 11.289 L 3.231 7.019 L 4.285 5.935 L 6.75 8.4 L 6.75 0 L 8.25 0 L 8.25 8.4 L 10.715 5.935 L 11.769 7.019 L 7.5 11.289 Z M 1.808 15 C 1.303 15 0.875 14.825 0.525 14.475 C 0.175 14.125 0 13.697 0 13.192 L 0 10.481 L 1.5 10.481 L 1.5 13.192 C 1.5 13.269 1.532 13.34 1.596 13.404 C 1.66 13.468 1.731 13.5 1.808 13.5 L 13.192 13.5 C 13.269 13.5 13.34 13.468 13.404 13.404 C 13.468 13.34 13.5 13.269 13.5 13.192 L 13.5 10.481 L 15 10.481 L 15 13.192 C 15 13.697 14.825 14.125 14.475 14.475 C 14.125 14.825 13.697 15 13.192 15 L 1.808 15 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.500 2.500)"/>`),
+  info: mkMds(`<path d="M 8.75 14.25 L 10.25 14.25 L 10.25 8.5 L 8.75 8.5 L 8.75 14.25 Z M 10.073 6.556 C 10.23 6.401 10.308 6.21 10.308 5.981 C 10.308 5.752 10.23 5.56 10.075 5.405 C 9.921 5.251 9.729 5.173 9.5 5.173 C 9.271 5.173 9.079 5.251 8.925 5.405 C 8.77 5.56 8.692 5.752 8.692 5.981 C 8.692 6.21 8.771 6.401 8.927 6.556 C 9.083 6.711 9.274 6.788 9.5 6.788 C 9.726 6.788 9.917 6.711 10.073 6.556 Z M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.78 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.78 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z M 9.5 17.5 C 11.733 17.5 13.625 16.725 15.175 15.175 C 16.725 13.625 17.5 11.733 17.5 9.5 C 17.5 7.267 16.725 5.375 15.175 3.825 C 13.625 2.275 11.733 1.5 9.5 1.5 C 7.267 1.5 5.375 2.275 3.825 3.825 C 2.275 5.375 1.5 7.267 1.5 9.5 C 1.5 11.733 2.275 13.625 3.825 15.175 C 5.375 16.725 7.267 17.5 9.5 17.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 0.500 0.500)"/>`),
+  alertCircle: mkMds(`<path d="M 10.073 13.996 C 10.23 13.84 10.308 13.649 10.308 13.423 C 10.308 13.197 10.23 13.006 10.073 12.85 C 9.917 12.694 9.726 12.616 9.5 12.616 C 9.274 12.616 9.083 12.694 8.927 12.85 C 8.771 13.006 8.692 13.197 8.692 13.423 C 8.692 13.649 8.771 13.84 8.927 13.996 C 9.083 14.153 9.274 14.231 9.5 14.231 C 9.726 14.231 9.917 14.153 10.073 13.996 Z M 8.75 10.577 L 10.25 10.577 L 10.25 4.577 L 8.75 4.577 L 8.75 10.577 Z M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.78 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.78 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z M 9.5 17.5 C 11.733 17.5 13.625 16.725 15.175 15.175 C 16.725 13.625 17.5 11.733 17.5 9.5 C 17.5 7.267 16.725 5.375 15.175 3.825 C 13.625 2.275 11.733 1.5 9.5 1.5 C 7.267 1.5 5.375 2.275 3.825 3.825 C 2.275 5.375 1.5 7.267 1.5 9.5 C 1.5 11.733 2.275 13.625 3.825 15.175 C 5.375 16.725 7.267 17.5 9.5 17.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 0.500 0.500)"/>`),
+  bulb: mkMds(`<path d="M 4.683 15.308 C 4.184 15.308 3.758 15.131 3.405 14.778 C 3.052 14.425 2.875 13.999 2.875 13.5 L 2.875 11.904 C 1.97 11.299 1.264 10.52 0.759 9.567 C 0.253 8.615 0 7.596 0 6.51 C 0 4.701 0.631 3.163 1.893 1.898 C 3.155 0.633 4.691 0 6.5 0 C 8.309 0 9.845 0.631 11.107 1.893 C 12.369 3.155 13 4.691 13 6.5 C 13 7.592 12.747 8.612 12.241 9.56 C 11.736 10.507 11.03 11.288 10.125 11.904 L 10.125 13.5 C 10.125 13.999 9.948 14.425 9.595 14.778 C 9.242 15.131 8.816 15.308 8.317 15.308 L 4.683 15.308 Z M 4.683 13.808 L 8.317 13.808 C 8.407 13.808 8.481 13.779 8.538 13.721 C 8.596 13.664 8.625 13.59 8.625 13.5 L 8.625 11.114 L 9.35 10.6 C 10.027 10.127 10.555 9.53 10.933 8.808 C 11.311 8.086 11.5 7.317 11.5 6.5 C 11.5 5.117 11.013 3.938 10.038 2.963 C 9.063 1.988 7.883 1.5 6.5 1.5 C 5.117 1.5 3.938 1.988 2.963 2.963 C 1.988 3.938 1.5 5.117 1.5 6.5 C 1.5 7.317 1.689 8.086 2.067 8.808 C 2.445 9.53 2.973 10.127 3.65 10.6 L 4.375 11.114 L 4.375 13.5 C 4.375 13.59 4.404 13.664 4.461 13.721 C 4.519 13.779 4.593 13.808 4.683 13.808 Z M 4.586 19 C 4.374 19 4.195 18.928 4.052 18.785 C 3.908 18.641 3.837 18.463 3.837 18.25 L 3.837 17.5 L 9.163 17.5 L 9.163 18.25 C 9.163 18.463 9.092 18.641 8.948 18.785 C 8.804 18.928 8.626 19 8.413 19 L 4.586 19 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 3.500 0.500)"/>`),
+  fileText: mkMds(`<path d="M 3.75 3.75 L 11.25 3.75 L 11.25 5.25 L 3.75 5.25 L 3.75 3.75 Z M 3.75 7.75 L 11.25 7.75 L 11.25 9.25 L 3.75 9.25 L 3.75 7.75 Z M 1.808 0 C 1.303 0 0.875 0.175 0.525 0.525 C 0.175 0.875 0 1.303 0 1.808 L 0 17.192 C 0 17.697 0.175 18.125 0.525 18.475 C 0.875 18.825 1.303 19 1.808 19 L 9.75 19 L 15 13.75 L 15 1.808 C 15 1.303 14.825 0.875 14.475 0.525 C 14.125 0.175 13.697 0 13.192 0 L 1.808 0 Z M 9 13 L 9 17.5 L 1.808 17.5 C 1.731 17.5 1.66 17.468 1.596 17.404 C 1.532 17.34 1.5 17.269 1.5 17.192 L 1.5 1.808 C 1.5 1.731 1.532 1.66 1.596 1.596 C 1.66 1.532 1.731 1.5 1.808 1.5 L 13.192 1.5 C 13.269 1.5 13.34 1.532 13.404 1.596 C 13.468 1.66 13.5 1.731 13.5 1.808 L 13.5 13 L 9 13 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 -1 4.500 21.500)"/>`),
+  arrowL: mkMds(`<path d="M 2.873 8.25 L 8.569 13.946 L 7.5 15 L 0 7.5 L 7.5 0 L 8.569 1.054 L 2.873 6.75 L 15 6.75 L 15 8.25 L 2.873 8.25 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 4.500 4.500)"/>`),
+  target: mkMds(`<path d="M 5.796 18.252 C 4.64 17.753 3.635 17.077 2.78 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.78 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 Z M 15.175 15.175 C 16.725 13.625 17.5 11.733 17.5 9.5 C 17.5 7.267 16.725 5.375 15.175 3.825 C 13.625 2.275 11.733 1.5 9.5 1.5 C 7.267 1.5 5.375 2.275 3.825 3.825 C 2.275 5.375 1.5 7.267 1.5 9.5 C 1.5 11.733 2.275 13.625 3.825 15.175 C 5.375 16.725 7.267 17.5 9.5 17.5 C 11.733 17.5 13.625 16.725 15.175 15.175 Z M 5.606 13.396 C 4.535 12.327 4 11.029 4 9.502 C 4 7.975 4.535 6.676 5.604 5.606 C 6.673 4.535 7.971 4 9.498 4 C 11.025 4 12.324 4.535 13.394 5.604 C 14.465 6.673 15 7.971 15 9.498 C 15 11.025 14.465 12.324 13.396 13.394 C 12.327 14.465 11.029 15 9.502 15 C 7.975 15 6.676 14.465 5.606 13.396 Z M 12.325 12.325 C 13.108 11.542 13.5 10.6 13.5 9.5 C 13.5 8.4 13.108 7.458 12.325 6.675 C 11.542 5.892 10.6 5.5 9.5 5.5 C 8.4 5.5 7.458 5.892 6.675 6.675 C 5.892 7.458 5.5 8.4 5.5 9.5 C 5.5 10.6 5.892 11.542 6.675 12.325 C 7.458 13.108 8.4 13.5 9.5 13.5 C 10.6 13.5 11.542 13.108 12.325 12.325 Z M 8.443 10.557 C 8.148 10.261 8 9.909 8 9.5 C 8 9.091 8.148 8.739 8.443 8.443 C 8.739 8.148 9.091 8 9.5 8 C 9.909 8 10.261 8.148 10.557 8.443 C 10.852 8.739 11 9.091 11 9.5 C 11 9.909 10.852 10.261 10.557 10.557 C 10.261 10.852 9.909 11 9.5 11 C 9.091 11 8.739 10.852 8.443 10.557 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 2.500)"/>`),
+  rocket: mkMds(`<path d="M 2.625 7.697 L 4.825 8.628 C 5.097 8.084 5.387 7.559 5.694 7.052 C 6.002 6.545 6.341 6.046 6.712 5.554 L 5.244 5.27 C 5.193 5.257 5.143 5.259 5.095 5.275 C 5.047 5.291 5.004 5.318 4.965 5.356 L 2.625 7.697 Z M 6.021 9.57 L 8.862 12.395 C 9.606 12.083 10.379 11.653 11.179 11.103 C 11.979 10.553 12.738 9.918 13.458 9.199 C 14.579 8.077 15.447 6.855 16.06 5.532 C 16.674 4.21 16.977 2.849 16.971 1.451 C 15.572 1.444 14.211 1.748 12.886 2.361 C 11.562 2.975 10.339 3.842 9.217 4.964 C 8.498 5.683 7.864 6.445 7.314 7.248 C 6.764 8.051 6.333 8.825 6.021 9.57 Z M 10.329 6.335 C 10.329 5.851 10.498 5.439 10.837 5.101 C 11.175 4.762 11.591 4.593 12.083 4.593 C 12.576 4.593 12.992 4.762 13.331 5.101 C 13.669 5.439 13.839 5.851 13.839 6.335 C 13.839 6.82 13.669 7.231 13.331 7.57 C 12.992 7.908 12.576 8.078 12.083 8.078 C 11.591 8.078 11.175 7.908 10.837 7.57 C 10.498 7.231 10.329 6.82 10.329 6.335 Z M 10.725 15.806 L 13.065 13.466 C 13.104 13.428 13.131 13.384 13.147 13.336 C 13.163 13.288 13.165 13.238 13.152 13.187 L 12.867 11.72 C 12.376 12.09 11.877 12.427 11.37 12.729 C 10.863 13.032 10.338 13.319 9.794 13.591 L 10.725 15.806 Z M 18.338 0.078 C 18.552 2.004 18.325 3.831 17.655 5.556 C 16.985 7.282 15.883 8.912 14.348 10.447 L 14.175 10.62 L 14.627 12.883 C 14.687 13.185 14.674 13.477 14.586 13.762 C 14.499 14.047 14.349 14.296 14.135 14.51 L 10.214 18.422 L 8.335 14.006 L 4.416 10.087 L 0 8.199 L 3.896 4.287 C 4.11 4.073 4.362 3.921 4.652 3.83 C 4.942 3.74 5.237 3.725 5.539 3.785 L 7.821 4.247 C 7.853 4.215 7.88 4.186 7.903 4.16 C 7.925 4.135 7.953 4.106 7.985 4.074 C 9.519 2.539 11.147 1.436 12.867 0.764 C 14.588 0.092 16.411 -0.137 18.338 0.078 Z M 1.727 13.147 C 2.214 12.66 2.808 12.415 3.509 12.413 C 4.209 12.411 4.803 12.654 5.29 13.141 C 5.777 13.628 6.019 14.222 6.014 14.923 C 6.008 15.623 5.762 16.217 5.275 16.704 C 4.897 17.083 4.276 17.407 3.414 17.678 C 2.551 17.95 1.444 18.167 0.092 18.329 C 0.255 16.978 0.474 15.871 0.748 15.008 C 1.023 14.146 1.349 13.525 1.727 13.147 Z M 2.796 14.21 C 2.617 14.39 2.444 14.699 2.277 15.137 C 2.11 15.576 1.997 16.023 1.936 16.479 C 2.393 16.419 2.84 16.307 3.279 16.142 C 3.717 15.977 4.026 15.805 4.206 15.626 C 4.406 15.426 4.511 15.186 4.521 14.905 C 4.531 14.625 4.437 14.385 4.237 14.185 C 4.037 13.985 3.796 13.889 3.516 13.898 C 3.236 13.906 2.996 14.01 2.796 14.21 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.794 2.924)"/>`),
+  clip: mkMds(`<path d="M 11.654 13.144 C 11.654 14.769 11.089 16.151 9.958 17.29 C 8.828 18.43 7.455 19 5.837 19 C 4.212 19 2.833 18.43 1.7 17.29 C 0.567 16.151 0 14.769 0 13.144 L 0 4.154 C 0 3 0.401 2.019 1.202 1.212 C 2.003 0.404 2.981 0 4.135 0 C 5.288 0 6.266 0.404 7.067 1.212 C 7.869 2.019 8.269 3 8.269 4.154 L 8.269 12.664 C 8.269 13.34 8.033 13.918 7.56 14.397 C 7.088 14.876 6.514 15.115 5.837 15.115 C 5.16 15.115 4.582 14.878 4.103 14.402 C 3.624 13.926 3.385 13.347 3.385 12.664 L 3.385 3.885 L 4.885 3.885 L 4.885 12.664 C 4.885 12.932 4.975 13.157 5.155 13.34 C 5.335 13.524 5.559 13.616 5.827 13.616 C 6.095 13.616 6.319 13.524 6.499 13.34 C 6.679 13.157 6.769 12.932 6.769 12.664 L 6.769 4.144 C 6.759 3.406 6.502 2.78 5.998 2.268 C 5.494 1.756 4.873 1.5 4.135 1.5 C 3.396 1.5 2.773 1.758 2.264 2.273 C 1.755 2.788 1.5 3.415 1.5 4.154 L 1.5 13.144 C 1.49 14.353 1.908 15.381 2.754 16.229 C 3.6 17.076 4.628 17.5 5.837 17.5 C 7.029 17.5 8.041 17.076 8.874 16.229 C 9.707 15.381 10.133 14.353 10.154 13.144 L 10.154 3.885 L 11.654 3.885 L 11.654 13.144 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 4.020 0.500)"/>`),
+  send: mkMds(`<path d="M 0 14.5 L 0 0 L 17.212 7.25 L 0 14.5 Z M 1.5 12.25 L 13.35 7.25 L 1.5 2.25 L 1.5 5.942 L 6.923 7.25 L 1.5 8.558 L 1.5 12.25 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 1.500 2.750)"/>`),
+  chat: mkMds(`<path d="M 19 18.538 L 15.462 15 L 1.808 15 C 1.303 15 0.875 14.825 0.525 14.475 C 0.175 14.125 0 13.697 0 13.192 L 0 1.808 C 0 1.303 0.175 0.875 0.525 0.525 C 0.875 0.175 1.303 0 1.808 0 L 17.192 0 C 17.697 0 18.125 0.175 18.475 0.525 C 18.825 0.875 19 1.303 19 1.808 L 19 18.538 Z M 1.808 13.5 L 16.1 13.5 L 17.5 14.885 L 17.5 1.808 C 17.5 1.731 17.468 1.66 17.404 1.596 C 17.34 1.532 17.269 1.5 17.192 1.5 L 1.808 1.5 C 1.731 1.5 1.66 1.532 1.596 1.596 C 1.532 1.66 1.5 1.731 1.5 1.808 L 1.5 13.192 C 1.5 13.269 1.532 13.34 1.596 13.404 C 1.66 13.468 1.731 13.5 1.808 13.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 2.500)"/>`),
+  edit: mkMds(`<path d="M 1.5 15.5 L 2.762 15.5 L 12.998 5.264 L 11.737 4.002 L 1.5 14.238 L 1.5 15.5 Z M 0 17 L 0 13.616 L 13.191 0.431 C 13.342 0.293 13.509 0.187 13.691 0.112 C 13.874 0.037 14.066 0 14.266 0 C 14.467 0 14.661 0.036 14.849 0.107 C 15.037 0.178 15.203 0.291 15.348 0.446 L 16.569 1.683 C 16.724 1.828 16.835 1.994 16.901 2.183 C 16.967 2.371 17 2.56 17 2.748 C 17 2.949 16.966 3.141 16.897 3.324 C 16.828 3.507 16.719 3.674 16.569 3.825 L 3.385 17 L 0 17 Z M 12.356 4.644 L 11.737 4.002 L 12.998 5.264 L 12.356 4.644 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 1.500 1.500)"/>`),
+  user: mkMds(`<path d="M 5.026 5.974 C 4.342 5.29 4 4.466 4 3.5 C 4 2.535 4.342 1.71 5.026 1.026 C 5.71 0.342 6.535 0 7.5 0 C 8.465 0 9.29 0.342 9.974 1.026 C 10.658 1.71 11 2.535 11 3.5 C 11 4.466 10.658 5.29 9.974 5.974 C 9.29 6.658 8.465 7 7.5 7 C 6.535 7 5.71 6.658 5.026 5.974 Z M 0 14.616 L 0 12.392 C 0 11.903 0.133 11.449 0.399 11.032 C 0.665 10.614 1.02 10.294 1.465 10.069 C 2.454 9.585 3.451 9.221 4.457 8.979 C 5.463 8.737 6.477 8.616 7.5 8.616 C 8.523 8.616 9.537 8.737 10.543 8.979 C 11.549 9.221 12.546 9.585 13.535 10.069 C 13.98 10.294 14.335 10.614 14.601 11.032 C 14.867 11.449 15 11.903 15 12.392 L 15 14.616 L 0 14.616 Z M 1.5 13.116 L 13.5 13.116 L 13.5 12.392 C 13.5 12.19 13.441 12.002 13.324 11.83 C 13.207 11.657 13.047 11.517 12.846 11.408 C 11.985 10.983 11.106 10.662 10.211 10.443 C 9.315 10.225 8.412 10.116 7.5 10.116 C 6.588 10.116 5.685 10.225 4.789 10.443 C 3.894 10.662 3.015 10.983 2.154 11.408 C 1.953 11.517 1.793 11.657 1.676 11.83 C 1.559 12.002 1.5 12.19 1.5 12.392 L 1.5 13.116 Z M 8.913 4.912 C 9.304 4.521 9.5 4.05 9.5 3.5 C 9.5 2.95 9.304 2.479 8.913 2.087 C 8.521 1.696 8.05 1.5 7.5 1.5 C 6.95 1.5 6.479 1.696 6.087 2.087 C 5.696 2.479 5.5 2.95 5.5 3.5 C 5.5 4.05 5.696 4.521 6.087 4.912 C 6.479 5.304 6.95 5.5 7.5 5.5 C 8.05 5.5 8.521 5.304 8.913 4.912 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 4.500 4.692)"/>`),
+  moon: mkMds(`<path d="M 9.6 18.817 C 8.27 18.817 7.023 18.565 5.859 18.061 C 4.695 17.556 3.68 16.87 2.814 16.004 C 1.947 15.137 1.261 14.122 0.757 12.958 C 0.252 11.794 0 10.547 0 9.217 C 0 7.028 0.668 5.077 2.003 3.366 C 3.338 1.655 5.065 0.533 7.183 0 C 6.998 1.605 7.163 3.162 7.679 4.669 C 8.194 6.177 9.024 7.503 10.169 8.648 C 11.314 9.793 12.64 10.623 14.148 11.139 C 15.656 11.654 17.212 11.819 18.817 11.635 C 18.294 13.753 17.175 15.479 15.459 16.814 C 13.743 18.15 11.79 18.817 9.6 18.817 Z M 9.6 17.317 C 11.067 17.317 12.425 16.951 13.675 16.217 C 14.925 15.484 15.908 14.475 16.625 13.19 C 15.192 13.056 13.833 12.693 12.55 12.101 C 11.267 11.508 10.117 10.703 9.1 9.685 C 8.083 8.667 7.275 7.518 6.675 6.238 C 6.075 4.957 5.717 3.601 5.6 2.167 C 4.317 2.884 3.313 3.871 2.588 5.13 C 1.863 6.388 1.5 7.751 1.5 9.217 C 1.5 11.467 2.288 13.38 3.863 14.955 C 5.438 16.53 7.35 17.317 9.6 17.317 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 2.683)"/>`),
+  logout: mkMds(`<path d="M 1.808 17 C 1.303 17 0.875 16.825 0.525 16.475 C 0.175 16.125 0 15.697 0 15.192 L 0 1.808 C 0 1.303 0.175 0.875 0.525 0.525 C 0.875 0.175 1.303 0 1.808 0 L 8.51 0 L 8.51 1.5 L 1.808 1.5 C 1.731 1.5 1.66 1.532 1.596 1.596 C 1.532 1.66 1.5 1.731 1.5 1.808 L 1.5 15.192 C 1.5 15.269 1.532 15.34 1.596 15.404 C 1.66 15.468 1.731 15.5 1.808 15.5 L 8.51 15.5 L 8.51 17 L 1.808 17 Z M 12.731 12.769 L 11.692 11.685 L 14.127 9.25 L 5.596 9.25 L 5.596 7.75 L 14.127 7.75 L 11.692 5.316 L 12.731 4.231 L 17 8.5 L 12.731 12.769 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 1.500 1.500)"/>`),
+  book: mkMds(`<path d="M 3.058 19 C 2.213 19 1.492 18.702 0.895 18.105 C 0.298 17.508 0 16.787 0 15.942 L 0 3.25 C 0 2.348 0.316 1.58 0.948 0.948 C 1.58 0.316 2.348 0 3.25 0 L 15 0 L 15 14.385 C 14.57 14.385 14.204 14.537 13.899 14.841 C 13.595 15.146 13.442 15.513 13.442 15.942 C 13.442 16.372 13.595 16.739 13.899 17.043 C 14.204 17.348 14.57 17.5 15 17.5 L 15 19 L 3.058 19 Z M 1.5 13.344 C 1.727 13.189 1.97 13.074 2.23 12.998 C 2.489 12.923 2.765 12.885 3.058 12.885 L 3.692 12.885 L 3.692 1.5 L 3.25 1.5 C 2.769 1.5 2.357 1.672 2.014 2.015 C 1.671 2.357 1.5 2.769 1.5 3.25 L 1.5 13.344 Z M 5.192 12.885 L 13.5 12.885 L 13.5 1.5 L 5.192 1.5 L 5.192 12.885 Z M 3.058 17.5 L 12.402 17.5 C 12.257 17.273 12.144 17.032 12.063 16.778 C 11.983 16.523 11.942 16.245 11.942 15.942 C 11.942 15.656 11.98 15.382 12.056 15.119 C 12.131 14.856 12.247 14.612 12.402 14.385 L 3.058 14.385 C 2.612 14.385 2.24 14.537 1.944 14.841 C 1.648 15.146 1.5 15.513 1.5 15.942 C 1.5 16.388 1.648 16.76 1.944 17.056 C 2.24 17.352 2.612 17.5 3.058 17.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 4.500 2.500)"/>`),
+  check: mkMds(`<path d="M 5.335 11.304 L 0 5.969 L 1.069 4.9 L 5.335 9.165 L 14.5 0 L 15.569 1.069 L 5.335 11.304 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.220 4.380)"/>`),
+  spark: mkMds(`<path d="M 5.852 6.019 L 3.207 3.375 L 4.277 2.306 L 6.921 4.95 L 5.852 6.019 Z M 9.635 3.75 L 9.635 0 L 11.135 0 L 11.135 3.75 L 9.635 3.75 Z M 16.467 16.635 L 13.823 13.991 L 14.892 12.921 L 17.537 15.566 L 16.467 16.635 Z M 15.084 5.827 L 14.015 4.758 L 16.66 2.113 L 17.729 3.183 L 15.084 5.827 Z M 16.092 10.208 L 16.092 8.708 L 19.842 8.708 L 19.842 10.208 L 16.092 10.208 Z M 2.529 19.562 L 0.271 17.304 C 0.09 17.123 0 16.912 0 16.671 C 0 16.43 0.09 16.219 0.271 16.039 L 9.067 7.227 C 9.552 6.74 10.142 6.496 10.835 6.496 C 11.528 6.496 12.118 6.739 12.606 7.225 C 13.093 7.71 13.337 8.3 13.337 8.994 C 13.337 9.688 13.093 10.278 12.606 10.766 L 3.794 19.562 C 3.613 19.742 3.402 19.833 3.161 19.833 C 2.92 19.833 2.71 19.742 2.529 19.562 Z M 3.161 18.096 L 9.436 11.821 L 8.012 10.421 L 1.761 16.671 L 3.161 18.096 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.616 1.542)"/>`),
+  arrowUR: mkMds(`<path d="M 10.969 3 C 11.383 3 11.719 3.336 11.719 3.75 C 11.719 4.164 11.383 4.5 10.969 4.5 L 4.5 4.5 L 4.5 19.5 L 19.5 19.5 L 19.5 14.063 C 19.5 13.648 19.836 13.313 20.25 13.313 C 20.664 13.313 21 13.648 21 14.063 L 21 20.25 C 21 20.664 20.664 21 20.25 21 L 3.75 21 C 3.336 21 3 20.664 3 20.25 L 3 3.75 C 3 3.336 3.336 3 3.75 3 L 10.969 3 Z M 19.5 9.938 L 19.5 5.561 L 11.499 13.562 C 11.206 13.854 10.731 13.854 10.438 13.562 C 10.146 13.269 10.146 12.794 10.438 12.501 L 18.439 4.5 L 14.063 4.5 C 13.648 4.5 13.313 4.164 13.313 3.75 C 13.313 3.336 13.648 3 14.063 3 L 20.25 3 C 20.664 3 21 3.336 21 3.75 L 21 9.938 C 21 10.352 20.664 10.688 20.25 10.688 C 19.836 10.688 19.5 10.352 19.5 9.938 Z" fill="currentColor" fill-rule="nonzero"/>`),
+  M: mk(["M3 21V5l9 8 9-8v16"]),
+  mdsLibrary: mkMds(`<path d="M 7.25 11.25 L 10.99 11.25 L 10.99 9.75 L 7.25 9.75 L 7.25 11.25 Z M 7.25 8.25 L 14.731 8.25 L 14.731 6.75 L 7.25 6.75 L 7.25 8.25 Z M 7.25 5.25 L 14.731 5.25 L 14.731 3.75 L 7.25 3.75 L 7.25 5.25 Z M 5.308 15 C 4.803 15 4.375 14.825 4.025 14.475 C 3.675 14.125 3.5 13.697 3.5 13.192 L 3.5 1.808 C 3.5 1.303 3.675 0.875 4.025 0.525 C 4.375 0.175 4.803 0 5.308 0 L 16.692 0 C 17.197 0 17.625 0.175 17.975 0.525 C 18.325 0.875 18.5 1.303 18.5 1.808 L 18.5 13.192 C 18.5 13.697 18.325 14.125 17.975 14.475 C 17.625 14.825 17.197 15 16.692 15 L 5.308 15 Z M 5.308 13.5 L 16.692 13.5 C 16.769 13.5 16.84 13.468 16.904 13.404 C 16.968 13.34 17 13.269 17 13.192 L 17 1.808 C 17 1.731 16.968 1.66 16.904 1.596 C 16.84 1.532 16.769 1.5 16.692 1.5 L 5.308 1.5 C 5.231 1.5 5.16 1.532 5.096 1.596 C 5.032 1.66 5 1.731 5 1.808 L 5 13.192 C 5 13.269 5.032 13.34 5.096 13.404 C 5.16 13.468 5.231 13.5 5.308 13.5 Z M 1.808 18.5 C 1.303 18.5 0.875 18.325 0.525 17.975 C 0.175 17.625 0 17.197 0 16.692 L 0 3.808 L 1.5 3.808 L 1.5 16.692 C 1.5 16.769 1.532 16.84 1.596 16.904 C 1.66 16.968 1.731 17 1.808 17 L 14.692 17 L 14.692 18.5 L 1.808 18.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.750 2.500)"/>`),
+  mdsBriefcase: mkMds(`<path d="M 1.808 17.5 C 1.303 17.5 0.875 17.325 0.525 16.975 C 0.175 16.625 0 16.197 0 15.692 L 0 5.308 C 0 4.803 0.175 4.375 0.525 4.025 C 0.875 3.675 1.303 3.5 1.808 3.5 L 6 3.5 L 6 1.808 C 6 1.303 6.175 0.875 6.525 0.525 C 6.875 0.175 7.303 0 7.808 0 L 11.192 0 C 11.697 0 12.125 0.175 12.475 0.525 C 12.825 0.875 13 1.303 13 1.808 L 13 3.5 L 17.192 3.5 C 17.697 3.5 18.125 3.675 18.475 4.025 C 18.825 4.375 19 4.803 19 5.308 L 19 15.692 C 19 16.197 18.825 16.625 18.475 16.975 C 18.125 17.325 17.697 17.5 17.192 17.5 L 1.808 17.5 Z M 7.5 3.5 L 11.5 3.5 L 11.5 1.808 C 11.5 1.731 11.468 1.66 11.404 1.596 C 11.34 1.532 11.269 1.5 11.192 1.5 L 7.808 1.5 C 7.731 1.5 7.66 1.532 7.596 1.596 C 7.532 1.66 7.5 1.731 7.5 1.808 L 7.5 3.5 Z M 17.5 11.75 L 12 11.75 L 12 13.5 L 7 13.5 L 7 11.75 L 1.5 11.75 L 1.5 15.692 C 1.5 15.769 1.532 15.84 1.596 15.904 C 1.66 15.968 1.731 16 1.808 16 L 17.192 16 C 17.269 16 17.34 15.968 17.404 15.904 C 17.468 15.84 17.5 15.769 17.5 15.692 L 17.5 11.75 Z M 8.5 12 L 10.5 12 L 10.5 10 L 8.5 10 L 8.5 12 Z M 1.5 10.25 L 7 10.25 L 7 8.5 L 12 8.5 L 12 10.25 L 17.5 10.25 L 17.5 5.308 C 17.5 5.231 17.468 5.16 17.404 5.096 C 17.34 5.032 17.269 5 17.192 5 L 1.808 5 C 1.731 5 1.66 5.032 1.596 5.096 C 1.532 5.16 1.5 5.231 1.5 5.308 L 1.5 10.25 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.500 3)"/>`),
+  mdsBook: mkMds(`<path d="M 3.058 19 C 2.213 19 1.492 18.702 0.895 18.105 C 0.298 17.508 0 16.787 0 15.942 L 0 3.25 C 0 2.348 0.316 1.58 0.948 0.948 C 1.58 0.316 2.348 0 3.25 0 L 15 0 L 15 14.385 C 14.57 14.385 14.204 14.537 13.899 14.841 C 13.595 15.146 13.442 15.513 13.442 15.942 C 13.442 16.372 13.595 16.739 13.899 17.043 C 14.204 17.348 14.57 17.5 15 17.5 L 15 19 L 3.058 19 Z M 1.5 13.344 C 1.727 13.189 1.97 13.074 2.23 12.998 C 2.489 12.923 2.765 12.885 3.058 12.885 L 3.692 12.885 L 3.692 1.5 L 3.25 1.5 C 2.769 1.5 2.357 1.672 2.014 2.015 C 1.671 2.357 1.5 2.769 1.5 3.25 L 1.5 13.344 Z M 5.192 12.885 L 13.5 12.885 L 13.5 1.5 L 5.192 1.5 L 5.192 12.885 Z M 3.058 17.5 L 12.402 17.5 C 12.257 17.273 12.144 17.032 12.063 16.778 C 11.983 16.523 11.942 16.245 11.942 15.942 C 11.942 15.656 11.98 15.382 12.056 15.119 C 12.131 14.856 12.247 14.612 12.402 14.385 L 3.058 14.385 C 2.612 14.385 2.24 14.537 1.944 14.841 C 1.648 15.146 1.5 15.513 1.5 15.942 C 1.5 16.388 1.648 16.76 1.944 17.056 C 2.24 17.352 2.612 17.5 3.058 17.5 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 4.500 2.500)"/>`),
+  mdsPeople: mkMds(`<path d="M 0 10.481 L 0 9.262 C 0 8.596 0.347 8.05 1.042 7.622 C 1.737 7.195 2.643 6.981 3.76 6.981 C 3.944 6.981 4.13 6.987 4.317 6.998 C 4.504 7.01 4.693 7.032 4.883 7.065 C 4.688 7.377 4.543 7.7 4.449 8.036 C 4.355 8.371 4.308 8.715 4.308 9.067 L 4.308 10.481 L 0 10.481 Z M 6 10.481 L 6 9.106 C 6 8.638 6.131 8.21 6.394 7.822 C 6.657 7.434 7.036 7.096 7.531 6.808 C 8.026 6.519 8.61 6.303 9.285 6.159 C 9.959 6.014 10.696 5.942 11.496 5.942 C 12.312 5.942 13.056 6.014 13.731 6.159 C 14.405 6.303 14.99 6.519 15.484 6.808 C 15.979 7.096 16.356 7.434 16.614 7.822 C 16.871 8.21 17 8.638 17 9.106 L 17 10.481 L 6 10.481 Z M 18.692 10.481 L 18.692 9.07 C 18.692 8.694 18.648 8.34 18.559 8.007 C 18.47 7.674 18.336 7.36 18.158 7.065 C 18.354 7.032 18.541 7.01 18.72 6.998 C 18.899 6.987 19.076 6.981 19.25 6.981 C 20.367 6.981 21.271 7.192 21.962 7.615 C 22.654 8.037 23 8.586 23 9.262 L 23 10.481 L 18.692 10.481 Z M 7.577 8.981 L 15.438 8.981 L 15.438 8.875 C 15.336 8.471 14.91 8.131 14.162 7.856 C 13.413 7.58 12.526 7.442 11.5 7.442 C 10.474 7.442 9.587 7.58 8.839 7.856 C 8.09 8.131 7.669 8.471 7.577 8.875 L 7.577 8.981 Z M 3.757 6.01 C 3.286 6.01 2.883 5.842 2.549 5.507 C 2.215 5.172 2.048 4.769 2.048 4.298 C 2.048 3.821 2.216 3.418 2.551 3.09 C 2.886 2.761 3.289 2.596 3.76 2.596 C 4.237 2.596 4.641 2.761 4.973 3.09 C 5.305 3.418 5.471 3.822 5.471 4.301 C 5.471 4.766 5.307 5.167 4.978 5.504 C 4.65 5.841 4.243 6.01 3.757 6.01 Z M 19.25 6.01 C 18.783 6.01 18.381 5.841 18.044 5.504 C 17.707 5.167 17.538 4.766 17.538 4.301 C 17.538 3.822 17.707 3.418 18.044 3.09 C 18.381 2.761 18.784 2.596 19.252 2.596 C 19.734 2.596 20.139 2.761 20.468 3.09 C 20.797 3.418 20.962 3.821 20.962 4.298 C 20.962 4.769 20.798 5.172 20.47 5.507 C 20.142 5.842 19.735 6.01 19.25 6.01 Z M 11.504 5.192 C 10.783 5.192 10.17 4.94 9.664 4.435 C 9.157 3.93 8.904 3.317 8.904 2.596 C 8.904 1.861 9.156 1.244 9.661 0.746 C 10.166 0.249 10.779 0 11.5 0 C 12.236 0 12.852 0.249 13.35 0.746 C 13.847 1.242 14.096 1.858 14.096 2.593 C 14.096 3.313 13.848 3.926 13.351 4.433 C 12.854 4.939 12.238 5.192 11.504 5.192 Z M 11.505 3.692 C 11.811 3.692 12.069 3.585 12.28 3.371 C 12.491 3.157 12.596 2.897 12.596 2.591 C 12.596 2.286 12.491 2.027 12.281 1.816 C 12.071 1.605 11.81 1.5 11.5 1.5 C 11.197 1.5 10.939 1.605 10.725 1.815 C 10.511 2.025 10.404 2.286 10.404 2.596 C 10.404 2.899 10.511 3.157 10.725 3.371 C 10.939 3.585 11.199 3.692 11.505 3.692 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 0.500 7.307)"/>`),
+  mdsSparkle: mkMds(`<path d="M 5.852 6.019 L 3.207 3.375 L 4.277 2.306 L 6.921 4.95 L 5.852 6.019 Z M 9.635 3.75 L 9.635 0 L 11.135 0 L 11.135 3.75 L 9.635 3.75 Z M 16.467 16.635 L 13.823 13.991 L 14.892 12.921 L 17.537 15.566 L 16.467 16.635 Z M 15.084 5.827 L 14.015 4.758 L 16.66 2.113 L 17.729 3.183 L 15.084 5.827 Z M 16.092 10.208 L 16.092 8.708 L 19.842 8.708 L 19.842 10.208 L 16.092 10.208 Z M 2.529 19.562 L 0.271 17.304 C 0.09 17.123 0 16.912 0 16.671 C 0 16.43 0.09 16.219 0.271 16.039 L 9.067 7.227 C 9.552 6.74 10.142 6.496 10.835 6.496 C 11.528 6.496 12.118 6.739 12.606 7.225 C 13.093 7.71 13.337 8.3 13.337 8.994 C 13.337 9.688 13.093 10.278 12.606 10.766 L 3.794 19.562 C 3.613 19.742 3.402 19.833 3.161 19.833 C 2.92 19.833 2.71 19.742 2.529 19.562 Z M 3.161 18.096 L 9.436 11.821 L 8.012 10.421 L 1.761 16.671 L 3.161 18.096 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2.616 1.542)"/>`),
+  mdsDocument: mkMds(`<path d="M 3.75 3.75 L 11.25 3.75 L 11.25 5.25 L 3.75 5.25 L 3.75 3.75 Z M 3.75 7.75 L 11.25 7.75 L 11.25 9.25 L 3.75 9.25 L 3.75 7.75 Z M 1.808 0 C 1.303 0 0.875 0.175 0.525 0.525 C 0.175 0.875 0 1.303 0 1.808 L 0 17.192 C 0 17.697 0.175 18.125 0.525 18.475 C 0.875 18.825 1.303 19 1.808 19 L 9.75 19 L 15 13.75 L 15 1.808 C 15 1.303 14.825 0.875 14.475 0.525 C 14.125 0.175 13.697 0 13.192 0 L 1.808 0 Z M 9 13 L 9 17.5 L 1.808 17.5 C 1.731 17.5 1.66 17.468 1.596 17.404 C 1.532 17.34 1.5 17.269 1.5 17.192 L 1.5 1.808 C 1.5 1.731 1.532 1.66 1.596 1.596 C 1.66 1.532 1.731 1.5 1.808 1.5 L 13.192 1.5 C 13.269 1.5 13.34 1.532 13.404 1.596 C 13.468 1.66 13.5 1.731 13.5 1.808 L 13.5 13 L 9 13 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 -1 4.500 21.500)"/>`),
+  mdsCheck: mkMds(`<path d="M 5.335 11.304 L 0 5.969 L 1.069 4.9 L 5.335 9.165 L 14.5 0 L 15.569 1.069 L 5.335 11.304 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 2.220 4.380)"/>`),
+  mdsGroup: mkMds(`<path d="M 0 14.616 L 0 12.392 C 0 11.877 0.133 11.417 0.399 11.012 C 0.665 10.608 1.02 10.293 1.465 10.068 C 2.415 9.604 3.371 9.245 4.332 8.993 C 5.293 8.741 6.349 8.616 7.5 8.616 C 8.651 8.616 9.707 8.741 10.668 8.993 C 11.629 9.245 12.585 9.604 13.535 10.068 C 13.98 10.293 14.335 10.608 14.601 11.012 C 14.867 11.417 15 11.877 15 12.392 L 15 14.616 L 0 14.616 Z M 17 14.616 L 17 12.269 C 17 11.613 16.839 10.987 16.518 10.393 C 16.196 9.798 15.74 9.288 15.15 8.862 C 15.82 8.962 16.457 9.117 17.06 9.326 C 17.662 9.536 18.237 9.783 18.785 10.069 C 19.301 10.345 19.7 10.67 19.982 11.044 C 20.263 11.418 20.404 11.826 20.404 12.269 L 20.404 14.616 L 17 14.616 Z M 5.026 5.974 C 4.342 5.29 4 4.465 4 3.5 C 4 2.535 4.342 1.71 5.026 1.026 C 5.71 0.342 6.534 0 7.5 0 C 8.465 0 9.29 0.342 9.974 1.026 C 10.658 1.71 11 2.535 11 3.5 C 11 4.465 10.658 5.29 9.974 5.974 C 9.29 6.658 8.465 7 7.5 7 C 6.534 7 5.71 6.658 5.026 5.974 Z M 15.106 5.974 C 14.421 6.658 13.597 7 12.635 7 C 12.522 7 12.378 6.987 12.204 6.962 C 12.029 6.936 11.886 6.908 11.773 6.877 C 12.167 6.403 12.47 5.877 12.682 5.299 C 12.894 4.721 13 4.121 13 3.499 C 13 2.877 12.892 2.279 12.676 1.706 C 12.46 1.133 12.159 0.605 11.773 0.123 C 11.917 0.072 12.06 0.039 12.204 0.023 C 12.347 0.008 12.491 0 12.635 0 C 13.597 0 14.421 0.342 15.106 1.026 C 15.792 1.71 16.134 2.535 16.134 3.5 C 16.134 4.465 15.792 5.29 15.106 5.974 Z M 1.5 13.116 L 13.5 13.116 L 13.5 12.392 C 13.5 12.183 13.448 11.998 13.343 11.835 C 13.239 11.672 13.073 11.53 12.846 11.408 C 12.023 10.983 11.176 10.662 10.304 10.443 C 9.432 10.225 8.497 10.116 7.5 10.116 C 6.502 10.116 5.568 10.225 4.696 10.443 C 3.824 10.662 2.977 10.983 2.154 11.408 C 1.927 11.53 1.761 11.672 1.657 11.835 C 1.552 11.998 1.5 12.183 1.5 12.392 L 1.5 13.116 Z M 8.912 4.912 C 9.304 4.521 9.5 4.05 9.5 3.5 C 9.5 2.95 9.304 2.479 8.912 2.088 C 8.521 1.696 8.05 1.5 7.5 1.5 C 6.95 1.5 6.479 1.696 6.087 2.088 C 5.696 2.479 5.5 2.95 5.5 3.5 C 5.5 4.05 5.696 4.521 6.087 4.912 C 6.479 5.304 6.95 5.5 7.5 5.5 C 8.05 5.5 8.521 5.304 8.912 4.912 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1.798 4.692)"/>`),
+  mdsStylusNote: mkMds(`<path d="M 10.744 11.301 L 19.052 2.993 C 19.097 2.948 19.119 2.894 19.119 2.83 C 19.119 2.766 19.097 2.711 19.052 2.666 L 18.079 1.693 C 18.034 1.648 17.98 1.626 17.916 1.626 C 17.851 1.626 17.797 1.648 17.752 1.693 L 9.444 10.001 L 10.744 11.301 Z M 4.469 13.111 C 2.982 13.027 1.865 12.696 1.119 12.118 C 0.373 11.54 0 10.722 0 9.664 C 0 8.652 0.425 7.83 1.275 7.2 C 2.125 6.57 3.306 6.188 4.819 6.055 C 5.546 5.992 6.092 5.861 6.455 5.661 C 6.818 5.461 7 5.184 7 4.83 C 7 4.339 6.754 3.964 6.263 3.706 C 5.771 3.447 4.965 3.262 3.844 3.149 L 3.981 1.659 C 5.518 1.805 6.655 2.136 7.393 2.653 C 8.131 3.169 8.5 3.895 8.5 4.83 C 8.5 5.623 8.195 6.252 7.586 6.717 C 6.976 7.182 6.091 7.461 4.931 7.555 C 3.787 7.651 2.93 7.874 2.358 8.224 C 1.786 8.574 1.5 9.054 1.5 9.664 C 1.5 10.286 1.738 10.749 2.215 11.052 C 2.691 11.355 3.463 11.541 4.531 11.611 L 4.469 13.111 Z M 10.979 13.189 L 7.556 9.766 L 16.894 0.438 C 17.189 0.143 17.534 -0.003 17.928 0 C 18.322 0.003 18.667 0.149 18.962 0.438 L 20.308 1.784 C 20.603 2.079 20.75 2.425 20.75 2.822 C 20.75 3.22 20.603 3.566 20.308 3.861 L 10.979 13.189 Z M 7.639 13.88 C 7.413 13.934 7.214 13.875 7.043 13.703 C 6.871 13.531 6.812 13.332 6.865 13.107 L 7.556 9.766 L 10.979 13.189 L 7.639 13.88 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1.442 5.620)"/>`),
+  mdsTransitionSlide: mkMds(`<path d="M 1.808 15 C 1.303 15 0.875 14.825 0.525 14.475 C 0.175 14.125 0 13.697 0 13.192 L 0 1.808 C 0 1.303 0.175 0.875 0.525 0.525 C 0.875 0.175 1.303 0 1.808 0 L 3.712 0 C 4.217 0 4.644 0.175 4.994 0.525 C 5.344 0.875 5.519 1.303 5.519 1.808 L 5.519 13.192 C 5.519 13.697 5.344 14.125 4.994 14.475 C 4.644 14.825 4.217 15 3.712 15 L 1.808 15 Z M 1.808 13.525 L 3.712 13.525 C 3.801 13.525 3.875 13.496 3.933 13.438 C 3.99 13.381 4.019 13.307 4.019 13.217 L 4.019 1.783 C 4.019 1.693 3.99 1.619 3.933 1.562 C 3.875 1.504 3.801 1.475 3.712 1.475 L 1.808 1.475 C 1.718 1.475 1.644 1.504 1.587 1.562 C 1.529 1.619 1.5 1.693 1.5 1.783 L 1.5 13.217 C 1.5 13.307 1.529 13.381 1.587 13.438 C 1.644 13.496 1.718 13.525 1.808 13.525 Z M 9.519 15 C 9.014 15 8.586 14.825 8.236 14.475 C 7.886 14.125 7.712 13.697 7.712 13.192 L 7.712 1.808 C 7.712 1.303 7.886 0.875 8.236 0.525 C 8.586 0.175 9.014 0 9.519 0 L 19.192 0 C 19.697 0 20.125 0.175 20.475 0.525 C 20.825 0.875 21 1.303 21 1.808 L 21 13.192 C 21 13.697 20.825 14.125 20.475 14.475 C 20.125 14.825 19.697 15 19.192 15 L 9.519 15 Z M 9.519 13.525 L 19.192 13.525 C 19.282 13.525 19.356 13.496 19.413 13.438 C 19.471 13.381 19.5 13.307 19.5 13.217 L 19.5 1.783 C 19.5 1.693 19.471 1.619 19.413 1.562 C 19.356 1.504 19.282 1.475 19.192 1.475 L 9.519 1.475 C 9.429 1.475 9.356 1.504 9.298 1.562 C 9.24 1.619 9.212 1.693 9.212 1.783 L 9.212 13.217 C 9.212 13.307 9.24 13.381 9.298 13.438 C 9.356 13.496 9.429 13.525 9.519 13.525 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1.500 4.500)"/>`),
+  mdsOpenBook: mkMds(`<path d="M 5 11.539 C 5.828 11.539 6.634 11.632 7.417 11.82 C 8.201 12.008 8.978 12.303 9.75 12.704 L 9.75 2.873 C 9.047 2.415 8.287 2.072 7.469 1.843 C 6.651 1.614 5.828 1.5 5 1.5 C 4.4 1.5 3.839 1.547 3.318 1.641 C 2.797 1.736 2.262 1.89 1.712 2.104 C 1.635 2.129 1.58 2.166 1.548 2.215 C 1.516 2.263 1.5 2.315 1.5 2.373 L 1.5 11.831 C 1.5 11.921 1.532 11.986 1.596 12.028 C 1.66 12.07 1.731 12.074 1.808 12.042 C 2.282 11.881 2.783 11.756 3.31 11.669 C 3.837 11.582 4.4 11.539 5 11.539 Z M 11.25 12.704 C 12.022 12.303 12.799 12.008 13.583 11.82 C 14.366 11.632 15.172 11.539 16 11.539 C 16.6 11.539 17.164 11.582 17.691 11.669 C 18.217 11.756 18.718 11.881 19.192 12.042 C 19.269 12.074 19.34 12.07 19.404 12.028 C 19.468 11.986 19.5 11.921 19.5 11.831 L 19.5 2.373 C 19.5 2.315 19.484 2.264 19.452 2.219 C 19.42 2.174 19.365 2.136 19.288 2.104 C 18.738 1.89 18.203 1.736 17.682 1.641 C 17.161 1.547 16.6 1.5 16 1.5 C 15.172 1.5 14.349 1.614 13.531 1.843 C 12.713 2.072 11.953 2.415 11.25 2.873 L 11.25 12.704 Z M 10.5 14.904 C 9.694 14.309 8.824 13.849 7.891 13.525 C 6.957 13.201 5.994 13.039 5 13.039 C 4.39 13.039 3.791 13.106 3.202 13.241 C 2.614 13.377 2.046 13.576 1.5 13.839 C 1.144 14.003 0.805 13.977 0.483 13.761 C 0.161 13.545 0 13.238 0 12.842 L 0 1.985 C 0 1.769 0.056 1.567 0.167 1.378 C 0.277 1.189 0.437 1.053 0.646 0.969 C 1.323 0.64 2.029 0.396 2.763 0.237 C 3.497 0.079 4.242 0 5 0 C 5.973 0 6.924 0.133 7.852 0.399 C 8.78 0.665 9.663 1.058 10.5 1.577 C 11.337 1.058 12.22 0.665 13.148 0.399 C 14.076 0.133 15.027 0 16 0 C 16.758 0 17.504 0.079 18.238 0.237 C 18.972 0.396 19.677 0.64 20.354 0.969 C 20.563 1.053 20.723 1.189 20.834 1.378 C 20.945 1.567 21 1.769 21 1.985 L 21 12.842 C 21 13.238 20.833 13.541 20.498 13.751 C 20.163 13.961 19.811 13.983 19.442 13.819 C 18.903 13.563 18.343 13.369 17.765 13.237 C 17.186 13.105 16.598 13.039 16 13.039 C 15.006 13.039 14.043 13.201 13.109 13.525 C 12.176 13.849 11.306 14.309 10.5 14.904 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1.500 4.481)"/>`),
+  // ── MDS Alert severity glyphs (filled, navy) — see MdsAlert below ──
+  mdsAlertInfo: mkMds(`<path d="M 8.75 14.25 L 10.25 14.25 L 10.25 8.5 L 8.75 8.5 L 8.75 14.25 Z M 10.073 6.556 C 10.23 6.401 10.308 6.21 10.308 5.981 C 10.308 5.752 10.23 5.56 10.075 5.405 C 9.921 5.251 9.729 5.173 9.5 5.173 C 9.271 5.173 9.079 5.251 8.925 5.405 C 8.77 5.56 8.692 5.752 8.692 5.981 C 8.692 6.21 8.771 6.401 8.927 6.556 C 9.083 6.711 9.274 6.788 9.5 6.788 C 9.726 6.788 9.917 6.711 10.073 6.556 Z M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.78 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.78 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 0.500 0.500)"/>`),
+  mdsAlertSuccess: mkMds(`<path d="M 8.081 13.754 L 14.804 7.031 L 13.75 5.977 L 8.081 11.646 L 5.231 8.796 L 4.177 9.85 L 8.081 13.754 Z M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.78 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.78 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 0.500 0.500)"/>`),
+  mdsAlertWarning: mkMds(`<path d="M 0 17.5 L 10.135 0 L 20.269 17.5 L 0 17.5 Z M 10.708 14.573 C 10.864 14.417 10.942 14.226 10.942 14 C 10.942 13.774 10.864 13.583 10.708 13.427 C 10.551 13.27 10.36 13.192 10.135 13.192 C 9.909 13.192 9.718 13.27 9.561 13.427 C 9.405 13.583 9.327 13.774 9.327 14 C 9.327 14.226 9.405 14.417 9.561 14.573 C 9.718 14.73 9.909 14.808 10.135 14.808 C 10.36 14.808 10.551 14.73 10.708 14.573 Z M 9.385 12.192 L 10.885 12.192 L 10.885 7.192 L 9.385 7.192 L 9.385 12.192 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 1 2) matrix(1 0 0 1 0.860 1.250)"/>`),
+  mdsAlertCritical: mkMds(`<path d="M 5.9 14.154 L 9.5 10.554 L 13.1 14.154 L 14.154 13.1 L 10.554 9.5 L 14.154 5.9 L 13.1 4.846 L 9.5 8.446 L 5.9 4.846 L 4.846 5.9 L 8.446 9.5 L 4.846 13.1 L 5.9 14.154 Z M 9.502 19 C 8.188 19 6.953 18.751 5.796 18.252 C 4.64 17.753 3.635 17.077 2.78 16.222 C 1.924 15.367 1.247 14.362 0.748 13.206 C 0.249 12.05 0 10.816 0 9.502 C 0 8.188 0.249 6.953 0.748 5.796 C 1.247 4.64 1.923 3.635 2.778 2.78 C 3.633 1.924 4.638 1.247 5.794 0.748 C 6.95 0.249 8.184 0 9.498 0 C 10.812 0 12.047 0.249 13.204 0.748 C 14.36 1.247 15.365 1.923 16.221 2.778 C 17.076 3.633 17.753 4.638 18.252 5.794 C 18.751 6.95 19 8.184 19 9.498 C 19 10.812 18.751 12.047 18.252 13.204 C 17.753 14.36 17.077 15.365 16.222 16.221 C 15.367 17.076 14.362 17.753 13.206 18.252 C 12.05 18.751 10.816 19 9.502 19 Z" fill="currentColor" fill-rule="evenodd" transform="matrix(1 0 0 1 2 2) matrix(1 0 0 1 0.500 0.500)"/>`),
+};
+
+// ── Marsh wordmark (inline so it can be recolored white-on-midnight) ──
+const MARSH_PATH = "M21.645 30.43h.556l12.868-6.04v19.874h8.101V0h-.676zM0 0v44.264h8.099V24.396l12.805 6.034h.619L.679 0zm68.962.37L48.24 44.263h8.167l3.622-8.112h17.659l3.648 8.112H90.3L69.519.37zm-6.078 29.385 5.943-13.311 5.985 13.311zm56.83-3.413c2.244-1.086 4.02-2.613 5.317-4.582q1.948-2.954 1.948-6.763c0-2.745-.663-5.14-1.981-7.19q-1.986-3.072-5.445-4.825-3.463-1.751-7.854-1.75H95.371v43.032h8.413V8.484h6.992q3.334-.001 5.595 1.75c1.508 1.168 2.259 2.76 2.259 4.765s-.756 3.618-2.259 4.825-3.372 1.814-5.595 1.814h-5.752l13.606 22.623h9.464l-10.605-17.062a15.6 15.6 0 0 0 2.225-.858m40.017-3.532a17.6 17.6 0 0 0-4.298-2.06 55 55 0 0 0-4.732-1.323 38 38 0 0 1-4.331-1.261c-1.303-.47-2.351-1.106-3.157-1.905q-1.208-1.2-1.206-3.23.001-2.456 2.194-4.088c1.464-1.086 3.263-1.628 5.411-1.628 2.428 0 4.688.41 6.77 1.232q3.123 1.229 5.101 3.259v-8.73a21.6 21.6 0 0 0-5.629-1.935 32.5 32.5 0 0 0-6.247-.582q-4.456 0-8.011 1.628-3.558 1.63-5.658 4.61c-1.398 1.988-2.103 4.316-2.103 6.978q-.001 3.44 1.204 5.655 1.21 2.21 3.156 3.563a17.2 17.2 0 0 0 4.332 2.153 61 61 0 0 0 4.732 1.383c1.565.392 3 .809 4.298 1.26 1.302.45 2.35 1.047 3.156 1.784l.01-.005c.806.741 1.207 1.72 1.207 2.953 0 1.639-.757 3-2.26 4.089-1.508 1.085-3.39 1.628-5.657 1.628-2.761 0-5.343-.491-7.733-1.473q-3.585-1.47-6-3.933v9.158a23.4 23.4 0 0 0 6.463 2.303c2.332.47 4.75.708 7.27.708q4.574 0 8.195-1.628 3.614-1.63 5.751-4.61c1.42-1.988 2.132-4.311 2.132-6.978q.001-3.379-1.204-5.533-1.21-2.15-3.156-3.442M199.589 1.23v17.767h-19.36V1.23h-8.411v43.034h8.411V26.25h19.36v18.013H208V1.23z";
+const MarshWordmark = ({ color = "#001F52", height = 22, ...rest }) =>
+  React.createElement("svg", { viewBox: "0 0 208 45", height, fill: color,
+    style: { display: "block", height, width: "auto" }, ...rest },
+    React.createElement("path", { d: MARSH_PATH }));
+
+// ── MDS Alert (Marsh MDS V3, inline variant) ──────────────────────────────
+// Severity is carried by the fill + 1px border ONLY; the leading icon AND all
+// text are navy #000F47 (never severity-coloured). 4px radius, filled severity
+// glyph in a 20px box, 8px gap, no left accent bar. severity: info | success |
+// warning | critical (danger/error alias critical). Body kept at the prototype's
+// 14px density; every colour/border/radius/icon is the MDS spec exactly.
+const MDS_ALERT = {
+  info:     { fill: "#ECF5FF", accent: "#5E9AFF", icon: "mdsAlertInfo" },
+  success:  { fill: "#DCEDE2", accent: "#14853D", icon: "mdsAlertSuccess" },
+  warning:  { fill: "#F7ECD9", accent: "#CB7E03", icon: "mdsAlertWarning" },
+  critical: { fill: "#F6E1E0", accent: "#C53532", icon: "mdsAlertCritical" },
+};
+// Matches the MDS Alert render: ONE overall severity-coloured 1px border (no left
+// accent bar), severity-coloured leading icon, navy title/body, muted navy date,
+// 8px radius, soft floating shadow. severity: info|success|warning|critical (danger/error→critical).
+function MdsAlert({ severity = "info", title, children, date, mt, mb, align = "flex-start", onClose, style }) {
+  const key = severity === "danger" || severity === "error" ? "critical" : severity;
+  const s = MDS_ALERT[key] || MDS_ALERT.info;
+  const Ic = I[s.icon];
+  return (
+    <div role={key === "success" || key === "info" ? "status" : "alert"}
+      style={{ display: "flex", alignItems: align, gap: 10, background: s.fill, border: "1px solid " + s.accent, borderRadius: 8, padding: "14px 16px", boxShadow: "0 2px 4px -2px rgba(0,0,0,.1), 0 4px 6px -1px rgba(0,0,0,.1)", marginTop: mt || 0, marginBottom: mb != null ? mb : 0, ...(style || {}) }}>
+      <span style={{ flexShrink: 0, width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", color: s.accent, marginTop: align === "flex-start" ? 1 : 0 }}><Ic size={18} /></span>
+      <div style={{ flex: "1 1 auto", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, color: "#000F47", minWidth: 0 }}>
+        {title ? <div style={{ fontWeight: 700, marginBottom: (children != null || date) ? 4 : 0 }}>{title}</div> : null}
+        {children != null ? <div style={{ fontWeight: 400 }}>{children}</div> : null}
+        {date ? <div style={{ fontWeight: 400, opacity: .8, marginTop: 8 }}>{date}</div> : null}
+      </div>
+      {onClose ? <button onClick={onClose} title="Dismiss" style={{ flexShrink: 0, background: "none", border: "none", cursor: "pointer", color: "#000F47", display: "flex", padding: 2, marginTop: align === "flex-start" ? -1 : 0 }}><I.plus size={14} style={{ transform: "rotate(45deg)" }} /></button> : null}
+    </div>
+  );
+}
+if (typeof window !== "undefined") window.MdsAlert = MdsAlert;
+
+// Top-bar back registry: a page can push its in-page sub-view back link up to the
+// dashboard's fixed top bar via this context. The shell (DashEditorial / DashBoardroom)
+// provides { setBack }, and calls setBack({ label, onClick }) render it on the top-bar
+// left; setBack(null) clears it. Pages register on entering a sub-view and clear on exit.
+const LHTopBarContext = React.createContext(null);
+// Convenience hook: registers a top-bar back while `active`, auto-clears on change/unmount.
+function useTopBarBack(active, label, onClick) {
+  const ctx = React.useContext(LHTopBarContext);
+  const cbRef = React.useRef(onClick);
+  cbRef.current = onClick;
+  React.useEffect(() => {
+    if (!ctx) return;
+    if (active) {
+      ctx.setBack({ label, onClick: () => cbRef.current && cbRef.current() });
+      return () => ctx.setBack(null);
+    }
+    ctx.setBack(null);
+  }, [ctx, active, label]);
+}
+
+// ── URL routing (shared by Folio + Boardroom, which use the same {page,progId,center,target}
+// route shape) ── Give every in-app page its own hash URL (deep-linkable, back/forward-capable).
+// Serialize the route to a readable path and parse it back, resolving program / exercise /
+// center object refs by their id so a cold-loaded or back-navigated deep URL fully restores.
+function edFindEx(prog, exId) {
+  if (!prog || !prog.detail || !exId) return null;
+  const d = prog.detail;
+  return [].concat(d.centers || [], d.sequential || [], d.open || []).find((e) => e.id === exId) || null;
+}
+function edRouteToPath(r) {
+  if (!r) return "dashboard";
+  const p = r.page, base = r.progId ? "program/" + r.progId : "dashboard";
+  const exId = r.target && r.target.id ? "/" + r.target.id : "";
+  switch (p) {
+    case "dash": return "dashboard";
+    case "development": {
+      const m = r.idpMode;
+      if (m === "plan") return "development/plan";
+      if (m === "landing") return "development/new";
+      if (m === "manual") { const MN = ["start", "skills", "rate", "reflect"]; return "development/manual" + (r.mnStep ? "/" + (MN[r.mnStep] || r.mnStep) : ""); }
+      if (m === "flow") return "development/questions" + (r.idpStep != null ? "/" + r.idpStep : "");
+      return "development";
+    }
+    case "scheduling": return r.schedCenter ? "scheduling/" + r.schedCenter : "scheduling";
+    case "insights": return "insights";
+    case "bookings": return "bookings";
+    case "profile": return "profile";
+    case "changePassword": return "change-password";
+    case "settings": return "settings";
+    case "tasks": return base;
+    case "instructions": return base + "/instructions";
+    case "center": return base + "/center" + (r.center && r.center.id ? "/" + r.center.id : "");
+    case "precheck": return base + "/system-check" + exId + (r.pcStep ? "/" + r.pcStep : "");
+    case "assessintro": return base + "/assessment" + exId;
+    case "consent": return base + "/assessment" + exId + "/consent";
+    case "openassess": {
+      const ap = base + "/assessment" + exId;
+      if (r.oaStep === "complete") return ap + "/complete";
+      const qp = ap + "/questions";
+      if (r.oaLayout === "split" && r.oaQIdx != null) return qp + "/" + (r.oaQIdx + 1);
+      if (r.oaLayout && r.oaLayout !== "split" && r.oaPage != null) return qp + "/page-" + (r.oaPage + 1);
+      return qp;
+    }
+    default: return "dashboard";
+  }
+}
+function edPathToRoute(path) {
+  const segs = window.LHRoute ? LHRoute.norm(path).split("/").filter(Boolean) : [];
+  const def = { page: "dash", progId: null, center: null, target: null };
+  if (!segs.length) return def;
+  const s0 = segs[0];
+  const simple = { dashboard: "dash", insights: "insights", bookings: "bookings", profile: "profile", settings: "settings" };
+  if (simple[s0]) return { page: simple[s0], progId: null, center: null, target: null };
+  if (s0 === "scheduling") return { page: "scheduling", progId: null, center: null, target: null, schedCenter: segs[1] || null };
+  if (s0 === "change-password") return { page: "changePassword", progId: null, center: null, target: null };
+  if (s0 === "development") {
+    const map = { plan: "plan", new: "landing", manual: "manual", questions: "flow" };
+    const m = map[segs[1]] || "choose";
+    const r = { page: "development", progId: null, center: null, target: null, idpMode: m };
+    if (m === "flow" && segs[2] != null && /^\d+$/.test(segs[2])) r.idpStep = parseInt(segs[2], 10);
+    if (m === "manual" && segs[2] != null) { const MN = ["start", "skills", "rate", "reflect"]; const idx = MN.indexOf(segs[2]); if (idx >= 0) r.mnStep = idx; else if (/^\d+$/.test(segs[2])) r.mnStep = parseInt(segs[2], 10); }
+    return r;
+  }
+  if (s0 === "program") {
+    const progId = segs[1];
+    const prog = (window.LH && LH.programs || []).find((p) => p.id === progId);
+    if (!prog) return def;
+    const sub = segs[2], tasks = { page: "tasks", progId, center: null, target: null };
+    if (!sub) return tasks;
+    if (sub === "instructions") return { page: "instructions", progId, center: null, target: null };
+    if (sub === "center") { const c = edFindEx(prog, segs[3]); return c ? { page: "center", progId, center: c, target: null } : tasks; }
+    if (sub === "system-check") { const t = edFindEx(prog, segs[3]); return t ? { page: "precheck", progId, center: null, target: t, pcStep: segs.slice(4).join("/") || null } : tasks; }
+    if (sub === "assessment") {
+      const ex = edFindEx(prog, segs[3]);
+      if (!ex) return tasks;
+      const leaf = segs[4];
+      if (leaf === "consent") return { page: "consent", progId, center: null, target: ex };
+      if (leaf === "complete") return { page: "openassess", progId, center: null, target: ex, oaStep: "complete" };
+      if (leaf === "questions") {
+        const q = segs[5], r = { page: "openassess", progId, center: null, target: ex, oaStep: "question" };
+        if (q && /^\d+$/.test(q)) { r.oaLayout = "split"; r.oaQIdx = Math.max(0, parseInt(q, 10) - 1); }
+        else if (q && /^page-\d+$/.test(q)) { r.oaLayout = "paged"; r.oaPage = Math.max(0, parseInt(q.slice(5), 10) - 1); }
+        return r;
+      }
+      return { page: "assessintro", progId, center: null, target: ex };
+    }
+    return tasks;
+  }
+  return def;
+}
+
+Object.assign(window, { LH, I, MarshWordmark, LHTopBarContext, useTopBarBack, edFindEx, edRouteToPath, edPathToRoute });

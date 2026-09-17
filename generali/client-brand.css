@@ -1,0 +1,119 @@
+/* ════════════════════════════════════════════════
+   Client brand switcher — Marsh (default) · DGE · Generali
+   Chip UI + per-brand page overrides. Vars themselves are
+   applied on :root by client-brand.js.
+   ════════════════════════════════════════════════ */
+
+.lh-brand-switch { position: fixed; right: 300px; bottom: 14px; z-index: 62; display: inline-flex; align-items: center; flex-shrink: 0; font-family: var(--sans); }
+.lg-controls-bar .lh-brand-switch { position: relative; right: auto; bottom: auto; z-index: auto; }
+
+.lh-brand-chip {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: rgba(255,255,255,.9); color: #6D6B66;
+  font-size: 14px; font-weight: 600; letter-spacing: .01em; padding: 8px 12px; border-radius: 8px;
+  border: 1px solid rgba(0,15,71,.12); box-shadow: 0 2px 8px rgba(0,15,71,.06); cursor: pointer;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); height: 36px; line-height: 20px;
+  transition: all .15s ease; flex-shrink: 0;
+}
+.lh-brand-chip:hover, .lh-brand-switch.open .lh-brand-chip { color: #000F47; background: #fff; border-color: rgba(0,15,71,.2); }
+
+.lh-brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+
+.lh-brand-menu {
+  display: none; position: absolute; right: 0; bottom: 36px; min-width: 178px;
+  background: #FFFFFF; border: 1px solid rgba(0,15,71,.12); border-radius: 12px;
+  box-shadow: 0 14px 40px rgba(0,15,71,.16); padding: 6px; flex-direction: column; gap: 1px;
+}
+.lh-brand-switch.open .lh-brand-menu { display: flex; }
+
+.lh-brand-title { font-size: 14px; font-weight: 700; letter-spacing: .2px; color: #6D6B66; padding: 7px 11px 5px; }
+
+.lh-brand-item {
+  display: flex; align-items: center; gap: 9px;
+  background: none; border: none; border-radius: 8px; padding: 8px 11px; cursor: pointer;
+  font-family: var(--sans); font-size: 14px; font-weight: 500; color: #3D3C37; text-align: left;
+}
+.lh-brand-item:hover { background: rgba(0,15,71,.05); }
+.lh-brand-item .lh-brand-name { flex: 1; }
+.lh-brand-item .lh-check { visibility: hidden; color: var(--accent); }
+.lh-brand-item[aria-checked="true"] { color: #000F47; font-weight: 700; }
+.lh-brand-item[aria-checked="true"] .lh-check { visibility: visible; }
+
+/* ── Per-brand login page overrides ── */
+
+/* client logos have different proportions than the Lighthouse lockup */
+html[data-client-brand="dge"] .lg-logo { height: 40px; display: block !important; }
+html[data-client-brand="dge"] .lg-logo--white { display: none !important; }
+html[data-client-brand="dge"][data-login-style="cinematic"] .lg-logo,
+html[data-client-brand="dge"][data-login-style="midnight"] .lg-logo,
+html[data-client-brand="dge"][data-login-style="celestial"] .lg-logo { display: none !important; }
+html[data-client-brand="dge"][data-login-style="cinematic"] .lg-logo--white,
+html[data-client-brand="dge"][data-login-style="midnight"] .lg-logo--white,
+html[data-client-brand="dge"][data-login-style="celestial"] .lg-logo--white { display: block !important; height: 50px; margin-bottom: 30px; }
+
+html[data-client-brand="generali"] .lg-logo { height: 58px; display: block !important; }
+html[data-client-brand="generali"] .lg-logo--white { display: none !important; }
+
+/* CTA buttons: client primaries are fills. Generali red is dark → white text (≈7:1).
+   DGE steel is light → white fails AA (~2.7:1), so its button text is dark navy (≈6.6:1). */
+html[data-client-brand="generali"] .lg-btn { color: #FFFFFF; }
+html[data-client-brand="dge"] .lg-btn { color: #000F47; }
+html[data-client-brand="generali"] .lg-spinner { border-color: rgba(255,255,255,.35); border-top-color: #FFFFFF; }
+html[data-client-brand="dge"] .lg-spinner { border-color: rgba(0,15,71,.30); border-top-color: #000F47; }
+
+/* Generali login imagery: transparent people-collage PNG floating on the
+   primary red (.lg-feature's background is var(--primary) = #AA1B17).
+   Applies across all auth flows (Login, Sign up, Forgot password). */
+html[data-client-brand="generali"] .lg-feature-img {
+  object-fit: contain; padding: 3.5%; box-sizing: border-box;
+}
+
+/* ── Client-brand text — neutral per WCAG 2.1 AA ─────────────────────────────
+   The client primaries (DGE steel-blue #81A0BD ≈2.6:1, Generali red #AA1B17)
+   are reserved for FILLS (buttons, badges) and the SIDE RAIL. They must never
+   carry running text — DGE fails AA outright. So for these brands the primary-
+   derived text tokens become neutral greys that pass AA on the cream/white
+   canvas (body ≈14:1, secondary ≈6:1). Marsh keeps its blue-tinted neutrals
+   (which already pass). */
+html[data-client-brand="dge"],
+html[data-client-brand="generali"] {
+  --ink:   #262626;   /* body / headings — WCAG AAA */
+  --muted: #595959;   /* secondary text (~65% black) — WCAG AA */
+  --line:  #D4D4D4;   /* borders / rules — neutral light grey */
+}
+
+/* DGE's primary is a LIGHT steel, so dark decorative panels (video hero, dashboard
+   progress panel, FAB) that carry white text must NOT use it — override the deep
+   surface with a true dark steel-navy (white ≈ 14:1). Generali red is already dark
+   enough for white text, so it keeps the default (--surface-deep = --primary). */
+html[data-client-brand="dge"] { --surface-deep: #16283D; }
+
+/* Anywhere the app sets a primary-coloured TEXT inline (headlines, nav labels,
+   stats, card titles — ~100 sites), force the same neutral ink instead of the
+   brand colour. Fills (background: var(--primary)) and accents are untouched,
+   so buttons / badges / active nav stay in the brand colour.
+   The ^= / "; " pair avoids matching border-color serializations. */
+html[data-client-brand="dge"] [style^="color: var(--primary)"],
+html[data-client-brand="dge"] [style*="; color: var(--primary)"],
+html[data-client-brand="generali"] [style^="color: var(--primary)"],
+html[data-client-brand="generali"] [style*="; color: var(--primary)"] {
+  color: #262626 !important;
+}
+
+/* Same for accent-coloured text (status eyebrows, "In progress" pills, links): the
+   client accents are also too light as small text — DGE steel #54779B ≈ 4:1 on a pale
+   pill. Neutralise to the same ink so client-brand text is uniformly legible. The pill
+   BACKGROUND still carries the faint brand tint, and status is also carried by its label,
+   so no meaning is lost. (Accent FILLS — background: var(--accent) — are untouched.) */
+html[data-client-brand="dge"] [style^="color: var(--accent)"],
+html[data-client-brand="dge"] [style*="; color: var(--accent)"],
+html[data-client-brand="generali"] [style^="color: var(--accent)"],
+html[data-client-brand="generali"] [style*="; color: var(--accent)"] {
+  color: #262626 !important;
+}
+
+/* Login form: its headings/labels colour via stylesheet (var(--primary)), not
+   inline — neutralise those too so client-brand login text meets AA. */
+html[data-client-brand="dge"] .lg-title,
+html[data-client-brand="dge"] .lg-label,
+html[data-client-brand="generali"] .lg-title,
+html[data-client-brand="generali"] .lg-label { color: #262626; }
