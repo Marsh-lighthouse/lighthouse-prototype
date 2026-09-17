@@ -868,7 +868,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
         <React.Fragment>
           <div style={{ flex: 1, overflowY: "auto", padding: "16px 16px 8px" }}>
             {visible.length
-              ? visible.map(({ c, i }) => <PlCommentItem key={i} item={c} onReply={addReply(i)} onResolve={setResolved(i)} role={role} names={NAMES} />)
+              ? visible.map(({ c, i }) => <PlCommentItem key={i} item={c} onReply={addReply(i)} onResolve={setResolved(i)} onGoToSkill={chip && chip !== PL_OVERALL ? () => plGoToSkill(chip) : undefined} skillLabel={chip && chip !== PL_OVERALL ? chip : null} role={role} names={NAMES} />)
               : <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, textAlign: "center", padding: "26px 0" }}>
                   {thread.length === 0 ? "No comments yet. Start the conversation below."
                     : filter === "resolved" ? "Nothing resolved yet." : "All comments here are resolved."}
