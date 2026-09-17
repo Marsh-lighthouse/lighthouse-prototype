@@ -639,7 +639,7 @@ const PlReplyIcon = ({ size = 13 }) => <svg width={size} height={size} viewBox="
 
 // One threaded comment — avatar · name · time · text · Reply — with nested replies.
 // No like/dislike; the only action is Reply.
-function PlCommentItem({ item, onReply, role = "me", names, onResolve }) {
+function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabel, onGoToSkill }) {
   const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const [replying, setReplying] = plUseState(false);
   const [showReplies, setShowReplies] = plUseState(true);
@@ -652,18 +652,27 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve }) {
     <div style={{ display: "flex", gap: 11, marginBottom: 16 }}>
       <span style={{ width: 34, height: 34, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700 }}>{plInitials(name)}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
+        {/* The skill this comment belongs to, written small above it — so the flat
+            "everything on first view" feed keeps its context without a tag pill. */}
+        {skillLabel && <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT, marginBottom: 2 }}>{skillLabel}</div>}
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{name}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{item.time}</span>
         </div>
         <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.5, marginTop: 3 }}>{item.text}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 8, flexWrap: "wrap" }}>
           <button onClick={() => setReplying((v) => !v)} style={plCLink}><PlReplyIcon /> Reply</button>
           {/* Resolving a comment resolves the whole exchange beneath it. */}
           {onResolve && (
             <button onClick={() => onResolve(!item.resolved)} style={{ ...plCLink, color: item.resolved ? eSUCCESS : eMUT }}
               title={item.resolved ? "Reopen this comment" : "Mark as resolved"}>
               <I.check size={14} /> {item.resolved ? "Reopen" : "Resolve"}
+            </button>
+          )}
+          {/* Jump straight to this comment's skill on the plan, no thread hop needed. */}
+          {onGoToSkill && (
+            <button onClick={onGoToSkill} style={{ ...plCLink, fontWeight: 700 }}>
+              Go to skill <I.chevR size={13} />
             </button>
           )}
           {replies.length > 0 && <button onClick={() => setShowReplies((v) => !v)} style={{ ...plCLink, color: eMUT }}>{showReplies ? "Hide" : "Show"} {replies.length} {replies.length === 1 ? "reply" : "replies"}</button>}
@@ -716,9 +725,13 @@ function plGoToSkill(name) {
   if (toggle) { toggle.click(); setTimeout(flash, 70); } else { flash(); }
 }
 
-function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names, skills }) {
+function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names, skills, design = 1 }) {
   const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const inThread = !!chip;
+  // Designs 2 & 3 drop the inbox and lay every comment out on first view — flat
+  // (2) or grouped by skill (3). They only apply to the overview; a single opened
+  // thread always reads the same.
+  const expanded = !inThread && (design === 2 || design === 3);
   const [text, setText] = plUseState("");
   // Backed by the shared store, so a message posted on one side shows up on the other.
   const [store, setStore] = plUseState(() => plThreadsFor(owner));
@@ -740,6 +753,11 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
   // From the inbox, a new message starts the plan-level conversation and opens it.
   const addOverall = () => { const t = text.trim(); if (!t) return; postTo(PL_OVERALL, t); setText(""); onOpen(PL_OVERALL); };
   const addReply = (ci) => (t) => write(thread.map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
+  // Reply / resolve addressed to any thread by name — the flat & grouped overviews
+  // act on every conversation at once, not just the one that's open.
+  const writeThread = (name, next) => { const all = { ...store, [name]: next }; setStore(all); plSaveThreads(owner, all); };
+  const replyTo = (name, ci) => (t) => writeThread(name, (store[name] || []).map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
+  const resolveIn = (name, ci) => (val) => writeThread(name, (store[name] || []).map((c, i) => (i === ci ? { ...c, resolved: val } : c)));
   // Resolved comments drop out of the list; the filter brings them back.
   const [filter, setFilter] = plUseState("open");   // open | resolved | all
   const [filterMenu, setFilterMenu] = plUseState(false);
@@ -809,7 +827,44 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
         </div>
       </div>
 
-      {inThread ? (
+      {expanded ? (
+        // Designs 2 (flat) & 3 (grouped-by-skill): every comment laid out on first
+        // view, each with Reply / Resolve / Go to skill inline — no thread hop.
+        (() => {
+          // Skill groups first, plan-level ("Whole plan") last — the overview leads
+          // with skills, not the overall thread.
+          const order = Object.keys(store).filter((k) => k !== PL_OVERALL).concat([PL_OVERALL]);
+          const pass = (c) => filter === "all" || !!c.resolved === (filter === "resolved");
+          const groups = order.map((name) => ({
+            name, isOverall: name === PL_OVERALL,
+            items: (store[name] || []).map((c, i) => ({ c, i })).filter((x) => pass(x.c)),
+          })).filter((g) => g.items.length);
+          const total = groups.reduce((n, g) => n + g.items.length, 0);
+          const goFor = (name) => (name !== PL_OVERALL && inPlan(name)) ? (() => plGoToSkill(name)) : undefined;
+          return (
+            <div style={{ flex: 1, overflowY: "auto", padding: "14px 16px 8px" }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, padding: "0 0 12px" }}>
+                {total} {total === 1 ? "comment" : "comments"} · {design === 3 ? "grouped by skill" : "all on one view"}
+              </div>
+              {total === 0 && <div style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, textAlign: "center", padding: "26px 0" }}>{filter === "resolved" ? "Nothing resolved yet." : "No open comments."}</div>}
+              {design === 3
+                ? groups.map((g) => (
+                    <div key={g.name} style={{ marginBottom: 18 }}>
+                      {/* small tagline: the skill name at the top of its group */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "2px 0 12px", paddingBottom: 7, borderBottom: "1px solid " + eLINE }}>
+                        <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.isOverall ? "Whole plan" : g.name}</span>
+                        <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT, flexShrink: 0 }}>{g.items.length}</span>
+                      </div>
+                      {g.items.map(({ c, i }) => <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} role={role} names={NAMES} />)}
+                    </div>
+                  ))
+                : groups.map((g) => g.items.map(({ c, i }) => (
+                    <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} skillLabel={g.isOverall ? null : g.name} role={role} names={NAMES} />
+                  )))}
+            </div>
+          );
+        })()
+      ) : inThread ? (
         <React.Fragment>
           <div style={{ flex: 1, overflowY: "auto", padding: "16px 16px 8px" }}>
             {visible.length
@@ -1194,6 +1249,11 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
   // the manager side already remembers its own the same way.
   const [sample, setSample] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-plan-design"), 10); return v >= 1 && v <= 10 ? v : 10; });
   const [sampleMenu, setSampleMenu] = plUseState(false);
+  // Comments-panel design: 1 = inbox (tap to open a thread), 2 = flat feed (every
+  // comment on first view), 3 = grouped by skill. Sticks like the other switchers.
+  const [commentsDesign, setCommentsDesign] = plUseState(() => { const v = parseInt(localStorage.getItem("pl-comments-design"), 10); return v >= 1 && v <= 3 ? v : 1; });
+  const [commentsMenu, setCommentsMenu] = plUseState(false);
+  const commentsChipRef = plUseRef(null);
   // Sample 10 (accordion) — the key "ci-si" of the one open skill; "" means all closed.
   const [openSkill, setOpenSkill] = plUseState("0-0");
   // User-info presentation. 4 (default) hides the info card entirely and puts the
@@ -1281,6 +1341,13 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
     document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [sampleMenu]);
+  plUseEffect(() => {
+    if (!commentsMenu) return;
+    const onDoc = (e) => { if (commentsChipRef.current && !commentsChipRef.current.contains(e.target)) setCommentsMenu(false); };
+    const onKey = (e) => { if (e.key === "Escape") setCommentsMenu(false); };
+    document.addEventListener("mousedown", onDoc); document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [commentsMenu]);
   plUseEffect(() => {
     if (!userCardMenu) return;
     const onDoc = (e) => { if (userCardRef.current && !userCardRef.current.contains(e.target)) setUserCardMenu(false); };
@@ -1628,7 +1695,26 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
       {confirmDel && <PlConfirmDelete label={confirmDel.label} onNo={() => setConfirmDel(null)} onYes={() => { confirmDel.onYes(); setConfirmDel(null); }} />}
 
       {/* comments */}
-      {comments != null && <PlComments chip={comments || null} skills={plSkillNames(data)} onClose={() => setComments(null)} onOpen={(name) => openComments(name || "")} />}
+      {comments != null && <PlComments chip={comments || null} design={commentsDesign} skills={plSkillNames(data)} onClose={() => setComments(null)} onOpen={(name) => openComments(name || "")} />}
+
+      {/* Comments-design switcher — only while the panel is open. Sits left of the
+          panel so it never overlaps it. 1 inbox · 2 flat feed · 3 grouped by skill. */}
+      {comments != null && ReactDOM.createPortal(
+        <div ref={commentsChipRef} className="ed-plan-usercard-chip" style={{ position: "fixed", right: 360, bottom: 14, zIndex: 60, fontFamily: "var(--sans)" }}>
+          {commentsMenu && (
+            <div style={{ position: "absolute", bottom: 44, right: 0, width: 288, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
+              <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Comments design</div>
+              {[[1, "Inbox", "Conversations — tap one to open its thread"], [2, "All on one view", "Every comment expanded, skill name shown small"], [3, "Grouped by skill", "Skill name as a header, its comments below"]].map(([id, label, desc]) => { const on = commentsDesign === id; return (
+                <button key={id} onClick={() => { setCommentsDesign(id); try { localStorage.setItem("pl-comments-design", String(id)); } catch (e) {} setCommentsMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
+                  <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
+                  <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
+                </button>); })}
+            </div>
+          )}
+          <button onClick={() => setCommentsMenu((v) => !v)} title="Switch the comments panel design" style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 999, padding: "7px 14px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,15,71,.10)" }}>
+            <I.chat size={14} /> Comments · {commentsDesign}
+          </button>
+        </div>, document.body)}
 
 
       {/* Plan-design sample switcher — floats near the Marsh / All-directions chrome,
