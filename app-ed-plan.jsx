@@ -654,7 +654,7 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabe
       <div style={{ flex: 1, minWidth: 0 }}>
         {/* The skill this comment belongs to, written small above it — so the flat
             "everything on first view" feed keeps its context without a tag pill. */}
-        {skillLabel && <div style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT, marginBottom: 2 }}>{skillLabel}</div>}
+        {skillLabel && <span style={{ display: "inline-block", marginBottom: 6, padding: "3px 9px", borderRadius: 6, border: "1px solid " + eLINE, background: "color-mix(in srgb, var(--accent) 7%, var(--card))", color: eMID, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, lineHeight: 1.3 }}>{skillLabel}</span>}
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{name}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{item.time}</span>
@@ -671,7 +671,7 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabe
           )}
           {/* Jump straight to this comment's skill on the plan, no thread hop needed. */}
           {onGoToSkill && (
-            <button onClick={onGoToSkill} style={{ ...plCLink, fontWeight: 700 }}>
+            <button onClick={onGoToSkill} style={plCLink}>
               Go to skill <I.chevR size={13} />
             </button>
           )}
@@ -911,7 +911,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                         a link that would go nowhere. */}
                     {!r.overall && (inPlan(r.name) ? (
                       <button onClick={(e) => { e.stopPropagation(); plGoToSkill(r.name); }}
-                        style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700 }}>
+                        style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 400 }}>
                         Go to skill <I.chevR size={13} />
                       </button>
                     ) : (
@@ -1927,7 +1927,7 @@ function PlBreakdownChip({ data }) {
 
 // Summary bar under the tabs — plan-wide roll-up (Sample 10 only).
 function PlPlanSummary({ stats, status, lead, hideStatus, mt, mb, data, design }) {
-  const lbl = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMUT, marginBottom: 6 };
+  const lbl = { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 6 };
   const big = { fontFamily: "var(--sans)", fontSize: 21, fontWeight: 400, color: eMID, lineHeight: 1.1 };
   const cell = (last) => ({ flex: "1 1 140px", minWidth: 120, padding: "14px 18px", borderRight: last ? "none" : "1px solid " + eLINE });
   // Design 2 — totals with a Behavioral / Technical split under Skills and Development
