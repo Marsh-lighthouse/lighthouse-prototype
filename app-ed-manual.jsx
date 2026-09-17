@@ -389,8 +389,11 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
 // ════════════════════════════════════════════════
 //  THE FLOW
 // ════════════════════════════════════════════════
-function MnManualFlow({ onExit, onDone }) {
-  const [step, setStep] = mnUseState(0);
+function MnManualFlow({ onExit, onDone, initialStep, onStep }) {
+  const [step, setStep] = mnUseState(initialStep || 0);
+  // Mirror the step to the URL so each stage (Get Started / Add Skills / Rate
+  // Skills / Reflective Questions) is its own deep-linkable, back/forward URL.
+  mnUseEffect(() => { if (onStep) onStep(step); }, [step]);
   const [sel, setSel] = mnUseState(() => MN_CATS.map(() => []));
   const [ratings, setRatings] = mnUseState({});
   const [answers, setAnswers] = mnUseState(() => (window.EdPlan && window.EdPlan.loadReflect ? window.EdPlan.loadReflect(window.EdPlan.OWNER) : {}));

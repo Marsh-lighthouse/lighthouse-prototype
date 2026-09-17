@@ -645,7 +645,7 @@ function edRouteToPath(r) {
       const m = r.idpMode;
       if (m === "plan") return "development/plan";
       if (m === "landing") return "development/new";
-      if (m === "manual") return "development/manual";
+      if (m === "manual") { const MN = ["start", "skills", "rate", "reflect"]; return "development/manual" + (r.mnStep ? "/" + (MN[r.mnStep] || r.mnStep) : ""); }
       if (m === "flow") return "development/questions" + (r.idpStep != null ? "/" + r.idpStep : "");
       return "development";
     }
@@ -686,6 +686,7 @@ function edPathToRoute(path) {
     const m = map[segs[1]] || "choose";
     const r = { page: "development", progId: null, center: null, target: null, idpMode: m };
     if (m === "flow" && segs[2] != null && /^\d+$/.test(segs[2])) r.idpStep = parseInt(segs[2], 10);
+    if (m === "manual" && segs[2] != null) { const MN = ["start", "skills", "rate", "reflect"]; const idx = MN.indexOf(segs[2]); if (idx >= 0) r.mnStep = idx; else if (/^\d+$/.test(segs[2])) r.mnStep = parseInt(segs[2], 10); }
     return r;
   }
   if (s0 === "program") {

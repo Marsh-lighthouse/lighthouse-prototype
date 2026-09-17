@@ -1765,7 +1765,7 @@ function EdDevChoice({ onBack, onPickAI, onPickManual }) {
   );
 }
 
-function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
+function EdDevelopmentNew({ onBack, initialMode, idpStep, mnStep, onMode, onStep, onMnStep }) {
   const [mode, setMode] = idpUseState(initialMode || "choose"); // choose | landing | flow | manual | plan
   const [watched, setWatched] = idpUseState(false);
   const [fromManual, setFromManual] = idpUseState(false);   // tracked for context; a freshly-created plan (manual OR AI) always opens in edit mode
@@ -1818,7 +1818,7 @@ function EdDevelopmentNew({ onBack, initialMode, idpStep, onMode, onStep }) {
 
   if (mode === "choose") return <EdDevChoice onBack={onBack} onPickAI={() => setMode("landing")} onPickManual={() => setMode("manual")} />;
   if (mode === "manual") { const M = window.EdManual && window.EdManual.ManualFlow;
-    return M ? <M onExit={() => setMode("choose")} onDone={() => { setFromManual(true); setMode("plan"); }} /> : null; }
+    return M ? <M initialStep={mnStep} onStep={onMnStep} onExit={() => setMode("choose")} onDone={() => { setFromManual(true); setMode("plan"); }} /> : null; }
   if (mode === "flow") return <EdIdpFlow initialStep={idpStep} onStep={onStep} onExit={() => setMode("landing")} onDone={() => setMode("plan")} />;
   if (mode === "plan") { const P = window.EdPlan && window.EdPlan.EdPlanPage; return P ? <P onBack={onBack} onRestart={() => setMode("flow")} startLocked={false} /> : <EdPlanView onBack={onBack} onRestart={() => setMode("flow")} />; }
 
