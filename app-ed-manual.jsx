@@ -298,11 +298,8 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
 
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
+      <div style={{ marginBottom: 20 }}>
         <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0 }}>Reflective Questions</h1>
-        <button onClick={onFinish} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "9px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, cursor: "pointer" }}>
-          Answer Later <I.arrow size={15} />
-        </button>
       </div>
 
       {/* progress pips — one per question, the deck you're working through */}
@@ -359,12 +356,18 @@ function MnReflect({ answers, setAnswers, onBack, onFinish }) {
 
       {/* Outside the card: footer nav — Back to the previous step on the left,
           the question-level Previous / Next controls on the right. */}
-      <div className="mn-q-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 18 }}>
-        <button onClick={onBack}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID,
-            background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
-          <I.arrowL size={15} /> Back
-        </button>
+      <div className="mn-q-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 18, flexWrap: "wrap" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+          <button onClick={onBack}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID,
+              background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 18px", cursor: "pointer" }}>
+            <I.arrowL size={15} /> Back
+          </button>
+          <button onClick={onFinish}
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 10, padding: "10px 16px", fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, cursor: "pointer" }}>
+            Answer Later <I.arrow size={15} />
+          </button>
+        </div>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
           {i > 0 && (
             <button onClick={() => go(i - 1)}
