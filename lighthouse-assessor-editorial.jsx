@@ -7,6 +7,11 @@
 function AssessorEditorial() {
   const { useState, useEffect, useRef, useMemo } = React;
 
+  // Re-render when the client brand changes so the rail logo swaps live (colours
+  // already follow via CSS vars). A shared "?brand=" link is correct on load.
+  const [, setLHBrandTick] = useState(0);
+  useEffect(() => { const f = () => setLHBrandTick((n) => n + 1); window.addEventListener("lh-brand-change", f); return () => window.removeEventListener("lh-brand-change", f); }, []);
+
   // ═══════ TOKENS (Folio · Accessor Flow 2026) ═══════
   const navy = "#000F47";               // midnight — primary brand
   const teal = "#0065AC";               // MDS accent (brand-primary-alt) — active, rings, progress; matches Folio --accent
@@ -561,12 +566,21 @@ function AssessorEditorial() {
     return (
       <aside style={{width:collapsed?72:256,flexShrink:0,background:railBg,borderRight:`1px solid ${railBorder}`,color:railActiveFg,display:"flex",flexDirection:"column",overflow:"hidden",transition:"width .2s"}}>
         <div style={{padding:collapsed?"24px 0 18px":"24px 18px 18px",display:"flex",alignItems:"center",justifyContent:collapsed?"center":"flex-start",minWidth:collapsed?72:256}}>
-          {collapsed ? <MarshM s={26} c="var(--rail-active-fg)"/> : (
-          <React.Fragment>
-          <img src={window.LHLogo.wordmarkWhite} alt="Marsh" style={{height:26,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto",display:"var(--rail-logo-white, block)"}}/>
-          <img src={window.LHLogo.wordmarkDark} alt="Marsh" style={{height:26,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto",display:"var(--rail-logo-dark, none)"}}/>
-          </React.Fragment>
-          )}
+          {(() => {
+            // Client brand? Swap the Marsh wordmark for the client's logo (the rail is
+            // dark, so the white variant); Marsh keeps the token-driven white/dark pair.
+            const cbA = (typeof window !== "undefined" && window.LHBrand && window.LHBrand.current() !== "marsh") ? window.LHBrand.get() : null;
+            if (collapsed) return cbA
+              ? <img src={cbA.iconWhite} alt={cbA.label} style={{height:30,width:"auto",maxWidth:56,objectFit:"contain",display:"block"}}/>
+              : <MarshM s={26} c="var(--rail-active-fg)"/>;
+            if (cbA) return <img src={cbA.logoWhite} alt={cbA.label} style={{height:cbA.railLogoH||30,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto",display:"block"}}/>;
+            return (
+            <React.Fragment>
+            <img src={window.LHLogo.wordmarkWhite} alt="Marsh" style={{height:26,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto",display:"var(--rail-logo-white, block)"}}/>
+            <img src={window.LHLogo.wordmarkDark} alt="Marsh" style={{height:26,width:"auto",maxWidth:168,objectFit:"contain",marginRight:"auto",display:"var(--rail-logo-dark, none)"}}/>
+            </React.Fragment>
+            );
+          })()}
         </div>
         <nav style={{padding:"0 12px",minWidth:collapsed?72:256}}>
           {items.map(it => {

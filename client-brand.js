@@ -12,7 +12,7 @@
       id: "marsh", label: "Marsh", dot: "#000F47"
     },
     dge: {
-      id: "dge", label: "DGE", dot: "#81A0BD",
+      id: "dge", label: "DG", dot: "#81A0BD",
       // DGE steel is a LIGHT fill — CTA text must be dark navy (white = ~2.7:1, fails AA); navy ≈ 6.6:1.
       vars: { "--primary": "#81A0BD", "--accent": "#54779B", "--action": "#81A0BD", "--action-text": "#000F47" },
       // Dark mode: lighter steel for fills/accents; steel CTA keeps dark text. Running
@@ -25,7 +25,7 @@
       loginPhoto: "brand/clients/dge-login.jpg"
     },
     generali: {
-      id: "generali", label: "Generali", dot: "#AA1B17",
+      id: "generali", label: "General", dot: "#AA1B17",
       vars: { "--primary": "#AA1B17", "--accent": "#AA1B17", "--action": "#AA1B17", "--action-text": "#FFFFFF" },
       // Dark mode: brighter red for the CTA (more presence on the dark canvas, white
       // text ≈4.8:1); lighter coral accents. Running text neutralised by dark-theme.css.
@@ -39,9 +39,48 @@
   };
   var VARS = ["--primary", "--accent", "--action", "--action-text"];
 
+  // Friendly, shareable URL slugs (?brand=…). The internal ids stay put (they key
+  // the asset paths); the slugs are what a shared link carries and reads back —
+  // marsh / general / dg — with the raw ids accepted as aliases too.
+  var SLUG_OF = { marsh: "marsh", generali: "general", dge: "dg" };   // id → url slug
+  var ID_OF = { marsh: "marsh", general: "generali", generali: "generali", dg: "dge", dge: "dge" }; // slug/alias → id
+
+  // Read the brand a shared link asks for, straight from the hash query string —
+  // parsed WITHOUT LHRoute, since this file loads before lh-route.js and we want the
+  // right brand applied pre-paint. Returns a canonical id, or null.
+  function readUrlBrand() {
+    try {
+      var h = String(location.hash || "");
+      var qi = h.indexOf("?");
+      if (qi < 0) return null;
+      var v = new URLSearchParams(h.slice(qi + 1)).get("brand");
+      if (!v) return null;
+      v = v.toLowerCase();
+      return ID_OF[v] || (BRANDS[v] ? v : null);
+    } catch (e) { return null; }
+  }
+  // Write the current brand into the hash query so the URL is shareable. Prefer
+  // LHRoute (keeps the route path intact); fall back to editing the hash directly
+  // if it hasn't loaded yet.
+  function writeUrlBrand(id) {
+    var slug = SLUG_OF[id] || id;
+    try {
+      if (window.LHRoute && LHRoute.replaceQuery) { LHRoute.replaceQuery("brand", slug); return; }
+      var h = String(location.hash || "#/"), parts = h.replace(/^#\/?/, "").split("?");
+      var params = new URLSearchParams(parts[1] || "");
+      params.set("brand", slug);
+      var qs = params.toString();
+      location.hash = "#/" + parts[0] + (qs ? "?" + qs : "");
+    } catch (e) {}
+  }
+
   var current = "marsh";
   try { current = localStorage.getItem("lh-client-brand") || "marsh"; } catch (e) {}
   if (!BRANDS[current]) current = "marsh";
+  // A brand named in the URL wins over the viewer's saved choice, so a shared
+  // "?brand=general" link always opens in that brand regardless of local state.
+  var urlBrand = readUrlBrand();
+  if (urlBrand) { current = urlBrand; try { localStorage.setItem("lh-client-brand", current); } catch (e) {} }
 
   function applyVars() {
     var r = document.documentElement;
@@ -128,16 +167,20 @@
     });
   }
 
-  function set(id) {
+  // Apply a brand everywhere. writeUrl=false when the change CAME from the URL
+  // (a shared link or a back/forward hop) so we don't rewrite the hash we just read.
+  function apply(id, writeUrl) {
     if (!BRANDS[id]) id = "marsh";
     current = id;
     try { localStorage.setItem("lh-client-brand", id); } catch (e) {}
+    if (writeUrl) writeUrlBrand(id);
     applyVars();
     swapLoginLogos();
     swapLoginPhoto();
     syncChip();
     window.dispatchEvent(new CustomEvent("lh-brand-change", { detail: id }));
   }
+  function set(id) { apply(id, true); }
 
   window.LHBrand = {
     brands: BRANDS,
@@ -151,7 +194,15 @@
   // Re-apply the brand vars when light/dark flips, so a client brand swaps to its
   // dark palette (and back). Marsh is a no-op here (lh-tweaks owns its colours).
   window.addEventListener("lh-theme-change", function () { if (current !== "marsh") applyVars(); });
-  function init() { swapLoginLogos(); swapLoginPhoto(); buildChip(); syncChip(); }
+  function init() {
+    swapLoginLogos(); swapLoginPhoto(); buildChip(); syncChip();
+    // Now that lh-route.js is loaded: reflect the active brand in the URL (so even a
+    // localStorage-only default becomes a shareable link) and follow back/forward.
+    if (window.LHRoute && LHRoute.onPop) {
+      if (current !== "marsh" || urlBrand) writeUrlBrand(current);
+      LHRoute.onPop(function () { var b = readUrlBrand() || "marsh"; if (b !== current) apply(b, false); });
+    }
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();

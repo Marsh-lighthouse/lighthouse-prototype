@@ -92,7 +92,7 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
     const cb = (typeof window !== "undefined" && window.LHBrand && window.LHBrand.current() !== "marsh") ? window.LHBrand.get() : null;
     if (cb) {
       // For DGE, when collapsed, show only the white outline icon (never the dark variant)
-      const isDgeCollapsed = cb.label === "DGE" && icon;
+      const isDgeCollapsed = cb.id === "dge" && icon;
       const h = icon ? cb.railIconH : cb.railLogoH;
       const st = (disp) => ({ height: h, width: "auto", maxWidth: icon ? 56 : 168, objectFit: "contain", display: disp, marginRight: icon ? 0 : "auto" });
       return (
@@ -1400,7 +1400,7 @@ function DashEditorial({ initialRoute } = {}) {
                 <button onClick={() => setMobileNav(true)} aria-label="Open menu" style={{ background: "none", border: "none", cursor: "pointer", color: MID, display: "flex", padding: 2 }}><I.menu size={24} /></button>
                 {(() => {
                   const cb = (typeof window !== "undefined" && window.LHBrand && window.LHBrand.current() !== "marsh") ? window.LHBrand.get() : null;
-                  if (cb) return <img src={cb.icon} alt={cb.label} style={{ height: cb.label === "DGE" ? 30 : 26, width: "auto", maxWidth: 130, objectFit: "contain", display: "block" }} />;
+                  if (cb) return <img src={cb.icon} alt={cb.label} style={{ height: cb.id === "dge" ? 30 : 26, width: "auto", maxWidth: 130, objectFit: "contain", display: "block" }} />;
                   return (
                 <svg width="25" height="25" viewBox="0 0 43.17 44.26" style={{ display: "block", fill: MID }} aria-label="Marsh">
                   <polygon points="42.49 0 21.65 30.43 22.2 30.43 35.07 24.39 35.07 44.26 43.17 44.26 43.17 0 42.49 0" />
