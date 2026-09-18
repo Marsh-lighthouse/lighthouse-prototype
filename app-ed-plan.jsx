@@ -758,6 +758,10 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
   const writeThread = (name, next) => { const all = { ...store, [name]: next }; setStore(all); plSaveThreads(owner, all); };
   const replyTo = (name, ci) => (t) => writeThread(name, (store[name] || []).map((c, i) => (i === ci ? { ...c, replies: [...(c.replies || []), { who: role, time: plNow(), text: t }] } : c)));
   const resolveIn = (name, ci) => (val) => writeThread(name, (store[name] || []).map((c, i) => (i === ci ? { ...c, resolved: val } : c)));
+  // Grouped view (design 3): each skill header is an accordion — collapse a group
+  // to fold its comments away and cut the scrolling. Keyed by group name.
+  const [collapsed, setCollapsed] = plUseState({});
+  const toggleGroup = (name) => setCollapsed((c) => ({ ...c, [name]: !c[name] }));
   // Resolved comments drop out of the list; the filter brings them back.
   const [filter, setFilter] = plUseState("open");   // open | resolved | all
   const [filterMenu, setFilterMenu] = plUseState(false);
@@ -852,14 +856,17 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                     <div key={g.name} style={{ marginBottom: 18 }}>
                       {/* small tagline: the skill name at the top of its group. The
                          plan-level bucket shows no header — "Whole plan" reads as
-                         confusing, so its comments sit unlabelled. */}
+                         confusing, so its comments sit unlabelled. Skill headers are
+                         accordions: click to fold the group's comments away. */}
                       {!g.isOverall &&
-                        <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "2px 0 12px", paddingBottom: 7, borderBottom: "1px solid " + eLINE }}>
+                        <button type="button" onClick={() => toggleGroup(g.name)} aria-expanded={!collapsed[g.name]}
+                          style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", margin: "2px 0 12px", padding: "0 0 7px", background: "none", border: "none", borderBottom: "1px solid " + eLINE, cursor: "pointer", textAlign: "left" }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={eMID} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, transition: "transform .15s ease", transform: collapsed[g.name] ? "rotate(-90deg)" : "none" }}><polyline points="6 9 12 15 18 9" /></svg>
                           <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.name}</span>
                           <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT, flexShrink: 0 }}>{g.items.length}</span>
-                        </div>
+                        </button>
                       }
-                      {g.items.map(({ c, i }) => <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} role={role} names={NAMES} />)}
+                      {(g.isOverall || !collapsed[g.name]) && g.items.map(({ c, i }) => <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} role={role} names={NAMES} />)}
                     </div>
                   ))
                 : groups.map((g) => g.items.map(({ c, i }) => (
