@@ -153,7 +153,9 @@ body > div:not([class])[style*="border-radius"]:not([style*="border-radius: 50%"
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--success)"][style*="border-radius"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--danger)"][style*="border-radius"]:not([style*="width:"]),
 :is(#root,body>div:not([class]),.lh-net-overlay) span[style*="background: rgba"][style*="color: var(--warn"][style*="border-radius"]:not([style*="width:"]) {
-  border: 1px solid currentColor !important;
+  /* border presence forced, NOT its colour: inline semantic badge borders win; badges without one fall back to currentColor. */
+  border-width: 1px !important;
+  border-style: solid !important;
   box-sizing: border-box !important;
 }
 
