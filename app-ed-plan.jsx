@@ -658,10 +658,8 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabe
   const name = NAMES[item.who] || PL_ME;
   const replies = item.replies || [];
   const submit = () => { const t = text.trim(); if (!t) return; onReply(t); setText(""); setReplying(false); setShowReplies(true); };
-  // Sample 4: a coloured rail down the whole row bands each comment to its skill.
-  const rail = skillChip && skillChip.color;
   return (
-    <div style={{ display: "flex", gap: 11, marginBottom: 16, ...(rail ? { paddingLeft: 11, borderLeft: "3px solid " + skillChip.color, borderRadius: "0 4px 4px 0" } : {}) }}>
+    <div style={{ display: "flex", gap: 11, marginBottom: 16 }}>
       <span style={{ width: 34, height: 34, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700 }}>{plInitials(name)}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         {/* Sample 4: the skill name IS the navigation — a colour-coded chip that jumps
