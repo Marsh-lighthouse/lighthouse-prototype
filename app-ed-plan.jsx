@@ -850,11 +850,15 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
               {design === 3
                 ? groups.map((g) => (
                     <div key={g.name} style={{ marginBottom: 18 }}>
-                      {/* small tagline: the skill name at the top of its group */}
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "2px 0 12px", paddingBottom: 7, borderBottom: "1px solid " + eLINE }}>
-                        <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.isOverall ? "Whole plan" : g.name}</span>
-                        <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT, flexShrink: 0 }}>{g.items.length}</span>
-                      </div>
+                      {/* small tagline: the skill name at the top of its group. The
+                         plan-level bucket shows no header — "Whole plan" reads as
+                         confusing, so its comments sit unlabelled. */}
+                      {!g.isOverall &&
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "2px 0 12px", paddingBottom: 7, borderBottom: "1px solid " + eLINE }}>
+                          <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.name}</span>
+                          <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT, flexShrink: 0 }}>{g.items.length}</span>
+                        </div>
+                      }
                       {g.items.map(({ c, i }) => <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} role={role} names={NAMES} />)}
                     </div>
                   ))
