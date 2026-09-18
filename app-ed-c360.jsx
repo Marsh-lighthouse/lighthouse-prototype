@@ -437,12 +437,17 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
         {/* rater list */}
         <div style={{ background: qCARD, border: "1px solid " + qLINE, borderRadius: cr, overflow: "hidden" }}>
           {roster.map((r, i) => {
+            // MDS V3 soft status badge (Badge3): the semantic colour lives in the 1px
+            // border + 15% fill only — the LABEL is always Midnight navy #000F47
+            // (--v3-text-icon-static-primary). Colouring the text the semantic hue fails
+            // AA on the soft tint (green ~3.1:1, gold ~3.0:1); navy is ~14:1. `c` stays
+            // the semantic colour for the progress bar; `bd` is the badge border.
             const stCfg = {
-              complete: { l: "Complete", c: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)" },
-              "in-progress": { l: "In progress", c: "#002C77", bg: "color-mix(in srgb, #002C77 15%, #ffffff)" },
-              opened: { l: "Opened", c: "#CB7E03", bg: "color-mix(in srgb, #CB7E03 15%, #ffffff)" },
-              invited: { l: "Invited", c: "var(--ink)", bg: "var(--status-neutral-bg)" },
-              declined: { l: "Declined", c: "#C53532", bg: "color-mix(in srgb, #C53532 15%, #ffffff)" },
+              complete: { l: "Complete", c: "#14853D", bg: "color-mix(in srgb, #14853D 15%, #ffffff)", bd: "#14853D" },
+              "in-progress": { l: "In progress", c: "#002C77", bg: "color-mix(in srgb, #002C77 15%, #ffffff)", bd: "#002C77" },
+              opened: { l: "Opened", c: "#CB7E03", bg: "color-mix(in srgb, #CB7E03 15%, #ffffff)", bd: "#CB7E03" },
+              invited: { l: "Invited", c: "var(--muted)", bg: "var(--status-neutral-bg)", bd: "#94918C" },
+              declined: { l: "Declined", c: "#C53532", bg: "color-mix(in srgb, #C53532 15%, #ffffff)", bd: "#C53532" },
             }[r.status];
             return (
               <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderTop: i > 0 ? "1px solid " + qLINE : "none" }}>
@@ -456,7 +461,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                   {r.progress > 0 && r.progress < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
                   <div style={{ flex: 1, height: "100%", background: "var(--pl-fill-empty)" }} />
                 </div>}
-                <div style={{ padding: "4px 10px", borderRadius: 99, background: stCfg.bg, color: stCfg.c, fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
+                <div style={{ padding: "3px 10px", borderRadius: 99, background: stCfg.bg, color: "var(--primary)", border: "1px solid " + stCfg.bd, fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
                 {(r.status === "invited" || r.status === "opened" || r.status === "in-progress") && (
                   <button onClick={() => remind(r)} style={{ padding: "6px 12px", borderRadius: sr, border: "1px solid " + qLINE, background: "transparent", color: qMID, fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)", cursor: "pointer", flexShrink: 0 }}>Remind</button>
                 )}
