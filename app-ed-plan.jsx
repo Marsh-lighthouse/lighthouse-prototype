@@ -667,15 +667,21 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabe
             label itself. Plan-level comments show a muted, non-clickable marker. */}
         {skillChip
           ? (skillChip.onGo
+              // MDS V3 Filter chip: full-pill (radius 1000), 32px tall, Noto Sans 400
+              // 14/20, white fill + 1px #94918C border, navy #000F47 label; leading
+              // element in a slot (here the skill's colour dot) + trailing caret. Hover
+              // fills #0B4BFF with white per the file's Filter-chip hover state.
               ? <button onClick={skillChip.onGo} title={"Go to " + skillChip.label}
-                  style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 7, padding: "4px 9px 4px 10px", borderRadius: 999, border: "1px solid " + eLINE, background: "var(--card)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, lineHeight: 1.3, maxWidth: "100%" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, " + skillChip.color + " 10%, var(--card))"; e.currentTarget.style.borderColor = "color-mix(in srgb, " + skillChip.color + " 45%, " + eLINE + ")"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = "var(--card)"; e.currentTarget.style.borderColor = eLINE; }}>
-                  <span style={{ width: 8, height: 8, borderRadius: 999, background: skillChip.color, flexShrink: 0 }} />
+                  style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 7, height: 32, boxSizing: "border-box", padding: "0 10px", borderRadius: 1000, border: "1px solid #94918C", background: "var(--card)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: "20px", color: eMID, maxWidth: "100%" }}
+                  onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = "#0B4BFF"; b.style.borderColor = "#0B4BFF"; b.style.color = "#FFFFFF"; const d = b.querySelector(".pl-chip-dot"); if (d) d.style.background = "#FFFFFF"; }}
+                  onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = "var(--card)"; b.style.borderColor = "#94918C"; b.style.color = eMID; const d = b.querySelector(".pl-chip-dot"); if (d) d.style.background = skillChip.color; }}>
+                  <span className="pl-chip-dot" style={{ width: 8, height: 8, borderRadius: 999, background: skillChip.color, flexShrink: 0 }} />
                   <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{skillChip.label}</span>
-                  <I.chevR size={13} style={{ flexShrink: 0, opacity: .7 }} />
+                  <I.chevR size={14} style={{ flexShrink: 0 }} />
                 </button>
-              : <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 7, padding: "4px 10px", borderRadius: 999, border: "1px dashed " + eLINE, background: "transparent", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT, lineHeight: 1.3 }}>
+              // Plan-level marker: same MDS pill geometry, disabled treatment (fill
+              // #EBE7E2 equiv via the neutral chip surface, muted text, no caret).
+              : <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 7, height: 32, boxSizing: "border-box", padding: "0 12px", borderRadius: 1000, border: "1px solid " + eLINE, background: "var(--status-neutral-bg)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: "20px", color: eMUT }}>
                   <span style={{ width: 8, height: 8, borderRadius: 999, border: "1.5px solid " + eMUT, flexShrink: 0 }} />
                   {skillChip.label}
                 </span>)
@@ -832,7 +838,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
       {/* header */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 16px", borderBottom: "1px solid " + eLINE, flexShrink: 0 }}>
         {inThread && <button onClick={() => onOpen("")} title="All conversations" style={{ background: "none", border: "none", cursor: "pointer", color: eMID, display: "flex", flexShrink: 0, padding: 2 }}><I.arrowL size={18} /></button>}
-        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inThread ? chip : ("Comments" + (expanded ? " (" + totalComments + ")" : ""))}</div>
+        <div style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inThread ? chip : ("Comments" + (expanded ? " (" + totalComments + ")" : ""))}</div>
         <div ref={filterRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
           <button onClick={() => setFilterMenu((v) => !v)} title={filter === "open" ? "Filter comments" : "Showing " + filter}
             style={{ background: "none", border: "none", cursor: "pointer", color: filter === "open" ? eMUT : eBLUE, display: "flex", padding: 2 }}>
