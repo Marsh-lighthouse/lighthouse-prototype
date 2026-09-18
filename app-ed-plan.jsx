@@ -916,7 +916,6 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                       ? (() => { const hue = g.isOverall ? eMUT : plSkillHue(g.name); return (
                           <div key={g.name + i} style={{ background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, marginBottom: 12, overflow: "hidden", boxShadow: "0 1px 2px rgba(0,15,71,.04)" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "9px 14px", borderLeft: "3px solid " + hue, background: g.isOverall ? "var(--status-neutral-bg)" : "color-mix(in srgb, " + hue + " 8%, var(--card))", borderBottom: "1px solid " + eLINE }}>
-                              <span style={{ width: 8, height: 8, borderRadius: 999, flexShrink: 0, background: hue }} />
                               <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.isOverall ? "Whole plan" : g.name}</span>
                               {!g.isOverall &&
                                 <button onClick={goFor(g.name)} title={"Go to " + g.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400 }}>Go to skill <I.chevR size={13} /></button>}
