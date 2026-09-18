@@ -104,13 +104,15 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
     }
     return (
     <React.Fragment>
-      <img src={icon ? window.LHLogo.iconWhite : window.LHLogo.wordmarkWhite} alt="Marsh" style={{ height: icon ? 28 : 42, display: "var(--rail-logo-white, block)", marginRight: icon ? 0 : "auto" }} />
-      <img src={icon ? window.LHLogo.iconDark : window.LHLogo.wordmarkDark} alt="Marsh" style={{ height: icon ? 28 : 42, display: "var(--rail-logo-dark, none)", marginRight: icon ? 0 : "auto" }} />
+      <img src={icon ? window.LHLogo.iconWhite : window.LHLogo.wordmarkWhite} alt="Marsh" style={{ height: icon ? 28 : 42, maxWidth: "100%", objectFit: "contain", display: "var(--rail-logo-white, block)" }} />
+      <img src={icon ? window.LHLogo.iconDark : window.LHLogo.wordmarkDark} alt="Marsh" style={{ height: icon ? 28 : 42, maxWidth: "100%", objectFit: "contain", display: "var(--rail-logo-dark, none)" }} />
     </React.Fragment>
   );};
   return (
     <aside className="ed-rail" style={{ width: W, minWidth: W, maxWidth: W, flexShrink: 0, height: "100%", overflowY: "auto", overflowX: "hidden", background: "var(--rail-bg)", display: "flex", flexDirection: "column", color: "var(--rail-active-fg)", transition: "width .2s ease, min-width .2s ease, max-width .2s ease", borderRight: "1px solid var(--rail-border)" }}>
-      <div style={{ padding: collapsed ? "20px 0 16px" : "24px 18px 18px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {/* Logo header: a properly contained, fixed-height box with the mark centered
+         both horizontally and vertically (no left-push / lopsided right gap). */}
+      <div style={{ minHeight: 76, padding: collapsed ? "16px 8px" : "16px 18px", boxSizing: "border-box", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
         <Logo icon={collapsed} />
       </div>
       <nav style={{ flex: 1, padding: collapsed ? "4px 10px" : "4px 12px", display: "flex", flexDirection: "column", gap: 2 }}>

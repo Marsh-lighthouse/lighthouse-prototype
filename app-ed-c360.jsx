@@ -163,7 +163,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           <div style={{ display: "flex", alignItems: "center", height: 4, overflow: "hidden", marginBottom: 14 }}>
             <div style={{ height: "100%", width: `${c360SelfDone ? 100 : selfPct}%`, background: c360SelfDone ? qGREEN : "var(--pl-fill)", flexShrink: 0, transition: "width .3s ease" }} />
             {!c360SelfDone && selfPct > 0 && selfPct < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
-            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
+            <div style={{ flex: 1, height: "100%", background: "var(--pl-fill-empty)" }} />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: "auto", color: qBLUE, fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)" }}>
             {c360SelfDone ? "Review responses" : selfAnsweredCount > 0 ? "Continue" : "Begin self-evaluation"} <QI.Arrow />
@@ -276,7 +276,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           <div style={{ flex: 1, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
             <div style={{ height: "100%", width: `${((i + 1) / c360Comps.length) * 100}%`, background: "var(--pl-fill)", flexShrink: 0, transition: "width .3s ease" }} />
             {i + 1 < c360Comps.length && <div style={{ width: 2, flexShrink: 0 }} />}
-            <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
+            <div style={{ flex: 1, height: "100%", background: "var(--pl-fill-empty)" }} />
           </div>
         </div>
         <h2 className="serif" style={{ fontSize: isMob ? 28 : 28, color: qMID, lineHeight: 1.15, margin: "0 0 12px" }}>{comp.label}</h2>
@@ -454,7 +454,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                 {!isMob && <div style={{ width: 100, display: "flex", alignItems: "center", height: 4, overflow: "hidden" }}>
                   <div style={{ height: "100%", width: `${r.progress}%`, background: stCfg.c, flexShrink: 0, transition: "width .3s ease" }} />
                   {r.progress > 0 && r.progress < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
-                  <div style={{ flex: 1, height: "100%", background: "#94918C" }} />
+                  <div style={{ flex: 1, height: "100%", background: "var(--pl-fill-empty)" }} />
                 </div>}
                 <div style={{ padding: "4px 10px", borderRadius: 99, background: stCfg.bg, color: stCfg.c, fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
                 {(r.status === "invited" || r.status === "opened" || r.status === "in-progress") && (
