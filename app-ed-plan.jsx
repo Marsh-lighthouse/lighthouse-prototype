@@ -919,7 +919,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                               <span style={{ width: 8, height: 8, borderRadius: 999, flexShrink: 0, background: hue }} />
                               <span style={{ flex: 1, minWidth: 0, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.isOverall ? "Whole plan" : g.name}</span>
                               {!g.isOverall &&
-                                <button onClick={goFor(g.name)} title={"Go to " + g.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700 }}>Go to skill <I.chevR size={13} /></button>}
+                                <button onClick={goFor(g.name)} title={"Go to " + g.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400 }}>Go to skill <I.chevR size={13} /></button>}
                             </div>
                             <div style={{ padding: "12px 14px" }}>
                               <PlCommentItem item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} role={role} names={NAMES} inCard />
