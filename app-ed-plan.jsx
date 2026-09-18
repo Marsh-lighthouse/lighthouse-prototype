@@ -639,7 +639,17 @@ const PlReplyIcon = ({ size = 13 }) => <svg width={size} height={size} viewBox="
 
 // One threaded comment — avatar · name · time · text · Reply — with nested replies.
 // No like/dislike; the only action is Reply.
-function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabel, onGoToSkill }) {
+// Sample 4 gives each skill a stable colour so a flat feed stays scannable — the eye
+// groups comments by hue without needing headers. A curated, on-brand palette (not a
+// random rainbow); the same skill name always maps to the same swatch.
+const PL_SKILL_HUES = ["#2D6CDF", "#0E7A38", "#8F20DE", "#B26A00", "#0F8A8A", "#C0322F"];
+function plSkillHue(name) {
+  let h = 0; const s = name || "";
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return PL_SKILL_HUES[h % PL_SKILL_HUES.length];
+}
+
+function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabel, onGoToSkill, skillChip }) {
   const NAMES = names || { me: PL_ME, mgr: PL_MGR };
   const [replying, setReplying] = plUseState(false);
   const [showReplies, setShowReplies] = plUseState(true);
@@ -648,13 +658,30 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabe
   const name = NAMES[item.who] || PL_ME;
   const replies = item.replies || [];
   const submit = () => { const t = text.trim(); if (!t) return; onReply(t); setText(""); setReplying(false); setShowReplies(true); };
+  // Sample 4: a coloured rail down the whole row bands each comment to its skill.
+  const rail = skillChip && skillChip.color;
   return (
-    <div style={{ display: "flex", gap: 11, marginBottom: 16 }}>
+    <div style={{ display: "flex", gap: 11, marginBottom: 16, ...(rail ? { paddingLeft: 11, borderLeft: "3px solid " + skillChip.color, borderRadius: "0 4px 4px 0" } : {}) }}>
       <span style={{ width: 34, height: 34, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: mine ? eBLUE : "var(--surface-deep)", color: "#fff", fontFamily: "var(--sans)", fontSize: 11.5, fontWeight: 700 }}>{plInitials(name)}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
-        {/* The skill this comment belongs to, written small above it — so the flat
-            "everything on first view" feed keeps its context without a tag pill. */}
-        {skillLabel && <span style={{ display: "inline-block", marginBottom: 6, padding: "3px 9px", borderRadius: 6, border: "1px solid " + eLINE, background: "color-mix(in srgb, var(--accent) 7%, var(--card))", color: eMID, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, lineHeight: 1.3 }}>{skillLabel}</span>}
+        {/* Sample 4: the skill name IS the navigation — a colour-coded chip that jumps
+            straight to the skill, folding the old separate "Go to skill" link into the
+            label itself. Plan-level comments show a muted, non-clickable marker. */}
+        {skillChip
+          ? (skillChip.onGo
+              ? <button onClick={skillChip.onGo} title={"Go to " + skillChip.label}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 7, padding: "4px 9px 4px 10px", borderRadius: 999, border: "1px solid " + eLINE, background: "var(--card)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: eMID, lineHeight: 1.3, maxWidth: "100%" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, " + skillChip.color + " 10%, var(--card))"; e.currentTarget.style.borderColor = "color-mix(in srgb, " + skillChip.color + " 45%, " + eLINE + ")"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = "var(--card)"; e.currentTarget.style.borderColor = eLINE; }}>
+                  <span style={{ width: 8, height: 8, borderRadius: 999, background: skillChip.color, flexShrink: 0 }} />
+                  <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{skillChip.label}</span>
+                  <I.chevR size={13} style={{ flexShrink: 0, opacity: .7 }} />
+                </button>
+              : <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginBottom: 7, padding: "4px 10px", borderRadius: 999, border: "1px dashed " + eLINE, background: "transparent", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT, lineHeight: 1.3 }}>
+                  <span style={{ width: 8, height: 8, borderRadius: 999, border: "1.5px solid " + eMUT, flexShrink: 0 }} />
+                  {skillChip.label}
+                </span>)
+          : skillLabel && <span style={{ display: "inline-block", marginBottom: 6, padding: "3px 9px", borderRadius: 6, border: "1px solid " + eLINE, background: "color-mix(in srgb, var(--accent) 7%, var(--card))", color: eMID, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, lineHeight: 1.3 }}>{skillLabel}</span>}
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID }}>{name}</span>
           <span style={{ fontFamily: "var(--sans)", fontSize: 11.5, color: eMUT }}>{item.time}</span>
@@ -731,7 +758,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
   // Designs 2 & 3 drop the inbox and lay every comment out on first view — flat
   // (2) or grouped by skill (3). They only apply to the overview; a single opened
   // thread always reads the same.
-  const expanded = !inThread && (design === 2 || design === 3);
+  const expanded = !inThread && (design === 2 || design === 3 || design === 4);
   const [text, setText] = plUseState("");
   // Backed by the shared store, so a message posted on one side shows up on the other.
   const [store, setStore] = plUseState(() => plThreadsFor(owner));
@@ -870,7 +897,14 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                     </div>
                   ))
                 : groups.map((g) => g.items.map(({ c, i }) => (
-                    <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} skillLabel={g.isOverall ? null : g.name} role={role} names={NAMES} />
+                    // Sample 4 (design 4): flat feed, but the skill name rides along as a
+                    // colour-coded, clickable chip + rail instead of a plain tag — the chip
+                    // is also the "Go to skill" link, so no separate action is shown.
+                    design === 4
+                      ? <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)}
+                          skillChip={{ label: g.isOverall ? "Whole plan" : g.name, color: g.isOverall ? null : plSkillHue(g.name), onGo: g.isOverall ? null : goFor(g.name) }}
+                          role={role} names={NAMES} />
+                      : <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} skillLabel={g.isOverall ? null : g.name} role={role} names={NAMES} />
                   )))}
             </div>
           );
@@ -1715,7 +1749,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
           {commentsMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 288, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Comments design</div>
-              {[[1, "Inbox", "Conversations — tap one to open its thread"], [2, "All on one view", "Every comment expanded, skill name shown small"], [3, "Grouped by skill", "Skill name as a header, its comments below"]].map(([id, label, desc]) => { const on = commentsDesign === id; return (
+              {[[1, "Inbox", "Conversations — tap one to open its thread"], [2, "All on one view", "Every comment expanded, skill name shown small"], [3, "Grouped by skill", "Skill name as a header, its comments below"], [4, "Skill-tagged feed", "Flat feed, each comment carries a colour-coded skill link"]].map(([id, label, desc]) => { const on = commentsDesign === id; return (
                 <button key={id} onClick={() => { setCommentsDesign(id); try { localStorage.setItem("pl-comments-design", String(id)); } catch (e) {} setCommentsMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
                   <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
