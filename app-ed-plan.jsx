@@ -905,8 +905,10 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                     // colour-coded, clickable chip + rail instead of a plain tag — the chip
                     // is also the "Go to skill" link, so no separate action is shown.
                     design === 4
+                      // Plan-level comments carry no chip at all; skill comments get the
+                      // colour-coded chip whose trailing arrow jumps to that skill.
                       ? <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)}
-                          skillChip={{ label: g.isOverall ? "Whole plan" : g.name, color: g.isOverall ? null : plSkillHue(g.name), onGo: g.isOverall ? null : goFor(g.name) }}
+                          skillChip={g.isOverall ? null : { label: g.name, color: plSkillHue(g.name), onGo: goFor(g.name) }}
                           role={role} names={NAMES} />
                       : <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} skillLabel={g.isOverall ? null : g.name} role={role} names={NAMES} />
                   )))}
