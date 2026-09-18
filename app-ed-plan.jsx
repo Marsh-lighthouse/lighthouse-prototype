@@ -761,7 +761,7 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
   // Designs 2 & 3 drop the inbox and lay every comment out on first view — flat
   // (2) or grouped by skill (3). They only apply to the overview; a single opened
   // thread always reads the same.
-  const expanded = !inThread && (design === 2 || design === 3 || design === 4 || design === 5);
+  const expanded = !inThread && (design === 2 || design === 3 || design === 4 || design === 5 || design === 6);
   const [text, setText] = plUseState("");
   // Backed by the shared store, so a message posted on one side shows up on the other.
   const [store, setStore] = plUseState(() => plThreadsFor(owner));
@@ -908,7 +908,19 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                     // Sample 4 (design 4): flat feed, but the skill name rides along as a
                     // colour-coded, clickable chip + rail instead of a plain tag — the chip
                     // is also the "Go to skill" link, so no separate action is shown.
-                    design === 5
+                    design === 6
+                      // Sample 6 (design 6): the most minimal — the skill name is plain
+                      // text above each comment (no bullet, tag, chip or card), followed by
+                      // a plain "Go to skill" link. Plan-level comments show nothing.
+                      ? <div key={g.name + i} style={{ marginBottom: 18 }}>
+                          {!g.isOverall &&
+                            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 7, flexWrap: "wrap" }}>
+                              <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT }}>{g.name}</span>
+                              <button onClick={goFor(g.name)} title={"Go to " + g.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400 }}>Go to skill <I.chevR size={12} /></button>
+                            </div>}
+                          <PlCommentItem item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} role={role} names={NAMES} inCard />
+                        </div>
+                      : design === 5
                       // Sample 5 (design 5): every comment sits in its own card with a
                       // skill-context header — a colour dot + the skill name on the left and
                       // a prominent "Go to skill →" on the right — so the skill and its link
@@ -1776,7 +1788,7 @@ function EdPlanPage({ onBack, onRestart, startLocked }) {
           {commentsMenu && (
             <div style={{ position: "absolute", bottom: 44, right: 0, width: 288, background: "var(--card)", border: "1px solid " + eLINE, borderRadius: 12, boxShadow: "0 12px 36px rgba(0,15,71,.18)", padding: 7 }}>
               <div style={{ fontSize: 15, fontWeight: 400, color: eMUT, padding: "6px 9px 4px" }}>Comments design</div>
-              {[[1, "Sample 1", "Inbox — conversations, tap one to open its thread"], [2, "Sample 2", "All on one view — every comment expanded, skill name shown small"], [3, "Sample 3", "Grouped by skill — skill name as a header, its comments below"], [4, "Sample 4", "Skill-tagged feed — flat feed, each comment carries a colour-coded skill link"], [5, "Sample 5", "Comment cards — each comment in its own card with a skill header + Go to skill"]].map(([id, label, desc]) => { const on = commentsDesign === id; return (
+              {[[1, "Sample 1", "Inbox — conversations, tap one to open its thread"], [2, "Sample 2", "All on one view — every comment expanded, skill name shown small"], [3, "Sample 3", "Grouped by skill — skill name as a header, its comments below"], [4, "Sample 4", "Skill-tagged feed — flat feed, each comment carries a colour-coded skill link"], [5, "Sample 5", "Comment cards — each comment in its own card with a skill header + Go to skill"], [6, "Sample 6", "Minimal — skill name as plain text above each comment, with a Go to skill link"]].map(([id, label, desc]) => { const on = commentsDesign === id; return (
                 <button key={id} onClick={() => { setCommentsDesign(id); try { localStorage.setItem("pl-comments-design", String(id)); } catch (e) {} setCommentsMenu(false); }} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "8px 9px", borderRadius: 8, border: "none", background: on ? "color-mix(in srgb, var(--accent) 7%, transparent)" : "transparent", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ width: 16, flexShrink: 0, marginTop: 2, color: eBLUE, display: "flex", justifyContent: "center" }}>{on ? <I.check size={15} /> : null}</span>
                   <span><span style={{ display: "block", fontSize: 15, fontWeight: 400, color: on ? eMID : eINK }}>{label}</span><span style={{ display: "block", fontSize: 15, color: eMUT, lineHeight: 1.4 }}>{desc}</span></span>
