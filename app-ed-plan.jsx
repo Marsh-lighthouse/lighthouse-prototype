@@ -899,7 +899,12 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                       {(g.isOverall || !collapsed[g.name]) && g.items.map(({ c, i }) => <PlCommentItem key={g.name + i} item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} onGoToSkill={goFor(g.name)} role={role} names={NAMES} />)}
                     </div>
                   ))
-                : groups.map((g) => g.items.map(({ c, i }) => (
+                : (design === 4
+                    // Sample 4 leads with the plan-level ("Whole plan") comments, then the
+                    // skills. (Interim ordering — the feed will move to time-based later.)
+                    ? groups.slice().sort((a, b) => (a.isOverall === b.isOverall ? 0 : a.isOverall ? -1 : 1))
+                    : groups
+                  ).map((g) => g.items.map(({ c, i }) => (
                     // Sample 4 (design 4): flat feed, but the skill name rides along as a
                     // colour-coded, clickable chip + rail instead of a plain tag — the chip
                     // is also the "Go to skill" link, so no separate action is shown.
