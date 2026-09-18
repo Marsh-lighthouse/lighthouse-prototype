@@ -673,9 +673,8 @@ function PlCommentItem({ item, onReply, role = "me", names, onResolve, skillLabe
               // fills #0B4BFF with white per the file's Filter-chip hover state.
               ? <button onClick={skillChip.onGo} title={"Go to " + skillChip.label}
                   style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 7, height: 32, boxSizing: "border-box", padding: "0 10px", borderRadius: 1000, border: "1px solid #94918C", background: "var(--card)", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 400, lineHeight: "20px", color: eMID, maxWidth: "100%" }}
-                  onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = "#0B4BFF"; b.style.borderColor = "#0B4BFF"; b.style.color = "#FFFFFF"; const d = b.querySelector(".pl-chip-dot"); if (d) d.style.background = "#FFFFFF"; }}
-                  onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = "var(--card)"; b.style.borderColor = "#94918C"; b.style.color = eMID; const d = b.querySelector(".pl-chip-dot"); if (d) d.style.background = skillChip.color; }}>
-                  <span className="pl-chip-dot" style={{ width: 8, height: 8, borderRadius: 999, background: skillChip.color, flexShrink: 0 }} />
+                  onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = "#0B4BFF"; b.style.borderColor = "#0B4BFF"; b.style.color = "#FFFFFF"; }}
+                  onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = "var(--card)"; b.style.borderColor = "#94918C"; b.style.color = eMID; }}>
                   <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{skillChip.label}</span>
                   <I.chevR size={14} style={{ flexShrink: 0 }} />
                 </button>
