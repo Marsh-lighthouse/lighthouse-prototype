@@ -104,8 +104,8 @@ function EdRail({ activeId, onNav, collapsed, onToggle, items, showAccount = tru
     }
     return (
     <React.Fragment>
-      <img src={icon ? window.LHLogo.iconWhite : window.LHLogo.wordmarkWhite} alt="Marsh" style={{ height: icon ? 28 : 24, display: "var(--rail-logo-white, block)", marginRight: icon ? 0 : "auto" }} />
-      <img src={icon ? window.LHLogo.iconDark : window.LHLogo.wordmarkDark} alt="Marsh" style={{ height: icon ? 28 : 24, display: "var(--rail-logo-dark, none)", marginRight: icon ? 0 : "auto" }} />
+      <img src={icon ? window.LHLogo.iconWhite : window.LHLogo.wordmarkWhite} alt="Marsh" style={{ height: icon ? 28 : 42, display: "var(--rail-logo-white, block)", marginRight: icon ? 0 : "auto" }} />
+      <img src={icon ? window.LHLogo.iconDark : window.LHLogo.wordmarkDark} alt="Marsh" style={{ height: icon ? 28 : 42, display: "var(--rail-logo-dark, none)", marginRight: icon ? 0 : "auto" }} />
     </React.Fragment>
   );};
   return (
