@@ -25,7 +25,7 @@ const LH = {
   ],
   programs: [
     {
-      id: "leadership", name: "Leadership Assessment 2026", nameKey: "leadershipAssessment2026", tag: "Assessment", state: "progress",
+      id: "leadership", name: "Executive Leadership Journey 2026", nameKey: "leadershipAssessment2026", tag: "Assessment", state: "progress",
       desc: "Comprehensive leadership evaluation across strategic thinking, influence, and team development competencies.",
       due: "Jul 24, 2026", daysLeft: 36, pct: 35, done: 2, total: 6, reports: 2, notes: 2,
       accent: "var(--accent)", tint: "var(--sky)",
@@ -103,7 +103,7 @@ const LH = {
     { name: "Hogan Leadership Report", program: "Leadership 2026", pages: 12 },
     { name: "Thriving Index Report", program: "Leadership 2026", pages: 8 },
   ],
-  deadline: { program: "Leadership Assessment 2026", due: "Jul 24, 2026", daysLeft: 36 },
+  deadline: { program: "Executive Leadership Journey 2026", due: "Jul 24, 2026", daysLeft: 36 },
 
   // ── Growth pages: Development, Insights, Scheduling ──
   competencies: [

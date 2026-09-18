@@ -129,7 +129,7 @@
   // 01 · Candidate detail — the candidate with their assessments and the two actions
   function ScreenCandidate() {
     var rows = [
-      ["Leadership Assessment 2026", "Completed", "green"],
+      ["Executive Leadership Journey 2026", "Completed", "green"],
       ["360° Perspective Feedback", "In progress", "blue"],
       ["Cognitive Ability", "Not started", "amber"]
     ];

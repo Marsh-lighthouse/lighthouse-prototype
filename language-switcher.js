@@ -32,7 +32,7 @@ const TRANSLATIONS = {
     logout: "Logout",
     backToPrograms: "Back to programs",
     programInstructions: "Program Instructions",
-    leadershipAssessment2026: "Leadership Assessment 2026",
+    leadershipAssessment2026: "Executive Leadership Journey 2026",
     perspective360Feedback: "360° Perspective Feedback",
     hoganAssessment: "Hogan Assessment",
     cognitiveAbilityTest: "Cognitive Ability Test",
