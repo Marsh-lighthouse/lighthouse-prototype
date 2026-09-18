@@ -528,20 +528,20 @@ function AssessorEditorial() {
   const statusStyle = (s) => ({
     "Not started":NEUTRAL,
     "Not Started":NEUTRAL,
-    "In progress":{c:"#002C77", bg:"color-mix(in srgb, #002C77 15%, #ffffff)"},
-    "In Progress":{c:"#002C77", bg:"color-mix(in srgb, #002C77 15%, #ffffff)"},
-    "Completed":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
+    "In progress":{c:"var(--ink)", bg:"color-mix(in srgb, #002C77 15%, #ffffff)", br:"#002C77"},
+    "In Progress":{c:"var(--ink)", bg:"color-mix(in srgb, #002C77 15%, #ffffff)", br:"#002C77"},
+    "Completed":{c:"var(--ink)", bg:"color-mix(in srgb, #14853D 15%, #ffffff)", br:"#14853D"},
     "Not Available":NEUTRAL,
-    "Available":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
-    "On Time":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
-    "Scheduled":{c:"#002C77", bg:"color-mix(in srgb, #002C77 15%, #ffffff)"},
+    "Available":{c:"var(--ink)", bg:"color-mix(in srgb, #14853D 15%, #ffffff)", br:"#14853D"},
+    "On Time":{c:"var(--ink)", bg:"color-mix(in srgb, #14853D 15%, #ffffff)", br:"#14853D"},
+    "Scheduled":{c:"var(--ink)", bg:"color-mix(in srgb, #002C77 15%, #ffffff)", br:"#002C77"},
     "No Status":NEUTRAL,
-    "Open":{c:"#14853D", bg:"color-mix(in srgb, #14853D 15%, #ffffff)"},
-    "Closed":{c:"#C53532", bg:"color-mix(in srgb, #C53532 15%, #ffffff)"},
+    "Open":{c:"var(--ink)", bg:"color-mix(in srgb, #14853D 15%, #ffffff)", br:"#14853D"},
+    "Closed":{c:"var(--ink)", bg:"color-mix(in srgb, #C53532 15%, #ffffff)", br:"#C53532"},
   }[s] || NEUTRAL);
   const StatusPill = ({s}) => {
     const cfg = statusStyle(s);
-    return <span style={{fontFamily:f,fontSize:14,fontWeight:400,color:cfg.c,background:cfg.bg,border:`1px solid ${cfg.br||cfg.c}`,boxSizing:"border-box",padding:"4px 11px",borderRadius:6,whiteSpace:"nowrap"}}>{s}</span>;
+    return <span style={{fontFamily:f,fontSize:14,fontWeight:400,color:cfg.c,background:cfg.bg,border:`1px solid ${cfg.br||cfg.c}`,boxSizing:"border-box",padding:"4px 11px",borderRadius:2,whiteSpace:"nowrap"}}>{s}</span>;
   };
 
   // ═══════ SIDEBAR + TOPBAR ═══════

@@ -124,7 +124,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
   if (c360Step === "home") return (
     <div style={wrap}>
       <div style={{ marginBottom: 16 }}>
-        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>In progress</span>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--ink)", background: "color-mix(in srgb, #002C77 15%, #ffffff)", border: "1px solid #002C77", padding: "4px 11px", borderRadius: 2, whiteSpace: "nowrap" }}>In progress</span>
       </div>
 
       <h1 className="serif" style={{ fontSize: isMob ? 28 : 40, color: qMID, lineHeight: 1.05, margin: "0 0 14px", textWrap: "pretty" }}>Your 360° campaign, at a glance.</h1>
@@ -156,7 +156,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = qMID; }} onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = qLINE; }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
             <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)" }}>Step 01 · Self-evaluation</div>
-            {c360SelfDone && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 99, background: "color-mix(in srgb, #14853D 15%, #ffffff)", color: "#14853D", fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)" }}><QI.Check s={11} /> Done</div>}
+            {c360SelfDone && <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 2, background: "color-mix(in srgb, #14853D 15%, #ffffff)", color: "var(--ink)", border: "1px solid #14853D", fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)" }}><span style={{ display: "inline-flex", color: "#14853D" }}><QI.Check s={11} /></span> Done</div>}
           </div>
           <h2 className="serif" style={{ fontSize: 21, color: qMID, lineHeight: 1.15, margin: "0 0 10px" }}>Rate yourself first.</h2>
           <p style={{ fontSize: 15, color: qINK, fontFamily: "var(--sans)", lineHeight: 1.6, margin: "0 0 18px" }}>Score yourself on {totalSelf} leadership competencies. Your answers anchor the gap analysis in your final report.</p>
@@ -220,7 +220,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
             <div style={{ fontSize: 15, fontWeight: 400, color: qMUT, fontFamily: "var(--sans)" }}>Step 04 · Report</div>
             {responseRate >= 60 ? (
-              <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 99, background: "color-mix(in srgb, #002C77 15%, #ffffff)", color: "#002C77", fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)" }}>Ready</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 2, background: "color-mix(in srgb, #002C77 15%, #ffffff)", color: "var(--ink)", border: "1px solid #002C77", fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)" }}>Ready</div>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: 4, color: qMUT, fontSize: 15, fontFamily: "var(--sans)" }}><QI.Lock s={12} /> Locked</div>
             )}
@@ -461,7 +461,7 @@ function EdC360({ prog, onBack, onBuildPlan, countdown, initialStep } = {}) {
                   {r.progress > 0 && r.progress < 100 && <div style={{ width: 2, flexShrink: 0 }} />}
                   <div style={{ flex: 1, height: "100%", background: "var(--pl-fill-empty)" }} />
                 </div>}
-                <div style={{ padding: "3px 10px", borderRadius: 99, background: stCfg.bg, color: "var(--primary)", border: "1px solid " + stCfg.bd, fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
+                <div style={{ padding: "3px 10px", borderRadius: 2, background: stCfg.bg, color: "var(--ink)", border: "1px solid " + stCfg.bd, fontSize: 15, fontWeight: 400, fontFamily: "var(--sans)", flexShrink: 0 }}>{stCfg.l}</div>
                 {(r.status === "invited" || r.status === "opened" || r.status === "in-progress") && (
                   <button onClick={() => remind(r)} style={{ padding: "6px 12px", borderRadius: sr, border: "1px solid " + qLINE, background: "transparent", color: qMID, fontSize: 15, fontWeight: 700, fontFamily: "var(--sans)", cursor: "pointer", flexShrink: 0 }}>Remind</button>
                 )}

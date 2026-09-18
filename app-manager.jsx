@@ -55,10 +55,10 @@ const MGR_NORM = (st) => (st === "draft" || st === "notstarted" ? "notstarted"
 const MGR_TONE = (st) => {
   const P = (window.EdPlan && window.EdPlan.STATUS) || {};
   const s = P[MGR_NORM(st)];
-  return s ? { label: s.label, color: s.color, bg: s.bg, icon: s.icon }
-           : { label: "Not Started", color: eMUT, bg: "rgba(0,15,71,.06)", icon: null };
+  return s ? { label: s.label, color: s.color, bg: s.bg, icon: s.icon, bd: s.bd || "#94918C" }
+           : { label: "Not Started", color: "var(--ink)", bg: "rgba(0,15,71,.06)", icon: null, bd: "#94918C" };
 };
-const MGR_DETAIL_TONE = (status) => { const t = MGR_TONE(status); return { color: t.color, background: t.bg }; };
+const MGR_DETAIL_TONE = (status) => { const t = MGR_TONE(status); return { color: t.color, background: t.bg, border: "1px solid " + t.bd }; };
 
 // What the linked employee actually changed, diffed against the plan they started from.
 function mgrChanges() {
@@ -237,8 +237,8 @@ const MgrBadge = ({ status }) => {
   const t = MGR_TONE(status);
   const Ic = t.icon && I[t.icon];
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: t.bg, color: t.color, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>
-      {Ic ? <Ic size={13} /> : null}{t.label}
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: t.bg, color: t.color, border: "1px solid " + t.bd, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, padding: "4px 11px", borderRadius: 2, whiteSpace: "nowrap" }}>
+      {Ic ? <span style={{ display: "inline-flex", color: t.bd }}><Ic size={13} /></span> : null}{t.label}
     </span>
   );
 };
@@ -251,7 +251,7 @@ const MgrTag = ({ kind }) => {
     New:    { c: "#002C77", b: "color-mix(in srgb, #002C77 15%, #ffffff)" },
   };
   const m = map[kind] || map.Edited;
-  return <span style={{ background: m.b, color: m.c, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: "4px 11px", borderRadius: 6, whiteSpace: "nowrap" }}>{kind}</span>;
+  return <span style={{ background: m.b, color: "var(--ink)", border: "1px solid " + m.c, fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, padding: "4px 11px", borderRadius: 2, whiteSpace: "nowrap" }}>{kind}</span>;
 };
 
 const MgrAvatar = ({ p, size = 42 }) => (
@@ -409,7 +409,7 @@ function MgrSummaryPanel({ person, onDecide, onOpen }) {
               <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.9 }}>
                 {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
                 {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
-                <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: "var(--ink)", border: "1px solid " + (c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03"), padding: "1px 8px", borderRadius: 2 }}>{c.label}</span>
               </li>
             ))}
           </ul>
@@ -498,7 +498,7 @@ function MgrChangePanel({ person, changes, onClose, onSkill }) {
               {groups[skill].map((c, i) => (
                 <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.85 }}>
                   {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}{c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
-                  <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                  <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: "var(--ink)", border: "1px solid " + (c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03"), padding: "1px 8px", borderRadius: 2 }}>{c.label}</span>
                 </li>
               ))}
             </ul>
@@ -667,7 +667,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
         <h1 style={{ fontFamily: "var(--sans)", fontSize: 21, fontWeight: 700, color: eMID, margin: 0, lineHeight: 1.3 }}>{person.first} {person.last}, Development Plan</h1>
         )}
         <div style={{ position: "relative", display: "flex", flexShrink: 0, alignItems: "center", gap: 8 }}>
-          {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 6 }}>
+          {!self && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, ...MGR_DETAIL_TONE(person.status), padding: "4px 11px", borderRadius: 2 }}>
             {MGR_TONE(person.status).label}
           </span>}
           {/* 1 · the note lives behind a comment icon next to the chip */}
@@ -850,7 +850,7 @@ function MgrDetail({ person, onBack, onDecide, showToast, self }) {
                             <li key={i} style={{ fontFamily: "var(--sans)", fontSize: 13, color: eINK, lineHeight: 1.9 }}>
                               {c.kind === "added" ? "Added" : c.kind === "removed" ? "Removed" : "Modified"}{" "}
                               {c.scope === "skill" ? "Skill" : "Development Action"}:{" "}
-                              <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03", padding: "1px 8px", borderRadius: 6 }}>{c.label}</span>
+                              <span style={{ background: c.kind === "added" ? "color-mix(in srgb, #002C77 15%, #ffffff)" : c.kind === "removed" ? "color-mix(in srgb, var(--danger) 15%, #ffffff)" : "color-mix(in srgb, #CB7E03 15%, #ffffff)", color: "var(--ink)", border: "1px solid " + (c.kind === "added" ? "#002C77" : c.kind === "removed" ? "var(--danger)" : "#CB7E03"), padding: "1px 8px", borderRadius: 2 }}>{c.label}</span>
                             </li>
                           ))}
                         </ul>

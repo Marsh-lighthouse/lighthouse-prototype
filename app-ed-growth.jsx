@@ -327,7 +327,7 @@ function EdInsights({ onBack, initialPreview }) {
     <div style={{ maxWidth: "var(--content-max)", margin: "36px var(--fol-mx) 72px", padding: 0 }}>
       <h1 className="serif" style={{ fontSize: 40, color: eMID, lineHeight: 1.08, margin: "0 0 8px" }}>Insights</h1>
       <p className="ed-insights-banner" style={{ fontFamily: "var(--sans)", fontSize: 15, color: eINK, lineHeight: 1.7, margin: 0, maxWidth: "none", whiteSpace: "nowrap" }}>
-        <span style={{ display: "inline-block", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, marginRight: 9, verticalAlign: "1px", whiteSpace: "nowrap" }}>{availCount} of {reps.length} ready</span>
+        <span style={{ display: "inline-block", fontSize: 15, fontWeight: 400, color: "var(--ink)", background: "color-mix(in srgb, #002C77 15%, #ffffff)", border: "1px solid #002C77", padding: "4px 10px", borderRadius: 2, marginRight: 9, verticalAlign: "1px", whiteSpace: "nowrap" }}>{availCount} of {reps.length} ready</span>
         Reports unlock automatically as you complete their underlying tasks.
       </p>
 
@@ -501,9 +501,9 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                     <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT }}>{tzMeta.short}</span>
                     <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: low ? eDANGER : slot.remaining === slot.total ? eSUCCESS : eMUT }}>{slot.remaining}/{slot.total} seats{low ? " — filling fast" : ""}</span>
                     {slot.cancelBefore ? (
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#002C77", background: "color-mix(in srgb, #002C77 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>Cancel OK ({slot.cancelBefore})</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--ink)", background: "color-mix(in srgb, #002C77 15%, #ffffff)", border: "1px solid #002C77", padding: "4px 10px", borderRadius: 2 }}>Cancel OK ({slot.cancelBefore})</span>
                     ) : (
-                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "#C53532", background: "color-mix(in srgb, #C53532 15%, #ffffff)", padding: "4px 10px", borderRadius: 5 }}>No cancellation</span>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: "var(--ink)", background: "color-mix(in srgb, #C53532 15%, #ffffff)", border: "1px solid #C53532", padding: "4px 10px", borderRadius: 2 }}>No cancellation</span>
                     )}
                   </div>
                 </div>
@@ -897,7 +897,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={13} /> {c.duration}</span>
                           </div>
                         </div>
-                        {bookedInCenter > 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "#14853D", background: "color-mix(in srgb, #14853D 15%, #ffffff)", padding: "4px 10px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0 }}><I.check size={11} /> {bookedInCenter} booked</span>}
+                        {bookedInCenter > 0 && <span style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)", background: "color-mix(in srgb, #14853D 15%, #ffffff)", border: "1px solid #14853D", padding: "4px 10px", borderRadius: 2, display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0 }}><span style={{ display: "inline-flex", color: "#14853D" }}><I.check size={11} /></span> {bookedInCenter} booked</span>}
                       </div>
                       {/* footer sits on the card's bottom edge, so every card in the row lines up */}
                       <div className="ed-sched-foot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: "auto", paddingTop: 12, borderTop: "1px solid " + eLINE }}>
