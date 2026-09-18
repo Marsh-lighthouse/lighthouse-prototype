@@ -891,7 +891,7 @@ function EdScheduling({ onBack, initialCenter, demo, onView }) {
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 13, marginBottom: 12 }}>
                         <div style={{ width: 40, height: 40, borderRadius: "50%", background: "color-mix(in srgb, var(--accent) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 22%, transparent)", color: eBLUE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Ic size={19} /></div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, color: eMID, marginBottom: 4 }}>{c.name}</div>
+                          <div style={{ fontFamily: "var(--sans)", fontSize: 15, fontWeight: 700, color: eMID, marginBottom: 4 }}>{c.name}</div>
                           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
                             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.globe size={13} /> {c.location}</span>
                             <span style={{ fontFamily: "var(--sans)", fontSize: 15, color: eMUT, display: "inline-flex", alignItems: "center", gap: 4 }}><I.clock size={13} /> {c.duration}</span>
