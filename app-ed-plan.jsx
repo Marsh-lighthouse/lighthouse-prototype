@@ -914,9 +914,9 @@ function PlComments({ chip, onClose, onOpen, role = "me", owner = "john", names,
                       // a plain "Go to skill" link. Plan-level comments show nothing.
                       ? <div key={g.name + i} style={{ marginBottom: 18 }}>
                           {!g.isOverall &&
-                            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 7, flexWrap: "wrap" }}>
-                              <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT }}>{g.name}</span>
-                              <button onClick={goFor(g.name)} title={"Go to " + g.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400 }}>Go to skill <I.chevR size={12} /></button>
+                            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10, marginBottom: 7 }}>
+                              <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400, color: eMUT }}>{g.name}</span>
+                              <button onClick={goFor(g.name)} title={"Go to " + g.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, flexShrink: 0, background: "none", border: "none", padding: 0, cursor: "pointer", color: eBLUE, fontFamily: "var(--sans)", fontSize: 13, fontWeight: 400 }}>Go to skill <I.chevR size={12} /></button>
                             </div>}
                           <PlCommentItem item={c} onReply={replyTo(g.name, i)} onResolve={resolveIn(g.name, i)} role={role} names={NAMES} inCard />
                         </div>
